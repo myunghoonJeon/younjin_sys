@@ -32,14 +32,16 @@
 .top_menu_wrap li.top_menu_li:hover{ background: #B7B9CC; font-weight: bold; }
 
 /* smart pop setting */
-#smartPop_close {padding-top:5px; width:14px; height:13px; cursor:pointer;}
+
+#smartPop_close_wrap{ margin-top: 5px; }
+#smartPop_close { margin: 0 95%; width:14px; height:12px; cursor:pointer;}
 
 /* form */
 .form_wrap{ width : 100%; height : 100%; text-align: center; }
 .form_wrap table{ width:320px; margin: 0 auto; color: #4C517F; table-layout: fixed; }
 .form_wrap table tr th{ background-color: #B7B9CC; }
 .form_wrap table tr th, .form_wrap table tr td { border : 1px solid #4C517F; padding: 5px 10px; }
-.form_wrap table tr td:HOVER{ background-color: background: #B7B9CC; font-weight: bold;}
+.form_wrap table tbody tr:HOVER{ background-color: #B7B9CC; font-weight: bold; cursor: pointer;}
 
 .form_wrap table tr th#form_no{ width: 20%; }
 .form_wrap table tr th#form_title{ width: 80%; }

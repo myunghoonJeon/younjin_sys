@@ -1,37 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="cp" value="<%=request.getContextPath() %>"/>
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>GBL System</title>
+<title>Form 모음</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/font.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">
 
-<link rel="stylesheet" href="${cp }/resources/jquery/jquery.smartPop.css">
+<script src="${cp}/resources/jquery/jquery-1.8.2.min.js"></script>
+<script src="${cp}/resources/js/common.js"></script>
 
 <script>
 	var contextPath = '<c:out value="${cp}"/>';
 	var realPath = '<c:out value="${rp}"/>';
-	if (typeof youngjin == 'undefined') {
-		youngjin = {};
-	}
 </script>
+
 </head>
 <body>
-<div id="bg_wrapper">
-	<div id="wrapper">
-		
-		<%@ include file="header.jspf" %>
-		
-		<div id="content">
+	<div id="form_pop_div">
+		<div class="form_wrap">
+			<table>
+				<thead>
+					<tr>
+						<th id="form_no">NO</th>
+						<th id="form_title">TITLE</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr id="form_inventory">
+						<td>1</td>
+						<td>INVENTORY</td>
+					</tr>
+					<tr id="form_hirisk_inventory">
+						<td>2</td>
+						<td>HIRISK INVENTORY</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

@@ -13,8 +13,6 @@ public class ProcessController {
 	@RequestMapping( value = "/{process}/", method = RequestMethod.GET)
 	public String process(Model model, User user, @PathVariable String process){
 		
-		user.setProcess(process);
-		
 		model.addAttribute("user", user);
 		
 		return process + "/" + process;

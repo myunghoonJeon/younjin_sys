@@ -94,7 +94,8 @@ public class User extends AbstractUser {
 	}
 
 	public void setProcess(String process) {
-		this.process = process;
+		if("form".equals(process))
+			this.process = process;
 	}
 
 	public String getAuthStr() {

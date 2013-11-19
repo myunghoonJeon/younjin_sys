@@ -87,29 +87,3 @@
 		</c:if>
 	</div>
 </div>
-
-<div id="form_pop_div" style="display: none; ">
-	<div class="form_wrap">
-		<div id="form_title">
-			<h3>Form 모음</h3>
-		</div>	
-		<table>
-			<thead>
-				<tr>
-					<th id="form_no">NO</th>
-					<th id="form_title">TITLE</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>1</td>
-					<td>INVENTORY</td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>HIRISK INVENTORY</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</div>
