@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="loginMapper">
+	<resultMap type="User" id="UserMap">
+		<result column="seq" property="seq"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="salt" property="salt"/>
+		<result column="firstname" property="firstName"/>
+		<result column="familyname" property="familyName"/>
+		<result column="auth" property="auth"/>
+		<result column="area" property="area"/>
+		<result column="enabled" property="enabled"/>
+		<result column="lastupdateby" property="lastUpdateBy"/>
+	</resultMap>
+
+	<select id="selectUser" parameterType="Integer" resultMap="UserMap">
+		SELECT
+			seq, 
+			username, 
+			password, 
+			salt, 
+			firstname, 
+			familyname, 
+			auth, 
+			area, 
+			enabled,
+			lastupdateby
+		FROM
+			users
+		WHERE
+			seq = #{seq} 
+	</select>
+	
+	<select id="selectUserCount" parameterType="UserFilter" resultType="Integer">
+		SELECT
+			COUNT(seq)
+		FROM
+			users
+		WHERE
+			1 = 1
+		<if test="familyName != null and familyName != '' ">
+		AND
+			family_name LIKE '%'+#{familyName}+'%'
+		</if>
+		<if test="firstName != null and firstName != '' ">	
+		AND
+			first_name LIKE '%'+#{firstName}+'%'	
+		</if>
+		<if test="auth != null and auth != 0">
+		AND
+			auth = #{auth}
+		</if>		
+	</select>
+	
+	<insert id="insertUser" parameterType="User">
+		INSERT INTO
+			users
+			(
+				username, password, salt, firstname, familyname, auth, area, enabled
+			)
+		VALUES
+			(
+				#{username}, #{password}, #{salt}, #{firstName}, #{familyName}, #{auth}, #{area}, #{enabled}
+			)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID() 
+		</selectKey>
+	</insert>
+	
+	<insert id="insertGroups" parameterType="User">
+		INSERT INTO
+			groups
+			(
+				group_name
+			)
+		VALUES(
+			#{auth}
+		)		
+		<selectKey keyProperty="authId" resultType="Integer">
+			SELECT LAST_INSERT_ID() 
+		</selectKey>
+	</insert>
+	
+	<insert id="insertGroupAuthorities" parameterType="User">
+		INSERT INTO
+			group_authorities
+			(
+				group_id, authority
+			)
+		VALUES
+			(
+				#{authId}, #{authStr}
+			)
+	</insert>
+	
+	<update id="updatePassword" parameterType="User">
+		UPDATE
+			users
+		SET
+			password = #{password},
+			salt = #{salt},
+			lastupdate = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s'),
+			lastupdateby = #{lastUpdateBy}
+		WHERE
+			username = #{username}
+	</update>
+	
+	<update id="updateUserByAdmin" parameterType="User">
+		UPDATE
+			users
+		SET	
+			<if test="firstName != null and firstName != '' ">
+				firstname = #{firstName},
+			</if> 
+			<if test="familyName != null and familyName != '' ">
+				familyname = #{familyName},
+			</if>
+			<if test="auth != null and auth != 0 ">
+				auth = #{auth},
+			</if>
+			lastupdate = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s'),
+			lastupdateby = #{lastUpdateBy}
+		WHERE
+			seq = #{seq}
+	</update>	
+
+	<delete id="deleteUserByUsername" parameterType="String">
+		DELETE 
+		FROM
+			users
+		WHERE
+			username = #{username}
+	</delete>
+	
+	<delete id="deleteUserBySeq" parameterType="UserFilter">
+		DELETE FROM
+			users
+		WHERE
+			seq = #{seq}
+	</delete>
+</mapper>
