@@ -10,8 +10,22 @@
 	
 	<div class="top_menu_wrap">
 		<ul class="top_menu">
-			<li class="top_menu_li top_menu_inbound"><a href="${cp }/inbound/">INBOUND</a></li>
-			<li class="top_menu_li top_menu_outbound"><a href="${cp }/outbound/">OUTBOUND</a></li>
+			<li class="top_menu_li top_menu_inbound">
+				<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
+					<a href="${cp }/inbound/">INBOUND</a>
+				</sec:authorize>
+				<sec:authorize access="!hasRole('ROLE_NORMAL') and !hasRole('ROLE_MANAGER') and !hasRole('ROLE_ADMIN')">
+					<a href="${cp }/noPermission">INBOUND</a>
+				</sec:authorize>
+			</li>
+			<li class="top_menu_li top_menu_outbound">
+				<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
+					<a href="${cp }/outbound/">OUTBOUND</a>
+				</sec:authorize>		
+				<sec:authorize access="!hasRole('ROLE_NORMAL') and !hasRole('ROLE_MANAGER') and !hasRole('ROLE_ADMIN')">
+					<a href="${cp }/noPermission">OUTBOUND</a>
+				</sec:authorize>
+			</li>
 			<li class="top_menu_li top_menu_form"><a href="#" id="top_form_pop">FORM</a></li>
 		</ul>
 	</div>
@@ -21,7 +35,7 @@
 		<div class="login_wrap">
 			<sec:authorize access="anonymous">
 				<form action="${cp }/j_spring_security_check" method="post">
-					<table>
+					<table id="login_tlb">
 						<tr>
 							<th colspan="2">
 								Login
@@ -61,7 +75,7 @@
 				</ul>
 			</sec:authorize> 
 		</div>
-		<c:if test="${user ne null }">
+		<c:if test="${user.username ne '' and user.username ne null}">
 			<c:choose>
 				<c:when test="${user.process eq 'inbound'}">	
 					<%@include file="inbound_left_menu.jspf" %>
@@ -71,5 +85,31 @@
 				</c:when>
 			</c:choose>
 		</c:if>
+	</div>
+</div>
+
+<div id="form_pop_div" style="display: none; ">
+	<div class="form_wrap">
+		<div id="form_title">
+			<h3>Form 모음</h3>
+		</div>	
+		<table>
+			<thead>
+				<tr>
+					<th id="form_no">NO</th>
+					<th id="form_title">TITLE</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>INVENTORY</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>HIRISK INVENTORY</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </div>
