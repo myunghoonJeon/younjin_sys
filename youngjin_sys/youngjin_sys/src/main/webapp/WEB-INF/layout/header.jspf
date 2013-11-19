@@ -57,7 +57,7 @@
 					<li id="user_title">User Info</li>
 					<li>동두천 관리자</li>
 					<li>${user.name }</li>
-					<li><a href="${cp}/logout">log out</a></li>
+					<li id="user_logout_btn"><a href="${cp}/logout">log out</a></li>
 				</ul>
 			</sec:authorize> 
 		</div>
