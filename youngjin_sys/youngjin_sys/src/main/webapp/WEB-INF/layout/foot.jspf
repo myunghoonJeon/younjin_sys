@@ -12,6 +12,7 @@
 <script src="${cp}/resources/jquery/jquery.ui.datepicker-en-AU.js"></script>
 
 <script src="${cp}/resources/js/common.js"></script>
+<script src="${cp}/resources/js/admin.js"></script>
 
 </body>
 </home>

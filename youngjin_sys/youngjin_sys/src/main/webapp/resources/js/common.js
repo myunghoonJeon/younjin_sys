@@ -3,26 +3,46 @@ if (typeof youngjin.top == 'undefined') {
 }
 
 $(function() {
+	youngjin.top.home();
+	
 	youngjin.top.form();
 	
 	youngjin.top.formSelect();
+	
+	youngjin.top.goToAdminPage();
 });
+
+youngjin.top.home = function(){
+	$('.home_wrap').unbind('click');
+	$('.home_wrap').bind('click',function(){
+		location.href=contextPath + "/";
+	});
+	
+};
 
 youngjin.top.form = function(){
 	
-	$('#top_form_pop').bind('click', function(event){
+	$('.top_menu_form').unbind('click');
+	$('.top_menu_form').bind('click', function(event){
 		var offset = $(this).offset();
 		x = event.clientX - offset.left;
 		y = event.clientY - offset.top;
 		
-		var form_pop_html = $('#form_pop_div').html();
+		var win = window.open(contextPath + '/form/', 'form_pop', 'width=350, height=180, status=no, scrollbars=no');
 		
-		$.smartPop.open({ title:'form', bodyClose: true,  width: 400, height: 170, html: form_pop_html , position: 'fixed', left: x + 'px', top: y + 'px'});
+		event.preventDefault();
+		return false;
 	});
 };
 
 youngjin.top.formSelect = function(){
 	$('#form_inventory').bind('click', function(){
 		alert("!");
+	});
+};
+
+youngjin.top.goToAdminPage = function(){
+	$('.admin_service_wrap').bind('click', function(){
+		location.href = contextPath + '/admin/admin';
 	});
 };

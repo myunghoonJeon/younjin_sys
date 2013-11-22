@@ -15,6 +15,8 @@ public class User extends AbstractUser {
 	private String familyName;
 
 	private String lastUpdateBy;
+	
+	private String lastUpdate;
 
 	private Integer authId;
 
@@ -73,6 +75,14 @@ public class User extends AbstractUser {
 		this.newPassword = newPassword;
 	}
 
+	public String getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
 	public String getLastUpdateBy() {
 		return lastUpdateBy;
 	}
@@ -94,7 +104,7 @@ public class User extends AbstractUser {
 	}
 
 	public void setProcess(String process) {
-		if("form".equals(process))
+		if(!"form".equals(process))
 			this.process = process;
 	}
 

@@ -26,7 +26,7 @@
 					<a href="${cp }/noPermission">OUTBOUND</a>
 				</sec:authorize>
 			</li>
-			<li class="top_menu_li top_menu_form"><a href="#" id="top_form_pop">FORM</a></li>
+			<li class="top_menu_li top_menu_form"><a href="#">FORM</a></li>
 		</ul>
 	</div>
 </div>
@@ -75,6 +75,7 @@
 				</ul>
 			</sec:authorize> 
 		</div>
+		
 		<c:if test="${user.username ne '' and user.username ne null}">
 			<c:choose>
 				<c:when test="${user.process eq 'inbound'}">	
@@ -84,6 +85,13 @@
 					<%@include file="outbound_left_menu.jspf" %>
 				</c:when>
 			</c:choose>
+		</c:if>
+		<c:if test = "${user.process ne 'admin' }">
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<div class="admin_service_wrap">
+					admin
+				</div>
+			</sec:authorize>
 		</c:if>
 	</div>
 </div>
