@@ -14,13 +14,14 @@ import org.youngjin.net.admin.AdminService;
 import org.youngjin.net.login.User;
 
 @Controller
+@RequestMapping( value = "/admin")
 public class AdminController {
 
 	@Resource
 	private AdminService adminService;
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/{admin}/{admin}", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String adminMain(Model model, User user, @PathVariable String admin){
 		
 		List<User> userList = adminService.getAllUserList();
@@ -30,6 +31,6 @@ public class AdminController {
 		model.addAttribute("allUserList", userList);
 		model.addAttribute("user", user);
 		
-		return admin + "/" + admin;
+		return "admin/admin";
 	}
 }

@@ -45,4 +45,7 @@ public class LoginDao extends SqlSessionDaoSupport {
 		
 	}
 
+	public String getUserIndex() {
+		return getSqlSession().selectOne("loginMapper.getUserIndex");
+	}
 }

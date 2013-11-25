@@ -180,6 +180,12 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 				saltSource.getSalt(confirmUserInfo));
 		return encodedPassword.equals(confirmUserInfo.getPassword()) ? false
 				: true;
-	}	
+	}
 
+	public String getCreateUserName() {
+		String lastUserName = loginDao.getUserIndex();
+		Integer userIndex = Integer.parseInt(lastUserName.substring(8, lastUserName.length()));
+		
+		return "youngjin" + userIndex;
+	}
 }

@@ -1,7 +1,5 @@
 package org.youngjin.net.util;
 
-import java.util.List;
-
 /**
  * @author Kten
  * 

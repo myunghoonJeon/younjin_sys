@@ -53,6 +53,19 @@
 		</if>		
 	</select>
 	
+	<select id="getUserIndex" resultType="String">
+		SELECT 
+			username 
+		FROM 
+			users
+		WHERE 
+			seq = 
+				(SELECT
+					MAX(seq)
+				 FROM users
+				)
+	</select>
+	
 	<insert id="insertUser" parameterType="User">
 		INSERT INTO
 			users
