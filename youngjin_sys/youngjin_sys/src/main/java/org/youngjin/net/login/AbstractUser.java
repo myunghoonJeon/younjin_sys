@@ -19,11 +19,11 @@ public class AbstractUser implements UserDetailsYoungjin, CredentialsContainer {
 
 	// ~ Instance fields
 
-	private String password = "";
+	private String password = "qhdks1!";
 	private String salt = "";
 	private String username = "";
 	private String name = "";
-	private Integer auth = 0;
+	private Integer auth = 2;
 	private Integer area = 0;
 	private Set<GrantedAuthority> authorities = new TreeSet<GrantedAuthority>();;
 	private final boolean accountNonExpired;

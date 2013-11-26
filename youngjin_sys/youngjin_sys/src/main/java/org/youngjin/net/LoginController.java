@@ -8,8 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.login.CustomJdbcUserDetailManager;
 import org.youngjin.net.login.User;
 
@@ -30,10 +32,20 @@ public class LoginController {
 		}
 		
 		@PreAuthorize("hasRole('ROLE_ADMIN')")
-		@RequestMapping( value= "/admin/add", method = RequestMethod.GET)
-		public String addUserGet(@ModelAttribute(value = "user") User user){
+		@RequestMapping( value= "/admin/add.json", method = RequestMethod.POST)
+		@ResponseBody
+		public User addUser(@RequestBody User user){			
+			user = customJdbcUserDetailManager.createUser();
 			
+			System.out.println("text");
 			
-			return "redirect:/admin/admin";
+			return user;
+		}
+		
+		@PreAuthorize("hasRole('ROLE_ADMIN')")
+		@RequestMapping( value = "/admin/delete.json", method = RequestMethod.POST)
+		@ResponseBody
+		public void deleteUser(@RequestBody User user){
+			customJdbcUserDetailManager.deleteUser(user.getUsername());
 		}
 }

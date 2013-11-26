@@ -43,6 +43,6 @@ youngjin.top.formSelect = function(){
 
 youngjin.top.goToAdminPage = function(){
 	$('.admin_service_wrap').bind('click', function(){
-		location.href = contextPath + '/admin/admin';
+		location.href = contextPath + '/admin/admin/';
 	});
 };

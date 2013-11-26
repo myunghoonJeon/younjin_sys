@@ -42,7 +42,7 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 	private LoginDao loginDao;
 	private SaltSource saltSource;
 	private PasswordEncoder passwordEncoder;
-
+	
 	
 	@Inject
 	private void config(LoginDao loginDao, SaltSource saltSource,
@@ -137,14 +137,19 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 				});
 	}
 
-	public void joinUser(User user) {
+	public User createUser() {
+		User user = new User();		
+		user.setUsername(getCreateUserName());		
 		setEncodedPassword(user, user.getPassword());
+		
 		loginDao.insertUser(user);
 		
 		if(user.getAuth() != 0){
 			loginDao.insertGroups(user);
 			loginDao.insertGroupAuthorities(user);
 		}
+		
+		return user;
 	}
 	
 	public void updateUserByAdmin(User user) {
@@ -182,9 +187,12 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 				: true;
 	}
 
-	public String getCreateUserName() {
+	private String getCreateUserName() {
 		String lastUserName = loginDao.getUserIndex();
-		Integer userIndex = Integer.parseInt(lastUserName.substring(8, lastUserName.length()));
+		Integer userIndex = 0;
+		if( lastUserName != null && lastUserName.contains("youngjin")){
+			userIndex = Integer.parseInt(lastUserName.substring(8, lastUserName.length())) + 1;
+		}
 		
 		return "youngjin" + userIndex;
 	}

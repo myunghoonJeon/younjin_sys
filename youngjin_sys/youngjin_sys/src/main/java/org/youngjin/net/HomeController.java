@@ -24,6 +24,8 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, User user) {
 		
+		user.setProcess("inbound");
+		
 		model.addAttribute("user", user);
 		
 		return "home";
