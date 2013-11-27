@@ -25,4 +25,6 @@ public interface UserDetailsYoungjin extends UserDetails {
 	 * @return
 	 */
 	Integer getArea();
+	
+	String getAreaStr();
 }

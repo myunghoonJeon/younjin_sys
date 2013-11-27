@@ -25,11 +25,12 @@ public class AbstractUser implements UserDetailsYoungjin, CredentialsContainer {
 	private String name = "";
 	private Integer auth = 2;
 	private Integer area = 0;
+	private String areaStr = "";
 	private Set<GrantedAuthority> authorities = new TreeSet<GrantedAuthority>();;
 	private final boolean accountNonExpired;
 	private final boolean accountNonLocked;
 	private final boolean credentialsNonExpired;
-	private boolean enabled = true;
+	private boolean enabled;
 
 	// ~ Constructors
 
@@ -44,9 +45,9 @@ public class AbstractUser implements UserDetailsYoungjin, CredentialsContainer {
 	 * {@code true}.
 	 */
 	public AbstractUser(String username, String password, String salt,
-			String name, boolean enabled, Integer auth, Integer area,
+			String name, boolean enabled, Integer auth, Integer area, String areaStr,
 			Collection<? extends GrantedAuthority> authorities) {
-		this(username, password, salt, name, enabled, auth, area, true, true,
+		this(username, password, salt, name, enabled, auth, area, areaStr, true, true,
 				true, authorities);
 	}
 
@@ -80,7 +81,7 @@ public class AbstractUser implements UserDetailsYoungjin, CredentialsContainer {
 	 *             collection
 	 */
 	public AbstractUser(String username, String password, String salt,
-			String name, boolean enabled, Integer auth, Integer area,
+			String name, boolean enabled, Integer auth, Integer area, String areaStr,
 			boolean accountNonExpired, boolean credentialsNonExpired,
 			boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
@@ -98,6 +99,7 @@ public class AbstractUser implements UserDetailsYoungjin, CredentialsContainer {
 		this.enabled = enabled;
 		this.auth = auth;
 		this.area = area;
+		this.areaStr = areaStr;
 		this.accountNonExpired = accountNonExpired;
 		this.credentialsNonExpired = credentialsNonExpired;
 		this.accountNonLocked = accountNonLocked;
@@ -185,6 +187,14 @@ public class AbstractUser implements UserDetailsYoungjin, CredentialsContainer {
 
 	public void setArea(Integer area) {
 		this.area = area;
+	}
+
+	public String getAreaStr() {
+		return areaStr;
+	}
+
+	public void setAreaStr(String areaStr) {
+		this.areaStr = areaStr;
 	}
 
 	private static SortedSet<GrantedAuthority> sortAuthorities(

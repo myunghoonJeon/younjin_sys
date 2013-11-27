@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.youngjin.net.admin.AdminService;
+import org.youngjin.net.code.Code;
+import org.youngjin.net.code.CodeService;
 import org.youngjin.net.login.User;
 
 @Controller
@@ -20,13 +22,20 @@ public class AdminController {
 	@Resource
 	private AdminService adminService;
 	
+	@Resource
+	private CodeService codeService;
+	
 	@RequestMapping(value = "/admin/", method = RequestMethod.GET)
 	public String adminMain(Model model, User user){
 		
 		List<User> userList = adminService.getAllUserList();
+		List<Code> authList = codeService.getAllAuthList();
+		List<Code> areaList = codeService.getAllAreaList();
 		
 		user.setProcess("admin");
 		
+		model.addAttribute("areaList", areaList);
+		model.addAttribute("authList", authList);
 		model.addAttribute("allUserList", userList);
 		model.addAttribute("user", user);
 		

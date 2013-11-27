@@ -69,7 +69,7 @@
 			<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_NORMAL')">
 				<ul class="user_info_ul">
 					<li id="user_title">User Info</li>
-					<li>동두천 관리자</li>
+					<li>${user.areaStr } ${user.authStr }</li>
 					<li>${user.name }</li>
 					<li id="user_logout_btn"><a href="${cp}/logout">log out</a></li>
 				</ul>

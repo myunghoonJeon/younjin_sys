@@ -36,14 +36,31 @@
 					<tr class="admin_user_list_tr" data-seq=${user.seq }>
 						<td class="admin_user_list_no">${i.count }</td>
 						<td class="admin_user_list_username">${user.username }</td>
-						<td class="admin_user_list_password">${user.password }</td>
+						<td class="admin_user_list_password">${fn:substring(user.password, 0, 10) }...</td>
 						<td class="admin_user_list_firstName">${user.firstName }</td>
 						<td class="admin_user_list_familyName">${user.familyName }</td>
-						<td class="admin_user_list_auth">${user.authStr }</td>
-						<td class="admin_user_list_area">${user.area }</td>
-						<td class="admin_user_list_enabled">${user.enabled }</td>
-						<td>${user.lastUpdate }</td>
-						<td>${user.lastUpdateBy }</td>
+						<td class="admin_user_list_auth">
+							<select class="admin_user_auth_list_select">
+								<c:forEach var="auth" items="${authList }">
+									<option value="${auth.subCode }" ${auth.subCode == user.auth ? 'selected=selected' : '' }>${auth.codeName }</option>
+								</c:forEach>
+							</select>
+						</td>
+						<td class="admin_user_list_area">
+							<select class="admin_user_auth_list_select">
+								<c:forEach var="auth" items="${areaList }">
+									<option value="${auth.subCode }" ${auth.subCode == user.area ? 'selected=selected' : '' }>${auth.codeName }</option>
+								</c:forEach>
+							</select>						
+						</td>
+						<td class="admin_user_list_enabled">
+							<select class="admin_user_enabled">
+								<option value="0" ${user.enabled eq 'false' ? 'selected=selected' : '' }>false</option>
+								<option value="1" ${user.enabled eq 'true' ? 'selected=selected' : '' }>true</option>
+							</select>
+						</td>
+						<td class="admin_user_list_lastUpdate">${user.lastUpdate }</td>
+						<td class="admin_user_list_lastUpdateBy">${user.lastUpdateBy }</td>
 						<td class="admin_user_list_delete"><a href="#">x</a></td>
 					</tr>
 				</c:forEach>

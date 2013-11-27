@@ -20,6 +20,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.youngjin.net.code.Code;
+import org.youngjin.net.code.CodeDao;
 import org.youngjin.net.util.DateUtil;
 
 public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
@@ -28,7 +30,7 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 	
 	// ~ Static Query
 	private static final String LOAD_USERS_BY_USERNAME_QUERY = ""
-			+ "SELECT u.username, u.password, u.enabled, DATE_FORMAT(u.salt, '%Y-%m-%d %H:%i:%s') AS salt, u.familyname, u.firstname, u.auth, u.area "
+			+ "SELECT u.username, u.password, u.enabled, DATE_FORMAT(u.salt, '%Y-%m-%d %H:%i:%s') AS salt, u.familyname, u.firstname, u.auth, u.area, (select code_name from symbol where main_code = '01' and sub_code = '0' | u.area) areaStr "
 			+ "FROM users u "
 			+ "WHERE u.username = ? "; 
 	private static final String LOAD_GROUP_AUTHORITIES_QUERY = ""
@@ -64,7 +66,7 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 		return new User(returnUserid, userFromUserQuery.getPassword(),
 				((User) userFromUserQuery).getSalt(),
 				userFromUserQuery.getName(), userFromUserQuery.isEnabled(),
-				userFromUserQuery.getAuth(), userFromUserQuery.getArea(), combinedAuthorities);
+				userFromUserQuery.getAuth(), userFromUserQuery.getArea(), userFromUserQuery.getAreaStr(), combinedAuthorities);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -115,10 +117,12 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 						String firstName = rs.getString(6);
 						Integer auth = rs.getInt(7);
 						Integer area = rs.getInt(8);
+						String areaStr = rs.getString(9);
+						
 						logger.debug("LoadUserByUsername " + auth
 								+ " Username " + id);
 						return new User(id, password, salt, firstName + " "
-								+ familyName, enabled, auth, area,
+								+ familyName, enabled, auth, area, areaStr,
 								AuthorityUtils.NO_AUTHORITIES);
 					}
 				});
@@ -152,7 +156,13 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 		return user;
 	}
 	
+	public User selectUser(User user){
+		return loginDao.selectUser(user.getSeq());
+	}
+	
 	public void updateUserByAdmin(User user) {
+		user.setLastUpdateBy("admin");
+		
 		loginDao.updateUserByAdmin(user);
 	}	
 	
@@ -168,12 +178,14 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 		user.setPassword(encodedPassword);
 	}
 
-	public void changePassword(User user) {
-		if (confirmPassword(user)) {
-			setEncodedPassword(user, user.getNewPassword());
-			user.setLastUpdateBy(user.getUsername());
-			loginDao.updatePassword(user);
-		}
+	public void changePassword(Integer seq) {		
+		User user = loginDao.selectUser(seq);
+		
+		user.setSalt(user.getSalt());
+				
+		setEncodedPassword(user, user.getNewPassword());
+		user.setLastUpdateBy("admin");
+		loginDao.updatePassword(user);		
 	}
 	
 	public boolean confirmPassword(User user) {

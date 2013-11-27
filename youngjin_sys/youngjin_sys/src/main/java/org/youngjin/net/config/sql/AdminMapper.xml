@@ -11,12 +11,13 @@
 		<result column="auth" property="auth"/>
 		<result column="area" property="area"/>
 		<result column="enabled" property="enabled"/>
+		<result column="lastupdate" property="lastUpdate"/>
 		<result column="lastupdateby" property="lastUpdateBy"/>
 	</resultMap>
 
 	<select id="getUserList" parameterType="User" resultMap="UserMap">
 		SELECT
-			seq, username, password, salt, firstname, familyname, auth, area, enabled, lastupdateby
+			seq, username, password, salt, firstname, familyname, auth, area, enabled, lastupdate, lastupdateby
 		FROM
 			users
 		WHERE

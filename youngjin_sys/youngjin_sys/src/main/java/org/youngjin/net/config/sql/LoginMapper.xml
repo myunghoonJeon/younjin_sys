@@ -9,8 +9,9 @@
 		<result column="firstname" property="firstName"/>
 		<result column="familyname" property="familyName"/>
 		<result column="auth" property="auth"/>
-		<result column="area" property="area"/>
+		<result column="area" property="areaStr"/>
 		<result column="enabled" property="enabled"/>
+		<result column="lastupdate" property="lastUpdate"/>
 		<result column="lastupdateby" property="lastUpdateBy"/>
 	</resultMap>
 
@@ -23,8 +24,9 @@
 			firstname, 
 			familyname, 
 			auth, 
-			area, 
+			(select code_name from symbol where main_code = '01' and sub_code = '0' | area) area, 
 			enabled,
+			lastupdate,
 			lastupdateby
 		FROM
 			users
@@ -74,7 +76,7 @@
 			)
 		VALUES
 			(
-				#{username}, #{password}, #{salt}, #{firstName}, #{familyName}, #{auth}, #{area}, #{enabled}
+				#{username}, #{password}, #{salt}, #{firstName}, #{familyName}, #{auth}, #{area}, true
 			)
 		<selectKey keyProperty="seq" resultType="Integer">
 			SELECT LAST_INSERT_ID() 
@@ -116,7 +118,7 @@
 			lastupdate = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s'),
 			lastupdateby = #{lastUpdateBy}
 		WHERE
-			username = #{username}
+			seq = #{seq}
 	</update>
 	
 	<update id="updateUserByAdmin" parameterType="User">
@@ -132,6 +134,9 @@
 			<if test="auth != null and auth != 0 ">
 				auth = #{auth},
 			</if>
+			<if test="enabled != null ">
+				enabled = #{enabled},
+			</if>			
 			lastupdate = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s'),
 			lastupdateby = #{lastUpdateBy}
 		WHERE

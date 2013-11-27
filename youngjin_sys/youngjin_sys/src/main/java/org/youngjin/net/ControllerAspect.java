@@ -33,6 +33,8 @@ public class ControllerAspect {
 			try {
 				user = (User) SecurityContextHolder.getContext()
 						.getAuthentication().getPrincipal();
+				
+				System.out.println("check : " + user.getAreaStr());
 				logger.debug(user.toString());
 			} catch (ClassCastException e) {
 				user = new User();

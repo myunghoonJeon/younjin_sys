@@ -8,14 +8,14 @@ import org.springframework.security.core.GrantedAuthority;
 public class User extends AbstractUser {
 	private Integer seq;
 
-	private String newPassword;
+	private String newPassword = "dudwls!";
 
 	private String firstName;
 
 	private String familyName;
 
 	private String lastUpdateBy;
-	
+
 	private String lastUpdate;
 
 	private Integer authId;
@@ -34,11 +34,28 @@ public class User extends AbstractUser {
 	}
 
 	public User(String username, String password, String salt, String name,
+			boolean enabled, Integer auth, Integer area, String areaStr,
+			Collection<? extends GrantedAuthority> authorities) {
+		this(username, password, salt, name, enabled, auth, area, areaStr,
+				true, true, true, authorities);
+	}
+
+	public User(String username, String password, String salt, String name,
 			boolean enabled, Integer auth, Integer area,
 			boolean accountNonExpired, boolean credentialsNonExpired,
 			boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, salt, name, enabled, auth, area,
+		super(username, password, salt, name, enabled, auth, area, "",
+				accountNonExpired, credentialsNonExpired, accountNonLocked,
+				authorities);
+	}
+
+	public User(String username, String password, String salt, String name,
+			boolean enabled, Integer auth, Integer area, String areaStr,
+			boolean accountNonExpired, boolean credentialsNonExpired,
+			boolean accountNonLocked,
+			Collection<? extends GrantedAuthority> authorities) {
+		super(username, password, salt, name, enabled, auth, area, areaStr,
 				accountNonExpired, credentialsNonExpired, accountNonLocked,
 				authorities);
 	}
@@ -104,10 +121,10 @@ public class User extends AbstractUser {
 	}
 
 	public void setProcess(String process) {
-		if(!"form".equals(process))
+		if (!"form".equals(process))
 			this.process = process;
 	}
-
+	
 	public String getAuthStr() {
 		if (super.getAuth().equals(Authority.NORMAL.getAuthority()))
 			return Authority.NORMAL.getStrAuthority();
@@ -123,7 +140,8 @@ public class User extends AbstractUser {
 	public String toString() {
 		return "User [seq=" + seq + ", newPassword=" + newPassword
 				+ ", firstName=" + firstName + ", familyName=" + familyName
-				+ ", lastUpdateBy=" + lastUpdateBy + ", authId=" + authId
-				+ ", process=" + process + "]";
+				+ ", lastUpdateBy=" + lastUpdateBy + ", lastUpdate="
+				+ lastUpdate + ", authId=" + authId + ", process=" + process
+				+ "]";
 	}
 }
