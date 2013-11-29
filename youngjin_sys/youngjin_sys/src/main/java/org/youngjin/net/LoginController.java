@@ -78,6 +78,13 @@ public class LoginController {
 		}
 		
 		@PreAuthorize("hasRole('ROLE_ADMIN')")
+		@RequestMapping( value = "/admin/areaChange.json", method = RequestMethod.POST)
+		@ResponseBody
+		public void areaChange(@RequestBody User user){
+			customJdbcUserDetailManager.updateUserByAdmin(user);
+		}
+		
+		@PreAuthorize("hasRole('ROLE_ADMIN')")
 		@RequestMapping( value = "/admin/enabledChange.json", method = RequestMethod.POST)
 		@ResponseBody
 		public void enabledChange(@RequestBody User user){

@@ -35,8 +35,8 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 			+ "WHERE u.username = ? "; 
 	private static final String LOAD_GROUP_AUTHORITIES_QUERY = ""
 			+ "SELECT ga.authority "
-			+ "FROM users u, groups g, group_authorities ga "
-			+ "WHERE u.username = ? AND g.id = ga.group_id AND g.group_name = u.auth ";
+			+ "FROM users u, group_authorities ga "
+			+ "WHERE u.username = ? AND u.seq = ga.group_id ";
 	
 	
 	// ~ Dynamic Injection
@@ -148,10 +148,7 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 		
 		loginDao.insertUser(user);
 		
-		if(user.getAuth() != 0){
-			loginDao.insertGroups(user);
-			loginDao.insertGroupAuthorities(user);
-		}
+		loginDao.insertGroupAuthorities(user);
 		
 		return user;
 	}
@@ -164,10 +161,16 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 		user.setLastUpdateBy("admin");
 		
 		loginDao.updateUserByAdmin(user);
+		
+		if(user.getAuth() != 0 && user.getAuth() != null){
+			loginDao.updateAuthoritiesByAdmin(user);
+		}
 	}	
 	
 	public void deleteUserByAdmin(Integer seq) {
 		loginDao.deleteUserBySeq(seq);
+		
+		loginDao.deleteAuthoritiesBySeq(seq);
 	}
 	
 	public void setEncodedPassword(User user, String password) {
@@ -179,12 +182,12 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 	}
 
 	public void changePassword(Integer seq) {		
-		User user = loginDao.selectUser(seq);
-		
-		user.setSalt(user.getSalt());
+		User user = new User();
+		user.setSeq(seq);
 				
 		setEncodedPassword(user, user.getNewPassword());
 		user.setLastUpdateBy("admin");
+		
 		loginDao.updatePassword(user);		
 	}
 	
@@ -195,6 +198,7 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 		User confirmUserInfo = (User) loadUserByUsername(username);
 		String encodedPassword = passwordEncoder.encodePassword(password,
 				saltSource.getSalt(confirmUserInfo));
+		
 		return encodedPassword.equals(confirmUserInfo.getPassword()) ? false
 				: true;
 	}

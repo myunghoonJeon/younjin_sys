@@ -3,7 +3,7 @@
 <ul class="left_detail_menu_wrap">
 	<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
 		<li>
-			<a href="#">GBL LIST</a>				
+			<a href="${cp }/outbound/gblList">GBL LIST</a>				
 		</li>
 		<li>
 			<a href="#">DELIVERY</a>				

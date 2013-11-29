@@ -83,20 +83,6 @@
 		</selectKey>
 	</insert>
 	
-	<insert id="insertGroups" parameterType="User">
-		INSERT INTO
-			groups
-			(
-				group_name
-			)
-		VALUES(
-			#{auth}
-		)		
-		<selectKey keyProperty="authId" resultType="Integer">
-			SELECT LAST_INSERT_ID() 
-		</selectKey>
-	</insert>
-	
 	<insert id="insertGroupAuthorities" parameterType="User">
 		INSERT INTO
 			group_authorities
@@ -105,7 +91,7 @@
 			)
 		VALUES
 			(
-				#{authId}, #{authStr}
+				#{seq}, #{authStr}
 			)
 	</insert>
 	
@@ -134,6 +120,9 @@
 			<if test="auth != null and auth != 0 ">
 				auth = #{auth},
 			</if>
+			<if test="area != null and area != 0 ">
+				area = #{area},
+			</if>
 			<if test="enabled != null ">
 				enabled = #{enabled},
 			</if>			
@@ -142,6 +131,16 @@
 		WHERE
 			seq = #{seq}
 	</update>	
+	
+	<update id="updateAuthoritiesByAdmin" parameterType="User">
+		UPDATE
+			group_authorities
+		SET
+			authority = (SELECT code_name FROM symbol WHERE main_code = 02 and sub_code = '0' | ${auth})
+		WHERE
+			group_id = #{seq}
+		
+	</update>
 
 	<delete id="deleteUserByUsername" parameterType="String">
 		DELETE 
@@ -156,5 +155,12 @@
 			users
 		WHERE
 			seq = #{seq}
+	</delete>
+	
+	<delete id="deleteAutoritiesBySeq" parameterType="Integer">
+		DELETE FROM
+			group_authorities
+		WHERE
+			group_id = #{seq}
 	</delete>
 </mapper>

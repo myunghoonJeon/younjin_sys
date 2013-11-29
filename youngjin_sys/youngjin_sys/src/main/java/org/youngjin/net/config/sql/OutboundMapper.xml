@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="outboundMapper">
+
+<resultMap type="GBL" id="GblMap">
+	<result column="no" property="no" />
+	<result column="pud" property="pud" />
+	<result column="rank" property="rank" />
+	<result column="code" property="code" />
+	<result column="scac" property="scac" />
+	<result column="customer_name" property="customerName" />
+	<result column="area" property="area" />
+	<result column="us_no" property="usNo" />
+	<result column="dest_port" property="destPort"/>
+</resultMap>
+
+<select id="getGblListCount" parameterType="OutboundFilter" resultType="Integer">
+	SELECT
+		count(*)
+	FROM
+		gbl
+	WHERE
+		1 = 1
+		<if test="branch != null">
+			AND		
+				area = #{branch}			
+		</if>
+		<if test="carrier != null">
+			AND
+				scac = #{carrier}
+		</if>
+		<if test="code != null">
+			AND
+				code = #{code}
+		</if>
+</select>
+
+<select id="getGblList" parameterType="OutboundFilter" resultMap="GblMap">
+	SELECT 
+		*
+	FROM	
+		(
+			SELECT
+				(@rownum := @rownum + 1) AS rownum,
+				g.no,
+				g.pud,
+				g.rank,
+				g.code,
+				g.scac,
+				g.customer_name,
+				g.area,
+				g.us_no,
+				g.dest_port
+			FROM
+				gbl g, (SELECT @rownum := 0) r
+			WHERE
+				1 = 1
+				<if test="branch != null">
+					AND		
+						g.area = #{branch}			
+				</if>
+				<if test="carrier != null">
+					AND
+						g.scac = #{carrier}
+				</if>
+				<if test="code != null">
+					AND
+						g.code = #{code}
+				</if>
+				<if test="startPud != null">
+					AND
+						g.pud &gt;= str_to_date(#{startPud}, 'YYYYMMDD')
+				</if>
+				<if test="endPud != null">
+					AND
+						g.pud &lt;= str_to_date(#{endPud}, 'YYYYMMDD')
+				</if>
+			ORDER BY
+				g.seq
+		)u	
+	WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+</select>
+</mapper>

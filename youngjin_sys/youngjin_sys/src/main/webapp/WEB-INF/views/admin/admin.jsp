@@ -5,7 +5,7 @@
 		<h1>All User Management</h1>
 	</div>
 	
-	<div id="admin_user_addButton">
+	<div class="admin_user_addButton user_addButton">
 		<span >add</span>
 	</div>
 	
@@ -47,9 +47,9 @@
 							</select>
 						</td>
 						<td class="admin_user_list_area">
-							<select class="admin_user_auth_list_select">
-								<c:forEach var="auth" items="${areaList }">
-									<option value="${auth.subCode }" ${auth.subCode == user.area ? 'selected=selected' : '' }>${auth.codeName }</option>
+							<select class="admin_user_area_list_select">
+								<c:forEach var="area" items="${areaList }">
+									<option value="${area.subCode }" ${area.subCode == user.area ? 'selected=selected' : '' }>${area.codeName }</option>
 								</c:forEach>
 							</select>						
 						</td>

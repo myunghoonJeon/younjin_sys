@@ -7,13 +7,14 @@
 <script src="${cp}/resources/jquery/fullcalendar.js"></script>
 <script src="${cp}/resources/jquery/gcal.js"></script>
 <script src="${cp}/resources/ckeditor/ckeditor.js"></script>
-<script src="${cp}/resources/jquery/jquery.plugin.js"></script>
 <script src="${cp}/resources/jquery/jquery-ui-1.10.3.custom.min.js"></script>
 <script src="${cp}/resources/jquery/jquery.ui.datepicker-en-AU.js"></script>
+<script src="${cp}/resources/jquery/smartPopup/jquery.smartPop.js"></script>
 
 <script src="${cp}/resources/js/util.js"></script>
 <script src="${cp}/resources/js/common.js"></script>
 <script src="${cp}/resources/js/admin.js"></script>
+<script src="${cp}/resources/js/outbound.js"></script>
 
 </body>
 </home>

@@ -9,7 +9,6 @@
 
 .title h1 { padding : 10px 10px; font-size: 20pt; color: #000;  }
 
-.admin_user_managementDiv{ }
 .yj_table { width: 880px; text-align: center; margin: 10px auto; }
 .yj_table thead tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; }
 .yj_table tbody tr td{ padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; }
@@ -21,6 +20,10 @@
 .home_wrap a{ text-decoration: none; color: #000; }
 .home_wrap a:VISITED{ color: #000; }
 
+.user_addButton { width: 880px; margin: 10px auto;}
+.user_addButton span{ margin-left: 845px; border: 1px solid #000; color: #000; font-size: 8pt; padding: 3px 5px; cursor: pointer; }
+.user_addButton span:HOVER{ background: #B7B9CC; }
+
 /* top menu */
 
 .top_menu_wrap{ float: left; width: 830px; height: 60px; margin-left: 30px; }
@@ -29,11 +32,6 @@
 .top_menu_wrap li.top_menu_li>a{ display: inline-block; margin-left: 1px; padding: 1em 1em; letter-spacing: 0.10em; text-decoration: none; font-size: 1em; text-transform: uppercase; outline: 0; color: #000; }
 
 .top_menu_wrap li.top_menu_li:hover{ background: #B7B9CC; font-weight: bold; }
-
-/* smart pop setting */
-
-#smartPop_close_wrap{ margin-top: 5px; }
-#smartPop_close { margin: 0 95%; width:14px; height:12px; cursor:pointer;}
 
 /* form */
 .form_wrap{ width : 100%; height : 100%; text-align: center; }
@@ -89,7 +87,4 @@
 .admin_service_wrap{ cursor: pointer; }
 
 /* admin Main */
-#admin_user_addButton { width: 880px; margin: 10px auto;}
-#admin_user_addButton span{ margin-left: 845px; border: 1px solid #000; color: #000; font-size: 8pt; padding: 3px 5px; cursor: pointer; }
-#admin_user_addButton span:HOVER{ background: #B7B9CC; }
 

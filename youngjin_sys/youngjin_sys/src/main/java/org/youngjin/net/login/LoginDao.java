@@ -27,10 +27,6 @@ public class LoginDao extends SqlSessionDaoSupport {
 		getSqlSession().update("loginMapper.updatePassword", user);
 	}
 
-	public void insertGroups(User user) {
-		getSqlSession().insert("loginMapper.insertGroups", user);		
-	}
-
 	public void insertGroupAuthorities(User user) {		
 		getSqlSession().insert("loginMapper.insertGroupAuthorities", user);		
 	}
@@ -50,5 +46,15 @@ public class LoginDao extends SqlSessionDaoSupport {
 
 	public String getUserIndex() {
 		return getSqlSession().selectOne("loginMapper.getUserIndex");
+	}
+
+	public void deleteAuthoritiesBySeq(Integer seq) {
+		getSqlSession().delete("loginMapper.deleteAuthoritiesBySeq", seq);
+		
+	}
+
+	public void updateAuthoritiesByAdmin(User user) {
+		getSqlSession().update("loginMapper.updateAuthoritiesByAdmin", user);
+		
 	}
 }

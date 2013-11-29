@@ -12,8 +12,8 @@ youngjin.admin.user_no = 1;
 youngjin.admin.sync = function(){
 	var eventString = webBrowserCheck() == 'C' ? 'keydown' : 'keypress';
 	
-	$('#admin_user_addButton span').unbind('click');
-	$('#admin_user_addButton span').bind('click', function(){
+	$('.admin_user_addButton span').unbind('click');
+	$('.admin_user_addButton span').bind('click', function(){
 		youngjin.admin.user_add();
 	});
 	
@@ -72,6 +72,11 @@ youngjin.admin.sync = function(){
 	$('.admin_user_auth_list_select').unbind('change');
 	$('.admin_user_auth_list_select').bind('change', function(){
 		youngjin.admin.user_auth_change($(this));
+	});
+	
+	$('.admin_user_area_list_select').unbind('change');
+	$('.admin_user_area_list_select').bind('change', function(){
+		youngjin.admin.user_area_change($(this));
 	});
 	
 	$('.admin_user_enabled').unbind('change');
@@ -292,6 +297,31 @@ youngjin.admin.user_auth_change = function(target){
 	var json = {
 			"seq" : seq,
 			"auth" : auth
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success: function(){
+				alert("변경 성공");
+			},
+			error : function(){
+				alert("에러 발생!");
+			}
+		});
+	});	
+	
+};
+
+youngjin.admin.user_area_change = function(target){
+	var url = contextPath + "/admin/areaChange.json";
+	
+	var parent = target.parents();
+	var seq = parent.parents().attr('data-seq');
+	var area = target.val();
+	
+	var json = {
+			"seq" : seq,
+			"area" : area
 	};
 	
 	$.postJSON(url, json, function(){

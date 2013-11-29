@@ -21,7 +21,7 @@
 		FROM
 			users
 		WHERE
-			auth &lt;&gt; 1
+			username &lt;&gt; 'youngjin1'
 		<if test="User != null" >
 		AND
 			username = #{username}
