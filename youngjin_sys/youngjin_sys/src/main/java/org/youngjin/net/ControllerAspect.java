@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.youngjin.net.login.User;
 
@@ -54,8 +55,11 @@ public class ControllerAspect {
 				Annotation annotations[] = annotationss[i];
 				if (annotations.length > 0) {
 					if (annotations[0].annotationType() == ModelAttribute.class
-							|| annotations[0].annotationType() == RequestBody.class) {
+							|| annotations[0].annotationType() == RequestBody.class || annotations[0].annotationType() == PathVariable.class) {
 						newParmSkip[i] = true;
+						if ( annotations[0].annotationType() == PathVariable.class){
+							user.setProcess((String)param[i]);
+						}
 					}
 				} else {
 					newParmSkip[i] = false;

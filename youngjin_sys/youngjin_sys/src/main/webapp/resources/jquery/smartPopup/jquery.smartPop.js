@@ -219,7 +219,7 @@
         padding     : 0,
         background  : '#fff',
         border      : 1,
-        borderColor : '#39a3e5',
+        borderColor : 'black',
         closeMargin : 0,
         closeImg    : {width:13, height: 13, src: contextPath + '/resources/jquery/smartPopup/img/btn_close2.png'},
         opacity     : .7,

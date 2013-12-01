@@ -3,6 +3,7 @@
 <mapper namespace="outboundMapper">
 
 <resultMap type="GBL" id="GblMap">
+	<result column="seq" property="seq" />
 	<result column="no" property="no" />
 	<result column="pud" property="pud" />
 	<result column="rank" property="rank" />
@@ -42,6 +43,7 @@
 		(
 			SELECT
 				(@rownum := @rownum + 1) AS rownum,
+				g.seq,
 				g.no,
 				g.pud,
 				g.rank,

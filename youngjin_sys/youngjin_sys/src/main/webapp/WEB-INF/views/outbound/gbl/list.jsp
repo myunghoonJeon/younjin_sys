@@ -100,7 +100,7 @@
 					</tr>
 				</c:if>
 				<c:forEach var="gbl" items="${gblList }">
-					<tr>
+					<tr class="gbl_list" data-gblNo="${gbl.seq }">
 						<td>${gbl.code }</td>
 						<td>${gbl.pud }</td>
 						<c:if test="${carrier eq null }">
@@ -121,62 +121,5 @@
 				</c:forEach>
 			</tbody>
 		</table>
-	</div>
-	
-	<div id="gbl_add_div" style="display:none;">
-		<div class="title">
-			<h1>GBL INPUT</h1>
-		</div>
-		<table>
-			<tr>
-				<th>GBL_NO</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>NAME</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>RANK</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>GBL_CODE</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>TSP</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>ADDRESS</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>SSN</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>AREA</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>RDD</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>US_NO</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>GBLOCK</th>
-				<td><input type="text" />
-			</tr>
-			<tr>
-				<th>PUD</th>
-				<td><input type="text" />
-			</tr>
-		</table>
 	</div>	
-	
 <%@ include file="../../../layout/foot.jspf"%>

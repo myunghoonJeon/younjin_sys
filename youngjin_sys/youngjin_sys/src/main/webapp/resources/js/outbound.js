@@ -9,12 +9,13 @@ $(function() {
 youngjin.outbound.sync = function(){
 	$('.gbl_addButton').unbind('click');
 	$('.gbl_addButton').bind('click', function(){
-		var inner = $('#gbl_add_div');
+		var url = contextPath + '/outbound/add/';
 		$.smartPop.open({
 			width : 400,
 			height : 500,
-			background  : '#fff',
-			html : inner.html()
+			url : url
 		});
+		
+		
 	});
 };

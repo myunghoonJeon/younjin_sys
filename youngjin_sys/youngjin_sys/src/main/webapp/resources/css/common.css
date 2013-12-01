@@ -13,6 +13,8 @@
 .yj_table thead tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; }
 .yj_table tbody tr td{ padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; }
 
+.yj_table tbody tr:HOVER {background-color: #B7B9CC; cursor: pointer;}
+
 /* home */
 
 .home_wrap{	float: left; width: 200px; height: 60px; padding: 20px 5px; margin-left: 5px; border: 1px solid #000; background-color: #B7B9CC; cursor: pointer; }
@@ -88,3 +90,4 @@
 
 /* admin Main */
 
+/* GBL List */

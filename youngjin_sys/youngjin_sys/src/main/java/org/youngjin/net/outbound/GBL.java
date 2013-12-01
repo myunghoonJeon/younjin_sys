@@ -1,6 +1,8 @@
 package org.youngjin.net.outbound;
 
 public class GBL {
+	private Integer seq;
+
 	private String no;
 	private String customerName;
 	private String pud;
@@ -25,6 +27,10 @@ public class GBL {
 	private String originPort;
 	private String destPort;
 	private String destState;
+
+	// 확실하지 않은 아이들
+	private String tsp;
+	private String gBlock;
 
 	public String getNo() {
 		return no;
@@ -210,13 +216,38 @@ public class GBL {
 		this.destState = destState;
 	}
 
+	public String getTsp() {
+		return tsp;
+	}
+
+	public void setTsp(String tsp) {
+		this.tsp = tsp;
+	}
+
+	public String getgBlock() {
+		return gBlock;
+	}
+
+	public void setgBlock(String gBlock) {
+		this.gBlock = gBlock;
+	}
+
+	public Integer getSeq() {
+		return seq;
+	}
+
+	public void setSeq(Integer seq) {
+		this.seq = seq;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("GBL [no : ").append(no).append(" ;\ncustomerName : ")
-				.append(customerName).append(" ;\npud : ").append(pud)
-				.append(" ;\nrank : ").append(rank).append(" ;\ncode : ")
-				.append(code).append(" ;\nscac : ").append(scac)
+		builder.append("GBL [seq : ").append(seq).append(" ;\nno : ")
+				.append(no).append(" ;\ncustomerName : ").append(customerName)
+				.append(" ;\npud : ").append(pud).append(" ;\nrank : ")
+				.append(rank).append(" ;\ncode : ").append(code)
+				.append(" ;\nscac : ").append(scac)
 				.append(" ;\noriginAddress : ").append(originAddress)
 				.append(" ;\nssn : ").append(ssn).append(" ;\narea : ")
 				.append(area).append(" ;\nphoneNo : ").append(phoneNo)
@@ -229,7 +260,9 @@ public class GBL {
 				.append(" ;\nclpNo : ").append(clpNo).append(" ;\nsealNo : ")
 				.append(sealNo).append(" ;\noriginPort : ").append(originPort)
 				.append(" ;\ndestPort : ").append(destPort)
-				.append(" ;\ndestState : ").append(destState).append(" ]");
+				.append(" ;\ndestState : ").append(destState)
+				.append(" ;\ntsp : ").append(tsp).append(" ;\ngBlock : ")
+				.append(gBlock).append(" ]");
 		return builder.toString();
 	}
 }
