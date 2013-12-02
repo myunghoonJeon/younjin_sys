@@ -10,9 +10,19 @@
 	<result column="code" property="code" />
 	<result column="scac" property="scac" />
 	<result column="customer_name" property="customerName" />
-	<result column="area" property="area" />
+	<result column="area" property="areaLocal" />
 	<result column="us_no" property="usNo" />
 	<result column="dest_port" property="destPort"/>
+</resultMap>
+
+<resultMap type="GBLStatus" id="StatusMap">
+	<result column="gbl_no" property="no"/>
+	<result column="gbl_input" property="input" />
+	<result column="gbl_preperation" property="preperation" />
+	<result column="gbl_delivery" property="delivery" />
+	<result column="gbl_invoice" property="invoice" />
+	<result column="gbl_arrival" property="arrival" />
+	<result column="gbl_process" property="process" />
 </resultMap>
 
 <select id="getGblListCount" parameterType="OutboundFilter" resultType="Integer">
@@ -22,17 +32,25 @@
 		gbl
 	WHERE
 		1 = 1
-		<if test="branch != null">
+		<if test="branch != null and branch != ''">
 			AND		
 				area = #{branch}			
 		</if>
-		<if test="carrier != null">
+		<if test="carrier != null and carrier != ''">
 			AND
 				scac = #{carrier}
 		</if>
-		<if test="code != null">
+		<if test="code != null and code != ''">
 			AND
 				code = #{code}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+				pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+				pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 		</if>
 </select>
 
@@ -57,29 +75,76 @@
 				gbl g, (SELECT @rownum := 0) r
 			WHERE
 				1 = 1
-				<if test="branch != null">
+				<if test="branch != null and branch != ''">
 					AND		
-						g.area = #{branch}			
+						area = #{branch}			
 				</if>
-				<if test="carrier != null">
+				<if test="carrier != null and carrier != ''">
 					AND
-						g.scac = #{carrier}
+						scac = #{carrier}
 				</if>
-				<if test="code != null">
+				<if test="code != null and code != ''">
 					AND
-						g.code = #{code}
+						code = #{code}
 				</if>
-				<if test="startPud != null">
+				<if test="startPud != null and startPud != ''">
 					AND
-						g.pud &gt;= str_to_date(#{startPud}, 'YYYYMMDD')
+						pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
 				</if>
-				<if test="endPud != null">
+				<if test="endPud != null and endPud != ''">
 					AND
-						g.pud &lt;= str_to_date(#{endPud}, 'YYYYMMDD')
+						pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 				</if>
 			ORDER BY
 				g.seq
 		)u	
 	WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
 </select>
+
+<select id="getCarrierList" resultType="Code">
+	SELECT DISTINCT
+		scac AS subCode
+	FROM
+		gbl	
+</select>
+
+<select id="getCodeList" resultType="Code">
+	SELECT DISTINCT
+		code AS subCode
+	FROM
+		gbl	
+</select>
+
+<select id="getGblProcess" parameterType="String" resultMap="StatusMap">
+	SELECT
+		gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_invoice, gbl_arrival, gbl_process
+	FROM
+		gbl_status
+	WHERE
+		gbl_no = (select no from gbl where seq = #{seq})
+</select>
+
+<insert id="insertGbl" parameterType="GBL">
+	INSERT INTO
+		gbl
+		(
+			no, customer_name, rank, code, scac, origin_gblock, dest_gblock, pud, ssn, rdd, pod, poe, area, origin_address, us_no, dest_port, origin_port, origin_city, mil_svc
+		)
+	VALUES
+		(
+			#{no}, #{customerName}, #{rank}, #{code}, #{scac}, #{originGBlock}, #{destGBlock}, #{pud}, #{ssn}, #{rdd}, #{pod}, #{poe}, #{areaLocal}, #{originAddress}, #{usNo}, #{destPort}, #{originPort}, #{originCity}, #{milSVC}		
+		)
+</insert>
+
+<insert id="insertGblStatus" parameterType="GBL">
+	INSERT INTO
+		gbl
+		(
+			gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_invoice, gbl_arrival, gbl_process
+		)
+	VALUES
+		(
+			#{no}, 1, 0, 0, 0, 0, 0
+		)
+</insert>
 </mapper>

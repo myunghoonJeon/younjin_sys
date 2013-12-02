@@ -21,12 +21,42 @@
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
 </script>
+	<c:if test="${end eq true }">
+		<script type="text/javascript">
+			parent.location.href=contextPath + '/outbound/gblList/';
+			parent.$.smartPop.close();
+		</script>
+	</c:if>
+	
 	<div class="title">
 		<h1>GBL LIST</h1>
 	</div>
 	
+	<c:set var="branchList" value="${filterMap['branchList'] }" />
+	<c:set var="carrierList" value="${filterMap['carrierList'] }" />
+	<c:set var="codeList" value="${filterMap['codeList'] }" />
+	
 	<div class="gbl_filter">	
 		<form:form commandName="outboundFilter" method="get">
+			<form:select path="branch">
+				<form:option value="">All</form:option>
+				<c:forEach var="branch" items="${branchList }">
+					<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
+				</c:forEach>
+			</form:select>
+			<form:select path="carrier">
+				<form:option value="">All</form:option>
+				<c:forEach var="carrier" items="${carrierList }">
+					<form:option value="${carrier.subCode }">${carrier.subCode }</form:option>
+				</c:forEach>
+			</form:select>
+			<form:select path="code">
+				<form:option value="">All</form:option>
+				<c:forEach var="code" items="${codeList }">
+					<form:option value="${code.subCode }">${code.subCode }</form:option>
+				</c:forEach>
+			</form:select>
+			<form:input path="startPud"/> ~ <form:input path="endPud"/>
 			<form:hidden path="page" value="${pagination.currentPage}"/>
 		</form:form>
 	</div>
@@ -35,12 +65,28 @@
 		<span >add</span>
 	</div>
 	
+	<div class="gbl_list_filter_title">
+		<ul>
+			<c:if test="${outboundFilter.branch ne '' and outboundFilter.branch ne null}">
+				<li>[BRANCH : ${outboundFilter.branch  }] </li>
+			</c:if>
+			<c:if test="${outboundFilter.carrier ne '' and outboundFilter.carrier ne null}">
+				<li>[CARRIER : ${outboundFilter.carrier }] </li>
+			</c:if>
+			<c:if test="${outboundFilter.code ne '' and outboundFilter.code ne null}">
+				<li>[CODE : ${outboundFilter.code }]</li>
+			</c:if>
+		</ul>		
+	</div>
+	
 	<div>
 		<table class="yj_table">
 			<colgroup>
-				<col width="5%" />
+				<c:if test="${outboundFilter.code eq '' }">
+					<col width="5%" />
+				</c:if>
 				<col width="8%" />
-				<c:if test="${carrier eq null }">
+				<c:if test="${outboundFilter.carrier eq '' }">
 					<col width="5%" />
 				</c:if>
 				<col width="12%" />
@@ -50,7 +96,7 @@
 				<col width="5%" />
 				<col width="5%" />
 				<col width="10%" />
-				<c:if test="${branch eq null }">
+				<c:if test="${outboundFilter.branch eq '' }">
 					<col width="5%" />
 				</c:if>
 				<col width="10%" />
@@ -75,9 +121,11 @@
 			</tfoot>
 			<thead>
 				<tr>
-					<th>CODE</th>
+					<c:if test="${outboundFilter.code eq '' }">
+						<th>CODE</th>
+					</c:if>
 					<th>PUD</th>
-					<c:if test="${carrier eq null }">
+					<c:if test="${outboundFilter.carrier eq '' }">
 						<th>SCAC</th>
 					</c:if>
 					<th>GBL_NO</th>
@@ -87,7 +135,7 @@
 					<th>LBS</th>
 					<th>CUFT</th>
 					<th>US_NO</th>
-					<c:if test="${branch eq null }">
+					<c:if test="${outboundFilter.branch eq '' }">
 						<th>BRANCH</th>
 					</c:if>
 					<th>DEST_PORT</th>
@@ -96,14 +144,20 @@
 			<tbody>
 				<c:if test="${gblList eq '[]' or gblList eq null or gblList eq '' }">
 					<tr>
-						<td colspan="10">GBL이 없습니다.</td>
+						<td colspan="12">GBL이 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="gbl" items="${gblList }">
-					<tr class="gbl_list" data-gblNo="${gbl.seq }">
-						<td>${gbl.code }</td>
-						<td>${gbl.pud }</td>
-						<c:if test="${carrier eq null }">
+					<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
+					<c:set var="pud" value="${parsePud }" />
+					<tr class="gbl_list" data-seq="${gbl.seq }">
+						<c:if test="${outboundFilter.code eq '' }">
+							<td>${gbl.code }</td>
+						</c:if>
+						<td>
+							${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }
+						</td>
+						<c:if test="${outboundFilter.carrier eq '' }">
 							<td>${gbl.scac }</td>
 						</c:if>
 						<td>${gbl.no }</td>
@@ -113,8 +167,8 @@
 						<td></td>
 						<td></td>
 						<td>${gbl.usNo }</td>
-						<c:if test="${branch eq null }">
-							<td>${gbl.area }</td>
+						<c:if test="${outboundFilter.branch eq '' }">
+							<td>${gbl.areaLocal }</td>
 						</c:if>
 						<td>${gbl.destPort }</td>
 					</tr>

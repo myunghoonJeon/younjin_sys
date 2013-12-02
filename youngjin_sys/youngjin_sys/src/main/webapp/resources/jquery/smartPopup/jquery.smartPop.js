@@ -81,7 +81,7 @@
             this.log('background : ' + this.opts.background);
             this.log('padding : ' + this.opts.padding);
             this.log('border : ' + this.opts.border);
-            this.log('borderColor : ' + this.opts.borderColor);
+            this.log('borderColor : ' + this.opts.borderColor);	
             this.log('closeMargin : ' + this.opts.closeMargin);
             this.log('opacity : ' + this.opts.opacity);
             this.log('');
@@ -215,7 +215,7 @@
         position    : 'center',
         left        : 310,
         top         : 10,
-        bodyClose   : true,
+        bodyClose   : false,
         padding     : 0,
         background  : '#fff',
         border      : 1,

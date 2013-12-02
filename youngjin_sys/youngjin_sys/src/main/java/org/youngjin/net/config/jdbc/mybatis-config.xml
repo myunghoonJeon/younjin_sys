@@ -5,7 +5,9 @@
 		<typeAlias alias="User" type="org.youngjin.net.login.User"/>
 		<typeAlias alias="UserFilter" type="org.youngjin.net.util.UserFilter"/>
 		<typeAlias alias="Code" type="org.youngjin.net.code.Code"/>
-		<typeAlias alias="GBL" type="org.youngjin.net.outbound.GBL"/>
+		<typeAlias alias="GBL" type="org.youngjin.net.GBL"/>
+		<typeAlias alias="GBlock" type="org.youngjin.net.process.GBlock"/>
 		<typeAlias alias="OutboundFilter" type="org.youngjin.net.outbound.OutboundFilter"/>
+		<typeAlias alias="GBLStatus" type="org.youngjin.net.GBLStatus"/>
 	</typeAliases>
 </configuration>

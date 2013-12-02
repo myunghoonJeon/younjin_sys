@@ -10,85 +10,115 @@
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
 <html>
 <head>
-<title>Form 모음</title>
+<title>Add</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/font.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">
-
-<script src="${cp}/resources/jquery/jquery-1.8.2.min.js"></script>
-<script src="${cp}/resources/js/common.js"></script>
+<link rel="stylesheet" href="${cp }/resources/jquery/jquery-ui-1.10.3.custom.min.css">
 
 <script>
 	var contextPath = '<c:out value="${cp}"/>';
 	var realPath = '<c:out value="${rp}"/>';
+	var addError = false;
+	if (typeof youngjin == 'undefined') {
+		youngjin = {};
+	}
 </script>
+
+<%@ include file="../../../layout/include_script.jspf" %>
 
 </head>
 <body>
 	<div id="gbl_add_div">
-		<div style="background-color: white; width: 100%; height: 100%;">
-			<div class="title">
-				<h1>GBL INPUT</h1>
-			</div>
-			<form:form commandName="gbl">
-			<table>
-				<tr>
-					<th>GBL_NO</th>
-					<td><form:input path="no" /> </td>
-				</tr>
-				<tr>
-					<th>NAME</th>
-					<td><form:input path="customerName" /> </td>
-				</tr>
-				<tr>
-					<th>RANK</th>
-					<td><form:input path="rank" /> </td>
-				</tr>
-				<tr>
-					<th>GBL_CODE</th>
-					<td><form:input path="code" /> </td>
-				</tr>
-				<tr>
-					<th>TSP</th>
-					<td><form:input path="tsp" /> </td>
-				</tr>
-				<tr>
-					<th>ADDRESS</th>
-					<td><form:input path="originAddress" /> </td>
-				</tr>
-				<tr>
-					<th>SSN</th>
-					<td><form:input path="ssn" /> </td>
-				</tr>
-				<tr>
-					<th>AREA</th>
-					<td><form:input path="area" /> </td>
-				</tr>
-				<tr>
-					<th>RDD</th>
-					<td><form:input path="rdd" /> </td>
-				</tr>
-				<tr>
-					<th>US_NO</th>
-					<td><form:input path="usNo" /> </td>
-				</tr>
-				<tr>
-					<th>GBLOCK</th>
-					<td><form:input path="gBlock" /> </td>
-				</tr>
-				<tr>
-					<th>PUD</th>
-					<td><form:input path="pud" /> </td>
-				</tr>
-				<tfoot>
-					<tr>
-						<td><input type="button" value="add"/></td>
-					</tr>
-				</tfoot>
-			</table>
-			</form:form>
+		<div class="title">
+			<h1>GBL INPUT</h1>
 		</div>
-	</div>	
+		<form:form commandName="gbl">
+		<table class="gbl_add_table">
+			<tr>
+				<th>GBL NO</th>
+				<td><form:input path="no" />
+				<br><form:errors path="no" /></td>
+			</tr>
+			<tr>
+				<th>NAME</th>
+				<td><form:input path="customerName" /> </td>
+			</tr>
+			<tr>
+				<th>RANK</th>
+				<td><form:input path="rank" /> </td>
+			</tr>
+			<tr>
+				<th>GBL CODE</th>
+				<td><form:input path="code" /> </td>
+			</tr>
+			<tr>
+				<th>SCAC</th>
+				<td><form:input path="scac" /> </td>
+			</tr>
+			<tr>
+				<th>ORIGIN GBLOCK</th>
+				<td><form:input path="originGBlock" /> </td>
+			</tr>
+			<tr>
+				<th>DEST GBLOCK</th>
+				<td><form:input path="destGBlock" /> </td>
+			</tr>
+			<tr>
+				<th>PUD</th>
+				<td><form:input path="pud" /> </td>
+			</tr>
+			<tr>
+				<th>SSN</th>
+				<td><form:input path="ssn" /> </td>
+			</tr>
+			<tr>
+				<th>RDD</th>
+				<td><form:input path="rdd" /> </td>
+			</tr>
+			<tr>
+				<th>POD</th>
+				<td><form:input path="pod" /> </td>
+			<tr>
+			<tr>
+				<th>POE</th>
+				<td><form:input path="poe" /> </td>
+			<tr>
+				<th>AREA</th>
+				<td><form:input path="areaLocal" /> </td>
+			</tr>
+			<tr>
+				<th>ADDRESS</th>
+				<td><form:input path="originAddress" /> </td>
+			</tr>
+			<tr>
+				<th>US NO</th>
+				<td><form:input path="usNo" /> </td>
+			</tr>
+			<tr>
+				<th>DEST PORT</th>
+				<td><form:input path="destPort" /> </td>
+			</tr>
+			<tr>
+				<th>ORIGIN PORT</th>
+				<td><form:input path="originPort" /> </td>
+			</tr>
+			<tr>
+				<th>ORIGIN CITY </th>
+				<td><form:input path="originCity" /> </td>
+			</tr>
+			<tr>
+				<th>MIL SVC</th>
+				<td><form:input path="milSVC" /></td>
+			</tr>
+			<tfoot>
+				<tr>
+					<td colspan="2"><input class="gbl_add_submit_button" type="button" value="add"/></td>
+				</tr>
+			</tfoot>
+		</table>
+		</form:form>
+	</div>
 </body>
 </html>

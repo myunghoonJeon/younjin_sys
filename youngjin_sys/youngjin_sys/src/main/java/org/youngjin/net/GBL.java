@@ -1,4 +1,4 @@
-package org.youngjin.net.outbound;
+package org.youngjin.net;
 
 public class GBL {
 	private Integer seq;
@@ -7,11 +7,11 @@ public class GBL {
 	private String customerName;
 	private String pud;
 	private String rank;
-	private Integer code;
+	private String code;
 	private String scac;
 	private String originAddress;
 	private String ssn;
-	private String area;
+	private String areaLocal;
 	private String phoneNo;
 	private String email;
 	private String usNo;
@@ -28,9 +28,12 @@ public class GBL {
 	private String destPort;
 	private String destState;
 
-	// 확실하지 않은 아이들
-	private String tsp;
-	private String gBlock;
+	private String originGBlock;
+	private String destGBlock;
+
+	private String originCity;
+
+	private String milSVC;
 
 	public String getNo() {
 		return no;
@@ -64,11 +67,11 @@ public class GBL {
 		this.rank = rank;
 	}
 
-	public Integer getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(Integer code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
@@ -96,12 +99,12 @@ public class GBL {
 		this.ssn = ssn;
 	}
 
-	public String getArea() {
-		return area;
+	public String getAreaLocal() {
+		return areaLocal;
 	}
 
-	public void setArea(String area) {
-		this.area = area;
+	public void setAreaLocal(String areaLocal) {
+		this.areaLocal = areaLocal;
 	}
 
 	public String getPhoneNo() {
@@ -216,28 +219,44 @@ public class GBL {
 		this.destState = destState;
 	}
 
-	public String getTsp() {
-		return tsp;
-	}
-
-	public void setTsp(String tsp) {
-		this.tsp = tsp;
-	}
-
-	public String getgBlock() {
-		return gBlock;
-	}
-
-	public void setgBlock(String gBlock) {
-		this.gBlock = gBlock;
-	}
-
 	public Integer getSeq() {
 		return seq;
 	}
 
 	public void setSeq(Integer seq) {
 		this.seq = seq;
+	}
+
+	public String getOriginGBlock() {
+		return originGBlock;
+	}
+
+	public void setOriginGBlock(String originGBlock) {
+		this.originGBlock = originGBlock;
+	}
+
+	public String getDestGBlock() {
+		return destGBlock;
+	}
+
+	public void setDestGBlock(String destGBlock) {
+		this.destGBlock = destGBlock;
+	}
+
+	public String getMilSVC() {
+		return milSVC;
+	}
+
+	public void setMilSVC(String milSVC) {
+		this.milSVC = milSVC;
+	}
+
+	public String getOriginCity() {
+		return originCity;
+	}
+
+	public void setOriginCity(String originCity) {
+		this.originCity = originCity;
 	}
 
 	@Override
@@ -249,8 +268,8 @@ public class GBL {
 				.append(rank).append(" ;\ncode : ").append(code)
 				.append(" ;\nscac : ").append(scac)
 				.append(" ;\noriginAddress : ").append(originAddress)
-				.append(" ;\nssn : ").append(ssn).append(" ;\narea : ")
-				.append(area).append(" ;\nphoneNo : ").append(phoneNo)
+				.append(" ;\nssn : ").append(ssn).append(" ;\nareaLocal : ")
+				.append(areaLocal).append(" ;\nphoneNo : ").append(phoneNo)
 				.append(" ;\nemail : ").append(email).append(" ;\nusNo : ")
 				.append(usNo).append(" ;\nrdd : ").append(rdd)
 				.append(" ;\npod : ").append(pod).append(" ;\npoe : ")
@@ -261,8 +280,10 @@ public class GBL {
 				.append(sealNo).append(" ;\noriginPort : ").append(originPort)
 				.append(" ;\ndestPort : ").append(destPort)
 				.append(" ;\ndestState : ").append(destState)
-				.append(" ;\ntsp : ").append(tsp).append(" ;\ngBlock : ")
-				.append(gBlock).append(" ]");
+				.append(" ;\noriginGBlock : ").append(originGBlock)
+				.append(" ;\ndestGBlock : ").append(destGBlock)
+				.append(" ;\noriginCity : ").append(originCity)
+				.append(" ;\nmilSVC : ").append(milSVC).append(" ]");
 		return builder.toString();
 	}
 }

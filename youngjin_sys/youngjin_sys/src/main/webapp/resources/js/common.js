@@ -10,6 +10,8 @@ $(function() {
 	youngjin.top.formSelect();
 	
 	youngjin.top.goToAdminPage();
+	
+	youngjin.top.goToGblockPage();
 });
 
 youngjin.top.home = function(){
@@ -44,5 +46,11 @@ youngjin.top.formSelect = function(){
 youngjin.top.goToAdminPage = function(){
 	$('.admin_service_wrap').bind('click', function(){
 		location.href = contextPath + '/admin/admin/';
+	});
+};
+
+youngjin.top.goToGblockPage = function(){
+	$('.gblock_service_wrap').bind('click', function(){
+		location.href = contextPath + '/gblock/gblock/main/';
 	});
 };

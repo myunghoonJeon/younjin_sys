@@ -80,6 +80,7 @@
 
 /* left admin service */
 .admin_service_wrap{ float: left; width : 200px; margin: 10px 0 0 0; padding: 10px 5px; border: 1px solid #000; }
+.gblock_service_wrap{ float: left; width : 200px; margin: 10px 0 0 0; padding: 10px 5px; border: 1px solid #000; }
 
 /* content */
 
@@ -91,3 +92,25 @@
 /* admin Main */
 
 /* GBL List */
+.gbl_filter{ width: 880px; margin: 10px auto; }
+.gbl_list_filter_title{ width: 880px; margin: 10px auto; }
+.gbl_list_filter_title ul li{display: inline;}
+
+#gbl_add_div{background-color: white; width: 100%; height: 100%;}
+.gbl_add_table { margin: 0 auto; width: 80%; }
+.gbl_add_table tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; }
+.gbl_add_table tr td{ padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; }
+.gbl_add_table tfoot tr td{ border: none; text-align: right;}
+
+/* GBL Process */
+.gbl_process_and_upload_div{ background-color: white; width: 100%; height: 100%; }
+.gbl_process{ width: 100%; height : 360px; border-bottom: 1px solid black;}
+.gbl_process ul{ width: 100%; height: 80%; margin: 0 auto; }
+.gbl_process ul li{float: left; width: 130px; height: 290px; border: 1px solid black; margin-left: 75px; margin-top: 30px;   }
+
+.gbl_upload{ height : 240px;}
+.gbl_upload table{ width: 80%; margin: 0 auto; margin-top: 30px;  }
+.gbl_upload table thead tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; }
+.gbl_upload table tbody tr td{ padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; }
+.gbl_upload table tfoot tr{ padding-left: 80%; }
+.gbl_uplaod table tfoot tr td{ border: none; }

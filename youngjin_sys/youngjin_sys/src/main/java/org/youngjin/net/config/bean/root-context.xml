@@ -13,6 +13,13 @@
 				  classpath:/org/youngjin/net/config/properties/*.properties"
 	/>
 	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>/org/youngjin/net/config/message/messages</value>
+			</list>
+		</property>
+	</bean>
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<context:component-scan base-package="org.youngjin.net">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
