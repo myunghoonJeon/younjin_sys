@@ -1,5 +1,9 @@
 package org.youngjin.net;
 
+import java.util.List;
+
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 public class GBL {
 	private Integer seq;
 
@@ -34,6 +38,8 @@ public class GBL {
 	private String originCity;
 
 	private String milSVC;
+
+	private Integer gblFileNo;
 
 	public String getNo() {
 		return no;
@@ -259,6 +265,14 @@ public class GBL {
 		this.originCity = originCity;
 	}
 
+	public Integer getGblFileNo() {
+		return gblFileNo;
+	}
+
+	public void setGblFileNo(Integer gblFileNo) {
+		this.gblFileNo = gblFileNo;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -285,5 +299,44 @@ public class GBL {
 				.append(" ;\noriginCity : ").append(originCity)
 				.append(" ;\nmilSVC : ").append(milSVC).append(" ]");
 		return builder.toString();
+	}
+
+	/**
+	 * Files to upload
+	 */
+	private CommonsMultipartFile attachments[];
+
+	/**
+	 * Files already uploaded
+	 */
+	private List<GBLAttachment> attachmentList;
+
+	/**
+	 * 
+	 */
+	private Integer deleteAttachments[];
+
+	public CommonsMultipartFile[] getAttachments() {
+		return attachments;
+	}
+
+	public void setAttachments(CommonsMultipartFile[] attachments) {
+		this.attachments = attachments;
+	}
+
+	public List<GBLAttachment> getAttachmentList() {
+		return attachmentList;
+	}
+
+	public void setAttachmentList(List<GBLAttachment> attachmentList) {
+		this.attachmentList = attachmentList;
+	}
+
+	public Integer[] getDeleteAttachments() {
+		return deleteAttachments;
+	}
+
+	public void setDeleteAttachments(Integer[] deleteAttachments) {
+		this.deleteAttachments = deleteAttachments;
 	}
 }

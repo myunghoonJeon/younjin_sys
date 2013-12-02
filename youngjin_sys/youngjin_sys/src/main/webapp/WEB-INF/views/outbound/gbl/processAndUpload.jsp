@@ -33,7 +33,7 @@
 		<div class="gbl_process">
 			<ul>
 				<li style="background-color: #4D8E58; ">GBL INPUT</li>
-				<li style="background-color: ${process.preperation eq 0 ? '#FFD455' : 'white'};">GBL PREPERATION</li>
+				<li class="gbl_process_preperation" style="background-color: ${process.preperation eq 0 ? '#FFD455' : 'white'};">GBL PREPERATION</li>
 				<li style="background-color: ${process.preperation eq 1 and process.delivery eq 0 ? '#FFD455' : 'white' };">GBL DELIVERY</li>
 				<li style="background-color: ${process.delivery eq 1 and process.invoice eq 0 ? '#FFD455' : 'white' };">GBL INVOICE</li>
 			</ul>
@@ -55,22 +55,36 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>						
-						<td>GBL 관련 전체문서</td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>GBL 관련 추가문서</td>
-						<td></td>
-						<td></td>
+					<c:if test="${fileList eq '[]' }">
+						<tr>
+							<td colspan="4">등록된 파일이 없습니다.</td>
+						</tr>
+					</c:if>
+					<c:forEach var="file" items="${fileList }" varStatus="i">
+						<c:choose>
+							<c:when test="${file.gblFileNo eq 1 }">
+								<tr>
+									<td>${i.count }</td>						
+									<td>GBL 관련 전체문서</td>
+									<td>${file.gblUpdateDate }</td>
+									<td></td>
+								</tr>
+							</c:when>
+							<c:when test="${file.gblFileNo eq 2 }">
+								<tr>
+									<td>${i.count }</td>
+									<td>GBL 관련 추가문서</td>
+									<td>${file.gblUpdateDate }</td>
+									<td></td>
+								</tr>
+							</c:when>
+						</c:choose>
+					</c:forEach>
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="4">
-							<input type="button" value="Document Upload" />
+						<td id="upload_tfoot" colspan="4" data-seq="${seq }">
+							<input class="document_upload_button" type="button" value="Document Upload" />
 							<input type="button" value="Print" />
 						</td>
 					</tr>

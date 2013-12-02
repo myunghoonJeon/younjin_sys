@@ -31,6 +31,10 @@ youngjin.top.form = function(){
 		y = event.clientY - offset.top;
 		
 		var win = window.open(contextPath + '/form/', 'form_pop', 'width=350, height=180, status=no, scrollbars=no');
+		win.screenX = x;
+		win.screenY = y;
+		win.top = x;
+		win.left = y;
 		
 		event.preventDefault();
 		return false;

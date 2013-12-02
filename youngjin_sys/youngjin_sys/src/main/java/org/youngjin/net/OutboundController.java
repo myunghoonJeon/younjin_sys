@@ -114,9 +114,29 @@ public class OutboundController {
 	public String gblSelect(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
 		
-		model.addAttribute("process", outboundService.getGblProcessAndUpload(seq));
+		model.addAttribute("process", outboundService.getGblProcessAndUpload(Integer.parseInt(seq)));
+		model.addAttribute("seq", seq);
+		model.addAttribute("fileList", outboundService.getGblFileList(Integer.parseInt(seq)));
 		
 		return process + "/gbl/processAndUpload";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/upload", method = RequestMethod.GET) 
+	public String gblSelectUplaod(Model model, User user,
+			@PathVariable String process, @PathVariable String seq, @ModelAttribute(value="gbl") GBL gbl){
+		
+			model.addAttribute("seq", seq);
+		return process + "/gbl/upload";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/upload", method = RequestMethod.POST) 
+	public void gblSelectUplaodPost(Model model, User user,
+			@PathVariable String process, @PathVariable String seq, @ModelAttribute(value="gbl") GBL gbl){
+		
+			model.addAttribute("seq", seq);
+			outboundService.insertGblFile(gbl);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")

@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.youngjin.net.GBL;
+import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.process.GBlock;
@@ -41,8 +42,20 @@ public class OutboundDao extends SqlSessionDaoSupport {
 		
 	}
 
-	public GBLStatus getGblProcess(String seq) {
+	public GBLStatus getGblProcess(Integer seq) {
 		return getSqlSession().selectOne("outboundMapper.getGblProcess", seq);
+	}
+
+	public GBL getGbl(Integer seq) {
+		return getSqlSession().selectOne("outboundMapper.getGbl", seq);
+	}
+
+	public void insertAttachment(GBLAttachment gblAttachment) {
+		getSqlSession().insert("outboundMapper.insertAttachment", gblAttachment);		
+	}
+
+	public List<GBLAttachment> getGblFileList(Integer seq) {
+		return getSqlSession().selectList("outboundMapper.getGblFileList", seq);
 	}
 	
 }

@@ -25,6 +25,17 @@
 	<result column="gbl_process" property="process" />
 </resultMap>
 
+<resultMap type="GBLAttachment" id="GBLAttachmentMap">
+	<result column="seq" property="seq"/>
+	<result column="gbl_no" property="gblNo"/>
+	<result column="file_name" property="fileName"/>
+	<result column="file_path" property="filePath"/>
+	<result column="file_extension" property="fileExtension"/>
+	<result column="file_size" property="fileSize"/>
+	<result column="gbl_file_no" property="gblFileNo"/>
+	<result column="gbl_update_date" property="gblUpdateDate"/>
+</resultMap>
+
 <select id="getGblListCount" parameterType="OutboundFilter" resultType="Integer">
 	SELECT
 		count(*)
@@ -101,6 +112,24 @@
 	WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
 </select>
 
+<select id="getGbl" parameterType="Integer" resultMap="GblMap">
+	SELECT
+		g.seq,
+		g.no,
+		g.pud,
+		g.rank,
+		g.code,
+		g.scac,
+		g.customer_name,
+		g.area,
+		g.us_no,
+		g.dest_port
+	FROM
+		gbl g
+	WHERE
+		g.seq = #{seq}
+</select>
+
 <select id="getCarrierList" resultType="Code">
 	SELECT DISTINCT
 		scac AS subCode
@@ -115,13 +144,22 @@
 		gbl	
 </select>
 
-<select id="getGblProcess" parameterType="String" resultMap="StatusMap">
+<select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">
 	SELECT
 		gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_invoice, gbl_arrival, gbl_process
 	FROM
 		gbl_status
 	WHERE
-		gbl_no = (select no from gbl where seq = #{seq})
+		gbl_no = (select no from gbl where seq = #{value})
+</select>
+
+<select id="getGblFileList" parameterType="Integer" resultMap="GBLAttachmentMap">
+	SELECT
+		seq, gbl_no, file_name, file_path, file_extension, file_size, gbl_file_no, gbl_update_date
+	FROM
+		gbl_attachments
+	WHERE
+		gbl_no = (select no from gbl where seq = ${value})
 </select>
 
 <insert id="insertGbl" parameterType="GBL">
@@ -145,6 +183,18 @@
 	VALUES
 		(
 			#{no}, 1, 0, 0, 0, 0, 0
+		)
+</insert>
+
+<insert id="insertAttachment" parameterType="GBLAttachment">
+	INSERT INTO
+		gbl_attachments
+		(
+			gbl_no, file_name, file_path, file_extension, file_size, gbl_file_no, gbl_update_date
+		)
+	VALUES
+		(
+			#{gblNo}, #{fileName}, #{filePath}, #{fileExtension}, #{fileSize}, #{gblFileNo}, SYSDATE()
 		)
 </insert>
 </mapper>

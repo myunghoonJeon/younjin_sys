@@ -9,5 +9,6 @@
 		<typeAlias alias="GBlock" type="org.youngjin.net.process.GBlock"/>
 		<typeAlias alias="OutboundFilter" type="org.youngjin.net.outbound.OutboundFilter"/>
 		<typeAlias alias="GBLStatus" type="org.youngjin.net.GBLStatus"/>
+		<typeAlias alias="GBLAttachment" type="org.youngjin.net.GBLAttachment"/>
 	</typeAliases>
 </configuration>

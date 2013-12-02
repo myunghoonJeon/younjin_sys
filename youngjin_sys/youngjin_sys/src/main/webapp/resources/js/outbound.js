@@ -67,6 +67,20 @@ youngjin.outbound.sync = function(){
 		youngjin.outbound.getGblProcess($(this));
 	});
 	
+	$('.gbl_process_preperation').unbind('click');
+	$('.gbl_process_preperation').bind('click', function(){
+		
+	});
+	
+	$('.document_upload_button').unbind('click');
+	$('.document_upload_button').bind('click', function(event){
+		youngjin.outbound.uploadPage($(this));
+	});
+	
+	$('#uploadBtn').unbind('click');
+	$('#uploadBtn').bind('click', function(){
+		youngjin.outbound.uploadSubmit();
+	});
 };
 
 youngjin.outbound.findUsNo = function(target){
@@ -103,8 +117,25 @@ youngjin.outbound.getGblProcess = function(target){
 	
 	$.smartPop.open({
 		width : 900,
-		height : 600,
+		height : 400,
 		url : url
 	});			
 	
+};
+
+youngjin.outbound.uploadPage = function(target){
+	var parent = target.parents();
+	var seq = parent.attr('data-seq');
+	var url = contextPath + '/outbound/' + seq + '/upload';
+	
+	window.open(url, 'uploadPop', 'width=350, height=180, status=no, scrollbars=no');
+};
+
+youngjin.outbound.uploadSubmit = function(){
+	var form = $('form#gbl');
+	var seq = $('#uploadBtn').attr('data-seq');
+	
+	form.submit();	
+
+	window.opener.location.href = contextPath + '/outbound/' + seq;
 };
