@@ -18,6 +18,7 @@ import org.youngjin.net.login.User;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.process.GBlock;
+import org.youngjin.net.upload.DownloadView;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_NORMAL')")
@@ -39,6 +40,7 @@ public class OutboundController {
 
 		model.addAttribute("gblList",
 				outboundService.getGblList(outboundFilter));
+		model.addAttribute("gblStatus", outboundService.getGblStatus(outboundFilter));
 		model.addAttribute("user", user);
 
 		return process + "/gbl/list";
@@ -138,12 +140,40 @@ public class OutboundController {
 			model.addAttribute("seq", seq);
 			outboundService.insertGblFile(gbl);
 	}
-
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/preperation", method = RequestMethod.GET) 
+	public String gblPreperation(Model model, User user,
+			@PathVariable String process, @PathVariable String seq){
+		
+			model.addAttribute("seq", seq);
+			
+			return process + "/gbl/preperation";			
+	}
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/findUsNo.json", method = RequestMethod.POST)
 	@ResponseBody
 	public GBlock findUsNo(@RequestBody GBlock gBlock) {
 
 		return outboundService.findUsNo(gBlock);
+	}
+
+	@Resource
+	private DownloadView downloadView;
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/file/{seq}/{flag}")
+	public DownloadView pdfDownView(Model model, @PathVariable String seq,
+			@PathVariable String process, @PathVariable String flag) {
+		GBLAttachment gblAttachment = outboundService.getFileInfo(seq, flag);
+
+		GBLAttachment attachment = new GBLAttachment();
+		attachment.setFilePath(gblAttachment.getFilePath());
+		attachment.setFileName(gblAttachment.getFileName() + ".pdf");
+
+		model.addAttribute("attachment", attachment);
+
+		return downloadView;
 	}
 }

@@ -11,7 +11,7 @@ youngjin.outbound.sync = function(){
 	$('.gbl_addButton').bind('click', function(){
 		var url = contextPath + '/outbound/add/';
 		$.smartPop.open({
-			width : 400,
+			width : 900,
 			height : 500,
 			url : url
 		});				
@@ -69,12 +69,17 @@ youngjin.outbound.sync = function(){
 	
 	$('.gbl_process_preperation').unbind('click');
 	$('.gbl_process_preperation').bind('click', function(){
-		
+		youngjin.outbound.preperationPop($(this));
 	});
 	
 	$('.document_upload_button').unbind('click');
 	$('.document_upload_button').bind('click', function(event){
 		youngjin.outbound.uploadPage($(this));
+	});
+	
+	$('.document_view').unbind('click');
+	$('.document_view').bind('click', function(){
+		youngjin.outbound.fileView();
 	});
 	
 	$('#uploadBtn').unbind('click');
@@ -133,9 +138,31 @@ youngjin.outbound.uploadPage = function(target){
 
 youngjin.outbound.uploadSubmit = function(){
 	var form = $('form#gbl');
-	var seq = $('#uploadBtn').attr('data-seq');
+	var seq = $('#uploadBtn').attr('data-seq');		
 	
 	form.submit();	
 
 	window.opener.location.href = contextPath + '/outbound/' + seq;
+};
+
+youngjin.outbound.fileView = function(){
+	var target = $('input[name=selectFileList]:checked');
+	
+	var parent = target.parents();
+	var seq = target.val();
+	var no = parent.parents('.selectFileTr').attr('data-no');
+	
+	location.href= contextPath + '/outbound/file/' + seq + '/' + no + '/';	
+};
+
+youngjin.outbound.preperationPop = function(target){
+	x = screen.width / 4 - 150;
+	y = screen.height / 4 - 100;
+	
+	var seq = target.parents().parents('.gbl_process').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/preperation';
+	
+	window.open(url, 'preperationPop', 'width=350, height=600, screenX=' + x + ',screenY=' + y + ', status=no, scrollbars=no');
+	
 };

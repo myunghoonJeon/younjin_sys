@@ -25,6 +25,9 @@ public class ControllerAspect {
 	@Around("bean(*Controller)")
 	public Object trace(ProceedingJoinPoint joinPoint) throws Throwable {
 		String signatureString = joinPoint.getSignature().toShortString();
+		
+		Boolean processCheck = false;
+		
 		logger.info(signatureString + " 시작");
 		long start = System.currentTimeMillis();
 
@@ -57,8 +60,10 @@ public class ControllerAspect {
 					if (annotations[0].annotationType() == ModelAttribute.class
 							|| annotations[0].annotationType() == RequestBody.class || annotations[0].annotationType() == PathVariable.class) {
 						newParmSkip[i] = true;
-						if ( annotations[0].annotationType() == PathVariable.class){
+						if ( annotations[0].annotationType() == PathVariable.class && processCheck != true){
+							
 							user.setProcess((String)param[i]);
+							processCheck = true;
 						}
 					}
 				} else {

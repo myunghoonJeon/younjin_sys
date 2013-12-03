@@ -129,4 +129,20 @@ public class OutboundService {
 		return outboundDao.getGblFileList(seq);
 	}
 
+	public GBLAttachment getFileInfo(String seq, String flag) {
+		Map<String, String> filter = new HashMap<String, String>(); 
+		filter.put("seq", seq);
+		filter.put("flag", flag);
+		
+		return outboundDao.getFileInfo(filter);
+	}
+
+	public Map<String, GBLStatus> getGblStatus(OutboundFilter outboundFilter) {
+		Map<String, GBLStatus> gblStatusMap = new HashMap<String, GBLStatus>();
+		
+		//List<GBLStatus> gblStatusList = outboundDao.getGblStatus(outboundFilter);
+		
+		return gblStatusMap;
+	}
+
 }

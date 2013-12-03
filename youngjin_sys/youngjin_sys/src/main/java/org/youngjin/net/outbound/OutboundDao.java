@@ -1,6 +1,7 @@
 package org.youngjin.net.outbound;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -56,6 +57,14 @@ public class OutboundDao extends SqlSessionDaoSupport {
 
 	public List<GBLAttachment> getGblFileList(Integer seq) {
 		return getSqlSession().selectList("outboundMapper.getGblFileList", seq);
+	}
+
+	public GBLAttachment getFileInfo(Map<String, String> filter) {
+		return getSqlSession().selectOne("outboundMapper.getFileInfo", filter);
+	}
+
+	public List<GBLStatus> getGblStatus(OutboundFilter outboundFilter) {
+		return getSqlSession().selectList("outboundMapper.getGblStatus", outboundFilter);
 	}
 	
 }

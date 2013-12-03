@@ -41,7 +41,9 @@
 			<form:select path="branch">
 				<form:option value="">All</form:option>
 				<c:forEach var="branch" items="${branchList }">
-					<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
+					<c:if test="${branch.codeName ne 'None' }" >
+						<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
+					</c:if>
 				</c:forEach>
 			</form:select>
 			<form:select path="carrier">
@@ -82,11 +84,11 @@
 	<div>
 		<table class="yj_table">
 			<colgroup>
-				<c:if test="${outboundFilter.code eq '' }">
+				<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null }">
 					<col width="5%" />
 				</c:if>
 				<col width="8%" />
-				<c:if test="${outboundFilter.carrier eq '' }">
+				<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
 					<col width="5%" />
 				</c:if>
 				<col width="12%" />
@@ -96,7 +98,7 @@
 				<col width="5%" />
 				<col width="5%" />
 				<col width="10%" />
-				<c:if test="${outboundFilter.branch eq '' }">
+				<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
 					<col width="5%" />
 				</c:if>
 				<col width="10%" />
@@ -121,11 +123,11 @@
 			</tfoot>
 			<thead>
 				<tr>
-					<c:if test="${outboundFilter.code eq '' }">
+					<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null}">
 						<th>CODE</th>
 					</c:if>
 					<th>PUD</th>
-					<c:if test="${outboundFilter.carrier eq '' }">
+					<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
 						<th>SCAC</th>
 					</c:if>
 					<th>GBL_NO</th>
@@ -135,7 +137,7 @@
 					<th>LBS</th>
 					<th>CUFT</th>
 					<th>US_NO</th>
-					<c:if test="${outboundFilter.branch eq '' }">
+					<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
 						<th>BRANCH</th>
 					</c:if>
 					<th>DEST_PORT</th>
@@ -151,13 +153,13 @@
 					<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
 					<c:set var="pud" value="${parsePud }" />
 					<tr class="gbl_list" data-seq="${gbl.seq }">
-						<c:if test="${outboundFilter.code eq '' }">
+						<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null }">
 							<td>${gbl.code }</td>
 						</c:if>
 						<td>
 							${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }
 						</td>
-						<c:if test="${outboundFilter.carrier eq '' }">
+						<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
 							<td>${gbl.scac }</td>
 						</c:if>
 						<td>${gbl.no }</td>
@@ -167,7 +169,7 @@
 						<td></td>
 						<td></td>
 						<td>${gbl.usNo }</td>
-						<c:if test="${outboundFilter.branch eq '' }">
+						<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
 							<td>${gbl.areaLocal }</td>
 						</c:if>
 						<td>${gbl.destPort }</td>

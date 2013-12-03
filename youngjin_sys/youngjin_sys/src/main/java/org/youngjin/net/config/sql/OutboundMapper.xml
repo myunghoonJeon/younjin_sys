@@ -162,6 +162,21 @@
 		gbl_no = (select no from gbl where seq = ${value})
 </select>
 
+<select id="getFileInfo" parameterType="Map" resultMap="GBLAttachmentMap">
+	SELECT
+		seq, gbl_no, file_name, file_path, file_extension, file_size, gbl_file_no, gbl_update_date
+	FROM
+		gbl_attachments
+	WHERE
+		seq = #{seq}
+	AND
+		gbl_file_no = #{flag}
+</select>
+
+<select id="getGblStatus" parameterType="OutboundFilter" resultMap="StatusMap">
+	
+</select>
+
 <insert id="insertGbl" parameterType="GBL">
 	INSERT INTO
 		gbl

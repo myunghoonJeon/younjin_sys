@@ -40,81 +40,65 @@
 				<th>GBL NO</th>
 				<td><form:input path="no" />
 				<br><form:errors path="no" /></td>
-			</tr>
-			<tr>
 				<th>NAME</th>
-				<td><form:input path="customerName" /> </td>
+				<td><form:input path="customerName"/></td>
 			</tr>
 			<tr>
 				<th>RANK</th>
 				<td><form:input path="rank" /> </td>
-			</tr>
-			<tr>
 				<th>GBL CODE</th>
 				<td><form:input path="code" /> </td>
 			</tr>
 			<tr>
 				<th>SCAC</th>
 				<td><form:input path="scac" /> </td>
-			</tr>
-			<tr>
 				<th>ORIGIN GBLOCK</th>
 				<td><form:input path="originGBlock" /> </td>
 			</tr>
 			<tr>
 				<th>DEST GBLOCK</th>
 				<td><form:input path="destGBlock" /> </td>
-			</tr>
-			<tr>
 				<th>PUD</th>
 				<td><form:input path="pud" /> </td>
 			</tr>
 			<tr>
 				<th>SSN</th>
 				<td><form:input path="ssn" /> </td>
-			</tr>
-			<tr>
 				<th>RDD</th>
 				<td><form:input path="rdd" /> </td>
 			</tr>
 			<tr>
 				<th>POD</th>
 				<td><form:input path="pod" /> </td>
-			<tr>
-			<tr>
 				<th>POE</th>
 				<td><form:input path="poe" /> </td>
+			</tr>
 			<tr>
 				<th>AREA</th>
 				<td><form:input path="areaLocal" /> </td>
-			</tr>
-			<tr>
 				<th>ADDRESS</th>
 				<td><form:input path="originAddress" /> </td>
 			</tr>
 			<tr>
 				<th>US NO</th>
 				<td><form:input path="usNo" /> </td>
-			</tr>
-			<tr>
 				<th>DEST PORT</th>
 				<td><form:input path="destPort" /> </td>
 			</tr>
 			<tr>
 				<th>ORIGIN PORT</th>
 				<td><form:input path="originPort" /> </td>
-			</tr>
-			<tr>
 				<th>ORIGIN CITY </th>
 				<td><form:input path="originCity" /> </td>
 			</tr>
 			<tr>
 				<th>MIL SVC</th>
 				<td><form:input path="milSVC" /></td>
+				<th colspan="2" style="background: none;"></th>
 			</tr>
 			<tfoot>
 				<tr>
-					<td colspan="2"><input class="gbl_add_submit_button" type="button" value="add"/></td>
+					<td colspan="4"><input class="gbl_add_submit_button" type="button" value="add"/></td>
 				</tr>
 			</tfoot>
 		</table>

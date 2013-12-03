@@ -17,6 +17,9 @@ public class UploadServiceImpl implements UploadService {
 			path += paths[i] + "/";
 	    }
 		
+		//로컬전용
+		//path = "C:/Users/sunmin/Documents/GIT/youngjin_system/youngjin_sys/youngjin_sys/src/main/webapp/resources/file/";
+		
 		//랜덤 경로 생성: 이미 없는 경로를 만든다.
 		String randomPath = null;
 		while (randomPath == null) {

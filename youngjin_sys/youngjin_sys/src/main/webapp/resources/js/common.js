@@ -26,18 +26,10 @@ youngjin.top.form = function(){
 	
 	$('.top_menu_form').unbind('click');
 	$('.top_menu_form').bind('click', function(event){
-		var offset = $(this).offset();
-		x = event.clientX - offset.left;
-		y = event.clientY - offset.top;
+		x = screen.width / 2 - 150;
+		y = screen.height / 2 - 100;
 		
-		var win = window.open(contextPath + '/form/', 'form_pop', 'width=350, height=180, status=no, scrollbars=no');
-		win.screenX = x;
-		win.screenY = y;
-		win.top = x;
-		win.left = y;
-		
-		event.preventDefault();
-		return false;
+		var win = window.open(contextPath + '/form/', 'form_pop', 'width=350, height=180, screenX=' + x + ',screenY=' + y + ', status=no, scrollbars=no');
 	});
 };
 

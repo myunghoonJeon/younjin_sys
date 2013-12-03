@@ -30,7 +30,7 @@
 </head>
 <body>
 	<div class="gbl_process_and_upload_div">
-		<div class="gbl_process">
+		<div class="gbl_process" data-seq="${seq}">
 			<ul>
 				<li style="background-color: #4D8E58; ">GBL INPUT</li>
 				<li class="gbl_process_preperation" style="background-color: ${process.preperation eq 0 ? '#FFD455' : 'white'};">GBL PREPERATION</li>
@@ -63,19 +63,19 @@
 					<c:forEach var="file" items="${fileList }" varStatus="i">
 						<c:choose>
 							<c:when test="${file.gblFileNo eq 1 }">
-								<tr>
+								<tr class="selectFileTr" data-no="1">
 									<td>${i.count }</td>						
 									<td>GBL 관련 전체문서</td>
 									<td>${file.gblUpdateDate }</td>
-									<td></td>
+									<td><input type="radio" value="${file.seq }" name="selectFileList"></td>
 								</tr>
 							</c:when>
 							<c:when test="${file.gblFileNo eq 2 }">
-								<tr>
+								<tr class="selectFileTr" data-no="2">
 									<td>${i.count }</td>
 									<td>GBL 관련 추가문서</td>
 									<td>${file.gblUpdateDate }</td>
-									<td></td>
+									<td><input type="radio" value="${file.seq }" name="selectFileList"></td>
 								</tr>
 							</c:when>
 						</c:choose>
@@ -85,7 +85,7 @@
 					<tr>
 						<td id="upload_tfoot" colspan="4" data-seq="${seq }">
 							<input class="document_upload_button" type="button" value="Document Upload" />
-							<input type="button" value="Print" />
+							<input class="document_view" type="button" value="Document Download" />
 						</td>
 					</tr>
 				</tfoot>
