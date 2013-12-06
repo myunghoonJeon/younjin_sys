@@ -62,6 +62,7 @@
 ;(function($) {
     var ie     = $.browser.msie && ($.browser.version < 9);
     var innerH  = window.innerHeight;
+    var flag = true;
     
     $.smartPop = {
         isInstall : false,
@@ -76,7 +77,11 @@
             $('#smartPop').show();
             if(this.opts.log) $('#smartPop_log').show();
         },
-        resize : function() {
+        resize : function(heightSize) {
+        	if( heightSize != undefined ){
+        		this.opts.height = heightSize;
+        	}
+        	
             this.log(this.opts.width + ' x ' + this.opts.height);
             this.log('background : ' + this.opts.background);
             this.log('padding : ' + this.opts.padding);
@@ -92,6 +97,7 @@
             $('#smartPop_content').css({ padding: this.opts.padding + 'px' });
             $('#smartPop_container').width(this.opts.width);
             $('#smartPop_close_wrap').width(this.opts.width);
+            
             this.resizeHeight(this.opts.height);
         },
         resizeHeight : function(h) {
@@ -110,7 +116,7 @@
             } else {
                 $('#smartPop_container').css({ marginLeft: this.opts.left + 'px', marginTop: this.opts.top + 'px' });
             }
-
+            
             // 높이설정
             $('#smartPop_container').height(h);
             if(this.opts.url == '') {
@@ -149,9 +155,11 @@
             if(this.opts.closeImg != undefined) {
                 $('#smartPop_close').css({ width:this.opts.closeImg.width + 'px', height:this.opts.closeImg.height + 'px', backgroundImage:'url(' + this.opts.closeImg.src + ')'});
             }
-            if(this.opts.url != '') {
+            
+
+            if(this.opts.url != '' ) {
                 $('#smartPop_frame').attr({ src : this.opts.url }).load(function () {
-                    var h = $(this).contents().height();
+                	var h = $(this).contents().height();
                     $.smartPop.resizeHeight(h);
                 });
             }
@@ -177,6 +185,7 @@
             $('#smartPop_close').click(function() {
                 $.smartPop.close();
             });
+            
         },
         close : function() {
             if(ie) {
@@ -208,6 +217,10 @@
         log : function(msg) {
             var log = $('#smartPop_log').html();
             $('#smartPop_log').html(msg + '<br />' + log);
+        },
+        
+        resizeNextStep : function(url, height){
+        	flag = false;
         }
     };
     

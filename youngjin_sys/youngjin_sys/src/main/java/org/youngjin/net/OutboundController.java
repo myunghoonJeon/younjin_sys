@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.login.User;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
+import org.youngjin.net.outbound.PreMoveSurvey;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.upload.DownloadView;
 
@@ -142,13 +143,38 @@ public class OutboundController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
-	@RequestMapping(value = "/{process}/{seq}/preperation", method = RequestMethod.GET) 
-	public String gblPreperation(Model model, User user,
+	@RequestMapping(value = "/{process}/{seq}/preparation", method = RequestMethod.GET) 
+	public String gblPreparation(Model model, User user,
 			@PathVariable String process, @PathVariable String seq){
 		
 			model.addAttribute("seq", seq);
 			
-			return process + "/gbl/preperation";			
+			return process + "/gbl/preparation";			
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/preMoveSurvey", method = RequestMethod.GET) 
+	public String gblPreMoveSurvey(Model model, User user,
+			@PathVariable String process, @PathVariable String seq){
+		
+			model.addAttribute("seq", seq);
+			model.addAttribute("preMoveSurvey", outboundService.getPreMoveSurvey(Integer.parseInt(seq)));			
+			
+			return process + "/gbl/preMoveSurvey";			
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/preMoveSurveySubmit.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblPreMoveSurveySubmit(@RequestBody PreMoveSurvey preMoveSurvey, @PathVariable String seq) {
+		outboundService.insertPreMoveSurvey(preMoveSurvey);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/preMoveSurveyEditSubmit.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblPreMoveSurveyEditSubmit(@RequestBody PreMoveSurvey preMoveSurvey, @PathVariable String seq) {
+		outboundService.updatePreMoveSurvey(preMoveSurvey);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")

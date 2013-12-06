@@ -106,10 +106,24 @@
 .gbl_process_and_upload_div{ background-color: white; width: 100%; height: 100%; }
 .gbl_process{ width: 100%; height : 360px; border-bottom: 1px solid black;}
 .gbl_process ul{ width: 100%; height: 80%; margin: 0 auto; }
-.gbl_process ul li{float: left; width: 130px; height: 290px; border: 1px solid black; margin-left: 75px; margin-top: 30px;   }
+.gbl_process ul li{float: left; width: 130px; height: 290px; border: 1px solid black; margin-left: 75px; margin-top: 30px; cursor: pointer;   }
 
 .gbl_upload{ height : 240px;}
 .gbl_upload table{ width: 80%; margin: 0 auto; margin-top: 70px;  }
 .gbl_upload table thead tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; }
 .gbl_upload table tbody tr td{ text-align: center; padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; }
 #upload_tfoot{  text-align: right; }
+
+/* GBL Preparation */
+.gbl_preparation_div{ width : 100%; height: 100%; background-color: white;}
+.gbl_preparation_list{width: 80%; height: 500px; margin: 0 auto;}
+.gbl_preparation_list li { vertical-align: middle; width : 100%; height: 15%; border: 1px solid black; margin: 21px 0; cursor: pointer; }
+
+
+/* Pre_Move_Survey */
+.pre_move_survey_wrap{ width: 100%; height: 100%; bacground-color: white;}
+.pre_move_survey_table{ width: 70%; height: 300px; margin: 15px auto;}
+.pre_move_survey_table tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; vertical-align: middle;}
+.pre_move_survey_table tr td{ text-align: center; padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; vertical-align: middle; }
+.pre_move_survey_table tfoot tr td{ border: none; text-align: right;}
+

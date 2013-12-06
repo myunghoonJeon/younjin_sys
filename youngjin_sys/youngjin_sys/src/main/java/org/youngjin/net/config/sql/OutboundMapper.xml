@@ -36,6 +36,17 @@
 	<result column="gbl_update_date" property="gblUpdateDate"/>
 </resultMap>
 
+<resultMap type="PreMoveSurvey" id="PreMoveSurveyMap">
+	<result column="seq" property="seq"/>
+	<result column="estimate_weight" property="estimateWeight"/>
+	<result column="special_item" property="specialItem"/>
+	<result column="es_container" property="esContainer"/>
+	<result column="third_party" property="thirdParty"/>
+	<result column="fire_arms" property="fireArms"/>
+	<result column="remark" property="remark"/>
+	<result column="gbl_seq" property="gblSeq"/>
+</resultMap> 
+
 <select id="getGblListCount" parameterType="OutboundFilter" resultType="Integer">
 	SELECT
 		count(*)
@@ -177,6 +188,15 @@
 	
 </select>
 
+<select id="getPreMoveSurvey" parameterType="Integer" resultMap="PreMoveSurveyMap">
+	SELECT
+		seq, estimate_weight, special_item, es_container, third_party, fire_arms, remark, gbl_seq
+	FROM
+		pre_move_survey
+	WHERE
+		gbl_seq = #{seq}
+</select>
+
 <insert id="insertGbl" parameterType="GBL">
 	INSERT INTO
 		gbl
@@ -212,4 +232,42 @@
 			#{gblNo}, #{fileName}, #{filePath}, #{fileExtension}, #{fileSize}, #{gblFileNo}, SYSDATE()
 		)
 </insert>
+
+<insert id="insertPreMoveSurvey" parameterType="PreMoveSurvey">
+	INSERT INTO
+		pre_move_survey
+		(
+			estimate_weight,
+			special_item,
+			es_container,
+			third_party,
+			fire_arms,
+			remark,
+			gbl_seq
+		)
+	VALUES
+		(
+			#{estimateWeight},
+			#{specialItem},
+			#{esContainer},
+			#{thirdParty},
+			#{fireArms},
+			#{remark},
+			#{gblSeq}
+		)
+</insert>
+
+<update id="updatePreMoveSurvey" parameterType="PreMoveSurvey">
+	UPDATE
+		pre_move_survey
+	SET
+		estimate_weight = #{estimateWeight},
+		special_item = #{specialItem},
+		es_container = #{esContainer},
+		third_party = #{thirdParty},
+		fire_arms = #{fireArms},
+		remark = #{remark}
+	WHERE
+		gbl_seq = #{gblSeq}
+</update>
 </mapper>

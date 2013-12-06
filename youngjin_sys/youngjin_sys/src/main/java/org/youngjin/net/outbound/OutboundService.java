@@ -145,4 +145,16 @@ public class OutboundService {
 		return gblStatusMap;
 	}
 
+	public void insertPreMoveSurvey(PreMoveSurvey preMoveSurvey) {
+		outboundDao.insertPreMoveSurvey(preMoveSurvey);
+	}
+
+	public PreMoveSurvey getPreMoveSurvey(Integer seq) {
+		return outboundDao.getPreMoveSurvey(seq);
+	}
+
+	public void updatePreMoveSurvey(PreMoveSurvey preMoveSurvey) {
+		outboundDao.updatePreMoveSurvey(preMoveSurvey);
+	}
+
 }

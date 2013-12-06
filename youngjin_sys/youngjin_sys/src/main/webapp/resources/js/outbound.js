@@ -13,8 +13,9 @@ youngjin.outbound.sync = function(){
 		$.smartPop.open({
 			width : 900,
 			height : 500,
-			url : url
-		});				
+			url : url,
+			name : '1'
+		});
 	});
 	
 	$('input#destGBlock').unbind('change');
@@ -86,6 +87,21 @@ youngjin.outbound.sync = function(){
 	$('#uploadBtn').bind('click', function(){
 		youngjin.outbound.uploadSubmit();
 	});
+	
+	$('.gbl_preparation_pre_move_survey').unbind('click');
+	$('.gbl_preparation_pre_move_survey').bind('click', function(){
+		youngjin.outbound.preMoveSurveyPop($(this));
+	});
+	
+	$('.preMoveSurveyAddButton').unbind('click');
+	$('.preMoveSurveyAddButton').bind('click', function(){
+		youngjin.outbound.preMoveSurveySubmit($(this));
+	});
+	
+	$('.preMoveSurveyEditButton').unbind('click');
+	$('.preMoveSurveyEditButton').bind('click', function(){
+		youngjin.outbound.preMoveSurveyEditSubmit($(this));
+	});
 };
 
 youngjin.outbound.findUsNo = function(target){
@@ -122,7 +138,7 @@ youngjin.outbound.getGblProcess = function(target){
 	
 	$.smartPop.open({
 		width : 900,
-		height : 400,
+		height : 671,
 		url : url
 	});			
 	
@@ -155,14 +171,122 @@ youngjin.outbound.fileView = function(){
 	location.href= contextPath + '/outbound/file/' + seq + '/' + no + '/';	
 };
 
-youngjin.outbound.preperationPop = function(target){
-	x = screen.width / 4 - 150;
-	y = screen.height / 4 - 100;
-	
+youngjin.outbound.preperationPop = function(target){	
 	var seq = target.parents().parents('.gbl_process').attr('data-seq');
 	
-	var url = contextPath + '/outbound/' + seq + '/preperation';
+	var url = contextPath + '/outbound/' + seq + '/preparation';
 	
-	window.open(url, 'preperationPop', 'width=350, height=600, screenX=' + x + ',screenY=' + y + ', status=no, scrollbars=no');
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 400,
+		height: 500,
+		url : url
+	});
 	
+	//window.open(url, 'preperationPop', 'width=350, height=600, screenX=' + x + ',screenY=' + y + ', status=no, scrollbars=no');
+	
+	//location.href = url;
+};
+
+youngjin.outbound.preMoveSurveyPop = function(target){	
+	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/preMoveSurvey';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 500,
+		height: 350,
+		url : url
+	});
+	
+	//window.open(url, 'preperationPop', 'width=350, height=600, screenX=' + x + ',screenY=' + y + ', status=no, scrollbars=no');
+	
+	//location.href = url;
+};
+
+youngjin.outbound.preMoveSurveySubmit = function(target){
+	var form = document.forms['preMoveSurvey'];
+	var seq = form.seq.value;	
+	var estimateWeight = form.estimateWeight.value;
+	var specialItem = form.specialItem.value;
+	var esContainer = form.esContainer.value;
+	var thirdParty = form.thirdParty.value;
+	var fireArms = form.fireArms.value;
+	var remark = form.remark.value;
+	
+	var url = contextPath + '/outbound/' + seq + '/preMoveSurveySubmit.json';
+	var json = {
+			'estimateWeight' : estimateWeight,
+			'specialItem' : specialItem,
+			'esContainer' : esContainer,
+			'thirdParty' : thirdParty,
+			'fireArms' : fireArms,
+			'remark' : remark,
+			'gblSeq' : seq
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success: function(){		
+				var beforeUrl = contextPath + '/outbound/' + seq + '/preparation';
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width: 500,
+					height: 350,
+					url : beforeUrl
+				});				
+			},
+			
+			error : function(){
+				alert("error!");
+			}
+		});		
+	});
+};
+
+youngjin.outbound.preMoveSurveyEditSubmit = function(target){
+	var form = document.forms['preMoveSurvey'];
+	var seq = form.seq.value;	
+	var estimateWeight = form.estimateWeight.value;
+	var specialItem = form.specialItem.value;
+	var esContainer = form.esContainer.value;
+	var thirdParty = form.thirdParty.value;
+	var fireArms = form.fireArms.value;
+	var remark = form.remark.value;
+	
+	var url = contextPath + '/outbound/' + seq + '/preMoveSurveyEditSubmit.json';
+	var json = {
+			'estimateWeight' : estimateWeight,
+			'specialItem' : specialItem,
+			'esContainer' : esContainer,
+			'thirdParty' : thirdParty,
+			'fireArms' : fireArms,
+			'remark' : remark,
+			'gblSeq' : seq
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success: function(){		
+				var beforeUrl = contextPath + '/outbound/' + seq + '/preparation';
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width: 500,
+					height: 350,
+					url : beforeUrl
+				});				
+			},
+			
+			error : function(){
+				alert("error!");
+			}
+		});		
+	});
 };
