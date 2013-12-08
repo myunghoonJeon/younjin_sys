@@ -11,5 +11,7 @@
 		<typeAlias alias="GBLStatus" type="org.youngjin.net.GBLStatus"/>
 		<typeAlias alias="GBLAttachment" type="org.youngjin.net.GBLAttachment"/>
 		<typeAlias alias="PreMoveSurvey" type="org.youngjin.net.outbound.PreMoveSurvey"/>
+		<typeAlias alias="Memorandum" type="org.youngjin.net.memorandum.Memorandum"/>
+		<typeAlias alias="Dd619" type="org.youngjin.net.Dd619"/>
 	</typeAliases>
 </configuration>

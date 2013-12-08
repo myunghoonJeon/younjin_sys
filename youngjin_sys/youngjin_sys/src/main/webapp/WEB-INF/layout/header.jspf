@@ -89,7 +89,7 @@
 		</c:if>
 		
 		<c:if test = "${user.process ne 'admin' and user.process ne 'gblock' }">
-			<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_NORMAL')">
+			<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')">
 				<div class="gblock_service_wrap">
 					GBLOCK
 				</div>

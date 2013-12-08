@@ -7,14 +7,15 @@ $(function() {
 });
 
 youngjin.outbound.sync = function(){
+	var eventString = webBrowserCheck() == 'C' ? 'keydown' : 'keypress';
+	
 	$('.gbl_addButton').unbind('click');
 	$('.gbl_addButton').bind('click', function(){
 		var url = contextPath + '/outbound/add/';
 		$.smartPop.open({
 			width : 900,
 			height : 500,
-			url : url,
-			name : '1'
+			url : url
 		});
 	});
 	
@@ -101,6 +102,46 @@ youngjin.outbound.sync = function(){
 	$('.preMoveSurveyEditButton').unbind('click');
 	$('.preMoveSurveyEditButton').bind('click', function(){
 		youngjin.outbound.preMoveSurveyEditSubmit($(this));
+	});
+	
+	$('.gbl_preparation_memorandum').unbind('click');
+	$('.gbl_preparation_memorandum').bind('click', function(){
+		youngjin.outbound.memorandum($(this));
+	});
+	
+	$('.memorandum_table tr').unbind('click');
+	$('.memorandum_table tr').bind('click', function(){
+		youngjin.outbound.memorandumPop($(this));
+	});
+	
+	$('.memorandum_back').unbind('click');
+	$('.memorandum_back').bind('click', function(){
+		youngjin.outbound.memorandumFormBack($(this));
+	});
+	
+	$('.memorandum_add').unbind('click');
+	$('.memorandum_add').bind('click', function(){
+		youngjin.outbound.memorandumAdd($(this));
+	});
+	
+	$('.memorandum_complete .yj_button').unbind('click');
+	$('.memorandum_complete .yj_button').bind('click', function(){
+		youngjin.outbound.memorandumBack($(this));
+	});
+	
+	$('.gbl_preparation_dd619_write').unbind('click');
+	$('.gbl_preparation_dd619_write').bind('click', function(){
+		youngjin.outbound.dd619Pop($(this));
+	});
+	
+	$('.dd619_addButton').unbind('click');
+	$('.dd619_addButton').bind('click', function(){
+		youngjin.outbound.dd619Add($(this));
+	});
+	
+	$('.dd619_add_submit_button').unbind('click');
+	$('.dd619_add_submit_button').bind('click', function(){
+		youngjin.outbound.dd619AddSubmit($(this));
 	});
 };
 
@@ -288,5 +329,275 @@ youngjin.outbound.preMoveSurveyEditSubmit = function(target){
 				alert("error!");
 			}
 		});		
+	});
+};
+
+youngjin.outbound.memorandum = function(target){
+	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/memorandum';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 600,
+		height: 350,
+		url : url
+	});
+	
+};
+
+youngjin.outbound.memorandumPop = function(target){	
+	var seq = $('.memorandum_table').attr('data-seq');
+	
+	var checkbox = target.children('.memorandum_type').children('input');
+	var type = checkbox.val();
+	
+	var url = contextPath + '/outbound/' + seq + '/memorandum/' + type;	
+	
+	if( type == '02' ){
+		var article = target.children('.memorandum_name').children('input');
+		
+		if(article.val() == '' || article.val() == null){
+			youngjin.outbound.sync();
+			article.focus();
+			return;
+		}
+		
+		url = contextPath + '/outbound/' + seq + '/memorandum/' + type + '/' + article.val();
+	}
+	
+	if( target.children('.memorandum_type').children('input').attr('checked') != 'checked'){
+		
+		checkbox.attr('checked', 'checked');
+		
+		parent.$.smartPop.close();
+	
+		parent.$.smartPop.open({
+			width: 594,
+			height: 841,
+			url : url
+		});	
+	} else {
+		if(confirm('선택을 해제 하시겠습니까?(yes : 해체 및 삭제)')){
+			if( type == '02'){
+				target.children('.memorandum_name').children('input').val('');
+				checkbox.removeAttr('checked');
+			} else {
+				checkbox.removeAttr('checked');				
+			}
+			
+			url = contextPath + '/outbound/' + seq + '/memorandum/' + type + '/delete.json';
+			
+			$.postJSON(url, {}, function(){
+				return jQuery.ajax({
+					error: function(){alert("에러 발생!");}
+				});
+			});
+		} else {
+			if(confirm('수정하시겠습니까?')){	
+				parent.$.smartPop.close();
+			
+				parent.$.smartPop.open({
+					width: 594,
+					height: 841,
+					url : url
+				});	
+			} else {
+				alert("취소 하였습니다.");
+			}
+		}
+	}
+};
+
+youngjin.outbound.memorandumFormBack = function(target){
+	var parents = target.parents().parents().parents().parents('.memorandum_form_content_wrap');
+	var seq = parents.attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/memorandum/';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 600,
+		height: 350,
+		url : url
+	});	
+};
+
+youngjin.outbound.memorandumAdd = function(target){
+	var parents = target.parents().parents().parents().parents('.memorandum_form_content_wrap');
+	var type = parents.attr('data-type');
+	var subject = $('#memorandum_subject').val();
+	var comment = $('#memorandum_comment').val();
+	var articleComment = $('#memorandum_article_comment').val();
+	var chiefOfOffice = $('#memorandum_chief_of_office').val();
+	var officeInfo = $('#memorandum_office_info').val();
+	var areaDirector = $('#memorandum_area_director').val();
+	var articles = $('#memorandum_articles').val();
+	var gblSeq = parents.attr('data-seq');
+	
+	if( articles == undefined || articles == '' || articles == null){
+		articles = '';
+	}
+	
+	var url = contextPath + '/outbound/' + gblSeq + '/memorandum/memorandumInput.json';
+	var json = {
+		'type' : type,
+		'subject' : subject,
+		'comment' : comment,
+		'articles' : articles,
+		'articleComment' : articleComment,
+		'chiefOfOffice' : chiefOfOffice,
+		'officeInfo' : officeInfo,
+		'areaDirector' : areaDirector,
+		'gblSeq' : gblSeq
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				var url = contextPath + '/outbound/' + gblSeq + '/memorandum/';
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width: 600,
+					height: 350,
+					url : url
+				});					
+			},
+			
+			error: function(){ alert ('에러 발생!'); }
+		});
+	});
+};
+
+youngjin.outbound.memorandumBack = function(target){
+	var seq = $('.memorandum_table').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/preparation';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 400,
+		height: 500,
+		url : url
+	});
+};
+
+youngjin.outbound.dd619Pop = function(target){
+	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/dd619List';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 900,
+		height: 400,
+		url : url
+	});
+	
+};
+
+youngjin.outbound.dd619Add = function(target){
+	var seq = target.parents('.dd619_list_wrap').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/dd619Add';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width : 700,
+		height : 900,
+		url : url
+	});
+};
+
+youngjin.outbound.dd619AddSubmit = function(target){
+	var table = target.parents().parents().parents().parents('.dd619_add_table');
+	var gblSeq = table.attr('data-seq');
+	var gblNo = $('#gblNo').val();
+	var date = $('#date').val();
+	var name = $('#name').val();
+	var ssn = $('#ssn').val();
+	var rank = $('#rank').val();
+	var originOfShipment = $('#originOfShipment').val();
+	var destination = $('#destination').val();
+	var orderingActivityName = $('#orderingActivityName').val();
+	var carrierName = $('#carrierName').val();
+	var agentName = $('#agentName').val();
+	var signature = $('#signature').val();
+	var carrierShipmentReference = $('#carrierShipmentReference').val();
+	var code = $('#code').val();
+	var other = $('#other1').val() + ',' + $('#other2').val() + ',' + $('#other3').val();
+	var total = $('#total1').val() + ',' + $('#total2').val() + ',' + $('#total3').val();
+	var officerMaterial = $('#officerMaterial').val();
+	var officerSignature = $('#officerSignature').val();
+	var officerDate = $('#officerDate').val();
+	var rankAndName = $('#rankAndName').val();
+	var transportationDate = $('#transportationDate').val();
+	var remark = $('#remark').val();
+	var writeUser = $('#writeUser').val();
+	
+	var url = contextPath + '/outbound/' + gblSeq + '/dd619/' + 'add.json';
+	var json = {
+		'gblSeq' : gblSeq,
+		'gblNo' : gblNo,
+		'date' : date,
+		'name' : name,
+		'ssn' : ssn,
+		'rank' : rank,
+		'originOfShipment' : originOfShipment,
+		'destination' : destination,
+		'orderingActivityName' : orderingActivityName,
+		'carrierName' : carrierName,
+		'agentName' : agentName,
+		'signature' : signature,
+		'carrierShipmentReference' : carrierShipmentReference,
+		'code' : code,
+		'other' : other,
+		'total' : total,
+		'officerMaterial' : officerMaterial,
+		'officerSignature' : officerSignature,
+		'officerDate' : officerDate,
+		'officerDate' : officerDate,
+		'rankAndName' : rankAndName,
+		'transportationDate' : transportationDate,
+		'remark' : remark,
+		'writeUser' : writeUser
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){				
+				var url = contextPath + '/outbound/' + gblSeq + '/dd619List';
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width: 900,
+					height: 400,
+					url : url
+				});
+				
+			}, 
+			error: function(){
+				alert('에러발생!');
+			}
+		});
+	});
+};
+
+youngjin.outbound.dd619Write = function(target){	
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 793.7,
+		height: 1122.5,
+		url : url
 	});
 };

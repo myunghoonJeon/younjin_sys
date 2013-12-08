@@ -15,4 +15,12 @@ public class CodeDao extends SqlSessionDaoSupport {
 	public List<Code> getAllAreaList() {
 		return getSqlSession().selectList("codeMapper.getCodeList", "01");
 	}
+
+	public List<Code> getCodeList(String mainCode) {
+		return getSqlSession().selectList("codeMapper.getCodeList", mainCode);
+	}
+
+	public Code getCode(Code code) {
+		return getSqlSession().selectOne("codeMapper.getCode", code);
+	}
 }

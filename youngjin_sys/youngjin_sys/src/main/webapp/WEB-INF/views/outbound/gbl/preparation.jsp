@@ -32,7 +32,8 @@
 	<div class="gbl_preparation_div">
 		<ul class="gbl_preparation_list" data-seq="${seq }">
 			<li class="gbl_preparation_pre_move_survey">PRE-MOVE-SURVEY</li>
-			<li>DD-619 WRITE</li>
+			<li class="gbl_preparation_memorandum">MEMORANDUM</li>
+			<li class="gbl_preparation_dd619_write">DD-619 WRITE</li>
 			<li>DD-619 DECIDE</li>
 			<li>WEIGHT-CERTIFICATE</li>
 			<li>COMPLETE</li>

@@ -15,6 +15,8 @@
 
 .yj_table tbody tr:HOVER {background-color: #B7B9CC; cursor: pointer;}
 
+.yj_button{ border: 1px solid #000; color: #000; font-size: 8pt; padding: 3px 5px; cursor: pointer; }
+
 /* home */
 
 .home_wrap{	float: left; width: 200px; height: 60px; padding: 20px 5px; margin-left: 5px; border: 1px solid #000; background-color: #B7B9CC; cursor: pointer; }
@@ -117,7 +119,7 @@
 /* GBL Preparation */
 .gbl_preparation_div{ width : 100%; height: 100%; background-color: white;}
 .gbl_preparation_list{width: 80%; height: 500px; margin: 0 auto;}
-.gbl_preparation_list li { vertical-align: middle; width : 100%; height: 15%; border: 1px solid black; margin: 21px 0; cursor: pointer; }
+.gbl_preparation_list li { vertical-align: middle; width : 100%; height: 12%; border: 1px solid black; margin: 21px 0; cursor: pointer; }
 
 
 /* Pre_Move_Survey */
@@ -127,3 +129,58 @@
 .pre_move_survey_table tr td{ text-align: center; padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; vertical-align: middle; }
 .pre_move_survey_table tfoot tr td{ border: none; text-align: right;}
 
+/* Memorandum */
+.memorandum_wrap{ with : 100%; height: 100%; background-color : white; }
+.memorandum_table{ width: 80%; height: 300px; margin: 15px auto; }
+.memorandum_table thead tr th {font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; vertical-align: middle;  }
+.memorandum_table tbody tr td{ text-align: center; padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; vertical-align: middle; cursor: pointer; }
+.memorandum_table tbody tr:HOVER { background-color: #B7B9CC; }
+.memorandum_complete{ margin-bottom : 20px; margin-left: 476px;  }
+
+/* MemorandumForm */ 
+.memorandum_form_wrap{ width : 100% ; height: 100% ; background-color: white; }
+.memorandum_form_content_wrap{ width : 500px; height: 790.5px; margin: 0 auto; padding-top: 50.5px;}
+.memorandum_form_content_wrap ul li{ padding-bottom: 10px; }
+#memorandum_title{ font-weight: bold; font-size: 18px; text-align: center; border-bottom: 3px double black; }
+#memorandum_form_subject{ padding-top: 60px;}
+#memorandum_form_subject input{ width: 400px; }
+#memorandum_form_comment textarea{ width: 487px; height: 50px; }
+#memorandum_form_article_comment textarea{ width: 487px; height: 50px; }
+#memorandum_form_chief_of_office textarea{ width: 250px; height: 50px; margin-left: 238px; }
+#memorandum_form_office_info textarea{ width: 239px ; height: 50px;}
+#memorandum_form_area_director textarea{ width: 239px; height: 50px;}
+
+#memorandum_button{ padding-bottom: 30px; }
+#memorandum_button_list{width: 100%;}
+#memorandum_button_list li{ width: 50px; display: inline;}
+.memorandum_back{margin-right: 400px;}
+
+/* DD-619 */
+.dd619_list_wrap{ width: 900px; height: 400px; background-color: white;}
+#dd619_add_div{background-color: white; width: 100%; height: 100%;}
+.dd619_add_table { margin: 0 auto; width: 80%; }
+.dd619_add_table tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; }
+.dd619_add_table tr td{ padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; }
+.dd619_add_table tfoot tr td{ border: none; text-align: right;}
+
+.dd619_total td input#total1{width: 120px; margin-right: 3px; }
+.dd619_total td input#total2{width: 120px; margin-right: 3px; }
+.dd619_total td input#total3{width: 120px; margin-right: 3px; }
+
+#dd619_remark textarea{ width: 100%; height: 100px; }
+
+.dd619_wrap { float: left; width: 793px; height: 1122px; background-color: white; }
+.dd619_wrap table{ float: left; width: 603px; height: 931px; margin: 90px 64px;  }
+.dd619_wrap table thead{ float: left; }
+.dd619_wrap table tbody{ float: left; height: 898px; boarder: 2px solid black; }
+.dd619_wrap table tbody tr td{ padding-top: 2px; padding-bottom: 2px; border: 1px solid black;}
+.dd619_wrap table thead tr th{ width: 603px; boarder: 0px solid black; font-size: 6px; font-weight: normal; text-align: center; padding-bottom: 2px;   }
+
+#dd619_table_1_tr{ border-top: 2px solid black; }
+#dd619_table_1_tr td{ border : 2px solid black;}
+#dd619_table_1_tr #dd619_table_1_1_td{ width: 75%; font-size: 4px; }
+#dd619_table_1_tr #dd619_table_1_1_td p{ font-size: 4px; }
+#dd619_table_1_tr #dd619_table_1_1_td p#dd619_table_1_1_p{ width: 100%; font-size : 11px; font-weight: bold;  text-align: center; }
+#dd619_table_1_tr #dd619_table_1_2_td{ font-size: 10px; text-align: center; }
+
+#dd619_table_2_1_td{ font-size: 5px; }

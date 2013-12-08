@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.youngjin.net.Dd619;
 import org.youngjin.net.GBL;
 import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
@@ -155,6 +156,14 @@ public class OutboundService {
 
 	public void updatePreMoveSurvey(PreMoveSurvey preMoveSurvey) {
 		outboundDao.updatePreMoveSurvey(preMoveSurvey);
+	}
+
+	public List<Dd619> getDd619List(String seq) {
+		return outboundDao.getDd619List(seq);
+	}
+
+	public void insertDd619(Dd619 dd619) {
+		outboundDao.insertDd619(dd619);
 	}
 
 }

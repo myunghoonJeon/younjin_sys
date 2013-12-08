@@ -38,14 +38,16 @@
 	
 	<div class="gbl_filter">	
 		<form:form commandName="outboundFilter" method="get">
-			<form:select path="branch">
-				<form:option value="">All</form:option>
-				<c:forEach var="branch" items="${branchList }">
-					<c:if test="${branch.codeName ne 'None' }" >
-						<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
-					</c:if>
-				</c:forEach>
-			</form:select>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<form:select path="branch">
+					<form:option value="">All</form:option>
+					<c:forEach var="branch" items="${branchList }">
+						<c:if test="${branch.codeName ne 'None' }" >
+							<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
+						</c:if>
+					</c:forEach>
+				</form:select>
+			</sec:authorize>
 			<form:select path="carrier">
 				<form:option value="">All</form:option>
 				<c:forEach var="carrier" items="${carrierList }">

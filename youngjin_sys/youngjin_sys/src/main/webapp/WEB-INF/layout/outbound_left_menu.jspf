@@ -6,7 +6,7 @@
 			<a href="${cp }/outbound/gblList">GBL LIST</a>				
 		</li>
 		<li>
-			<a href="#">DELIVERY</a>				
+			<a href="${cp }/outbound/delivery/main">DELIVERY</a>				
 		</li>
 		<li>
 			<a href="#">TCMD</a>				

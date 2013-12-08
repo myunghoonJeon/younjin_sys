@@ -1,5 +1,8 @@
 package org.youngjin.net;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.youngjin.net.code.Code;
+import org.youngjin.net.code.CodeService;
 import org.youngjin.net.login.User;
+import org.youngjin.net.memorandum.Memorandum;
+import org.youngjin.net.memorandum.MemorandumService;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.outbound.PreMoveSurvey;
@@ -27,6 +34,12 @@ public class OutboundController {
 
 	@Resource
 	private OutboundService outboundService;
+	
+	@Resource
+	private CodeService codeService;
+	
+	@Resource
+	private MemorandumService memorandumService;
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/gblList", method = RequestMethod.GET)
@@ -155,18 +168,148 @@ public class OutboundController {
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/preMoveSurvey", method = RequestMethod.GET) 
 	public String gblPreMoveSurvey(Model model, User user,
-			@PathVariable String process, @PathVariable String seq){
+			@PathVariable String process, @ModelAttribute(value="preMoveSurvey") PreMoveSurvey preMoveSurvey, @PathVariable String seq){
+		
+			PreMoveSurvey paramPreMoveSurvey = outboundService.getPreMoveSurvey(Integer.parseInt(seq));
+			
+			if ( paramPreMoveSurvey == null ){
+				paramPreMoveSurvey = new PreMoveSurvey();
+			}
 		
 			model.addAttribute("seq", seq);
-			model.addAttribute("preMoveSurvey", outboundService.getPreMoveSurvey(Integer.parseInt(seq)));			
+			model.addAttribute("preMoveSurvey", paramPreMoveSurvey);		
 			
 			return process + "/gbl/preMoveSurvey";			
 	}	
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/memorandum", method = RequestMethod.GET) 
+	public String gblMemorandum(Model model, User user,
+			@PathVariable String process, @PathVariable String seq){
+	
+			GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
+			
+			List<Code> memorandumList = codeService.getCodeList("03");
+			Map<String, Memorandum> checkMemorandumMap = memorandumService.getMemorandumMap(seq);
+		
+			model.addAttribute("seq", seq);
+			model.addAttribute("gbl", gbl);
+			model.addAttribute("memorandumList", memorandumList);	
+			
+			if( checkMemorandumMap.get("02") != null && checkMemorandumMap.get("02").getArticles() != null )
+				model.addAttribute("articles", checkMemorandumMap.get("02").getArticles());
+			
+			model.addAttribute("checkMemorandumMap", checkMemorandumMap);
+			
+			return process + "/gbl/memorandumList";			
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/memorandum/{type}", method = RequestMethod.GET) 
+	public String gblMemorandumForm(Model model, User user,
+			@PathVariable String process, @PathVariable String seq, @PathVariable String type){
+	
+			GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
+			
+			Code code = codeService.getCode("03", type);
+			
+			Memorandum memorandom = memorandumService.getMemorandum(seq, type);
+		
+			model.addAttribute("seq", seq);
+			model.addAttribute("gbl", gbl);
+			model.addAttribute("type", type);
+			model.addAttribute("memorandum", code);		
+			model.addAttribute("checkMemorandum", memorandom);
+			
+			return process + "/gbl/memorandumForm";			
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/memorandum/{type}/{article}", method = RequestMethod.GET) 
+	public String gblMemorandumFormArticle(Model model, User user,
+			@PathVariable String process, @PathVariable String seq, @PathVariable String type, @PathVariable String article){
+		
+		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
+		
+		Code code = codeService.getCode("03", type);
+		
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type);
+		
+		String [] articles = article.split(",");
+		
+		model.addAttribute("seq", seq);
+		model.addAttribute("gbl", gbl);
+		model.addAttribute("type", type);
+		model.addAttribute("memorandum", code);	
+		model.addAttribute("articleComa", article);
+		model.addAttribute("articles", articles);
+		model.addAttribute("checkMemorandum", memorandom);	
+		
+		return process + "/gbl/memorandumForm";			
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/dd619List", method = RequestMethod.GET) 
+	public String dd619List(Model model, User user,
+			@PathVariable String process, @PathVariable String seq){
+		
+		List<Dd619> dd619List = outboundService.getDd619List(seq);
+		
+		model.addAttribute("seq", seq);
+		model.addAttribute("dd619List", dd619List);
+		
+		return process + "/gbl/dd619List";			
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/dd619Add", method = RequestMethod.GET) 
+	public String dd619Add(Model model, User user,
+			@PathVariable String process, @PathVariable String seq, @ModelAttribute Dd619 dd619){
+		
+		model.addAttribute("user", user);
+		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
+		model.addAttribute("remarkList", memorandumService.getMemorandumList(seq));
+		model.addAttribute("seq", seq);
+		
+		return process + "/gbl/dd619Add";			
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/dd619", method = RequestMethod.GET) 
+	public String dd619(Model model, User user,
+			@PathVariable String process, @PathVariable String seq){
+		
+		model.addAttribute("seq", seq);
+		
+		return process + "/gbl/dd619";			
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/dd619/add.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblDd619AddSubmit(@RequestBody Dd619 dd619) {
+		outboundService.insertDd619(dd619);
+	}
+	
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/memorandum/{type}/delete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblMemorandumDelete(@PathVariable String seq, @PathVariable String type) {
+		memorandumService.deleteMemorandum(seq, type);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/memorandum/memorandumInput.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblMemorandumInput(@RequestBody Memorandum memorandum) {
+		memorandumService.insertMemorandum(memorandum);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/preMoveSurveySubmit.json", method = RequestMethod.POST)
 	@ResponseBody
-	public void gblPreMoveSurveySubmit(@RequestBody PreMoveSurvey preMoveSurvey, @PathVariable String seq) {
+	public void gblPreMoveSurveySubmit(@RequestBody PreMoveSurvey preMoveSurvey) {
 		outboundService.insertPreMoveSurvey(preMoveSurvey);
 	}
 	
@@ -184,6 +327,33 @@ public class OutboundController {
 
 		return outboundService.findUsNo(gBlock);
 	}
+	
+	/**
+	 * DeliveryControl
+	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/delivery/main", method = RequestMethod.GET)	
+	public String DeliveryMain(Model model, User user, @PathVariable String process) {
+		
+		model.addAttribute("user", user);
+		
+		model.addAttribute("deliveryList", null);
+
+		return process + "/delivery/main";
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/delivery/add", method = RequestMethod.GET)	
+	public String DeliveryAdd(Model model, User user, @PathVariable String process) {
+		
+		model.addAttribute("user", user);
+
+		return process + "/delivery/add";
+	}		
+	
+	/**
+	 * DownLoadControl
+	 */
 
 	@Resource
 	private DownloadView downloadView;

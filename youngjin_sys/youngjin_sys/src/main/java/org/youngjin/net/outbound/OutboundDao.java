@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.youngjin.net.Dd619;
 import org.youngjin.net.GBL;
 import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
@@ -77,6 +78,14 @@ public class OutboundDao extends SqlSessionDaoSupport {
 
 	public void updatePreMoveSurvey(PreMoveSurvey preMoveSurvey) {
 		getSqlSession().update("outboundMapper.updatePreMoveSurvey", preMoveSurvey);
+	}
+
+	public List<Dd619> getDd619List(String seq) {
+		return getSqlSession().selectList("outboundMapper.getDd619List", seq);
+	}
+
+	public void insertDd619(Dd619 dd619) {
+		getSqlSession().insert("outboundMapper.insertDd619", dd619);
 	}
 	
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memorandumMapper">
+	<resultMap type="Memorandum" id="MemorandumMap">
+		<result property="seq" column="seq"/>
+		<result property="type" column="type"/>
+		<result property="subject" column="subject"/>
+		<result property="comment" column="comment"/>
+		<result property="area" column="area"/>
+		<result property="articles" column="articles" />
+		<result property="articleComment" column="article_comment"/>
+		<result property="chiefOfOffice" column="chief_of_office"/>
+		<result property="officeInfo" column="office_info"/>
+		<result property="areaDirector" column="area_director"/>
+		<result property="gblSeq" column="gbl_seq" />
+	</resultMap>
+	
+	<select id="getMemorandum" parameterType="Memorandum" resultMap="MemorandumMap">
+		SELECT
+			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq
+		FROM
+			memorandum
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			type = #{type}
+	</select>
+	
+	<select id="getMemorandumList" parameterType="String" resultMap="MemorandumMap">
+		SELECT
+			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq
+		FROM
+			memorandum
+		WHERE
+			gbl_seq = #{gblSeq}
+	</select>
+	
+	<insert id="insertMemorandum" parameterType="Memorandum">
+		INSERT INTO
+			memorandum
+			(
+				type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq
+			)
+		VALUES
+			(
+				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment}, #{chiefOfOffice}, #{officeInfo}, #{areaDirector}, #{gblSeq}
+			)
+	</insert>
+	
+	<delete id="deleteMemorandum" parameterType="Memorandum">
+		DELETE FROM
+			memorandum
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			type = #{type}
+	</delete>
+</mapper>

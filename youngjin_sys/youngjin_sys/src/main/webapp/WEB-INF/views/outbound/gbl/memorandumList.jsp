@@ -10,7 +10,7 @@
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
 <html>
 <head>
-<title>PreMoveSurvey</title>
+<title>Memorandum</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/font.css">
@@ -29,44 +29,45 @@
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
 <body>
-	<div class="pre_move_survey_wrap">
+	<div class="memorandum_wrap">
 		<div class="title">
-			<h1>PRE MOVE SURVEY</h1>
+			<h1>MEMORANDUM</h1>
 		</div>
-		<form:form commandName="preMoveSurvey">
-			<form:hidden path="seq" value="${seq }" />
-			<table class="pre_move_survey_table">
-				<tr>
-					<th>Estimate Weight</th>
-					<td><form:input path="estimateWeight" /></td>
-				</tr>
-				<tr>
-					<th>Special Item</th>
-					<td><form:input path="specialItem" /></td>
-				</tr>
-				<tr>
-					<th>E/S Container</th>
-					<td><form:input path="esContainer" /></td>
-				</tr>
-				<tr>
-					<th>3rd Party</th>
-					<td><form:input path="thirdParty" /></td>
-				</tr>
-				<tr>
-					<th>FireArms</th>
-					<td><form:input path="fireArms" /></td>
-				</tr>
-				<tr>
-					<th>Remark</th>
-					<td><form:input path="remark" /></td>
-				</tr>
-				<tfoot>
+		<div>
+			<table class="memorandum_table" data-seq="${gbl.seq }">
+				<thead>
 					<tr>
-						<td colspan="2"><input class="${(preMoveSurvey ne null and preMoveSurvey.estimateWeight ne null) ? 'preMoveSurveyEditButton' : 'preMoveSurveyAddButton'}" type="button" value="${(preMoveSurvey ne null and preMoveSurvey.estimateWeight ne null) ? 'edit' : 'add' }"/></td>
-					</tr> 
-				</tfoot>
-			</table>			
-		</form:form>
-	</div>
+						<th>type</th>
+						<th>check</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="memorandum" items="${memorandumList }">
+						<tr>
+							<td class="memorandum_name">
+								${memorandum.codeName } 
+								<c:if test="${memorandum.subCode eq '02' }">
+									<input type="text" value="${articles ne null ? articles : '' }"/>
+								</c:if>
+							</td>
+							<td class="memorandum_type">
+								<c:choose>
+									<c:when test="${checkMemorandumMap ne '{}' }">
+										<input type="checkbox" value="${memorandum.subCode }" ${checkMemorandumMap[memorandum.subCode] ne null ? 'checked=checked' : '' } />
+									</c:when>
+									<c:otherwise>
+										<input type="checkbox" value="${memorandum.subCode }" />
+									</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>		
+		</div>		
+		<div class="memorandum_complete">
+			<span class="yj_button" >complete</span>
+		</div>
+	</div>	
 </body>
 </html>

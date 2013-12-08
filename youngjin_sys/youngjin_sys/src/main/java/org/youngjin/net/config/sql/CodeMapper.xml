@@ -8,12 +8,23 @@
 		<result column="code_etc" property="codeEtc"/>
 	</resultMap>
 	
-	<select id="getCodeList" resultMap="CodeMap">
+	<select id="getCodeList" parameterType="String" resultMap="CodeMap">
 		SELECT
 			main_code, sub_code, code_name, code_etc
 		FROM
 			symbol
 		WHERE
 			main_code = #{value}
+	</select>
+	
+	<select id="getCode" parameterType="Code" resultMap="CodeMap">
+		SELECT
+			main_code, sub_code, code_name, code_etc
+		FROM
+			symbol
+		WHERE
+			main_code = #{mainCode}
+		AND
+			sub_code = #{subCode}
 	</select>
 </mapper>

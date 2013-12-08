@@ -19,4 +19,16 @@ public class CodeService {
 	public List<Code> getAllAreaList() {
 		return codeDao.getAllAreaList();
 	}
+
+	public List<Code> getCodeList(String mainCode){
+		return codeDao.getCodeList(mainCode);
+	}
+
+	public Code getCode(String mainCode, String subCode) {
+		Code code = new Code();
+		code.setMainCode(mainCode);
+		code.setSubCode(subCode);
+		
+		return codeDao.getCode(code);
+	}
 }
