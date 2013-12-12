@@ -189,7 +189,7 @@
         },
         close : function() {
             if(ie) {
-                $('body').attr({ scroll: 'yes' });
+                $('body').attr({ scroll: 'yes'});
             }
             $('html').css({ marginRight: 0, display: '', overflowY: 'scroll', overflowX: 'visible'});
             $('#rightScrollBar').css('margin-right','0');
