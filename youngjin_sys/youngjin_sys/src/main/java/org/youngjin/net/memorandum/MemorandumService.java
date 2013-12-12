@@ -49,4 +49,8 @@ public class MemorandumService {
 	public List<Memorandum> getMemorandumList(String seq) {
 		return memorandumDao.getMemorandumList(seq);
 	}
+
+	public void updateMemorandum(Memorandum memorandum) {
+		memorandumDao.updateMemorandum(memorandum);
+	}
 }

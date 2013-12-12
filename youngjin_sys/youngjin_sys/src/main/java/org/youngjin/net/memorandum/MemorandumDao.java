@@ -23,5 +23,9 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 	public void deleteMemorandum(Memorandum paramMemorandum) {
 		getSqlSession().delete("memorandumMapper.deleteMemorandum", paramMemorandum);
 	}
+
+	public void updateMemorandum(Memorandum memorandum) {
+		getSqlSession().update("memorandumMapper.updateMemorandum", memorandum);
+	}
 	
 }

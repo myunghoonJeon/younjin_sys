@@ -191,7 +191,7 @@
             if(ie) {
                 $('body').attr({ scroll: 'yes' });
             }
-            $('html').css({ marginRight: 0, display: '', overflowY: 'scroll'});
+            $('html').css({ marginRight: 0, display: '', overflowY: 'scroll', overflowX: 'visible'});
             $('#rightScrollBar').css('margin-right','0');
             
             $('#smartPop_frame').attr('src', '').unbind();

@@ -34,8 +34,15 @@
 		<div class="title">
 			<h1>DD619 LIST</h1>
 		</div>	
-		<div class="dd619_addButton user_addButton">
-			<span >add</span>
+		<div id="dd619_addButton">
+			<ul id="dd619_button_list">
+				<li>
+					<span class="yj_button dd619_back">back</span>
+				</li>
+				<li>
+					<span class= "yj_button dd619_addButton">add</span>
+				</li>
+			</ul>
 		</div>
 		<div>
 			<table class="yj_table">

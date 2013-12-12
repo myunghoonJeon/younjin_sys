@@ -163,6 +163,11 @@
 .dd619_add_table tr td{ padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; }
 .dd619_add_table tfoot tr td{ border: none; text-align: right;}
 
+#dd619_button{ padding-bottom: 30px; }
+#dd619_button_list{width: 100%; margin-left: 10px;}
+#dd619_button_list li{ width: 50px; display: inline;}
+.dd619_back{margin-right: 800px;}
+
 .dd619_total td input#total1{width: 120px; margin-right: 3px; }
 .dd619_total td input#total2{width: 120px; margin-right: 3px; }
 .dd619_total td input#total3{width: 120px; margin-right: 3px; }

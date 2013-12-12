@@ -87,5 +87,9 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void insertDd619(Dd619 dd619) {
 		getSqlSession().insert("outboundMapper.insertDd619", dd619);
 	}
+
+	public void updateDd619(Dd619 dd619) {
+		getSqlSession().update("outboundMapper.updateDd619", dd619);
+	}
 	
 }

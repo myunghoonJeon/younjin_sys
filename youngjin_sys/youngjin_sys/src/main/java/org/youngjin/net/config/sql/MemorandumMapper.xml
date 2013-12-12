@@ -47,6 +47,24 @@
 			)
 	</insert>
 	
+	<update id="updateMemorandum" parameterType="Memorandum">
+	    UPDATE
+	    	memorandum
+	    SET
+	    	subject = #{subject},
+	    	comment = #{comment},
+	    	area = #{area},
+	    	articles = #{articles},
+	    	article_comment = #{articleComment},
+	    	chief_of_office = #{chiefOfOffice},
+	    	office_info = #{officeInfo},
+	    	area_director = #{areaDirector}
+	    WHERE
+	    	gbl_seq = #{gblSeq}
+	    AND
+	    	type = #{type}	    
+	</update>
+	
 	<delete id="deleteMemorandum" parameterType="Memorandum">
 		DELETE FROM
 			memorandum

@@ -166,4 +166,8 @@ public class OutboundService {
 		outboundDao.insertDd619(dd619);
 	}
 
+	public void updateDd619(Dd619 dd619) {
+		outboundDao.updateDd619(dd619);
+	}
+
 }

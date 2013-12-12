@@ -10,7 +10,7 @@
 	
 	<div class="top_menu_wrap">
 		<ul class="top_menu">
-			<li class="top_menu_li top_menu_inbound">
+			<li class="top_menu_li top_menu_inbound" style="${(user.process eq 'inbound') ? 'background: #B7B9CC; font-weight: bold;' : ''}">
 				<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
 					<a href="${cp }/inbound/">INBOUND</a>
 				</sec:authorize>
@@ -18,7 +18,7 @@
 					<a href="${cp }/noPermission">INBOUND</a>
 				</sec:authorize>
 			</li>
-			<li class="top_menu_li top_menu_outbound">
+			<li class="top_menu_li top_menu_outbound" style="${(user.process eq 'outbound') ? 'background: #B7B9CC; font-weight: bold;' : ''}">
 				<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
 					<a href="${cp }/outbound/">OUTBOUND</a>
 				</sec:authorize>		
@@ -26,7 +26,7 @@
 					<a href="${cp }/noPermission">OUTBOUND</a>
 				</sec:authorize>
 			</li>
-			<li class="top_menu_li top_menu_form"><a href="#">FORM</a></li>
+			<li class="top_menu_li top_menu_form" style="${(user.process eq 'form') ? 'background: #B7B9CC; font-weight: bold;' : ''}"><a href="#">FORM</a></li>
 		</ul>
 	</div>
 </div>

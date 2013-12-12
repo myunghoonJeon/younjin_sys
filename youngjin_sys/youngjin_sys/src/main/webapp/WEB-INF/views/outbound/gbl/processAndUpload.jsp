@@ -34,7 +34,7 @@
 			<ul>
 				<li style="background-color: #4D8E58; ">GBL INPUT</li>
 				<li class="gbl_process_preperation" style="background-color: ${process.preperation eq 0 ? '#FFD455' : 'white'};">GBL PREPERATION</li>
-				<li style="background-color: ${process.preperation eq 1 and process.delivery eq 0 ? '#FFD455' : 'white' };">GBL DELIVERY</li>
+				<li class="gbl_process_delivery"style="background-color: ${process.preperation eq 1 and process.delivery eq 0 ? '#FFD455' : 'white' };">GBL DELIVERY</li>
 				<li style="background-color: ${process.delivery eq 1 and process.invoice eq 0 ? '#FFD455' : 'white' };">GBL INVOICE</li>
 			</ul>
 		</div>

@@ -282,7 +282,7 @@ public class OutboundController {
 		model.addAttribute("seq", seq);
 		
 		return process + "/gbl/dd619";			
-	}	
+	}		
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/dd619/add.json", method = RequestMethod.POST)
@@ -290,6 +290,13 @@ public class OutboundController {
 	public void gblDd619AddSubmit(@RequestBody Dd619 dd619) {
 		outboundService.insertDd619(dd619);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/dd619/update.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblDd619UpdateSubmit(@RequestBody Dd619 dd619) {
+		outboundService.updateDd619(dd619);
+	}	
 	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
@@ -305,6 +312,13 @@ public class OutboundController {
 	public void gblMemorandumInput(@RequestBody Memorandum memorandum) {
 		memorandumService.insertMemorandum(memorandum);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/memorandum/memorandumUpdate.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblMemorandumUpdate(@RequestBody Memorandum memorandum) {
+		memorandumService.updateMemorandum(memorandum);
+	}	
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/preMoveSurveySubmit.json", method = RequestMethod.POST)

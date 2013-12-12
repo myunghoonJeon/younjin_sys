@@ -124,6 +124,11 @@ youngjin.outbound.sync = function(){
 		youngjin.outbound.memorandumAdd($(this));
 	});
 	
+	$('.memorandum_update').unbind('click');
+	$('.memorandum_update').bind('click', function(){
+		youngjin.outbound.memorandumUpdate($(this));
+	});
+	
 	$('.memorandum_complete .yj_button').unbind('click');
 	$('.memorandum_complete .yj_button').bind('click', function(){
 		youngjin.outbound.memorandumBack($(this));
@@ -139,9 +144,20 @@ youngjin.outbound.sync = function(){
 		youngjin.outbound.dd619Add($(this));
 	});
 	
+	$('.dd619_back').unbind('click');
+	$('.dd619_back').bind('click', function(){
+		youngjin.outbound.dd619Back($(this));
+	});
+	
 	$('.dd619_add_submit_button').unbind('click');
 	$('.dd619_add_submit_button').bind('click', function(){
 		youngjin.outbound.dd619AddSubmit($(this));
+	});
+	
+	$('.gbl_process_delivery').unbind('click');
+	$('.gbl_process_delivery').bind('click', function(){
+		parent.$.smartPop.close();
+		parent.location.href = contextPath + '/outbound/delivery/main';
 	});
 };
 
@@ -473,6 +489,54 @@ youngjin.outbound.memorandumAdd = function(target){
 	});
 };
 
+youngjin.outbound.memorandumUpdate = function(target){
+	var parents = target.parents().parents().parents().parents('.memorandum_form_content_wrap');
+	var type = parents.attr('data-type');
+	var subject = $('#memorandum_subject').val();
+	var comment = $('#memorandum_comment').val();
+	var articleComment = $('#memorandum_article_comment').val();
+	var chiefOfOffice = $('#memorandum_chief_of_office').val();
+	var officeInfo = $('#memorandum_office_info').val();
+	var areaDirector = $('#memorandum_area_director').val();
+	var articles = $('#memorandum_articles').val();
+	var gblSeq = parents.attr('data-seq');
+	
+	if( articles == undefined || articles == '' || articles == null){
+		articles = '';
+	}
+	
+	var url = contextPath + '/outbound/' + gblSeq + '/memorandum/memorandumUpdate.json';
+	var json = {
+		'type' : type,
+		'subject' : subject,
+		'comment' : comment,
+		'articles' : articles,
+		'articleComment' : articleComment,
+		'chiefOfOffice' : chiefOfOffice,
+		'officeInfo' : officeInfo,
+		'areaDirector' : areaDirector,
+		'gblSeq' : gblSeq
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				var url = contextPath + '/outbound/' + gblSeq + '/memorandum/';
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width: 600,
+					height: 350,
+					url : url
+				});					
+			},
+			
+			error: function(){ alert ('에러 발생!'); }
+		});
+	});
+};
+
 youngjin.outbound.memorandumBack = function(target){
 	var seq = $('.memorandum_table').attr('data-seq');
 	
@@ -486,6 +550,8 @@ youngjin.outbound.memorandumBack = function(target){
 		url : url
 	});
 };
+
+
 
 youngjin.outbound.dd619Pop = function(target){
 	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
@@ -512,6 +578,20 @@ youngjin.outbound.dd619Add = function(target){
 	parent.$.smartPop.open({
 		width : 700,
 		height : 900,
+		url : url
+	});
+};
+
+youngjin.outbound.dd619Back = function(target){
+	var seq = target.parents('.dd619_list_wrap').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/preparation';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 400,
+		height: 500,
 		url : url
 	});
 };
