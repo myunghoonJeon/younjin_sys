@@ -164,6 +164,16 @@ youngjin.outbound.sync = function(){
 	$('.gbl_preparation_weight_certificate').bind('click', function(){
 		youngjin.outbound.weightCertificate($(this));
 	});
+	
+	$('.weightcertificate_add').unbind('click');
+	$('.weightcertificate_add').bind('click', function(){
+		youngjin.outbound.weightCertificateColumnAdd($(this));
+	});
+	
+	$('.weightcertificate_write').unbind('click');
+	$('.weightcertificate_write').bind('click', function(){
+		youngjin.outbound.weightCertificateSubmit($(this));
+	});
 };
 
 youngjin.outbound.findUsNo = function(target){
@@ -698,5 +708,94 @@ youngjin.outbound.weightCertificate = function(target){
 		width: 800,
 		height: 900,
 		url : url
+	});
+};
+
+youngjin.outbound.weightCertificateColumnAdd = function(target){	
+	var parent = target.parents('.weightcertificate_content');
+	var count = target.parents('#weightcertificate_add_button').attr('data-count');
+	var table = parent.children('.weightcertificate_table_wrap').children("#weightcertificate_form").children('table');
+	var tbody = table.children('tbody');
+	
+	count = Number(count) + 1;
+		
+	var html = '<tr>'+
+					'<td class="piece_td"><input name="piece" type="text" /></td>'+
+					'<td class="type_td"><input name="type" type="text" /></td>'+
+					'<td class="status_td"><input name="status" type="text" /></td>'+
+					'<td class="gross_td"><input name="gross" type="text" /></td>'+
+					'<td class="tare_td"><input name="tare" type="text" /></td>'+
+					'<td class="net_td"><input name="net" type="text" /></td>'+
+					'<td class="cuft_td"><input name="cuft" type="text" /></td>'+
+					'<td class="remark_td"><input name="remark" type="text" /></td>'+
+				'</tr>';
+	
+	tbody.append(html);
+	target.parents('#weightcertificate_add_button').attr('data-count', count);
+};
+
+youngjin.outbound.weightCertificateSubmit = function(target){
+	var seq = target.parents('#weightcertificate_write').attr('data-seq');
+	var count = $('#weightcertificate_add_button').attr('data-count');
+	var form = $('#weightcertificate_form');
+	var piece = form.find('input[name="piece"]').eq(0).val();
+	var type = form.find('input[name="type"]').eq(0).val();
+	var status = form.find('input[name="status"]').eq(0).val();
+	var gross = form.find('input[name="gross"]').eq(0).val();
+	var tare = form.find('input[name="tare"]').eq(0).val();
+	var net = form.find('input[name="net"]').eq(0).val();
+	var cuft = form.find('input[name="cuft"]').eq(0).val();
+	var remark = form.find('input[name="remark"]').eq(0).val();
+	
+	var progear = $('#weightcertificate_progear').val();
+	var sealNo = $('#weightcertificate_seal_no').val();
+	var lbs = $('#weightcertificate_lbs').val();
+	
+	var date = $('#weightcertificate_date').val();
+	
+	for( var i = 1 ; i < count ; i ++ ){	
+		piece += ',' + form.find('input[name="piece"]').eq(i).val();
+		type += ',' + form.find('input[name="type"]').eq(i).val();
+		status += ',' + form.find('input[name="status"]').eq(i).val();
+		gross += ',' + form.find('input[name="gross"]').eq(i).val();
+		tare += ',' + form.find('input[name="tare"]').eq(i).val();
+		net += ',' + form.find('input[name="net"]').eq(i).val();
+		cuft += ',' + form.find('input[name="cuft"]').eq(i).val();
+		remark += ',' + form.find('input[name="remark"]').eq(i).val();
+	}
+	
+	var url = contextPath + '/outbound/' + seq + '/weightcertificate/add.json';
+	var json = {
+		"piece" : piece,
+		"type" : type,
+		"status" : status,
+		"gross" : gross,
+		"tare" : tare,
+		"net" : net,
+		"cuft" : cuft,
+		"remark" : remark,
+		"gblSeq" : seq,
+		"date" : date,
+		'count' : count
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				var goUrl = contextPath + '/outbound/' + seq + '/preparation';
+				
+				parent.$.smartPop.close();
+				
+				parent.$.smartPop.open({
+					width: 400,
+					height: 500,
+					url : goUrl
+				});
+			},
+			
+			error: function(){
+				alert("에러 발생!");
+			}
+		});
 	});
 };

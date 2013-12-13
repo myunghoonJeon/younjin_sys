@@ -33,9 +33,9 @@
 		<div class="gbl_process" data-seq="${seq}">
 			<ul>
 				<li style="background-color: #4D8E58; ">GBL INPUT</li>
-				<li class="gbl_process_preperation" style="background-color: ${process.preperation eq 0 ? '#FFD455' : 'white'};">GBL PREPERATION</li>
-				<li class="gbl_process_delivery"style="background-color: ${process.preperation eq 1 and process.delivery eq 0 ? '#FFD455' : 'white' };">GBL DELIVERY</li>
-				<li style="background-color: ${process.delivery eq 1 and process.invoice eq 0 ? '#FFD455' : 'white' };">GBL INVOICE</li>
+				<li class="gbl_process_preperation" style="background-color: ${process.preperation eq 0 ? '#FFD455' : ((process.preperation eq 1) ? '#4D8E58' : 'white')};">GBL PREPERATION</li>
+				<li class="gbl_process_delivery"style="background-color: ${process.preperation eq 1 and process.delivery eq 0 ? '#FFD455' : ((process.delivery eq 1) ? '#4D8E58' : 'white') };">GBL DELIVERY</li>
+				<li style="background-color: ${process.delivery eq 1 and process.invoice eq 0 ? '#FFD455' : ((process.invoice eq 1) ? '#4D8E58' : 'white') };">GBL INVOICE</li>
 			</ul>
 		</div>
 		<div class="gbl_upload">

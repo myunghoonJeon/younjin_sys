@@ -25,6 +25,7 @@ import org.youngjin.net.memorandum.MemorandumService;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.outbound.PreMoveSurvey;
+import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.upload.DownloadView;
 
@@ -290,9 +291,18 @@ public class OutboundController {
 			@PathVariable String process, @PathVariable String seq){
 		
 		model.addAttribute("seq", seq);
+		model.addAttribute("weightcertificateList", outboundService.getWeightcertificateList(seq));
+		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
 		
 		return process + "/gbl/weightcertificate";			
 	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/weightcertificate/add.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblWeightcertificateSubmit(@RequestBody Weightcertificate weightcertificate, @PathVariable String seq) {
+		outboundService.insertWeightcertificate(weightcertificate);
+	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/dd619/add.json", method = RequestMethod.POST)
@@ -357,7 +367,7 @@ public class OutboundController {
 	 */
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/delivery/main", method = RequestMethod.GET)	
-	public String DeliveryMain(Model model, User user, @PathVariable String process) {
+	public String deliveryMain(Model model, User user, @PathVariable String process) {
 		
 		model.addAttribute("user", user);
 		
@@ -368,11 +378,29 @@ public class OutboundController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/delivery/add", method = RequestMethod.GET)	
-	public String DeliveryAdd(Model model, User user, @PathVariable String process) {
+	public String deliveryAdd(Model model, User user, @PathVariable String process) {
 		
 		model.addAttribute("user", user);
 
 		return process + "/delivery/add";
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/delivery/truckManifast", method = RequestMethod.GET)	
+	public String truckManifastMain(Model model, User user, @PathVariable String process) {
+		
+		model.addAttribute("user", user);
+
+		return process + "/delivery/truckManifast";
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/delivery/bookingList", method = RequestMethod.GET)	
+	public String bookingListMain(Model model, User user, @PathVariable String process) {
+		
+		model.addAttribute("user", user);
+
+		return process + "/delivery/bookingList";
 	}		
 	
 	/**

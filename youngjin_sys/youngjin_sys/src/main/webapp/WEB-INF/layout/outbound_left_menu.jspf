@@ -5,8 +5,19 @@
 		<li>
 			<a href="${cp }/outbound/gblList">GBL LIST</a>				
 		</li>
-		<li>
-			<a href="${cp }/outbound/delivery/main">DELIVERY</a>				
+		<li class="outbound_delivery">
+			<a href="${cp }/outbound/delivery/main">DELIVERY</a>	
+			<ul class="outbound_delivery_item" style="display: none;">
+				<li>
+					<a href="${cp }/outbound/delivery/truckManifast">TRUCK MANIFAST</a>
+				</li>
+				<li>
+					<a href="${cp }/outbound/delivery/bookingList">BOOKING LIST</a>
+				</li>	
+				<li>
+					CLP
+				</li>			
+			</ul>			
 		</li>
 		<li>
 			<a href="#">TCMD</a>				

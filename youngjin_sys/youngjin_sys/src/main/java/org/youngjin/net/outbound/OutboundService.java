@@ -170,4 +170,44 @@ public class OutboundService {
 		outboundDao.updateDd619(dd619);
 	}
 
+	public List<Weightcertificate> getWeightcertificateList(String seq) {
+		return outboundDao.getWeightcertificateList(seq);
+	}
+
+	public void insertWeightcertificate(Weightcertificate weightcertificate) {
+		Weightcertificate paramWeightcertificate = new Weightcertificate();
+		
+		int count = weightcertificate.getCount();
+		
+		String [] pieceList = weightcertificate.getPiece().split(",", count);
+		String [] typeList = weightcertificate.getType().split(",", count);
+		String [] grossList = weightcertificate.getGross().split(",", count);
+		String [] tareList = weightcertificate.getTare().split(",", count);
+		String [] netList = weightcertificate.getNet().split(",", count);
+		String [] cuftList = weightcertificate.getCuft().split(",", count);
+		String [] remarkList = weightcertificate.getRemark().split(",", count);
+		String [] statusList = weightcertificate.getStatus().split(",", count);
+		
+		for( int i = 0 ; i < count; i ++ ){
+			paramWeightcertificate.setPiece(pieceList[i]);
+			paramWeightcertificate.setType(typeList[i]);
+			paramWeightcertificate.setGross(grossList[i]);
+			paramWeightcertificate.setTare(tareList[i]);
+			paramWeightcertificate.setNet(netList[i]);
+			paramWeightcertificate.setCuft(cuftList[i]);
+			paramWeightcertificate.setRemark(remarkList[i]);
+			paramWeightcertificate.setStatus(statusList[i]);
+			
+			paramWeightcertificate.setGblSeq(weightcertificate.getGblSeq());
+			paramWeightcertificate.setDate(weightcertificate.getDate());
+			
+			outboundDao.insertWeightcertificate(paramWeightcertificate);
+		}				
+		
+		/*Map<String, Integer> param = new HashMap<String, Integer>();
+		param.put("seq", weightcertificate.getGblSeq());
+		param.put("status", 1);
+		outboundDao.updateGblStatus(param);*/
+	}
+
 }

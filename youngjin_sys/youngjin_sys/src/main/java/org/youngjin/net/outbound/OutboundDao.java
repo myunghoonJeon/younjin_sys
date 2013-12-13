@@ -91,5 +91,17 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void updateDd619(Dd619 dd619) {
 		getSqlSession().update("outboundMapper.updateDd619", dd619);
 	}
+
+	public List<Weightcertificate> getWeightcertificateList(String seq) {
+		return getSqlSession().selectList("outboundMapper.getWeightcertificateList", seq);
+	}
+
+	public void insertWeightcertificate(Weightcertificate weightcertificate) {
+		getSqlSession().insert("outboundMapper.insertWeightcertificate", weightcertificate);
+	}
+
+	public void updateGblStatus(Map<String, Integer> param) {
+		getSqlSession().update("outboundMapper.updateGblStatus", param);		
+	}
 	
 }

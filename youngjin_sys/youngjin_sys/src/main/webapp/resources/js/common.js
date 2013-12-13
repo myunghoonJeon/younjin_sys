@@ -12,6 +12,8 @@ $(function() {
 	youngjin.top.goToAdminPage();
 	
 	youngjin.top.goToGblockPage();
+	
+	youngjin.top.leftDeliveryMenu();
 });
 
 youngjin.top.home = function(){
@@ -48,5 +50,15 @@ youngjin.top.goToAdminPage = function(){
 youngjin.top.goToGblockPage = function(){
 	$('.gblock_service_wrap').bind('click', function(){
 		location.href = contextPath + '/gblock/gblock/main/';
+	});
+};
+
+youngjin.top.leftDeliveryMenu = function(){
+	$('.outbound_delivery').click(function(){
+		if ($('.outbound_delivery_item').css('display') == 'none'){			
+			$('.outbound_delivery_item').slideDown();
+		} else if($('.outbound_delivery_item').css('display') == 'block'){
+			$('.outbound_delivery_item').slideUp();
+		}
 	});
 };

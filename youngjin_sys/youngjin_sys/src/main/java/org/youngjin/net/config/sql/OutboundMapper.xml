@@ -235,6 +235,15 @@
 		gbl_seq = #{seq}
 </select>
 
+<select id="getWeightcertificateList" parameterType="String" resultType="Weightcertificate">
+        SELECT
+        	seq, piece, type, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date
+        FROM
+        	weight_certificate
+        WHERE
+        	gbl_seq = #{value}
+</select>
+
 <insert id="insertGbl" parameterType="GBL">
 	INSERT INTO
 		gbl
@@ -316,6 +325,18 @@
 	)
 </insert>
 
+<insert id="insertWeightcertificate" parameterType="Weightcertificate">
+     INSERT INTO
+     	weight_certificate
+     	(
+     		piece, type, status, gross, tare, net, cuft, remark, gbl_seq, date
+     	)   
+     VALUES
+    	(
+    		#{piece}, #{type}, #{status}, #{gross}, #{tare}, #{net}, #{cuft}, #{remark}, #{gblSeq}, #{date}
+    	)
+</insert>
+
 <update id="updatePreMoveSurvey" parameterType="PreMoveSurvey">
 	UPDATE
 		pre_move_survey
@@ -356,5 +377,16 @@
     	update_user = #{writeUser},
     WHERE
     	seq = #{seq}
+</update>
+
+<update id="updateGblStatus" parameterType="Map">
+    UPDATE
+    	gbl_status
+    SET
+    	<if test="status == 1">
+    		gbl_preperation = 1
+    	</if>    
+    WHERE
+    	gbl_no = (select no from gbl where seq = #{seq});
 </update>
 </mapper>
