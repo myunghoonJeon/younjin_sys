@@ -159,6 +159,11 @@ youngjin.outbound.sync = function(){
 		parent.$.smartPop.close();
 		parent.location.href = contextPath + '/outbound/delivery/main';
 	});
+	
+	$('.gbl_preparation_weight_certificate').unbind('click');
+	$('.gbl_preparation_weight_certificate').bind('click', function(){
+		youngjin.outbound.weightCertificate($(this));
+	});
 };
 
 youngjin.outbound.findUsNo = function(target){
@@ -678,6 +683,20 @@ youngjin.outbound.dd619Write = function(target){
 	parent.$.smartPop.open({
 		width: 793.7,
 		height: 1122.5,
+		url : url
+	});
+};
+
+youngjin.outbound.weightCertificate = function(target){
+	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/weightcertificate';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 800,
+		height: 900,
 		url : url
 	});
 };

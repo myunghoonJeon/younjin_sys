@@ -285,6 +285,16 @@ public class OutboundController {
 	}		
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/weightcertificate", method = RequestMethod.GET) 
+	public String weightcertificate(Model model, User user,
+			@PathVariable String process, @PathVariable String seq){
+		
+		model.addAttribute("seq", seq);
+		
+		return process + "/gbl/weightcertificate";			
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/dd619/add.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblDd619AddSubmit(@RequestBody Dd619 dd619) {

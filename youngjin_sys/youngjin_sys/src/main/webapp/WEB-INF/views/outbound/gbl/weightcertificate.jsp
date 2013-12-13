@@ -10,7 +10,7 @@
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
 <html>
 <head>
-<title>Preparation</title>
+<title>Weight Certificate</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/font.css">
@@ -29,15 +29,44 @@
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
 <body>
-	<div class="gbl_preparation_div">
-		<ul class="gbl_preparation_list" data-seq="${seq }">
-			<li class="gbl_preparation_pre_move_survey">PRE-MOVE-SURVEY</li>
-			<li class="gbl_preparation_memorandum">MEMORANDUM</li>
-			<li class="gbl_preparation_dd619_write">DD-619 WRITE</li>
-			<li class="gbl_preparation_weight_certificate">WEIGHT-CERTIFICATE</li>
-			<li>DD-619 DECIDE</li>
-			<li>COMPLETE</li>
-		</ul>
+	<div id="weightcertificate_wrap">
+		<h1 id="weightcertificate_title">CERTIFIED WEIGHT TICKET</h1>
+		<div class="weightcertificate_content">
+			<ul>
+				<li>
+					<ul>
+						<li></li>				
+						<li></li>
+						<li></li>				
+						<li></li>
+					</ul>
+				</li>
+				<li>			
+					<ul>
+						<li></li>				
+						<li></li>
+						<li></li>				
+						<li></li>
+					</ul>
+				</li>
+				<li>			
+					<ul>
+						<li></li>				
+						<li></li>
+						<li></li>				
+						<li></li>
+					</ul>
+				</li>
+				<li>
+					<ul>
+						<li></li>				
+						<li></li>
+						<li></li>				
+						<li></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
 	</div>
 </body>
 </html>
