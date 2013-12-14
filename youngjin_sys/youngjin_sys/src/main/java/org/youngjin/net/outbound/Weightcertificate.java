@@ -13,6 +13,73 @@ public class Weightcertificate {
 	private Integer gblSeq;
 	private String date;
 
+	private Boolean truckCheck;
+	private Integer truckSeq;
+
+	private String proGear;
+	private String sealNo;
+	private String lbs;
+
+	private Integer baseWeightSeq;
+
+	private Integer weightListSeq;
+
+	public Integer getBaseWeightSeq() {
+		return baseWeightSeq;
+	}
+
+	public void setBaseWeightSeq(Integer baseWeightSeq) {
+		this.baseWeightSeq = baseWeightSeq;
+	}
+
+	public Integer getWeightListSeq() {
+		return weightListSeq;
+	}
+
+	public void setWeightListSeq(Integer weightListSeq) {
+		this.weightListSeq = weightListSeq;
+	}
+
+	public String getProGear() {
+		return proGear;
+	}
+
+	public void setProGear(String proGear) {
+		this.proGear = proGear;
+	}
+
+	public String getSealNo() {
+		return sealNo;
+	}
+
+	public void setSealNo(String sealNo) {
+		this.sealNo = sealNo;
+	}
+
+	public String getLbs() {
+		return lbs;
+	}
+
+	public void setLbs(String lbs) {
+		this.lbs = lbs;
+	}
+
+	public Boolean getTruckCheck() {
+		return truckCheck;
+	}
+
+	public void setTruckCheck(Boolean truckCheck) {
+		this.truckCheck = truckCheck;
+	}
+
+	public Integer getTruckSeq() {
+		return truckSeq;
+	}
+
+	public void setTruckSeq(Integer truckSeq) {
+		this.truckSeq = truckSeq;
+	}
+
 	private int count = 0;
 
 	public Integer getSeq() {
@@ -114,10 +181,13 @@ public class Weightcertificate {
 	@Override
 	public String toString() {
 		return "Weightcertificate [seq=" + seq + ", piece=" + piece + ", type="
-				+ type + ", gross=" + gross + ", tare=" + tare + ", net=" + net
-				+ ", cuft=" + cuft + ", remark=" + remark + ", gblSeq="
-				+ gblSeq + ", writeDate=" + date + ", count=" + count
-				+ "]";
+				+ type + ", status=" + status + ", gross=" + gross + ", tare="
+				+ tare + ", net=" + net + ", cuft=" + cuft + ", remark="
+				+ remark + ", gblSeq=" + gblSeq + ", date=" + date
+				+ ", truckCheck=" + truckCheck + ", truckSeq=" + truckSeq
+				+ ", proGear=" + proGear + ", sealNo=" + sealNo + ", lbs="
+				+ lbs + ", baseWeightSeq=" + baseWeightSeq + ", weightListSeq="
+				+ weightListSeq + ", count=" + count + "]";
 	}
 
 }

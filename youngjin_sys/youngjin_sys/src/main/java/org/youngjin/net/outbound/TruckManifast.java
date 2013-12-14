@@ -1,36 +1,46 @@
 package org.youngjin.net.outbound;
 
-import java.util.List;
-
-import org.youngjin.net.GBL;
-
 public class TruckManifast {
-	private String seq;
+	private Integer seq;
+	private String date;
+	private String branch;
+	private String code;
 
-	private List<GBL> gblList;
-
-	public String getSeq() {
+	public Integer getSeq() {
 		return seq;
 	}
 
-	public void setSeq(String seq) {
+	public void setSeq(Integer seq) {
 		this.seq = seq;
 	}
 
-	public List<GBL> getGblList() {
-		return gblList;
+	public String getDate() {
+		return date;
 	}
 
-	public void setGblList(List<GBL> gblList) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-		this.gblList = gblList;
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("TruckManifast [seq : ").append(seq)
-				.append(" ;\ngblList : ").append(gblList).append(" ]");
-		return builder.toString();
+		return "TruckManifast [seq=" + seq + ", date=" + date + ", branch="
+				+ branch + ", code=" + code + "]";
 	}
-
 }

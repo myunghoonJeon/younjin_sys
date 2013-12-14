@@ -31,8 +31,7 @@ public class OutboundService {
 	@Resource
 	private CodeDao codeDao;
 	
-	public int getGblListCount(OutboundFilter outboundFilter) {		
-		System.out.println(outboundFilter.toString());
+	public int getGblListCount(OutboundFilter outboundFilter) {	
 		return outboundDao.getGblListCount(outboundFilter);
 	}
 
@@ -210,4 +209,39 @@ public class OutboundService {
 		outboundDao.updateGblStatus(param);*/
 	}
 
+	public int getTruckListCount(OutboundFilter outboundFilter) {
+		return outboundDao.getTruckListCount(outboundFilter);
+	}
+
+	public List<TruckManifast> getTruckList(OutboundFilter outboundFilter) {
+		return outboundDao.getTruckList(outboundFilter);
+	}
+
+	public List<GBL> getTruckGblList(OutboundFilter outboundFilter) {
+		return outboundDao.getTruckGblList(outboundFilter);
+	}
+
+	public List<Weightcertificate> getTruckWeightList(String seq) {
+		return outboundDao.getWeightcertificateList(seq);
+	}
+
+	public void insertTruckManifast(Map<String, String> gblSeq) {
+		
+		String [] gblSeqList = gblSeq.get("gblSeq").split(",");
+		
+		GBL gbl = getGbl(Integer.parseInt(gblSeqList[0]));
+		
+		TruckManifast truckManifast = new TruckManifast();
+		truckManifast.setBranch(gbl.getAreaLocal());
+		truckManifast.setCode(gbl.getCode());
+		
+		outboundDao.insertTurckManifast(truckManifast);
+		gbl.setTruckSeq(truckManifast.getSeq());
+		
+		for( int i = 0 ; i < gblSeqList.length ; i ++ ){
+			gbl.setSeq(Integer.parseInt(gblSeqList[0]));
+			outboundDao.updateGbl(gbl);
+			outboundDao.updateWeightcertificate(gbl);
+		}
+	}
 }

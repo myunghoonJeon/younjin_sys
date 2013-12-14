@@ -14,6 +14,8 @@
 	<result column="area" property="areaLocal" />
 	<result column="us_no" property="usNo" />
 	<result column="dest_port" property="destPort"/>
+	<result column="pcs" property="pcs" />
+	<result column="cuft" property="cuft" />
 </resultMap>
 
 <resultMap type="GBLStatus" id="StatusMap">
@@ -237,13 +239,71 @@
 
 <select id="getWeightcertificateList" parameterType="String" resultType="Weightcertificate">
         SELECT
-        	seq, piece, type, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date
+        	seq, piece, type, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq
         FROM
         	weight_certificate
         WHERE
         	gbl_seq = #{value}
 </select>
 
+<select id="getTruckCount" parameterType="OutboundFilter" resultType="Integer">
+    SELECT
+    	count(*)
+    FROM
+    	truck_manifast
+    WHERE
+    	1 = 1
+		<if test="branch != null and branch != ''">
+			AND		
+				branch = #{branch}			
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+				date &gt;= str_to_date(#{startDae}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+				date &lt;= str_to_date(#{endPud}, '%Y%m%d')
+		</if>            
+</select>
+
+<select id="getTruckList" parameterType="OutboundFilter" resultType="TruckManifast">
+    SELECT
+    	seq, date, branch, code
+    FROM
+    	truck_manifast
+    WHERE
+    	1 = 1
+		<if test="branch != null and branch != ''">
+			AND		
+				branch = #{branch}			
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+				date &gt;= str_to_date(#{startDae}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+				date &lt;= str_to_date(#{endPud}, '%Y%m%d')
+		</if>               	    
+</select>
+
+<select id="getTruckGblList" parameterType="OutboundFilter" resultMap="GblMap">
+	SELECT 
+		gt.*, cuft, pcs, truck_check
+	FROM 
+		(SELECT
+			g.no, w.truck_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
+		FROM gbl g, weight_certificate w
+		WHERE g.seq = w.gbl_seq
+		AND w.truck_check &lt;&gt; 1
+		GROUP BY g.no, w.truck_check
+		) a, gbl gt
+	WHERE
+		gt.no = a.no
+	ORDER BY
+		gt.seq
+	</select>
 <insert id="insertGbl" parameterType="GBL">
 	INSERT INTO
 		gbl
@@ -337,6 +397,21 @@
     	)
 </insert>
 
+<insert id="insertTruckManifast" parameterType="TruckManifast">
+    INSERT INTO
+    	truck_manifast
+    	(
+    		date, branch, code
+    	)    
+    VALUES
+    	(
+    		SYSDATE(), #{branch}, #{code}
+    	)
+    <selectKey keyProperty="seq" resultType="Integer">     
+		SELECT LAST_INSERT_ID()        
+    </selectKey>
+</insert>
+
 <update id="updatePreMoveSurvey" parameterType="PreMoveSurvey">
 	UPDATE
 		pre_move_survey
@@ -388,5 +463,24 @@
     	</if>    
     WHERE
     	gbl_no = (select no from gbl where seq = #{seq});
+</update>
+
+<update id="updateGbl" parameterType="GBL">
+    UPDATE
+    	gbl
+    SET
+    	truck_seq = #{truckSeq}
+    WHERE
+    	seq = #{seq} 
+</update>
+
+<update id="updateWeightCertificateTruck" parameterType="GBL">
+    UPDATE
+    	weight_certificate
+    SET
+    	truck_check = 1,
+    	truck_seq = #{truckSeq}
+    WHERE
+    	gbl_seq = #{seq}    
 </update>
 </mapper>

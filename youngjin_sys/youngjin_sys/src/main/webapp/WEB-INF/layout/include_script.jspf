@@ -13,4 +13,5 @@
 <script src="${cp}/resources/js/common.js"></script>
 <script src="${cp}/resources/js/admin.js"></script>
 <script src="${cp}/resources/js/outbound.js"></script>
+<script src="${cp}/resources/js/outbound_delivery.js"></script>
 <script src="${cp}/resources/js/gblock.js"></script>

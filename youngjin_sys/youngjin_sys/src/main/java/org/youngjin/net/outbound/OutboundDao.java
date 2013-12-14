@@ -103,5 +103,29 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void updateGblStatus(Map<String, Integer> param) {
 		getSqlSession().update("outboundMapper.updateGblStatus", param);		
 	}
+
+	public int getTruckListCount(OutboundFilter outboundFilter) {
+		return getSqlSession().selectOne("outboundMapper.getTruckCount", outboundFilter);
+	}
+
+	public List<TruckManifast> getTruckList(OutboundFilter outboundFilter) {
+		return getSqlSession().selectList("outboundMapper.getTruckList", outboundFilter);
+	}
+
+	public List<GBL> getTruckGblList(OutboundFilter outboundFilter) {
+		return getSqlSession().selectList("outboundMapper.getTruckGblList", outboundFilter);
+	}
+
+	public void insertTurckManifast(TruckManifast truckManifast) {
+		getSqlSession().insert("outboundMapper.insertTruckManifast", truckManifast);
+	}
+
+	public void updateGbl(GBL gbl) {
+		getSqlSession().update("outboundMapper.updateGbl", gbl);
+	}
+
+	public void updateWeightcertificate(GBL gbl) {
+		getSqlSession().update("outboundMapper.updateWeightCertificateTruck", gbl);
+	}
 	
 }

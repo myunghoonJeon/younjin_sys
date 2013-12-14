@@ -14,5 +14,6 @@
 		<typeAlias alias="Memorandum" type="org.youngjin.net.memorandum.Memorandum"/>
 		<typeAlias alias="Dd619" type="org.youngjin.net.Dd619"/>
 		<typeAlias alias="Weightcertificate" type="org.youngjin.net.outbound.Weightcertificate"/>
+		<typeAlias alias="TruckManifast" type="org.youngjin.net.outbound.TruckManifast"/>
 	</typeAliases>
 </configuration>
