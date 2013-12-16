@@ -18,7 +18,10 @@ youngjin.outbound.delivery.sync = function(){
 		if(confirm("분할 하시겠습니까?"))
 			youngjin.outbound.delivery.getWeightCertificateList($(this));
 		else 
-			$(this).find('input').attr('checked', 'checked');
+			if($(this).find('input').attr('checked') != 'checked')
+				$(this).find('input').attr('checked', 'checked');
+			else 
+				$(this).find('input').removeAttr('checked');
 	});
 	
 	$('.truck_gbl_addButton').unbind('click');
@@ -29,6 +32,24 @@ youngjin.outbound.delivery.sync = function(){
 	$('.truck_weight_addButton').unbind('click');
 	$('.truck_weight_addButton').bind('click', function(){
 			youngjin.outbound.delivery.selectWeight($(this));
+	});	
+
+	$('.booking_addButton').unbind('click');
+	$('.booking_addButton').bind('click',function(){
+		youngjin.outbound.delivery.getBookingGblList($(this));
+	});
+	
+	$('.booking_gbl_addButton').unbind('click');
+	$('.booking_gbl_addButton').bind('click', function(){
+		youngjin.outbound.delivery.addBookingMenu($(this));
+	});
+	
+	$('.booking_gbl_list_tr').unbind('click');
+	$('.booking_gbl_list_tr').bind('click', function(){
+		if($(this).find('input').attr('checked') != 'checked')
+			$(this).find('input').attr('checked', 'checked');
+		else 
+			$(this).find('input').removeAttr('checked');	
 	});
 	
 };
@@ -37,7 +58,7 @@ youngjin.outbound.delivery.getTruckmainifastGblList = function(target){
 	var url = contextPath + '/outbound/delivery/truckManifastGblList';
 	
 	$.smartPop.open({
-		width: 900,
+		width: 1000,
 		height: 700,
 		url : url
 	});
@@ -84,4 +105,38 @@ youngjin.outbound.delivery.selectWeight = function(target){
 	});
 	
 	alert($(opener.document).find('.truck_gbl_list_tr').attr('data-ws'));
+};
+
+youngjin.outbound.delivery.getBookingGblList = function(target){
+	var url = contextPath + '/outbound/delivery/bookingGblList';
+	
+	$.smartPop.open({
+		width: 1000,
+		height: 700,
+		url : url
+	});	
+};
+
+youngjin.outbound.delivery.addBookingMenu = function(target){
+	var gblSeq = '';
+	$(':checkbox:checked').each(function(){
+		gblSeq = gblSeq + $(this).val() + ",";
+	});	
+	
+	var url = contextPath + '/outbound/delivery/bookingAdd.json';
+	var json = {
+			'gblSeq' : gblSeq
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				parent.location.href = contextPath + '/outbound/delivery/bookingList';
+				parent.$.smartPop.close();
+			},
+			error : function(){
+				alert("에러 발생!");
+			}
+		});
+	});
 };

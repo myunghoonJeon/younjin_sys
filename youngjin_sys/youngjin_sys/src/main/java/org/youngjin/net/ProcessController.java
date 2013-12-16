@@ -23,6 +23,8 @@ public class ProcessController {
 	
 	@RequestMapping( value = "/{process}/", method = RequestMethod.GET)
 	public String process(Model model, User user, @PathVariable String process){
+		
+		user.setSubProcess("none");
 				
 		model.addAttribute("user", user);
 		
@@ -31,6 +33,8 @@ public class ProcessController {
 	
 	@RequestMapping( value = "/{process}/gblock/main", method = RequestMethod.GET)
 	public String gblock(Model model, User user, @PathVariable String process){
+		
+		user.setSubProcess("gBlock");
 				
 		model.addAttribute("user", user);
 		model.addAttribute("gblockList", processService.getGBlockList());

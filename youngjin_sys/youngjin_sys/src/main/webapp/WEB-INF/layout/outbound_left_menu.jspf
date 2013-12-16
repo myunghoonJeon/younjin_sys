@@ -2,31 +2,36 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <ul class="left_detail_menu_wrap">
 	<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
-		<li>
-			<a href="${cp }/outbound/gblList">GBL LIST</a>				
+		<li onclick="location.href='${cp }/outbound/gblList'" style="${(user.subProcess eq 'gblList') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+			GBL LIST			
 		</li>
-		<li class="outbound_delivery">
-			<a href="${cp }/outbound/delivery/main">DELIVERY</a>	
-			<ul class="outbound_delivery_item" style="display: none;">
-				<li>
-					<a href="${cp }/outbound/delivery/truckManifast">TRUCK MANIFAST</a>
+		<li class="outbound_delivery" style="${(user.subProcess eq 'delivery' or user.subProcess eq 'truckManifast' or user.subProcess eq 'bookingList') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+			DELIVERY	
+		</li>
+		<li class="outbound_delivery_item_list" style="${(user.subProcess eq 'delivery' or user.subProcess eq 'truckManifast' or user.subProcess eq 'bookingList') ? 'display:block;' : 'display:none;'}">				
+			<ul class="outbound_delivery_item">
+				<li onclick="location.href='${cp }/outbound/delivery/main'" style="${(user.subProcess eq 'delivery') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+					DELIVERY LIST	
 				</li>
-				<li>
-					<a href="${cp }/outbound/delivery/bookingList">BOOKING LIST</a>
+				<li onclick="location.href='${cp }/outbound/delivery/truckManifast'" style="${(user.subProcess eq 'truckManifast') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+					TRUCK MANIFAST
+				</li>
+				<li onclick="location.href='${cp }/outbound/delivery/bookingList'" style="${(user.subProcess eq 'bookingList') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+					BOOKING LIST
 				</li>	
 				<li>
 					CLP
 				</li>			
-			</ul>			
+			</ul>	
 		</li>
 		<li>
-			<a href="#">TCMD</a>				
+			TCMD			
 		</li>
 		<li>
-			<a href="#">FREIGHT</a>				
+			FREIGHT				
 		</li>
 		<li>
-			<a href="#">INVOICE</a>				
+			INVOICE	
 		</li>
 	</sec:authorize>
 </ul>

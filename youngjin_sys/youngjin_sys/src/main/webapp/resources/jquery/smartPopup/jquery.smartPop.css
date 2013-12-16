@@ -31,10 +31,10 @@
 /* 		rgba(0, 0, 0, .05), 0 5px 4px -3px rgba(0, 0, 0, .06); */
 	margin: 9px auto 100px auto;
 	max-width: 1300px;
-	min-width: 400px;
+	min-width: 300px;
 	padding: 0px;
 	width: 720px;
-	height: 500px;
+	height: 300px;
 	z-index: 2;
 }
 
@@ -74,8 +74,8 @@
 	width: 14px;
 	height: 13px;
 	background: url(../smartPopup/img/btn_close1.png);
-	right: 15px;
-	top: 10px;
+	right: 5px;
+	top: 5px;
 	cursor: pointer;
 }
 

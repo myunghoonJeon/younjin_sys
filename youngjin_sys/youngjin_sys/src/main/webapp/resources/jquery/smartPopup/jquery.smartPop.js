@@ -93,7 +93,7 @@
 
             // 기본 설정
             $('#smartPop_container').css({ border: 'solid ' + this.opts.border + 'px ' + this.opts.borderColor });
-            $('#smartPop_close').css({ top: this.opts.closeMargin + 'px', right: this.opts.closeMargin + 'px' });
+            $('#smartPop_close').css({ top: 5 + 'px', right: 5 + 'px' });
             $('#smartPop_content').css({ padding: this.opts.padding + 'px' });
             $('#smartPop_container').width(this.opts.width);
             $('#smartPop_close_wrap').width(this.opts.width);
@@ -153,7 +153,7 @@
 
             // 닫기 버튼 설정
             if(this.opts.closeImg != undefined) {
-                $('#smartPop_close').css({ width:this.opts.closeImg.width + 'px', height:this.opts.closeImg.height + 'px', backgroundImage:'url(' + this.opts.closeImg.src + ')'});
+                $('#smartPop_close').css({ top: 5 + 'px', right: 5 + 'px', width:this.opts.closeImg.width + 'px', height:this.opts.closeImg.height + 'px', backgroundImage:'url(' + this.opts.closeImg.src + ')'});
             }
             
 
@@ -234,7 +234,7 @@
         border      : 1,
         borderColor : 'black',
         closeMargin : 0,
-        closeImg    : {width:13, height: 13, src: contextPath + '/resources/jquery/smartPopup/img/btn_close2.png'},
+        closeImg    : {width:24, height: 24, src: contextPath + '/resources/jquery/smartPopup/img/btn_close2.png'},
         opacity     : .7,
         width       : 720,
         height      : 500,

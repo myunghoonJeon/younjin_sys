@@ -30,13 +30,16 @@
 </head>
 <body>
 	<div class="gbl_preparation_div">
+		<div class="pop_title_line">
+			<span>PREPARATION</span>
+		</div>
 		<ul class="gbl_preparation_list" data-seq="${seq }">
-			<li class="gbl_preparation_pre_move_survey">PRE-MOVE-SURVEY</li>
-			<li class="gbl_preparation_memorandum">MEMORANDUM</li>
-			<li class="gbl_preparation_dd619_write">DD-619 WRITE</li>
-			<li class="gbl_preparation_weight_certificate">WEIGHT-CERTIFICATE</li>
-			<li>DD-619 DECIDE</li>
-			<li>COMPLETE</li>
+			<li class="gbl_preparation_pre_move_survey"><span>PRE-MOVE-SURVEY</span></li>
+			<li class="gbl_preparation_memorandum"><span>MEMORANDUM</span></li>
+			<li class="gbl_preparation_dd619_write"><span>DD-619 WRITE</span></li>
+			<li class="gbl_preparation_weight_certificate"><span>WEIGHT-CERTIFICATE</span></li>
+			<li class="gbl_preparation_addtional_decide"><span>ADDITIONAL DECIDE</span></li>
+			<li><span>COMPLETE</span></li>
 		</ul>
 	</div>
 </body>

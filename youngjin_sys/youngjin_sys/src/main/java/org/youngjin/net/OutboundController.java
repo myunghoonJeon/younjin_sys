@@ -22,6 +22,7 @@ import org.youngjin.net.code.CodeService;
 import org.youngjin.net.login.User;
 import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumService;
+import org.youngjin.net.outbound.Addition;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.outbound.PreMoveSurvey;
@@ -51,6 +52,8 @@ public class OutboundController {
 		outboundFilter.getPagination().setNumItems(
 				outboundService.getGblListCount(outboundFilter));
 
+		user.setSubProcess("gblList");
+
 		model.addAttribute("filterMap", outboundService.getFilterMap());
 
 		model.addAttribute("gblList",
@@ -70,6 +73,8 @@ public class OutboundController {
 
 		outboundFilter.getPagination().setNumItems(
 				outboundService.getGblListCount(outboundFilter));
+
+		user.setSubProcess("gblList");
 
 		model.addAttribute("filterMap", outboundService.getFilterMap());
 
@@ -316,6 +321,34 @@ public class OutboundController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/additional", method = RequestMethod.GET)
+	public String additionalDecideMain(Model model, User user,
+			@PathVariable String process, @PathVariable String seq) {
+		Map<String, Memorandum> checkMemorandumMap = memorandumService
+				.getMemorandumMap(seq);
+
+		model.addAttribute("seq", seq);
+
+		if (checkMemorandumMap.get("02") != null
+				&& checkMemorandumMap.get("02").getArticles() != null) {
+			String articleList[] = checkMemorandumMap.get("02").getArticles()
+					.split(",");
+			model.addAttribute("articles", articleList);
+		}
+
+		model.addAttribute("checkMemorandumMap", checkMemorandumMap);
+
+		return process + "/gbl/additionalDecide";
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/additionComplete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void additionalComplete(@RequestBody Addition addition) {
+		outboundService.additionComplete(addition);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/weightcertificate/add.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblWeightcertificateSubmit(
@@ -393,6 +426,8 @@ public class OutboundController {
 
 		model.addAttribute("user", user);
 
+		user.setSubProcess("delivery");
+
 		model.addAttribute("deliveryList", null);
 
 		return process + "/delivery/main";
@@ -419,6 +454,8 @@ public class OutboundController {
 
 		model.addAttribute("filterMap", outboundService.getFilterMap());
 
+		user.setSubProcess("truckManifast");
+
 		model.addAttribute("truckList",
 				outboundService.getTruckList(outboundFilter));
 		model.addAttribute("user", user);
@@ -436,6 +473,8 @@ public class OutboundController {
 				outboundService.getTruckListCount(outboundFilter));
 
 		model.addAttribute("filterMap", outboundService.getFilterMap());
+
+		user.setSubProcess("truckManifast");
 
 		model.addAttribute("truckList",
 				outboundService.getTruckList(outboundFilter));
@@ -461,34 +500,71 @@ public class OutboundController {
 
 		return process + "/delivery/gblList";
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{process}/delivery/{seq}/truckWeightList", method = RequestMethod.GET)
 	public String truckManifastWeightList(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
 			@PathVariable String process, @PathVariable String seq) {
-		
-		model.addAttribute("weightList", outboundService.getTruckWeightList(seq));
-		
+
+		model.addAttribute("weightList",
+				outboundService.getTruckWeightList(seq));
+
 		return process + "/delivery/truck_weightList";
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{process}/delivery/truckAdd.json")
 	@ResponseBody
-	public void truckAdd(@RequestBody Map<String, String> gblSeq){
+	public void truckAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertTruckManifast(gblSeq);
-	}	
+	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/delivery/bookingList", method = RequestMethod.GET)
 	public String bookingListMain(Model model, User user,
+			@ModelAttribute OutboundFilter outboundFilter,
 			@PathVariable String process) {
+
+		outboundFilter.getPagination().setNumItems(
+				outboundService.getBookingListCount(outboundFilter));
+
+		model.addAttribute("filterMap", outboundService.getFilterMap());
+
+		model.addAttribute("bookingList",
+				outboundService.getBookingList(outboundFilter));
+
+		user.setSubProcess("bookingList");
 
 		model.addAttribute("user", user);
 
 		return process + "/delivery/bookingList";
 	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/delivery/bookingGblList", method = RequestMethod.GET)
+	public String bookingListGblList(Model model, User user,
+			@ModelAttribute OutboundFilter outboundFilter,
+			@PathVariable String process) {
+
+		outboundFilter.getPagination().setNumItems(
+				outboundService.getGblListCount(outboundFilter));
+
+		model.addAttribute("filterMap", outboundService.getFilterMap());
+
+		model.addAttribute("gblList",
+				outboundService.getBookingGblList(outboundFilter));
+		model.addAttribute("user", user);
+
+		return process + "/delivery/bookGblList";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/delivery/bookingAdd.json")
+	@ResponseBody
+	public void bookingAdd(@RequestBody Map<String, String> gblSeq) {
+		outboundService.insertBookingList(gblSeq);
+	}	
 
 	/**
 	 * DownLoadControl

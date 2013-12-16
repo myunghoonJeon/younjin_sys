@@ -14,7 +14,7 @@ youngjin.outbound.sync = function(){
 		var url = contextPath + '/outbound/add/';
 		$.smartPop.open({
 			width : 900,
-			height : 500,
+			height : 600,
 			url : url
 		});
 	});
@@ -69,8 +69,8 @@ youngjin.outbound.sync = function(){
 		youngjin.outbound.getGblProcess($(this));
 	});
 	
-	$('.gbl_process_preperation').unbind('click');
-	$('.gbl_process_preperation').bind('click', function(){
+	$('.gbl_process_preparation').unbind('click');
+	$('.gbl_process_preparation').bind('click', function(){
 		youngjin.outbound.preperationPop($(this));
 	});
 	
@@ -174,6 +174,21 @@ youngjin.outbound.sync = function(){
 	$('.weightcertificate_write').bind('click', function(){
 		youngjin.outbound.weightCertificateSubmit($(this));
 	});
+	
+	$('.gbl_preparation_addtional_decide').unbind('click');
+	$('.gbl_preparation_addtional_decide').bind('click', function(){
+		youngjin.outbound.additionalDecide($(this));
+	});
+	
+	$('.gbl_plus_Box').unbind('click');
+	$('.gbl_plus_Box').bind('click', function(){
+		youngjin.outbound.addDecideColumn($(this));
+	});
+	
+	$('.addition_complete_btn').unbind('click');
+	$('.addition_complete_btn').bind('click', function(){
+		youngjin.outbound.additionComplete($(this));
+	});
 };
 
 youngjin.outbound.findUsNo = function(target){
@@ -209,8 +224,8 @@ youngjin.outbound.getGblProcess = function(target){
 	var url = contextPath + '/outbound/' + seq;
 	
 	$.smartPop.open({
-		width : 900,
-		height : 671,
+		width : 1000,
+		height : 521,
 		url : url
 	});			
 	
@@ -251,8 +266,8 @@ youngjin.outbound.preperationPop = function(target){
 	parent.$.smartPop.close();
 
 	parent.$.smartPop.open({
-		width: 400,
-		height: 500,
+		width: 350,
+		height: 460,
 		url : url
 	});
 	
@@ -372,7 +387,7 @@ youngjin.outbound.memorandum = function(target){
 
 	parent.$.smartPop.open({
 		width: 600,
-		height: 350,
+		height: 248,
 		url : url
 	});
 	
@@ -405,8 +420,8 @@ youngjin.outbound.memorandumPop = function(target){
 		parent.$.smartPop.close();
 	
 		parent.$.smartPop.open({
-			width: 594,
-			height: 841,
+			width: 650,
+			height: 900,
 			url : url
 		});	
 	} else {
@@ -430,8 +445,8 @@ youngjin.outbound.memorandumPop = function(target){
 				parent.$.smartPop.close();
 			
 				parent.$.smartPop.open({
-					width: 594,
-					height: 841,
+					width: 500,
+					height: 400,
 					url : url
 				});	
 			} else {
@@ -451,7 +466,7 @@ youngjin.outbound.memorandumFormBack = function(target){
 
 	parent.$.smartPop.open({
 		width: 600,
-		height: 350,
+		height: 248,
 		url : url
 	});	
 };
@@ -542,7 +557,7 @@ youngjin.outbound.memorandumUpdate = function(target){
 
 				parent.$.smartPop.open({
 					width: 600,
-					height: 350,
+					height: 248,
 					url : url
 				});					
 			},
@@ -576,7 +591,7 @@ youngjin.outbound.dd619Pop = function(target){
 	parent.$.smartPop.close();
 
 	parent.$.smartPop.open({
-		width: 900,
+		width: 1000,
 		height: 400,
 		url : url
 	});
@@ -705,7 +720,7 @@ youngjin.outbound.weightCertificate = function(target){
 	parent.$.smartPop.close();
 
 	parent.$.smartPop.open({
-		width: 800,
+		width: 1000,
 		height: 900,
 		url : url
 	});
@@ -794,6 +809,78 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 			},
 			
 			error: function(){
+				alert("에러 발생!");
+			}
+		});
+	});
+};
+
+youngjin.outbound.additionalDecide = function(target){
+	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/additional';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 400,
+		height: 500,
+		url : url
+	});	
+};
+
+youngjin.outbound.addDecideColumn = function(target){
+	var tbody = target.parents().parents().parents('tbody');
+	
+	var html = '<tr>' + 
+					'<td><input name="type" type="text" /></td>' +
+					'<td><input name="cost" type="text" /> $ </td>' + 
+					'<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;"><div class="gbl_plus_Box"></div></td>'+
+				'</tr>';
+	
+	target.parents('.gbl_plus_Box_td').css('display', 'none');
+	
+	tbody.append(html);
+	
+	youngjin.outbound.sync();
+};
+
+youngjin.outbound.additionComplete = function(target){
+	var table = $('#addition_table');
+	var seq = table.attr('data-seq');
+	
+	var type = $('input[name=type]').eq(0).val();
+	var cost = $('input[name=cost]').eq(0).val();
+	
+	for( var i = 1 ; i < $('input[name=type]').length ; i ++ ){
+		type += ',' + $('input[name=type]').eq(i).val();
+		cost += ',' + $('input[name=cost]').eq(i).val();
+	}
+	
+	var url = contextPath + '/outbound/additionComplete.json';
+	
+	var json = {
+			'title' : type,
+			'price' : cost,
+			'gblSeq' : seq
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){				
+				var goUrl = contextPath + '/outbound/' + seq + '/preparation';
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width: 350,
+					height: 460,
+					url : goUrl
+				});
+				
+			},
+			
+			error : function(){
 				alert("에러 발생!");
 			}
 		});

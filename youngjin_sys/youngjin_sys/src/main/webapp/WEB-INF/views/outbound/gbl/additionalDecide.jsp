@@ -30,49 +30,54 @@
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
 <body>
-	<div class="dd619_list_wrap" data-seq="${seq}">
+	<div id="addtional_decide_wrap">
 		<div class="pop_title_line">
-			<span>DD619 LIST</span>
+			<span>ADDTIONAL DECIDE</span>
 		</div>	
-		<div id="dd619_addButton">
-			<ul id="dd619_button_list">
-				<li>
-					<span class="yj_button dd619_back">back</span>
-				</li>
-				<li>
-					<span class= "yj_button dd619_addButton">add</span>
-				</li>
-			</ul>
-		</div>
-		<div>
-			<table class="yj_table">
+		<div id="addition_table_wrap">
+			<table id="addition_table" data-seq="${seq}">
 				<thead>
 					<tr>
-						<th>
-							NO
-						</th>
-						<th>
-							GBL NO
-						</th>
-						<th>
-							WRITE DATE
-						</th>
+						<th>LIST</th>
+						<th>COST</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:if test="${dd619List eq '[]' or dd619List eq null }">
+					<c:if test="${checkMemorandumMap['01'] ne '[]'  or checkMemorandumMap['01'] ne null}">
 						<tr>
-							<td colspan="3">등록 된 문서가 없습니다.</td>
+							<td><input name="type" type="text" value="LOWERING EQIPMENT" readonly="readonly" /></td>
+							<td><input name="cost" type="text" /> $</td>
 						</tr>
 					</c:if>
-					<c:forEach var="dd619" items="${dd619List }" varStatus="i">
+					<c:if test="${checkMemorandumMap['02'] ne '[]'  or checkMemorandumMap['02'] ne null}">
+						<c:forEach var="article" items="${articles}">
+							<tr>
+								<td><input name="type" type="text" value="${article}" readonly="readonly" /></td>
+								<td><input name="cost" type="text" /> $</td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					<c:if test="${checkMemorandumMap['03'] ne '[]'  or checkMemorandumMap['03'] ne null}">
 						<tr>
-							<td>${i.count }</td>
-							<td>${dd619.gblNo }</td>
-							<td>${dd619.writeDate }</td>
+							<td><input name="type" type="text" value="MOTO CYCLE" readonly="readonly" /></td>
+							<td><input name="cost" type="text" /> $</td>
 						</tr>
-					</c:forEach>
+					</c:if>
+					<tr>
+						<td><input name="type" type="text" /></td>
+						<td><input name="cost" type="text" /> $ </td>
+						<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;"><div class="gbl_plus_Box"></div></td>
+					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="2">
+							<div>
+								<span class="addition_complete_btn yj_button">complete</span>
+							</div>
+						</td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 	</div>

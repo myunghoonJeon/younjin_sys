@@ -30,9 +30,9 @@
 </head>
 <body>
 	<div class="memorandum_wrap">
-		<div class="title">
-			<h1>MEMORANDUM</h1>
-		</div>
+		<div class="pop_title_line">
+			<span>MEMORANDUM</span>
+		</div>	
 		<div>
 			<table class="memorandum_table" data-seq="${gbl.seq }">
 				<thead>

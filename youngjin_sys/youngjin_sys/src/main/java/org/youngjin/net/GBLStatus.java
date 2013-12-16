@@ -5,6 +5,8 @@ public class GBLStatus {
 	private String input;
 	private String preperation;
 	private String delivery;
+	private String truckManifast;
+	private String bookingList;
 	private String invoice;
 	private String arrival;
 	private String process;
@@ -65,12 +67,30 @@ public class GBLStatus {
 		this.process = process;
 	}
 
+	public String getTruckManifast() {
+		return truckManifast;
+	}
+
+	public void setTruckManifast(String truckManifast) {
+		this.truckManifast = truckManifast;
+	}
+
+	public String getBookingList() {
+		return bookingList;
+	}
+
+	public void setBookingList(String bookingList) {
+		this.bookingList = bookingList;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("GBLStatus [no : ").append(no).append(" ;\ninput : ")
 				.append(input).append(" ;\npreperation : ").append(preperation)
 				.append(" ;\ndelivery : ").append(delivery)
+				.append(" ;\ntruckManifast : ").append(truckManifast)
+				.append(" ;\nbookingList : ").append(bookingList)
 				.append(" ;\ninvoice : ").append(invoice)
 				.append(" ;\narrival : ").append(arrival)
 				.append(" ;\nprocess : ").append(process).append(" ]");

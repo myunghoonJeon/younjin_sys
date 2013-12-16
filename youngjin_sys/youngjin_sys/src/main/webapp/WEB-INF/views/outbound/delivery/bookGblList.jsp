@@ -12,7 +12,7 @@
 <c:set var="pagination" value="${outboundFilter.pagination }"/>
 <html>
 <head>
-<title>Truck GBL List</title>
+<title>Book GBL List</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/font.css">
@@ -49,7 +49,7 @@
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
 <body>
-	<div class="truck_gbl_list_wrap">
+	<div class="booking_gbl_list_wrap">
 		<div class="pop_title_line">
 			<span>DD619 LIST</span>
 		</div>	
@@ -85,7 +85,7 @@
 							<form:input path="startPud"/>
 						</li>
 						<li>
-							<span class="truck_gbl_addButton yj_button" >add</span>
+							<span class="booking_gbl_addButton yj_button" >add</span>
 						</li>
 					<form:hidden path="page" value="${pagination.currentPage}"/>
 				</form:form>
@@ -165,7 +165,7 @@
 					<c:forEach var="gbl" items="${gblList }">
 						<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
 						<c:set var="pud" value="${parsePud }" />
-						<tr class="truck_gbl_list_tr" data-seq="${gbl.seq }" data-ws="1">
+						<tr class="booking_gbl_list_tr" data-seq="${gbl.seq }" data-ws="1">
 							<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null }">
 								<td>${gbl.code }</td>
 							</c:if>
@@ -186,7 +186,7 @@
 								<td>${gbl.areaLocal }</td>
 							</c:if>
 							<td>${gbl.destPort }</td>
-							<td><input value="${gbl.seq }" type="checkbox" ${(gbl.truckCheck eq true) ? 'checked=checked' : '' } /></td>
+							<td><input value="${gbl.seq }" type="checkbox" ${(gbl.bookingCheck eq true) ? 'checked=checked' : '' } /></td>
 						</tr>
 					</c:forEach>
 				</tbody>

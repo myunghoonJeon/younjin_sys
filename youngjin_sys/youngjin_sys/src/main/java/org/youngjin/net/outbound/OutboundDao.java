@@ -127,5 +127,25 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void updateWeightcertificate(GBL gbl) {
 		getSqlSession().update("outboundMapper.updateWeightCertificateTruck", gbl);
 	}
+
+	public int getBookingListCount(OutboundFilter outboundFilter) {
+		return getSqlSession().selectOne("outboundMapper.getBookingListCount", outboundFilter);
+	}
+	
+	public List<BookingList> getBookingList(OutboundFilter outboundFilter){
+		return getSqlSession().selectList("outboundMapper.getBookingList", outboundFilter);
+	}
+
+	public List<GBL> getBookingGblList(OutboundFilter outboundFilter) {
+		return getSqlSession().selectList("outboundMapper.getBookingGblList", outboundFilter);
+	}
+
+	public void additionComplete(Addition paramAddition) {
+		getSqlSession().insert("outboundMapper.addtionComplete", paramAddition);
+	}
+
+	public void insertBookingList(BookingList bookingList) {
+		getSqlSession().insert("outboundMapper.insertBookingList", bookingList);
+	}
 	
 }

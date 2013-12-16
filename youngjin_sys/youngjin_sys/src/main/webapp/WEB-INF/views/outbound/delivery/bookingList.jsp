@@ -28,31 +28,50 @@
 		</script>
 	</c:if>
 	
-	<div class="title">
-		<h1>BOOKING LIST</h1>
-	</div>
-	
-	<div class="delivery_addButton user_addButton">
-		<span >add</span>
+	<div class="booking_addButton_wrap">
+		<span class="booking_addButton yj_button" >add</span>
 	</div>	
 	
 	<div>
-		<table class="yj_table">
+		<table class="yj_table">		
 			<thead>
 				<tr>
 					<th>NO</th>
-					<th>GBL</th>
-					<th>FROM</th>
-					<th>TO</th>
-					<th>DATE</th>
+					<th>WRITE DATE</th>
+					<th>MEMO</th>
 				</tr>
 			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="4">
+						<a href="javascript:void(goToPage(1))">FIRST</a>
+						<a href="javascript:void(goToPreviousPages())">PREV</a>
+						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
+							<c:if test="${i == pagination.currentPage}">
+								<a class="page_now">${i}</a>
+							</c:if>
+							<c:if test="${i != pagination.currentPage}">
+								<a href="javascript:void(goToPage(${i}))">${i}</a>
+							</c:if>
+						</c:forEach>
+						<a href="javascript:void(goToNextPages())">NEXT</a>
+						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
+					</td>
+				</tr>
+			</tfoot>			
 			<tbody>
-				<c:if test="${truckList eq '[]' or truckList eq null }">
+				<c:if test="${bookingList eq '[]' or bookingList eq null }">
 					<tr>
-						<td colspan="5">등록된 정보가 없습니다.</td>
+						<td colspan="3">등록된 정보가 없습니다.</td>
 					</tr>
 				</c:if>
+				<c:forEach var="book" items="${bookingList }" varStatus="i">
+					<tr>
+						<td>${i.count }</td>
+						<td>${book.writeDate }</td>
+						<td>${book.memo }</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>	

@@ -31,9 +31,9 @@
 </head>
 <body>
 	<div id="gbl_add_div">
-		<div class="title">
-			<h1>GBL INPUT</h1>
-		</div>
+		<div class="pop_title_line">
+			<span>DD619 LIST</span>
+		</div>	
 		<form:form commandName="gbl">
 		<table class="gbl_add_table">
 			<tr>

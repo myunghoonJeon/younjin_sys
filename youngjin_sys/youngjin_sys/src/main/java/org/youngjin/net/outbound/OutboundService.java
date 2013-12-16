@@ -239,9 +239,79 @@ public class OutboundService {
 		gbl.setTruckSeq(truckManifast.getSeq());
 		
 		for( int i = 0 ; i < gblSeqList.length ; i ++ ){
-			gbl.setSeq(Integer.parseInt(gblSeqList[0]));
+			gbl.setSeq(Integer.parseInt(gblSeqList[i]));
 			outboundDao.updateGbl(gbl);
 			outboundDao.updateWeightcertificate(gbl);
+			
+			Map<String, Integer> paramMap = new HashMap<String, Integer>();
+			paramMap.put("truckmanifast", 1);	
+			paramMap.put("seq", gbl.getSeq());
+			outboundDao.updateGblStatus(paramMap);
 		}
+	}
+
+	public int getBookingListCount(OutboundFilter outboundFilter) {
+		return outboundDao.getBookingListCount(outboundFilter);
+	}
+
+	public List<BookingList> getBookingList(OutboundFilter outboundFilter) {
+		return outboundDao.getBookingList(outboundFilter);
+	}
+
+	public List<GBL> getBookingGblList(OutboundFilter outboundFilter) {
+		return outboundDao.getBookingGblList(outboundFilter);
+	}
+
+	public void additionComplete(Addition addition) {
+		String titleList[] = addition.getTitle().split(",");
+		String priceList[] = addition.getPrice().split(",");
+		
+		int titleListSize = titleList.length;
+		int priceListSize = priceList.length;
+		
+		if( titleListSize != priceListSize ){
+			if ( titleListSize > priceListSize ){
+				titleList[titleListSize - 1] = null;
+			} else {
+				priceList[priceListSize - 1] = null;
+			}
+		}
+		
+		Addition paramAddition = new Addition();
+		paramAddition.setGblSeq(addition.getGblSeq());
+		
+		for( int i = 0 ; i < titleListSize ; i ++ ){
+			paramAddition.setTitle(titleList[i]);
+			paramAddition.setCost(Double.parseDouble(priceList[i]));
+			
+			outboundDao.additionComplete(paramAddition);
+		}
+		
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("preparation", 1);
+		map.put("seq", addition.getGblSeq());
+		outboundDao.updateGblStatus(map);
+	}
+
+	public void insertBookingList(Map<String, String> gblSeq) {		
+		String [] gblSeqList = gblSeq.get("gblSeq").split(",");
+		
+		GBL gbl = getGbl(Integer.parseInt(gblSeqList[0]));
+		
+		BookingList bookingList = new BookingList();
+		
+		outboundDao.insertBookingList(bookingList);
+		gbl.setBookingSeq(bookingList.getSeq());
+		
+		for( int i = 0 ; i < gblSeqList.length ; i ++ ){
+			gbl.setSeq(Integer.parseInt(gblSeqList[i]));
+			outboundDao.updateGbl(gbl);
+			outboundDao.updateWeightcertificate(gbl);
+			
+			Map<String, Integer> paramMap = new HashMap<String, Integer>();
+			paramMap.put("booking", 1);	
+			paramMap.put("seq", gbl.getSeq());
+			outboundDao.updateGblStatus(paramMap);
+		}		
 	}
 }

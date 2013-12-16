@@ -30,12 +30,17 @@
 </head>
 <body>
 	<div class="pre_move_survey_wrap">
-		<div class="title">
-			<h1>PRE MOVE SURVEY</h1>
+		<div class="pop_title_line">
+			<span>PRE-MOVE-SURVEY</span>
 		</div>
 		<form:form commandName="preMoveSurvey">
 			<form:hidden path="seq" value="${seq }" />
 			<table class="pre_move_survey_table">
+				<thead>
+					<tr>
+						<th colspan="2">INSERT</th>
+					</tr>
+				</thead>
 				<tr>
 					<th>Estimate Weight</th>
 					<td><form:input path="estimateWeight" /></td>

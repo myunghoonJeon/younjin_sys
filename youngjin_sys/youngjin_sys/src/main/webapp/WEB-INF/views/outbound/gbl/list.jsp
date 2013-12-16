@@ -28,45 +28,52 @@
 		</script>
 	</c:if>
 	
-	<div class="title">
-		<h1>GBL LIST</h1>
-	</div>
-	
 	<c:set var="branchList" value="${filterMap['branchList'] }" />
 	<c:set var="carrierList" value="${filterMap['carrierList'] }" />
 	<c:set var="codeList" value="${filterMap['codeList'] }" />
 	
 	<div class="gbl_filter">	
-		<form:form commandName="outboundFilter" method="get">
-			<sec:authorize access="hasRole('ROLE_ADMIN')">
-				<form:select path="branch">
-					<form:option value="">All</form:option>
-					<c:forEach var="branch" items="${branchList }">
-						<c:if test="${branch.codeName ne 'None' }" >
-							<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
-						</c:if>
-					</c:forEach>
-				</form:select>
-			</sec:authorize>
-			<form:select path="carrier">
-				<form:option value="">All</form:option>
-				<c:forEach var="carrier" items="${carrierList }">
-					<form:option value="${carrier.subCode }">${carrier.subCode }</form:option>
-				</c:forEach>
-			</form:select>
-			<form:select path="code">
-				<form:option value="">All</form:option>
-				<c:forEach var="code" items="${codeList }">
-					<form:option value="${code.subCode }">${code.subCode }</form:option>
-				</c:forEach>
-			</form:select>
-			<form:input path="startPud"/> ~ <form:input path="endPud"/>
-			<form:hidden path="page" value="${pagination.currentPage}"/>
-		</form:form>
-	</div>
-	
-	<div class="gbl_addButton user_addButton">
-		<span >add</span>
+		<ul>
+			<form:form commandName="outboundFilter" method="get">
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<li>
+						<form:select path="branch">
+							<form:option value="">All</form:option>
+							<c:forEach var="branch" items="${branchList }">
+								<c:if test="${branch.codeName ne 'None' }" >
+									<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
+								</c:if>
+							</c:forEach>
+						</form:select>
+					</li>
+				</sec:authorize>
+				<li>
+					<form:select path="carrier">
+						<form:option value="">All</form:option>
+						<c:forEach var="carrier" items="${carrierList }">
+							<form:option value="${carrier.subCode }">${carrier.subCode }</form:option>
+						</c:forEach>
+					</form:select>
+				</li>
+				<li>
+					<form:select path="code">
+						<form:option value="">All</form:option>
+						<c:forEach var="code" items="${codeList }">
+							<form:option value="${code.subCode }">${code.subCode }</form:option>
+						</c:forEach>
+					</form:select>
+				</li>
+				<li>
+					<form:input path="startPud"/> ~ <form:input path="endPud"/>
+				</li>
+				<li>
+					<form:hidden path="page" value="${pagination.currentPage}"/>
+				</li>
+				<li>	
+					<span class="gbl_addButton yj_button" >add</span>
+				</li>
+			</form:form>
+		</ul>	
 	</div>
 	
 	<div class="gbl_list_filter_title">

@@ -17,6 +17,7 @@ import org.youngjin.net.login.User;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_ADMIN')")
+@RequestMapping(value = "/admin")
 public class AdminController {
 
 	@Resource
@@ -25,12 +26,16 @@ public class AdminController {
 	@Resource
 	private CodeService codeService;
 	
-	@RequestMapping(value = "/{process}/admin/", method = RequestMethod.GET)
-	public String adminMain(Model model, User user, @PathVariable String process){
+	@RequestMapping(value = "/adminMain", method = RequestMethod.GET)
+	public String adminMain(Model model, User user){
+		
+		System.out.println("check");
 		
 		List<User> userList = adminService.getAllUserList();
 		List<Code> authList = codeService.getAllAuthList();
 		List<Code> areaList = codeService.getAllAreaList();
+		
+		user.setSubProcess("admin");
 		
 		//user.setProcess("admin");
 		

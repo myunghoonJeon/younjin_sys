@@ -3,6 +3,7 @@ if (typeof youngjin.top == 'undefined') {
 }
 
 $(function() {
+	
 	youngjin.top.home();
 	
 	youngjin.top.form();
@@ -55,10 +56,11 @@ youngjin.top.goToGblockPage = function(){
 
 youngjin.top.leftDeliveryMenu = function(){
 	$('.outbound_delivery').click(function(){
-		if ($('.outbound_delivery_item').css('display') == 'none'){			
-			$('.outbound_delivery_item').slideDown();
-		} else if($('.outbound_delivery_item').css('display') == 'block'){
-			$('.outbound_delivery_item').slideUp();
+		if ($('.outbound_delivery_item_list').css('display') == 'none'){			
+			$('.outbound_delivery_item_list').slideDown();
+			$('.outbound_delivery_item_list').css('display', 'block');
+		} else if($('.outbound_delivery_item_list').css('display') == 'block'){
+			$('.outbound_delivery_item_list').slideUp();
 		}
 	});
 };

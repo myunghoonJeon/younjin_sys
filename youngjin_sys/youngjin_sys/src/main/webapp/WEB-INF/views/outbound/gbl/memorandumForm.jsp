@@ -30,6 +30,9 @@
 </head>
 <body>
 	<div class="memorandum_form_wrap">
+		<div class="pop_title_line">
+			<span>MEMORANDUM</span>
+		</div>	
 		<div class="memorandum_form_content_wrap" data-seq="${seq }" data-type="${type }" >
 			<div id="memorandum_button">
 				<ul id="memorandum_button_list">

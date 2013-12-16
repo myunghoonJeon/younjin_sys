@@ -21,32 +21,35 @@
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
 </script>	
-	<div class="title">
-		<h1>TRUCK MANIFAST</h1>
-	</div>
-
 	<c:set var="branchList" value="${filterMap['branchList'] }" />
 	
 	<div class="gbl_filter">	
-		<form:form commandName="outboundFilter" method="get">
-			<sec:authorize access="hasRole('ROLE_ADMIN')">
-				<form:select path="branch">
-					<form:option value="">All</form:option>
-					<c:forEach var="branch" items="${branchList }">
-						<c:if test="${branch.codeName ne 'None' }" >
-							<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
-						</c:if>
-					</c:forEach>
-				</form:select>
-			</sec:authorize>
-			<form:input path="startPud"/> ~ <form:input path="endPud"/>
-			<form:hidden path="page" value="${pagination.currentPage}"/>
-		</form:form>
+		<ul>
+			<form:form commandName="outboundFilter" method="get">
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<li>	
+						<form:select path="branch">
+							<form:option value="">All</form:option>
+							<c:forEach var="branch" items="${branchList }">
+								<c:if test="${branch.codeName ne 'None' }" >
+									<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
+								</c:if>
+							</c:forEach>
+						</form:select>
+					</li>
+				</sec:authorize>
+					<li>
+						<form:input path="startPud"/> ~ <form:input path="endPud"/>
+					</li>
+					<li>
+						<form:hidden path="page" value="${pagination.currentPage}"/>
+					</li>
+					<li>
+						<span class="truck_addButton yj_button" >add</span>
+					</li>
+			</form:form>
+		</ul>
 	</div>
-	
-	<div class="truck_addButton user_addButton">
-		<span >add</span>
-	</div>	
 	
 	<div>
 		<table class="yj_table">		

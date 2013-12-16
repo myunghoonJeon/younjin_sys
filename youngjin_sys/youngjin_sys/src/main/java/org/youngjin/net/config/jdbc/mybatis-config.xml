@@ -15,5 +15,7 @@
 		<typeAlias alias="Dd619" type="org.youngjin.net.Dd619"/>
 		<typeAlias alias="Weightcertificate" type="org.youngjin.net.outbound.Weightcertificate"/>
 		<typeAlias alias="TruckManifast" type="org.youngjin.net.outbound.TruckManifast"/>
+		<typeAlias alias="BookingList" type="org.youngjin.net.outbound.BookingList"/>
+		<typeAlias alias="Addition" type="org.youngjin.net.outbound.Addition"/>
 	</typeAliases>
 </configuration>

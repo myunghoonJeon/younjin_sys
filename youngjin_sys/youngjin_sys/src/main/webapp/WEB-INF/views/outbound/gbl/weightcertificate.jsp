@@ -29,6 +29,9 @@
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
 <body>
+	<div class="pop_title_line">
+		<span>WEIGHT CERTIFICATE</span>
+	</div>
 	<div class="weightcertificate_head">
 		<h1>YOUNGJIN TRADE & TRAN. CO. LTD.</h1>
 	</div>

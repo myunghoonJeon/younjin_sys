@@ -29,6 +29,8 @@
 	if (typeof youngjin == 'undefined') {
 		youngjin = {};
 	}
+	
+	var deliveryFlag = '<c:out value="${user.subProcess}"/>';
 </script>
 </head>
 <body>

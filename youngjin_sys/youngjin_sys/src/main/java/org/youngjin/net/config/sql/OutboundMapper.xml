@@ -16,6 +16,8 @@
 	<result column="dest_port" property="destPort"/>
 	<result column="pcs" property="pcs" />
 	<result column="cuft" property="cuft" />
+	<result column="truck_check" property="truckCheck"/>
+	<result column="booking_check" property="bookingCheck"/>
 </resultMap>
 
 <resultMap type="GBLStatus" id="StatusMap">
@@ -23,6 +25,8 @@
 	<result column="gbl_input" property="input" />
 	<result column="gbl_preperation" property="preperation" />
 	<result column="gbl_delivery" property="delivery" />
+	<result column="gbl_truckManifast" property="truckManifast"/>
+	<result column="gbl_bookingList" property="bookingList"/>
 	<result column="gbl_invoice" property="invoice" />
 	<result column="gbl_arrival" property="arrival" />
 	<result column="gbl_process" property="process" />
@@ -76,6 +80,13 @@
 	<result column="gbl_seq" property="gblSeq"/>
 	<result column="write_date" property="writeDate"/>
 	<result column="write_user" property="writeUser"/>
+</resultMap>
+
+<resultMap type="BookingList" id="BookingListMap">
+	<result column="seq" property="seq"/>
+	<result column="memo" property="memo" />
+	<result column="write_date" property="writeDate" />
+	<result column="write_user" property="writeUser" />
 </resultMap>
 
 <select id="getGblListCount" parameterType="OutboundFilter" resultType="Integer">
@@ -189,7 +200,7 @@
 
 <select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">
 	SELECT
-		gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_invoice, gbl_arrival, gbl_process
+		gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast, gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
 	FROM
 		gbl_status
 	WHERE
@@ -297,13 +308,72 @@
 		FROM gbl g, weight_certificate w
 		WHERE g.seq = w.gbl_seq
 		AND w.truck_check &lt;&gt; 1
+		AND g.seq IN (
+			SELECT
+				seq
+			FROM
+				gbl g1, gbl_status g2
+			WHERE
+				g1.no = g2.gbl_no
+			AND
+				g2.gbl_preperation = TRUE
+			
+		)		
 		GROUP BY g.no, w.truck_check
 		) a, gbl gt
 	WHERE
 		gt.no = a.no
 	ORDER BY
 		gt.seq
-	</select>
+</select>
+
+<select id="getBookingGblList" parameterType="OutboundFilter" resultMap="GblMap">
+	SELECT 
+		gt.*, cuft, pcs, booking_check
+	FROM 
+		(SELECT
+			g.no, w.booking_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
+		FROM gbl g, weight_certificate w
+		WHERE g.seq = w.gbl_seq
+		AND w.booking_check &lt;&gt; 1
+		AND g.seq IN (
+			SELECT
+				seq
+			FROM
+				gbl g1, gbl_status g2
+			WHERE
+				g1.no = g2.gbl_no
+			AND
+				g2.gbl_preperation = TRUE
+			
+		)		
+		GROUP BY g.no, w.truck_check
+		) a, gbl gt
+	WHERE
+		gt.no = a.no
+	ORDER BY
+		gt.seq
+</select>
+
+
+
+<select id="getBookingListCount" parameterType="OutboundFilter" resultType="Integer">
+	SELECT
+		count(*)
+	FROM
+		booking_list
+</select>
+
+<select id="getBookingList" parameterType="OutboundFilter" resultMap="BookingListMap">
+	SELECT
+		seq,
+		memo,
+		remark,
+		write_date
+	FROM
+		booking_list 
+</select>
+
 <insert id="insertGbl" parameterType="GBL">
 	INSERT INTO
 		gbl
@@ -412,6 +482,33 @@
     </selectKey>
 </insert>
 
+<insert id="insertBookingList" parameterType="BookingList">
+    INSERT INTO
+    	booking_list
+    	(
+    		memo, remark, write_date
+    	)    
+    VALUES
+    	(
+    		'', '', SYSDATE()
+    	)
+    <selectKey keyProperty="seq" resultType="Integer">     
+		SELECT LAST_INSERT_ID()        
+    </selectKey>
+</insert>
+
+<insert id="addtionComplete" parameterType="Addition">
+	INSERT INTO
+		decide
+		(
+			title, price, gbl_seq
+		)
+	VALUES
+		(
+			#{title}, #{cost}, #{gblSeq}
+		)
+</insert>
+
 <update id="updatePreMoveSurvey" parameterType="PreMoveSurvey">
 	UPDATE
 		pre_move_survey
@@ -458,9 +555,15 @@
     UPDATE
     	gbl_status
     SET
-    	<if test="status == 1">
+    	<if test="preparation == 1">
     		gbl_preperation = 1
-    	</if>    
+    	</if> 
+    	<if test="booking == 1">
+    		gbl_bookinglist = 1
+    	</if>
+    	<if test="truckmanifast == 1">
+    		gbl_truckmanifast = 1
+    	</if>   
     WHERE
     	gbl_no = (select no from gbl where seq = #{seq});
 </update>
@@ -469,7 +572,12 @@
     UPDATE
     	gbl
     SET
-    	truck_seq = #{truckSeq}
+    	<if test="truckSeq != null">
+    		truck_seq = #{truckSeq}
+    	</if>
+    	<if test="bookingSeq != null">
+    		booking_seq = #{bookingSeq}
+    	</if>
     WHERE
     	seq = #{seq} 
 </update>

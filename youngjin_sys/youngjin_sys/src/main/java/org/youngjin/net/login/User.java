@@ -20,7 +20,9 @@ public class User extends AbstractUser {
 
 	private Integer authId;
 
-	private String process = "inbound";
+	private String process = "home";
+
+	private String subProcess = "";
 
 	public User() {
 		super();
@@ -120,11 +122,19 @@ public class User extends AbstractUser {
 		return process;
 	}
 
+	public String getSubProcess() {
+		return subProcess;
+	}
+
+	public void setSubProcess(String subProcess) {
+		this.subProcess = subProcess;
+	}
+
 	public void setProcess(String process) {
 		if (!"form".equals(process))
 			this.process = process;
 	}
-	
+
 	public String getAuthStr() {
 		if (super.getAuth().equals(Authority.NORMAL.getAuthority()))
 			return Authority.NORMAL.getStrAuthority();
@@ -138,10 +148,15 @@ public class User extends AbstractUser {
 
 	@Override
 	public String toString() {
-		return "User [seq=" + seq + ", newPassword=" + newPassword
-				+ ", firstName=" + firstName + ", familyName=" + familyName
-				+ ", lastUpdateBy=" + lastUpdateBy + ", lastUpdate="
-				+ lastUpdate + ", authId=" + authId + ", process=" + process
-				+ "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("User [seq : ").append(seq).append(" ;\nnewPassword : ")
+				.append(newPassword).append(" ;\nfirstName : ")
+				.append(firstName).append(" ;\nfamilyName : ")
+				.append(familyName).append(" ;\nlastUpdateBy : ")
+				.append(lastUpdateBy).append(" ;\nlastUpdate : ")
+				.append(lastUpdate).append(" ;\nauthId : ").append(authId)
+				.append(" ;\nprocess : ").append(process)
+				.append(" ;\nsubProcess : ").append(subProcess).append(" ]");
+		return builder.toString();
 	}
 }
