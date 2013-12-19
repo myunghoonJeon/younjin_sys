@@ -24,7 +24,6 @@ import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumService;
 import org.youngjin.net.outbound.Addition;
 import org.youngjin.net.outbound.DeliveryGbl;
-import org.youngjin.net.outbound.BookingList;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.outbound.PreMoveSurvey;
@@ -270,6 +269,52 @@ public class OutboundController {
 
 		return process + "/gbl/memorandumForm";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/memorandum/{type}/print", method = RequestMethod.GET)
+	public String gblMemorandumPrint(Model model, User user,
+			@PathVariable String process, @PathVariable String seq,
+			@PathVariable String type) {
+
+		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
+
+		Code code = codeService.getCode("03", type);
+
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type);
+
+		model.addAttribute("seq", seq);
+		model.addAttribute("gbl", gbl);
+		model.addAttribute("type", type);
+		model.addAttribute("memorandum", code);
+		model.addAttribute("checkMemorandum", memorandom);
+
+		return process + "/gbl/memorandumPrint";
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/memorandum/{type}/{article}/print", method = RequestMethod.GET)
+	public String gblMemorandumPrintArticle(Model model, User user,
+			@PathVariable String process, @PathVariable String seq,
+			@PathVariable String type, @PathVariable String article) {
+
+		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
+
+		Code code = codeService.getCode("03", type);
+
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type);
+
+		String[] articles = article.split(",");
+
+		model.addAttribute("seq", seq);
+		model.addAttribute("gbl", gbl);
+		model.addAttribute("type", type);
+		model.addAttribute("memorandum", code);
+		model.addAttribute("articleComa", article);
+		model.addAttribute("articles", articles);
+		model.addAttribute("checkMemorandum", memorandom);
+
+		return process + "/gbl/memorandumPrint";
+	}	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/dd619List", method = RequestMethod.GET)
@@ -300,9 +345,9 @@ public class OutboundController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
-	@RequestMapping(value = "/{process}/{seq}/dd619", method = RequestMethod.GET)
+	@RequestMapping(value = "/{process}/{seq}/dd619/{listSeq}", method = RequestMethod.GET)
 	public String dd619(Model model, User user, @PathVariable String process,
-			@PathVariable String seq) {
+			@PathVariable String seq, @PathVariable String listSeq) {
 
 		model.addAttribute("seq", seq);
 

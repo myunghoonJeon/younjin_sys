@@ -1,5 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -99,31 +105,31 @@
 </head>
 <body>
 	<table style="font-weight: bold;" align="center" cellspacing="0">
-		<tr>
-		<td id='left'></td>
+		<tr>		
 			<td id='toptitletd' colspan="3">YOUNGJIN TRADE & TRANSPORTATION CO. LTD.</td>
 		</tr>
-		<tr>
-			<td id="date_td" colspan="3">DATE : <%out.print(date);%></td>
+		<tr>			
+			<fmt:parseDate var="parseWriteDate" value="${fn:substring(checkMemorandum.writeDate, 0, 10)}" pattern="yyyy-MM-dd"/>
+			<c:set var="writeDate" value="${parseWriteDate }" />
+			<td id="date_td" colspan="3">DATE : ${fn:substring(writeDate, 8, 10) }-${ fn:substring(writeDate, 4, 7)}-${ fn:substring(writeDate, 26, 28) }</td>
 			<td></td>
 		</tr>
 		<tr>
-			<td id='left'></td>
+			
 			<td id='subject_title_td'>SUBJECT : </td>
-			<td id='subject_context_td'><%out.print(subject);%></td>
+			<td id='subject_context_td'>${checkMemorandum.subject }</td>
 			<td id='right'></td>
 		</tr>
 	</table>
 	
 	<table  style="font-weight: bold;" align="center" cellspacing="0">
-		<tr >
-			<td id='left'>　</td>
+		<tr >			
 			<td id="context_td1"><%out.print(installation);%></td>
 			<td></td>
 		</tr>
 		<tr id="context2">
-			<td id='left'></td>
-			<td id='context_td2'  colspan="2"><%out.print(inaccordance);%></td>
+			
+			<td id='context_td2'  colspan="2">${checkMemorandum.comment }</td>
 		</tr>
 	</table>
 	
@@ -131,60 +137,72 @@
 		<tr>
 			<td colspan="5" id='inaccordance_td'></td>
 		</tr>
-		<tr>
-			<td id='left'></td>
-			<td id='name_td'>NAME : <%out.print(name);%></td>
-			<td id='rank_td'>RANK : <%out.print(rank);%></td>
-			<td id='ssn_td' colspan="2">SSN : <%out.print(ssn);%></td>
+		<tr>			
+			<td id='name_td'>NAME : ${gbl.customerName }</td>
+			<td id='rank_td'>RANK : ${gbl.rank }</td>
+			<td id='ssn_td' colspan="2">SSN : ${gbl.ssn }</td>
 		</tr>
-		<tr>
-			<td id='left'></td>
-			<td id='pud_td'>P/U DATE : <%out.print(pud);%></td>
-			<td id='gblno_td'>GBL NO : <%out.print(gbl);%></td>
-			<td id='carrier_td'>CARRIER : <%out.print(carrier);%></td>
-			<td id='code_td'>CODE : <%out.print(code);%></td>
+		<tr>			
+			<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
+			<c:set var="pud" value="${parsePud }" />
+			<td id='pud_td'>P/U DATE : ${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }</td>
+			<td id='gblno_td'>GBL NO : ${gbl.no }</td>
+			<td id='carrier_td'>CARRIER : ${gbl.scac }</td>
+			<td id='code_td'>CODE : ${gbl.code }</td>
 		</tr>
-		<tr>
-			<td id='left'></td>
-			<td id='address_td' colspan="4">ADRESS : <%out.print(adress);%></td>
+		<tr>			
+			<td id='address_td' colspan="4">ADRESS : ${gbl.originAddress }</td>
 		</tr>
-		<tr>
-			<td id='left'></td>
-			<td id='nameofarticle_td' colspan="4">NAME OF ARTICLE : <%out.print(nameofarticle);%></td>
+		<tr>			
+			<td id='nameofarticle_td' colspan="4">			
+				<c:choose>
+					<c:when test="${articles ne '' and articles ne '[]' and articles ne null }">
+						NAME OF ARTICLE : 
+						<c:forEach var="article" items="${articles}" varStatus="i">
+							<c:if test="${i.count > 1 }">
+								<c:forEach begin="0" end="8" step="1">
+									&nbsp;
+								</c:forEach>
+							</c:if>
+							(${i.count }) ${memorandum.codeName } ${article }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						</c:forEach>
+						<input type="hidden" id="memorandum_articles" value="${articleComa }">
+					</c:when>
+					<c:otherwise>
+						NAME OF ARTICLE : ${(type eq '01') ? '' : (1)} ${memorandum.codeName }							
+					</c:otherwise>
+				</c:choose>
+			</td>
 		</tr>
-		<tr>
-			<td id='left'></td>
-			<td id='estimatedwt_td' colspan="4">ESTIMATED WT : <%out.print(estimatedwt);%></td>
-		</tr>
+		<c:if test="${type eq '01' }">
+			<tr>			
+				<td id='estimatedwt_td' colspan="4">ESTIMATED WT : <%out.print(estimatedwt);%></td>
+			</tr>
+		</c:if>
 	</table>
 	<table style="font-weight: bold;" align="center" cellspacing="0">
-		<tr>
-			<td id='left'></td>
-			<td id='thirdparty' >직접입력</td>
+		<tr>			
+			<td id='thirdparty' >${checkMemorandum.articleComment }</td>
+			<td id='term'></td>
+			<td></td>
+		</tr>
+		<tr>			
+			<td></td>
+			<td></td>
+			<td id='localmanager'>${checkMemorandum.chiefOfOffice }</td>
+		</tr>
+		<tr>			
+			<td id='locality'>${checkMemorandum.officeInfo }</td>
 			<td id='term'></td>
 			<td></td>
 		</tr>
 		<tr>
-			<td id='left'></td>
-			<td></td>
-			<td></td>
-			<td id='localmanager'><%out.print(localmanager);%></td>
-		</tr>
-		<tr>
-			<td id='left'></td>
-			<td id='locality'><%out.print(locality);%></td>
-			<td id='term'></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td id='left'></td>
 			<td id='approved' colspan="4">APPROVED</td>
 		</tr>
-		<tr>
-			<td id='left'></td>
+		<tr>			
 			<td></td>
 			<td></td>
-			<td id='taforto'><%out.print(taforto);%></td>
+			<td id='taforto'>${checkMemorandum.areaDirector }</td>
 		</tr>
 	</table>
 </body>

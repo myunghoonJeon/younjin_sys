@@ -28,9 +28,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/adminMain", method = RequestMethod.GET)
 	public String adminMain(Model model, User user){
-		
-		System.out.println("check");
-		
+				
 		List<User> userList = adminService.getAllUserList();
 		List<Code> authList = codeService.getAllAuthList();
 		List<Code> areaList = codeService.getAllAreaList();
@@ -45,5 +43,11 @@ public class AdminController {
 		model.addAttribute("user", user);
 		
 		return "admin/admin";
+	}
+	
+	@RequestMapping(value = "/rate", method = RequestMethod.GET)
+	public String rate(Model model, User user){
+		
+		return "admin/rate";
 	}
 }

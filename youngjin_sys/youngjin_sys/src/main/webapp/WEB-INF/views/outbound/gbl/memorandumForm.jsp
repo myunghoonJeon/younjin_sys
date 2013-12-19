@@ -41,6 +41,11 @@
 							back
 						</span>
 					</li>
+					<c:if test="${checkMemorandum.seq ne null and checkMemorandum.seq ne '' }">
+						<li>
+							<span class="yj_button memorandum_print" data-seq="${checkMemorandum.gblSeq }" data-article="${articleComa}" data-type="${type }">print</span>
+						</li>
+					</c:if>
 					<li>
 						<span class="yj_button ${(checkMemorandum.seq ne null and checkMemorandum.seq ne '' ? 'memorandum_update' : 'memorandum_add')}">
 							${(checkMemorandum.seq ne null and checkMemorandum.seq ne '' ? 'update' : 'add')}

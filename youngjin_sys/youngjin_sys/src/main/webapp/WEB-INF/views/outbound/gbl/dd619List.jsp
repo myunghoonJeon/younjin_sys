@@ -45,7 +45,7 @@
 			</ul>
 		</div>
 		<div>
-			<table class="yj_table">
+			<table class="yj_table dd619_table" data-seq="${seq }">
 				<thead>
 					<tr>
 						<th>
@@ -66,7 +66,7 @@
 						</tr>
 					</c:if>
 					<c:forEach var="dd619" items="${dd619List }" varStatus="i">
-						<tr>
+						<tr data-list="${dd619.seq }">
 							<td>${i.count }</td>
 							<td>${dd619.gblNo }</td>
 							<td>${dd619.writeDate }</td>

@@ -216,6 +216,16 @@ youngjin.outbound.sync = function(){
 	$('.weight_certificate_back').bind('click', function(){
 		youngjin.outbound.weightCertificateBack($(this));
 	});
+	
+	$('.memorandum_print').unbind('click');
+	$('.memorandum_print').bind('click', function(){
+		youngjin.outbound.memorandumPrint($(this));
+	});
+	
+	$('.dd619_table tr').unbind('click');
+	$('.dd619_table tr').bind('click', function(){
+		youngjin.outbound.dd619($(this));
+	});
 };
 
 youngjin.outbound.findUsNo = function(target){
@@ -638,6 +648,15 @@ youngjin.outbound.dd619Pop = function(target){
 	
 };
 
+youngjin.outbound.dd619 = function(target){
+	var seq = target.parents().parents('.dd619_table').attr('data-seq');
+	var listSeq = target.attr('data-list');
+	
+	var url = contextPath + '/outbound/' + seq + '/dd619/' + listSeq;
+	
+	window.open(url, "dd619Pop", "width=1000, height=1400, status=no");
+};
+
 youngjin.outbound.dd619Add = function(target){
 	var seq = target.parents('.dd619_list_wrap').attr('data-seq');
 	
@@ -967,4 +986,20 @@ youngjin.outbound.additionComplete = function(target){
 			}
 		});
 	});
+};
+
+youngjin.outbound.memorandumPrint = function(target){
+	var seq = target.attr('data-seq');
+	var type = target.attr('data-type');
+	var article = target.attr('data-article');
+	
+	var url;
+	
+	if( article == null || article == '' || article == 'undefined'){
+		url = contextPath + '/outbound/' + seq + '/memorandum/' + type + '/print';
+	}	else {
+		url = contextPath + '/outbound/' + seq + '/memorandum/' + type + '/' + article + '/print';
+	}
+	
+	window.open(url ,'bookingListPrintPop', 'width=1263, height=892, status=no');	
 };

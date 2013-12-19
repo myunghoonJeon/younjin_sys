@@ -82,6 +82,39 @@ public class GBLStatus {
 	public void setBookingList(String bookingList) {
 		this.bookingList = bookingList;
 	}
+	
+	public String getCurrentState(){
+		if( this.input.equals("1")){
+			if(this.preperation.equals("1")){
+				if(this.truckManifast.equals("1")){
+					if(this.bookingList.equals("1")){
+						if(this.invoice.equals("1")){
+							return "COMPLETE";
+						} else {
+							return "INVOICE";
+						}
+					} else {
+						return "BOOKINGLIST";
+					}
+				} else if(this.bookingList.equals("1")){
+					if(this.truckManifast.equals("1")){
+						if(this.invoice.equals("1")){
+							return "COMPLETE";
+						} else {
+							return "INVOICE";
+						}
+					} else {
+						return "TRUCKMANIFAST";
+					}
+				}else{
+					return "DELIVERY";
+				}
+			}else
+				return "PREPARATION";
+		}
+		
+		return "INPUT";
+	}
 
 	@Override
 	public String toString() {

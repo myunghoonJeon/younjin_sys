@@ -36,9 +36,9 @@
 		<ul>
 			<form:form commandName="outboundFilter" method="get">
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<li>
+					<li style="font-size: 10pt;">
 						<form:select path="branch">
-							<form:option value="">All</form:option>
+							<form:option value="">Branch(All)</form:option>
 							<c:forEach var="branch" items="${branchList }">
 								<c:if test="${branch.codeName ne 'None' }" >
 									<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
@@ -49,7 +49,7 @@
 				</sec:authorize>
 				<li>
 					<form:select path="carrier">
-						<form:option value="">All</form:option>
+						<form:option value="">Carrier(All)</form:option>
 						<c:forEach var="carrier" items="${carrierList }">
 							<form:option value="${carrier.subCode }">${carrier.subCode }</form:option>
 						</c:forEach>
@@ -57,7 +57,7 @@
 				</li>
 				<li>
 					<form:select path="code">
-						<form:option value="">All</form:option>
+						<form:option value="">Code(All)</form:option>
 						<c:forEach var="code" items="${codeList }">
 							<form:option value="${code.subCode }">${code.subCode }</form:option>
 						</c:forEach>
@@ -96,6 +96,7 @@
 				<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null }">
 					<col width="5%" />
 				</c:if>
+				<col width="10%"/>
 				<col width="8%" />
 				<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
 					<col width="5%" />
@@ -114,7 +115,7 @@
 			</colgroup>
 			<tfoot>
 				<tr>
-					<td colspan="12">
+					<td colspan="13">
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
@@ -135,6 +136,7 @@
 					<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null}">
 						<th>CODE</th>
 					</c:if>
+					<th>STATUS</th>
 					<th>PUD</th>
 					<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
 						<th>SCAC</th>
@@ -155,7 +157,7 @@
 			<tbody>
 				<c:if test="${gblList eq '[]' or gblList eq null or gblList eq '' }">
 					<tr>
-						<td colspan="12">GBL이 없습니다.</td>
+						<td colspan="13">GBL이 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="gbl" items="${gblList }">
@@ -165,6 +167,7 @@
 						<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null }">
 							<td>${gbl.code }</td>
 						</c:if>
+						<td>${gblStatus[gbl.no] }</td>
 						<td>
 							${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }
 						</td>

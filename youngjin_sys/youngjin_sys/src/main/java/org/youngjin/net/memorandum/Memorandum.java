@@ -13,6 +13,8 @@ public class Memorandum {
 	private String areaDirector;
 	private Integer gblSeq;
 
+	private String writeDate;
+
 	public Integer getSeq() {
 		return seq;
 	}
@@ -112,8 +114,17 @@ public class Memorandum {
 				.append(" ;\nchiefOfOffice : ").append(chiefOfOffice)
 				.append(" ;\nofficeInfo : ").append(officeInfo)
 				.append(" ;\nareaDirector : ").append(areaDirector)
-				.append(" ;\ngblSeq : ").append(gblSeq).append(" ]");
+				.append(" ;\ngblSeq : ").append(gblSeq)
+				.append(" ;\nwriteDate : ").append(writeDate).append(" ]");
 		return builder.toString();
+	}
+
+	public String getWriteDate() {
+		return writeDate;
+	}
+
+	public void setWriteDate(String writeDate) {
+		this.writeDate = writeDate;
 	}
 
 }

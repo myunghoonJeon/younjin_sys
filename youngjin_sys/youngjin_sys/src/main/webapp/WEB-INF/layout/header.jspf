@@ -105,6 +105,10 @@
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<li onclick="location.href='${cp }/admin/adminMain'">ADMIN</li>			
 				</sec:authorize>
+			
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<li onclick="location.href='${cp }/admin/rate'">RATE</li>			
+				</sec:authorize>
 			</ul>
 		</c:if>
 	</div>

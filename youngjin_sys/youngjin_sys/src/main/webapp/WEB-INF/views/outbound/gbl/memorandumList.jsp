@@ -45,7 +45,7 @@
 				<thead>
 					<tr>
 						<th>type</th>
-						<th>check</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>

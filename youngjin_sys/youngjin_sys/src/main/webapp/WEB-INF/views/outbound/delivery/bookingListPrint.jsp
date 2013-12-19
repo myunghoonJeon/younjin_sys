@@ -210,7 +210,7 @@
 			<td colspan="7"> </td>
 			<td > </td>
 			<td > </td>
-			<fmt:parseDate var="parsePud" value="${bookingList.writeDate}" pattern="yyyyMMdd"/>
+			<fmt:parseDate var="parsePud" value="${fn:substring(bookingList.writeDate, 0, 10)}" pattern="yyyy-MM-dd"/>
 			<c:set var="pud" value="${parsePud }" />
 			<td id='topletter'>${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }</td> <!-- 아마 오늘 날짜 JSP로 들어가야할듯 -->
 		</tr>

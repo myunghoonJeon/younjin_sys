@@ -137,10 +137,14 @@ public class OutboundService {
 		return outboundDao.getFileInfo(filter);
 	}
 
-	public Map<String, GBLStatus> getGblStatus(OutboundFilter outboundFilter) {
-		Map<String, GBLStatus> gblStatusMap = new HashMap<String, GBLStatus>();
+	public Map<String, String> getGblStatus(OutboundFilter outboundFilter) {
+		Map<String, String> gblStatusMap = new HashMap<String, String>();
 		
-		//List<GBLStatus> gblStatusList = outboundDao.getGblStatus(outboundFilter);
+		List<GBLStatus> gblStatusList = outboundDao.getGblStatus(outboundFilter);
+		
+		for ( GBLStatus gblStatus : gblStatusList ){
+				gblStatusMap.put(gblStatus.getNo(), gblStatus.getCurrentState());
+		}
 		
 		return gblStatusMap;
 	}

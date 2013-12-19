@@ -139,6 +139,11 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 #content{ float: left; width: 1000px; min-height: 600px; background-color: #BFBFBF; }
 
 /* admin Main */
+.save_button_wrap{ width: 920px; margin: 20px auto; }
+.save_button{ float: right; margin-bottom: 10px; }
+
+.gblock_addButton_wrap{ width: 920px; margin: 20px auto; }
+.gblock_addButton{ float: right; margin-bottom: 10px; }
 
 /* GBL List */
 .gbl_filter{ width: 920px; margin: 20px auto; }
@@ -225,7 +230,10 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 #memorandum_button{ padding-bottom: 30px; }
 #memorandum_button_list{width: 100%;}
 #memorandum_button_list li{ width: 50px; display: inline;}
-.memorandum_back{margin-right: 370px;}
+.memorandum_back{ float: left;}
+.memorandum_update{ float: right; }
+.memorandum_add{ float : right; }
+.memorandum_print{ float: right; margin: 0 5px; }
 
 /* DD-619 */
 .dd619_list_wrap{ width: 1000px; height: 400px; background-color: white;}

@@ -13,11 +13,12 @@
 		<result property="officeInfo" column="office_info"/>
 		<result property="areaDirector" column="area_director"/>
 		<result property="gblSeq" column="gbl_seq" />
+		<result property="writeDate" column="write_date" />
 	</resultMap>
 	
 	<select id="getMemorandum" parameterType="Memorandum" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq
+			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date
 		FROM
 			memorandum
 		WHERE
@@ -39,11 +40,11 @@
 		INSERT INTO
 			memorandum
 			(
-				type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq
+				type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date
 			)
 		VALUES
 			(
-				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment}, #{chiefOfOffice}, #{officeInfo}, #{areaDirector}, #{gblSeq}
+				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment}, #{chiefOfOffice}, #{officeInfo}, #{areaDirector}, #{gblSeq}, SYSDATE()
 			)
 	</insert>
 	
