@@ -17,6 +17,8 @@
 .yj_table tfoot tr td{ padding-top: 5px; }
 .yj_table tfoot tr td>a{color: #262656; font-size: 15px; font-weight: bold;}
 
+.yj_button_wrap{ margin-top: 10px; }
+.yj_button_list{ width: 70%; margin: 0 auto;}
 .yj_button{ 
 	color: #000;
 	font-size: 10px;
@@ -142,7 +144,7 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 .gbl_filter{ width: 920px; margin: 20px auto; }
 .gbl_filter ul li{ display: inline;}
 
-.gbl_addButton{ margin-left: 270px;}
+.gbl_addButton{ float: right;}
 
 .gbl_list_filter_title{ width: 920px; margin: 10px auto; }
 .gbl_list_filter_title ul li{display: inline;}
@@ -154,7 +156,7 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 .gbl_add_table tfoot tr td{ border: none; text-align: right;}
 
 /* GBL Pop */
-.pop_title_line{ height: 40px; background-color : #262626;}
+.pop_title_line{ height: 40px; background-color : #262626; }
 .pop_title_line span{ float: left; margin: 5px 5px; color: white; font-size: 23px; font-weight: bold;}
 
 /* GBL Process */
@@ -169,7 +171,7 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 .gbl_upload table{ width: 85%; margin: 0 auto; margin-top: 70px;  }
 .gbl_upload table thead tr th{ font-size: 13px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
 .gbl_upload table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; cursor: pointer; }
-#upload_tfoot{  text-align: right; }
+#upload_tfoot{  text-align: right; padding: 5px;  }
 
 /* GBL Preparation */
 .gbl_preparation_div{ width : 100%; height: 100%; background-color: white;}
@@ -192,12 +194,12 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 
 
 /* Pre_Move_Survey */
-.pre_move_survey_wrap{ width: 100%; height: 100%; bacground-color: white;}
+.pre_move_survey_wrap{ width: 450px; height: 440px; background-color: white;}
 .pre_move_survey_table{ width: 70%; height: 300px; margin: 15px auto;}
 .pre_move_survey_table thead tr th{ font-size: 13px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000;}
-.pre_move_survey_table tr th{ font-size: 8pt; background-color: #F2F2F2; color: #000; border: 1px solid #000; vertical-align: middle; border-right: 0;}
-.pre_move_survey_table tr td{ text-align: center; background-color: #F2F2F2; padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; border-left: 0; vertical-align: middle; }
-.pre_move_survey_table tfoot tr td{ border: none; text-align: right;}
+.pre_move_survey_table tr th{ font-size: 8pt; color: #000; border: 1px solid #000; vertical-align: middle; border-right: 0;}
+.pre_move_survey_table tr td{ text-align: center; padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; border-left: 0; vertical-align: middle; }
+.pre_move_survey_table tfoot tr td{ border: none; text-align: right; background-color: white;}
 
 /* Memorandum */
 .memorandum_wrap{ with : 100%; height: 100%; background-color : white; }
@@ -228,16 +230,20 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 /* DD-619 */
 .dd619_list_wrap{ width: 1000px; height: 400px; background-color: white;}
 #dd619_add_div{background-color: white; width: 100%; height: 100%;}
-.dd619_add_table { margin: 0 auto; width: 80%; }
+.dd619_add_table { margin: 0 auto; width: 80%; margin-top: 10px; }
 .dd619_add_table tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; }
 .dd619_add_table tr td{ padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; }
 .dd619_add_table tfoot tr td{ border: none; text-align: right;}
 
+.dd619_back_wrap{ width: 602px; margin: 0 auto;}
+
 #dd619_button{ padding-bottom: 30px; }
 #dd619_addButton{ margin-top: 10px; }
-#dd619_button_list{width: 100%; margin-left: 50px;}
+#dd619_button_list{width: 920px; margin: 0 auto; }
 #dd619_button_list li{ width: 50px; display: inline;}
-.dd619_back{margin-right: 766px;}
+#dd619_button_list li span{ margin-bottom: 10px; }
+.dd619_back{ float: left; }
+.dd619_addButton{ float: right; }
 
 .dd619_total td input#total1{width: 120px; margin-right: 3px; }
 .dd619_total td input#total2{width: 120px; margin-right: 3px; }
@@ -262,9 +268,18 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 #dd619_table_2_1_td{ font-size: 5px; }
 
 /* Weight Certificate */
-.weightcertificate_head{ padding-top:20px; text-align: center; background-color: white; border-bottom: 2px solid black; }
-#weightcertificate_sub_head{ background-color:white;}
-#weightcertificate_wrap{ float: left; background-color: white; width: 100%; height: 100%; padding-top: 60px;}
+#weightcertificate_form_wrap{ width: 1000px; height: 900px; background-color: white; }
+
+.weight_button_wrap{ width: 80%; margin: 0 auto;}
+.weight_button_list{ width :100%; padding:10px 0;}
+.weight_button_list li{ display: inline; }
+.weightcertificate_write{ float: right; }
+.weightcertificate_update{ float: right; }
+.weight_certificate_back{ float: left;}
+
+.weightcertificate_head{ width: 80%; padding-top:20px; text-align: center; border-bottom: 2px solid black; margin: 0 auto; }
+#weightcertificate_sub_head{ width: 80%; margin: 0 auto;}
+#weightcertificate_wrap{ width: 80%; height: 80%; padding-top: 60px; margin: 0 auto;}
 #weightcertificate_write{ position:absolute; top: 130px; left: 910px; }
 #weightcertificate_title{ font-size: 25px; margin-left: 25%;  }
 
@@ -318,17 +333,25 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 #addition_table tfoot tr td{ text-align: right; line-height: 30px; }
 
 .gbl_plus_Box{ width:16px; height: 16px; background: url("../images/gbl/gbl_plus_btn.png") no-repeat; margin-left: 2px; margin-top: 5px; cursor: pointer;}
+.gbl_weight_plus_Box{ width:16px; height: 16px; background: url("../images/gbl/gbl_plus_btn.png") no-repeat; margin-left: 2px; margin-top: 5px; cursor: pointer;}
+
+.final_back_wrap{ width: 90%; }
+.final_back{ margin-left: 5px; }
+
+/* Delivery */
+.delivery_addButton{ float: right; margin-bottom : 10px;}
+.delivery_addButton_wrap{ width: 920px; margin: 20px auto;}
 
 /* Truck Manifast */
 .truck_gbl_list_wrap { width: 1000px; height: 700px; background-color: white; }
-.truck_addButton{ margin-left: 395px;}
+.truck_addButton{ float: right;}
 
-.truck_gbl_addButton{ margin-left: 525px;}
+.truck_gbl_addButton{ float: right;}
 
 /* Booking List */
 .booking_addButton_wrap{ width: 920px; margin: 20px auto; }
-.booking_addButton{ margin-left: 860px; }
+.booking_addButton{ float: right; margin-bottom: 10px; }
 
 .booking_gbl_list_wrap { width: 1000px; height: 700px; background-color: white; }
 
-.booking_gbl_addButton{ margin-left: 525px;}
+.booking_gbl_addButton{ float: right; }

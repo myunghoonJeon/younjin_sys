@@ -189,6 +189,33 @@ youngjin.outbound.sync = function(){
 	$('.addition_complete_btn').bind('click', function(){
 		youngjin.outbound.additionComplete($(this));
 	});
+	
+	
+	//back
+	$('.pre_back_button').unbind('click');
+	$('.pre_back_button').bind('click', function(){
+		youngjin.outbound.preBack($(this));
+	});
+	
+	$('.memo_back_button').unbind('click');
+	$('.memo_back_button').bind('click', function(){
+		youngjin.outbound.memorandumBack($(this));
+	});
+	
+	$('.dd619_form_back').unbind('click');
+	$('.dd619_form_back').bind('click', function(){
+		youngjin.outbound.dd619FormBack($(this));
+	});
+	
+	$('.final_back').unbind('click');
+	$('.final_back').bind('click', function(){
+		youngjin.outbound.finalBack($(this));
+	});
+	
+	$('.weight_certificate_back').unbind('click');
+	$('.weight_certificate_back').bind('click', function(){
+		youngjin.outbound.weightCertificateBack($(this));
+	});
 };
 
 youngjin.outbound.findUsNo = function(target){
@@ -284,7 +311,7 @@ youngjin.outbound.preMoveSurveyPop = function(target){
 	parent.$.smartPop.close();
 
 	parent.$.smartPop.open({
-		width: 500,
+		width: 450,
 		height: 350,
 		url : url
 	});
@@ -292,6 +319,21 @@ youngjin.outbound.preMoveSurveyPop = function(target){
 	//window.open(url, 'preperationPop', 'width=350, height=600, screenX=' + x + ',screenY=' + y + ', status=no, scrollbars=no');
 	
 	//location.href = url;
+};
+
+youngjin.outbound.preBack = function(target){
+	var form = document.forms['preMoveSurvey'];
+	var seq = form.seq.value;	
+	
+	var url = contextPath + '/outbound/' + seq + '/preparation';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 350,
+		height: 460,
+		url : url
+	});	
 };
 
 youngjin.outbound.preMoveSurveySubmit = function(target){
@@ -323,8 +365,8 @@ youngjin.outbound.preMoveSurveySubmit = function(target){
 				parent.$.smartPop.close();
 
 				parent.$.smartPop.open({
-					width: 500,
-					height: 350,
+					width: 350,
+					height: 460,
 					url : beforeUrl
 				});				
 			},
@@ -365,8 +407,8 @@ youngjin.outbound.preMoveSurveyEditSubmit = function(target){
 				parent.$.smartPop.close();
 
 				parent.$.smartPop.open({
-					width: 500,
-					height: 350,
+					width: 350,
+					height: 460,
 					url : beforeUrl
 				});				
 			},
@@ -389,10 +431,8 @@ youngjin.outbound.memorandum = function(target){
 		width: 600,
 		height: 248,
 		url : url
-	});
-	
+	});	
 };
-
 youngjin.outbound.memorandumPop = function(target){	
 	var seq = $('.memorandum_table').attr('data-seq');
 	
@@ -443,10 +483,10 @@ youngjin.outbound.memorandumPop = function(target){
 		} else {
 			if(confirm('수정하시겠습니까?')){	
 				parent.$.smartPop.close();
-			
+				
 				parent.$.smartPop.open({
-					width: 500,
-					height: 400,
+					width: 650,
+					height: 900,
 					url : url
 				});	
 			} else {
@@ -509,7 +549,7 @@ youngjin.outbound.memorandumAdd = function(target){
 
 				parent.$.smartPop.open({
 					width: 600,
-					height: 350,
+					height: 248,
 					url : url
 				});					
 			},
@@ -626,6 +666,20 @@ youngjin.outbound.dd619Back = function(target){
 	});
 };
 
+youngjin.outbound.dd619FormBack = function(target){
+	var seq = $('.dd619_add_table').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/dd619List';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 1000,
+		height: 400,
+		url : url
+	});
+};
+
 youngjin.outbound.dd619AddSubmit = function(target){
 	var table = target.parents().parents().parents().parents('.dd619_add_table');
 	var gblSeq = table.attr('data-seq');
@@ -688,7 +742,7 @@ youngjin.outbound.dd619AddSubmit = function(target){
 				parent.$.smartPop.close();
 
 				parent.$.smartPop.open({
-					width: 900,
+					width: 1000,
 					height: 400,
 					url : url
 				});
@@ -726,6 +780,20 @@ youngjin.outbound.weightCertificate = function(target){
 	});
 };
 
+youngjin.outbound.weightCertificateBack = function(target){
+	var seq = target.parents('.weight_button_list').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/preparation';	
+	
+	parent.$.smartPop.close();
+	
+	parent.$.smartPop.open({
+		width: 400,
+		height: 500,
+		url : url
+	});	
+};
+
 youngjin.outbound.weightCertificateColumnAdd = function(target){	
 	var parent = target.parents('.weightcertificate_content');
 	var count = target.parents('#weightcertificate_add_button').attr('data-count');
@@ -750,7 +818,7 @@ youngjin.outbound.weightCertificateColumnAdd = function(target){
 };
 
 youngjin.outbound.weightCertificateSubmit = function(target){
-	var seq = target.parents('#weightcertificate_write').attr('data-seq');
+	var seq = target.parents('.weight_button_list').attr('data-seq');
 	var count = $('#weightcertificate_add_button').attr('data-count');
 	var form = $('#weightcertificate_form');
 	var piece = form.find('input[name="piece"]').eq(0).val();
@@ -812,6 +880,20 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 				alert("에러 발생!");
 			}
 		});
+	});
+};
+
+youngjin.outbound.finalBack = function(target){
+	var table = $('#addition_table');
+	var seq = table.attr('data-seq');		
+	var url = contextPath + '/outbound/' + seq + '/preparation';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 350,
+		height: 460,
+		url : url
 	});
 };
 

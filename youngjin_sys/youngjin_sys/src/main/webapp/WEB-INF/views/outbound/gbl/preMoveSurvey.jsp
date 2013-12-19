@@ -32,6 +32,13 @@
 	<div class="pre_move_survey_wrap">
 		<div class="pop_title_line">
 			<span>PRE-MOVE-SURVEY</span>
+		</div>	
+		<div class="yj_button_wrap">
+			<ul class="yj_button_list">
+				<li>
+					<span class="yj_button pre_back_button">back</span>
+				</li>
+			</ul>
 		</div>
 		<form:form commandName="preMoveSurvey">
 			<form:hidden path="seq" value="${seq }" />
@@ -67,7 +74,11 @@
 				</tr>
 				<tfoot>
 					<tr>
-						<td colspan="2"><input class="${(preMoveSurvey ne null and preMoveSurvey.estimateWeight ne null) ? 'preMoveSurveyEditButton' : 'preMoveSurveyAddButton'}" type="button" value="${(preMoveSurvey ne null and preMoveSurvey.estimateWeight ne null) ? 'edit' : 'add' }"/></td>
+						<td colspan="2">
+							<div>
+								<span class="${(preMoveSurvey ne null and preMoveSurvey.estimateWeight ne null) ? 'preMoveSurveyEditButton' : 'preMoveSurveyAddButton'} yj_button">${(preMoveSurvey ne null and preMoveSurvey.estimateWeight ne null) ? 'edit' : 'add' }</span>
+							</div>						
+						</td>
 					</tr> 
 				</tfoot>
 			</table>			

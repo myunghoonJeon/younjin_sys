@@ -89,6 +89,34 @@
 	<result column="write_user" property="writeUser" />
 </resultMap>
 
+<resultMap type="DeliveryGbl" id="BookingGblMap">
+	<result column="seq" property="seq" />
+	<result column="no" property="no" />
+	<result column="pud" property="pud" />
+	<result column="code" property="code" />
+	<result column="scac" property="scac" />
+	<result column="customer_name" property="shipper" />
+	<result column="mil_svc" property="milSvc"/>
+	<result column="origin_gblock" property="originGblock" />
+	<result column="pcs" property="pcs"/>
+	<result column="cuft" property="cuft" />
+	<result column="gross" property="gross" />
+	<result column="net" property="net" />
+	<result column="dest_port" property="destPort" />
+	<result column="dest_state" property="destState" />
+	<result column="memo" property="memo" />
+	<collection property="containerList" column="seq" javaType="ArrayList" ofType="WeightCertificate" select="getContainerList" /> 
+</resultMap>
+
+<resultMap type="DeliveryGbl" id="TruckManifastGblMap">
+	<result column="seq" property="seq" />
+	<result column="no" property="no" />
+	<result column="customer_name" property="shipper" />
+	<result column="area" property="area" />
+	<result column="pod" property="pod" />
+	<result column="pcs" property="pcs" />
+</resultMap>
+
 <select id="getGblListCount" parameterType="OutboundFilter" resultType="Integer">
 	SELECT
 		count(*)
@@ -299,6 +327,15 @@
 		</if>               	    
 </select>
 
+<select id="getTruckManifastOne" parameterType="Integer" resultType="TruckManifast" >
+	SELECT
+		seq, date, branch, code
+	FROM
+		truck_manifast
+	WHERE
+		seq = #{seq}
+</select>
+
 <select id="getTruckGblList" parameterType="OutboundFilter" resultMap="GblMap">
 	SELECT 
 		gt.*, cuft, pcs, truck_check
@@ -374,6 +411,60 @@
 		booking_list 
 </select>
 
+<select id="getBookingListOne" parameterType="Integer" resultMap="BookingListMap">
+	SELECT
+		seq,
+		memo,
+		remark,
+		write_date
+	FROM
+		booking_list 
+	WHERE
+		seq = #{seq}	
+</select>
+
+<select id="getBookingListPrint" parameterType="Integer" resultMap="BookingGblMap">
+		SELECT
+			g.pud, g.scac, g.code, g.customer_name, 
+			g.no, g.mil_svc, g.origin_gblock, w.booking_check, 
+			SUM(w.cuft) AS cuft, SUM(w.gross) AS gross, SUM(w.net) AS net, COUNT(w.piece) AS pcs, 
+			g.dest_port, g.dest_state
+		FROM
+			gbl g, weight_certificate w
+		WHERE
+			g.seq = w.gbl_seq
+		AND
+			g.booking_seq = #{seq}	
+		GROUP BY
+			g.no, w.truck_check	
+		ORDER BY
+			g.no
+</select>
+	
+<select id="getContainerList" resultType="WeightCertificate">
+	SELECT
+		seq, piece, type, status, gross, tare, net, cuft, remark
+	FROM
+		weight_certificate
+	WHERE
+		gbl_seq = #{seq}
+</select>
+
+<select id="getTruckManifastPrint" parameterType="Integer" resultMap="TruckManifastGblMap">
+		SELECT
+			g.seq, g.no, g.customer_name, g.area, g.pod, COUNT(w.piece) AS pcs
+		FROM
+			gbl g, weight_certificate w
+		WHERE
+			g.seq = w.gbl_seq
+		AND
+			g.truck_seq = #{seq}		
+		GROUP BY
+			g.no, w.truck_check	
+		ORDER BY
+			g.no
+</select>
+
 <insert id="insertGbl" parameterType="GBL">
 	INSERT INTO
 		gbl
@@ -388,13 +479,13 @@
 
 <insert id="insertGblStatus" parameterType="GBL">
 	INSERT INTO
-		gbl
+		gbl_status
 		(
-			gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_invoice, gbl_arrival, gbl_process
+			gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast, gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
 		)
 	VALUES
 		(
-			#{no}, 1, 0, 0, 0, 0, 0
+			#{no}, 1, 0, 0, 0, 0, 0, 0, 0
 		)
 </insert>
 
@@ -586,8 +677,14 @@
     UPDATE
     	weight_certificate
     SET
-    	truck_check = 1,
-    	truck_seq = #{truckSeq}
+    	<if test="truckSeq != null">
+    		truck_check = 1,
+    		truck_seq = #{truckSeq}
+    	</if>    	
+    	<if test="bookingSeq != null">
+    		booking_check = 1,
+    		booking_seq = #{bookingSeq}
+    	</if>
     WHERE
     	gbl_seq = #{seq}    
 </update>

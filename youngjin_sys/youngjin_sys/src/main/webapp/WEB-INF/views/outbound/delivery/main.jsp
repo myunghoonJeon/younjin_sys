@@ -28,12 +28,8 @@
 		</script>
 	</c:if>
 	
-	<div class="title">
-		<h1>DELIVERY</h1>
-	</div>
-	
-	<div class="delivery_addButton user_addButton">
-		<span >add</span>
+	<div class="delivery_addButton_wrap">
+		<span class="delivery_addButton yj_button" >add</span>
 	</div>	
 	
 	<div>

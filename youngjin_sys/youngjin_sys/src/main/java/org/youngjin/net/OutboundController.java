@@ -23,6 +23,8 @@ import org.youngjin.net.login.User;
 import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumService;
 import org.youngjin.net.outbound.Addition;
+import org.youngjin.net.outbound.DeliveryGbl;
+import org.youngjin.net.outbound.BookingList;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.outbound.PreMoveSurvey;
@@ -519,6 +521,23 @@ public class OutboundController {
 	public void truckAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertTruckManifast(gblSeq);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/delivery/{seq}/truckManifastPrint", method = RequestMethod.GET)
+	public String truckManifastPrint(Model model, User user,
+			@ModelAttribute OutboundFilter outboundFilter,
+			@PathVariable String process, @PathVariable Integer seq) {
+
+		List<DeliveryGbl> list = outboundService.getTruckManifastPrint(seq);		
+
+		model.addAttribute("gblList", list);
+		
+		model.addAttribute("truckManisfast", outboundService.getTruckManifastOne(seq));
+		
+		model.addAttribute("user", user);
+
+		return process + "/delivery/truckManifastPrint";
+	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/delivery/bookingList", method = RequestMethod.GET)
@@ -558,13 +577,31 @@ public class OutboundController {
 
 		return process + "/delivery/bookGblList";
 	}
-	
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/delivery/{seq}/bookingListPrint", method = RequestMethod.GET)
+	public String bookingListPrint(Model model, User user,
+			@ModelAttribute OutboundFilter outboundFilter,
+			@PathVariable String process, @PathVariable Integer seq) {
+
+		List<DeliveryGbl> list = outboundService.getBookingListPrint(seq);
+		
+
+		model.addAttribute("gblList", list);
+		
+		model.addAttribute("bookingList", outboundService.getBookingListOne(seq));
+		
+		model.addAttribute("user", user);
+
+		return process + "/delivery/bookingListPrint";
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{process}/delivery/bookingAdd.json")
 	@ResponseBody
 	public void bookingAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertBookingList(gblSeq);
-	}	
+	}
 
 	/**
 	 * DownLoadControl

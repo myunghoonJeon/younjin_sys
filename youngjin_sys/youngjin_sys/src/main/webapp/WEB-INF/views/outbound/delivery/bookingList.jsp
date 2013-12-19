@@ -66,7 +66,7 @@
 					</tr>
 				</c:if>
 				<c:forEach var="book" items="${bookingList }" varStatus="i">
-					<tr>
+					<tr class="booking_list_content" data-bookSeq="${book.seq }">
 						<td>${i.count }</td>
 						<td>${book.writeDate }</td>
 						<td>${book.memo }</td>

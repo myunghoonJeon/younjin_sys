@@ -314,4 +314,22 @@ public class OutboundService {
 			outboundDao.updateGblStatus(paramMap);
 		}		
 	}
+
+	public List<DeliveryGbl> getBookingListPrint(Integer seq) {
+		List<DeliveryGbl> bookingGblList = outboundDao.getBookingListPrint(seq);
+		
+		return bookingGblList;
+	}
+
+	public BookingList getBookingListOne(Integer seq) {
+		return outboundDao.getBookingListOne(seq);
+	}
+
+	public List<DeliveryGbl> getTruckManifastPrint(Integer seq) {
+		return outboundDao.getTruckManifastPrint(seq);
+	}
+
+	public TruckManifast getTruckManifastOne(Integer seq) {
+		return outboundDao.getTruckManifastOne(seq);
+	}
 }

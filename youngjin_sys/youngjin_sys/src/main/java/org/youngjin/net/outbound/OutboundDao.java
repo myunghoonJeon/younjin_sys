@@ -147,5 +147,21 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void insertBookingList(BookingList bookingList) {
 		getSqlSession().insert("outboundMapper.insertBookingList", bookingList);
 	}
+
+	public List<DeliveryGbl> getBookingListPrint(Integer seq) {
+		return getSqlSession().selectList("outboundMapper.getBookingListPrint", seq);
+	}
+
+	public BookingList getBookingListOne(Integer seq) {
+		return getSqlSession().selectOne("outboundMapper.getBookingListOne", seq);
+	}
+
+	public List<DeliveryGbl> getTruckManifastPrint(Integer seq) {
+		return getSqlSession().selectList("outboundMapper.getTruckManifastPrint", seq);
+	}
+
+	public TruckManifast getTruckManifastOne(Integer seq) {
+		return getSqlSession().selectOne("outboundMapper.getTruckManifastOne", seq);
+	}
 	
 }

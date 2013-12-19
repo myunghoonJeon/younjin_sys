@@ -52,6 +52,15 @@ youngjin.outbound.delivery.sync = function(){
 			$(this).find('input').removeAttr('checked');	
 	});
 	
+	$('.booking_list_content').unbind('click');
+	$('.booking_list_content').bind('click', function(){
+		youngjin.outbound.delivery.bookingPrint($(this));
+	});
+	
+	$('.truck_manifast_form').unbind('click');
+	$('.truck_manifast_form').bind('click', function(){
+		youngjin.outbound.delivery.truckManifastPrint($(this));
+	});
 };
 
 youngjin.outbound.delivery.getTruckmainifastGblList = function(target){
@@ -139,4 +148,18 @@ youngjin.outbound.delivery.addBookingMenu = function(target){
 			}
 		});
 	});
+};
+
+youngjin.outbound.delivery.bookingPrint = function(target){
+	var seq = target.attr('data-bookSeq');
+	var url = contextPath + '/outbound/delivery/' + seq + '/bookingListPrint';
+	
+	window.open(url ,'bookingListPrintPop', 'width=1263, height=892, status=no');
+};
+
+youngjin.outbound.delivery.truckManifastPrint = function(target){
+	var seq = target.attr('data-seq');
+	var url = contextPath + '/outbound/delivery/' + seq + '/truckManifastPrint';
+	
+	window.open(url, 'truckManifastPrintPop', 'width=1263, height=892, status=no');
 };

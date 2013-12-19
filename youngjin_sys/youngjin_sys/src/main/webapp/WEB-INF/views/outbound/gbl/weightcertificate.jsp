@@ -32,150 +32,163 @@
 	<div class="pop_title_line">
 		<span>WEIGHT CERTIFICATE</span>
 	</div>
-	<div class="weightcertificate_head">
-		<h1>YOUNGJIN TRADE & TRAN. CO. LTD.</h1>
-	</div>
-	<div id="weightcertificate_sub_head">
-		<p>RM 901 Palase Bldg Seocho 4 dong, Seocho Gu, Seoul, Korea (82-2) 825-6345</p>
-		<p>E-mail : youngjin@yttc.co.kr								 (82-2) 825-6344</p>
-	</div>
-	<div id="weightcertificate_write" data-seq="${seq }">
-		<span class="yj_button ${(weightcertificateList ne '[]') ? 'weightcertificate_update' : 'weightcertificate_write' }">${(weightcertificateList ne '[]') ? 'update' : 'write' }</span>
-	</div>
-	<div id="weightcertificate_wrap">
-		<h1 id="weightcertificate_title">CERTIFIED WEIGHT TICKET</h1>
-		<div class="weightcertificate_content">
-			<div class="weightcertificate_base_info">
-				<ul>
-					<li class="weightcertificate_column1">RANK / NAME OF OWNER</li>				
-					<li class="weightcertificate_column2"><input type="text" value="${gbl.rank } ${gbl.customerName}" /></li>
-					<li class="weightcertificate_column3">DATE</li>				
-					<li class="weightcertificate_column4"><input id="weightcertificate_date" type="text" /></li>
-				</ul>
+	<div id="weightcertificate_form_wrap">		
+		<div class="weight_button_wrap">
+			<ul class="weight_button_list" data-seq="${gbl.seq }">
+				<li>
+					<span class="yj_button weight_certificate_back">back</span>
+				</li>
+				<li>
+					<span class="yj_button ${(weightcertificateList ne '[]') ? 'weightcertificate_update' : 'weightcertificate_write' }">${(weightcertificateList ne '[]') ? 'modify' : 'write' }</span>
+				</li>
+			</ul>
+		</div>
 		
-				<ul>
-					<li class="weightcertificate_column1">ORIGIN</li>				
-					<li class="weightcertificate_column2"><input type="text" /></li>
-					<li class="weightcertificate_column3">GBL NO</li>				
-					<li class="weightcertificate_column4"><input type="text" value="${gbl.no }" /></li>
-				</ul>
-		
-				<ul>
-					<li class="weightcertificate_column1">DESTINATION</li>				
-					<li class="weightcertificate_column2"><input type="text" /></li>
-					<li class="weightcertificate_column3">CODE</li>				
-					<li class="weightcertificate_column4"><input type="text" value="${gbl.code }" /></li>
-				</ul>
-
-				<ul>
-					<li class="weightcertificate_column1">CARRIER</li>				
-					<li class="weightcertificate_column2"><input type="text" value="${gbl.scac }" /></li>
-					<li class="weightcertificate_column3">RDD</li>				
-					<li class="weightcertificate_column4"><input type="text" value="${gbl.rdd }" /></li>
-				</ul>
-			</div>
-			<div id="weightcertificate_add_button" data-count="0">
-				<span class="yj_button weightcertificate_add">add</span>
-			</div>
-			<div class="weightcertificate_table_wrap">
-				<form id="weightcertificate_form" name="weightcertificate_form">
-					<table>
-						<colgroup>
-							<col width="12%">
-							<col width="9%">
-							<col width="12%">
-							<col width="10%">
-							<col width="13%">
-							<col width="12%">
-							<col width="12%">
-							<col width="20%">
-						</colgroup>
-						<thead>
-							<tr>
-								<th>PIECE</th>
-								<th>TYPE</th>
-								<th>STATUS</th>
-								<th>GROSS</th>
-								<th>TARE</th>
-								<th>NET</th>
-								<th>CUFT</th>
-								<th>REMARK</th>
-							</tr>
-						</thead>
-						<tbody>	
-							<c:forEach var="weightcertificate" items="${weightcertificateList }">
-								<tr>	
-									<td>${weightcertificate.piece }</td>
-									<td>${weightcertificate.type }</td>
-									<td>${weightcertificate.status }</td>
-									<td>${weightcertificate.gross }</td>
-									<td>${weightcertificate.tare }</td>
-									<td>${weightcertificate.net }</td>
-									<td>${weightcertificate.cuft }</td>
-									<td>${weightcertificate.remark }</td>
+		<div class="weightcertificate_head">
+			<h1>YOUNGJIN TRADE & TRAN. CO. LTD.</h1>
+		</div>
+		<div id="weightcertificate_sub_head">
+			<p>RM 901 Palase Bldg Seocho 4 dong, Seocho Gu, Seoul, Korea (82-2) 825-6345</p>
+			<p>E-mail : youngjin@yttc.co.kr								 (82-2) 825-6344</p>
+		</div>
+		<div id="weightcertificate_wrap">
+			<h1 id="weightcertificate_title">CERTIFIED WEIGHT TICKET</h1>
+			<div class="weightcertificate_content">
+				<div class="weightcertificate_base_info">
+					<ul>
+						<li class="weightcertificate_column1">RANK / NAME OF OWNER</li>				
+						<li class="weightcertificate_column2"><input type="text" value="${gbl.rank } ${gbl.customerName}" /></li>
+						<li class="weightcertificate_column3">DATE</li>				
+						<li class="weightcertificate_column4"><input id="weightcertificate_date" type="text" /></li>
+					</ul>
+			
+					<ul>
+						<li class="weightcertificate_column1">ORIGIN</li>				
+						<li class="weightcertificate_column2"><input type="text" /></li>
+						<li class="weightcertificate_column3">GBL NO</li>				
+						<li class="weightcertificate_column4"><input type="text" value="${gbl.no }" /></li>
+					</ul>
+			
+					<ul>
+						<li class="weightcertificate_column1">DESTINATION</li>				
+						<li class="weightcertificate_column2"><input type="text" /></li>
+						<li class="weightcertificate_column3">CODE</li>				
+						<li class="weightcertificate_column4"><input type="text" value="${gbl.code }" /></li>
+					</ul>
+	
+					<ul>
+						<li class="weightcertificate_column1">CARRIER</li>				
+						<li class="weightcertificate_column2"><input type="text" value="${gbl.scac }" /></li>
+						<li class="weightcertificate_column3">RDD</li>				
+						<li class="weightcertificate_column4"><input type="text" value="${gbl.rdd }" /></li>
+					</ul>
+				</div>
+				<div id="weightcertificate_add_button" data-count="0">
+					<span class="yj_button weightcertificate_add">add</span>
+				</div>
+				<div class="weightcertificate_table_wrap">
+					<form id="weightcertificate_form" name="weightcertificate_form">
+						<table>
+							<colgroup>
+								<col width="12%">
+								<col width="9%">
+								<col width="12%">
+								<col width="10%">
+								<col width="13%">
+								<col width="12%">
+								<col width="12%">
+								<col width="20%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>PIECE</th>
+									<th>TYPE</th>
+									<th>STATUS</th>
+									<th>GROSS</th>
+									<th>TARE</th>
+									<th>NET</th>
+									<th>CUFT</th>
+									<th>REMARK</th>
 								</tr>
-							</c:forEach>				
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="8">/x/x/x/x/x/xx/x/x/x/x/x/x/x/x/x/LAST ITEMx/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/</td>
-							</tr>	
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>							
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td id="weightcertificate_progear"><input type="text" ></td>
-								<td id="weightcertificate_seal_no"><input type="text" ></td>
-								<td id="weightcertificate_lbs"><input type="text" ></td>
-								<td></td>
-								<td></td>							
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>							
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>							
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>							
-							</tr>
-						</tfoot>					
-					</table>
-				</form>
-			</div>
-			<div class="weightcertificate_foot">
-				
+							</thead>
+							<tbody>	
+								<c:forEach var="weightcertificate" items="${weightcertificateList }" varStatus="i">
+									<tr>	
+										<td>${weightcertificate.piece }</td>
+										<td>${weightcertificate.type }</td>
+										<td>${weightcertificate.status }</td>
+										<td>${weightcertificate.gross }</td>
+										<td>${weightcertificate.tare }</td>
+										<td>${weightcertificate.net }</td>
+										<td>${weightcertificate.cuft }</td>
+										<td>${weightcertificate.remark }</td>
+										<c:if test="${fn:length(weightcertificateList) ==  i.count}">
+											<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
+										</c:if>
+									</tr>
+								</c:forEach>				
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="8">/x/x/x/x/x/xx/x/x/x/x/x/x/x/x/x/LAST ITEMx/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/</td>
+								</tr>	
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>							
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td id="weightcertificate_progear"><input type="text" ></td>
+									<td id="weightcertificate_seal_no"><input type="text" ></td>
+									<td id="weightcertificate_lbs"><input type="text" ></td>
+									<td></td>
+									<td></td>							
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>							
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>							
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>							
+								</tr>
+							</tfoot>					
+						</table>
+					</form>
+				</div>
+				<div class="weightcertificate_foot">
+					
+				</div>
 			</div>
 		</div>
 	</div>

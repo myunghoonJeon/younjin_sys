@@ -17,7 +17,6 @@
 <title>GBL System</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
-<link rel="stylesheet" href="${cp }/resources/css/fonts.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">
 
 <link rel="stylesheet" href="${cp }/resources/jquery/smartPopup/jquery.smartPop.css">

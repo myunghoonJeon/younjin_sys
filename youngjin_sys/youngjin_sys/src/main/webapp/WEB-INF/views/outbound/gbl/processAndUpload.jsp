@@ -131,8 +131,8 @@
 				<tfoot>
 					<tr>
 						<td id="upload_tfoot" colspan="4" data-seq="${seq }">
-							<input class="document_upload_button" type="button" value="Document Upload" />
-							<input class="document_view" type="button" value="Document Download" />
+							<span class="document_upload_button yj_button">Document Upload</span>
+							<span class="document_view yj_button">Document Download</span>
 						</td>
 					</tr>
 				</tfoot>

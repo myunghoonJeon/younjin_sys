@@ -37,8 +37,6 @@ public class ControllerAspect {
 			try {
 				user = (User) SecurityContextHolder.getContext()
 						.getAuthentication().getPrincipal();
-				
-				logger.debug(user.toString());
 			} catch (ClassCastException e) {
 				user = new User();
 				logger.debug("Not Log In user");

@@ -33,6 +33,13 @@
 		<div class="pop_title_line">
 			<span>MEMORANDUM</span>
 		</div>	
+		<div class="yj_button_wrap">
+			<ul class="yj_button_list">
+				<li>
+					<span class="yj_button memo_back_button">back</span>
+				</li>
+			</ul>
+		</div>
 		<div>
 			<table class="memorandum_table" data-seq="${gbl.seq }">
 				<thead>
@@ -53,10 +60,10 @@
 							<td class="memorandum_type">
 								<c:choose>
 									<c:when test="${checkMemorandumMap ne '{}' }">
-										<input type="checkbox" value="${memorandum.subCode }" ${checkMemorandumMap[memorandum.subCode] ne null ? 'checked=checked' : '' } />
+										<input type="checkbox" value="${memorandum.subCode }" ${checkMemorandumMap[memorandum.subCode] ne null ? 'checked=checked' : '' } disabled="disabled" />
 									</c:when>
 									<c:otherwise>
-										<input type="checkbox" value="${memorandum.subCode }" />
+										<input type="checkbox" value="${memorandum.subCode }" disabled="disabled" />
 									</c:otherwise>
 								</c:choose>
 							</td>

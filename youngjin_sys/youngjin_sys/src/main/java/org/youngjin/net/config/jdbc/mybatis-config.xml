@@ -17,5 +17,6 @@
 		<typeAlias alias="TruckManifast" type="org.youngjin.net.outbound.TruckManifast"/>
 		<typeAlias alias="BookingList" type="org.youngjin.net.outbound.BookingList"/>
 		<typeAlias alias="Addition" type="org.youngjin.net.outbound.Addition"/>
+		<typeAlias alias="DeliveryGbl" type="org.youngjin.net.outbound.DeliveryGbl"/>
 	</typeAliases>
 </configuration>

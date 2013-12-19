@@ -51,7 +51,7 @@
 <body>
 	<div class="booking_gbl_list_wrap">
 		<div class="pop_title_line">
-			<span>DD619 LIST</span>
+			<span>GBL LIST</span>
 		</div>	
 		
 		<c:set var="branchList" value="${filterMap['branchList'] }" />

@@ -86,7 +86,7 @@
 					</tr>
 				</c:if>
 				<c:forEach var="truck" items="${truckList }" varStatus="i">
-					<tr>
+					<tr class="truck_manifast_form" data-seq="${truck.seq }">
 						<td>${i.count }</td>
 						<td>${truck.branch }</td>
 						<td>${truck.code }</td>

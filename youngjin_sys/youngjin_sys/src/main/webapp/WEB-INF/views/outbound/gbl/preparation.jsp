@@ -38,7 +38,7 @@
 			<li class="gbl_preparation_memorandum"><span>MEMORANDUM</span></li>
 			<li class="gbl_preparation_dd619_write"><span>DD-619 WRITE</span></li>
 			<li class="gbl_preparation_weight_certificate"><span>WEIGHT-CERTIFICATE</span></li>
-			<li class="gbl_preparation_addtional_decide"><span>ADDITIONAL DECIDE</span></li>
+			<li class="gbl_preparation_addtional_decide"><span>CONFIRMATION</span></li>
 			<li><span>COMPLETE</span></li>
 		</ul>
 	</div>

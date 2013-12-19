@@ -11,7 +11,7 @@
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
 <html>
 <head>
-<title>DD619 LIST</title>
+<title>DECISION</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/font.css">
@@ -32,8 +32,17 @@
 <body>
 	<div id="addtional_decide_wrap">
 		<div class="pop_title_line">
-			<span>ADDTIONAL DECIDE</span>
+			<span>CONFIRMATION</span>
 		</div>	
+		
+		<div class="yj_button_wrap">
+			<ul class="yj_button_list final_back_wrap">
+				<li>
+					<span class="yj_button final_back">back</span>
+				</li>
+			</ul>
+		</div>
+		
 		<div id="addition_table_wrap">
 			<table id="addition_table" data-seq="${seq}">
 				<thead>

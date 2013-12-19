@@ -31,9 +31,18 @@
 </head>
 <body>
 	<div id="dd619_add_div">
-		<div class="title">
-			<h1>DD619 INPUT</h1>
+		<div class="pop_title_line">
+			<span>DD619 INPUT</span>
+		</div>	
+		
+		<div class="yj_button_wrap">
+			<ul class="yj_button_list dd619_back_wrap">
+				<li>
+					<span class="yj_button dd619_form_back">back</span>
+				</li>
+			</ul>
 		</div>
+		
 		<form:form commandName="dd619">
 			<form:hidden path="writeUser" value="${user.name }"/>
 		<table class="dd619_add_table" data-seq="${seq }">
@@ -145,7 +154,11 @@ ${remarkContent3 }</textarea>
 			</tr>	
 			<tfoot>
 				<tr>
-					<td colspan="4"><input class="dd619_add_submit_button" type="button" value="add"/></td>
+					<td colspan="4">
+						<div>
+							<span class="dd619_add_submit_button yj_button">add</span>
+						</div>
+					</td>
 				</tr>
 			</tfoot>				
 		</table>
