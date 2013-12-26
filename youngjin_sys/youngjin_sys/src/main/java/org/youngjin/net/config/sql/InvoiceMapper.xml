@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="invoiceMapper">
+	<select id="getSitListCount" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			invoice_sit_rate
+		WHERE
+			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+	</select>
+	
+	<select id="getSitList" parameterType="Rate" resultType="Rate">
+		SELECT
+			seq, title, code, process, rate, write_year AS writeYear
+		FROM
+			invoice_sit_rate
+		WHERE
+			<choose>
+				<when test="writeYear != null">
+					write_year = #{writeYear}
+				</when>
+				<otherwise>
+					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
+				</otherwise>
+			</choose>			
+		ORDER BY
+			seq, process DESC
+	</select>
+	
+	<insert id="insertNewYearSIT" parameterType="Map">
+		INSERT INTO
+			invoice_sit_rate
+			(
+				title, code, process, write_year
+			)
+		VALUES
+			<foreach collection="rateList" item="rate" separator=",">
+				(#{rate.title}, #{rate.code}, #{rate.process}, DATE_FORMAT(SYSDATE(), '%Y'))
+			</foreach>
+	</insert>
+</mapper>

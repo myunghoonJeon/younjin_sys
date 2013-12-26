@@ -149,6 +149,7 @@ public class User extends AbstractUser {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString());
 		builder.append("User [seq : ").append(seq).append(" ;\nnewPassword : ")
 				.append(newPassword).append(" ;\nfirstName : ")
 				.append(firstName).append(" ;\nfamilyName : ")

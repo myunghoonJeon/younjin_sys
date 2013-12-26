@@ -60,7 +60,7 @@ public class CustomJdbcUserDetailManagerTest {
 	public void JOIN_USER() {
 		loginDao.deleteUserByUsername(null);
 		// ~ Join User ( Insert data )
-		customJdbcUserDetailManager.joinUser(user);
+		customJdbcUserDetailManager.createUser();
 		Integer seq = user.getSeq();
 		assertThat(null, is(not(seq)));
 

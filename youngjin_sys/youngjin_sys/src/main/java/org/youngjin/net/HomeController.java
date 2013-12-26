@@ -26,6 +26,8 @@ public class HomeController {
 		
 		user.setProcess("home");
 		
+		System.out.println("check : " + user.toString());
+		
 		model.addAttribute("user", user);
 		
 		return "home";
