@@ -28,6 +28,61 @@
 			seq, process DESC
 	</select>
 	
+	<select id="getOtherListCount" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			invoice_other_rate
+		WHERE
+			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+	</select>
+	
+	<select id="getOtherList" parameterType="Rate" resultType="Rate">
+		SELECT
+			seq, title, code, process, rate, write_year AS writeYear
+		FROM
+			invoice_other_rate
+		WHERE
+			<choose>
+				<when test="writeYear != null">
+					write_year = #{writeYear}
+				</when>
+				<otherwise>
+					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
+				</otherwise>
+			</choose>			
+		ORDER BY
+			seq, process DESC		
+	</select>
+	
+	<select id="getBasicRateCheck" parameterType="Rate" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			invoice_rate
+		WHERE
+			tsp = #{tsp}
+		AND
+			code = #{code}
+		AND
+			process = #{process}
+		<if test="obType != null">
+			AND
+				ob_type = #{obType}
+		</if>
+	</select>
+	
+	<select id="getBasicRateList" parameterType="Rate" resultType="Rate">
+		SELECT
+			seq, tsp, code, rate, process, ob_type AS obType, write_year AS writeYear
+		FROM
+			invoice_rate
+		WHERE
+			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+		ORDER BY
+			process, tsp, code
+	</select>
+	
 	<insert id="insertNewYearSIT" parameterType="Map">
 		INSERT INTO
 			invoice_sit_rate
@@ -39,4 +94,54 @@
 				(#{rate.title}, #{rate.code}, #{rate.process}, DATE_FORMAT(SYSDATE(), '%Y'))
 			</foreach>
 	</insert>
+	
+	<insert id="insertNewYearOther" parameterType="Map">
+		INSERT INTO
+			invoice_other_rate
+			(
+				title, code, process, write_year
+			)
+		VALUES
+			<foreach collection="rateList" item="rate" separator=",">
+				(#{rate.title}, #{rate.code}, #{rate.process}, DATE_FORMAT(SYSDATE(), '%Y'))
+			</foreach>
+	</insert>
+	
+	<insert id="basicInsert" parameterType="Rate">
+		INSERT INTO
+			invoice_rate
+			(
+				tsp, code, rate, process, write_year
+				<if test="obType != null">
+					, ob_type
+				</if>
+			)
+		VALUES
+			(
+				#{tsp}, #{code}, #{rate}, #{process}, DATE_FORMAT(SYSDATE(), '%Y')
+				
+				<if test="obType != null">
+					, #{obType}
+				</if>
+			)
+	</insert>
+	
+	<update id="basicUpdate" parameterType="Rate">
+		UPDATE
+			invoice_rate
+		SET
+			rate = #{rate}
+		WHERE
+			tsp = #{tsp}
+		AND
+			code = #{code}
+		AND
+			process = #{process}
+		AND
+			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+		<if test="obType != null">
+			AND
+				ob_type = #{obType}
+		</if>		
+	</update>
 </mapper>

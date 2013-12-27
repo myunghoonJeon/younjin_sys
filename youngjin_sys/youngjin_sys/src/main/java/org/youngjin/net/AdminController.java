@@ -8,9 +8,10 @@ import javax.annotation.Resource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.admin.AdminService;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
@@ -59,15 +60,27 @@ public class AdminController {
 		
 		invoiceService.checkNewYearRate();
 		
+		Map<String, Map<String, Map<String, Rate>>> basicMap = invoiceService.getBasicMap(null);
+		
 		Map<String, Map<String, List<Rate>>> sitMap = invoiceService.getSitMap(null);
+		
+		Map<String, Map<String, List<Rate>>> otherMap = invoiceService.getOtherMap(null);
 		
 		user.setSubProcess("rate");
 		
 		model.addAttribute("user", user);
 		model.addAttribute("tspList", tspList);
 		model.addAttribute("codeList", codeList);
+		model.addAttribute("basicMap", basicMap);
 		model.addAttribute("sitMap", sitMap);
+		model.addAttribute("otherMap", otherMap);
 		
 		return "admin/rate";
+	}
+	
+	@RequestMapping(value = "/rate/basic/insert.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void basicRateInsert(@RequestBody Rate rate) {
+		invoiceService.basicInsert(rate);
 	}
 }

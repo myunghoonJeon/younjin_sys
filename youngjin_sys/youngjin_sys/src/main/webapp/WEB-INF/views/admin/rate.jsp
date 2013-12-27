@@ -72,9 +72,11 @@
 					<tr>
 						<td>${tspRate.codeName }</td>
 						<c:forEach items="${codeList }" varStatus="j">
-							<td data-tsp="${tspRate.codeName }" data-code="${codeList[j.index].codeName }" data-process="inbound"></td>
+							<c:set var="inboundMap" value="${basicMap['inbound'] }" />
+							<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[j.index].codeName }" data-process="inbound"><input class="basic_rate_input" type="text" value="${inboundMap[tspRate.codeName][codeList[j.index].codeName].rate }" /></td>
 						</c:forEach>
 						<c:forEach begin="0" end="${fn:length(codeList) + 2 }" varStatus="k">
+							<c:set var="outboundMap" value="${basicMap['outbound'] }" />
 							<c:choose>
 								<c:when test="${k.index eq 1 or k.index eq 0 }">
 									<c:set var="index" value="0" />
@@ -86,14 +88,27 @@
 									<c:set var="index" value="${k.count - k.index + 1}" />									
 								</c:when>
 								<c:otherwise>
-									<c:set var="index" value="${k.count - 3}" />
+									<c:set var="index" value="${k.count - 4}" />
 								</c:otherwise>								
 							</c:choose>
-								<td data-tsp="${tspRate.codeName }" data-code="${codeList[index].codeName }" data-process="outbound"></td>
+							<c:choose>
+								<c:when test="${k.count % 2 eq 1 and k.count lt 7 }">
+									<c:set var="codeVal" value="${codeList[index].codeName }typeII" />
+									<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[index].codeName }" data-process="outbound" data-obType="typeII"><input class="basic_rate_input" type="text" value="${outboundMap[tspRate.codeName][codeVal].rate}" /></td>
+								</c:when>
+								<c:when test="${k.count % 2 eq 0 and k.count lt 7 }">
+									<c:set var="codeVal" value="${codeList[index].codeName }O/F" />
+									<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[index].codeName }" data-process="outbound" data-obType="O/F"><input class="basic_rate_input" type="text" value="${outboundMap[tspRate.codeName][codeVal].rate}" /></td>
+								</c:when>
+								<c:otherwise>
+									<c:set var="codeVal" value="${codeList[index].codeName}" />									
+									<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[index].codeName }" data-process="outbound"><input class="basic_rate_input" type="text" value="${outboundMap[tspRate.codeName][codeVal].rate}" /></td>	
+								</c:otherwise>
+							</c:choose>						
 						</c:forEach>
-						<td data-tsp="${tspRate.codeName }" data-status="new"></td>
-						<td data-tsp="${tspRate.codeName }" data-status="used"></td>
-						<td data-tsp="${tspRate.codeName }" data-status="repair"></td>
+						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="new"><input class="container_rate_input" type="text" /></td>
+						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="used"><input class="container_rate_input" type="text" /></td>
+						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="repair"><input class="container_rate_input" type="text" /></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -116,8 +131,7 @@
 		<table class="rate_table">
 			<thead>
 				<tr>
-					<th>TITLE</th>
-					<th>INBOUND</th>
+					<th colspan="2">INBOUND</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -129,7 +143,7 @@
 				<c:forEach var="ubList" items="${inboundMap['UB'] }">
 					<tr>
 						<td>${ubList.title }</td>
-						<td>${ubList.rate }</td>
+						<td data-seq="${ubList.seq }">${ubList.rate }</td>
 					</tr>
 				</c:forEach>				
 				<tr>
@@ -139,7 +153,7 @@
 				<c:forEach var="hhgList" items="${inboundMap['HHG'] }">
 					<tr>
 						<td>${hhgList.title }</td>
-						<td>${hhgList.rate }</td>
+						<td data-seq="${hhgList.seq }">${hhgList.rate }</td>
 					</tr>
 				</c:forEach>			
 			</tbody>
@@ -148,8 +162,7 @@
 		<table class="rate_table">
 			<thead>
 				<tr>
-					<th>TITLE</th>
-					<th>OUTBOUND</th>
+					<th colspan="2">OUTBOUND</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -161,7 +174,7 @@
 				<c:forEach var="ubList" items="${outboundMap['UB'] }">
 					<tr>
 						<td>${ubList.title }</td>
-						<td>${ubList.rate }</td>
+						<td data-seq="${ubList.seq }">${ubList.rate }</td>
 					</tr>
 				</c:forEach>				
 				<tr>
@@ -171,7 +184,73 @@
 				<c:forEach var="hhgList" items="${outboundMap['HHG'] }">
 					<tr>
 						<td>${hhgList.title }</td>
-						<td>${hhgList.rate }</td>
+						<td data-seq="${hhgList.seq }">${hhgList.rate }</td>
+					</tr>
+				</c:forEach>			
+			</tbody>
+		</table>
+	</div>
+	
+	<div>
+		<p>4. Other charge Schedule 1</p>
+		
+		<table class="rate_table">
+			<thead>
+				<tr>
+					<th colspan="2">INBOUND</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td>UB</td>
+				</tr>
+				<c:set var="inboundMap" value="${otherMap['INBOUND'] }"/>
+				<c:forEach var="ubList" items="${inboundMap['UB'] }">
+					<tr>
+						<td>${ubList.title }</td>
+						<td data-seq="${ubList.seq }">${ubList.rate }</td>
+					</tr>
+				</c:forEach>				
+				<tr>
+					<td></td>
+					<td>HHG</td>
+				</tr>
+				<c:forEach var="hhgList" items="${inboundMap['HHG'] }">
+					<tr>
+						<td>${hhgList.title }</td>
+						<td data-seq="${hhgList.seq }">${hhgList.rate }</td>
+					</tr>
+				</c:forEach>			
+			</tbody>
+		</table>
+		
+		<table class="rate_table">
+			<thead>
+				<tr>
+					<th colspan="2">OUTBOUND</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td>UB</td>
+				</tr>
+				<c:set var="outboundMap" value="${otherMap['OUTBOUND'] }"/>
+				<c:forEach var="ubList" items="${outboundMap['UB'] }">
+					<tr>
+						<td>${ubList.title }</td>
+						<td data-seq="${ubList.seq }">${ubList.rate }</td>
+					</tr>
+				</c:forEach>				
+				<tr>
+					<td></td>
+					<td>HHG</td>
+				</tr>
+				<c:forEach var="hhgList" items="${outboundMap['HHG'] }">
+					<tr>
+						<td>${hhgList.title }</td>
+						<td data-seq="${hhgList.seq }">${hhgList.rate }</td>
 					</tr>
 				</c:forEach>			
 			</tbody>
