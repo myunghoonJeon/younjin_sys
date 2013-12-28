@@ -57,5 +57,29 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public List<Rate> getBasicRateList(Rate rate) {
 		return getSqlSession().selectList("invoiceMapper.getBasicRateList", rate);
 	}
+
+	public int getContainerCheck(Rate rate) {
+		return getSqlSession().selectOne("invoiceMapper.getContainerCheck", rate);
+	}
+
+	public void containerInsert(Rate rate) {
+		getSqlSession().insert("invoiceMapper.containerInsert", rate);
+	}
+
+	public void containerUpdate(Rate rate) {
+		getSqlSession().update("invoiceMapper.containerUpdate", rate);
+	}
+
+	public List<Rate> getContainerList(Rate rate) {
+		return getSqlSession().selectList("invoiceMapper.getContainerRateList", rate);
+	}
+
+	public void sitUpdate(Rate rate) {
+		getSqlSession().update("invoiceMapper.sitUpdate", rate);
+	}
+
+	public void otherUpdate(Rate rate) {
+		getSqlSession().update("invoiceMapper.otherUpdate", rate);
+	}
 	
 }

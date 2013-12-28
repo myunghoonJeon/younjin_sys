@@ -7,9 +7,19 @@ public class OutboundFilter extends AbstractListFilter {
 	private String branch;
 	private String carrier;
 	private String code;
-	
+
 	private String startPud;
 	private String endPud;
+
+	private String area;
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
 
 	public String getBranch() {
 		return branch;
@@ -53,11 +63,8 @@ public class OutboundFilter extends AbstractListFilter {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("OutboundFilter [branch : ").append(branch)
-				.append(" ;\ncarrier : ").append(carrier).append(" ;\ncode : ")
-				.append(code).append(" ;\nstartPud : ").append(startPud)
-				.append(" ;\nendPud : ").append(endPud).append(" ]");
-		return builder.toString();
+		return "OutboundFilter [branch=" + branch + ", carrier=" + carrier
+				+ ", code=" + code + ", startPud=" + startPud + ", endPud="
+				+ endPud + ", area=" + area + "]";
 	}
 }

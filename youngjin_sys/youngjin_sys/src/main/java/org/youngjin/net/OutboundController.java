@@ -51,14 +51,14 @@ public class OutboundController {
 			@PathVariable String process) {
 
 		outboundFilter.getPagination().setNumItems(
-				outboundService.getGblListCount(outboundFilter));
+				outboundService.getGblListCount(outboundFilter, user));
 
 		user.setSubProcess("gblList");
 
 		model.addAttribute("filterMap", outboundService.getFilterMap());
 
 		model.addAttribute("gblList",
-				outboundService.getGblList(outboundFilter));
+				outboundService.getGblList(outboundFilter, user));
 		model.addAttribute("gblStatus",
 				outboundService.getGblStatus(outboundFilter));
 		model.addAttribute("user", user);
@@ -73,14 +73,14 @@ public class OutboundController {
 			@PathVariable String process) {
 
 		outboundFilter.getPagination().setNumItems(
-				outboundService.getGblListCount(outboundFilter));
+				outboundService.getGblListCount(outboundFilter, user));
 
 		user.setSubProcess("gblList");
 
 		model.addAttribute("filterMap", outboundService.getFilterMap());
 
 		model.addAttribute("gblList",
-				outboundService.getGblList(outboundFilter));
+				outboundService.getGblList(outboundFilter, user));
 		model.addAttribute("user", user);
 
 		return process + "/gbl/list";
@@ -537,7 +537,7 @@ public class OutboundController {
 			@PathVariable String process) {
 
 		outboundFilter.getPagination().setNumItems(
-				outboundService.getGblListCount(outboundFilter));
+				outboundService.getGblListCount(outboundFilter, user));
 
 		model.addAttribute("filterMap", outboundService.getFilterMap());
 
@@ -612,7 +612,7 @@ public class OutboundController {
 			@PathVariable String process) {
 
 		outboundFilter.getPagination().setNumItems(
-				outboundService.getGblListCount(outboundFilter));
+				outboundService.getGblListCount(outboundFilter, user));
 
 		model.addAttribute("filterMap", outboundService.getFilterMap());
 
@@ -646,6 +646,17 @@ public class OutboundController {
 	@ResponseBody
 	public void bookingAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertBookingList(gblSeq);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/delivery/mil/tcmd")
+	public String tcmdMain(Model model, User user, @PathVariable String process){
+
+		user.setSubProcess("invoice");
+		
+		model.addAttribute("user", user);
+		
+		return process + "/delivery/tcmd";
 	}
 
 	/**

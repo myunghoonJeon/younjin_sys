@@ -375,5 +375,15 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 .rate_table tfoot tr td{ padding-top: 5px; }
 .rate_table tfoot tr td>a{color: #262656; font-size: 15px; font-weight: bold;}
 
+.sit_rate_table{ width: 500px; text-align: center; margin: 10px auto; }
+.sit_rate_table thead tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.sit_rate_table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; cursor: pointer; }
+.sit_rate_table tbody tr{ background-color: white; }
+.sit_rate_table tbody tr td:HOVER {background-color: #B7B9CC;}
+.sit_rate_table tfoot tr td{ padding-top: 5px; }
+.sit_rate_table tfoot tr td>a{color: #262656; font-size: 15px; font-weight: bold;}
+
 .basic_rate_input{ width: 40px; border: none;}
 .container_rate_input { width: 40px; border: none;}
+.sit_rate_input{ width: 45px; border: none;}
+.other_rate_input{ width: 45px; border:none;}

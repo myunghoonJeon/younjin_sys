@@ -62,6 +62,8 @@ public class AdminController {
 		
 		Map<String, Map<String, Map<String, Rate>>> basicMap = invoiceService.getBasicMap(null);
 		
+		Map<String, Map<String, Rate>> containerMap = invoiceService.getContainerMap(null);
+		
 		Map<String, Map<String, List<Rate>>> sitMap = invoiceService.getSitMap(null);
 		
 		Map<String, Map<String, List<Rate>>> otherMap = invoiceService.getOtherMap(null);
@@ -72,6 +74,7 @@ public class AdminController {
 		model.addAttribute("tspList", tspList);
 		model.addAttribute("codeList", codeList);
 		model.addAttribute("basicMap", basicMap);
+		model.addAttribute("containerMap", containerMap);
 		model.addAttribute("sitMap", sitMap);
 		model.addAttribute("otherMap", otherMap);
 		
@@ -83,4 +86,22 @@ public class AdminController {
 	public void basicRateInsert(@RequestBody Rate rate) {
 		invoiceService.basicInsert(rate);
 	}
+	
+	@RequestMapping(value = "/rate/container/insert.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void containerRateInsert(@RequestBody Rate rate) {
+		invoiceService.containerInsert(rate);
+	}	
+	
+	@RequestMapping(value = "/rate/sit/insert.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void sitRateInsert(@RequestBody Rate rate) {
+		invoiceService.sitInsert(rate);
+	}	
+	
+	@RequestMapping(value = "/rate/other/insert.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void otherRateInsert(@RequestBody Rate rate) {
+		invoiceService.otherInsert(rate);
+	}		
 }

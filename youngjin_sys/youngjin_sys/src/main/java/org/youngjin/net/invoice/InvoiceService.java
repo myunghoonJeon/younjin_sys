@@ -179,10 +179,16 @@ public class InvoiceService {
 		Map<String, Map<String, Map<String, Rate>>> basicMap = new HashMap<String, Map<String,Map<String,Rate>>>();
 		
 		List<Rate> rateList = invoiceDao.getBasicRateList(rate);
-		String beforeTsp = rateList.get(0).getTsp();
+		String beforeTsp;
 		String currentTsp;
 		
 		int rateListSize = rateList.size();
+		
+		if(rateListSize == 0){
+			beforeTsp = new String();
+		} else {
+			beforeTsp = rateList.get(0).getTsp();
+		}
 		
 		//inbound List Map
 		Map<String, Map<String, Rate>> inboundMap = new HashMap<String, Map<String,Rate>>();
@@ -193,7 +199,6 @@ public class InvoiceService {
 			currentTsp = rateTemp.getTsp();
 			
 			if(!beforeTsp.equals(currentTsp)){
-				System.out.println(beforeTsp + " : " + inboundBasicMap);
 				inboundMap.put(beforeTsp, inboundBasicMap);
 				inboundBasicMap = new HashMap<String, Rate>();
 				beforeTsp = currentTsp;
@@ -203,12 +208,15 @@ public class InvoiceService {
 				inboundBasicMap.put(rateTemp.getCode(), rateTemp);				
 			}
 			
-			if( "outbound".equals(rateList.get(i + 1).getProcess())){
+			if( rateListSize > 1 && "outbound".equals(rateList.get(i + 1).getProcess())){
 				inboundMap.put(beforeTsp, inboundBasicMap);			
 				break;
+			} else if ( i == rateListSize - 1 ){
+				inboundMap.put(currentTsp, inboundBasicMap);
 			}
 		}
 		
+		//outbound List Map
 		Map<String, Rate> outboundBasicMap = new HashMap<String, Rate>(); 
 		Map<String, Map<String, Rate>> outboundMap = new HashMap<String, Map<String,Rate>>();
 		for(int i = 0 ; i < rateListSize ; i ++ ){
@@ -244,6 +252,60 @@ public class InvoiceService {
 		basicMap.put("outbound", outboundMap);
 		
 		return basicMap;
+	}
+
+	public void containerInsert(Rate rate) {
+		int checkRate = invoiceDao.getContainerCheck(rate);
+		
+		if(checkRate == 0){
+			invoiceDao.containerInsert(rate);
+		} else {
+			invoiceDao.containerUpdate(rate);
+		}
+	}
+
+	public Map<String, Map<String, Rate>> getContainerMap(Rate rate) {
+		Map<String, Map<String, Rate>> containerMap = new HashMap<String, Map<String,Rate>>();
+		Map<String, Rate> statusMap = new HashMap<String, Rate>();
+		
+		String beforeTsp;
+		String currentTsp;
+		
+		List<Rate> containerList = invoiceDao.getContainerList(rate);
+		int containerListSize = containerList.size();
+		
+		if(containerListSize == 0){
+			beforeTsp = new String();
+		} else {
+			beforeTsp = containerList.get(0).getTsp();
+		}
+		
+		for( int i = 0 ; i < containerListSize; i ++ ){			
+			Rate rateTemp = containerList.get(i);
+			
+			currentTsp = rateTemp.getTsp();
+			if( !currentTsp.equals(beforeTsp)){
+				containerMap.put(beforeTsp, statusMap);
+				statusMap = new HashMap<String, Rate>();
+				beforeTsp = currentTsp;
+			}
+			
+			statusMap.put(rateTemp.getContainerStatus(), rateTemp);
+			
+			if( i == containerListSize - 1){
+				containerMap.put(currentTsp, statusMap);
+			}
+		}
+		
+		return containerMap;
+	}
+
+	public void sitInsert(Rate rate) {
+		invoiceDao.sitUpdate(rate);
+	}
+
+	public void otherInsert(Rate rate) {
+		invoiceDao.otherUpdate(rate);
 	}
 
 }

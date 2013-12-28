@@ -124,6 +124,10 @@
 		gbl
 	WHERE
 		1 = 1
+		<if test="area != null and area != ''">
+			AND
+				area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+		</if>
 		<if test="branch != null and branch != ''">
 			AND		
 				area = #{branch}			
@@ -167,6 +171,10 @@
 				gbl g, (SELECT @rownum := 0) r
 			WHERE
 				1 = 1
+				<if test="area != null and area != ''">
+					AND
+						area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+				</if>
 				<if test="branch != null and branch != ''">
 					AND		
 						area = #{branch}			

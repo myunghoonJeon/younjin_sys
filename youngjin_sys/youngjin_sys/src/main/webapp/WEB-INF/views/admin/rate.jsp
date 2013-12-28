@@ -106,9 +106,9 @@
 								</c:otherwise>
 							</c:choose>						
 						</c:forEach>
-						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="new"><input class="container_rate_input" type="text" /></td>
-						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="used"><input class="container_rate_input" type="text" /></td>
-						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="repair"><input class="container_rate_input" type="text" /></td>
+						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="new"><input class="container_rate_input" type="text" value="${containerMap[tspRate.codeName]['new'].containerRate }"/></td>
+						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="used"><input class="container_rate_input" type="text" value="${containerMap[tspRate.codeName]['used'].containerRate }"/></td>
+						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="repair"><input class="container_rate_input" type="text" value="${containerMap[tspRate.codeName]['repair'].containerRate }"/></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -117,18 +117,20 @@
 	
 	<div>
 		<p>2. company charge Schedule 1</p>
-		<table>
-			<tr>
-				<td>company rate1</td>
-				<td>comprate1</td>
-				<td></td>
-			</tr>
+		<table class="rate_table">
+			<tbody>
+				<tr>
+					<td>company rate1</td>
+					<td>comprate1</td>
+					<td><input type="text" /></td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 	
 	<div>
 		<p>3. SIT Charge Rate schedule</p>
-		<table class="rate_table">
+		<table class="sit_rate_table">
 			<thead>
 				<tr>
 					<th colspan="2">INBOUND</th>
@@ -143,7 +145,7 @@
 				<c:forEach var="ubList" items="${inboundMap['UB'] }">
 					<tr>
 						<td>${ubList.title }</td>
-						<td data-seq="${ubList.seq }">${ubList.rate }</td>
+						<td data-seq="${ubList.seq }"><input class="sit_rate_input" type="text" value="${ubList.rate }"/></td>
 					</tr>
 				</c:forEach>				
 				<tr>
@@ -153,13 +155,13 @@
 				<c:forEach var="hhgList" items="${inboundMap['HHG'] }">
 					<tr>
 						<td>${hhgList.title }</td>
-						<td data-seq="${hhgList.seq }">${hhgList.rate }</td>
+						<td data-seq="${hhgList.seq }"><input class="sit_rate_input" type="text" value="${hhgList.rate }" /></td>
 					</tr>
 				</c:forEach>			
 			</tbody>
 		</table>
 		
-		<table class="rate_table">
+		<table class="sit_rate_table">
 			<thead>
 				<tr>
 					<th colspan="2">OUTBOUND</th>
@@ -174,7 +176,7 @@
 				<c:forEach var="ubList" items="${outboundMap['UB'] }">
 					<tr>
 						<td>${ubList.title }</td>
-						<td data-seq="${ubList.seq }">${ubList.rate }</td>
+						<td data-seq="${ubList.seq }"><input class="sit_rate_input" type="text" value="${ubList.rate }"/></td>
 					</tr>
 				</c:forEach>				
 				<tr>
@@ -184,7 +186,7 @@
 				<c:forEach var="hhgList" items="${outboundMap['HHG'] }">
 					<tr>
 						<td>${hhgList.title }</td>
-						<td data-seq="${hhgList.seq }">${hhgList.rate }</td>
+						<td data-seq="${hhgList.seq }"><input class="sit_rate_input" type="text" value="${hhgList.rate }"/></td>
 					</tr>
 				</c:forEach>			
 			</tbody>
@@ -209,7 +211,7 @@
 				<c:forEach var="ubList" items="${inboundMap['UB'] }">
 					<tr>
 						<td>${ubList.title }</td>
-						<td data-seq="${ubList.seq }">${ubList.rate }</td>
+						<td data-seq="${ubList.seq }"><input class="other_rate_input" type="text" value="${ubList.rate }"/></td>
 					</tr>
 				</c:forEach>				
 				<tr>
@@ -219,7 +221,7 @@
 				<c:forEach var="hhgList" items="${inboundMap['HHG'] }">
 					<tr>
 						<td>${hhgList.title }</td>
-						<td data-seq="${hhgList.seq }">${hhgList.rate }</td>
+						<td data-seq="${hhgList.seq }"><input class="other_rate_input" type="text" value="${hhgList.rate }"/></td>
 					</tr>
 				</c:forEach>			
 			</tbody>
@@ -240,7 +242,7 @@
 				<c:forEach var="ubList" items="${outboundMap['UB'] }">
 					<tr>
 						<td>${ubList.title }</td>
-						<td data-seq="${ubList.seq }">${ubList.rate }</td>
+						<td data-seq="${ubList.seq }"><input class="other_rate_input" type="text" value="${ubList.rate }"/></td>
 					</tr>
 				</c:forEach>				
 				<tr>
@@ -250,7 +252,7 @@
 				<c:forEach var="hhgList" items="${outboundMap['HHG'] }">
 					<tr>
 						<td>${hhgList.title }</td>
-						<td data-seq="${hhgList.seq }">${hhgList.rate }</td>
+						<td data-seq="${hhgList.seq }"><input class="other_rate_input" type="text" value="${hhgList.rate }"/></td>
 					</tr>
 				</c:forEach>			
 			</tbody>

@@ -1,20 +1,13 @@
 package org.youngjin.net;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.youngjin.net.code.Code;
 import org.youngjin.net.login.CustomJdbcUserDetailManager;
 import org.youngjin.net.login.User;
 

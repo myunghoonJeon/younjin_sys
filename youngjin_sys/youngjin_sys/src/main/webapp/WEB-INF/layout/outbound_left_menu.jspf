@@ -10,27 +10,23 @@
 		</li>
 		<li class="outbound_delivery_item_list" style="${(user.subProcess eq 'delivery' or user.subProcess eq 'truckManifast' or user.subProcess eq 'bookingList') ? 'display:block;' : 'display:none;'}">				
 			<ul class="outbound_delivery_item">
-				<li onclick="location.href='${cp }/outbound/delivery/main'" style="${(user.subProcess eq 'delivery') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
-					DELIVERY LIST	
-				</li>
+				<!--  li onclick="location.href='${cp }/outbound/delivery/main'" style="${(user.subProcess eq 'delivery') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">					DELIVERY LIST	
+				</li-->
 				<li onclick="location.href='${cp }/outbound/delivery/truckManifast'" style="${(user.subProcess eq 'truckManifast') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
 					TRUCK MANIFAST
 				</li>
 				<li onclick="location.href='${cp }/outbound/delivery/bookingList'" style="${(user.subProcess eq 'bookingList') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
 					BOOKING LIST
-				</li>	
-				<li>
-					CLP
 				</li>			
 			</ul>	
 		</li>
-		<li>
+		<li onclick="location.href='${cp }/outbound/delivery/mil/tcmd'" style="${(user.subProcess eq 'tcmd') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
 			TCMD			
 		</li>
-		<li>
+		<!-- li>
 			FREIGHT				
-		</li>
-		<li>
+		</li-->
+		<li onclick="location.href='${cp }/outbound/invoice/'" style="${(user.subProcess eq 'invoice') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
 			INVOICE	
 		</li>
 	</sec:authorize>

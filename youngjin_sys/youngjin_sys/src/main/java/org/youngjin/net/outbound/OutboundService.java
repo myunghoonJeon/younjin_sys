@@ -16,6 +16,7 @@ import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeDao;
+import org.youngjin.net.login.User;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.upload.UploadService;
 
@@ -31,11 +32,19 @@ public class OutboundService {
 	@Resource
 	private CodeDao codeDao;
 	
-	public int getGblListCount(OutboundFilter outboundFilter) {	
+	public int getGblListCount(OutboundFilter outboundFilter, User user) {	
+		if(!"ADMIN".equals(user.getAuthStr())){
+			outboundFilter.setArea("0" + user.getArea().toString());
+		}
+		
 		return outboundDao.getGblListCount(outboundFilter);
 	}
 
-	public List<GBL> getGblList(OutboundFilter outboundFilter) {
+	public List<GBL> getGblList(OutboundFilter outboundFilter, User user) {
+		if(!"ADMIN".equals(user.getAuthStr())){
+			outboundFilter.setArea("0" + user.getArea().toString());
+		}
+		
 		return outboundDao.getGblList(outboundFilter);
 	}
 

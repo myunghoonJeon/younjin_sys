@@ -66,6 +66,8 @@
 			code = #{code}
 		AND
 			process = #{process}
+		AND
+			write_year = DATE_FORMAT(SYSDATE(), '%Y')			
 		<if test="obType != null">
 			AND
 				ob_type = #{obType}
@@ -79,9 +81,37 @@
 			invoice_rate
 		WHERE
 			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+		AND
+			container_rate is null
 		ORDER BY
 			process, tsp, code
 	</select>
+	
+	<select id="getContainerCheck" parameterType="Rate" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			invoice_rate
+		WHERE
+			tsp = #{tsp}
+		AND
+			container_status = #{containerStatus}
+		AND
+			write_year = DATE_FORMAT(SYSDATE(), '%Y')	
+	</select>
+	
+	<select id="getContainerRateList" parameterType="Rate" resultType="Rate">
+		SELECT
+			seq, tsp, container_status AS containerStatus, container_rate AS containerRate, write_year AS writeYear
+		FROM
+			invoice_rate
+		WHERE
+			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+		AND
+			container_rate is not null
+		ORDER BY
+			process, tsp, code
+	</select>	
 	
 	<insert id="insertNewYearSIT" parameterType="Map">
 		INSERT INTO
@@ -126,6 +156,18 @@
 			)
 	</insert>
 	
+	<insert id="containerInsert" parameterType="Rate">
+		INSERT INTO
+			invoice_rate
+			(
+				tsp, container_rate, container_status, write_year
+			)
+		VALUES
+			(
+				#{tsp}, #{containerRate}, #{containerStatus}, DATE_FORMAT(SYSDATE(), '%Y')
+			)
+	</insert>
+	
 	<update id="basicUpdate" parameterType="Rate">
 		UPDATE
 			invoice_rate
@@ -143,5 +185,34 @@
 			AND
 				ob_type = #{obType}
 		</if>		
+	</update>
+	
+	<update id="containerUpdate" parameterType="Rate">
+		UPDATE
+			invoice_rate
+		SET
+			container_rate = #{containerRate}
+		WHERE
+			tsp = #{tsp}
+		AND
+			container_status = #{containerStatus}		
+	</update>
+	
+	<update id="sitUpdate" parameterType="Rate">
+		UPDATE
+			invoice_sit_rate
+		SET
+			rate = #{rate}
+		WHERE
+			seq = #{seq}
+	</update>
+	
+	<update id="otherUpdate" parameterType="Rate">
+		UPDATE
+			invoice_other_rate
+		SET
+			rate = #{rate}
+		WHERE
+			seq = #{seq}
 	</update>
 </mapper>
