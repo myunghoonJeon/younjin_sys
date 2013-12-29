@@ -2,14 +2,14 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <ul class="left_detail_menu_wrap">
 	<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
-		<li>
-			<a href="#">FREIGHT LIST</a>				
+		<li onclick="location.href='${cp }/inbound/freightList'" style="${(user.subProcess eq 'freightList') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+			FREIGHT LIST				
 		</li>
 		<li>
-			<a href="#">ON HAND LIST</a>				
+			ON HAND LIST			
 		</li>
 		<li>
-			<a href="#">INVOICE</a>				
+			INVOICE		
 		</li>
 	</sec:authorize>
 </ul>

@@ -14,7 +14,7 @@
 				HOME
 			</li>
 				<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
-					<li class="top_menu_li top_menu_inbound" style="${(user.process eq 'inbound') ? 'padding-top: 35px; border-top: 10px solid #F79646; color: #F79646;' : ''}" onclick="location.href='${cp}/inbound/'">
+					<li class="top_menu_li top_menu_inbound" style="${(user.process eq 'inbound') ? 'padding-top: 35px; border-top: 10px solid #F79646; color: #F79646;' : ''}" onclick="location.href='${cp}/inbound/freightList'">
 						INBOUND
 					</li>
 				</sec:authorize>
@@ -24,7 +24,7 @@
 					</li>
 				</sec:authorize>				
 				<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
-					<li class="top_menu_li top_menu_outbound" style="${(user.process eq 'outbound') ? 'padding-top: 35px; border-top: 10px solid #F79646; color: #F79646;' : ''}" onclick="location.href='${cp}/outbound/'">
+					<li class="top_menu_li top_menu_outbound" style="${(user.process eq 'outbound') ? 'padding-top: 35px; border-top: 10px solid #F79646; color: #F79646;' : ''}" onclick="location.href='${cp}/outbound/gblList'">
 						OUTBOUND
 					</li>
 				</sec:authorize>		
