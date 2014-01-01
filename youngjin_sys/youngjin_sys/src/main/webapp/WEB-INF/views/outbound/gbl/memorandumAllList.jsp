@@ -10,7 +10,7 @@
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
 <html>
 <head>
-<title>Memorandum</title>
+<title>memorandum_all</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/font.css">
@@ -29,6 +29,47 @@
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
 <body>
-
+	<div class="memorandum_all_list_wrap" data-seq="${seq}">
+		<div class="pop_title_line">
+			<span>MEMORANDUM LIST</span>
+		</div>	
+		<div id="memorandum_all_addButton">
+			<ul id="memorandum_all_button_list">
+				<li>
+					<span class="yj_button memorandum_all_back">back</span>
+				</li>
+				<li>
+					<span class= "yj_button memorandum_all_addButton">add</span>
+				</li>
+			</ul>
+		</div>
+		<div>
+			<table class="yj_table memorandum_all_table" data-seq="${seq }">
+				<thead>
+					<tr>
+						<th>
+							NO
+						</th>
+						<th>
+							WRITE DATE
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:if test="${memroandumList eq '[]' or memroandumList eq null }">
+						<tr class="memorandum_list_none">
+							<td colspan="3">등록 된 문서가 없습니다.</td>
+						</tr>
+					</c:if>
+					<c:forEach var="memorandum" items="${memroandumList }" varStatus="i">
+						<tr data-list="${memorandum.seq }">
+							<td class="memorandum_list_count">${i.count }</td>
+							<td>${memorandum.writeDate }</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </body>
 </html>

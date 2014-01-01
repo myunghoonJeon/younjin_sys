@@ -41,7 +41,7 @@
 			</ul>
 		</div>
 		<div>
-			<table class="memorandum_table" data-seq="${gbl.seq }">
+			<table class="memorandum_table" data-seq="${gbl.seq }" data-memorandumSeq="${memorandumSeq }">
 				<thead>
 					<tr>
 						<th>type</th>

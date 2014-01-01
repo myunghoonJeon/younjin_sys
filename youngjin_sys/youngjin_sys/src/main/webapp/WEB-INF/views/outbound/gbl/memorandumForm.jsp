@@ -33,7 +33,7 @@
 		<div class="pop_title_line">
 			<span>MEMORANDUM</span>
 		</div>	
-		<div class="memorandum_form_content_wrap" data-seq="${seq }" data-type="${type }" >
+		<div class="memorandum_form_content_wrap" data-seq="${seq }" data-type="${type }" data-memorandumSeq="${memorandumSeq }" >
 			<div id="memorandum_button">
 				<ul id="memorandum_button_list">
 					<li>
@@ -43,7 +43,7 @@
 					</li>
 					<c:if test="${checkMemorandum.seq ne null and checkMemorandum.seq ne '' }">
 						<li>
-							<span class="yj_button memorandum_print" data-seq="${checkMemorandum.gblSeq }" data-article="${articleComa}" data-type="${type }">print</span>
+							<span class="yj_button memorandum_print" data-seq="${checkMemorandum.gblSeq }" data-article="${articleComa}" data-type="${type }" data-memorandumSeq="${memorandumSeq }">print</span>
 						</li>
 					</c:if>
 					<li>

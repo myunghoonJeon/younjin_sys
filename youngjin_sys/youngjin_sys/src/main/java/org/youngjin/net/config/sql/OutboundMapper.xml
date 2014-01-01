@@ -579,20 +579,11 @@
 	INSERT INTO
 		dd619
 		(
-			gbl_no, date, name, 
-			ssn, rank, origin_of_shipment, destination, 
-			ordering_activity_name, carrier_name, agent_name, 
-			signature, carrier_shipment_reference, code, 
-			other, total, remark, officer_material, officer_signature, 
-			officer_date, rank_and_name, transportation_date, 
-			gbl_seq, write_date, write_user
+			gbl_seq, write_date, memorandum_list_seq
 		)
 	VALUES
 	(
-		#{gblNo}, #{date}, #{name}, #{ssn}, #{rank}, #{originOfShipment}, #{destination},
-		#{orderingActivityName}, #{carrierName}, #{agentName}, #{signature}, #{carrierShipmentReference},
-		#{code}, #{other}, #{total}, #{remark}, #{officerMaterial}, #{officerSignature}, #{officerDate},
-		#{rankAndName}, #{transportationDate}, #{gblSeq}, SYSDATE(), #{writeUser}
+		#{gblSeq}, SYSDATE(), #{memorandumListSeq}
 	)
 </insert>
 

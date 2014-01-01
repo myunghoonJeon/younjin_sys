@@ -89,6 +89,26 @@ youngjin.outbound.sync = function(){
 		youngjin.outbound.uploadSubmit();
 	});
 	
+	$('.gbl_process_delivery').unbind('click');
+	$('.gbl_process_delivery').bind('click', function(){
+		parent.$.smartPop.close();
+		parent.location.href = contextPath + '/outbound/delivery/main';
+	});
+	
+	youngjin.outbound.preMoveSurveySync();
+	
+	youngjin.outbound.memorandumSync();
+	
+	youngjin.outbound.dd619Sync();
+	
+	youngjin.outbound.weightCertificateSync();
+	
+	youngjin.outbound.additionDecideSync();
+	
+	youngjin.outbound.backButtonSync();
+};
+
+youngjin.outbound.preMoveSurveySync = function(){
 	$('.gbl_preparation_pre_move_survey').unbind('click');
 	$('.gbl_preparation_pre_move_survey').bind('click', function(){
 		youngjin.outbound.preMoveSurveyPop($(this));
@@ -103,10 +123,22 @@ youngjin.outbound.sync = function(){
 	$('.preMoveSurveyEditButton').bind('click', function(){
 		youngjin.outbound.preMoveSurveyEditSubmit($(this));
 	});
-	
+};
+
+youngjin.outbound.memorandumSync = function(){	
 	$('.gbl_preparation_memorandum').unbind('click');
 	$('.gbl_preparation_memorandum').bind('click', function(){
 		youngjin.outbound.memorandum($(this));
+	});
+	
+	$('.memorandum_all_addButton').unbind('click');
+	$('.memorandum_all_addButton').bind('click', function(){
+		youngjin.outbound.addMemorandum($(this));
+	});
+	
+	$('.memorandum_all_table tbody tr').unbind('click');
+	$('.memorandum_all_table tbody tr').bind('click', function(){
+		youngjin.outbound.goToMemorandum($(this));		
 	});
 	
 	$('.memorandum_table tr').unbind('click');
@@ -133,7 +165,9 @@ youngjin.outbound.sync = function(){
 	$('.memorandum_complete .yj_button').bind('click', function(){
 		youngjin.outbound.memorandumBack($(this));
 	});
-	
+};
+
+youngjin.outbound.dd619Sync = function(){
 	$('.gbl_preparation_dd619_write').unbind('click');
 	$('.gbl_preparation_dd619_write').bind('click', function(){
 		youngjin.outbound.dd619Pop($(this));
@@ -144,22 +178,13 @@ youngjin.outbound.sync = function(){
 		youngjin.outbound.dd619Add($(this));
 	});
 	
-	$('.dd619_back').unbind('click');
-	$('.dd619_back').bind('click', function(){
-		youngjin.outbound.dd619Back($(this));
-	});
-	
 	$('.dd619_add_submit_button').unbind('click');
 	$('.dd619_add_submit_button').bind('click', function(){
 		youngjin.outbound.dd619AddSubmit($(this));
 	});
-	
-	$('.gbl_process_delivery').unbind('click');
-	$('.gbl_process_delivery').bind('click', function(){
-		parent.$.smartPop.close();
-		parent.location.href = contextPath + '/outbound/delivery/main';
-	});
-	
+};
+
+youngjin.outbound.weightCertificateSync = function(){
 	$('.gbl_preparation_weight_certificate').unbind('click');
 	$('.gbl_preparation_weight_certificate').bind('click', function(){
 		youngjin.outbound.weightCertificate($(this));
@@ -174,7 +199,9 @@ youngjin.outbound.sync = function(){
 	$('.weightcertificate_write').bind('click', function(){
 		youngjin.outbound.weightCertificateSubmit($(this));
 	});
-	
+};
+
+youngjin.outbound.additionDecideSync = function(){
 	$('.gbl_preparation_addtional_decide').unbind('click');
 	$('.gbl_preparation_addtional_decide').bind('click', function(){
 		youngjin.outbound.additionalDecide($(this));
@@ -189,8 +216,9 @@ youngjin.outbound.sync = function(){
 	$('.addition_complete_btn').bind('click', function(){
 		youngjin.outbound.additionComplete($(this));
 	});
-	
-	
+};
+
+youngjin.outbound.backButtonSync = function(){
 	//back
 	$('.pre_back_button').unbind('click');
 	$('.pre_back_button').bind('click', function(){
@@ -200,6 +228,11 @@ youngjin.outbound.sync = function(){
 	$('.memo_back_button').unbind('click');
 	$('.memo_back_button').bind('click', function(){
 		youngjin.outbound.memorandumBack($(this));
+	});
+	
+	$('.memorandum_all_back').unbind('click');
+	$('.memorandum_all_back').bind('click', function(){
+		youngjin.outbound.memorandumAllBack($(this));
 	});
 	
 	$('.dd619_form_back').unbind('click');
@@ -220,6 +253,11 @@ youngjin.outbound.sync = function(){
 	$('.memorandum_print').unbind('click');
 	$('.memorandum_print').bind('click', function(){
 		youngjin.outbound.memorandumPrint($(this));
+	});
+	
+	$('.dd619_back').unbind('click');
+	$('.dd619_back').bind('click', function(){
+		youngjin.outbound.dd619Back($(this));
 	});
 	
 	$('.dd619_table tr').unbind('click');
@@ -433,23 +471,66 @@ youngjin.outbound.preMoveSurveyEditSubmit = function(target){
 youngjin.outbound.memorandum = function(target){
 	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
 	
-	var url = contextPath + '/outbound/' + seq + '/memorandum';
+	var url = contextPath + '/outbound/' + seq + '/memorandumList';
 	
 	parent.$.smartPop.close();
 
 	parent.$.smartPop.open({
-		width: 600,
-		height: 248,
+		width: 700,
+		height: 400,
 		url : url
 	});	
 };
+
+youngjin.outbound.addMemorandum = function(target){
+	var seq = $('.memorandum_all_table').attr('data-seq');
+	
+	var url = contextPath + '/outbound/addMemorandumAndDd619.json';
+	var json = {
+		'gblSeq' : seq
+	};
+	
+	$.postJSON(url, json, function(memorandum){
+		return jQuery.ajax({
+			success : function(){
+				var html = '<tr data-list="' + memorandum.seq + '">' + 
+								'<td>' + (Number($('.memorandum_list_count').html()) + 1) + '</td>' + 
+							'</tr>';
+				if($('.memorandum_list_none') != undefined){
+					$('.memorandum_list_none').parents('tbody').html(html);
+				} else {
+					$('.memorandum_all_table').children('tbody').append(html);
+				}
+			},
+			error : function(){
+				alert('에러 발생!');
+			}
+		});
+	});
+};
+
+youngjin.outbound.goToMemorandum = function(target){
+	var seq = $('.memorandum_all_table').attr('data-seq');
+	var memorandumListSeq = target.attr('data-list');
+	var url = contextPath + '/outbound/' + seq + '/' + memorandumListSeq + '/memorandum';
+	
+	parent.$.smartPop.close();
+	
+	parent.$.smartPop.open({
+		width : 600,
+		height : 248,
+		url : url
+	});
+};
+
 youngjin.outbound.memorandumPop = function(target){	
 	var seq = $('.memorandum_table').attr('data-seq');
+	var memorandumSeq = $('.memorandum_table').attr('data-memorandumSeq');
 	
 	var checkbox = target.children('.memorandum_type').children('input');
 	var type = checkbox.val();
 	
-	var url = contextPath + '/outbound/' + seq + '/memorandum/' + type;	
+	var url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type;	
 	
 	if( type == '02' ){
 		var article = target.children('.memorandum_name').children('input');
@@ -460,7 +541,7 @@ youngjin.outbound.memorandumPop = function(target){
 			return;
 		}
 		
-		url = contextPath + '/outbound/' + seq + '/memorandum/' + type + '/' + article.val();
+		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/' + article.val();
 	}
 	
 	if( target.children('.memorandum_type').children('input').attr('checked') != 'checked'){
@@ -483,7 +564,7 @@ youngjin.outbound.memorandumPop = function(target){
 				checkbox.removeAttr('checked');				
 			}
 			
-			url = contextPath + '/outbound/' + seq + '/memorandum/' + type + '/delete.json';
+			url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/delete.json';
 			
 			$.postJSON(url, {}, function(){
 				return jQuery.ajax({
@@ -509,8 +590,9 @@ youngjin.outbound.memorandumPop = function(target){
 youngjin.outbound.memorandumFormBack = function(target){
 	var parents = target.parents().parents().parents().parents('.memorandum_form_content_wrap');
 	var seq = parents.attr('data-seq');
+	var memorandumSeq = parents.attr('data-memorandumSeq');
 	
-	var url = contextPath + '/outbound/' + seq + '/memorandum/';
+	var url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/';
 	
 	parent.$.smartPop.close();
 
@@ -532,6 +614,7 @@ youngjin.outbound.memorandumAdd = function(target){
 	var areaDirector = $('#memorandum_area_director').val();
 	var articles = $('#memorandum_articles').val();
 	var gblSeq = parents.attr('data-seq');
+	var memorandumSeq = parents.attr('data-memorandumSeq');
 	
 	if( articles == undefined || articles == '' || articles == null){
 		articles = '';
@@ -547,13 +630,14 @@ youngjin.outbound.memorandumAdd = function(target){
 		'chiefOfOffice' : chiefOfOffice,
 		'officeInfo' : officeInfo,
 		'areaDirector' : areaDirector,
-		'gblSeq' : gblSeq
+		'gblSeq' : gblSeq,
+		'memorandumSeq' : memorandumSeq
 	};
 	
 	$.postJSON(url, json, function(){
 		return jQuery.ajax({
 			success : function(){
-				var url = contextPath + '/outbound/' + gblSeq + '/memorandum/';
+				var url = contextPath + '/outbound/' + gblSeq + '/' + memorandumSeq + '/memorandum/';
 				
 				parent.$.smartPop.close();
 
@@ -617,8 +701,8 @@ youngjin.outbound.memorandumUpdate = function(target){
 	});
 };
 
-youngjin.outbound.memorandumBack = function(target){
-	var seq = $('.memorandum_table').attr('data-seq');
+youngjin.outbound.memorandumAllBack = function(target){
+	var seq = $('.memorandum_all_list_wrap').attr('data-seq');
 	
 	var url = contextPath + '/outbound/' + seq + '/preparation';
 	
@@ -631,7 +715,19 @@ youngjin.outbound.memorandumBack = function(target){
 	});
 };
 
+youngjin.outbound.memorandumBack = function(target){
+	var seq = $('.memorandum_table').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/memorandumList';
+	
+	parent.$.smartPop.close();
 
+	parent.$.smartPop.open({
+		width: 700,
+		height: 400,
+		url : url
+	});
+};
 
 youngjin.outbound.dd619Pop = function(target){
 	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
@@ -992,13 +1088,14 @@ youngjin.outbound.memorandumPrint = function(target){
 	var seq = target.attr('data-seq');
 	var type = target.attr('data-type');
 	var article = target.attr('data-article');
+	var memorandumSeq = target.attr('data-memorandumSeq');
 	
 	var url;
 	
 	if( article == null || article == '' || article == 'undefined'){
-		url = contextPath + '/outbound/' + seq + '/memorandum/' + type + '/print';
+		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/print';
 	}	else {
-		url = contextPath + '/outbound/' + seq + '/memorandum/' + type + '/' + article + '/print';
+		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/' + article + '/print';
 	}
 	
 	window.open(url ,'bookingListPrintPop', 'width=1263, height=892, status=no');	

@@ -12,6 +12,7 @@
 		<typeAlias alias="GBLAttachment" type="org.youngjin.net.GBLAttachment"/>
 		<typeAlias alias="PreMoveSurvey" type="org.youngjin.net.outbound.PreMoveSurvey"/>
 		<typeAlias alias="Memorandum" type="org.youngjin.net.memorandum.Memorandum"/>
+		<typeAlias alias="MemorandumList" type="org.youngjin.net.memorandum.MemorandumList"/>
 		<typeAlias alias="Dd619" type="org.youngjin.net.Dd619"/>
 		<typeAlias alias="Weightcertificate" type="org.youngjin.net.outbound.Weightcertificate"/>
 		<typeAlias alias="TruckManifast" type="org.youngjin.net.outbound.TruckManifast"/>

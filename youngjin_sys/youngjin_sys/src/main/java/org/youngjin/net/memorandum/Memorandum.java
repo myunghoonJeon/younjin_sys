@@ -14,6 +14,7 @@ public class Memorandum {
 	private Integer gblSeq;
 
 	private String writeDate;
+	private Integer memorandumSeq;
 
 	public Integer getSeq() {
 		return seq;
@@ -103,28 +104,31 @@ public class Memorandum {
 		this.gblSeq = gblSeq;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Memorandum [seq : ").append(seq).append(" ;\ntype : ")
-				.append(type).append(" ;\nsubject : ").append(subject)
-				.append(" ;\ncomment : ").append(comment).append(" ;\narea : ")
-				.append(area).append(" ;\narticles : ").append(articles)
-				.append(" ;\narticleComment : ").append(articleComment)
-				.append(" ;\nchiefOfOffice : ").append(chiefOfOffice)
-				.append(" ;\nofficeInfo : ").append(officeInfo)
-				.append(" ;\nareaDirector : ").append(areaDirector)
-				.append(" ;\ngblSeq : ").append(gblSeq)
-				.append(" ;\nwriteDate : ").append(writeDate).append(" ]");
-		return builder.toString();
-	}
-
 	public String getWriteDate() {
 		return writeDate;
 	}
 
 	public void setWriteDate(String writeDate) {
 		this.writeDate = writeDate;
+	}
+
+	public Integer getMemorandumSeq() {
+		return memorandumSeq;
+	}
+
+	public void setMemorandumSeq(Integer memorandumSeq) {
+		this.memorandumSeq = memorandumSeq;
+	}
+
+	@Override
+	public String toString() {
+		return "Memorandum [seq=" + seq + ", type=" + type + ", subject="
+				+ subject + ", comment=" + comment + ", area=" + area
+				+ ", articles=" + articles + ", articleComment="
+				+ articleComment + ", chiefOfOffice=" + chiefOfOffice
+				+ ", officeInfo=" + officeInfo + ", areaDirector="
+				+ areaDirector + ", gblSeq=" + gblSeq + ", writeDate="
+				+ writeDate + ", memorandumSeq=" + memorandumSeq + "]";
 	}
 
 }

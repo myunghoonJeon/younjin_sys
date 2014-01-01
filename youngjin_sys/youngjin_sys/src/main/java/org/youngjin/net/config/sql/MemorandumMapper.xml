@@ -25,6 +25,8 @@
 			gbl_seq = #{gblSeq}
 		AND
 			type = #{type}
+		AND
+			memorandum_list_seq = #{memorandumSeq}
 	</select>
 	
 	<select id="getMemorandumList" parameterType="String" resultMap="MemorandumMap">
@@ -36,15 +38,48 @@
 			gbl_seq = #{gblSeq}
 	</select>
 	
+	<select id="getMemroandumAllList" parameterType="String" resultType="MemorandumList">
+		SELECT
+			seq, gbl_seq AS gblSeq, write_date AS writeDate
+		FROM
+			memorandum_list
+		WHERE
+			gbl_seq = #{value}
+	</select>
+	
+	<select id="getMemorandumListSelectOne" parameterType="MemorandumList" resultType="memorandumList">
+		SELECT
+			seq, gbl_seq AS gblSeq, write_date AS writeDate
+		FROM
+			memorandum_list
+		WHERE
+			seq = #{seq}
+	</select>
+	
+	<insert id="addMemorandumList" parameterType="MemorandumList">
+		INSERT INTO
+			memorandum_list
+			(
+				gbl_seq, write_date
+			)
+		VALUES
+		(
+			#{gblSeq}, SYSDATE()
+		)
+	    <selectKey keyProperty="seq" resultType="Integer">     
+			SELECT LAST_INSERT_ID()        
+	    </selectKey>
+	</insert>
+	
 	<insert id="insertMemorandum" parameterType="Memorandum">
 		INSERT INTO
 			memorandum
 			(
-				type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date
+				type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date, memorandum_list_seq
 			)
 		VALUES
 			(
-				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment}, #{chiefOfOffice}, #{officeInfo}, #{areaDirector}, #{gblSeq}, SYSDATE()
+				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment}, #{chiefOfOffice}, #{officeInfo}, #{areaDirector}, #{gblSeq}, SYSDATE(), #{memorandumSeq}
 			)
 	</insert>
 	
@@ -73,5 +108,7 @@
 			gbl_seq = #{gblSeq}
 		AND
 			type = #{type}
+		AND
+			memorandum_list_seq = #{memorandumSeq}
 	</delete>
 </mapper>

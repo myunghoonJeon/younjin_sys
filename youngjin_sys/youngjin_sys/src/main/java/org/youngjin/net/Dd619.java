@@ -26,6 +26,8 @@ public class Dd619 {
 	private Integer gblSeq;
 	private String writeDate;
 	private String writeUser;
+	
+	private Integer memorandumListSeq;
 
 	public Integer getSeq() {
 		return seq;
@@ -211,34 +213,6 @@ public class Dd619 {
 		this.writeUser = writeUser;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Dd619 [seq : ").append(seq).append(" ;\ngblNo : ")
-				.append(gblNo).append(" ;\ndate : ").append(date)
-				.append(" ;\nname : ").append(name).append(" ;\nssn : ")
-				.append(ssn).append(" ;\nrank : ").append(rank)
-				.append(" ;\noriginOfShipment : ").append(originOfShipment)
-				.append(" ;\ndestination : ").append(destination)
-				.append(" ;\norderingActivityName : ")
-				.append(orderingActivityName).append(" ;\ncarrierName : ")
-				.append(carrierName).append(" ;\nagentName : ")
-				.append(agentName).append(" ;\nsignature : ").append(signature)
-				.append(" ;\ncarrierShipmentReference : ")
-				.append(carrierShipmentReference).append(" ;\ncode : ")
-				.append(code).append(" ;\nother : ").append(other)
-				.append(" ;\ntotal : ").append(total).append(" ;\nremark : ")
-				.append(remark).append(" ;\nofficerMaterial : ")
-				.append(officerMaterial).append(" ;\nofficerSignature : ")
-				.append(officerSignature).append(" ;\nofficerDate : ")
-				.append(officerDate).append(" ;\nrankAndName : ")
-				.append(rankAndName).append(" ;\ntransportationDate : ")
-				.append(transportationDate).append(" ;\ngblSeq : ")
-				.append(gblSeq).append(" ;\nwriteDate : ").append(writeDate)
-				.append(" ;\nwriteUser : ").append(writeUser).append(" ]");
-		return builder.toString();
-	}
-
 	public String getOfficerDate() {
 		return officerDate;
 	}
@@ -253,6 +227,32 @@ public class Dd619 {
 
 	public void setTransportationDate(String transportationDate) {
 		this.transportationDate = transportationDate;
+	}
+
+	public Integer getMemorandumListSeq() {
+		return memorandumListSeq;
+	}
+
+	public void setMemorandumListSeq(Integer memorandumListSeq) {
+		this.memorandumListSeq = memorandumListSeq;
+	}
+
+	@Override
+	public String toString() {
+		return "Dd619 [seq=" + seq + ", gblNo=" + gblNo + ", date=" + date
+				+ ", name=" + name + ", ssn=" + ssn + ", rank=" + rank
+				+ ", originOfShipment=" + originOfShipment + ", destination="
+				+ destination + ", orderingActivityName="
+				+ orderingActivityName + ", carrierName=" + carrierName
+				+ ", agentName=" + agentName + ", signature=" + signature
+				+ ", carrierShipmentReference=" + carrierShipmentReference
+				+ ", code=" + code + ", other=" + other + ", total=" + total
+				+ ", remark=" + remark + ", officerMaterial=" + officerMaterial
+				+ ", officerSignature=" + officerSignature + ", officerDate="
+				+ officerDate + ", rankAndName=" + rankAndName
+				+ ", transportationDate=" + transportationDate + ", gblSeq="
+				+ gblSeq + ", writeDate=" + writeDate + ", writeUser="
+				+ writeUser + ", memorandumListSeq=" + memorandumListSeq + "]";
 	}
 
 }

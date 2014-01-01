@@ -206,6 +206,16 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 .pre_move_survey_table tr td{ text-align: center; padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; border-left: 0; vertical-align: middle; }
 .pre_move_survey_table tfoot tr td{ border: none; text-align: right; background-color: white;}
 
+/* Memorandum List*/
+.memorandum_all_list_wrap { width: 700px; height: 400px; background-color : white;}
+#memorandum_all_addButton{ width: 90%; margin: 10px auto;}
+#memorandum_all_addButton ul li span{ margin-bottom: 10px; }
+
+.memorandum_all_back{ float: left;}
+.memorandum_all_addButton{ float: right;}
+
+.memorandum_all_table { width: 90% ; margin: 0 auto;}
+
 /* Memorandum */
 .memorandum_wrap{ with : 100%; height: 100%; background-color : white; }
 .memorandum_table{ width: 70%; margin: 15px auto; }

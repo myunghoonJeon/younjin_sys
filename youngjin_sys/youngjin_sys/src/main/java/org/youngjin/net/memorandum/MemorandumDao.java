@@ -27,5 +27,18 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 	public void updateMemorandum(Memorandum memorandum) {
 		getSqlSession().update("memorandumMapper.updateMemorandum", memorandum);
 	}
+
+	public List<MemorandumList> getMemorandumAllList(String seq) {
+		return getSqlSession().selectList("memorandumMapper.getMemroandumAllList", seq);
+	}
+
+	public void addMemorandumList(MemorandumList memorandumList) {
+		getSqlSession().insert("memorandumMapper.addMemorandumList", memorandumList);	
+	}
+
+	public MemorandumList getMemorandumListSelectOne(
+			MemorandumList memorandumList) {
+		return getSqlSession().selectOne("memorandumMapper.getMemorandumListSelectOne", memorandumList);
+	}
 	
 }
