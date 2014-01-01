@@ -14,7 +14,7 @@ youngjin.outbound.sync = function(){
 		var url = contextPath + '/outbound/add/';
 		$.smartPop.open({
 			width : 900,
-			height : 600,
+			height : 500,
 			url : url
 		});
 	});
@@ -67,6 +67,16 @@ youngjin.outbound.sync = function(){
 	$('.gbl_list').unbind('click');
 	$('.gbl_list').bind('click', function(){
 		youngjin.outbound.getGblProcess($(this));
+	});
+	
+	$('.gbl_process_input').unbind('click');
+	$('.gbl_process_input').bind('click', function(){
+		youngjin.outbound.inputPop($(this));
+	});
+	
+	$('.gbl_modify_submit_button').unbind('click');
+	$('.gbl_modify_submit_button').bind('click', function(){
+		youngjin.outbound.gblkModifySubmit($(this));
 	});
 	
 	$('.gbl_process_preparation').unbind('click');
@@ -333,6 +343,88 @@ youngjin.outbound.fileView = function(){
 	location.href= contextPath + '/outbound/file/' + seq + '/' + no + '/';	
 };
 
+youngjin.outbound.inputPop = function(target){
+	var seq = target.parents().parents('.gbl_process').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/modify';
+	
+	parent.$.smartPop.close();
+	
+	parent.$.smartPop.open({
+		width : 900,
+		height : 500,
+		url : url
+	});
+};
+
+youngjin.outbound.gblkModifySubmit = function(target){
+	var form = document.forms['gbl'];
+	
+	var seq = form.seq.value;
+	var no = form.no.value;
+	var name = form.customerName.value;
+	var rank = form.rank.value;
+	var code = form.code.value;
+	var scac = form.scac.value;
+	var originGBlock = form.originGBlock.value;
+	var destGBlock = form.destGBlock.value;
+	var pud = form.pud.value;
+	var ssn = form.ssn.value;
+	var rdd = form.rdd.value;
+	var pod = form.pod.value;
+	var poe = form.poe.value;
+	var area = form.areaLocal.value;
+	var address = form.originAddress.value;
+	var usNo = form.usNo.value;
+	var destPort = form.destPort.value;
+	var originPort = form.originPort.value;
+	var originCity = form.originCity.value;
+	var milSVC = form.milSVC.value;
+	
+	var url = contextPath + '/outbound/gblModify.json';
+	var json = {
+			'seq' : seq,
+			'no' : no,
+			'customerName' : name,
+			'rank' : rank,
+			'code' : code,
+			'scac' : scac,
+			'originGBlock' : originGBlock,
+			'destGBlock' : destGBlock,
+			'pud' : pud,
+			'ssn' : ssn,
+			'rdd' : rdd,
+			'pod' : pod,
+			'poe' : poe,
+			'areaLocal' : area,
+			'originAddress' : address,
+			'usNo' : usNo,
+			'destPort' : destPort,
+			'originPort' : originPort,
+			'originCity' : originCity,
+			'milSVC' : milSVC
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){				
+				var goUrl = contextPath + '/outbound/' + seq;
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width : 1000,
+					height : 521,
+					url : goUrl
+				});					
+			}, 
+			error : function(){
+				alert('에러발생!');
+			}
+		});
+	});
+};
+
 youngjin.outbound.preperationPop = function(target){	
 	var seq = target.parents().parents('.gbl_process').attr('data-seq');
 	
@@ -494,9 +586,11 @@ youngjin.outbound.addMemorandum = function(target){
 		return jQuery.ajax({
 			success : function(){
 				var html = '<tr data-list="' + memorandum.seq + '">' + 
-								'<td>' + (Number($('.memorandum_list_count').html()) + 1) + '</td>' + 
+								'<td class="memorandum_list_count">' + ($('.memorandum_list_count:last').html() != undefined ? (Number($('.memorandum_list_count:last').html()) + 1) : 1) + '</td>' +
+								'<td>' + memorandum.writeDate + '</td>' + 
 							'</tr>';
-				if($('.memorandum_list_none') != undefined){
+				
+				if($('.memorandum_list_none').html() != undefined){
 					$('.memorandum_list_none').parents('tbody').html(html);
 				} else {
 					$('.memorandum_all_table').children('tbody').append(html);

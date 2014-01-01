@@ -14,6 +14,15 @@
 	<result column="area" property="areaLocal" />
 	<result column="us_no" property="usNo" />
 	<result column="dest_port" property="destPort"/>
+	<result column="origin_gblock" property="originGBlock"/>
+	<result column="dest_gblock" property="destGBlock"/>
+	<result column="rdd" property="rdd"/>
+	<result column="pod" property="pod"/>
+	<result column="poe" property="poe"/>
+	<result column="origin_address" property="originAddress"/>
+	<result column="origin_port" property="originPort"/>
+	<result column="origin_city" property="originCity"/>
+	<result column="mil_svc" property="milSVC"/>
 	<result column="pcs" property="pcs" />
 	<result column="cuft" property="cuft" />
 	<result column="truck_check" property="truckCheck"/>
@@ -203,17 +212,26 @@
 
 <select id="getGbl" parameterType="Integer" resultMap="GblMap">
 	SELECT
+		g.no, 
 		g.seq,
-		g.no,
-		g.pud,
-		g.rank,
-		g.code,
-		g.scac,
-		g.ssn,
-		g.customer_name,
-		g.area,
-		g.us_no,
-		g.dest_port
+		g.customer_name, 
+		g.rank, 
+		g.code, 
+		g.scac, 
+		g.origin_gblock, 
+		g.dest_gblock, 
+		g.pud, 
+		g.ssn, 
+		g.rdd, 
+		g.pod, 
+		g.poe, 
+		g.area, 
+		g.origin_address, 
+		g.us_no, 
+		g.dest_port, 
+		g.origin_port, 
+		g.origin_city, 
+		g.mil_svc
 	FROM
 		gbl g
 	WHERE
@@ -579,11 +597,11 @@
 	INSERT INTO
 		dd619
 		(
-			gbl_seq, write_date, memorandum_list_seq
+			gbl_seq, gbl_no, write_date, memorandum_list_seq
 		)
 	VALUES
 	(
-		#{gblSeq}, SYSDATE(), #{memorandumListSeq}
+		#{gblSeq}, (select no from gbl where seq = #{gblSeq}), SYSDATE(), #{memorandumListSeq}
 	)
 </insert>
 
@@ -640,6 +658,33 @@
 			#{title}, #{cost}, #{gblSeq}
 		)
 </insert>
+
+<update id="modifyGbl" parameterType="GBL">
+	UPDATE
+		gbl
+	SET
+		no = #{no},
+		customer_name = #{customerName},
+		rank = #{rank},
+		code = #{code},
+		scac = #{scac},
+		origin_gblock = #{originGBlock},
+		dest_gblock = #{destGBlock},
+		pud = #{pud},
+		ssn = #{ssn},
+		rdd = #{rdd},
+		pod = #{pod},
+		poe = #{poe},
+		area = #{areaLocal},
+		origin_address = #{originAddress},
+		us_no = #{usNo},
+		dest_port = #{destPort},
+		origin_port = #{originPort},
+		origin_city = #{originCity},
+		mil_svc = #{milSVC}
+	WHERE
+		seq = #{seq}
+</update>
 
 <update id="updatePreMoveSurvey" parameterType="PreMoveSurvey">
 	UPDATE

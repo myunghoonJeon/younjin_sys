@@ -133,6 +133,26 @@ public class OutboundController {
 			return process + "/gbl/list";
 		}
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/modify", method = RequestMethod.GET)
+	public String gblModify(Model model, User user,
+			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process, @PathVariable Integer seq) {
+		
+		GBL modifyGbl =  outboundService.getGbl(seq);
+		
+		model.addAttribute("user", user);		
+		model.addAttribute("gbl", modifyGbl);
+		
+		return process + "/gbl/modify";
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/gblModify.json")
+	@ResponseBody
+	public void gblModifySubmit(@RequestBody GBL gbl){
+		outboundService.modifyGbl(gbl);
+	}	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}", method = RequestMethod.GET)

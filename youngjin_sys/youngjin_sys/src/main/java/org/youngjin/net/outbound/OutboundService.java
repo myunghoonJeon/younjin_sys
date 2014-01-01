@@ -345,4 +345,8 @@ public class OutboundService {
 	public TruckManifast getTruckManifastOne(Integer seq) {
 		return outboundDao.getTruckManifastOne(seq);
 	}
+
+	public void modifyGbl(GBL gbl) {
+		outboundDao.modifyGbl(gbl);
+	}
 }

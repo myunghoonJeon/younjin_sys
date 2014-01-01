@@ -163,5 +163,9 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public TruckManifast getTruckManifastOne(Integer seq) {
 		return getSqlSession().selectOne("outboundMapper.getTruckManifastOne", seq);
 	}
+
+	public void modifyGbl(GBL gbl) {
+		getSqlSession().update("outboundMapper.modifyGbl", gbl);
+	}
 	
 }

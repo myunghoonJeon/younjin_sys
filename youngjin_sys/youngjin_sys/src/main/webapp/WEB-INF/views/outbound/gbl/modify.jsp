@@ -31,9 +31,10 @@
 <body>
 	<div id="gbl_add_div">
 		<div class="pop_title_line">
-			<span>GBL ADD</span>
+			<span>GBL UPDATE</span>
 		</div>	
 		<form:form commandName="gbl">
+		<form:hidden path="seq"/>
 		<table class="gbl_add_table">
 			<tr>
 				<th>GBL NO</th>
@@ -97,7 +98,7 @@
 			</tr>
 			<tfoot>
 				<tr>
-					<td colspan="4"><input class="gbl_add_submit_button" type="button" value="add"/></td>
+					<td colspan="4"><input class="gbl_modify_submit_button" type="button" value="modify"/></td>
 				</tr>
 			</tfoot>
 		</table>

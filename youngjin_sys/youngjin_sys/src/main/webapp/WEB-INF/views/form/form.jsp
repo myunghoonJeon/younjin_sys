@@ -9,7 +9,6 @@
 <title>Form 모음</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
-<link rel="stylesheet" href="${cp }/resources/css/font.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">
 
 <script src="${cp}/resources/jquery/jquery-1.8.2.min.js"></script>

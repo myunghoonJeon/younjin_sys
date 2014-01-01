@@ -14,7 +14,6 @@
 <title>DECISION</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
-<link rel="stylesheet" href="${cp }/resources/css/font.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">
 <link rel="stylesheet" href="${cp }/resources/jquery/jquery-ui-1.10.3.custom.min.css">
 
