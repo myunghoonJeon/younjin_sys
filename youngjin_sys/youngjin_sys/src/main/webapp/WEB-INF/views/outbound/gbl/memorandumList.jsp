@@ -52,9 +52,26 @@
 						<tr>
 							<td class="memorandum_name">
 								${memorandum.codeName } 
-								<c:if test="${memorandum.subCode eq '02' }">
-									<input type="text" value="${articles ne null ? articles : '' }"/>
-								</c:if>
+								<c:choose>
+									<c:when test="${memorandum.subCode eq '02' }">
+										<input type="text" value="${articles ne null ? articles : '' }"/>
+									</c:when>
+									<c:when test="${memorandum.subCode eq '04' }">
+										 : <input type="text" value="${checkMemorandumMap['04'].extraPickUpCharge }"/>
+									</c:when>
+									<c:when test="${memorandum.subCode eq '05' }">
+										 : <input type="text" value="${checkMemorandumMap['05'].termination }"/>
+									</c:when>
+									<c:when test="${memorandum.subCode eq '06' }">
+										 : <input type="text" value="${checkMemorandumMap['06'].sitStartDate }"/>
+									</c:when>
+									<c:when test="${memorandum.subCode eq '07' }">
+										 : <input type="text" value="${checkMemorandumMap['07'].sitEndDate }"/>
+									</c:when>
+									<c:when test="${memorandum.subCode eq '08' }">
+										 : <input type="text" value="${checkMemorandumMap['08'].longCarry }"/>
+									</c:when>
+								</c:choose>
 							</td>
 							<td class="memorandum_type">
 								<c:choose>

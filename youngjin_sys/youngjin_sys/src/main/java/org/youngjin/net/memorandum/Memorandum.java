@@ -14,6 +14,15 @@ public class Memorandum {
 	private Integer gblSeq;
 
 	private String writeDate;
+	
+	private String extraPickUpCharge;
+	private String termination;
+	private String sitStartDate;
+	private String sitEndDate;
+	private String lognCarry;
+	
+	private String invoiceValue;
+
 	private Integer memorandumSeq;
 
 	public Integer getSeq() {
@@ -119,6 +128,54 @@ public class Memorandum {
 	public void setMemorandumSeq(Integer memorandumSeq) {
 		this.memorandumSeq = memorandumSeq;
 	}
+	
+	public String getExtraPickUpCharge() {
+		return extraPickUpCharge;
+	}
+
+	public void setExtraPickUpCharge(String extraPickUpCharge) {
+		this.extraPickUpCharge = extraPickUpCharge;
+	}
+
+	public String getSitStartDate() {
+		return sitStartDate;
+	}
+
+	public void setSitStartDate(String sitStartDate) {
+		this.sitStartDate = sitStartDate;
+	}
+
+	public String getSitEndDate() {
+		return sitEndDate;
+	}
+
+	public void setSitEndDate(String sitEndDate) {
+		this.sitEndDate = sitEndDate;
+	}
+
+	public String getLognCarry() {
+		return lognCarry;
+	}
+
+	public void setLognCarry(String lognCarry) {
+		this.lognCarry = lognCarry;
+	}
+	
+	public String getTermination() {
+		return termination;
+	}
+
+	public void setTermination(String termination) {
+		this.termination = termination;
+	}
+
+	public String getInvoiceValue() {
+		return invoiceValue;
+	}
+
+	public void setInvoiceValue(String invoiceValue) {
+		this.invoiceValue = invoiceValue;
+	}
 
 	@Override
 	public String toString() {
@@ -128,7 +185,11 @@ public class Memorandum {
 				+ articleComment + ", chiefOfOffice=" + chiefOfOffice
 				+ ", officeInfo=" + officeInfo + ", areaDirector="
 				+ areaDirector + ", gblSeq=" + gblSeq + ", writeDate="
-				+ writeDate + ", memorandumSeq=" + memorandumSeq + "]";
+				+ writeDate + ", extraPickUpCharge=" + extraPickUpCharge
+				+ ", termination=" + termination + ", sitStartDate="
+				+ sitStartDate + ", sitEndDate=" + sitEndDate + ", lognCarry="
+				+ lognCarry + ", invoiceValue=" + invoiceValue
+				+ ", memorandumSeq=" + memorandumSeq + "]";
 	}
 
 }

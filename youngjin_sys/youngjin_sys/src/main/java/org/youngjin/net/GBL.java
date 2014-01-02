@@ -317,42 +317,24 @@ public class GBL {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("GBL [seq : ").append(seq).append(" ;\nno : ")
-				.append(no).append(" ;\ncustomerName : ").append(customerName)
-				.append(" ;\npud : ").append(pud).append(" ;\nrank : ")
-				.append(rank).append(" ;\ncode : ").append(code)
-				.append(" ;\nscac : ").append(scac)
-				.append(" ;\noriginAddress : ").append(originAddress)
-				.append(" ;\nssn : ").append(ssn).append(" ;\nareaLocal : ")
-				.append(areaLocal).append(" ;\nphoneNo : ").append(phoneNo)
-				.append(" ;\nemail : ").append(email).append(" ;\nusNo : ")
-				.append(usNo).append(" ;\nrdd : ").append(rdd)
-				.append(" ;\npod : ").append(pod).append(" ;\npoe : ")
-				.append(poe).append(" ;\nvessel : ").append(vessel)
-				.append(" ;\nconsoleCompany : ").append(consoleCompany)
-				.append(" ;\nhbBookingNo : ").append(hbBookingNo)
-				.append(" ;\nclpNo : ").append(clpNo).append(" ;\nsealNo : ")
-				.append(sealNo).append(" ;\noriginPort : ").append(originPort)
-				.append(" ;\ndestPort : ").append(destPort)
-				.append(" ;\ndestState : ").append(destState)
-				.append(" ;\noriginGBlock : ").append(originGBlock)
-				.append(" ;\ndestGBlock : ").append(destGBlock)
-				.append(" ;\noriginCity : ").append(originCity)
-				.append(" ;\nmilSVC : ").append(milSVC)
-				.append(" ;\ngblFileNo : ").append(gblFileNo)
-				.append(" ;\npcs : ").append(pcs).append(" ;\nlbs : ")
-				.append(lbs).append(" ;\ncuft : ").append(cuft)
-				.append(" ;\ntruckCheck : ").append(truckCheck)
-				.append(" ;\nbookingCheck : ").append(bookingCheck)
-				.append(" ;\ntruckSeq : ").append(truckSeq)
-				.append(" ;\nbookingSeq : ").append(bookingSeq)
-				.append(" ;\nattachments : ")
-				.append(Arrays.toString(attachments))
-				.append(" ;\nattachmentList : ").append(attachmentList)
-				.append(" ;\ndeleteAttachments : ")
-				.append(Arrays.toString(deleteAttachments)).append(" ]");
-		return builder.toString();
+		return "GBL [seq=" + seq + ", no=" + no + ", customerName="
+				+ customerName + ", pud=" + pud + ", rank=" + rank + ", code="
+				+ code + ", scac=" + scac + ", originAddress=" + originAddress
+				+ ", ssn=" + ssn + ", areaLocal=" + areaLocal + ", phoneNo="
+				+ phoneNo + ", email=" + email + ", usNo=" + usNo + ", rdd="
+				+ rdd + ", pod=" + pod + ", poe=" + poe + ", vessel=" + vessel
+				+ ", consoleCompany=" + consoleCompany + ", hbBookingNo="
+				+ hbBookingNo + ", clpNo=" + clpNo + ", sealNo=" + sealNo
+				+ ", originPort=" + originPort + ", destPort=" + destPort
+				+ ", destState=" + destState + ", originGBlock=" + originGBlock
+				+ ", destGBlock=" + destGBlock + ", originCity=" + originCity
+				+ ", milSVC=" + milSVC + ", gblFileNo=" + gblFileNo + ", pcs="
+				+ pcs + ", lbs=" + lbs + ", cuft=" + cuft + ", truckCheck="
+				+ truckCheck + ", bookingCheck=" + bookingCheck + ", truckSeq="
+				+ truckSeq + ", bookingSeq=" + bookingSeq + ", attachments="
+				+ Arrays.toString(attachments) + ", attachmentList="
+				+ attachmentList + ", deleteAttachments="
+				+ Arrays.toString(deleteAttachments) + "]";
 	}
 
 	public Integer getTruckSeq() {

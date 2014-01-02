@@ -14,6 +14,11 @@
 		<result property="areaDirector" column="area_director"/>
 		<result property="gblSeq" column="gbl_seq" />
 		<result property="writeDate" column="write_date" />
+		<result property="extraPickUpCharge" column="extra_pick_up_charge" />
+		<result property="termination" column="termination" />
+		<result property="sitStartDate" column="sit_start_date" />
+		<result property="sitEndDate" column="sit_end_date" />
+		<result property="longCarry" column="long_carry" />
 	</resultMap>
 	
 	<select id="getMemorandum" parameterType="Memorandum" resultMap="MemorandumMap">
@@ -29,13 +34,17 @@
 			memorandum_list_seq = #{memorandumSeq}
 	</select>
 	
-	<select id="getMemorandumList" parameterType="String" resultMap="MemorandumMap">
+	<select id="getMemorandumList" parameterType="Map" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq
+			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
 		FROM
 			memorandum
 		WHERE
-			gbl_seq = #{gblSeq}
+			gbl_seq = #{seq}
+		<if test="memorandumSeq != null">	
+			AND
+				memorandum_list_seq = #{memorandumSeq}
+		</if>
 	</select>
 	
 	<select id="getMemroandumAllList" parameterType="String" resultType="MemorandumList">
@@ -80,6 +89,39 @@
 		VALUES
 			(
 				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment}, #{chiefOfOffice}, #{officeInfo}, #{areaDirector}, #{gblSeq}, SYSDATE(), #{memorandumSeq}
+			)
+	</insert>
+	
+	<insert id="insertInvoiceMemorandum" parameterType="Memorandum">
+		INSERT INTO
+			memorandum
+			(
+				type, memorandum_list_seq, gbl_seq, write_date
+				<choose>
+					<when test="type == '04'">
+						, extra_pick_up_charge
+					</when>
+					<when test="type == '05'">
+						, termination
+					</when>
+					<when test="type == '06'">
+						, sit_start_date
+					</when>
+					<when test="type == '07'">
+						, sit_end_date
+					</when>
+					<when test="type == '08'">
+						, long_carry
+					</when>					
+				</choose>
+			)
+			VALUES
+			(
+				#{type},
+				#{memorandumSeq},
+				#{gblSeq},
+				SYSDATE(),
+				#{invoiceValue}
 			)
 	</insert>
 	

@@ -249,7 +249,7 @@ public class OutboundController {
 
 		List<Code> memorandumList = codeService.getCodeList("03");
 		Map<String, Memorandum> checkMemorandumMap = memorandumService
-				.getMemorandumMap(seq);
+				.getMemorandumMap(seq, memorandumSeq);
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("memorandumSeq", memorandumSeq);
@@ -312,6 +312,13 @@ public class OutboundController {
 		model.addAttribute("checkMemorandum", memorandom);
 
 		return process + "/gbl/memorandumForm";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/memorandum/invoice/{article}/insert.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void insertInvoiceMemorandum(@RequestBody Memorandum memorandum, @PathVariable String article){
+		memorandumService.insertInvoiceMemorandum(memorandum);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
@@ -384,7 +391,7 @@ public class OutboundController {
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
 		model.addAttribute("remarkList",
-				memorandumService.getMemorandumList(seq));
+				memorandumService.getMemorandumList(seq, null));
 		model.addAttribute("seq", seq);
 
 		return process + "/gbl/dd619Add";
@@ -399,8 +406,8 @@ public class OutboundController {
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
 		model.addAttribute("dd619", outboundService.getDd619ListSelectOne(dd619Seq));
-		model.addAttribute("remarkList",
-				memorandumService.getMemorandumList(seq));
+	/*	model.addAttribute("remarkList",
+				memorandumService.getMemorandumList(seq));*/
 		model.addAttribute("seq", seq);
 
 		return process + "/gbl/dd619Update";
@@ -434,7 +441,7 @@ public class OutboundController {
 	public String additionalDecideMain(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
 		Map<String, Memorandum> checkMemorandumMap = memorandumService
-				.getMemorandumMap(seq);
+				.getMemorandumMap(seq, null);
 
 		model.addAttribute("seq", seq);
 

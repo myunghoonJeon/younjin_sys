@@ -35,9 +35,9 @@ public class MemorandumService {
 		
 	}
 
-	public Map<String, Memorandum> getMemorandumMap(String seq) {
+	public Map<String, Memorandum> getMemorandumMap(String seq, Integer memorandumSeq) {
 		Map<String, Memorandum> memoMap = new HashMap<String, Memorandum>();
-		List<Memorandum> list = memorandumDao.getMemorandumList(seq);
+		List<Memorandum> list = memorandumDao.getMemorandumList(seq, memorandumSeq);
 		
 		for( Memorandum memorandum : list){
 			memoMap.put(memorandum.getType(), memorandum);
@@ -55,8 +55,8 @@ public class MemorandumService {
 		memorandumDao.deleteMemorandum(paramMemorandum);
 	}
 
-	public List<Memorandum> getMemorandumList(String seq) {
-		return memorandumDao.getMemorandumList(seq);
+	public List<Memorandum> getMemorandumList(String seq, Integer memorandumSeq) {
+		return memorandumDao.getMemorandumList(seq, memorandumSeq);
 	}
 
 	public void updateMemorandum(Memorandum memorandum) {
@@ -95,5 +95,9 @@ public class MemorandumService {
 		dd619.setCode(gbl.getCode());
 		
 		return dd619;
+	}
+
+	public void insertInvoiceMemorandum(Memorandum memorandum) {
+		memorandumDao.insertInvoiceMemorandum(memorandum);
 	}
 }

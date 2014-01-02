@@ -637,19 +637,44 @@ youngjin.outbound.memorandumPop = function(target){
 		}
 		
 		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/' + article.val();
+	} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' ){
+		var inputValue = target.children('.memorandum_name').children('input');
+		
+		if(inputValue.val() == '' || inputValue.val() == null){
+			youngjin.outbound.sync();
+			inputValue.focus();
+			return;
+		}
+		
+		var json = {
+				'memorandumSeq' : memorandumSeq,
+				'gblSeq' : seq,
+				'type' : type,
+				'invoiceValue' : inputValue.val()
+		};
+		
+		url = contextPath + '/outbound/memorandum/invoice/' + inputValue.val() + '/insert.json';
+
+		$.postJSON(url, json, function(){
+			return jQuery.ajax({
+				error: function(){alert("에러 발생!");}
+			});
+		});
+		
 	}
 	
 	if( target.children('.memorandum_type').children('input').attr('checked') != 'checked'){
-		
 		checkbox.attr('checked', 'checked');
+			
+		if((type == '01' || type == '02' || type == '03')){
+			parent.$.smartPop.close();
 		
-		parent.$.smartPop.close();
-	
-		parent.$.smartPop.open({
-			width: 650,
-			height: 900,
-			url : url
-		});	
+			parent.$.smartPop.open({
+				width: 650,
+				height: 900,
+				url : url
+			});	
+		}
 	} else {
 		if(confirm('선택을 해제 하시겠습니까?(yes : 해체 및 삭제)')){
 			if( type == '02'){
@@ -668,13 +693,15 @@ youngjin.outbound.memorandumPop = function(target){
 			});
 		} else {
 			if(confirm('수정하시겠습니까?')){	
-				parent.$.smartPop.close();
-				
-				parent.$.smartPop.open({
-					width: 650,
-					height: 900,
-					url : url
-				});	
+				if((type == '01' || type == '02' || type == '03')){
+					parent.$.smartPop.close();
+					
+					parent.$.smartPop.open({
+						width: 650,
+						height: 900,
+						url : url
+					});	
+				}
 			} else {
 				alert("취소 하였습니다.");
 			}
