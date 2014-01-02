@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.youngjin.net.Dd619;
+import org.youngjin.net.GBL;
 import org.youngjin.net.login.User;
 import org.youngjin.net.outbound.OutboundDao;
 
@@ -71,14 +72,28 @@ public class MemorandumService {
 		
 		memorandumDao.addMemorandumList(memorandumList);
 		
-		Dd619 dd619 = new Dd619();
-		dd619.setGblSeq(memorandumList.getGblSeq());
-		dd619.setMemorandumListSeq(memorandumList.getSeq());
+		GBL gbl = outboundDao.getGbl(memorandumList.getGblSeq());
+		
+		Dd619 dd619 = setDd619(gbl, memorandumList);
 		
 		outboundDao.insertDd619(dd619);
 		
 		returnList = memorandumDao.getMemorandumListSelectOne(memorandumList);
 				
 		return returnList;
+	}
+
+	private Dd619 setDd619(GBL gbl, MemorandumList memorandumList) {
+		Dd619 dd619 = new Dd619();
+		dd619.setGblNo(gbl.getNo());
+		dd619.setGblSeq(memorandumList.getGblSeq());
+		dd619.setMemorandumListSeq(memorandumList.getSeq());
+		dd619.setName(gbl.getCustomerName());
+		dd619.setRank(gbl.getRank());
+		dd619.setSsn(gbl.getSsn());		
+		dd619.setCarrierShipmentReference(gbl.getScac());
+		dd619.setCode(gbl.getCode());
+		
+		return dd619;
 	}
 }

@@ -601,6 +601,7 @@ youngjin.outbound.addMemorandum = function(target){
 			}
 		});
 	});
+	youngjin.outbound.memorandumSync();
 };
 
 youngjin.outbound.goToMemorandum = function(target){
@@ -758,6 +759,7 @@ youngjin.outbound.memorandumUpdate = function(target){
 	var areaDirector = $('#memorandum_area_director').val();
 	var articles = $('#memorandum_articles').val();
 	var gblSeq = parents.attr('data-seq');
+	var memorandumSeq = parents.attr('data-memorandumSeq');
 	
 	if( articles == undefined || articles == '' || articles == null){
 		articles = '';
@@ -773,7 +775,8 @@ youngjin.outbound.memorandumUpdate = function(target){
 		'chiefOfOffice' : chiefOfOffice,
 		'officeInfo' : officeInfo,
 		'areaDirector' : areaDirector,
-		'gblSeq' : gblSeq
+		'gblSeq' : gblSeq,
+		'memorandumSeq' : memorandumSeq
 	};
 	
 	$.postJSON(url, json, function(){
@@ -842,9 +845,15 @@ youngjin.outbound.dd619 = function(target){
 	var seq = target.parents().parents('.dd619_table').attr('data-seq');
 	var listSeq = target.attr('data-list');
 	
-	var url = contextPath + '/outbound/' + seq + '/dd619/' + listSeq;
+	var url = contextPath + '/outbound/' + seq + '/' + listSeq + '/dd619Modify';
 	
-	window.open(url, "dd619Pop", "width=1000, height=1400, status=no");
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width : 700,
+		height : 900,
+		url : url
+	});
 };
 
 youngjin.outbound.dd619Add = function(target){

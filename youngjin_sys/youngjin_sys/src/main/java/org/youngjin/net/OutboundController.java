@@ -389,6 +389,22 @@ public class OutboundController {
 
 		return process + "/gbl/dd619Add";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/{dd619Seq}/dd619Modify", method = RequestMethod.GET)
+	public String dd619Modify(Model model, User user,
+			@PathVariable String process, @PathVariable String seq, @PathVariable Integer dd619Seq,
+			@ModelAttribute Dd619 dd619) {
+
+		model.addAttribute("user", user);
+		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
+		model.addAttribute("dd619", outboundService.getDd619ListSelectOne(dd619Seq));
+		model.addAttribute("remarkList",
+				memorandumService.getMemorandumList(seq));
+		model.addAttribute("seq", seq);
+
+		return process + "/gbl/dd619Update";
+	}	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/dd619/{listSeq}", method = RequestMethod.GET)
@@ -468,12 +484,12 @@ public class OutboundController {
 	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum/{type}/delete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumDelete(@PathVariable String seq,
-			@PathVariable String type, Integer memorandumSeq) {
+			@PathVariable String type, @PathVariable Integer memorandumSeq) {
 		memorandumService.deleteMemorandum(seq, type, memorandumSeq);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
-	@RequestMapping(value = "/{process}/{seq}/memorandum/memorandumInput.json", method = RequestMethod.POST)
+	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum/memorandumInput.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumInput(@RequestBody Memorandum memorandum) {
 		memorandumService.insertMemorandum(memorandum);

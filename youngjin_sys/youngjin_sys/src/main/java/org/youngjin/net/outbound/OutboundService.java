@@ -349,4 +349,8 @@ public class OutboundService {
 	public void modifyGbl(GBL gbl) {
 		outboundDao.modifyGbl(gbl);
 	}
+
+	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {
+		return outboundDao.getDd619ListSelectOne(dd619Seq);
+	}
 }

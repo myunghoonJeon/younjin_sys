@@ -175,9 +175,21 @@
 				g.customer_name,
 				g.area,
 				g.us_no,
-				g.dest_port
+				g.dest_port,
+				CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+				CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
 			FROM
-				gbl g, (SELECT @rownum := 0) r
+				gbl g, (SELECT @rownum := 0) r,
+				(
+				SELECT
+					gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+				FROM
+					gbl gt
+				JOIN
+					weight_certificate wc ON (wc.gbl_seq = gt.seq)
+				GROUP BY
+					gt.seq
+				) gwc
 			WHERE
 				1 = 1
 				<if test="area != null and area != ''">
@@ -342,6 +354,15 @@
 		dd619
 	WHERE
 		gbl_seq = #{seq}
+</select>
+
+<select id="getDd619ListSelectOne" parameterType="Integer" resultMap="Dd619Map">
+	SELECT
+		seq, gbl_no, date, name, ssn, rank, origin_of_shipment, destination, ordering_activity_name, carrier_name, agent_name, signature, carrier_shipment_reference, code, other, total, remark, officer_material, officer_signature, officer_date, rank_and_name, transportation_date, gbl_seq, write_date, write_user
+	FROM
+		dd619
+	WHERE
+		seq = #{value}
 </select>
 
 <select id="getWeightcertificateList" parameterType="String" resultType="Weightcertificate">
@@ -597,11 +618,11 @@
 	INSERT INTO
 		dd619
 		(
-			gbl_seq, gbl_no, write_date, memorandum_list_seq
+			gbl_seq, gbl_no, name, rank, ssn, code, carrier_shipment_reference, write_date, memorandum_list_seq
 		)
 	VALUES
 	(
-		#{gblSeq}, (select no from gbl where seq = #{gblSeq}), SYSDATE(), #{memorandumListSeq}
+		#{gblSeq}, #{gblNo}, #{name}, #{rank}, #{ssn}, #{code}, #{carrierShipmentReference}, SYSDATE(), #{memorandumListSeq}
 	)
 </insert>
 

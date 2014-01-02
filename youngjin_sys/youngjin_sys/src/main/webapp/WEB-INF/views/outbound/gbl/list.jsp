@@ -177,9 +177,9 @@
 						<td>${gbl.no }</td>
 						<td>${gbl.rank }</td>
 						<td>${gbl.customerName }</td>
+						<td>${gbl.pcs }</td>
 						<td></td>
-						<td></td>
-						<td></td>
+						<td>${gbl.cuft }</td>
 						<td>${gbl.usNo }</td>
 						<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
 							<td>${gbl.areaLocal }</td>
