@@ -50,5 +50,9 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 	public void insertInvoiceMemorandum(Memorandum memorandum) {
 		getSqlSession().insert("memorandumMapper.insertInvoiceMemorandum", memorandum);
 	}
+
+	public void modifyInvoiceMemorandum(Memorandum memorandum) {
+		getSqlSession().update("memorandumMapper.modifyInvoiceMemorandum", memorandum);
+	}
 	
 }

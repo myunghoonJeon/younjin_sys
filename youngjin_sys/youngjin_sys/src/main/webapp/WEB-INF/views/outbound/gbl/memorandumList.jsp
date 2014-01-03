@@ -45,6 +45,7 @@
 					<tr>
 						<th>type</th>
 						<th></th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -82,6 +83,19 @@
 										<input type="checkbox" value="${memorandum.subCode }" disabled="disabled" />
 									</c:otherwise>
 								</c:choose>
+							</td>
+							<td>
+								<ul>
+									<c:if test="${checkMemorandumMap[memorandum.subCode] eq null}">
+										<li><button class="memorandum_input_subButton">input</button></li>
+									</c:if>
+									<c:if test="${checkMemorandumMap[memorandum.subCode] ne null}">
+										<li><button class="memorandum_modify_subButton">modify</button></li>
+									</c:if>
+									<c:if test="${checkMemorandumMap[memorandum.subCode] ne null}">
+										<li><button class="memorandum_delete_subButton">delete</button></li>
+									</c:if>
+								</ul>
 							</td>
 						</tr>
 					</c:forEach>

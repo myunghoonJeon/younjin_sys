@@ -151,9 +151,33 @@ youngjin.outbound.memorandumSync = function(){
 		youngjin.outbound.goToMemorandum($(this));		
 	});
 	
-	$('.memorandum_table tr').unbind('click');
+/*	$('.memorandum_table tr').unbind('click');
 	$('.memorandum_table tr').bind('click', function(){
 		youngjin.outbound.memorandumPop($(this));
+	});*/
+	
+	$('.memorandum_input_subButton').unbind('click');
+	$('.memorandum_input_subButton').bind('click', function(){
+		youngjin.outbound.memorandumPop($(this));
+	});
+	
+	$('.memorandum_modify_subButton').unbind('click');
+	$('.memorandum_modify_subButton').bind('click', function(){
+		youngjin.outbound.memorandumModify($(this));
+	});	
+	
+	$('.memorandum_delete_subButton').unbind('click');
+	$('.memorandum_delete_subButton').bind('click', function(){
+		youngjin.outbound.memorandumDelete($(this));
+	});
+	
+	$('.memorandum_name input').unbind('click');
+	$('.memorandum_name input').bind('click',function(){
+		$(this).attr('data-value', $(this).val());
+		
+		//if( $(this).parents('tr').children('.memorandum_type').children('input').attr('checked') == 'checked'){
+		//	youngjin.outbound.memorandumInvoiceModify($(this));
+		//}
 	});
 	
 	$('.memorandum_back').unbind('click');
@@ -622,13 +646,13 @@ youngjin.outbound.memorandumPop = function(target){
 	var seq = $('.memorandum_table').attr('data-seq');
 	var memorandumSeq = $('.memorandum_table').attr('data-memorandumSeq');
 	
-	var checkbox = target.children('.memorandum_type').children('input');
+	var checkbox = target.parents().parents().parents().parents().children('.memorandum_type').children('input');
 	var type = checkbox.val();
 	
 	var url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type;	
 	
 	if( type == '02' ){
-		var article = target.children('.memorandum_name').children('input');
+		var article = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
 		
 		if(article.val() == '' || article.val() == null){
 			youngjin.outbound.sync();
@@ -637,36 +661,13 @@ youngjin.outbound.memorandumPop = function(target){
 		}
 		
 		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/' + article.val();
-	} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' ){
-		var inputValue = target.children('.memorandum_name').children('input');
-		
-		if(inputValue.val() == '' || inputValue.val() == null){
-			youngjin.outbound.sync();
-			inputValue.focus();
-			return;
-		}
-		
-		var json = {
-				'memorandumSeq' : memorandumSeq,
-				'gblSeq' : seq,
-				'type' : type,
-				'invoiceValue' : inputValue.val()
-		};
-		
-		url = contextPath + '/outbound/memorandum/invoice/' + inputValue.val() + '/insert.json';
-
-		$.postJSON(url, json, function(){
-			return jQuery.ajax({
-				error: function(){alert("에러 발생!");}
-			});
-		});
-		
 	}
 	
-	if( target.children('.memorandum_type').children('input').attr('checked') != 'checked'){
-		checkbox.attr('checked', 'checked');
+	if( target.parents().parents().parents().parents().children('.memorandum_type').children('input').attr('checked') != 'checked'){
 			
 		if((type == '01' || type == '02' || type == '03')){
+			checkbox.attr('checked', 'checked');
+			
 			parent.$.smartPop.close();
 		
 			parent.$.smartPop.open({
@@ -674,8 +675,34 @@ youngjin.outbound.memorandumPop = function(target){
 				height: 900,
 				url : url
 			});	
+		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' ){
+			var inputValue = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
+			
+			if(inputValue.val() == '' || inputValue.val() == null){
+				youngjin.outbound.sync();
+				inputValue.focus();
+				return;
+			}
+			
+			var json = {
+					'memorandumSeq' : memorandumSeq,
+					'gblSeq' : seq,
+					'type' : type,
+					'invoiceValue' : inputValue.val()
+			};
+			
+			url = contextPath + '/outbound/memorandum/invoice/' + inputValue.val() + '/insert.json';
+
+			$.postJSON(url, json, function(){
+				return jQuery.ajax({
+					success : function(){
+						checkbox.attr('checked', 'checked');
+					},
+					error: function(){alert("에러 발생!");}
+				});
+			});		
 		}
-	} else {
+	} /*else if( type == '01' || type == '02' || type == '03') {
 		if(confirm('선택을 해제 하시겠습니까?(yes : 해체 및 삭제)')){
 			if( type == '02'){
 				target.children('.memorandum_name').children('input').val('');
@@ -693,19 +720,135 @@ youngjin.outbound.memorandumPop = function(target){
 			});
 		} else {
 			if(confirm('수정하시겠습니까?')){	
-				if((type == '01' || type == '02' || type == '03')){
-					parent.$.smartPop.close();
-					
-					parent.$.smartPop.open({
-						width: 650,
-						height: 900,
-						url : url
-					});	
-				}
+				parent.$.smartPop.close();
+				
+				parent.$.smartPop.open({
+					width: 650,
+					height: 900,
+					url : url
+				});	
 			} else {
 				alert("취소 하였습니다.");
 			}
 		}
+	} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' ){
+			if(confirm('선택을 해제 하시겠습니까?(yes : 해체 및 삭제)')){
+				if( type == '02'){
+					target.children('.memorandum_name').children('input').val('');
+					checkbox.removeAttr('checked');
+				} else {
+					checkbox.removeAttr('checked');				
+				}
+				
+				url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/delete.json';
+				
+				$.postJSON(url, {}, function(){
+					return jQuery.ajax({
+						error: function(){alert("에러 발생!");}
+					});
+				});
+			} else {
+				if(confirm('수정하시겠습니까?')){	
+					
+				}
+			}		
+	}*/
+};
+
+youngjin.outbound.memorandumModify = function(target){
+	var seq = $('.memorandum_table').attr('data-seq');
+	var memorandumSeq = $('.memorandum_table').attr('data-memorandumSeq');
+	
+	var checkbox = target.parents().parents().parents().parents().children('.memorandum_type').children('input');
+	var type = checkbox.val();
+	
+	var url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type;	
+	
+	if( type == '02' ){
+		var article = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
+		
+		if(article.val() == '' || article.val() == null){
+			youngjin.outbound.sync();
+			article.focus();
+			return;
+		}
+		
+		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/' + article.val();
+	}	
+	
+	if(confirm('수정하시겠습니까?')){	
+		if( type == '01' || type == '02' || type == '03') {
+			parent.$.smartPop.close();
+			
+			parent.$.smartPop.open({
+				width: 650,
+				height: 900,
+				url : url
+			});	
+		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' ){
+			var inputValue = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
+			
+			var json = {
+					'memorandumSeq' : memorandumSeq,
+					'gblSeq' : seq,
+					'type' : type,
+					'invoiceValue' : inputValue.val()
+			};
+			
+			url = contextPath + '/outbound/memorandum/invoice/' + inputValue.val() + '/modify.json';
+			
+			if(inputValue != target.attr('data-value')){
+				$.postJSON(url, json, function(){
+					return jQuery.ajax({
+						success : function(){
+							checkbox.attr('checked', 'checked');
+						},
+						error: function(){alert("에러 발생!");}
+					});
+				});					
+			}
+		}
+	} else {
+		alert("취소 하였습니다.");
+	}
+};
+
+youngjin.outbound.memorandumDelete = function(target){
+	var seq = $('.memorandum_table').attr('data-seq');
+	var memorandumSeq = $('.memorandum_table').attr('data-memorandumSeq');
+	
+	var checkbox = target.parents().parents().parents().parents().children('.memorandum_type').children('input');
+	var type = checkbox.val();
+	
+	if( type == '02' ){
+		var article = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
+		
+		if(article.val() == '' || article.val() == null){
+			youngjin.outbound.sync();
+			article.focus();
+			return;
+		}
+		
+		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/' + article.val();
+	}		
+	
+	if(confirm('삭제 하시겠습니까?')){
+		if( type == '02'){
+			target.children('.memorandum_name').children('input').val('');
+			checkbox.removeAttr('checked');
+		} else {
+			checkbox.removeAttr('checked');				
+		}
+		
+		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/delete.json';
+		
+		$.postJSON(url, {}, function(){
+			return jQuery.ajax({
+				error: function(){alert("에러 발생!");}
+			});
+		});		
+	} else {
+		alert("취소 하였습니다.");
 	}
 };
 
@@ -809,7 +952,7 @@ youngjin.outbound.memorandumUpdate = function(target){
 	$.postJSON(url, json, function(){
 		return jQuery.ajax({
 			success : function(){
-				var url = contextPath + '/outbound/' + gblSeq + '/memorandum/';
+				var url = contextPath + '/outbound/' + gblSeq + '/' + memorandumSeq + '/memorandum/';
 				
 				parent.$.smartPop.close();
 

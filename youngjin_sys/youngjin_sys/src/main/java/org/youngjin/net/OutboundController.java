@@ -322,6 +322,13 @@ public class OutboundController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/memorandum/invoice/{article}/modify.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void modifyInvoiceMemorandum(@RequestBody Memorandum memorandum, @PathVariable String article){
+		memorandumService.modifyInvoiceMemorandum(memorandum);
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum/{type}/print", method = RequestMethod.GET)
 	public String gblMemorandumPrint(Model model, User user,
 			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq,
@@ -496,7 +503,7 @@ public class OutboundController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
-	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum/memorandumInput.json", method = RequestMethod.POST)
+	@RequestMapping(value = "/{process}/{seq}/memorandum/memorandumInput.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumInput(@RequestBody Memorandum memorandum) {
 		memorandumService.insertMemorandum(memorandum);

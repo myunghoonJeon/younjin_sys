@@ -125,6 +125,35 @@
 			)
 	</insert>
 	
+	<update id="modifyInvoiceMemorandum" parameterType="Memorandum">
+		UPDATE
+			memorandum
+		SET
+			<choose>
+				<when test="type == '04'">
+					extra_pick_up_charge = #{invoiceValue}
+				</when>
+				<when test="type == '05'">
+					termination = #{invoiceValue}
+				</when>
+				<when test="type == '06'">
+					sit_start_date = #{invoiceValue} 
+				</when>
+				<when test="type == '07'">
+					sit_end_date = #{invoiceValue}
+				</when>
+				<when test="type == '08'">
+					long_carry = #{invoiceValue}
+				</when>					
+			</choose>
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			memorandum_list_seq = #{memorandumSeq}
+		AND
+			type = #{type}
+	</update>
+	
 	<update id="updateMemorandum" parameterType="Memorandum">
 	    UPDATE
 	    	memorandum

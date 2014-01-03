@@ -100,4 +100,8 @@ public class MemorandumService {
 	public void insertInvoiceMemorandum(Memorandum memorandum) {
 		memorandumDao.insertInvoiceMemorandum(memorandum);
 	}
+
+	public void modifyInvoiceMemorandum(Memorandum memorandum) {
+		memorandumDao.modifyInvoiceMemorandum(memorandum);
+	}
 }
