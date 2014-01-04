@@ -182,4 +182,13 @@
 		AND
 			memorandum_list_seq = #{memorandumSeq}
 	</delete>
+	
+	<delete id="deleteMemorandumAllList" parameterType="MemorandumList">
+		DELETE FROM
+			memorandum_list
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			seq = #{seq}
+	</delete>
 </mapper>

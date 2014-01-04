@@ -20,14 +20,7 @@
 	function goToPreviousPages() {
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
-</script>
-	<c:if test="${end eq true }">
-		<script type="text/javascript">
-			parent.location.href=contextPath + '/outbound/gblList/';
-			parent.$.smartPop.close();
-		</script>
-	</c:if>
-	
+</script>	
 	<c:set var="branchList" value="${filterMap['branchList'] }" />
 	<c:set var="carrierList" value="${filterMap['carrierList'] }" />
 	<c:set var="codeList" value="${filterMap['codeList'] }" />
@@ -178,7 +171,7 @@
 						<td>${gbl.rank }</td>
 						<td>${gbl.customerName }</td>
 						<td>${gbl.pcs }</td>
-						<td></td>
+						<td>${gbl.lbs }</td>
 						<td>${gbl.cuft }</td>
 						<td>${gbl.usNo }</td>
 						<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">

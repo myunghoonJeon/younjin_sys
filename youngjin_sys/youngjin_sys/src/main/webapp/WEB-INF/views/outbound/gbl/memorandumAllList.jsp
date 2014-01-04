@@ -52,6 +52,7 @@
 						<th>
 							WRITE DATE
 						</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -64,6 +65,7 @@
 						<tr data-list="${memorandum.seq }">
 							<td class="memorandum_list_count">${i.count }</td>
 							<td>${memorandum.writeDate }</td>
+							<td data-check="delete"><img class="memorandum_icon memorandum_icon memorandum_list_delete" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 						</tr>
 					</c:forEach>
 				</tbody>

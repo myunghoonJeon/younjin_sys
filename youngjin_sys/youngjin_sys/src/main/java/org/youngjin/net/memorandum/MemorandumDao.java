@@ -54,5 +54,9 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 	public void modifyInvoiceMemorandum(Memorandum memorandum) {
 		getSqlSession().update("memorandumMapper.modifyInvoiceMemorandum", memorandum);
 	}
+
+	public void deleteMemorandumAllList(MemorandumList memorandumList) {
+		getSqlSession().delete("memorandumMapper.deleteMemorandumAllList", memorandumList);
+	}
 	
 }

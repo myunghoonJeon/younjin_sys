@@ -26,8 +26,13 @@ public class Dd619 {
 	private Integer gblSeq;
 	private String writeDate;
 	private String writeUser;
-	
+
 	private Integer memorandumListSeq;
+
+	private String invoiceMemorandumType;
+	private String invoiceMemorandumValue;
+
+	private int count = 0;
 
 	public Integer getSeq() {
 		return seq;
@@ -140,6 +145,10 @@ public class Dd619 {
 	public void setOther(String other) {
 		this.other = other;
 	}
+	
+	public String [] getOtherArray(){
+		return this.other.split(",");
+	}
 
 	public String getTotal() {
 		return total;
@@ -148,6 +157,11 @@ public class Dd619 {
 	public void setTotal(String total) {
 		this.total = total;
 	}
+	
+	public String [] getTotalArray(){
+		return this.total.split(",");
+	}
+
 
 	public String getRemark() {
 		return remark;
@@ -237,6 +251,30 @@ public class Dd619 {
 		this.memorandumListSeq = memorandumListSeq;
 	}
 
+	public String getInvoiceMemorandumType() {
+		return invoiceMemorandumType;
+	}
+
+	public void setInvoiceMemorandumType(String invoiceMemorandumType) {
+		this.invoiceMemorandumType = invoiceMemorandumType;
+	}
+
+	public String getInvoiceMemorandumValue() {
+		return invoiceMemorandumValue;
+	}
+
+	public void setInvoiceMemorandumValue(String invoiceMemorandumValue) {
+		this.invoiceMemorandumValue = invoiceMemorandumValue;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	@Override
 	public String toString() {
 		return "Dd619 [seq=" + seq + ", gblNo=" + gblNo + ", date=" + date
@@ -252,7 +290,9 @@ public class Dd619 {
 				+ officerDate + ", rankAndName=" + rankAndName
 				+ ", transportationDate=" + transportationDate + ", gblSeq="
 				+ gblSeq + ", writeDate=" + writeDate + ", writeUser="
-				+ writeUser + ", memorandumListSeq=" + memorandumListSeq + "]";
+				+ writeUser + ", memorandumListSeq=" + memorandumListSeq
+				+ ", invoiceMemorandumType=" + invoiceMemorandumType
+				+ ", invoiceMemorandumValue=" + invoiceMemorandumValue + "]";
 	}
 
 }

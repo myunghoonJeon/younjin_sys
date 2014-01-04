@@ -171,5 +171,21 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {
 		return getSqlSession().selectOne("outboundMapper.getDd619ListSelectOne", dd619Seq);
 	}
+
+	public void deleteDd619(Dd619 dd619) {
+		getSqlSession().delete("outboundMapper.deleteDd619", dd619);
+	}
+
+	public Integer checkAddtionComplete(Addition paramAddition) {
+		return getSqlSession().selectOne("outboundMapper.checkAddtionComplete", paramAddition);
+	}
+
+	public void additionCompleteUpdate(Addition paramAddition) {
+		getSqlSession().update("outboundMapper.additionCompleteUpdate", paramAddition);
+	}
+
+	public List<Addition> getAddtionList(String seq) {
+		return getSqlSession().selectList("outboundMapper.getAdditionList", Integer.parseInt(seq));
+	}
 	
 }

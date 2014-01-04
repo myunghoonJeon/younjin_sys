@@ -239,6 +239,13 @@ public class OutboundController {
 	public MemorandumList addMemorandumAndDd619(@RequestBody MemorandumList memorandumList, User user){
 		return memorandumService.addMemorandumAndDd619(memorandumList, user);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/deleteMemorandumAllList.json")
+	@ResponseBody
+	public void deleteMemorandumAllList(@RequestBody MemorandumList memorandumList){
+		memorandumService.deleteMemorandumAllList(memorandumList);
+	}	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum", method = RequestMethod.GET)
@@ -410,11 +417,13 @@ public class OutboundController {
 			@PathVariable String process, @PathVariable String seq, @PathVariable Integer dd619Seq,
 			@ModelAttribute Dd619 dd619) {
 
+		dd619 = outboundService.getDd619ListSelectOne(dd619Seq);
+		
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
-		model.addAttribute("dd619", outboundService.getDd619ListSelectOne(dd619Seq));
-	/*	model.addAttribute("remarkList",
-				memorandumService.getMemorandumList(seq));*/
+		model.addAttribute("dd619", dd619);
+		model.addAttribute("remarkList",
+				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq()));
 		model.addAttribute("seq", seq);
 
 		return process + "/gbl/dd619Update";
@@ -458,8 +467,11 @@ public class OutboundController {
 					.split(",");
 			model.addAttribute("articles", articleList);
 		}
+		
+		List<Addition> additionList = outboundService.getAddtionList(seq);
 
 		model.addAttribute("checkMemorandumMap", checkMemorandumMap);
+		model.addAttribute("additionList", additionList);
 
 		return process + "/gbl/additionalDecide";
 	}
@@ -486,6 +498,13 @@ public class OutboundController {
 	public void gblDd619AddSubmit(@RequestBody Dd619 dd619) {
 		outboundService.insertDd619(dd619);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/dd619/modify.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblDd619ModifySubmit(@RequestBody Dd619 dd619) {
+		outboundService.modifyDd619(dd619);
+	}	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/dd619/update.json", method = RequestMethod.POST)

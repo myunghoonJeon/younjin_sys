@@ -191,6 +191,8 @@ public class OutboundService {
 		
 		int count = weightcertificate.getCount();
 		
+		int grossSum = 0;
+		
 		String [] pieceList = weightcertificate.getPiece().split(",", count);
 		String [] typeList = weightcertificate.getType().split(",", count);
 		String [] grossList = weightcertificate.getGross().split(",", count);
@@ -214,7 +216,17 @@ public class OutboundService {
 			paramWeightcertificate.setDate(weightcertificate.getDate());
 			
 			outboundDao.insertWeightcertificate(paramWeightcertificate);
+			
+			grossSum += Integer.parseInt(grossList[i]);
 		}				
+		
+		Integer lbs = (int) (grossSum * 2.204623);
+		
+		GBL gbl = new GBL();
+		gbl.setSeq(weightcertificate.getGblSeq());
+		gbl.setLbs(lbs.toString());
+		
+		outboundDao.updateGbl(gbl);
 		
 		/*Map<String, Integer> param = new HashMap<String, Integer>();
 		param.put("seq", weightcertificate.getGblSeq());
@@ -297,7 +309,13 @@ public class OutboundService {
 			paramAddition.setTitle(titleList[i]);
 			paramAddition.setCost(Double.parseDouble(priceList[i]));
 			
-			outboundDao.additionComplete(paramAddition);
+			Integer checkAddition = outboundDao.checkAddtionComplete(paramAddition);
+			
+			if(checkAddition == 0){
+				outboundDao.additionComplete(paramAddition);
+			} else {
+				outboundDao.additionCompleteUpdate(paramAddition);
+			}
 		}
 		
 		Map<String, Integer> map = new HashMap<String, Integer>();
@@ -352,5 +370,34 @@ public class OutboundService {
 
 	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {
 		return outboundDao.getDd619ListSelectOne(dd619Seq);
+	}
+
+	public void modifyDd619(Dd619 dd619) {
+		outboundDao.updateDd619(dd619);
+		
+		Addition paramAddition = new Addition();
+		paramAddition.setDd619Seq(dd619.getSeq());
+		paramAddition.setGblSeq(dd619.getGblSeq());
+		paramAddition.setMemorandumSeq(dd619.getMemorandumListSeq());
+		
+		Integer additionCheck = outboundDao.checkAddtionComplete(paramAddition);
+		
+		String[] invoiceMemorandumType = dd619.getInvoiceMemorandumType().split(",", dd619.getCount());
+		String[] invoiceMemorandumValue = dd619.getInvoiceMemorandumValue().split(",", dd619.getCount());
+		
+		for ( int i = 0 ; i < dd619.getCount(); i ++ ){
+			paramAddition.setTitle(invoiceMemorandumType[i]);
+			paramAddition.setPrice(invoiceMemorandumValue[i]);
+			
+			if(additionCheck > 0){
+				outboundDao.additionCompleteUpdate(paramAddition);
+			} else {
+				outboundDao.additionComplete(paramAddition);
+			}
+		}
+	}
+
+	public List<Addition> getAddtionList(String seq) {
+		return outboundDao.getAddtionList(seq);
 	}
 }

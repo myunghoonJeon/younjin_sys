@@ -176,6 +176,10 @@ public class Memorandum {
 	public void setInvoiceValue(String invoiceValue) {
 		this.invoiceValue = invoiceValue;
 	}
+	
+	public String[] getArticleList(){
+		return this.articles.split(",");
+	}
 
 	@Override
 	public String toString() {

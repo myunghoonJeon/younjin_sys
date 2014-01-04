@@ -6,9 +6,21 @@ public class Addition {
 	private String title;
 	private String price;
 
-	private Integer gblSeq;
-
 	private Double cost;
+
+	private Integer gblSeq;
+	
+	private Integer dd619Seq;
+	
+	private Integer memorandumSeq;
+
+	public Integer getMemorandumSeq() {
+		return memorandumSeq;
+	}
+
+	public void setMemorandumSeq(Integer memorandumSeq) {
+		this.memorandumSeq = memorandumSeq;
+	}
 
 	public Integer getSeq() {
 		return seq;
@@ -42,22 +54,27 @@ public class Addition {
 		this.gblSeq = gblSeq;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Addition [seq : ").append(seq).append(" ;\ntitle : ")
-				.append(title).append(" ;\nprice : ").append(price)
-				.append(" ;\ngblSeq : ").append(gblSeq).append(" ;\ncost : ")
-				.append(cost).append(" ]");
-		return builder.toString();
-	}
-
 	public Double getCost() {
 		return cost;
 	}
 
 	public void setCost(Double cost) {
 		this.cost = cost;
+	}
+
+	public Integer getDd619Seq() {
+		return dd619Seq;
+	}
+
+	public void setDd619Seq(Integer dd619Seq) {
+		this.dd619Seq = dd619Seq;
+	}
+
+	@Override
+	public String toString() {
+		return "Addition [seq=" + seq + ", title=" + title + ", price=" + price
+				+ ", cost=" + cost + ", gblSeq=" + gblSeq + ", dd619Seq="
+				+ dd619Seq + ", memorandumSeq=" + memorandumSeq + "]";
 	}
 
 }

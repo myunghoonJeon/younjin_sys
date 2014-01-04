@@ -47,7 +47,7 @@
 		
 		<form:form commandName="dd619">
 			<form:hidden path="writeUser" value="${user.name }"/>
-		<table class="dd619_add_table" data-seq="${seq }">
+		<table class="dd619_add_table" data-seq="${seq }" data-dd619Seq="${dd619.seq }", data-memorandumSeq="${dd619.memorandumListSeq }">
 			<tr>
 				<th>GBL NO</th>
 				<td><form:input path="gblNo"/></td>
@@ -94,7 +94,7 @@
 						<c:set var="signature" value="YI, CHIN HUN / BRANCH MANAGER" />
 					</c:when>								
 				</c:choose>
-				<td><form:input path="signature" /></td>
+				<td><form:input path="signature" value="${signature }" /></td>
 				<th>CARRIER'S SHIPMENT REFER</th>
 				<td><form:input path="carrierShipmentReference"/></td>
 			</tr>		
@@ -102,11 +102,25 @@
 				<th>CODE</th>
 				<td><form:input path="code"/></td>
 				<th>OTHER</th>
-				<td><input id="other1"/><input id="other2"/><input id="other3"/></td>
+				<c:choose>
+					<c:when test="${dd619.other ne null and dd619.other ne '' }">
+						<td><input id="other1" value="${ dd619.otherArray[0]}"/><input id="other2" value="${ dd619.otherArray[1]}"/><input id="other3" value="${ dd619.otherArray[2]}"/></td>
+					</c:when>
+					<c:otherwise>
+						<td><input id="other1"/><input id="other2"/><input id="other3"/></td>
+					</c:otherwise>
+				</c:choose>
 			</tr>		
 			<tr class="dd619_total">
 				<th>TOTAL</th>
-				<td colspan="3"><input id="total1" /><input id="total2" /><input id="total3" /></td>
+				<c:choose>
+					<c:when test="${dd619.total ne null and dd619.total ne '' }">
+						<td colspan="3"><input id="total1" value="${ dd619.totalArray[0]}" /><input id="total2" value="${ dd619.totalArray[0]}"/><input id="total3" value="${ dd619.totalArray[0]}"/></td>
+					</c:when>
+					<c:otherwise>
+						<td colspan="3"><input id="total1"/><input id="total2"/><input id="total3"/></td>
+					</c:otherwise>
+				</c:choose>
 			</tr>		
 			<tr>				
 				<th colspan="4">STATEMENT Of OWNER, MILITARY INSPECTOR/TRANSPORTATION OFFICER</th>
@@ -138,20 +152,30 @@
 			<tr>
 				<td id="dd619_remark" colspan="4">
 					<c:forEach var="remark" items="${remarkList }">
-						<c:if test="${remark.type eq '01' }">
-							<c:set var="remarkContent1" value="THE SERVICE OF A THIRD PARTY FOR HOISTIONG OF THIS SHIPMENT WAS AUTHORIZED FOR
-SAFE TRANSPORTATION COMPLY WITH DPS INTERNATIONAL TENDER 223B(3)
-(PAID FOR :                        )"/>
-						</c:if>
-						<c:if test="${remark.type eq '03' }">
-							<c:set var="remarkContent3" value="SPECIAL SERVICE WAS REQUIRED(INTERNATIONAL TENDER ITEM#508C) TO MOTOR-CYCLE	
-UTILIZED SAFE TRANSPORTAION AT ORIGIN.	
-FABRICATED ONE CRATE :  	
-TOTAL AMOUNT :       "/>
-						</c:if>
+						<c:choose>
+							<c:when test="${remark.type eq '01' }">
+								<input type="hidden" id="dd619Count" value="1"/>
+								<form:input path="invoiceMemorandumType" value="LOWERING EQIPMENT"/> : 
+								<form:input path="invoiceMemorandumValue" />
+							</c:when>
+							<c:when test="${remark.type eq '02' }">
+								<c:forEach var="article" items="${remark.articleList }"> 	
+									<input type="hidden" id="dd619Count" value="${fn:length(remark.articleList) }"/>
+									<form:input path="invoiceMemorandumType" value="${article }"/> : 
+									<form:input path="invoiceMemorandumValue" value="" />
+								</c:forEach>
+							</c:when>
+							<c:when test="${remark.type eq '03' }">
+								<input type="hidden" id="dd619Count" value="3"/>
+								<form:input path="invoiceMemorandumType" value="MOTO CYCLE"/> :
+								<form:input path="invoiceMemorandumValue"/> 
+								<form:input path="invoiceMemorandumType" value="FABRICATED ONE CRATE"/> :
+								<form:input path="invoiceMemorandumValue"/> 
+								<form:input path="invoiceMemorandumType" value="TOTAL AMOUNT"/> :
+								<form:input path="invoiceMemorandumValue"/> 								
+							</c:when>
+						</c:choose>	
 					</c:forEach>
-					<textarea id="remark">${remarkContent1}
-${remarkContent3 }</textarea>
 				</td>
 			</tr>	
 			<tfoot>

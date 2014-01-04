@@ -104,4 +104,23 @@ public class MemorandumService {
 	public void modifyInvoiceMemorandum(Memorandum memorandum) {
 		memorandumDao.modifyInvoiceMemorandum(memorandum);
 	}
+
+	public void deleteMemorandumAllList(MemorandumList memorandumList) {
+		memorandumDao.deleteMemorandumAllList(memorandumList);
+		
+		Integer gblSeq = memorandumList.getGblSeq();
+		Integer memorandumSeq = memorandumList.getSeq();
+		
+		Memorandum memorandum = new Memorandum();
+		memorandum.setGblSeq(gblSeq);
+		memorandum.setMemorandumSeq(memorandumSeq);
+		
+		memorandumDao.deleteMemorandum(memorandum);
+		
+		Dd619 dd619 = new Dd619();
+		dd619.setGblSeq(gblSeq);
+		dd619.setMemorandumListSeq(memorandumSeq);
+		
+		outboundDao.deleteDd619(dd619);
+	}
 }

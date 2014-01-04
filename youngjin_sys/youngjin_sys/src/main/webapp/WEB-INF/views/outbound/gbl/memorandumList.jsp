@@ -43,20 +43,31 @@
 			<table class="memorandum_table" data-seq="${gbl.seq }" data-memorandumSeq="${memorandumSeq }">
 				<thead>
 					<tr>
-						<th>type</th>
 						<th></th>
+						<th>type</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="memorandum" items="${memorandumList }">
 						<tr>
+							<td class="memorandum_type">
+								<c:choose>
+									<c:when test="${checkMemorandumMap ne '{}' }">
+										<input type="checkbox" value="${memorandum.subCode }" ${checkMemorandumMap[memorandum.subCode] ne null ? 'checked=checked' : '' } disabled="disabled" />
+									</c:when>
+									<c:otherwise>
+										<input type="checkbox" value="${memorandum.subCode }" disabled="disabled" />
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<td class="memorandum_name">
 								${memorandum.codeName } 
 								<c:choose>
 									<c:when test="${memorandum.subCode eq '02' }">
 										<input type="text" value="${articles ne null ? articles : '' }"/>
 									</c:when>
+									
 									<c:when test="${memorandum.subCode eq '04' }">
 										 : <input type="text" value="${checkMemorandumMap['04'].extraPickUpCharge }"/>
 									</c:when>
@@ -74,26 +85,16 @@
 									</c:when>
 								</c:choose>
 							</td>
-							<td class="memorandum_type">
-								<c:choose>
-									<c:when test="${checkMemorandumMap ne '{}' }">
-										<input type="checkbox" value="${memorandum.subCode }" ${checkMemorandumMap[memorandum.subCode] ne null ? 'checked=checked' : '' } disabled="disabled" />
-									</c:when>
-									<c:otherwise>
-										<input type="checkbox" value="${memorandum.subCode }" disabled="disabled" />
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td>
+							<td class="memorandum_icon_wrap">
 								<ul>
 									<c:if test="${checkMemorandumMap[memorandum.subCode] eq null}">
-										<li><button class="memorandum_input_subButton">input</button></li>
+										<li><img class="memorandum_icon memorandum_input_subButton" src="${cp }/resources/images/gbl/memorandum_add.png" /></li>
 									</c:if>
 									<c:if test="${checkMemorandumMap[memorandum.subCode] ne null}">
-										<li><button class="memorandum_modify_subButton">modify</button></li>
+										<li><img class="memorandum_icon memorandum_modify_subButton" src="${cp }/resources/images/gbl/memorandum_edit.png" /></li>
 									</c:if>
 									<c:if test="${checkMemorandumMap[memorandum.subCode] ne null}">
-										<li><button class="memorandum_delete_subButton">delete</button></li>
+										<li><img class="memorandum_icon memorandum_delete_subButton" src="${cp }/resources/images/gbl/memorandum_delete.png" /></li>
 									</c:if>
 								</ul>
 							</td>

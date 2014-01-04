@@ -24,6 +24,7 @@
 	<result column="origin_city" property="originCity"/>
 	<result column="mil_svc" property="milSVC"/>
 	<result column="pcs" property="pcs" />
+	<result column="lbs" property="lbs" />
 	<result column="cuft" property="cuft" />
 	<result column="truck_check" property="truckCheck"/>
 	<result column="booking_check" property="bookingCheck"/>
@@ -89,6 +90,7 @@
 	<result column="gbl_seq" property="gblSeq"/>
 	<result column="write_date" property="writeDate"/>
 	<result column="write_user" property="writeUser"/>
+	<result column="memorandum_list_seq" property="memorandumListSeq"/>
 </resultMap>
 
 <resultMap type="BookingList" id="BookingListMap">
@@ -177,9 +179,11 @@
 				g.us_no,
 				g.dest_port,
 				CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+				g.lbs,
 				CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
 			FROM
-				gbl g, (SELECT @rownum := 0) r,
+				gbl g
+				LEFT OUTER JOIN
 				(
 				SELECT
 					gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
@@ -190,6 +194,8 @@
 				GROUP BY
 					gt.seq
 				) gwc
+				ON (gwc.seq = g.seq),
+				(SELECT @rownum := 0) r
 			WHERE
 				1 = 1
 				<if test="area != null and area != ''">
@@ -358,7 +364,7 @@
 
 <select id="getDd619ListSelectOne" parameterType="Integer" resultMap="Dd619Map">
 	SELECT
-		seq, gbl_no, date, name, ssn, rank, origin_of_shipment, destination, ordering_activity_name, carrier_name, agent_name, signature, carrier_shipment_reference, code, other, total, remark, officer_material, officer_signature, officer_date, rank_and_name, transportation_date, gbl_seq, write_date, write_user
+		seq, gbl_no, date, name, ssn, rank, origin_of_shipment, destination, ordering_activity_name, carrier_name, agent_name, signature, carrier_shipment_reference, code, other, total, remark, officer_material, officer_signature, officer_date, rank_and_name, transportation_date, gbl_seq, write_date, write_user, memorandum_list_seq
 	FROM
 		dd619
 	WHERE
@@ -554,6 +560,36 @@
 			g.no
 </select>
 
+<select id="checkAddtionComplete" parameterType="Addition" resultType="Integer">
+	SELECT
+		count(*)
+	FROM
+		decide
+	WHERE
+		gbl_seq = #{gblSeq}
+	<if test="dd619Seq != null">
+		AND
+			dd619_seq = #{dd619Seq}
+	</if>
+	<if test="memorandumSeq != null">		
+		AND
+			memorandum_list_seq = #{memorandumSeq}
+	</if>
+	<if test="title != null">		
+		AND
+			title = #{title}
+	</if>		
+</select>
+
+<select id="getAdditionList" parameterType="Integer" resultType="Addition">
+	SELECT
+		seq, title, cost, price, gbl_seq AS gblSeq
+	FROM
+		decide
+	WHERE
+		gbl_seq = #{value}
+</select>
+
 <insert id="insertGbl" parameterType="GBL">
 	INSERT INTO
 		gbl
@@ -672,11 +708,11 @@
 	INSERT INTO
 		decide
 		(
-			title, price, gbl_seq
+			title, cost, gbl_seq, dd619_seq, price, memorandum_list_seq
 		)
 	VALUES
 		(
-			#{title}, #{cost}, #{gblSeq}
+			#{title}, #{cost}, #{gblSeq}, #{dd619Seq}, #{price}, #{memorandumSeq}
 		)
 </insert>
 
@@ -738,13 +774,15 @@
     	carrier_shipment_reference = #{carrierShipmentReference},
     	code = #{code},
     	other = #{other},
+    	total = #{total},
     	remark = #{remark},
     	officer_material = #{officerMaterial},
     	officer_signature = #{officerSignature},
+    	officer_date = #{officerDate},
     	rank_and_name = #{rankAndName},
     	transportation_date = #{transportationDate},
     	update_date = SYSDATE(),
-    	update_user = #{writeUser},
+    	update_user = #{writeUser}
     WHERE
     	seq = #{seq}
 </update>
@@ -770,6 +808,9 @@
     UPDATE
     	gbl
     SET
+    	<if test="lbs != null">
+    		lbs = #{lbs}
+    	</if>
     	<if test="truckSeq != null">
     		truck_seq = #{truckSeq}
     	</if>
@@ -795,4 +836,44 @@
     WHERE
     	gbl_seq = #{seq}    
 </update>
+
+<update id="additionCompleteUpdate" parameterType="Addition">
+	UPDATE
+		decide
+	SET
+		<if test="title != null">
+			title = #{title},
+		</if>
+		<choose>
+			<when test="cost != null">
+				cost = #{cost}
+			</when>
+			<otherwise>
+				price = #{price}
+			</otherwise>
+		</choose>
+	WHERE
+		gbl_seq = #{gblSeq}
+	<if test="dd619Seq != null">
+		AND
+			dd619_seq = #{dd619Seq}
+	</if>
+	<if test="memorandumSeq != null">		
+		AND
+			memorandum_list_seq = #{memorandumSeq}
+	</if>
+	<if test="title != null">		
+		AND
+			title = #{title}
+	</if>
+</update>
+
+<delete id="deleteDd619" parameterType="Dd619">
+	DELETE FROM
+		dd619
+	WHERE
+		gbl_seq = #{gblSeq}
+	AND
+		memorandum_list_seq = #{memorandumListSeq}
+</delete>
 </mapper>

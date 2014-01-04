@@ -51,7 +51,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:if test="${checkMemorandumMap['01'] ne '[]'  or checkMemorandumMap['01'] ne null}">
+					<c:forEach var="addition" items="${additionList }">
+						<tr>
+							<td><input name="type" type="text" value="${addition.title }" readonly="readonly"/></td>
+							<td><input name="cost" type="text" value="${(addition.cost ne null) ? addition.cost : addition.price }" /> $</td>
+						</tr>
+					</c:forEach>
+					<%-- <c:if test="${checkMemorandumMap['01'] ne '[]'  or checkMemorandumMap['01'] ne null}">
 						<tr>
 							<td><input name="type" type="text" value="LOWERING EQIPMENT" readonly="readonly" /></td>
 							<td><input name="cost" type="text" /> $</td>
@@ -70,7 +76,7 @@
 							<td><input name="type" type="text" value="MOTO CYCLE" readonly="readonly" /></td>
 							<td><input name="cost" type="text" /> $</td>
 						</tr>
-					</c:if>
+					</c:if> --%>
 					<tr>
 						<td><input name="type" type="text" /></td>
 						<td><input name="cost" type="text" /> $ </td>
