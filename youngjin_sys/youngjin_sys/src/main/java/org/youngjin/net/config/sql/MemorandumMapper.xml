@@ -30,8 +30,10 @@
 			gbl_seq = #{gblSeq}
 		AND
 			type = #{type}
-		AND
-			memorandum_list_seq = #{memorandumSeq}
+		<if test="memorandumSeq != null">
+			AND
+				memorandum_list_seq = #{memorandumSeq}
+		</if>
 	</select>
 	
 	<select id="getMemorandumList" parameterType="Map" resultMap="MemorandumMap">

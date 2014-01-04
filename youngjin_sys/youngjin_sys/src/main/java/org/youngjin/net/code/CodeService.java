@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.youngjin.net.outbound.OutboundDao;
 
 @Service
 public class CodeService {
@@ -18,6 +19,10 @@ public class CodeService {
 
 	public List<Code> getAllAreaList() {
 		return codeDao.getAllAreaList();
+	}
+	
+	public List<Code> getAllCarrierList(){
+		return codeDao.getCarrierList();
 	}
 
 	public List<Code> getCodeList(String mainCode){

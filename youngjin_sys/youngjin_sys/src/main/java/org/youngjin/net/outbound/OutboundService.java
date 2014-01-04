@@ -19,6 +19,7 @@ import org.youngjin.net.code.CodeDao;
 import org.youngjin.net.login.User;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.upload.UploadService;
+import org.youngjin.net.util.CalcUtil;
 
 @Service
 public class OutboundService {
@@ -220,7 +221,7 @@ public class OutboundService {
 			grossSum += Integer.parseInt(grossList[i]);
 		}				
 		
-		Integer lbs = (int) (grossSum * 2.204623);
+		Integer lbs = CalcUtil.fromKgToLbs(grossSum);
 		
 		GBL gbl = new GBL();
 		gbl.setSeq(weightcertificate.getGblSeq());

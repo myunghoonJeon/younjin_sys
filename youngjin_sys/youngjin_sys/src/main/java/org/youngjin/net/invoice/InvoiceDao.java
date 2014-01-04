@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.youngjin.net.outbound.Weightcertificate;
 
 @Repository
 public class InvoiceDao extends SqlSessionDaoSupport {
@@ -80,6 +81,62 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 
 	public void otherUpdate(Rate rate) {
 		getSqlSession().update("invoiceMapper.otherUpdate", rate);
+	}
+
+	public int getInvoiceListCount(InvoiceFilter invoiceFilter) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoiceListCount", invoiceFilter);
+	}
+
+	public List<Invoice> getInvoiceList(InvoiceFilter invoiceFilter) {
+		return getSqlSession().selectList("invoiceMapper.getInvoiceList", invoiceFilter); 
+	}
+
+	public void insertInvoice(Invoice invoice) {
+		getSqlSession().insert("invoiceMapper.insertInvoice", invoice);
+	}
+
+	public List<InvoiceGbl> getSettingGblList(Invoice invoice) {
+		return getSqlSession().selectList("invoiceMapper.getSettingGblList", invoice);
+	}
+
+	public void insertInvoiceGbl(InvoiceGbl invoiceGbl) {
+		getSqlSession().insert("invoiceMapper.insertInvoiceGbl", invoiceGbl);
+	}
+
+	public Invoice getInvoice(Invoice invoice) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoice", invoice);
+	}
+
+	public List<InvoiceGbl> getInvoiceGblList(Integer seq) {
+		return getSqlSession().selectList("invoiceMapper.getInvoiceGblList", seq);
+	}
+
+	public void deleteInvoice(Invoice invoice) {
+		getSqlSession().delete("invoiceMapper.deleteInvoice", invoice);
+	}
+
+	public List<InvoiceGbl> getInvoiceGblListByInvoice(Invoice invoice) {
+		return getSqlSession().selectList("invoiceMapper.getInvoiceGblListbyInvoice", invoice);
+	}
+
+	public Integer getInvoiceGblContentCount(Integer invoiceGblSeq) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoiceGblContentCount", invoiceGblSeq);
+	}
+
+	public Weightcertificate getTotalWeightCertificate(Integer seq) {
+		return getSqlSession().selectOne("invoiceMapper.getTotalWeightCertificate", seq);
+	}
+
+	public Rate getBasicRate(Rate rate) {
+		return getSqlSession().selectOne("invoiceMapper.getBasicRate", rate);
+	}
+
+	public Rate getContainerRate(Rate rate) {
+		return getSqlSession().selectOne("invoiceMapper.getContainerRate", rate);
+	}
+
+	public Rate getOther(Rate rate) {
+		return getSqlSession().selectOne("invoiceMapper.getOther", rate);
 	}
 	
 }

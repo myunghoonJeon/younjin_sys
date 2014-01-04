@@ -800,6 +800,9 @@
     	<if test="truckmanifast == 1">
     		gbl_truckmanifast = 1
     	</if>   
+    	<if test="invoice != null">
+    		gbl_invoice = #{invoice}
+    	</if>
     WHERE
     	gbl_no = (select no from gbl where seq = #{seq});
 </update>

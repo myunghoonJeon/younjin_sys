@@ -19,6 +19,12 @@
 		<typeAlias alias="BookingList" type="org.youngjin.net.outbound.BookingList"/>
 		<typeAlias alias="Addition" type="org.youngjin.net.outbound.Addition"/>
 		<typeAlias alias="DeliveryGbl" type="org.youngjin.net.outbound.DeliveryGbl"/>
+		
+		
 		<typeAlias alias="Rate" type="org.youngjin.net.invoice.Rate"/>
+		<typeAlias alias="Invoice" type="org.youngjin.net.invoice.Invoice"/>
+		<typeAlias alias="InvoiceFilter" type="org.youngjin.net.invoice.InvoiceFilter"/>
+		<typeAlias alias="InvoiceGbl" type="org.youngjin.net.invoice.InvoiceGbl"/>
+		<typeAlias alias="InvoiceGblContent" type="org.youngjin.net.invoice.InvoiceGblContent"/>
 	</typeAliases>
 </configuration>

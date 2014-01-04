@@ -20,5 +20,39 @@
 	function goToPreviousPages() {
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
-</script>
+</script>	
+
+	<div class="invoice_add_button_wrap">
+		<span class="invoice_add_button yj_button" >add</span>
+	</div>	
+	
+	<div>
+		<table class="yj_table">
+			<thead>
+				<tr>
+					<th>NO</th>
+					<th>TSP</th>
+					<th>START DATE</th>
+					<th>END DATE</th>
+					<th>STATUS</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:if test="${invoiceList eq '[]' }">
+					<tr>
+						<td colspan="5">등록된 invoice가 없습니다.</td>
+					</tr>
+				</c:if>
+				<c:forEach var="invoice" items="${invoiceList }" varStatus="i">
+					<tr>
+						<td>${i.count }</td>
+						<td>${invoice.tsp }</td>
+						<td>${invoice.startDate }</td>
+						<td>${invoice.endDate }</td>
+						<td>${invoice.complete }</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
 <%@ include file="../../../layout/foot.jspf"%>

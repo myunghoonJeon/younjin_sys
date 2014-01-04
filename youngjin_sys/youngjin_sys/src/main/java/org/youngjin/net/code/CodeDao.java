@@ -23,4 +23,8 @@ public class CodeDao extends SqlSessionDaoSupport {
 	public Code getCode(Code code) {
 		return getSqlSession().selectOne("codeMapper.getCode", code);
 	}
+
+	public List<Code> getCarrierList() {
+		return getSqlSession().selectList("codeMapper.getCodeList", "04");
+	}
 }
