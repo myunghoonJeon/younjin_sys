@@ -433,3 +433,15 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 .invoice_gbl_list_button_list{ width: 80% ; margin: 10px auto; }
 .invoice_gbl_list_button_list li {width : 80%; float: left; }
 .invoice_gbl_list_back{ float: left; margin-bottom: 10px;}
+.invoice_gbl_print{ float: left; margin-bottom: 10px;}
+
+.invoice_gbl_content_wrap{ width: 800px; height: 900px; background-color: white;}
+.invoice_gbl_content_table{ width: 80%; margin: 10px auto; text-align: center; }
+.invoice_gbl_content_table tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.invoice_gbl_content_table tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; }
+.invoice_gbl_content_table tr{ background-color: white; cursor: pointer;  }
+.invoice_gbl_content_table tr:HOVER {background-color: #B7B9CC;}
+
+.invoice_gbl_content_list_button_list{ width: 80% ; margin: 10px auto; }
+.invoice_gbl_content_list_button_list li {width : 80%; float: left; }
+.invoice_gbl_content_list_back{ float: left; margin-bottom : 10px; }

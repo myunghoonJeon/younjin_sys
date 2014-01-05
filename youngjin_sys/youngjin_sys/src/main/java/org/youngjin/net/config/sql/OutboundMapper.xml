@@ -23,6 +23,9 @@
 	<result column="origin_port" property="originPort"/>
 	<result column="origin_city" property="originCity"/>
 	<result column="mil_svc" property="milSVC"/>
+	<result column="etd" property="etd"/>
+	<result column="eta" property="eta"/>
+	<result column="bl_no" property="blNo"/>
 	<result column="pcs" property="pcs" />
 	<result column="lbs" property="lbs" />
 	<result column="cuft" property="cuft" />
@@ -178,6 +181,10 @@
 				g.area,
 				g.us_no,
 				g.dest_port,
+				g.etd,
+				g.eta,
+				g.bl_no,
+				g.pod,
 				CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
 				g.lbs,
 				CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
@@ -249,7 +256,10 @@
 		g.dest_port, 
 		g.origin_port, 
 		g.origin_city, 
-		g.mil_svc
+		g.mil_svc,
+		g.etd,
+		g.eta,
+		g.bl_no
 	FROM
 		gbl g
 	WHERE
@@ -369,6 +379,17 @@
 		dd619
 	WHERE
 		seq = #{value}
+</select>
+
+<select id="getRemarkValueList" parameterType="Map" resultType="Addition">
+	SELECT
+		seq, title, cost, price, gbl_seq AS gblSeq, dd619_seq AS dd619Seq, memorandum_list_seq AS memorandumListSeq
+	FROM
+		decide
+	WHERE
+		gbl_seq = #{gblSeq}
+	AND
+		memorandum_list_seq = #{memorandumSeq}
 </select>
 
 <select id="getWeightcertificateList" parameterType="String" resultType="Weightcertificate">
@@ -738,7 +759,10 @@
 		dest_port = #{destPort},
 		origin_port = #{originPort},
 		origin_city = #{originCity},
-		mil_svc = #{milSVC}
+		mil_svc = #{milSVC},
+		eta = #{eta},
+		etd = #{etd},
+		bl_no = #{blNo}
 	WHERE
 		seq = #{seq}
 </update>

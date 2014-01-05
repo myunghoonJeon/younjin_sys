@@ -26,5 +26,7 @@
 		<typeAlias alias="InvoiceFilter" type="org.youngjin.net.invoice.InvoiceFilter"/>
 		<typeAlias alias="InvoiceGbl" type="org.youngjin.net.invoice.InvoiceGbl"/>
 		<typeAlias alias="InvoiceGblContent" type="org.youngjin.net.invoice.InvoiceGblContent"/>
+		
+		<typeAlias alias="InboundFilter" type="org.youngjin.net.inbound.InboundFilter"/>
 	</typeAliases>
 </configuration>

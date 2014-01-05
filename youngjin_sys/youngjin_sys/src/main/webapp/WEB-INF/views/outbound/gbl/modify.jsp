@@ -94,7 +94,14 @@
 			<tr>
 				<th>MIL SVC</th>
 				<td><form:input path="milSVC" /></td>
-				<th colspan="2" style="background: none;"></th>
+				<th>ETD</th>
+				<td><form:input path="etd" /></td>
+			</tr>
+			<tr>
+				<th>ETA</th>
+				<td><form:input path="eta" /></td>
+				<th>BL NO</th>
+				<td><form:input path="blNo" /></td>
 			</tr>
 			<tfoot>
 				<tr>

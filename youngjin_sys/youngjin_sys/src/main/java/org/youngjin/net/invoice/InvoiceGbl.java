@@ -7,8 +7,11 @@ public class InvoiceGbl {
 	private String gblNo;
 	private String rank;
 	private String name;
+	private String code;
 	private String amount;
 	private Boolean complete;
+	
+	private Invoice invoice;
 
 	public Integer getSeq() {
 		return seq;
@@ -74,12 +77,27 @@ public class InvoiceGbl {
 		this.complete = complete;
 	}
 
+	public Invoice getInvoice() {
+		return invoice;
+	}
+
+	public void setInvoice(Invoice invoice) {
+		this.invoice = invoice;
+	}
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	@Override
 	public String toString() {
 		return "InvoiceGbl [seq=" + seq + ", invoiceListSeq=" + invoiceListSeq
 				+ ", gblSeq=" + gblSeq + ", gblNo=" + gblNo + ", rank=" + rank
-				+ ", name=" + name + ", amount=" + amount + ", complete="
-				+ complete + "]";
+				+ ", name=" + name + ", code=" + code + ", amount=" + amount
+				+ ", complete=" + complete + ", invoice=" + invoice + "]";
 	}
 
 }

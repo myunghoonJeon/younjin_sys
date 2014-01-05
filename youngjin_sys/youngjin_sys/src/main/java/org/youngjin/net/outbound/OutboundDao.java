@@ -1,5 +1,6 @@
 package org.youngjin.net.outbound;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -186,5 +187,13 @@ public class OutboundDao extends SqlSessionDaoSupport {
 
 	public List<Addition> getAddtionList(String seq) {
 		return getSqlSession().selectList("outboundMapper.getAdditionList", Integer.parseInt(seq));
+	}
+
+	public List<Addition> getRemarkValue(String seq, Integer memorandumListSeq) {
+		Map<String, Integer> param = new HashMap<String, Integer>();
+		param.put("gblSeq", Integer.parseInt(seq));
+		param.put("memorandumSeq", memorandumListSeq);
+
+		return getSqlSession().selectList("outboundMapper.getRemarkValueList", param);
 	}	
 }

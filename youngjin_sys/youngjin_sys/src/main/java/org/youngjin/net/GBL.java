@@ -51,6 +51,10 @@ public class GBL {
 	private Integer truckSeq;
 	private Integer bookingSeq;
 
+	private String etd;
+	private String eta;
+	private String blNo;
+
 	public Boolean getTruckCheck() {
 		return truckCheck;
 	}
@@ -315,6 +319,30 @@ public class GBL {
 		this.gblFileNo = gblFileNo;
 	}
 
+	public String getEtd() {
+		return etd;
+	}
+
+	public void setEtd(String etd) {
+		this.etd = etd;
+	}
+
+	public String getEta() {
+		return eta;
+	}
+
+	public void setEta(String eta) {
+		this.eta = eta;
+	}
+
+	public String getBlNo() {
+		return blNo;
+	}
+
+	public void setBlNo(String blNo) {
+		this.blNo = blNo;
+	}
+
 	@Override
 	public String toString() {
 		return "GBL [seq=" + seq + ", no=" + no + ", customerName="
@@ -331,7 +359,8 @@ public class GBL {
 				+ ", milSVC=" + milSVC + ", gblFileNo=" + gblFileNo + ", pcs="
 				+ pcs + ", lbs=" + lbs + ", cuft=" + cuft + ", truckCheck="
 				+ truckCheck + ", bookingCheck=" + bookingCheck + ", truckSeq="
-				+ truckSeq + ", bookingSeq=" + bookingSeq + ", attachments="
+				+ truckSeq + ", bookingSeq=" + bookingSeq + ", etd=" + etd
+				+ ", eta=" + eta + ", blNo=" + blNo + ", attachments="
 				+ Arrays.toString(attachments) + ", attachmentList="
 				+ attachmentList + ", deleteAttachments="
 				+ Arrays.toString(deleteAttachments) + "]";

@@ -424,16 +424,26 @@ public class OutboundController {
 		model.addAttribute("dd619", dd619);
 		model.addAttribute("remarkList",
 				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq()));
+		model.addAttribute("remarkValue", outboundService.getRemarkValue(seq, dd619.getMemorandumListSeq()));
 		model.addAttribute("seq", seq);
 
 		return process + "/gbl/dd619Update";
 	}	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
-	@RequestMapping(value = "/{process}/{seq}/dd619/{listSeq}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{process}/{seq}/dd619/{listSeq}/print", method = RequestMethod.GET)
 	public String dd619(Model model, User user, @PathVariable String process,
-			@PathVariable String seq, @PathVariable String listSeq) {
+			@PathVariable String seq, @PathVariable Integer listSeq, @ModelAttribute Dd619 dd619) {
+		
+		System.out.println("test");
 
+		dd619 = outboundService.getDd619ListSelectOne(listSeq);
+		
+		model.addAttribute("user", user);
+		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
+		model.addAttribute("dd619", dd619);
+		model.addAttribute("remarkList",
+				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq()));
 		model.addAttribute("seq", seq);
 
 		return process + "/gbl/dd619";
@@ -745,9 +755,9 @@ public class OutboundController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{process}/delivery/mil/tcmd")
-	public String tcmdMain(Model model, User user, @PathVariable String process){
+	public String tcmdMain(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
 
-		user.setSubProcess("invoice");
+		user.setSubProcess("tcmd");
 		
 		model.addAttribute("user", user);
 		

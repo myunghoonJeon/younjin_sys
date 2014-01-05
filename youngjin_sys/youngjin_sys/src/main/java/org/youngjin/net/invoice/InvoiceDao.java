@@ -187,5 +187,9 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public void checkAndUpdateInvoice(Integer invoiceSeq) {
 		getSqlSession().update("invoiceMapper.checkAndUpdateInvoice", invoiceSeq);
 	}
+
+	public InvoiceGbl getInvoiceGblcontentInfo(Integer invoiceGblSeq) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoiceGblContentInfo", invoiceGblSeq);
+	}
 	
 }

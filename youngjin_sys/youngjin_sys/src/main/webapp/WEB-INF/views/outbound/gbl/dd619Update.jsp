@@ -156,23 +156,23 @@
 							<c:when test="${remark.type eq '01' }">
 								<input type="hidden" id="dd619Count" value="1"/>
 								<form:input path="invoiceMemorandumType" value="LOWERING EQIPMENT"/> : 
-								<form:input path="invoiceMemorandumValue" />
+								<form:input path="invoiceMemorandumValue" value="${remarkValue['LOWERING EQIPMENT'] }" />
 							</c:when>
 							<c:when test="${remark.type eq '02' }">
 								<c:forEach var="article" items="${remark.articleList }"> 	
 									<input type="hidden" id="dd619Count" value="${fn:length(remark.articleList) }"/>
 									<form:input path="invoiceMemorandumType" value="${article }"/> : 
-									<form:input path="invoiceMemorandumValue" value="" />
+									<form:input path="invoiceMemorandumValue" value="${remarkValue[article] }" />
 								</c:forEach>
 							</c:when>
 							<c:when test="${remark.type eq '03' }">
 								<input type="hidden" id="dd619Count" value="3"/>
 								<form:input path="invoiceMemorandumType" value="MOTO CYCLE"/> :
-								<form:input path="invoiceMemorandumValue"/> 
+								<form:input path="invoiceMemorandumValue" value="${remarkValue['MOTO CYCLE'] }" /> 
 								<form:input path="invoiceMemorandumType" value="FABRICATED ONE CRATE"/> :
-								<form:input path="invoiceMemorandumValue"/> 
+								<form:input path="invoiceMemorandumValue" value="${remarkValue['FABRICATED ONE CRATE'] }" /> 
 								<form:input path="invoiceMemorandumType" value="TOTAL AMOUNT"/> :
-								<form:input path="invoiceMemorandumValue"/> 								
+								<form:input path="invoiceMemorandumValue" value="${remarkValue['TOTAL AMOUNT'] }" /> 								
 							</c:when>
 						</c:choose>	
 					</c:forEach>

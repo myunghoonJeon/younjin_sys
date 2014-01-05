@@ -10,7 +10,7 @@
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
 <html>
 <head>
-<title>CONTENT</title>
+<title>Add</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">
@@ -29,60 +29,43 @@
 
 </head>
 <body>
-	<div class="invoice_gbl_content_wrap">
+	<div class="invoice_gbl_list_wrap">
 		<div class="pop_title_line">
-			<span>INVOICE GBL</span>
-		</div>
+			<span>INVOICE GBL LIST</span>
+		</div>	
 		
 		<div class="yj_button_wrap invoice_gbl_list_button_wrap">
-			<ul class="yj_button_list invoice_gbl_content_list_button_list">
+			<ul class="yj_button_list invoice_gbl_list_button_list">
 				<li>
-					<span class="yj_button invoice_gbl_content_list_back" data-seq="${invoiceGblContentInfo.invoiceListSeq }">back</span>
+					<span class="yj_button invoice_gbl_print">print</span>
 				</li>
 			</ul>
 		</div>
 		
 		<div>
-			<table class="invoice_gbl_content_table">
-				<tr>
-					<th>TSP</th>
-					<td>${invoiceGblContentInfo.invoice.tsp }</td>
-					<th>IN/OUT</th>
-					<td>${invoiceGblContentInfo.invoice.process }</td>
-					<th>CODE</th>
-					<td colspan="2">${invoiceGblContentInfo.code }</td>
-				</tr>
-				<tr>
-					<th>GBL NO</th>
-					<td>${invoiceGblContentInfo.gblNo }</td>
-					<th>RANK</th>
-					<td>${invoiceGblContentInfo.rank }</td>
-					<th>NAME</th>
-					<td colspan="2">${invoiceGblContentInfo.name }</td>
-				</tr>
-				<tr>
-					<td colspan="7"></td>
-				</tr>
-				<tr>
-					<th colspan="5">
-						CHARGING ITEMS
-					</th>
-					<th>
-						QUANTITY
-					</th>
-					<th>
-						AMOUNTS
-					</th>
-				</tr>
-				<c:forEach var="invoiceGblContent" items="${invoiceGblContentList }">
+			<table class="invoice_gbl_list_table" data-seq="${invoicSeq }">
+				<thead>
 					<tr>
-						<td colspan="5">${invoiceGblContent.chargingItem }</td>
-						<td>${invoiceGblContent.quantity }</td>
-						<td>${invoiceGblContent.amount }</td>
+						<th>GBL NO</th>
+						<th>RANK</th>
+						<th>NAME</th>
+						<th>AMOUNT</th>
+						<th>STATUS</th>
 					</tr>
-				</c:forEach>
+				</thead>
+				<tbody>
+					<c:forEach var="invoiceGbl" items="${invoiceGblList }">
+						<tr data-gblSeq="${invoiceGbl.gblSeq }" data-invoiceGblSeq="${invoiceGbl.seq }">
+							<td>${invoiceGbl.gblNo }</td>
+							<td>${invoiceGbl.rank }</td>
+							<td>${invoiceGbl.name }</td>
+							<td>${invoiceGbl.amount }</td>
+							<td>${invoiceGbl.complete }</td>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
-		</div>
+		</div>	
 	</div>
 </body>
 </html>

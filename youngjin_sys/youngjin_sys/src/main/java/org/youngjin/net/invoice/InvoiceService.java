@@ -769,4 +769,7 @@ public class InvoiceService {
 		return etcMap;
 	}
 
+	public InvoiceGbl getInvoiceGblContentInfo(Integer invoiceGblSeq) {
+		return invoiceDao.getInvoiceGblcontentInfo(invoiceGblSeq);
+	}
 }

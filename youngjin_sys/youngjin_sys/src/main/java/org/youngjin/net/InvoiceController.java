@@ -85,6 +85,21 @@ public class InvoiceController {
 
 		return process + "/invoice/invoiceGblList";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoice/{seq}/invoiceGblListCommon", method = RequestMethod.GET)
+	public String invoiceGblListCommon(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq) {
+
+		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq);
+
+		model.addAttribute("invoicSeq", seq);
+
+		model.addAttribute("invoiceListSeq", seq);
+		model.addAttribute("invoiceGblList", invoiceGblList);
+
+		return process + "/invoice/invoiceGblListCommon";
+	}	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{process}/invoice/invoiceDelete.json", method = RequestMethod.POST)
@@ -101,6 +116,8 @@ public class InvoiceController {
 		
 		List<InvoiceGblContent> invoiceGblContentList = invoiceService
 				.getInvoiceGblContentList(seq, invoiceGblSeq, gblSeq, process);
+		
+		model.addAttribute("invoiceGblContentInfo", invoiceService.getInvoiceGblContentInfo(invoiceGblSeq));
 		
 		model.addAttribute("invoiceGblContentList", invoiceGblContentList);
 

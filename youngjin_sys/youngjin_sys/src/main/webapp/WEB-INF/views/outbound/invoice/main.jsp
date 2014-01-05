@@ -27,7 +27,7 @@
 	</div>	
 	
 	<div>
-		<table class="yj_table">
+		<table class="yj_table invoice_table">
 			<thead>
 				<tr>
 					<th>NO</th>
@@ -43,7 +43,7 @@
 					</tr>
 				</c:if>
 				<c:forEach var="invoice" items="${invoiceList }" varStatus="i">
-					<tr>
+					<tr data-seq="${invoice.seq }">
 						<td>${i.count }</td>
 						<td>${invoice.tsp }</td>
 						<td>${invoice.startDate }</td>

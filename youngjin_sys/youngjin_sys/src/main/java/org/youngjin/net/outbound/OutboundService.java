@@ -401,4 +401,15 @@ public class OutboundService {
 	public List<Addition> getAddtionList(String seq) {
 		return outboundDao.getAddtionList(seq);
 	}
+
+	public Map<String, Double> getRemarkValue(String seq, Integer memorandumListSeq) {
+		Map<String, Double> remarkValue = new HashMap<String, Double>();
+		List<Addition> additionList = outboundDao.getRemarkValue(seq, memorandumListSeq);
+		
+		for( Addition addition : additionList){
+			remarkValue.put(addition.getTitle(), addition.getCost());
+		}
+		
+		return remarkValue;
+	}
 }

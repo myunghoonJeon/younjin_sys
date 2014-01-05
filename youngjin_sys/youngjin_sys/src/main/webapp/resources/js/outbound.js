@@ -105,6 +105,11 @@ youngjin.outbound.sync = function(){
 		parent.location.href = contextPath + '/outbound/delivery/main';
 	});
 	
+	$('.gbl_prearation_complete').unbind('click');
+	$('.gbl_prearation_complete').bind('click', function(){
+		youngjin.outbound.complete($(this));
+	});
+	
 	youngjin.outbound.preMoveSurveySync();
 	
 	youngjin.outbound.memorandumSync();
@@ -228,6 +233,16 @@ youngjin.outbound.dd619Sync = function(){
 	$('.dd619_modify_submit_button').bind('click', function(){
 		youngjin.outbound.dd619Modify($(this));
 	});
+	
+	$('.dd619_form_print').unbind('click');
+	$('.dd619_form_print').bind('click', function(){
+		youngjin.outbound.dd619Print($(this));
+	});
+	
+	$('.dd619_table tr').unbind('click');
+	$('.dd619_table tr').bind('click', function(){
+		youngjin.outbound.dd619($(this));
+	});
 };
 
 youngjin.outbound.weightCertificateSync = function(){
@@ -305,11 +320,6 @@ youngjin.outbound.backButtonSync = function(){
 	$('.dd619_back').bind('click', function(){
 		youngjin.outbound.dd619Back($(this));
 	});
-	
-	$('.dd619_table tr').unbind('click');
-	$('.dd619_table tr').bind('click', function(){
-		youngjin.outbound.dd619($(this));
-	});
 };
 
 youngjin.outbound.findUsNo = function(target){
@@ -350,6 +360,20 @@ youngjin.outbound.getGblProcess = function(target){
 		url : url
 	});			
 	
+};
+
+youngjin.outbound.complete = function(target){
+	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq;
+	
+	parent.$.smartPop.close();
+	
+	parent.$.smartPop.open({
+		width : 1000,
+		height : 521,
+		url : url
+	});			
 };
 
 youngjin.outbound.uploadPage = function(target){
@@ -416,6 +440,9 @@ youngjin.outbound.gblkModifySubmit = function(target){
 	var originPort = form.originPort.value;
 	var originCity = form.originCity.value;
 	var milSVC = form.milSVC.value;
+	var etd = form.etd.value;
+	var eta = form.eta.value;
+	var blNo = form.blNo.value;
 	
 	var url = contextPath + '/outbound/gblModify.json';
 	var json = {
@@ -438,7 +465,10 @@ youngjin.outbound.gblkModifySubmit = function(target){
 			'destPort' : destPort,
 			'originPort' : originPort,
 			'originCity' : originCity,
-			'milSVC' : milSVC
+			'milSVC' : milSVC,
+			'etd' : etd,
+			'eta' : eta,
+			'blNo' : blNo
 	};
 	
 	$.postJSON(url, json, function(){
@@ -1315,10 +1345,25 @@ youngjin.outbound.dd619Write = function(target){
 	parent.$.smartPop.close();
 
 	parent.$.smartPop.open({
-		width: 793.7,
-		height: 1122.5,
+		width: 1360,
+		height: 1760,
 		url : url
 	});
+};
+
+youngjin.outbound.dd619Print = function(target){
+	var seq = $('.dd619_add_table').attr('data-seq');
+	var dd619Seq = $('.dd619_add_table').attr('data-dd619Seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/dd619/' + dd619Seq + '/print';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 930.7,
+		height: 1122.5,
+		url : url
+	});	
 };
 
 youngjin.outbound.weightCertificate = function(target){

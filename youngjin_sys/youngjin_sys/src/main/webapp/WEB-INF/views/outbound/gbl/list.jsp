@@ -134,7 +134,7 @@
 					<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
 						<th>SCAC</th>
 					</c:if>
-					<th>GBL_NO</th>
+					<th>GBL NO</th>
 					<th>RANK</th>
 					<th>NAME</th>
 					<th>PCS</th>
@@ -145,6 +145,10 @@
 						<th>BRANCH</th>
 					</c:if>
 					<th>DEST_PORT</th>
+					<th>ETD</th>
+					<th>ETA</th>
+					<th>BL NO</th>
+					<th>POD</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -178,6 +182,10 @@
 							<td>${gbl.areaLocal }</td>
 						</c:if>
 						<td>${gbl.destPort }</td>
+						<td>${gbl.etd }</td>
+						<td>${gbl.eta }</td>
+						<td>${gbl.blNo }</td>
+						<td>${gbl.pod }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

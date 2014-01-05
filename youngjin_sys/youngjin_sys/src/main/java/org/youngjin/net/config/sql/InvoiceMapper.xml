@@ -21,6 +21,16 @@
 		<result column="complete" property="complete" />
 	</resultMap>
 	
+	<resultMap type="InvoiceGbl" id="InvoiceInfoMap">
+		<result column="invoice_list_seq" property="invoiceListSeq" />
+		<result column="tsp" property="invoice.tsp"/>
+		<result column="process" property="invoice.process" />
+		<result column="gbl_no" property="gblNo"/>
+		<result column="rank" property="rank" />
+		<result column="name" property="name" />
+		<result column="code" property="code" />
+	</resultMap>
+	
 	<select id="getSitListCount" resultType="Integer">
 		SELECT
 			COUNT(*)
@@ -334,6 +344,19 @@
 			invoice_gbl_seq = #{invoiceGblSeq}
 		AND
 			charging_item = #{chargingItem}
+	</select>
+	
+	<select id="getInvoiceGblContentInfo" parameterType="Integer" resultMap="InvoiceInfoMap">
+		SELECT
+			ig.invoice_list_seq, i.tsp, i.process, ig.gbl_no, ig.rank, ig.name, g.code
+		FROM
+			invoice_list i, invoice_gbl ig, gbl g
+		WHERE
+			ig.invoice_list_seq = i.seq
+		AND
+			g.seq = ig.gbl_seq
+		AND
+			ig.seq = #{value}
 	</select>
 	
 	<insert id="insertNewYearSIT" parameterType="Map">
