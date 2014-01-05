@@ -23,7 +23,7 @@
 	
 	<select id="getMemorandum" parameterType="Memorandum" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date
+			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
 		FROM
 			memorandum
 		WHERE

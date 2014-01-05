@@ -122,7 +122,17 @@
 				<tr>
 					<td>company rate1</td>
 					<td>comprate1</td>
-					<td><input type="text" /></td>
+					<td><input class="comprate_input" data-title="comprate1" type="text" value="${etcMap['comprate1'].rate }" /></td>
+				</tr>
+				<tr>
+					<td>company rate2</td>
+					<td>comprate2</td>
+					<td><input class="comprate_input" data-title="comprate2" type="text" value="${etcMap['comprate2'].rate }" /></td>
+				</tr>
+				<tr>
+					<td>company rate3</td>
+					<td>comprate3</td>
+					<td><input class="comprate_input" data-title="comprate3" type="text" value="${etcMap['comprate3'].rate }" /></td>
 				</tr>
 			</tbody>
 		</table>

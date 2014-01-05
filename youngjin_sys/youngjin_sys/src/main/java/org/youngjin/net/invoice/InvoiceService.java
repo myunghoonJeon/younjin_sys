@@ -9,11 +9,14 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.youngjin.net.GBL;
+import org.youngjin.net.InvoiceController;
 import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumDao;
+import org.youngjin.net.outbound.Addition;
 import org.youngjin.net.outbound.OutboundDao;
 import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.util.CalcUtil;
+import org.youngjin.net.util.DateUtil;
 
 @Service
 public class InvoiceService {
@@ -266,6 +269,16 @@ public class InvoiceService {
 		return basicMap;
 	}
 
+	public void etcInsert(Rate rate) {
+		int checkRate = invoiceDao.getEtcCheck(rate);
+		
+		if(checkRate == 0){
+			invoiceDao.etcInsert(rate);
+		} else {
+			invoiceDao.etcUpdate(rate);
+		}
+	}
+
 	public void containerInsert(Rate rate) {
 		int checkRate = invoiceDao.getContainerCheck(rate);
 		
@@ -374,23 +387,24 @@ public class InvoiceService {
 		invoiceDao.deleteInvoice(invoice);
 	}
 
-	public List<InvoiceGblContent> getInvoiceGblContentList(
+	public List<InvoiceGblContent> getInvoiceGblContentList(Integer invoiceSeq,
 			Integer invoiceGblSeq, Integer gblSeq, String process) {
-		Integer totalAmount = 0;
-		
-		Integer checkInvoiceGblContentCount = invoiceDao.getInvoiceGblContentCount(invoiceGblSeq);
-		
-		GBL gbl = outboundDao.getGbl(gblSeq);
 		
 		List<InvoiceGblContent> invoiceGblContentList = new ArrayList<InvoiceGblContent>();
 		
-		if(checkInvoiceGblContentCount == 0){
+		if(process.equals("outbound")){
+			Double totalAmount = 0.0;
+			
+			Integer checkInvoiceGblContentCount = invoiceDao.getInvoiceGblContentCount(invoiceGblSeq);
+			
+			GBL gbl = outboundDao.getGbl(gblSeq);
+			
 			//1. PACKING CHARGE
 			InvoiceGblContent packingChargeContent = new InvoiceGblContent();
 			Rate rate = new Rate();
-			Integer totalGblWeight = 0;
-			Integer gblWeight = 0;
-			Integer packingCharge = 0;
+			Double totalGblWeight = 0.0;
+			Double gblWeight = 0.0;
+			Double packingCharge = 0.0;
 			
 			String codeStr = null;
 			if(gbl.getCode().equals("3") || gbl.getCode().equals("4") || gbl.getCode().equals("T")){
@@ -403,15 +417,15 @@ public class InvoiceService {
 			
 			for(Weightcertificate weightcertificate : weightcertificateList){
 				if("HHG".equals(codeStr)){
-					gblWeight = CalcUtil.fromKgToLbs(Integer.parseInt(weightcertificate.getNet()));
+					gblWeight = Double.parseDouble(weightcertificate.getNet());
 					rate.setObType(weightcertificate.getType());
 					if(gblWeight < 500){
-						gblWeight = 500;
+						gblWeight = 500.0;
 					}
 				} else if ("UB".equals(codeStr)){
-					gblWeight = CalcUtil.fromKgToLbs(Integer.parseInt(weightcertificate.getGross()));
+					gblWeight = Double.parseDouble(weightcertificate.getGross());
 					if(gblWeight < 300){
-						gblWeight = 300;
+						gblWeight = 300.0;
 					}
 				}
 				
@@ -422,7 +436,7 @@ public class InvoiceService {
 				
 				Rate gblRate = invoiceDao.getBasicRate(rate);
 				
-				packingCharge += (int) (gblWeight * gblRate.getRate());
+				packingCharge += gblWeight * gblRate.getRate();
 				
 				totalGblWeight += gblWeight;
 			}
@@ -432,9 +446,18 @@ public class InvoiceService {
 			packingChargeContent.setChargingItem("PACKING CHARGE");
 			packingChargeContent.setQuantity("LBS weight");
 			packingChargeContent.setAmount(packingCharge.toString());
-				
+			packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);					
 				
 			invoiceGblContentList.add(packingChargeContent);
+			
+			Integer checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(packingChargeContent);
+			
+			if(checkInvoiceContentGetSeq != null){
+				packingChargeContent.setSeq(checkInvoiceContentGetSeq);
+				invoiceDao.updateInvoiceGblContent(packingChargeContent);
+			} else {
+				invoiceDao.insertInvoiceGblContent(packingChargeContent);
+			}
 			
 			//2. CONTAINER
 			InvoiceGblContent containerInvoiceGblContent = new InvoiceGblContent();
@@ -473,18 +496,33 @@ public class InvoiceService {
 			
 			containerCharge += newCharge + usedCharge + repairedCharge;
 			
+			totalAmount += containerCharge;
+			
 			containerInvoiceGblContent.setChargingItem("CONTAINER");
 			containerInvoiceGblContent.setQuantity("Piece");
 			containerInvoiceGblContent.setAmount(containerCharge.toString());
+			containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
 			
 			invoiceGblContentList.add(containerInvoiceGblContent);
 			
-			/*//3. EXTRA PICKUP CHARGE
-			int extraPickUpCharge = 0;
+			checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(containerInvoiceGblContent);
+			
+			if(checkInvoiceContentGetSeq != null){
+				containerInvoiceGblContent.setSeq(checkInvoiceContentGetSeq);
+				invoiceDao.updateInvoiceGblContent(containerInvoiceGblContent);
+			} else {
+				invoiceDao.insertInvoiceGblContent(containerInvoiceGblContent);
+			}
+			
+			//3. EXTRA PICKUP CHARGE
+			InvoiceGblContent extraPickUpGblContent = new InvoiceGblContent();
+			Double extraPickUpCharge = 0.0;
 			
 			Rate otherRateParam = new Rate();
 			otherRateParam.setProcess(process);
 			otherRateParam.setWriteYear(gbl.getPud());
+			
+			Rate comprate = invoiceDao.getEtc("comprate1", gbl.getPud());
 			
 			Memorandum paramMemorandum = new Memorandum();
 			paramMemorandum.setGblSeq(gbl.getSeq());
@@ -492,27 +530,243 @@ public class InvoiceService {
 			
 			Memorandum memorandum = memorandumDao.getMemorandum(paramMemorandum);
 			if(memorandum != null){
+			} else {
 				if("HHG".equals(codeStr)){
 					otherRateParam.setTitle("EXTRA PICKUP CHARGE -IT13 item 1111");
 					otherRateParam.setCode("HHG");
 					Rate extraRate = invoiceDao.getOther(otherRateParam);
-					extraPickUpCharge = (int) (totalGblWeight * extraRate.getRate());
+					extraPickUpCharge = comprate.getRate() * extraRate.getRate();
 				} else if ("UB".equals(codeStr)){
 					otherRateParam.setTitle("EXTRA PICKUP CHARGE - IT13 item 2222");
 					otherRateParam.setCode("UB");
 					Rate extraRate = invoiceDao.getOther(otherRateParam);
-					extraPickUpCharge = (int) (totalGblWeight * extraRate.getRate());					
+					extraPickUpCharge = comprate.getRate() * extraRate.getRate();					
 				}
-			}*/
-			//4. TERMINATION CHARGE		
+				
+				totalAmount += extraPickUpCharge;
+				
+				extraPickUpGblContent.setChargingItem("EXTRA PICKUP CHARGE");
+				extraPickUpGblContent.setQuantity("");
+				extraPickUpGblContent.setAmount(extraPickUpCharge.toString());
+				extraPickUpGblContent.setInvoiceGblSeq(invoiceGblSeq);
+				
+				invoiceGblContentList.add(extraPickUpGblContent);
+				
+				checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(extraPickUpGblContent);
+				
+				if(checkInvoiceContentGetSeq != null){
+					extraPickUpGblContent.setSeq(checkInvoiceContentGetSeq);
+					invoiceDao.updateInvoiceGblContent(extraPickUpGblContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(extraPickUpGblContent);
+				}					
+				
+			}
+			
+			//4. TERMINATION CHARGE			
+			InvoiceGblContent terminationContent = new InvoiceGblContent();
+			Double terminationCharge = 0.0;
+			
+			paramMemorandum = new Memorandum();
+			paramMemorandum.setGblSeq(gbl.getSeq());
+			paramMemorandum.setType("05");
+			
+			memorandum = memorandumDao.getMemorandum(paramMemorandum);		
+			if(memorandum != null){
+			} else {
+				if("HHG".equals(codeStr)){
+					otherRateParam.setTitle("TERMINATION CHARGE - IT13 item 522A");
+					otherRateParam.setCode("HHG");
+					Rate terminationRate = invoiceDao.getOther(otherRateParam);
+					terminationCharge = comprate.getRate() * terminationRate.getRate();
+				} else if ("UB".equals(codeStr)){
+					otherRateParam.setTitle("TERMINATION CHARGE - IT13 item 523A");
+					otherRateParam.setCode("UB");
+					Rate terminationRate = invoiceDao.getOther(otherRateParam);
+					terminationCharge = comprate.getRate() * terminationRate.getRate();					
+				}
+				
+				totalAmount += terminationCharge;
+				
+				terminationContent.setChargingItem("TERMINATION CHARGE");
+				terminationContent.setQuantity("");
+				terminationContent.setAmount(terminationCharge.toString());
+				terminationContent.setInvoiceGblSeq(invoiceGblSeq);
+				
+				invoiceGblContentList.add(terminationContent);
+				
+				checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(terminationContent);
+				
+				if(checkInvoiceContentGetSeq != null){
+					terminationContent.setSeq(checkInvoiceContentGetSeq);
+					invoiceDao.updateInvoiceGblContent(terminationContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(terminationContent);
+				}						
+			}
+			
 			//5. DIVERSION CHARGE
+			
 			//6. SIT_FIRST DAY(ORIGIN SIT)
+			InvoiceGblContent sitFirstDayContent = new InvoiceGblContent();
+			Double sitFirstDayCharge = 0.0;
+			
+			Rate sitRateParam = new Rate();
+			sitRateParam.setWriteYear(gbl.getPud());
+			sitRateParam.setProcess(process);
+			
+			Memorandum sitFirstDayMemoParam = new Memorandum();
+			sitFirstDayMemoParam.setType("06");
+			sitFirstDayMemoParam.setGblSeq(gbl.getSeq());
+			
+			Memorandum checkInvoiceSitFirstDay = memorandumDao.getMemorandum(sitFirstDayMemoParam);
+			
+			if(checkInvoiceSitFirstDay != null){
+				if("HHG".equals(codeStr)){
+					sitRateParam.setTitle("SIT-FIRST DAY -IT13 item 518C");
+					sitRateParam.setCode("HHG");
+					Rate sitFirstDayRate = invoiceDao.getSit(sitRateParam);
+					sitFirstDayCharge = totalGblWeight * comprate.getRate() * sitFirstDayRate.getRate();
+				} else if ("UB".equals(codeStr)){
+					sitRateParam.setTitle("SIT-FIRST DAY - IT13 item 519A");
+					sitRateParam.setCode("UB");
+					Rate sitFirstDayRate = invoiceDao.getSit(sitRateParam);
+					sitFirstDayCharge = totalGblWeight * comprate.getRate() * sitFirstDayRate.getRate();					
+				}
+				
+				totalAmount += sitFirstDayCharge;
+				
+				sitFirstDayContent.setChargingItem("SIT-FIRST DAY");
+				sitFirstDayContent.setQuantity("day");
+				sitFirstDayContent.setAmount(sitFirstDayCharge.toString());
+				sitFirstDayContent.setInvoiceGblSeq(invoiceGblSeq);
+				
+				invoiceGblContentList.add(sitFirstDayContent);
+				
+				checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(sitFirstDayContent);
+				
+				if(checkInvoiceContentGetSeq != null){
+					sitFirstDayContent.setSeq(checkInvoiceContentGetSeq);
+					invoiceDao.updateInvoiceGblContent(sitFirstDayContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(sitFirstDayContent);
+				}						
+			}
+			
 			//7. SIT EACH ADDITIONAL DAY(ORIGIN SIT)
+			InvoiceGblContent sitEachContent = new InvoiceGblContent();
+			Double sitEachDayCharge = 0.0;
+			
+			Memorandum sitEachDayMemoParam = new Memorandum();
+			sitEachDayMemoParam.setType("07");
+			sitEachDayMemoParam.setGblSeq(gbl.getSeq());
+			
+			Memorandum checkInvoiceEachDay = memorandumDao.getMemorandum(sitEachDayMemoParam);
+			
+			if(checkInvoiceEachDay != null){
+				if("HHG".equals(codeStr)){
+					sitRateParam.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 518D");
+					sitRateParam.setCode("HHG");
+					Rate sitEachDayRate = invoiceDao.getSit(sitRateParam);
+					
+					Integer eachDayCount = DateUtil.getDaysBetween(checkInvoiceSitFirstDay.getSitStartDate(), checkInvoiceEachDay.getSitEndDate()) - 1;
+					
+					sitEachDayCharge = totalGblWeight * eachDayCount * comprate.getRate() * sitEachDayRate.getRate();
+				} else if ("UB".equals(codeStr)){
+					sitRateParam.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 519C");
+					sitRateParam.setCode("UB");
+					
+					Integer eachDayCount = DateUtil.getDaysBetween(checkInvoiceSitFirstDay.getSitStartDate(), checkInvoiceEachDay.getSitEndDate()) - 1;
+					
+					Rate sitEachDayRate = invoiceDao.getSit(sitRateParam);
+					sitEachDayCharge = totalGblWeight * eachDayCount * comprate.getRate() * sitEachDayRate.getRate();	
+					
+				}
+				
+				totalAmount += sitEachDayCharge;
+				
+				sitEachContent.setChargingItem("SIT-EACH ADDITIONAL DAY");
+				sitEachContent.setQuantity("days");
+				sitEachContent.setAmount(sitEachDayCharge.toString());
+				sitEachContent.setInvoiceGblSeq(invoiceGblSeq);
+				
+				invoiceGblContentList.add(sitEachContent);
+				
+				checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(sitEachContent);
+				
+				if(checkInvoiceContentGetSeq != null){
+					sitEachContent.setSeq(checkInvoiceContentGetSeq);
+					invoiceDao.updateInvoiceGblContent(sitEachContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(sitEachContent);
+				}					
+			}			
 			//8. LONG CARRY
+			if("HHG".equals(codeStr)){
+				InvoiceGblContent longCarryContent = new InvoiceGblContent();
+				Double lognCarryCharge = 0.0;
+				
+				Memorandum longCarryMemoParam = new Memorandum();
+				longCarryMemoParam.setType("08");
+				longCarryMemoParam.setGblSeq(gbl.getSeq());
+				
+				
+			}				
+			
 			//9. ACCESSORIAL SERVICE CHARGE
+			
+			List<Addition> additionList = outboundDao.getAddtionList(gbl.getSeq().toString());
+			for ( Addition addition : additionList){
+				InvoiceGblContent additionContent = new InvoiceGblContent();
+				additionContent.setChargingItem(addition.getTitle());
+				additionContent.setQuantity("");
+				additionContent.setAmount(addition.getCost().toString());
+				additionContent.setInvoiceGblSeq(invoiceGblSeq);
+				
+				invoiceGblContentList.add(additionContent);
+				
+				checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(additionContent);
+				
+				if(checkInvoiceContentGetSeq != null){
+					additionContent.setSeq(checkInvoiceContentGetSeq);
+					invoiceDao.updateInvoiceGblContent(additionContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(additionContent);
+				}						
+				
+				totalAmount += addition.getCost();
+			}
+			
+			//Total Amount
+			InvoiceGblContent totalContent = new InvoiceGblContent();
+			totalContent.setChargingItem("Total Amount");
+			totalContent.setQuantity("");
+			totalContent.setAmount(totalAmount.toString());
+			
+			invoiceGblContentList.add(totalContent);		
+			
+			InvoiceGbl invoiceGbl = new InvoiceGbl();
+			invoiceGbl.setSeq(invoiceGblSeq);
+			invoiceGbl.setAmount(totalAmount.toString());
+			invoiceGbl.setComplete(true);
+			
+			invoiceDao.updateInvoiceGbl(invoiceGbl);
+			
+			invoiceDao.checkAndUpdateInvoice(invoiceSeq);
 		}
 		
 		return invoiceGblContentList;
+	}
+
+	public Map<String, Rate> getEtcMap(Rate rate) {
+		Map<String, Rate> etcMap = new HashMap<String, Rate>();
+		
+		List<Rate> etcList = invoiceDao.getEtcList(rate);
+		for(Rate rateTemp : etcList){
+			etcMap.put(rateTemp.getTitle(), rateTemp);
+		}
+		
+		return etcMap;
 	}
 
 }

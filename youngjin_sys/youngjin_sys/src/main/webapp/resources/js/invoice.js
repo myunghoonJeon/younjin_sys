@@ -64,6 +64,10 @@ youngjin.invoice.rateSync = function(){
 		youngjin.invoice.basicRateInput($(this));
 	});
 	
+	$('.comprate_input').focusout(function(){
+		youngjin.invoice.compRateInput($(this));
+	});
+	
 	$('.container_rate_input').focusout(function(){
 		youngjin.invoice.containerRateInput($(this));
 	});
@@ -120,6 +124,29 @@ youngjin.invoice.basicRateInput = function(target){
 			});
 		});
 	}
+};
+
+youngjin.invoice.compRateInput = function(target){
+	var title = target.attr('data-title');
+	var rate = target.val();
+	
+	var url = contextPath + '/admin/rate/etc/insert.json';
+	
+	var json = {
+		'title' : title,
+		'rate' : rate,
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				alert('변경 완료');
+			},
+			error : function(){
+				alert('에러 발생');
+			}
+		});
+	});
 };
 
 youngjin.invoice.containerRateInput = function(target){

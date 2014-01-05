@@ -403,6 +403,7 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 .sit_rate_table tfoot tr td>a{color: #262656; font-size: 15px; font-weight: bold;}
 
 .basic_rate_input{ width: 40px; border: none;}
+.comprate_input{ width: 40px; border: none;}
 .container_rate_input { width: 40px; border: none;}
 .sit_rate_input{ width: 45px; border: none;}
 .other_rate_input{ width: 45px; border:none;}

@@ -100,7 +100,7 @@ public class InvoiceController {
 			@PathVariable Integer invoiceGblSeq, @PathVariable Integer gblSeq) {
 		
 		List<InvoiceGblContent> invoiceGblContentList = invoiceService
-				.getInvoiceGblContentList(invoiceGblSeq, gblSeq, process);
+				.getInvoiceGblContentList(seq, invoiceGblSeq, gblSeq, process);
 		
 		model.addAttribute("invoiceGblContentList", invoiceGblContentList);
 

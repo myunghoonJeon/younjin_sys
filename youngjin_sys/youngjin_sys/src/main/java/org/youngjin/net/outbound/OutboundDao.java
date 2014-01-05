@@ -186,6 +186,5 @@ public class OutboundDao extends SqlSessionDaoSupport {
 
 	public List<Addition> getAddtionList(String seq) {
 		return getSqlSession().selectList("outboundMapper.getAdditionList", Integer.parseInt(seq));
-	}
-	
+	}	
 }

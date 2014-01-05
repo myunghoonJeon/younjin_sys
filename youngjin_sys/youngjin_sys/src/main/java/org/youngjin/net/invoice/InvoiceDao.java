@@ -138,5 +138,54 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public Rate getOther(Rate rate) {
 		return getSqlSession().selectOne("invoiceMapper.getOther", rate);
 	}
+
+	public int getEtcCheck(Rate rate) {
+		return getSqlSession().selectOne("invoiceMapper.getEtcCheck", rate);
+	}
+
+	public void etcInsert(Rate rate) {
+		getSqlSession().insert("invoiceMapper.etcInsert", rate);		
+	}
+
+	public List<Rate> getEtcList(Rate rate) {
+		return getSqlSession().selectList("invoiceMapper.etcList", rate);
+	}
+
+	public Rate getEtc(String title, String pud) {
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("title", title);
+		param.put("pud", pud);
+		
+		return getSqlSession().selectOne("invoiceMapper.getEtc", param);
+	}
+
+	public void etcUpdate(Rate rate) {
+		getSqlSession().update("invoiceMapper.etcRateUpdate", rate);
+	}
+
+	public Rate getSit(Rate rate) {
+		return getSqlSession().selectOne("invoiceMapper.getSit", rate);
+	}
+
+	public Integer checkInvoiceContent(InvoiceGblContent invoiceGblContent) {
+		return getSqlSession().selectOne("invoiceMapper.checkInvoiceContent", invoiceGblContent);
+	}
+
+	public void updateInvoiceGblContent(InvoiceGblContent invoiceGblContent) {
+		getSqlSession().update("invoiceMapper.updateInvoiceGblContent", invoiceGblContent);
+	}
+
+	public void insertInvoiceGblContent(InvoiceGblContent invoiceGblContent) {
+		getSqlSession().insert("invoiceMapper.insertInvoiceGblContent", invoiceGblContent);
+		
+	}
+
+	public void updateInvoiceGbl(InvoiceGbl invoiceGbl) {
+		getSqlSession().update("invoiceMapper.updateInvoiceGbl", invoiceGbl);
+	}
+
+	public void checkAndUpdateInvoice(Integer invoiceSeq) {
+		getSqlSession().update("invoiceMapper.checkAndUpdateInvoice", invoiceSeq);
+	}
 	
 }

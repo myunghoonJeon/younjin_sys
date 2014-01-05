@@ -48,6 +48,19 @@
 			seq, process DESC
 	</select>
 	
+	<select id="getSit" parameterType="Rate" resultType="Rate">
+		SELECT
+			seq, title, code, process, rate, write_year AS writeYear
+		FROM
+			invoice_sit_rate
+		WHERE
+			write_year = DATE_FORMAT(#{writeYear}, '%Y')
+		AND
+			title = #{title}
+		AND
+			process = #{process}
+	</select>
+	
 	<select id="getOtherListCount" resultType="Integer">
 		SELECT
 			COUNT(*)
@@ -86,6 +99,8 @@
 			title = #{title}
 		AND
 			code = #{code}		
+		AND
+			process = #{process}
 	</select>
 	
 	<select id="getBasicRateCheck" parameterType="Rate" resultType="Integer">
@@ -150,6 +165,38 @@
 			container_status = #{containerStatus}
 		AND
 			write_year = DATE_FORMAT(SYSDATE(), '%Y')	
+	</select>
+	
+	<select id="getEtcCheck" parameterType="Rate" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			invoice_etc_rate
+		WHERE
+			title = #{title}
+		AND
+			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+	</select>
+	
+	<select id="etcList" parameterType="Rate" resultType="Rate">
+		SELECT
+			seq, title, rate, write_year
+		FROM
+			invoice_etc_rate
+		WHERE
+			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+	</select>
+	
+	<select id="getEtc" parameterType="Map" resultType="Rate">
+		SELECT
+			seq, title, rate, write_year
+		FROM
+			invoice_etc_rate
+		WHERE
+			write_year = DATE_FORMAT(#{pud}, '%Y')
+		AND
+			title = #{title}
+			
 	</select>
 	
 	<select id="getContainerRateList" parameterType="Rate" resultType="Rate">
@@ -278,6 +325,17 @@
 			gbl_seq
 	</select>
 	
+	<select id="checkInvoiceContent" parameterType="InvoiceGblContent" resultType="Integer">
+		SELECT
+			seq
+		FROM
+			invoice_gbl_content
+		WHERE
+			invoice_gbl_seq = #{invoiceGblSeq}
+		AND
+			charging_item = #{chargingItem}
+	</select>
+	
 	<insert id="insertNewYearSIT" parameterType="Map">
 		INSERT INTO
 			invoice_sit_rate
@@ -321,6 +379,18 @@
 			)
 	</insert>
 	
+	<insert id="etcInsert" parameterType="Rate">
+		INSERT INTO
+			invoice_etc_rate
+			(
+				title, rate, write_year
+			)
+		VALUES
+			(
+				#{title}, #{rate}, DATE_FORMAT(SYSDATE(), '%Y')
+			)
+	</insert>
+	
 	<insert id="containerInsert" parameterType="Rate">
 		INSERT INTO
 			invoice_rate
@@ -360,6 +430,18 @@
 			)
 	</insert>
 	
+	<insert id="insertInvoiceGblContent" parameterType="InvoiceGblContent">
+		INSERT INTO
+			invoice_gbl_content
+			(
+				invoice_gbl_seq, charging_item, quantity, amount
+			)
+		VALUES
+			(
+				#{invoiceGblSeq}, #{chargingItem}, #{quantity}, #{amount}
+			)
+	</insert>
+	
 	<update id="basicUpdate" parameterType="Rate">
 		UPDATE
 			invoice_rate
@@ -377,6 +459,17 @@
 			AND
 				ob_type = #{obType}
 		</if>		
+	</update>
+	
+	<update id="etcRateUpate" parameterType="Rate">
+		UPDATE
+			invoice_etc_rate
+		SET
+			rate = #{rate}
+		WHERE
+			title = #{title}
+		AND
+			write_year = DATE_FORMAT(SYSDATE(), 'Y%')
 	</update>
 	
 	<update id="containerUpdate" parameterType="Rate">
@@ -406,6 +499,58 @@
 			rate = #{rate}
 		WHERE
 			seq = #{seq}
+	</update>
+	
+	<update id="updateInvoiceGblContent" parameterType="InvoiceGblContent">
+		UPDATE
+			invoice_gbl_content
+		SET
+			amount = #{amount}
+		WHERE
+			seq = #{seq}
+	</update>
+	
+	<update id="updateInvoiceGbl" parameterType="InvoiceGbl">
+		UPDATE
+			invoice_gbl
+		SET
+			amount = #{amount},
+			complete = #{complete}
+		WHERE
+			seq = #{seq}
+	</update>
+	
+	<update id="checkAndUpdateInvoice" parameterType="Integer">
+		UPDATE
+			invoice_list
+		SET
+			complete = true
+		WHERE
+			seq = (
+					SELECT * FROM
+					(
+						SELECT seq FROM invoice_list i
+						WHERE seq = '52' 
+						AND	
+						(	SELECT
+								COUNT(*)
+							FROM
+								invoice_gbl
+							WHERE
+								invoice_list_seq = i.seq
+						) = 
+						(
+							SELECT 
+								COUNT(*)
+							FROM
+								invoice_gbl
+							WHERE
+								invoice_list_seq = i.seq
+							AND
+								complete = TRUE
+						) 
+					) AS ck
+				)			
 	</update>
 	
 	<delete id="deleteInvoice" parameterType="Invoice">

@@ -35,7 +35,7 @@
 		</div>
 		
 		<div>
-			<table>
+			<table class="invoice_gbl_content_table">
 				<tr>
 					<th>TSP</th>
 					<td></td>

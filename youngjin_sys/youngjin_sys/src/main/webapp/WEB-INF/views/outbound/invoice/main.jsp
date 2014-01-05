@@ -34,7 +34,6 @@
 					<th>TSP</th>
 					<th>START DATE</th>
 					<th>END DATE</th>
-					<th>STATUS</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -49,7 +48,6 @@
 						<td>${invoice.tsp }</td>
 						<td>${invoice.startDate }</td>
 						<td>${invoice.endDate }</td>
-						<td>${invoice.complete }</td>
 					</tr>
 				</c:forEach>
 			</tbody>
