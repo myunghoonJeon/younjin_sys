@@ -5,11 +5,11 @@ public class Rate {
 	private String tsp;
 	private String title;
 	private String code;
-	private Double rate;
+	private Double rate = 1.0;
 	private String process;
 	private String obType;
 	private String containerStatus;
-	private String containerRate;
+	private String containerRate = "1";
 	private String writeYear;
 	
 	public Rate() {

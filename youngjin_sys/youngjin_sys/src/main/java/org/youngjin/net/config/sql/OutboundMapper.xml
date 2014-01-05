@@ -373,7 +373,7 @@
 
 <select id="getWeightcertificateList" parameterType="String" resultType="Weightcertificate">
         SELECT
-        	seq, piece, type, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq
+        	seq, piece, type, status, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq
         FROM
         	weight_certificate
         WHERE

@@ -424,8 +424,6 @@ public class InvoiceService {
 				
 				packingCharge += (int) (gblWeight * gblRate.getRate());
 				
-				System.out.println("gblRate : " + gblRate + " gblWeight : " + gblWeight);
-				
 				totalGblWeight += gblWeight;
 			}
 				
@@ -438,11 +436,13 @@ public class InvoiceService {
 				
 			invoiceGblContentList.add(packingChargeContent);
 			
-			/*//2. CONTAINER
+			//2. CONTAINER
+			InvoiceGblContent containerInvoiceGblContent = new InvoiceGblContent();
+			
 			int usedUnit = 0;
 			int newUnit = 0;
 			int repairedUnit = 0;
-			int containerCharge = 0;
+			Integer containerCharge = 0;
 			
 			for( Weightcertificate weightCertificate : weightcertificateList){
 				if("NEW".equals(weightCertificate.getStatus())){
@@ -458,13 +458,13 @@ public class InvoiceService {
 			containerRateParam.setWriteYear(gbl.getPud());
 			containerRateParam.setTsp(gbl.getScac());
 			
-			containerRateParam.setContainerStatus("NEW");
+			containerRateParam.setContainerStatus("new");
 			Rate newRate = invoiceDao.getContainerRate(containerRateParam);
 			
-			containerRateParam.setContainerStatus("USED");
+			containerRateParam.setContainerStatus("used");
 			Rate usedRate = invoiceDao.getContainerRate(containerRateParam);
 			
-			containerRateParam.setContainerStatus("REPAIRED");
+			containerRateParam.setContainerStatus("repair");
 			Rate repairedRate = invoiceDao.getContainerRate(containerRateParam);
 			
 			int newCharge = (int) (newUnit * Double.parseDouble(newRate.getContainerRate()));
@@ -473,7 +473,13 @@ public class InvoiceService {
 			
 			containerCharge += newCharge + usedCharge + repairedCharge;
 			
-			//3. EXTRA PICKUP CHARGE
+			containerInvoiceGblContent.setChargingItem("CONTAINER");
+			containerInvoiceGblContent.setQuantity("Piece");
+			containerInvoiceGblContent.setAmount(containerCharge.toString());
+			
+			invoiceGblContentList.add(containerInvoiceGblContent);
+			
+			/*//3. EXTRA PICKUP CHARGE
 			int extraPickUpCharge = 0;
 			
 			Rate otherRateParam = new Rate();
@@ -497,14 +503,14 @@ public class InvoiceService {
 					Rate extraRate = invoiceDao.getOther(otherRateParam);
 					extraPickUpCharge = (int) (totalGblWeight * extraRate.getRate());					
 				}
-			}
+			}*/
 			//4. TERMINATION CHARGE		
 			//5. DIVERSION CHARGE
 			//6. SIT_FIRST DAY(ORIGIN SIT)
 			//7. SIT EACH ADDITIONAL DAY(ORIGIN SIT)
 			//8. LONG CARRY
 			//9. ACCESSORIAL SERVICE CHARGE
-*/		}
+		}
 		
 		return invoiceGblContentList;
 	}
