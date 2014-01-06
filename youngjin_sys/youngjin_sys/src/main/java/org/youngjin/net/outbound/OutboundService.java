@@ -192,7 +192,7 @@ public class OutboundService {
 		
 		int count = weightcertificate.getCount();
 		
-		int grossSum = 0;
+		Integer grossSum = 0;
 		
 		String [] pieceList = weightcertificate.getPiece().split(",", count);
 		String [] typeList = weightcertificate.getType().split(",", count);
@@ -220,12 +220,10 @@ public class OutboundService {
 			
 			grossSum += Integer.parseInt(grossList[i]);
 		}				
-		
-		Integer lbs = CalcUtil.fromKgToLbs(grossSum);
-		
+				
 		GBL gbl = new GBL();
 		gbl.setSeq(weightcertificate.getGblSeq());
-		gbl.setLbs(lbs.toString());
+		gbl.setLbs(grossSum.toString());
 		
 		outboundDao.updateGbl(gbl);
 		

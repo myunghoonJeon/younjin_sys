@@ -10,12 +10,15 @@ import org.youngjin.net.GBL;
 public class InboundDao extends SqlSessionDaoSupport {
 
 	public int getGblListCount(InboundFilter inboundFilter) {
-		return getSqlSession().selectOne("inboundMapper.getGblListCount", inboundFilter);
+		return getSqlSession().selectOne("inboundMapper.getFreightListCount", inboundFilter);
 	}
 
-	public List<GBL> getGblList(InboundFilter inboundFilter) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<GBL> getFreightList(InboundFilter inboundFilter) {
+		return getSqlSession().selectList("inboundMapper.getFreightList", inboundFilter);
+	}
+
+	public void insertFreight(GBL gbl) {
+		getSqlSession().insert("inboundMapper.insertFreight", gbl);
 	}
 	
 }

@@ -22,7 +22,7 @@ public class InboundService {
 	@Resource
 	private CodeDao codeDao;
 	
-	public int getGblListCount(InboundFilter inboundFilter, User user) {	
+	public int getFreightListCount(InboundFilter inboundFilter, User user) {	
 		if(!"ADMIN".equals(user.getAuthStr())){
 			inboundFilter.setArea("0" + user.getArea().toString());
 		}
@@ -30,24 +30,24 @@ public class InboundService {
 		return inboundDao.getGblListCount(inboundFilter);
 	}
 
-	public List<GBL> getGblList(InboundFilter inboundFilter, User user) {
+	public List<GBL> getFreightList(InboundFilter inboundFilter, User user) {
 		if(!"ADMIN".equals(user.getAuthStr())){
 			inboundFilter.setArea("0" + user.getArea().toString());
 		}
 		
-		return inboundDao.getGblList(inboundFilter);
+		return inboundDao.getFreightList(inboundFilter);
 	}
 
 	/*public GBlock findUsNo(GBlock gBlock) {
 		return inboundDao.findUsNo(gBlock);
 	}
-
-	public void insertGbl(GBL gbl) {
-		inboundDao.insertGbl(gbl);
+	*/
+	public void insertFreight(GBL gbl) {
+		inboundDao.insertFreight(gbl);
 		
 		inboundDao.insertGblStatus(gbl);
 	}
-
+	/*
 	public Map<String, List<Code>> getFilterMap() {
 		Map<String, List<Code>> filterMap = new HashMap<String, List<Code>>();
 		List<Code> branchList = codeDao.getAllAreaList();		

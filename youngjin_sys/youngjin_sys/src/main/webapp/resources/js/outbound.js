@@ -89,6 +89,11 @@ youngjin.outbound.sync = function(){
 		youngjin.outbound.uploadPage($(this));
 	});
 	
+	$('.document_power_of_attorney_button').unbind('click');
+	$('.document_power_of_attorney_button').bind('click', function(){
+		youngjin.outbound.powerOfAttorney($(this));
+	});
+	
 	$('.document_view').unbind('click');
 	$('.document_view').bind('click', function(){
 		youngjin.outbound.fileView();
@@ -391,6 +396,20 @@ youngjin.outbound.uploadSubmit = function(){
 	form.submit();	
 
 	window.opener.location.href = contextPath + '/outbound/' + seq;
+};
+
+youngjin.outbound.powerOfAttorney = function(target){
+	var seq = target.parents().attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/powerOfAttorney';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 930.7,
+		height: 1122.5,
+		url : url
+	});	
 };
 
 youngjin.outbound.fileView = function(){

@@ -20,7 +20,65 @@
 	function goToPreviousPages() {
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
-</script>
+</script>	
+	<div class="gbl_filter">	
+		<ul>
+			<form:form commandName="inboundFilter" method="get">
+				<%-- <sec:authorize access="hasRole('ROLE_ADMIN')">
+					<li style="font-size: 10pt;">
+						<form:select path="branch">
+							<form:option value="">Branch(All)</form:option>
+							<c:forEach var="branch" items="${branchList }">
+								<c:if test="${branch.codeName ne 'None' }" >
+									<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
+								</c:if>
+							</c:forEach>
+						</form:select>
+					</li>
+				</sec:authorize>
+				<li>
+					<form:select path="carrier">
+						<form:option value="">Carrier(All)</form:option>
+						<c:forEach var="carrier" items="${carrierList }">
+							<form:option value="${carrier.subCode }">${carrier.subCode }</form:option>
+						</c:forEach>
+					</form:select>
+				</li>
+				<li>
+					<form:select path="code">
+						<form:option value="">Code(All)</form:option>
+						<c:forEach var="code" items="${codeList }">
+							<form:option value="${code.subCode }">${code.subCode }</form:option>
+						</c:forEach>
+					</form:select>
+				</li>
+				<li>
+					<form:input path="startPud"/> ~ <form:input path="endPud"/>
+				</li> --%>
+				<li>
+					<form:hidden path="page" value="${pagination.currentPage}"/>
+				</li>
+				<li>	
+					<span class="freight_add yj_button" >add</span>
+				</li>
+			</form:form>
+		</ul>	
+	</div>
+
+	<div class="gbl_list_filter_title">
+<%-- 		<ul>
+			<c:if test="${outboundFilter.branch ne '' and outboundFilter.branch ne null}">
+				<li>[BRANCH : ${outboundFilter.branch  }] </li>
+			</c:if>
+			<c:if test="${outboundFilter.carrier ne '' and outboundFilter.carrier ne null}">
+				<li>[CARRIER : ${outboundFilter.carrier }] </li>
+			</c:if>
+			<c:if test="${outboundFilter.code ne '' and outboundFilter.code ne null}">
+				<li>[CODE : ${outboundFilter.code }]</li>
+			</c:if>
+		</ul> --%>		
+	</div>	
+	
 	<div>
 		<table class="yj_table">
 			<colgroup>
@@ -70,25 +128,26 @@
 					<th>STATUS</th>
 					<th>PUD</th>
 					<c:if test="${inboundFilter.carrier eq '' or inboundFilter.carrier eq null }">
-						<th>SCAC</th>
+						<th>TSP</th>
 					</c:if>
 					<th>GBL_NO</th>
 					<th>RANK</th>
 					<th>NAME</th>
 					<th>PCS</th>
-					<th>LBS</th>
+					<th>GROSS</th>
+					<th>TARE</th>
+					<th>NET</th>
 					<th>CUFT</th>
-					<th>US_NO</th>
 					<c:if test="${inboundFilter.branch eq '' or inboundFilter.branch eq null }">
 						<th>BRANCH</th>
 					</c:if>
-					<th>DEST_PORT</th>
+					<th>ARD</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${gblList eq '[]' or gblList eq null or gblList eq '' }">
 					<tr>
-						<td colspan="13">GBL이 없습니다.</td>
+						<td colspan="14">GBL이 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="gbl" items="${gblList }">
@@ -109,13 +168,14 @@
 						<td>${gbl.rank }</td>
 						<td>${gbl.customerName }</td>
 						<td>${gbl.pcs }</td>
-						<td>${gbl.lbs }</td>
+						<td>${gbl.gross }</td>
+						<td>${gbl.tare }</td>
+						<td>${gbl.net }</td>
 						<td>${gbl.cuft }</td>
-						<td>${gbl.usNo }</td>
 						<c:if test="${inboundFilter.branch eq '' or inboundFilter.branch eq null }">
 							<td>${gbl.areaLocal }</td>
 						</c:if>
-						<td>${gbl.destPort }</td>
+						<td>${gbl.arriveDate }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class GBL {
+	// 공통
 	private Integer seq;
-
 	private String no;
 	private String customerName;
 	private String pud;
@@ -19,12 +19,16 @@ public class GBL {
 	private String areaLocal;
 	private String phoneNo;
 	private String email;
-	private String usNo;
-
 	private String rdd;
+	private String vessel;
+	private String pcs;
+	private String lbs;
+	private String cuft;
+
+	// outbound
+	private String usNo;
 	private String pod;
 	private String poe;
-	private String vessel;
 	private String consoleCompany;
 	private Integer hbBookingNo;
 	private String clpNo;
@@ -42,9 +46,6 @@ public class GBL {
 
 	private Integer gblFileNo;
 
-	private String pcs;
-	private String lbs;
-	private String cuft;
 	private Boolean truckCheck;
 	private Boolean bookingCheck;
 
@@ -54,6 +55,16 @@ public class GBL {
 	private String etd;
 	private String eta;
 	private String blNo;
+
+	// inbound
+	private String gross;
+	private String net;
+	private String tare;
+	private String itemEa;
+	private String arriveDate;
+	private String oblNo;
+	private String pmjDate;
+	private String remark;
 
 	public Boolean getTruckCheck() {
 		return truckCheck;
@@ -342,6 +353,73 @@ public class GBL {
 	public void setBlNo(String blNo) {
 		this.blNo = blNo;
 	}
+	
+	//inbound
+
+
+	public String getGross() {
+		return gross;
+	}
+
+	public void setGross(String gross) {
+		this.gross = gross;
+	}
+
+	public String getNet() {
+		return net;
+	}
+
+	public void setNet(String net) {
+		this.net = net;
+	}
+
+	public String getTare() {
+		return tare;
+	}
+
+	public void setTare(String tare) {
+		this.tare = tare;
+	}
+
+	public String getItemEa() {
+		return itemEa;
+	}
+
+	public void setItemEa(String itemEa) {
+		this.itemEa = itemEa;
+	}
+
+	public String getArriveDate() {
+		return arriveDate;
+	}
+
+	public void setArriveDate(String arriveDate) {
+		this.arriveDate = arriveDate;
+	}
+
+	public String getOblNo() {
+		return oblNo;
+	}
+
+	public void setOblNo(String oblNo) {
+		this.oblNo = oblNo;
+	}
+
+	public String getPmjDate() {
+		return pmjDate;
+	}
+
+	public void setPmjDate(String pmjDate) {
+		this.pmjDate = pmjDate;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	@Override
 	public String toString() {
@@ -349,20 +427,23 @@ public class GBL {
 				+ customerName + ", pud=" + pud + ", rank=" + rank + ", code="
 				+ code + ", scac=" + scac + ", originAddress=" + originAddress
 				+ ", ssn=" + ssn + ", areaLocal=" + areaLocal + ", phoneNo="
-				+ phoneNo + ", email=" + email + ", usNo=" + usNo + ", rdd="
-				+ rdd + ", pod=" + pod + ", poe=" + poe + ", vessel=" + vessel
+				+ phoneNo + ", email=" + email + ", rdd=" + rdd + ", vessel="
+				+ vessel + ", pcs=" + pcs + ", lbs=" + lbs + ", cuft=" + cuft
+				+ ", usNo=" + usNo + ", pod=" + pod + ", poe=" + poe
 				+ ", consoleCompany=" + consoleCompany + ", hbBookingNo="
 				+ hbBookingNo + ", clpNo=" + clpNo + ", sealNo=" + sealNo
 				+ ", originPort=" + originPort + ", destPort=" + destPort
 				+ ", destState=" + destState + ", originGBlock=" + originGBlock
 				+ ", destGBlock=" + destGBlock + ", originCity=" + originCity
-				+ ", milSVC=" + milSVC + ", gblFileNo=" + gblFileNo + ", pcs="
-				+ pcs + ", lbs=" + lbs + ", cuft=" + cuft + ", truckCheck="
-				+ truckCheck + ", bookingCheck=" + bookingCheck + ", truckSeq="
-				+ truckSeq + ", bookingSeq=" + bookingSeq + ", etd=" + etd
-				+ ", eta=" + eta + ", blNo=" + blNo + ", attachments="
-				+ Arrays.toString(attachments) + ", attachmentList="
-				+ attachmentList + ", deleteAttachments="
+				+ ", milSVC=" + milSVC + ", gblFileNo=" + gblFileNo
+				+ ", truckCheck=" + truckCheck + ", bookingCheck="
+				+ bookingCheck + ", truckSeq=" + truckSeq + ", bookingSeq="
+				+ bookingSeq + ", etd=" + etd + ", eta=" + eta + ", blNo="
+				+ blNo + ", gross=" + gross + ", net=" + net + ", tare=" + tare
+				+ ", itemEa=" + itemEa + ", arriveDate=" + arriveDate
+				+ ", oblNo=" + oblNo + ", pmjDate=" + pmjDate + ", remark="
+				+ remark + ", attachments=" + Arrays.toString(attachments)
+				+ ", attachmentList=" + attachmentList + ", deleteAttachments="
 				+ Arrays.toString(deleteAttachments) + "]";
 	}
 

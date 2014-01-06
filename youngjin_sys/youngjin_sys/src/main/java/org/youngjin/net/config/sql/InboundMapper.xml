@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="inboundMapper">
-	<select id="getGblListCount" parameterType="InboundFilter" resultType="Integer">
+	<resultMap type="GBL" id="FGblMap">
+		<result column="seq" property="seq" />
+		<result column="no" property="no" />
+		<result column="pud" property="pud" />
+		<result column="rank" property="rank" />
+		<result column="code" property="code" />
+		<result column="tsp" property="scac" />
+		<result column="ssn" property="ssn" />
+		<result column="name" property="customerName" />
+		<result column="area" property="areaLocal" />
+		<result column="rdd" property="rdd"/>
+		<result column="address" property="originAddress"/>
+		<result column="vessel_name" property="vessel" />
+		<result column="piece" property="pcs" />
+		<result column="cuft" property="cuft" />
+		<result column="gross" property="gross" />
+		<result column="tare" property="tare" />
+		<result column="net" property="cuft" />
+		<result column="item_ea" property="itemEa" />
+		<result column="arrive_date" property="arriveDate" />
+		<result column="obl_no" property="oblNo" />
+		<result column="pmj_date" property="pmjDate" />
+		<result column="remark" property="remark" />	
+	</resultMap>
+
+	<select id="getFreightListCount" parameterType="InboundFilter" resultType="Integer">
 		SELECT
 			count(*)
 		FROM
@@ -33,4 +58,79 @@
 					pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 			</if>
 	</select>
+	
+	<select id="getFreightList" parameterType="InboundFilter" resultMap="FGblMap">
+		SELECT 
+			*
+		FROM	
+			(
+				SELECT
+					(@rownum := @rownum + 1) AS rownum,
+					g.seq,
+					g.gbl_no,
+					g.name,
+					g.rank,
+					g.code,
+					g.tsp,
+					g.address,
+					g.area,
+					g.ssn,
+					g.pud,
+					g.rdd,
+					g.gross,
+					g.net,
+					g.tare,
+					g.cuft,
+					g.piece,
+					g.item_ea,
+					g.vessel_name,
+					g.arrive_date,
+					g.obl_no,
+					g.pmj_date,
+					g.remark
+				FROM
+					gbl_ib g, (SELECT @rownum := 0) r
+				WHERE
+					1 = 1
+					<if test="area != null and area != ''">
+						AND
+							area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+					</if>
+					<if test="branch != null and branch != ''">
+						AND		
+							area = #{branch}			
+					</if>
+					<if test="carrier != null and carrier != ''">
+						AND
+							tsp = #{carrier}
+					</if>
+					<if test="code != null and code != ''">
+						AND
+							code = #{code}
+					</if>
+					<if test="startPud != null and startPud != ''">
+						AND
+							pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+					</if>
+					<if test="endPud != null and endPud != ''">
+						AND
+							pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+					</if>
+				ORDER BY
+					g.seq
+			)u	
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}		
+	</select>
+	
+	<insert id="insertFreight" parameterType="GBL">
+	INSERT INTO
+		gbl
+		(
+			no, customer_name, rank, code, scac, origin_gblock, dest_gblock, pud, ssn, rdd, pod, poe, area, origin_address, us_no, dest_port, origin_port, origin_city, mil_svc
+		)
+	VALUES
+		(
+			#{no}, #{customerName}, #{rank}, #{code}, #{scac}, #{originGBlock}, #{destGBlock}, #{pud}, #{ssn}, #{rdd}, #{pod}, #{poe}, #{areaLocal}, #{originAddress}, #{usNo}, #{destPort}, #{originPort}, #{originCity}, #{milSVC}		
+		)
+	</insert>
 </mapper>

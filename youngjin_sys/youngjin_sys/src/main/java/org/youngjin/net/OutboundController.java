@@ -167,6 +167,14 @@ public class OutboundController {
 
 		return process + "/gbl/processAndUpload";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/powerOfAttorney", method = RequestMethod.GET)
+	public String gblPowerOfAttorney(Model model, User user,
+			@PathVariable String process, @PathVariable String seq) {
+
+		return process + "/gbl/powerOfAttorney";
+	}	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/upload", method = RequestMethod.GET)
