@@ -256,9 +256,14 @@ youngjin.outbound.weightCertificateSync = function(){
 		youngjin.outbound.weightCertificate($(this));
 	});
 	
-	$('.weightcertificate_add').unbind('click');
-	$('.weightcertificate_add').bind('click', function(){
+	$('.gbl_plus_Box_td').unbind('click');
+	$('.gbl_plus_Box_td').bind('click', function(){
 		youngjin.outbound.weightCertificateColumnAdd($(this));
+	});
+	
+	$('input[name=grossKg]').unbind('change');
+	$('input[name=grossKg]').bind('change', function(){
+		youngjin.outbound.weightFromKgToLbs($(this));
 	});
 	
 	$('.weightcertificate_write').unbind('click');
@@ -352,7 +357,7 @@ youngjin.outbound.gblAddSubmit = function(){
 	var form = document.forms['gbl'];
 	form.submit();	
 	
-	//parent.$.smartPop.close();
+	parent.$.smartPop.close();
 };
 
 youngjin.outbound.getGblProcess = function(target){
@@ -1413,10 +1418,9 @@ youngjin.outbound.weightCertificateBack = function(target){
 	});	
 };
 
-youngjin.outbound.weightCertificateColumnAdd = function(target){	
-	var parent = target.parents('.weightcertificate_content');
-	var count = target.parents('#weightcertificate_add_button').attr('data-count');
-	var table = parent.children('.weightcertificate_table_wrap').children("#weightcertificate_form").children('table');
+youngjin.outbound.weightCertificateColumnAdd = function(target){
+	var count = $('.weightcertificate_table_wrap').attr('data-count');
+	var table = $('.weightcertificate_table_wrap table');
 	var tbody = table.children('tbody');
 	
 	count = Number(count) + 1;
@@ -1425,24 +1429,38 @@ youngjin.outbound.weightCertificateColumnAdd = function(target){
 					'<td class="piece_td"><input name="piece" type="text" /></td>'+
 					'<td class="type_td"><input name="type" type="text" /></td>'+
 					'<td class="status_td"><input name="status" type="text" /></td>'+
+					'<td class="gross_td"><input name="grossKg" type="text" /></td>'+
 					'<td class="gross_td"><input name="gross" type="text" /></td>'+
 					'<td class="tare_td"><input name="tare" type="text" /></td>'+
 					'<td class="net_td"><input name="net" type="text" /></td>'+
 					'<td class="cuft_td"><input name="cuft" type="text" /></td>'+
 					'<td class="remark_td"><input name="remark" type="text" /></td>'+
+					'<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>' + 
 				'</tr>';
 	
 	tbody.append(html);
-	target.parents('#weightcertificate_add_button').attr('data-count', count);
+	$('.weightcertificate_table_wrap').attr('data-count', count);
+	target.css('display', 'none');
+	
+	youngjin.outbound.sync();
 };
+
+youngjin.outbound.weightFromKgToLbs = function(target){
+	var kg = target.val();
+	var lbsF = Number(kg) * 2.20462262;
+	var lbs = roundXL(lbsF, 2);
+	
+	target.parents().parents('tr').children().children('input[name=gross]').val(lbs);
+};	
 
 youngjin.outbound.weightCertificateSubmit = function(target){
 	var seq = target.parents('.weight_button_list').attr('data-seq');
-	var count = $('#weightcertificate_add_button').attr('data-count');
+	var count = $('.weightcertificate_table_wrap').attr('data-count');
 	var form = $('#weightcertificate_form');
 	var piece = form.find('input[name="piece"]').eq(0).val();
 	var type = form.find('input[name="type"]').eq(0).val();
 	var status = form.find('input[name="status"]').eq(0).val();
+	var grossKg = form.find('input[name=grossKg]').eq(0).val();
 	var gross = form.find('input[name="gross"]').eq(0).val();
 	var tare = form.find('input[name="tare"]').eq(0).val();
 	var net = form.find('input[name="net"]').eq(0).val();
@@ -1459,6 +1477,7 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 		piece += ',' + form.find('input[name="piece"]').eq(i).val();
 		type += ',' + form.find('input[name="type"]').eq(i).val();
 		status += ',' + form.find('input[name="status"]').eq(i).val();
+		grossKg += ',' + form.find('input[name=grossKg]').eq(i).val();
 		gross += ',' + form.find('input[name="gross"]').eq(i).val();
 		tare += ',' + form.find('input[name="tare"]').eq(i).val();
 		net += ',' + form.find('input[name="net"]').eq(i).val();
@@ -1471,6 +1490,7 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 		"piece" : piece,
 		"type" : type,
 		"status" : status,
+		"grossKg" : grossKg,
 		"gross" : gross,
 		"tare" : tare,
 		"net" : net,
@@ -1478,7 +1498,7 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 		"remark" : remark,
 		"gblSeq" : seq,
 		"date" : date,
-		'count' : count
+		"count" : count
 	};
 	
 	$.postJSON(url, json, function(){

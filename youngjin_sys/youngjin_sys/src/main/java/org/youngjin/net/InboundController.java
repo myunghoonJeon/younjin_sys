@@ -35,9 +35,9 @@ public class InboundController {
 		model.addAttribute("filterMap", inboundService.getFilterMap());*/
 
 		model.addAttribute("gblList",
-				inboundService.getFreightList(inboundFilter, user));/*
+				inboundService.getFreightList(inboundFilter, user));
 		model.addAttribute("gblStatus",
-				inboundService.getGblStatus(inboundFilter));*/
+				inboundService.getGblStatus(inboundFilter));
 		
 		model.addAttribute("user", user);
 
@@ -80,14 +80,28 @@ public class InboundController {
 		if (result.hasErrors()) {
 			model.addAttribute("user", user);
 
-			return process + "/gbl/add";
+			return process + "/freight/add";
 		} else {
 			inboundService.insertFreight(gbl);
 
 			model.addAttribute("inboundFilter", new InboundFilter());
 			model.addAttribute("end", true);
 
-			return process + "/gbl/list";
+			return process + "/freight/list";
 		}
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/freight/{seq}", method = RequestMethod.GET)
+	public String gblSelect(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq) {
+
+		model.addAttribute("process",
+				inboundService.getGblProcessAndUpload(seq));
+		model.addAttribute("seq", seq);
+		model.addAttribute("fileList",
+				inboundService.getGblFileList(seq));
+
+		return process + "/freight/processAndUpload";
 	}	
 }

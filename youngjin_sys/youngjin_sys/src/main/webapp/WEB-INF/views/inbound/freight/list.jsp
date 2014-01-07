@@ -153,7 +153,7 @@
 				<c:forEach var="gbl" items="${gblList }">
 					<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
 					<c:set var="pud" value="${parsePud }" />
-					<tr class="gbl_list" data-seq="${gbl.seq }">
+					<tr class="freight_list" data-seq="${gbl.seq }">
 						<c:if test="${inboundFilter.code eq '' or inboundFilter.code eq null }">
 							<td>${gbl.code }</td>
 						</c:if>

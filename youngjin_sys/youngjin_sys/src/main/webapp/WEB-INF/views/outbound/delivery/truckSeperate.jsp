@@ -29,41 +29,22 @@
 
 </head>
 <body>
-	<div>	
-		<div class="truck_weight_addButton user_addButton">
-			<span >add</span>
+	<div class="truck_seperate_setting_wrap">		
+		<div class="truck_seperate_addButton_wrap">
+			<ul class="truck_seperate_button_list">
+				<li>
+					<span class="yj_button truck_seperate_back">back</span>
+				</li>
+				<li>
+					<span class="yj_button truck_seperate_addButton" data-seq="${seq }">seperate</span>
+				</li>
+			</ul>
 		</div>
-		<table>
-			<thead>
-				<tr>
-					<th>no</th>
-					<th>piece</th>
-					<th>type</th>
-					<th>status</th>
-					<th>gross</th>
-					<th>tare</th>
-					<th>net</th>
-					<th>cuft</th>
-					<th>remark</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="weightcertificate" items="${weightList }" varStatus="i">
-					<tr>
-						<td>${i.count }</td>
-						<td>${weightcertificate.piece }</td>
-						<td>${weightcertificate.type }</td>
-						<td>${weightcertificate.status }</td>
-						<td>${weightcertificate.gross }</td>
-						<td>${weightcertificate.tare }</td>
-						<td>${weightcertificate.net }</td>
-						<td>${weightcertificate.cuft }</td>
-						<td>${weightcertificate.remark}</td>
-						<td><input class="truck_weight_seq" value="${weightcertificate.seq }" type="checkbox" ${(weightcertificate.truckCheck eq true) ? 'checked=checked' : '' } /></td>
-					</tr>
-				</c:forEach>
-			</tbody>
+		<table class="truck_seperate_table">
+			<tr>
+				<th>분할할 무게</th>
+				<td><input type="text" id="seperatedWeight" /></td>
+			</tr>
 		</table>
 	</div>
 </body>

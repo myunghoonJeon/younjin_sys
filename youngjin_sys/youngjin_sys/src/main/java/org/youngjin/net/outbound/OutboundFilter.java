@@ -12,6 +12,8 @@ public class OutboundFilter extends AbstractListFilter {
 	private String endPud;
 
 	private String area;
+	
+	private Boolean truckManifastFlag = false;
 
 	public String getArea() {
 		return area;
@@ -61,10 +63,19 @@ public class OutboundFilter extends AbstractListFilter {
 		this.endPud = endPud;
 	}
 
+	public Boolean getTruckManifastFlag() {
+		return truckManifastFlag;
+	}
+
+	public void setTruckManifastFlag(Boolean truckManifastFlag) {
+		this.truckManifastFlag = truckManifastFlag;
+	}
+
 	@Override
 	public String toString() {
 		return "OutboundFilter [branch=" + branch + ", carrier=" + carrier
 				+ ", code=" + code + ", startPud=" + startPud + ", endPud="
-				+ endPud + ", area=" + area + "]";
+				+ endPud + ", area=" + area + ", truckManifastFlag="
+				+ truckManifastFlag + "]";
 	}
 }

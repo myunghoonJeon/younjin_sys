@@ -59,6 +59,7 @@
 					<th>BRANCH</th>
 					<th>CODE</th>
 					<th>DATE</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -91,6 +92,7 @@
 						<td>${truck.branch }</td>
 						<td>${truck.code }</td>
 						<td>${truck.date }</td>
+						<td  class="truck_manifast_deleteButton"><img src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>
 			</tbody>

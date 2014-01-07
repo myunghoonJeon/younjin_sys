@@ -6,6 +6,7 @@ public class Weightcertificate {
 	private String type;
 	private String status;
 	private String gross;
+	private String grossKg;
 	private String tare;
 	private String net;
 	private String cuft;
@@ -121,6 +122,14 @@ public class Weightcertificate {
 	public void setGross(String gross) {
 		this.gross = gross;
 	}
+	
+	public String getGrossKg() {
+		return grossKg;
+	}
+
+	public void setGrossKg(String grossKg) {
+		this.grossKg = grossKg;
+	}
 
 	public String getTare() {
 		return tare;
@@ -181,13 +190,14 @@ public class Weightcertificate {
 	@Override
 	public String toString() {
 		return "Weightcertificate [seq=" + seq + ", piece=" + piece + ", type="
-				+ type + ", status=" + status + ", gross=" + gross + ", tare="
-				+ tare + ", net=" + net + ", cuft=" + cuft + ", remark="
-				+ remark + ", gblSeq=" + gblSeq + ", date=" + date
-				+ ", truckCheck=" + truckCheck + ", truckSeq=" + truckSeq
-				+ ", proGear=" + proGear + ", sealNo=" + sealNo + ", lbs="
-				+ lbs + ", baseWeightSeq=" + baseWeightSeq + ", weightListSeq="
-				+ weightListSeq + ", count=" + count + "]";
+				+ type + ", status=" + status + ", gross=" + gross
+				+ ", grossKg=" + grossKg + ", tare=" + tare + ", net=" + net
+				+ ", cuft=" + cuft + ", remark=" + remark + ", gblSeq="
+				+ gblSeq + ", date=" + date + ", truckCheck=" + truckCheck
+				+ ", truckSeq=" + truckSeq + ", proGear=" + proGear
+				+ ", sealNo=" + sealNo + ", lbs=" + lbs + ", baseWeightSeq="
+				+ baseWeightSeq + ", weightListSeq=" + weightListSeq
+				+ ", count=" + count + "]";
 	}
 
 }

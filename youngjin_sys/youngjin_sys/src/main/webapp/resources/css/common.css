@@ -295,7 +295,7 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 #dd619_table_2_1_td{ font-size: 5px; }
 
 /* Weight Certificate */
-#weightcertificate_form_wrap{ width: 1000px; height: 900px; background-color: white; }
+#weightcertificate_form_wrap{ width: 1000px; height: 986px; background-color: white; }
 
 .weight_button_wrap{ width: 80%; margin: 0 auto;}
 .weight_button_list{ width :100%; padding:10px 0;}
@@ -331,10 +331,11 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 
 .weightcertificate_table_wrap{ float: left; margin-top: 30px; width: 100%; height: 450px;  }
 .weightcertificate_table_wrap table { width: 80%; margin: 0 auto; text-align: center; }
-.weightcertificate_table_wrap table tbody tr td{ border: 1px solid black; height: 26px;}
-.weightcertificate_table_wrap table thead tr th{ font-size: 8pt; border: 1px solid black; background-color: #B7B9CC; height: 26px; } 
+.weightcertificate_table_wrap table tbody tr td{ border: 1px solid black; height: 26px; vertical-align: middle;}
+.weightcertificate_table_wrap table thead tr th{ font-size: 8pt; border: 1px solid black; background-color: #B7B9CC; height: 26px; vertical-align: middle; } 
 .weightcertificate_table_wrap table tfoot tr td{ border: 1px solid black; height: 26px;}
-.weightcertificate_table_wrap table tbody tr td.piece_td input{ width: 50px; }
+.weightcertificate_table_wrap table tbody tr td input{border: none;}
+.weightcertificate_table_wrap table tbody tr td.piece_td input{ width: 30px; }
 .weightcertificate_table_wrap table tbody tr td.type_td input{ width: 40px; }
 .weightcertificate_table_wrap table tbody tr td.status_td input{ width: 50px; }
 .weightcertificate_table_wrap table tbody tr td.gross_td input{ width: 45px; }
@@ -372,8 +373,21 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 /* Truck Manifast */
 .truck_gbl_list_wrap { width: 1000px; height: 700px; background-color: white; }
 .truck_addButton{ float: right;}
-
 .truck_gbl_addButton{ float: right;}
+
+.truck_seperate_button_list{ width: 80%; margin: 0px auto; }
+.truck_seperate_back{ float: left; margin-bottom: 20px; }
+.truck_seperate_addButton{ float: right; }
+.truck_seperate_setting_wrap{ width: 450px; height: 140px; background-color: white; padding-top: 30px;}
+.truck_seperate_table{ width : 80% ; margin: 10px auto; text-align: center;}
+.truck_seperate_table tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.truck_seperate_table tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; cursor: pointer; }
+.truck_seperate_table tr{ background-color: white; }
+
+td.seperate_merge{ border: none !important;}
+.seperate_merge img{width: 40px; height: 16px; }
+
+.truck_manifast_deleteButton img{width: 16px; height: 16px;}
 
 /* Booking List */
 .booking_addButton_wrap{ width: 920px; margin: 20px auto; }

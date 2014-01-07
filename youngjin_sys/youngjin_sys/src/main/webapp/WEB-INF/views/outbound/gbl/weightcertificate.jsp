@@ -38,7 +38,7 @@
 					<span class="yj_button weight_certificate_back">back</span>
 				</li>
 				<li>
-					<span class="yj_button ${(weightcertificateList ne '[]') ? 'weightcertificate_update' : 'weightcertificate_write' }">${(weightcertificateList ne '[]') ? 'modify' : 'write' }</span>
+					<span class="yj_button weightcertificate_write">${(weightcertificateList ne '[]') ? 'modify' : 'write' }</span>
 				</li>
 			</ul>
 		</div>
@@ -58,7 +58,7 @@
 						<li class="weightcertificate_column1">RANK / NAME OF OWNER</li>				
 						<li class="weightcertificate_column2"><input type="text" value="${gbl.rank } ${gbl.customerName}" /></li>
 						<li class="weightcertificate_column3">DATE</li>				
-						<li class="weightcertificate_column4"><input id="weightcertificate_date" type="text" /></li>
+						<li class="weightcertificate_column4"><input id="weightcertificate_date" type="text" value="${weightcertificateList[0].date }" /></li>
 					</ul>
 			
 					<ul>
@@ -82,45 +82,48 @@
 						<li class="weightcertificate_column4"><input type="text" value="${gbl.rdd }" /></li>
 					</ul>
 				</div>
-				<div id="weightcertificate_add_button" data-count="0">
-					<span class="yj_button weightcertificate_add">add</span>
-				</div>
-				<div class="weightcertificate_table_wrap">
+				<div class="weightcertificate_table_wrap" data-count="${fn:length(weightcertificateList) eq 0 ? 0 : fn:length(weightcertificateList) }">
 					<form id="weightcertificate_form" name="weightcertificate_form">
 						<table>
 							<colgroup>
-								<col width="12%">
-								<col width="9%">
-								<col width="12%">
 								<col width="10%">
-								<col width="13%">
-								<col width="12%">
-								<col width="12%">
-								<col width="20%">
+								<col width="10%">
+								<col width="10%">
+								<col width="9%">
+								<col width="9%">
+								<col width="9%">
+								<col width="9%">
+								<col width="9%">
+								<col width="25%">
 							</colgroup>
 							<thead>
 								<tr>
-									<th>PIECE</th>
-									<th>TYPE</th>
-									<th>STATUS</th>
-									<th>GROSS</th>
-									<th>TARE</th>
-									<th>NET</th>
-									<th>CUFT</th>
-									<th>REMARK</th>
+									<th rowspan="2">PIECE</th>
+									<th rowspan="2">TYPE</th>
+									<th rowspan="2">STATUS</th>
+									<th colspan="2">GROSS</th>
+									<th rowspan="2">TARE</th>
+									<th rowspan="2">NET</th>
+									<th rowspan="2">CUFT</th>
+									<th rowspan="2">REMARK</th>
+								</tr>
+								<tr>
+									<th>KG</th>
+									<th>LBS</th>
 								</tr>
 							</thead>
 							<tbody>	
 								<c:forEach var="weightcertificate" items="${weightcertificateList }" varStatus="i">
 									<tr>	
-										<td>${weightcertificate.piece }</td>
-										<td>${weightcertificate.type }</td>
-										<td>${weightcertificate.status }</td>
-										<td>${weightcertificate.gross }</td>
-										<td>${weightcertificate.tare }</td>
-										<td>${weightcertificate.net }</td>
-										<td>${weightcertificate.cuft }</td>
-										<td>${weightcertificate.remark }</td>
+										<td class="piece_td"><input name="piece" type="text" value="${weightcertificate.piece }" /></td>
+										<td class="type_td"><input name="type" type="text" value="${weightcertificate.type }"/></td>
+										<td class="status_td"><input name="status" type="text" value="${weightcertificate.status }" /></td>
+										<td class="gross_td"><input name="grossKg" type="text" value="${weightcertificate.grossKg }" /></td>
+										<td class="gross_td"><input name="gross" type="text" value="${weightcertificate.gross }"/></td>
+										<td class="tare_td"><input name="tare" type="text" value="${weightcertificate.tare }" /></td>
+										<td class="net_td"><input name="net" type="text" value="${weightcertificate.net }"/></td>
+										<td class="cuft_td"><input name="cuft" type="text" value="${weightcertificate.cuft }" /></td>
+										<td class="remark_td"><input name="remark" type="text" value="${weightcertificate.remark }"/></td>
 										<c:if test="${fn:length(weightcertificateList) ==  i.count}">
 											<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
 										</c:if>
@@ -129,9 +132,13 @@
 							</tbody>
 							<tfoot>
 								<tr>
-									<td colspan="8">/x/x/x/x/x/xx/x/x/x/x/x/x/x/x/x/LAST ITEMx/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/</td>
+									<td colspan="9">/x/x/x/x/x/xx/x/x/x/x/x/x/x/x/x/LAST ITEMx/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/</td>
+									<c:if test="${weightcertificateList eq '[]' }">
+										<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
+									</c:if>
 								</tr>	
 								<tr>
+									<td></td>
 									<td></td>
 									<td></td>
 									<td></td>
@@ -149,6 +156,18 @@
 									<td id="weightcertificate_seal_no"><input type="text" ></td>
 									<td id="weightcertificate_lbs"><input type="text" ></td>
 									<td></td>
+									<td></td>	
+									<td></td>								
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
 									<td></td>							
 								</tr>
 								<tr>
@@ -159,19 +178,11 @@
 									<td></td>
 									<td></td>
 									<td></td>
-									<td></td>							
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
 									<td></td>
 									<td></td>							
 								</tr>
 								<tr>
+									<td></td>
 									<td></td>
 									<td></td>
 									<td></td>

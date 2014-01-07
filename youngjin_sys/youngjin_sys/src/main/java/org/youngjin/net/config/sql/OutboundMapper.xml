@@ -162,6 +162,14 @@
 			AND
 				pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 		</if>
+		<if test="truckManifastFlag == false">
+			AND
+				no NOT LIKE '%-sub%'
+		</if>
+		<if test="truckManifastFlag == true">
+			OR
+				no LIKE '%-sub%'
+		</if>
 </select>
 
 <select id="getGblList" parameterType="OutboundFilter" resultMap="GblMap">
@@ -229,6 +237,10 @@
 					AND
 						pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 				</if>
+				<if test="truckManifastFlag == false">
+					AND
+						no NOT LIKE '%-sub%'
+				</if>
 			ORDER BY
 				g.seq
 		)u	
@@ -251,6 +263,7 @@
 		g.pod, 
 		g.poe, 
 		g.area, 
+		g.lbs,
 		g.origin_address, 
 		g.us_no, 
 		g.dest_port, 
@@ -325,7 +338,7 @@
 	WHERE
 		gbl_no IN (
 			SELECT
-					gbl_no
+					no
 				FROM
 					gbl
 				WHERE
@@ -394,11 +407,22 @@
 
 <select id="getWeightcertificateList" parameterType="String" resultType="Weightcertificate">
         SELECT
-        	seq, piece, type, status, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq
+        	seq, piece, type, status, gross_kg AS grossKg, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq
         FROM
         	weight_certificate
         WHERE
         	gbl_seq = #{value}
+</select>
+
+<select id="getCheckWeightCertificateAndGetSeq" parameterType="WeightCertificate" resultType="Integer">
+	SELECT
+		seq
+	FROM
+		weight_certificate
+	WHERE
+		gbl_seq = #{gblSeq}
+	AND
+		piece = #{piece}
 </select>
 
 <select id="getTruckCount" parameterType="OutboundFilter" resultType="Integer">
@@ -461,6 +485,12 @@
 		FROM gbl g, weight_certificate w
 		WHERE g.seq = w.gbl_seq
 		AND w.truck_check &lt;&gt; 1
+		<if test="truckManifastFlag == false">
+			AND gbl_no NOT LIKE '%-sub%'
+		</if>
+		<if test="truckManifastFlag == true">
+			AND g.seperate_flag &lt;&gt; true
+		</if>
 		AND g.seq IN (
 			SELECT
 				seq
@@ -611,16 +641,42 @@
 		gbl_seq = #{value}
 </select>
 
+<select id="checkSeperateComplete" parameterType="String" resultType="Integer">
+	SELECT
+		count(*)
+	FROM
+		gbl
+	WHERE
+		no like CONCAT(#{value}, '-sub%')
+	AND
+		truck_seq is null
+</select>
+
 <insert id="insertGbl" parameterType="GBL">
 	INSERT INTO
 		gbl
 		(
-			no, customer_name, rank, code, scac, origin_gblock, dest_gblock, pud, ssn, rdd, pod, poe, area, origin_address, us_no, dest_port, origin_port, origin_city, mil_svc
+			no, customer_name, rank, code, scac, origin_gblock, dest_gblock, pud, ssn, rdd, pod, poe, lbs, area, origin_address, us_no, dest_port, origin_port, origin_city, mil_svc
 		)
 	VALUES
 		(
-			#{no}, #{customerName}, #{rank}, #{code}, #{scac}, #{originGBlock}, #{destGBlock}, #{pud}, #{ssn}, #{rdd}, #{pod}, #{poe}, #{areaLocal}, #{originAddress}, #{usNo}, #{destPort}, #{originPort}, #{originCity}, #{milSVC}		
+			#{no}, #{customerName}, #{rank}, #{code}, #{scac}, #{originGBlock}, #{destGBlock}, #{pud}, #{ssn}, #{rdd}, #{pod}, #{poe}, #{lbs}, #{areaLocal}, #{originAddress}, #{usNo}, #{destPort}, #{originPort}, #{originCity}, #{milSVC}		
 		)
+	<selectKey keyProperty="seq" resultType="Integer">
+		SELECT LAST_INSERT_ID() 
+	</selectKey>
+</insert>
+
+<insert id="insertGblStatusCopied" parameterType="GBLStatus">
+	INSERT INTO
+		gbl_status
+		(
+			gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast, gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
+		)
+	VALUES
+		(
+			#{no}, #{input}, #{preperation}, 0, 0, 0, 0, 0, 0
+		)	
 </insert>
 
 <insert id="insertGblStatus" parameterType="GBL">
@@ -687,11 +743,11 @@
      INSERT INTO
      	weight_certificate
      	(
-     		piece, type, status, gross, tare, net, cuft, remark, gbl_seq, date
+     		piece, type, status, gross_kg, gross, tare, net, cuft, remark, gbl_seq, date
      	)   
      VALUES
     	(
-    		#{piece}, #{type}, #{status}, #{gross}, #{tare}, #{net}, #{cuft}, #{remark}, #{gblSeq}, #{date}
+    		#{piece}, #{type}, #{status}, #{grossKg}, #{gross}, #{tare}, #{net}, #{cuft}, #{remark}, #{gblSeq}, #{date}
     	)
 </insert>
 
@@ -736,6 +792,15 @@
 			#{title}, #{cost}, #{gblSeq}, #{dd619Seq}, #{price}, #{memorandumSeq}
 		)
 </insert>
+
+<update id="updateGblStatusByGblNo" parameterType="String">
+	UPDATE
+		gbl_status
+	SET
+		gbl_truckmanifast = 1
+	WHERE
+		gbl_no = #{no}
+</update>
 
 <update id="modifyGbl" parameterType="GBL">
 	UPDATE
@@ -839,13 +904,34 @@
     		lbs = #{lbs}
     	</if>
     	<if test="truckSeq != null">
-    		truck_seq = #{truckSeq}
+    		,truck_seq = #{truckSeq}
     	</if>
     	<if test="bookingSeq != null">
     		booking_seq = #{bookingSeq}
     	</if>
+    	<if test="seperateFlag != null">
+    		,seperate_flag = #{seperateFlag}
+    	</if>
     WHERE
     	seq = #{seq} 
+</update>
+
+<update id="updateWeightCertificate" parameterType="WeightCertificate">
+    UPDATE
+    	weight_certificate
+    SET
+    	piece = #{piece},
+    	type = #{type},
+    	status = #{status},
+    	gross_kg = #{grossKg},
+    	gross = #{gross},
+    	tare = #{tare},
+    	net = #{net},
+    	cuft = #{cuft},
+    	remark = #{remark},
+    	date = #{date}
+    WHERE
+    	seq = #{seq}    
 </update>
 
 <update id="updateWeightCertificateTruck" parameterType="GBL">
@@ -895,6 +981,43 @@
 	</if>
 </update>
 
+<update id="deleteTruckGbl" parameterType="Integer">
+	UPDATE
+		gbl
+	SET
+		truck_seq = null
+	WHERE
+		truck_seq = #{value}
+</update>
+
+<update id="deleteGblStatusByTruckManifast" parameterType="Integer">
+	UPDATE
+		gbl_status
+	SET
+		gbl_truckmanifast = false
+	WHERE
+		gbl_no IN (select gbl_no from gbl where truck_seq = #{seq})
+</update>
+
+<update id="setSeperatedFlag" parameterType="GBL">
+	UPDATE
+		gbl
+	SET
+		seperate_flag = false
+	WHERE
+		no = #{no}
+</update>
+
+<delete id="deleteWeightCertificateByTruckManifast" parameterType="Integer">
+	UPDATE
+		weight_certificate
+	SET
+		truck_seq = null,
+		truck_check = false
+	WHERE
+		truck_seq = #{seq}
+</delete>
+
 <delete id="deleteDd619" parameterType="Dd619">
 	DELETE FROM
 		dd619
@@ -902,5 +1025,33 @@
 		gbl_seq = #{gblSeq}
 	AND
 		memorandum_list_seq = #{memorandumListSeq}
+</delete>
+
+<delete id="deleteTruckManifast" parameterType="Integer">
+	DELETE FROM
+		truck_manifast
+	WHERE
+		seq = #{seq}
+</delete>
+
+<delete id="mergeGblWeightCertificate" parameterType="GBL">
+	DELETE FROM
+		weight_certificate
+	WHERE
+		seq in (select seq from gbl where no like CONCAT(#{no}, '-sub%'))
+</delete>
+
+<delete id="mergeGblStatus" parameterType="GBL">
+	DELETE FROM
+		gbl_status
+	WHERE
+		gbl_no like CONCAT(#{no}, '-sub%')		
+</delete>
+
+<delete id="mergeGbl" parameterType="GBL">
+	DELETE FROM
+		gbl
+	WHERE
+		no like CONCAT(#{no}, '-sub%')
 </delete>
 </mapper>

@@ -195,5 +195,58 @@ public class OutboundDao extends SqlSessionDaoSupport {
 		param.put("memorandumSeq", memorandumListSeq);
 
 		return getSqlSession().selectList("outboundMapper.getRemarkValueList", param);
-	}	
+	}
+
+	public Integer getCheckWeightCertificateAndGetSeq(
+			Weightcertificate paramWeightcertificate) {
+		return getSqlSession().selectOne("outboundMapper.getCheckWeightCertificateAndGetSeq", paramWeightcertificate);
+	}
+
+	public void updateWeightcertificateNormal(Weightcertificate paramWeightcertificate) {
+		getSqlSession().update("outboundMapper.updateWeightCertificate", paramWeightcertificate);
+	}
+
+	public void insertGblStatusCopy(GBLStatus gblStatus) {
+		getSqlSession().insert("outboundMapper.insertGblStatusCopied", gblStatus);
+	}
+
+	public void deleteTruckGbl(Integer seq) {
+		getSqlSession().update("outboundMapper.deleteTruckGbl", seq);
+	}
+
+	public void deleteTruckManifast(Integer seq) {
+		getSqlSession().delete("outboundMapper.deleteTruckManifast", seq);
+	}
+
+	public void deleteGblStatusByTruckManifast(Integer seq) {
+		getSqlSession().update("outboundMapper.deleteGblStatusByTruckManifast", seq);
+	}
+
+	public void deleteWeightCertificateByTruckManiafast(Integer seq) {
+		getSqlSession().update("outboundMapper.deleteWeightCertificateByTruckManifast", seq);
+	}
+
+	public void mergeGblWeight(GBL gbl) {
+		getSqlSession().delete("outboundMapper.mergeGblWeightCertificate", gbl);
+	}
+
+	public void mergeGblStatus(GBL gbl) {
+		getSqlSession().delete("outboundMapper.mergeGblStatus", gbl);
+	}
+
+	public void mergeGbl(GBL gbl) {
+		getSqlSession().delete("outboundMapper.mergeGbl", gbl);
+	}
+
+	public void setSeperatedFlag(GBL gbl) {
+		getSqlSession().update("outboundMapper.setSeperatedFlag", gbl);
+	}
+
+	public int checkSeperateComplete(String gblNo) {
+		return getSqlSession().selectOne("outboundMapper.checkSeperateComplete", gblNo);
+	}
+
+	public void updateGblStatusByGblNo(String gblNo) {
+		getSqlSession().update("outboundMapper.updateGblStatusByGblNo", gblNo);
+	}
 }

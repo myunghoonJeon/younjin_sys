@@ -174,11 +174,11 @@
 							<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
 								<td>${gbl.scac }</td>
 							</c:if>
-							<td>${gbl.no }</td>
+							<td class="truck_gbl_no">${gbl.no }</td>
 							<td>${gbl.rank }</td>
 							<td>${gbl.customerName }</td>
 							<td>${gbl.pcs }</td>
-							<td></td>
+							<td>${gbl.lbs }</td>
 							<td>${gbl.cuft }</td>
 							<td>${gbl.usNo }</td>
 							<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
@@ -186,6 +186,9 @@
 							</c:if>
 							<td>${gbl.destPort }</td>
 							<td><input value="${gbl.seq }" type="checkbox" ${(gbl.truckCheck eq true) ? 'checked=checked' : '' } /></td>
+							<c:if test="${fn:contains(gbl.no, '-sub1') }">
+								<td class="seperate_merge"><img src="${cp }/resources/images/merge.gif" /></td>
+							</c:if>
 						</tr>
 					</c:forEach>
 				</tbody>

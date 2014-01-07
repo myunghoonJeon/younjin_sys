@@ -56,6 +56,9 @@ public class DeliveryGbl {
 	}
 
 	public String getNo() {
+		if(this.no.contains("sub")){
+			this.no = this.no.substring(0, this.no.length() - 5);
+		}
 		return no;
 	}
 

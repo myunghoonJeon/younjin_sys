@@ -603,7 +603,7 @@ public class OutboundController {
 		return process + "/delivery/add";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/delivery/truckManifast", method = RequestMethod.GET)
 	public String truckManifastMain(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -623,7 +623,7 @@ public class OutboundController {
 		return process + "/delivery/truckManifast";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/delivery/truckManifast", method = RequestMethod.POST)
 	public String truckManifastMainPost(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -643,12 +643,13 @@ public class OutboundController {
 		return process + "/delivery/truckManifast";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/delivery/truckManifastGblList", method = RequestMethod.GET)
 	public String truckManifastGblList(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
 			@PathVariable String process) {
 
+		outboundFilter.setTruckManifastFlag(true);
 		outboundFilter.getPagination().setNumItems(
 				outboundService.getGblListCount(outboundFilter, user));
 
@@ -661,26 +662,63 @@ public class OutboundController {
 		return process + "/delivery/gblList";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/{process}/delivery/{seq}/truckWeightList", method = RequestMethod.GET)
-	public String truckManifastWeightList(Model model, User user,
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/delivery/{seq}/truckSeperateSetting", method = RequestMethod.GET)
+	public String truckSeperateSetting(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
 			@PathVariable String process, @PathVariable String seq) {
 
-		model.addAttribute("weightList",
-				outboundService.getTruckWeightList(seq));
-
-		return process + "/delivery/truck_weightList";
+		model.addAttribute("seq", seq);
+		
+		return process + "/delivery/truckSeperate";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/delivery/truckManifast/seperate.json")
+	@ResponseBody
+	public void gblSperateSubmit(@RequestBody Map<String, String> gblSeq) {
+		outboundService.seperateGbl(gblSeq);
+	}	
+	
+	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/delivery/truckManifast/merge.json")
+	@ResponseBody
+	public void gblMergeSubmit(@RequestBody Map<String, String> gblSeq) {
+		outboundService.mergeSubmit(gblSeq);
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/delivery/{seq}/deleteTruckManifast", method = RequestMethod.GET)
+	public String deleteTruckManifast(Model model, User user,
+			@ModelAttribute OutboundFilter outboundFilter,
+			@PathVariable String process, @PathVariable Integer seq) {
+		
+		outboundService.deletManifast(seq);
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+		outboundFilter.getPagination().setNumItems(
+				outboundService.getTruckListCount(outboundFilter));
+
+		model.addAttribute("filterMap", outboundService.getFilterMap());
+
+		user.setSubProcess("truckManifast");
+
+		model.addAttribute("truckList",
+				outboundService.getTruckList(outboundFilter));
+		model.addAttribute("user", user);
+
+		return process + "/delivery/truckManifast";
+	}	
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/delivery/truckAdd.json")
 	@ResponseBody
 	public void truckAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertTruckManifast(gblSeq);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/delivery/{seq}/truckManifastPrint", method = RequestMethod.GET)
 	public String truckManifastPrint(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,

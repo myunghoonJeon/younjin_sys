@@ -55,6 +55,8 @@ public class GBL {
 	private String etd;
 	private String eta;
 	private String blNo;
+	
+	private Boolean seperateFlag;
 
 	// inbound
 	private String gross;
@@ -353,6 +355,14 @@ public class GBL {
 	public void setBlNo(String blNo) {
 		this.blNo = blNo;
 	}
+
+	public Boolean getSeperateFlag() {
+		return seperateFlag;
+	}
+
+	public void setSeperateFlag(Boolean seperateFlag) {
+		this.seperateFlag = seperateFlag;
+	}
 	
 	//inbound
 
@@ -439,10 +449,11 @@ public class GBL {
 				+ ", truckCheck=" + truckCheck + ", bookingCheck="
 				+ bookingCheck + ", truckSeq=" + truckSeq + ", bookingSeq="
 				+ bookingSeq + ", etd=" + etd + ", eta=" + eta + ", blNo="
-				+ blNo + ", gross=" + gross + ", net=" + net + ", tare=" + tare
-				+ ", itemEa=" + itemEa + ", arriveDate=" + arriveDate
-				+ ", oblNo=" + oblNo + ", pmjDate=" + pmjDate + ", remark="
-				+ remark + ", attachments=" + Arrays.toString(attachments)
+				+ blNo + ", seperateFlag=" + seperateFlag + ", gross=" + gross
+				+ ", net=" + net + ", tare=" + tare + ", itemEa=" + itemEa
+				+ ", arriveDate=" + arriveDate + ", oblNo=" + oblNo
+				+ ", pmjDate=" + pmjDate + ", remark=" + remark
+				+ ", attachments=" + Arrays.toString(attachments)
 				+ ", attachmentList=" + attachmentList + ", deleteAttachments="
 				+ Arrays.toString(deleteAttachments) + "]";
 	}

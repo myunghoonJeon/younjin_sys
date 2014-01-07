@@ -15,13 +15,17 @@ youngjin.outbound.delivery.sync = function(){
 	
 	$('.truck_gbl_list_tr').unbind('click');
 	$('.truck_gbl_list_tr').bind('click', function(){
-		if(confirm("분할 하시겠습니까?"))
-			youngjin.outbound.delivery.getWeightCertificateList($(this));
-		else 
-			if($(this).find('input').attr('checked') != 'checked')
-				$(this).find('input').attr('checked', 'checked');
+		if($(this).attr('data-merge') != 'merge'){
+			if(confirm("분할 하시겠습니까?"))
+				youngjin.outbound.delivery.getWeightCertificateList($(this));
 			else 
-				$(this).find('input').removeAttr('checked');
+				if($(this).find('input').attr('checked') != 'checked')
+					$(this).find('input').attr('checked', 'checked');
+				else 
+					$(this).find('input').removeAttr('checked');
+		} else {
+			$(this).removeAttr('data-merge');
+		}
 	});
 	
 	$('.truck_gbl_addButton').unbind('click');
@@ -29,10 +33,24 @@ youngjin.outbound.delivery.sync = function(){
 		youngjin.outbound.delivery.addTruckMenu($(this));
 	});
 	
-	$('.truck_weight_addButton').unbind('click');
-	$('.truck_weight_addButton').bind('click', function(){
-			youngjin.outbound.delivery.selectWeight($(this));
+	$('.truck_seperate_addButton').unbind('click');
+	$('.truck_seperate_addButton').bind('click', function(){
+		youngjin.outbound.delivery.seperateGbl($(this));
 	});	
+	
+	$('.seperate_merge').unbind('click');
+	$('.seperate_merge').bind('click', function(){
+		$('.truck_gbl_list_tr').attr('data-merge', 'merge');
+		if(confirm('다시 합치시겠습니까?')){
+			youngjin.outbound.mergeGbl($(this));
+		}
+	});
+	
+	$('.truck_manifast_deleteButton').unbind('click');
+	$('.truck_manifast_deleteButton').bind('click', function(){
+		$(this).parents('tr').attr('data-delete', 'delete');
+		youngjin.outbound.deleteManifast($(this));
+	});
 
 	$('.booking_addButton').unbind('click');
 	$('.booking_addButton').bind('click',function(){
@@ -59,7 +77,11 @@ youngjin.outbound.delivery.sync = function(){
 	
 	$('.truck_manifast_form').unbind('click');
 	$('.truck_manifast_form').bind('click', function(){
-		youngjin.outbound.delivery.truckManifastPrint($(this));
+		if($(this).attr('data-delete') != 'delete'){
+			youngjin.outbound.delivery.truckManifastPrint($(this));
+		} else {
+			$(this).removeAttr('data-delete');
+		}
 	});
 };
 
@@ -75,12 +97,16 @@ youngjin.outbound.delivery.getTruckmainifastGblList = function(target){
 
 youngjin.outbound.delivery.getWeightCertificateList = function(target){
 	var seq = target.attr('data-seq');
-	var left = (screen.width - 600) / 2;
-	var top = (screen.height - 300) / 2;
 	
-	var url = contextPath + '/outbound/delivery/' + seq + '/truckWeightList';
+	var url = contextPath + '/outbound/delivery/' + seq + '/truckSeperateSetting';
 	
-	window.open(url, 'truckWeightListPop', 'width=600, height=300, left=' + left + ', top=' + top);
+	parent.$.smartPop.close();
+	
+	parent.$.smartPop.open({
+		width : 450,
+		height : 140,
+		url : url
+	});
 };
 
 youngjin.outbound.delivery.addTruckMenu = function(target){
@@ -105,6 +131,80 @@ youngjin.outbound.delivery.addTruckMenu = function(target){
 			}
 		});
 	});
+};
+
+youngjin.outbound.delivery.seperateGbl = function(target){
+	var seq = target.attr('data-seq');
+	
+	var weight = $('#seperatedWeight').val();
+	
+	var url = contextPath + '/outbound/delivery/truckManifast/seperate.json';
+	var json = {
+			'seq' : seq,
+			'weight' : weight
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				var url = contextPath + '/outbound/delivery/truckManifastGblList';
+				
+				parent.$.smartPop.close();
+				
+				parent.$.smartPop.open({
+					width: 1000,
+					height: 700,
+					url : url
+				});
+				
+			},
+			error : function(){
+				alert('에러 발생!');
+			}
+		});
+	});
+};
+
+youngjin.outbound.mergeGbl = function(target){
+	var seq = target.parents('tr').attr('data-seq');
+	var no = target.parents('tr').children('.truck_gbl_no').html();
+	
+	var url = contextPath + '/outbound/delivery/truckManifast/merge.json';
+	
+	var json = {
+		'seq' : seq,
+		'no' : no
+ 	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				var goUrl = contextPath + '/outbound/delivery/truckManifastGblList';
+				
+				parent.$.smartPop.close();
+				
+				parent.$.smartPop.open({
+					width: 1000,
+					height: 700,
+					url : goUrl
+				});
+				
+			},
+			error : function(){
+				
+			}
+		});
+	});
+};
+
+youngjin.outbound.deleteManifast = function(target){
+	var seq = target.parents('tr').attr('data-seq');
+	
+	var url = contextPath + '/outbound/delivery/' + seq + '/deleteTruckManifast';
+	
+	if(confirm('삭제 하시겠습니까?')){
+		location.href = url;
+	}
 };
 
 youngjin.outbound.delivery.selectWeight = function(target){

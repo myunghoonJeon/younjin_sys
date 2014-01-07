@@ -19,7 +19,6 @@ import org.youngjin.net.code.CodeDao;
 import org.youngjin.net.login.User;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.upload.UploadService;
-import org.youngjin.net.util.CalcUtil;
 
 @Service
 public class OutboundService {
@@ -192,10 +191,11 @@ public class OutboundService {
 		
 		int count = weightcertificate.getCount();
 		
-		Integer grossSum = 0;
+		Double grossSum = 0.0;
 		
 		String [] pieceList = weightcertificate.getPiece().split(",", count);
 		String [] typeList = weightcertificate.getType().split(",", count);
+		String [] grossKgList = weightcertificate.getGrossKg().split(",", count);
 		String [] grossList = weightcertificate.getGross().split(",", count);
 		String [] tareList = weightcertificate.getTare().split(",", count);
 		String [] netList = weightcertificate.getNet().split(",", count);
@@ -206,6 +206,7 @@ public class OutboundService {
 		for( int i = 0 ; i < count; i ++ ){
 			paramWeightcertificate.setPiece(pieceList[i]);
 			paramWeightcertificate.setType(typeList[i]);
+			paramWeightcertificate.setGrossKg(grossKgList[i]);
 			paramWeightcertificate.setGross(grossList[i]);
 			paramWeightcertificate.setTare(tareList[i]);
 			paramWeightcertificate.setNet(netList[i]);
@@ -216,9 +217,17 @@ public class OutboundService {
 			paramWeightcertificate.setGblSeq(weightcertificate.getGblSeq());
 			paramWeightcertificate.setDate(weightcertificate.getDate());
 			
-			outboundDao.insertWeightcertificate(paramWeightcertificate);
+			Integer checkWeightcertificateAndGetSeq = outboundDao.getCheckWeightCertificateAndGetSeq(paramWeightcertificate);
 			
-			grossSum += Integer.parseInt(grossList[i]);
+			System.out.println("check : " + checkWeightcertificateAndGetSeq + " check : " + paramWeightcertificate.toString());
+			
+			if(checkWeightcertificateAndGetSeq == null){
+				outboundDao.insertWeightcertificate(paramWeightcertificate);
+			} else {
+				outboundDao.updateWeightcertificateNormal(paramWeightcertificate);
+			}
+			
+			grossSum += Double.parseDouble(grossList[i]);
 		}				
 				
 		GBL gbl = new GBL();
@@ -260,17 +269,24 @@ public class OutboundService {
 		truckManifast.setCode(gbl.getCode());
 		
 		outboundDao.insertTurckManifast(truckManifast);
-		gbl.setTruckSeq(truckManifast.getSeq());
 		
 		for( int i = 0 ; i < gblSeqList.length ; i ++ ){
-			gbl.setSeq(Integer.parseInt(gblSeqList[i]));
-			outboundDao.updateGbl(gbl);
-			outboundDao.updateWeightcertificate(gbl);
+			GBL gblTemp = getGbl(Integer.parseInt(gblSeqList[i]));
+			gblTemp.setTruckSeq(truckManifast.getSeq());
+			outboundDao.updateGbl(gblTemp);
+			outboundDao.updateWeightcertificate(gblTemp);
 			
 			Map<String, Integer> paramMap = new HashMap<String, Integer>();
 			paramMap.put("truckmanifast", 1);	
 			paramMap.put("seq", gbl.getSeq());
 			outboundDao.updateGblStatus(paramMap);
+			if(gblTemp.getNo().contains("-sub")){
+				String gblNo = gblTemp.getNo().substring(0, gblTemp.getNo().length()-5);
+				int checkSeperateComplete = outboundDao.checkSeperateComplete(gblNo);
+				if(checkSeperateComplete == 0){
+					outboundDao.updateGblStatusByGblNo(gblNo);
+				}
+			}
 		}
 	}
 
@@ -409,5 +425,78 @@ public class OutboundService {
 		}
 		
 		return remarkValue;
+	}
+
+	public void seperateGbl(Map<String, String> gblMap) {
+		GBL gbl = outboundDao.getGbl(Integer.parseInt(gblMap.get("seq")));
+		List<Weightcertificate> weightCertificateList = outboundDao.getWeightcertificateList(gbl.getSeq().toString());
+		GBLStatus gblStatus = outboundDao.getGblProcess(gbl.getSeq());
+		
+		Integer gblSeq = gbl.getSeq();
+		String gblNo = gbl.getNo();
+		Double lbs = Double.parseDouble(gbl.getLbs());
+		Double seperateWeightFirst = Double.parseDouble(gblMap.get("weight"));
+		Double seperateWeightSecond = lbs.doubleValue() - seperateWeightFirst.doubleValue();
+		
+		System.out.println("seperateWeightFirst : " + seperateWeightFirst);
+		System.out.println("seperateWeightSecond : " + seperateWeightSecond);
+		if(lbs > seperateWeightFirst){
+			GBL gblSeperateFirst = gbl;
+			gblSeperateFirst.setNo(gblNo + "-sub1");
+			gblSeperateFirst.setLbs(seperateWeightFirst.toString());
+			
+			outboundDao.insertGbl(gblSeperateFirst);
+			for( Weightcertificate weightcertificate : weightCertificateList){
+				weightcertificate.setGblSeq(gblSeperateFirst.getSeq());
+				outboundDao.insertWeightcertificate(weightcertificate);
+			}
+			
+			GBLStatus gblStatusFirst = gblStatus;
+			gblStatusFirst.setNo(gblSeperateFirst.getNo());
+			outboundDao.insertGblStatusCopy(gblStatusFirst);
+			
+			GBL gblSeperateSecond = gbl;
+			gblSeperateSecond.setNo(gblNo + "-sub2");
+			gblSeperateSecond.setLbs(seperateWeightSecond.toString());
+			
+			outboundDao.insertGbl(gblSeperateSecond);
+			for( Weightcertificate weightcertificate : weightCertificateList){
+				weightcertificate.setGblSeq(gblSeperateSecond.getSeq());
+				outboundDao.insertWeightcertificate(weightcertificate);
+			}
+			
+			GBLStatus gblStatusSecond = gblStatus;
+			gblStatusSecond.setNo(gblSeperateSecond.getNo());
+			outboundDao.insertGblStatusCopy(gblStatusSecond);
+		
+			GBL gblTemp = new GBL();
+			gblTemp.setSeq(gblSeq);
+			gblTemp.setSeperateFlag(true);
+			gblTemp.setLbs(lbs.toString());
+			outboundDao.updateGbl(gblTemp);
+		}
+	}
+
+	public void deletManifast(Integer seq) {
+		outboundDao.deleteGblStatusByTruckManifast(seq);
+		
+		outboundDao.deleteWeightCertificateByTruckManiafast(seq);
+		
+		outboundDao.deleteTruckGbl(seq);
+		
+		outboundDao.deleteTruckManifast(seq);
+	}
+
+	public void mergeSubmit(Map<String, String> gblMap) {
+		GBL gbl = new GBL();
+		gbl.setNo(gblMap.get("no").substring(0, gblMap.get("no").length() - 5));
+		
+		outboundDao.mergeGblWeight(gbl);
+		
+		outboundDao.mergeGblStatus(gbl);
+		
+		outboundDao.mergeGbl(gbl);
+		
+		outboundDao.setSeperatedFlag(gbl);
 	}
 }
