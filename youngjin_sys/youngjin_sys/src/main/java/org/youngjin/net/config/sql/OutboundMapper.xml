@@ -129,6 +129,7 @@
 	<result column="area" property="area" />
 	<result column="pod" property="pod" />
 	<result column="pcs" property="pcs" />
+	<collection property="containerList" column="seq" javaType="ArrayList" ofType="WeightCertificate" select="getContainerList" />
 </resultMap>
 
 <select id="getGblListCount" parameterType="OutboundFilter" resultType="Integer">
@@ -1038,7 +1039,7 @@
 	DELETE FROM
 		weight_certificate
 	WHERE
-		seq in (select seq from gbl where no like CONCAT(#{no}, '-sub%'))
+		gbl_seq in (select seq from gbl where no like CONCAT(#{no}, '-sub%'))
 </delete>
 
 <delete id="mergeGblStatus" parameterType="GBL">

@@ -103,8 +103,8 @@ youngjin.outbound.delivery.getWeightCertificateList = function(target){
 	parent.$.smartPop.close();
 	
 	parent.$.smartPop.open({
-		width : 450,
-		height : 140,
+		width : 700,
+		height : 400,
 		url : url
 	});
 };
@@ -136,12 +136,17 @@ youngjin.outbound.delivery.addTruckMenu = function(target){
 youngjin.outbound.delivery.seperateGbl = function(target){
 	var seq = target.attr('data-seq');
 	
-	var weight = $('#seperatedWeight').val();
+	var weightSeqList = $('input:checked');
+	var weightSeqCommaList = weightSeqList.eq(0).val();
+	
+	for(var i = 1 ; i < weightSeqList.length ; i ++){
+		weightSeqCommaList += ',' + weightSeqList.eq(i).val();
+	}
 	
 	var url = contextPath + '/outbound/delivery/truckManifast/seperate.json';
 	var json = {
 			'seq' : seq,
-			'weight' : weight
+			'weightSeqCommaList' : weightSeqCommaList
 	};
 	
 	$.postJSON(url, json, function(){

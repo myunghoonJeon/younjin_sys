@@ -219,8 +219,6 @@ public class OutboundService {
 			
 			Integer checkWeightcertificateAndGetSeq = outboundDao.getCheckWeightCertificateAndGetSeq(paramWeightcertificate);
 			
-			System.out.println("check : " + checkWeightcertificateAndGetSeq + " check : " + paramWeightcertificate.toString());
-			
 			if(checkWeightcertificateAndGetSeq == null){
 				outboundDao.insertWeightcertificate(paramWeightcertificate);
 			} else {
@@ -350,9 +348,12 @@ public class OutboundService {
 		gbl.setBookingSeq(bookingList.getSeq());
 		
 		for( int i = 0 ; i < gblSeqList.length ; i ++ ){
-			gbl.setSeq(Integer.parseInt(gblSeqList[i]));
-			outboundDao.updateGbl(gbl);
-			outboundDao.updateWeightcertificate(gbl);
+			GBL gblTemp = getGbl(Integer.parseInt(gblSeqList[0]));
+			gblTemp.setSeq(Integer.parseInt(gblSeqList[i]));
+			gblTemp.setBookingSeq(bookingList.getSeq());
+			gblTemp.setLbs(null);
+			outboundDao.updateGbl(gblTemp);
+			outboundDao.updateWeightcertificate(gblTemp);
 			
 			Map<String, Integer> paramMap = new HashMap<String, Integer>();
 			paramMap.put("booking", 1);	
@@ -429,24 +430,50 @@ public class OutboundService {
 
 	public void seperateGbl(Map<String, String> gblMap) {
 		GBL gbl = outboundDao.getGbl(Integer.parseInt(gblMap.get("seq")));
-		List<Weightcertificate> weightCertificateList = outboundDao.getWeightcertificateList(gbl.getSeq().toString());
+		String [] weightSeqList = gblMap.get("weightSeqCommaList").split(",");
+		
+		List<Weightcertificate> seperateWeightList = outboundDao.getWeightcertificateList(gbl.getSeq().toString());
+		
+		List<Weightcertificate> firstSeperateWeightList = new ArrayList<Weightcertificate>();
+		List<Weightcertificate> secondSeperateWeightList = new ArrayList<Weightcertificate>();
+		
+		for( Weightcertificate weightParam : seperateWeightList){
+			boolean checkInputValue = false;
+			for(String firstSeq : weightSeqList){
+				if(weightParam.getSeq() == Integer.parseInt(firstSeq)){
+					firstSeperateWeightList.add(weightParam);
+					checkInputValue = true;
+					break;
+				}
+			}
+			
+			if(!checkInputValue){
+				secondSeperateWeightList.add(weightParam);
+			}
+		}
 		GBLStatus gblStatus = outboundDao.getGblProcess(gbl.getSeq());
 		
 		Integer gblSeq = gbl.getSeq();
 		String gblNo = gbl.getNo();
 		Double lbs = Double.parseDouble(gbl.getLbs());
-		Double seperateWeightFirst = Double.parseDouble(gblMap.get("weight"));
-		Double seperateWeightSecond = lbs.doubleValue() - seperateWeightFirst.doubleValue();
+		Double seperateWeightFirst = 0.0;
+		Double seperateWeightSecond = 0.0;
 		
-		System.out.println("seperateWeightFirst : " + seperateWeightFirst);
-		System.out.println("seperateWeightSecond : " + seperateWeightSecond);
+		for(Weightcertificate first : firstSeperateWeightList){
+			seperateWeightFirst += Double.parseDouble(first.getGross());
+		}
+		
+		for(Weightcertificate second : secondSeperateWeightList){
+			seperateWeightSecond += Double.parseDouble(second.getGross());
+		}
+		
 		if(lbs > seperateWeightFirst){
 			GBL gblSeperateFirst = gbl;
 			gblSeperateFirst.setNo(gblNo + "-sub1");
 			gblSeperateFirst.setLbs(seperateWeightFirst.toString());
 			
 			outboundDao.insertGbl(gblSeperateFirst);
-			for( Weightcertificate weightcertificate : weightCertificateList){
+			for( Weightcertificate weightcertificate : firstSeperateWeightList){
 				weightcertificate.setGblSeq(gblSeperateFirst.getSeq());
 				outboundDao.insertWeightcertificate(weightcertificate);
 			}
@@ -460,7 +487,7 @@ public class OutboundService {
 			gblSeperateSecond.setLbs(seperateWeightSecond.toString());
 			
 			outboundDao.insertGbl(gblSeperateSecond);
-			for( Weightcertificate weightcertificate : weightCertificateList){
+			for( Weightcertificate weightcertificate : secondSeperateWeightList){
 				weightcertificate.setGblSeq(gblSeperateSecond.getSeq());
 				outboundDao.insertWeightcertificate(weightcertificate);
 			}

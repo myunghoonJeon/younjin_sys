@@ -40,6 +40,9 @@
 				<li>
 					<span class="yj_button weightcertificate_write">${(weightcertificateList ne '[]') ? 'modify' : 'write' }</span>
 				</li>
+				<li>
+					<span class="yj_button weightcertificate_print">print</span>
+				</li>
 			</ul>
 		</div>
 		

@@ -146,8 +146,32 @@
 				<td id="inputstart">${gbl.shipper }</td>
 				<td id="inputstart">${gbl.area }</td>
 				<td id="inputstart">${gbl.pod }</td>
-				<td id="inputstart">${gbl.pcs }</td>
-				<td id="inputstart"></td>
+				<c:forEach var="weightCertificate" items="${gbl.containerList }" varStatus="i">
+					<c:choose>
+						<c:when test="${i.index eq 0 }">
+							<td id="inputstart">
+								${weightCertificate.gross }- ${weightCertificate.net } -${weightCertificate.tare } ${weightCertificate.piece }
+							</td>
+							<td id="inputstart">
+								${weightCertificate.remark }
+							</td>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td id="inputstart">
+									${weightCertificate.gross }- ${weightCertificate.net } -${weightCertificate.tare } ${weightCertificate.piece } ${weightCertificate.remark }
+								</td>
+								<td id="inputstart">
+									${weightCertificate.remark }
+								</td>								
+							</tr>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 			</tr>
 		</c:forEach>
 		<%-- <%for(int i=0;i<arr.size();i++){//부킹리스트 따라하기

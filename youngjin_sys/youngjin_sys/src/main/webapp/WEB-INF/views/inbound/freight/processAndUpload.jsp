@@ -33,40 +33,32 @@
 			<span>GBL</span>
 		</div>
 		<div class="gbl_process" data-seq="${seq}">
-			<ul >
-				<li class="gbl_process_input" ><img src="${cp }/resources/images/gbl/gbl_input_complete.png" /></li>
-				<li class="gbl_process_preparation">
-					<c:choose>
-						<c:when test="${process.preperation eq 0 }">
-							<img src="${cp }/resources/images/gbl/gbl_preaparation_delay.png" />
+			<ul>
+				<li class="gbl_process_input inbound_gbl_process_input" ><img src="${cp }/resources/images/gbl/gbl_input_complete.png" /></li>
+				<li class="gbl_process_delivery inbound_gbl_process_delivery">
+					<c:choose>									
+						<c:when test="${process.preperation eq 0}">
+							<img src="${cp }/resources/images/gbl/delivery_delay.png" />
+						</c:when>
+						<c:when test="${process.preperation eq 1 and process.preperation eq 1}">
+							<img src="${cp }/resources/images/gbl/delivery_complete.png" />
 						</c:when>
 						<c:otherwise>
-							<img src="${cp }/resources/images/gbl/gbl_preaparation_complete.png" />
+							<img src="${cp }/resources/images/gbl/delivery_basic.png" />
 						</c:otherwise>
 					</c:choose>
 				</li>
-				<li class="gbl_process_delivery">
+				<li class="gbl_process_preparation inbound_gbl_process_preparation">
 					<c:choose>
-						<c:when test="${process.preperation eq 1 and process.truckManifast eq 0 }">
-							<img src="${cp }/resources/images/gbl/truckmanifast_delay.png" />
+						<c:when test="${process.preperation eq 1 and process.preperation eq 0 }">
+							<img src="${cp }/resources/images/gbl/gbl_preaparation_delay.png" />
 						</c:when>
-						<c:when test="${process.preperation eq 1 and process.truckManifast eq 1}">
-							<img src="${cp }/resources/images/gbl/truckmanifast_complete.png" />
+						<c:when test="${process.preperation eq 1 and process.preperation eq 1}">
+							<img src="${cp }/resources/images/gbl/gbl_preaparation_complete.png" />
 						</c:when>
-						<c:when test="${process.preperation eq 0}">
-							<img src="${cp }/resources/images/gbl/truckmanifast_basic.png" />
-						</c:when>
-					</c:choose>
-					<c:choose>						
-						<c:when test="${process.preperation eq 1 and process.bookingList eq 0 }">
-							<img src="${cp }/resources/images/gbl/bookinglist_delay.png" />
-						</c:when>
-						<c:when test="${process.preperation eq 1 and process.bookingList eq 1}">
-							<img src="${cp }/resources/images/gbl/bookinglist_complete.png" />
-						</c:when>
-						<c:when test="${process.preperation eq 0}">
-							<img src="${cp }/resources/images/gbl/bookinglist_basic.png" />
-						</c:when>
+						<c:otherwise>
+							<img src="${cp }/resources/images/gbl/gbl_preaparation_basic.png" />
+						</c:otherwise>
 					</c:choose>
 				</li>
 				<li>	
@@ -129,7 +121,8 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td id="upload_tfoot" colspan="4" data-seq="${seq }">
+						<td id="upload_tfoot" class="inbound_upload_tfoot" colspan="4" data-seq="${seq }">
+							<span class="document_bl_button yj_button">BL 분할 신청서</span>
 							<span class="document_power_of_attorney_button yj_button">Power Of Attorney</span>
 							<span class="document_upload_button yj_button">Document Upload</span>
 							<span class="document_view yj_button">Document Download</span>

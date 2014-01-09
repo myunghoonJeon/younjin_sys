@@ -135,6 +135,14 @@ public class OutboundController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/declarationList", method = RequestMethod.GET)
+	public String declarationList(Model model, User user,
+			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process) {
+		
+		return process + "/gbl/declarationList";
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/modify", method = RequestMethod.GET)
 	public String gblModify(Model model, User user,
 			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process, @PathVariable Integer seq) {
@@ -233,7 +241,7 @@ public class OutboundController {
 	public String memorandumList(Model model, User user,
 			@PathVariable String process, @PathVariable String seq){
 		
-		List<MemorandumList> memorandumList = memorandumService.getMemorandumAllList(seq);
+		List<MemorandumList> memorandumList = memorandumService.getMemorandumAllList(seq, "outbound");
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("memroandumList", memorandumList);
@@ -245,14 +253,14 @@ public class OutboundController {
 	@RequestMapping(value = "/{process}/addMemorandumAndDd619.json")
 	@ResponseBody
 	public MemorandumList addMemorandumAndDd619(@RequestBody MemorandumList memorandumList, User user){
-		return memorandumService.addMemorandumAndDd619(memorandumList, user);
+		return memorandumService.addMemorandumAndDd619(memorandumList, user, "outbound");
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/deleteMemorandumAllList.json")
 	@ResponseBody
 	public void deleteMemorandumAllList(@RequestBody MemorandumList memorandumList){
-		memorandumService.deleteMemorandumAllList(memorandumList);
+		memorandumService.deleteMemorandumAllList(memorandumList, "outbound");
 	}	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
@@ -264,7 +272,7 @@ public class OutboundController {
 
 		List<Code> memorandumList = codeService.getCodeList("03");
 		Map<String, Memorandum> checkMemorandumMap = memorandumService
-				.getMemorandumMap(seq, memorandumSeq);
+				.getMemorandumMap(seq, memorandumSeq, "outbound");
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("memorandumSeq", memorandumSeq);
@@ -291,7 +299,7 @@ public class OutboundController {
 
 		Code code = codeService.getCode("03", type);
 
-		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq);
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "outbound");
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("gbl", gbl);
@@ -313,7 +321,7 @@ public class OutboundController {
 
 		Code code = codeService.getCode("03", type);
 
-		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq);
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "outbound");
 
 		String[] articles = article.split(",");
 
@@ -333,14 +341,14 @@ public class OutboundController {
 	@RequestMapping(value = "/{process}/memorandum/invoice/{article}/insert.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void insertInvoiceMemorandum(@RequestBody Memorandum memorandum, @PathVariable String article){
-		memorandumService.insertInvoiceMemorandum(memorandum);
+		memorandumService.insertInvoiceMemorandum(memorandum, "outbound");
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/memorandum/invoice/{article}/modify.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void modifyInvoiceMemorandum(@RequestBody Memorandum memorandum, @PathVariable String article){
-		memorandumService.modifyInvoiceMemorandum(memorandum);
+		memorandumService.modifyInvoiceMemorandum(memorandum, "outbound");
 	}	
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
@@ -353,7 +361,7 @@ public class OutboundController {
 
 		Code code = codeService.getCode("03", type);
 
-		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq);
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "outbound");
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("gbl", gbl);
@@ -375,7 +383,7 @@ public class OutboundController {
 
 		Code code = codeService.getCode("03", type);
 
-		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq);
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "outbound");
 
 		String[] articles = article.split(",");
 
@@ -469,13 +477,26 @@ public class OutboundController {
 
 		return process + "/gbl/weightcertificate";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/{seq}/weightcertificate/print", method = RequestMethod.GET)
+	public String weightcertificatePrint(Model model, User user,
+			@PathVariable String process, @PathVariable String seq) {
+
+		model.addAttribute("seq", seq);
+		model.addAttribute("weightcertificateList",
+				outboundService.getWeightcertificateList(seq));
+		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
+
+		return process + "/gbl/weightcertificatePrint";
+	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/additional", method = RequestMethod.GET)
 	public String additionalDecideMain(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
 		Map<String, Memorandum> checkMemorandumMap = memorandumService
-				.getMemorandumMap(seq, null);
+				.getMemorandumMap(seq, null, "outbound");
 
 		model.addAttribute("seq", seq);
 
@@ -536,21 +557,21 @@ public class OutboundController {
 	@ResponseBody
 	public void gblMemorandumDelete(@PathVariable String seq,
 			@PathVariable String type, @PathVariable Integer memorandumSeq) {
-		memorandumService.deleteMemorandum(seq, type, memorandumSeq);
+		memorandumService.deleteMemorandum(seq, type, memorandumSeq, "outbound");
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/memorandum/memorandumInput.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumInput(@RequestBody Memorandum memorandum) {
-		memorandumService.insertMemorandum(memorandum);
+		memorandumService.insertMemorandum(memorandum, "outbound");
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/{seq}/memorandum/memorandumUpdate.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumUpdate(@RequestBody Memorandum memorandum) {
-		memorandumService.updateMemorandum(memorandum);
+		memorandumService.updateMemorandum(memorandum, "outbound");
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
@@ -669,6 +690,7 @@ public class OutboundController {
 			@PathVariable String process, @PathVariable String seq) {
 
 		model.addAttribute("seq", seq);
+		model.addAttribute("weightCertificateList", outboundService.getWeightcertificateList(seq));
 		
 		return process + "/delivery/truckSeperate";
 	}

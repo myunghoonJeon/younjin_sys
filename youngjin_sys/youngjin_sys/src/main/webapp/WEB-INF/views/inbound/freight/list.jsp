@@ -21,10 +21,21 @@
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
 </script>	
+	<c:if test="${end eq true }">
+		<script type="text/javascript">
+			parent.location.href=contextPath + '/inbound/freightList/';
+			parent.$.smartPop.close();
+		</script>
+	</c:if>
+	
+	<c:set var="branchList" value="${filterMap['branchList'] }" />
+	<c:set var="carrierList" value="${filterMap['carrierList'] }" />
+	<c:set var="codeList" value="${filterMap['codeList'] }" />
+	
 	<div class="gbl_filter">	
-		<ul>
+		<ul class="freight_filter_wrap">
 			<form:form commandName="inboundFilter" method="get">
-				<%-- <sec:authorize access="hasRole('ROLE_ADMIN')">
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<li style="font-size: 10pt;">
 						<form:select path="branch">
 							<form:option value="">Branch(All)</form:option>
@@ -54,7 +65,7 @@
 				</li>
 				<li>
 					<form:input path="startPud"/> ~ <form:input path="endPud"/>
-				</li> --%>
+				</li>
 				<li>
 					<form:hidden path="page" value="${pagination.currentPage}"/>
 				</li>
@@ -66,17 +77,17 @@
 	</div>
 
 	<div class="gbl_list_filter_title">
-<%-- 		<ul>
-			<c:if test="${outboundFilter.branch ne '' and outboundFilter.branch ne null}">
-				<li>[BRANCH : ${outboundFilter.branch  }] </li>
+		<ul>
+			<c:if test="${inboundFilter.branch ne '' and inboundFilter.branch ne null}">
+				<li>[BRANCH : ${inboundFilter.branch  }] </li>
 			</c:if>
-			<c:if test="${outboundFilter.carrier ne '' and outboundFilter.carrier ne null}">
-				<li>[CARRIER : ${outboundFilter.carrier }] </li>
+			<c:if test="${inboundFilter.carrier ne '' and inboundFilter.carrier ne null}">
+				<li>[CARRIER : ${inboundFilter.carrier }] </li>
 			</c:if>
-			<c:if test="${outboundFilter.code ne '' and outboundFilter.code ne null}">
-				<li>[CODE : ${outboundFilter.code }]</li>
+			<c:if test="${inboundFilter.code ne '' and inboundFilter.code ne null}">
+				<li>[CODE : ${inboundFilter.code }]</li>
 			</c:if>
-		</ul> --%>		
+		</ul> 	
 	</div>	
 	
 	<div>

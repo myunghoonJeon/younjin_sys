@@ -181,6 +181,7 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 /* GBL Preparation */
 .gbl_preparation_div{ width : 100%; height: 100%; background-color: white;}
 .gbl_preparation_list{width: 80%; height: 460px; margin: 0 auto;}
+.inbound_preparation_list{ width: 80%; height: 310px; margin: 0 auto;}
 .gbl_preparation_list li { width : 100%; height: 40px; margin: 21px 0; padding-top: 15px; cursor: pointer; background-color: #A6A6A6; color: #10253F; font-weight: bold; text-align: center;
 	/* Opera */
 	box-shadow:10px 10px 10px silver;
@@ -303,6 +304,7 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 .weightcertificate_write{ float: right; }
 .weightcertificate_update{ float: right; }
 .weight_certificate_back{ float: left;}
+.weightcertificate_print{ float: right; }
 
 .weightcertificate_head{ width: 80%; padding-top:20px; text-align: center; border-bottom: 2px solid black; margin: 0 auto; }
 #weightcertificate_sub_head{ width: 80%; margin: 0 auto;}
@@ -374,11 +376,12 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 .truck_gbl_list_wrap { width: 1000px; height: 700px; background-color: white; }
 .truck_addButton{ float: right;}
 .truck_gbl_addButton{ float: right;}
+.gbl_declaration_list_addButton{ float: right; }
 
 .truck_seperate_button_list{ width: 80%; margin: 0px auto; }
 .truck_seperate_back{ float: left; margin-bottom: 20px; }
-.truck_seperate_addButton{ float: right; }
-.truck_seperate_setting_wrap{ width: 450px; height: 140px; background-color: white; padding-top: 30px;}
+.truck_seperate_addButton{ float: right; margin-bottom: 20px;  }
+.truck_seperate_setting_wrap{ width: 700px; height: 400px; background-color: white; padding-top: 30px;}
 .truck_seperate_table{ width : 80% ; margin: 10px auto; text-align: center;}
 .truck_seperate_table tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
 .truck_seperate_table tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; cursor: pointer; }

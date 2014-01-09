@@ -115,6 +115,11 @@ youngjin.outbound.sync = function(){
 		youngjin.outbound.complete($(this));
 	});
 	
+	$('.gbl_declaration_list_addButton').unbind('click');
+	$('.gbl_declaration_list_addButton').bind('click', function(){
+		youngjin.outbound.declarationList($(this));
+	});
+	
 	youngjin.outbound.preMoveSurveySync();
 	
 	youngjin.outbound.memorandumSync();
@@ -270,6 +275,11 @@ youngjin.outbound.weightCertificateSync = function(){
 	$('.weightcertificate_write').bind('click', function(){
 		youngjin.outbound.weightCertificateSubmit($(this));
 	});
+	
+	$('.weightcertificate_print').unbind('click');
+	$('.weightcertificate_print').bind('click', function(){
+		youngjin.outbound.weightCertificatePrint($(this));
+	});
 };
 
 youngjin.outbound.additionDecideSync = function(){
@@ -356,8 +366,6 @@ youngjin.outbound.findUsNo = function(target){
 youngjin.outbound.gblAddSubmit = function(){
 	var form = document.forms['gbl'];
 	form.submit();	
-	
-	parent.$.smartPop.close();
 };
 
 youngjin.outbound.getGblProcess = function(target){
@@ -386,6 +394,12 @@ youngjin.outbound.complete = function(target){
 	});			
 };
 
+youngjin.outbound.declarationList = function(target){
+	var url = contextPath + '/outbound/declarationList';
+	
+	window.open(url ,'declarationList', 'width=1263, height=892, status=no');	
+};
+
 youngjin.outbound.uploadPage = function(target){
 	var parent = target.parents();
 	var seq = parent.attr('data-seq');
@@ -400,7 +414,17 @@ youngjin.outbound.uploadSubmit = function(){
 	
 	form.submit();	
 
-	window.opener.location.href = contextPath + '/outbound/' + seq;
+	url = contextPath + '/outbound/' + seq;
+	
+	//window.close();
+	/*
+	parent.parent.$.smartPop.close();
+	
+	parent.parent.$.smartPop.open({
+		width : 1000,
+		height : 521,
+		url : url
+	});*/
 };
 
 youngjin.outbound.powerOfAttorney = function(target){
@@ -408,13 +432,7 @@ youngjin.outbound.powerOfAttorney = function(target){
 	
 	var url = contextPath + '/outbound/' + seq + '/powerOfAttorney';
 	
-	parent.$.smartPop.close();
-
-	parent.$.smartPop.open({
-		width: 930.7,
-		height: 1122.5,
-		url : url
-	});	
+	window.open(url ,'powerOfAttorney', 'width=1263, height=892, status=no');
 };
 
 youngjin.outbound.fileView = function(){
@@ -1622,5 +1640,15 @@ youngjin.outbound.memorandumPrint = function(target){
 		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/' + article + '/print';
 	}
 	
-	window.open(url ,'bookingListPrintPop', 'width=1263, height=892, status=no');	
+	window.open(url ,'memoprint', 'width=1263, height=892, status=no');	
+};
+
+youngjin.outbound.weightCertificatePrint = function(target){
+	var seq = $('.weight_button_list').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq + '/weightcertificate/print';
+	
+	window.open(url ,'weightPrint', 'width=1263, height=892, status=no');	
+	
+	
 };

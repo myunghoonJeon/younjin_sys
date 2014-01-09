@@ -36,11 +36,39 @@
 		</if>
 	</select>
 	
+	<select id="getMemorandumIb" parameterType="Memorandum" resultMap="MemorandumMap">
+		SELECT
+			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
+		FROM
+			memorandum_ib
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			type = #{type}
+		<if test="memorandumSeq != null">
+			AND
+				memorandum_list_seq = #{memorandumSeq}
+		</if>
+	</select>
+	
 	<select id="getMemorandumList" parameterType="Map" resultMap="MemorandumMap">
 		SELECT
 			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
 		FROM
 			memorandum
+		WHERE
+			gbl_seq = #{seq}
+		<if test="memorandumSeq != null">	
+			AND
+				memorandum_list_seq = #{memorandumSeq}
+		</if>
+	</select>
+	
+	<select id="getMemorandumListIb" parameterType="Map" resultMap="MemorandumMap">
+		SELECT
+			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
+		FROM
+			memorandum_ib
 		WHERE
 			gbl_seq = #{seq}
 		<if test="memorandumSeq != null">	
@@ -58,6 +86,15 @@
 			gbl_seq = #{value}
 	</select>
 	
+	<select id="getMemroandumAllListIb" parameterType="String" resultType="MemorandumList">
+		SELECT
+			seq, gbl_seq AS gblSeq, write_date AS writeDate
+		FROM
+			memorandum_list_ib
+		WHERE
+			gbl_seq = #{value}
+	</select>
+	
 	<select id="getMemorandumListSelectOne" parameterType="MemorandumList" resultType="memorandumList">
 		SELECT
 			seq, gbl_seq AS gblSeq, write_date AS writeDate
@@ -67,9 +104,33 @@
 			seq = #{seq}
 	</select>
 	
+	<select id="getMemorandumListSelectOneIb" parameterType="MemorandumList" resultType="memorandumList">
+		SELECT
+			seq, gbl_seq AS gblSeq, write_date AS writeDate
+		FROM
+			memorandum_list_ib
+		WHERE
+			seq = #{seq}
+	</select>
+	
 	<insert id="addMemorandumList" parameterType="MemorandumList">
 		INSERT INTO
 			memorandum_list
+			(
+				gbl_seq, write_date
+			)
+		VALUES
+		(
+			#{gblSeq}, SYSDATE()
+		)
+	    <selectKey keyProperty="seq" resultType="Integer">     
+			SELECT LAST_INSERT_ID()        
+	    </selectKey>
+	</insert>
+	
+	<insert id="addMemorandumListIb" parameterType="MemorandumList">
+		INSERT INTO
+			memorandum_list_ib
 			(
 				gbl_seq, write_date
 			)
@@ -94,9 +155,54 @@
 			)
 	</insert>
 	
+	<insert id="insertMemorandumIb" parameterType="Memorandum">
+		INSERT INTO
+			memorandum_ib
+			(
+				type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date, memorandum_list_seq
+			)
+		VALUES
+			(
+				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment}, #{chiefOfOffice}, #{officeInfo}, #{areaDirector}, #{gblSeq}, SYSDATE(), #{memorandumSeq}
+			)
+	</insert>
+	
 	<insert id="insertInvoiceMemorandum" parameterType="Memorandum">
 		INSERT INTO
 			memorandum
+			(
+				type, memorandum_list_seq, gbl_seq, write_date
+				<choose>
+					<when test="type == '04'">
+						, extra_pick_up_charge
+					</when>
+					<when test="type == '05'">
+						, termination
+					</when>
+					<when test="type == '06'">
+						, sit_start_date
+					</when>
+					<when test="type == '07'">
+						, sit_end_date
+					</when>
+					<when test="type == '08'">
+						, long_carry
+					</when>					
+				</choose>
+			)
+			VALUES
+			(
+				#{type},
+				#{memorandumSeq},
+				#{gblSeq},
+				SYSDATE(),
+				#{invoiceValue}
+			)
+	</insert>
+	
+	<insert id="insertInvoiceMemorandumIb" parameterType="Memorandum">
+		INSERT INTO
+			memorandum_ib
 			(
 				type, memorandum_list_seq, gbl_seq, write_date
 				<choose>
@@ -156,9 +262,56 @@
 			type = #{type}
 	</update>
 	
+	<update id="modifyInvoiceMemorandumIb" parameterType="Memorandum">
+		UPDATE
+			memorandum_ib
+		SET
+			<choose>
+				<when test="type == '04'">
+					extra_pick_up_charge = #{invoiceValue}
+				</when>
+				<when test="type == '05'">
+					termination = #{invoiceValue}
+				</when>
+				<when test="type == '06'">
+					sit_start_date = #{invoiceValue} 
+				</when>
+				<when test="type == '07'">
+					sit_end_date = #{invoiceValue}
+				</when>
+				<when test="type == '08'">
+					long_carry = #{invoiceValue}
+				</when>					
+			</choose>
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			memorandum_list_seq = #{memorandumSeq}
+		AND
+			type = #{type}
+	</update>
+	
 	<update id="updateMemorandum" parameterType="Memorandum">
 	    UPDATE
 	    	memorandum
+	    SET
+	    	subject = #{subject},
+	    	comment = #{comment},
+	    	area = #{area},
+	    	articles = #{articles},
+	    	article_comment = #{articleComment},
+	    	chief_of_office = #{chiefOfOffice},
+	    	office_info = #{officeInfo},
+	    	area_director = #{areaDirector}
+	    WHERE
+	    	gbl_seq = #{gblSeq}
+	    AND
+	    	type = #{type}	    
+	</update>
+	
+	<update id="updateMemorandumIb" parameterType="Memorandum">
+	    UPDATE
+	    	memorandum_ib
 	    SET
 	    	subject = #{subject},
 	    	comment = #{comment},
@@ -185,9 +338,29 @@
 			memorandum_list_seq = #{memorandumSeq}
 	</delete>
 	
+	<delete id="deleteMemorandumIb" parameterType="Memorandum">
+		DELETE FROM
+			memorandum_ib
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			type = #{type}
+		AND
+			memorandum_list_seq = #{memorandumSeq}
+	</delete>
+	
 	<delete id="deleteMemorandumAllList" parameterType="MemorandumList">
 		DELETE FROM
 			memorandum_list
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			seq = #{seq}
+	</delete>
+	
+	<delete id="deleteMemorandumAllListIb" parameterType="MemorandumList">
+		DELETE FROM
+			memorandum_list_ib
 		WHERE
 			gbl_seq = #{gblSeq}
 		AND

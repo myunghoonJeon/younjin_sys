@@ -40,11 +40,51 @@
 				</li>
 			</ul>
 		</div>
-		<table class="truck_seperate_table">
-			<tr>
-				<th>분할할 무게</th>
-				<td><input type="text" id="seperatedWeight" /></td>
-			</tr>
+			<table class="truck_seperate_table">
+			<colgroup>
+				<col width="10%">
+				<col width="10%">
+				<col width="10%">
+				<col width="9%">
+				<col width="9%">
+				<col width="9%">
+				<col width="9%">
+				<col width="9%">
+				<col width="25%">
+			</colgroup>
+			<thead>
+				<tr>
+					<th rowspan="2">PIECE</th>
+					<th rowspan="2">TYPE</th>
+					<th rowspan="2">STATUS</th>
+					<th colspan="2">GROSS</th>
+					<th rowspan="2">TARE</th>
+					<th rowspan="2">NET</th>
+					<th rowspan="2">CUFT</th>
+					<th rowspan="2">REMARK</th>
+					<th rowspan="2"></th>
+				</tr>
+				<tr>
+					<th>KG</th>
+					<th>LBS</th>
+				</tr>
+			</thead>
+			<tbody>	
+				<c:forEach var="weightcertificate" items="${weightCertificateList }" varStatus="i">
+					<tr>	
+						<td class="piece_td">${weightcertificate.piece }</td>
+						<td class="type_td">${weightcertificate.type }</td>
+						<td class="status_td">${weightcertificate.status }</td>
+						<td class="gross_td">${weightcertificate.grossKg }</td>
+						<td class="gross_td">${weightcertificate.gross }</td>
+						<td class="tare_td">${weightcertificate.tare }</td>
+						<td class="net_td">${weightcertificate.net }</td>
+						<td class="cuft_td">${weightcertificate.cuft }</td>
+						<td class="remark_td">${weightcertificate.remark }</td>
+						<td><input type="checkbox" name="checkSeperateWeight" value="${weightcertificate.seq }" /></td>
+					</tr>
+				</c:forEach>				
+			</tbody>
 		</table>
 	</div>
 </body>

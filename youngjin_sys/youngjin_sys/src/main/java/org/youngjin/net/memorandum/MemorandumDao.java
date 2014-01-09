@@ -58,5 +58,56 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 	public void deleteMemorandumAllList(MemorandumList memorandumList) {
 		getSqlSession().delete("memorandumMapper.deleteMemorandumAllList", memorandumList);
 	}
+
+	public List<MemorandumList> getMemorandumAllListIb(String seq) {
+		return getSqlSession().selectList("memorandumMapper.getMemroandumAllListIb", seq);
+	}
+
+	public void addMemorandumListIb(MemorandumList memorandumList) {
+		getSqlSession().insert("memorandumMapper.addMemorandumListIb", memorandumList);			
+	}
+
+	public MemorandumList getMemorandumListSelectOneIb(
+			MemorandumList memorandumList) {
+		return getSqlSession().selectOne("memorandumMapper.getMemorandumListSelectOneIb", memorandumList);
+	}
+
+	public void deleteMemorandumIb(Memorandum paramMemorandum) {
+		getSqlSession().delete("memorandumMapper.deleteMemorandumIb", paramMemorandum);
+		
+	}
+
+	public void deleteMemorandumAllListIb(MemorandumList memorandumList) {
+		getSqlSession().delete("memorandumMapper.deleteMemorandumAllListIb", memorandumList);		
+	}
+
+	public List<Memorandum> getMemorandumListIb(String seq,
+			Integer memorandumSeq) {
+		Map<String, Integer> param = new HashMap<String, Integer>();
+		param.put("seq", Integer.parseInt(seq));
+		param.put("memorandumSeq", memorandumSeq);
+		
+		return getSqlSession().selectList("memorandumMapper.getMemorandumListIb", param);
+	}
+
+	public Memorandum getMemorandumIb(Memorandum paramMemorandum) {
+		return getSqlSession().selectOne("memorandumMapper.getMemorandumIb", paramMemorandum);
+	}
+
+	public void insertMemorandumIb(Memorandum memorandum) {
+		getSqlSession().insert("memorandumMapper.insertMemorandumIb", memorandum);
+	}
+
+	public void updateMemorandumIb(Memorandum memorandum) {
+		getSqlSession().update("memorandumMapper.updateMemorandumIb", memorandum);
+	}
+
+	public void insertInvoiceMemorandumIb(Memorandum memorandum) {
+		getSqlSession().insert("memorandumMapper.insertInvoiceMemorandumIb", memorandum);
+	}
+
+	public void modifyInvoiceMemorandumIb(Memorandum memorandum) {
+		getSqlSession().update("memorandumMapper.modifyInvoiceMemorandumIb", memorandum);
+	}
 	
 }

@@ -38,11 +38,51 @@
 		<result column="gbl_process" property="process" />
 	</resultMap>
 
+	<resultMap type="GBLAttachment" id="GBLAttachmentMap">
+		<result column="seq" property="seq"/>
+		<result column="gbl_no" property="gblNo"/>
+		<result column="file_name" property="fileName"/>
+		<result column="file_path" property="filePath"/>
+		<result column="file_extension" property="fileExtension"/>
+		<result column="file_size" property="fileSize"/>
+		<result column="gbl_file_no" property="gblFileNo"/>
+		<result column="gbl_update_date" property="gblUpdateDate"/>
+	</resultMap>
+
+	<resultMap type="Dd619" id="Dd619Map">
+		<result column="seq" property="seq"/>
+		<result column="gbl_no" property="gblNo"/>
+		<result column="date" property="date"/>
+		<result column="name" property="name"/>
+		<result column="ssn" property="ssn"/>
+		<result column="rank" property="rank"/>
+		<result column="origin_of_shipment" property="originOfShipment"/>
+		<result column="destination" property="destination"/>
+		<result column="ordering_activity_name" property="orderingActivityName"/>
+		<result column="carrier_name" property="carrierName"/>
+		<result column="agent_name" property="agentName"/>
+		<result column="signature" property="signature"/>
+		<result column="carrier_shipment_reference" property="carrierShipmentReference"/>
+		<result column="code" property="code"/>
+		<result column="other" property="other"/>
+		<result column="total" property="total"/>
+		<result column="remark" property="remark"/>
+		<result column="officer_material" property="officerMaterial"/>
+		<result column="officer_signature" property="officerSignature"/>
+		<result column="officer_date" property="officerDate"/>
+		<result column="rank_and_name" property="rankAndName"/>
+		<result column="transportation_date" property="transportationDate"/>
+		<result column="gbl_seq" property="gblSeq"/>
+		<result column="write_date" property="writeDate"/>
+		<result column="write_user" property="writeUser"/>
+		<result column="memorandum_list_seq" property="memorandumListSeq"/>
+	</resultMap>
+
 	<select id="getFreightListCount" parameterType="InboundFilter" resultType="Integer">
 		SELECT
 			count(*)
 		FROM
-			gbl
+			gbl_ib
 		WHERE
 			1 = 1
 			<if test="area != null and area != ''">
@@ -161,7 +201,7 @@
 						</if>
 						<if test="carrier != null and carrier != ''">
 							AND
-								scac = #{carrier}
+								tsp = #{carrier}
 						</if>
 						<if test="code != null and code != ''">
 							AND
@@ -176,6 +216,77 @@
 								pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 						</if>			
 			)
+	</select>
+	
+	<select id="getGbl" parameterType="Integer" resultMap="FGblMap">
+		SELECT
+			g.seq,
+			g.gbl_no,
+			g.name,
+			g.rank,
+			g.code,
+			g.tsp,
+			g.address,
+			g.area,
+			g.ssn,
+			g.pud,
+			g.rdd,
+			g.gross,
+			g.net,
+			g.tare,
+			g.cuft,
+			g.piece,
+			g.item_ea,
+			g.vessel_name,
+			g.arrive_date,
+			g.obl_no,
+			g.pmj_date,
+			g.remark
+		FROM
+			gbl_ib g
+		WHERE
+			g.seq = #{seq}
+	</select>	
+	
+	<select id="getCarrierList" resultType="Code">
+		SELECT DISTINCT
+			tsp AS subCode
+		FROM
+			gbl_ib	
+	</select>
+	
+	<select id="getCodeList" resultType="Code">
+		SELECT DISTINCT
+			code AS subCode
+		FROM
+			gbl_ib	
+	</select>
+	
+	<select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">
+		SELECT
+			gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast, gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
+		FROM
+			gbl_status
+		WHERE
+			gbl_no = (select gbl_no from gbl_ib where seq = #{value})
+	</select>
+	
+	<select id="getGblFileList" parameterType="Integer" resultMap="GBLAttachmentMap">
+		SELECT
+			seq, gbl_no, file_name, file_path, file_extension, file_size, gbl_file_no, gbl_update_date
+		FROM
+			gbl_attachments
+		WHERE
+			gbl_no = (select gbl_no from gbl_ib where seq = ${value})
+	</select>
+
+	<select id="getDd619List" parameterType="String" resultMap="Dd619Map">
+		SELECT
+			seq, gbl_no, date, name, ssn, rank, origin_of_shipment, destination, ordering_activity_name, carrier_name, agent_name, signature, carrier_shipment_reference, code, other, total, remark, officer_material, officer_signature, officer_date, rank_and_name, transportation_date, gbl_seq, write_date, write_user
+		FROM
+			dd619_ib
+		WHERE
+			gbl_seq = #{seq}
 	</select>
 	
 	<insert id="insertFreight" parameterType="GBL">
@@ -220,4 +331,37 @@
 			#{no}, 1, 0, 0, 0, 0, 0, 0, 0
 		)
 	</insert>
+
+	<insert id="insertAttachment" parameterType="GBLAttachment">
+		INSERT INTO
+			gbl_attachments
+			(
+				gbl_no, file_name, file_path, file_extension, file_size, gbl_file_no, gbl_update_date
+			)
+		VALUES
+			(
+				#{gblNo}, #{fileName}, #{filePath}, #{fileExtension}, #{fileSize}, #{gblFileNo}, SYSDATE()
+			)
+	</insert>
+
+	<insert id="insertDd619" parameterType="Dd619">
+		INSERT INTO
+			dd619_ib
+			(
+				gbl_seq, gbl_no, name, rank, ssn, code, carrier_shipment_reference, write_date, memorandum_list_seq
+			)
+		VALUES
+		(
+			#{gblSeq}, #{gblNo}, #{name}, #{rank}, #{ssn}, #{code}, #{carrierShipmentReference}, SYSDATE(), #{memorandumListSeq}
+		)
+	</insert>
+
+	<delete id="deleteDd619" parameterType="Dd619">
+		DELETE FROM
+			dd619_ib
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			memorandum_list_seq = #{memorandumListSeq}
+	</delete>
 </mapper>

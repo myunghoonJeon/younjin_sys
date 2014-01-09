@@ -21,6 +21,13 @@
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
 </script>	
+	<c:if test="${end eq true }">
+		<script type="text/javascript">
+			parent.location.href=contextPath + '/outbound/gblList/';
+			parent.$.smartPop.close();
+		</script>
+	</c:if>
+
 	<c:set var="branchList" value="${filterMap['branchList'] }" />
 	<c:set var="carrierList" value="${filterMap['carrierList'] }" />
 	<c:set var="codeList" value="${filterMap['codeList'] }" />
@@ -65,6 +72,9 @@
 				<li>	
 					<span class="gbl_addButton yj_button" >add</span>
 				</li>
+				<li>	
+					<span class="gbl_declaration_list_addButton yj_button" >declaration list</span>
+				</li>
 			</form:form>
 		</ul>	
 	</div>
@@ -108,7 +118,7 @@
 			</colgroup>
 			<tfoot>
 				<tr>
-					<td colspan="13">
+					<td colspan="17">
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
