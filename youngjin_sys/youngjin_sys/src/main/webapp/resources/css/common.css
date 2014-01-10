@@ -438,7 +438,10 @@ td.seperate_merge{ border: none !important;}
 
 .invoice_add_submit_button_wrap{ margin-top: 10px;}
 
-.invoice_gbl_list_wrap{ width: 800px; height: 500px; background-color: white;}
+.invoice_gbl_content_list_wrap{ width: 800px; height: 500px; background-color: white;}
+
+.invoice_gbl_list_wrap{ width: 1000px; height: 700px; background-color: white;}
+.invoice_gbl_addButton{ float: right; }
 
 .invoice_gbl_list_table{ width : 80% ; margin: 10px auto; text-align: center;}
 .invoice_gbl_list_table thead tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }

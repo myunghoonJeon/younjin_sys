@@ -150,7 +150,7 @@
 					<c:choose>
 						<c:when test="${i.index eq 0 }">
 							<td id="inputstart">
-								${weightCertificate.gross }- ${weightCertificate.net } -${weightCertificate.tare } ${weightCertificate.piece }
+								${weightCertificate.gross }-${weightCertificate.net }-${weightCertificate.tare } ${weightCertificate.piece }
 							</td>
 							<td id="inputstart">
 								${weightCertificate.remark }
@@ -163,7 +163,7 @@
 								<td></td>
 								<td></td>
 								<td id="inputstart">
-									${weightCertificate.gross }- ${weightCertificate.net } -${weightCertificate.tare } ${weightCertificate.piece } ${weightCertificate.remark }
+									${weightCertificate.gross }-${weightCertificate.net }-${weightCertificate.tare } ${weightCertificate.piece }
 								</td>
 								<td id="inputstart">
 									${weightCertificate.remark }

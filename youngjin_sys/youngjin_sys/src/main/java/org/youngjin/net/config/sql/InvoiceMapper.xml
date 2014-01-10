@@ -3,11 +3,44 @@
 <mapper namespace="invoiceMapper">
 	<resultMap type="Invoice" id="InvoiceMap">
 		<result column="seq" property="seq"/>
+		<result column="invoice_no" property="invoiceNo"/>
 		<result column="tsp" property="tsp"/>
 		<result column="start_date" property="startDate"/>
 		<result column="end_date" property="endDate"/>
 		<result column="write_date" property="writeDate"/>
 		<result column="complete" property="complete"/>
+		<result column="amount" property="amount"/>
+	</resultMap>
+
+	<resultMap type="GBL" id="GblMap">
+		<result column="seq" property="seq" />
+		<result column="no" property="no" />
+		<result column="pud" property="pud" />
+		<result column="rank" property="rank" />
+		<result column="code" property="code" />
+		<result column="scac" property="scac" />
+		<result column="ssn" property="ssn" />
+		<result column="customer_name" property="customerName" />
+		<result column="area" property="areaLocal" />
+		<result column="us_no" property="usNo" />
+		<result column="dest_port" property="destPort"/>
+		<result column="origin_gblock" property="originGBlock"/>
+		<result column="dest_gblock" property="destGBlock"/>
+		<result column="rdd" property="rdd"/>
+		<result column="pod" property="pod"/>
+		<result column="poe" property="poe"/>
+		<result column="origin_address" property="originAddress"/>
+		<result column="origin_port" property="originPort"/>
+		<result column="origin_city" property="originCity"/>
+		<result column="mil_svc" property="milSVC"/>
+		<result column="etd" property="etd"/>
+		<result column="eta" property="eta"/>
+		<result column="bl_no" property="blNo"/>
+		<result column="pcs" property="pcs" />
+		<result column="lbs" property="lbs" />
+		<result column="cuft" property="cuft" />
+		<result column="truck_check" property="truckCheck"/>
+		<result column="booking_check" property="bookingCheck"/>
 	</resultMap>
 	
 	<resultMap type="InvoiceGbl" id="InvoiceGblMap">
@@ -19,6 +52,8 @@
 		<result column="name" property="name" />
 		<result column="amount" property="amount" />
 		<result column="complete" property="complete" />
+		<result column="scac" property="tsp" />
+		<result column="pud" property="pud" />
 	</resultMap>
 	
 	<resultMap type="InvoiceGbl" id="InvoiceInfoMap">
@@ -30,6 +65,154 @@
 		<result column="name" property="name" />
 		<result column="code" property="code" />
 	</resultMap>
+	
+	<select id="getInvoicesttingGblListCount" parameterType="OutboundFilter" resultType="Integer">			
+		SELECT 
+			count(*) AS count
+		FROM 
+			gbl g
+		WHERE
+			 g.seq IN (
+				SELECT
+					seq
+				FROM
+					gbl g1, gbl_status g2
+				WHERE
+					g1.no = g2.gbl_no
+				AND
+					g2.gbl_preperation = TRUE
+				AND
+					g2.gbl_truckmanifast = TRUE
+				AND
+					g2.gbl_bookingList = TRUE
+				AND
+					g2.gbl_invoice = FALSE
+				
+			)
+		<if test="area != null and area != ''">
+			AND
+				area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND		
+				area = #{branch}			
+		</if>
+		<if test="carrier != null and carrier != ''">
+			AND
+				scac = #{carrier}
+		</if>
+		<if test="code != null and code != ''">
+			AND
+				code = #{code}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+				pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+				pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+		</if>
+		<if test="truckManifastFlag == false">
+			AND
+				no NOT LIKE '%-sub%'
+		</if>
+		<if test="truckManifastFlag == true">
+			OR
+				no LIKE '%-sub%'
+		</if>			
+	</select>
+	
+	<select id="getInvoiceSettingGblList" parameterType="OutboundFilter" resultMap="GblMap">				
+		SELECT 
+			gt.*, cuft, pcs
+		FROM 
+			(SELECT
+				g.no, w.booking_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
+			FROM gbl g, weight_certificate w
+			WHERE g.seq = w.gbl_seq
+			<if test="area != null and area != ''">
+				AND
+					g.area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+			</if>
+			<if test="branch != null and branch != ''">
+				AND		
+					g.area = #{branch}			
+			</if>
+			<if test="carrier != null and carrier != ''">
+				AND
+					g.scac = #{carrier}
+			</if>
+			<if test="code != null and code != ''">
+				AND
+					g.code = #{code}
+			</if>
+			<if test="startPud != null and startPud != ''">
+				AND
+					g.pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+			</if>
+			<if test="endPud != null and endPud != ''">
+				AND
+					g.pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+			</if>
+			<if test="truckManifastFlag == false">
+				AND
+					g.no NOT LIKE '%-sub%'
+			</if>
+			<if test="truckManifastFlag == true">
+				OR
+					g.no LIKE '%-sub%'
+			</if>
+			AND g.seq IN (
+				SELECT
+					seq
+				FROM
+					gbl g1, gbl_status g2
+				WHERE
+					g1.no = g2.gbl_no
+				AND
+					g2.gbl_preperation = TRUE
+				AND
+					g2.gbl_truckmanifast = TRUE
+				AND
+					g2.gbl_bookingList = TRUE
+				AND
+					g2.gbl_invoice = FALSE
+				
+			)		
+			GROUP BY g.no, w.truck_check
+			) a, gbl gt
+		WHERE
+			gt.no = a.no
+		ORDER BY
+			gt.pud	
+	</select>
+	
+	<select id="getInvoiceSettingGblContent" parameterType="String" resultMap="InvoiceGblMap">		
+		SELECT
+			g.seq AS gbl_seq, g.no AS gbl_no, g.rank, g.customer_name AS name, g.scac, g.pud 
+		FROM
+			gbl g, gbl_status gs
+		WHERE
+			g.seq = #{value}
+		AND
+			g.no = gs.gbl_no
+		AND
+			gs.gbl_invoice = false
+		AND
+			gs.gbl_truckmanifast = true
+		AND
+			gs.gbl_bookingList = true			
+	</select>
+	
+	<select id="checkTodayInvoiceNo" resultType="String">
+		SELECT
+			invoice_no
+		FROM
+			invoice_list
+		WHERE
+			DATE_FORMAT(write_date, '%Y%m%d') = DATE_FORMAT(SYSDATE(), '%Y%m%d')
+	</select>
 	
 	<select id="getSitListCount" resultType="Integer">
 		SELECT
@@ -249,7 +432,7 @@
 		(
 			SELECT
 				(@rownum := @rownum + 1) AS rownum,
-				i.seq, i.tsp, i.start_date, i.end_date, i.write_date, i.complete
+				i.seq, i.invoice_no, i.tsp, i.start_date, i.end_date, i.write_date, i.complete, i.amount
 			FROM
 				invoice_list i, (SELECT @rownum := 0) r
 			ORDER BY
@@ -430,11 +613,11 @@
 		INSERT INTO
 			invoice_list
 			(
-				tsp, start_date, end_date, write_date, complete, process
+				invoice_no, tsp, start_date, end_date, write_date, complete, process
 			)
 		VALUES
 			(
-				#{tsp}, #{startDate}, #{endDate}, SYSDATE(), 0, #{process}
+				#{invoiceNo}, #{tsp}, #{startDate}, #{endDate}, SYSDATE(), 0, #{process}
 			)
 		<selectKey keyProperty="seq" resultType="Integer">
 			SELECT LAST_INSERT_ID()  
@@ -547,13 +730,20 @@
 		UPDATE
 			invoice_list
 		SET
-			complete = true
+			complete = true,
+			amount = (SELECT
+						SUM(amount)
+					FROM
+						invoice_gbl
+					WHERE
+						invoice_list_seq = #{value}
+					GROUP BY invoice_list_seq)	
 		WHERE
 			seq = (
 					SELECT * FROM
 					(
 						SELECT seq FROM invoice_list i
-						WHERE seq = '52' 
+						WHERE seq = #{value} 
 						AND	
 						(	SELECT
 								COUNT(*)

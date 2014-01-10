@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.invoice.Invoice;
 import org.youngjin.net.invoice.InvoiceFilter;
@@ -21,6 +20,7 @@ import org.youngjin.net.invoice.InvoiceGbl;
 import org.youngjin.net.invoice.InvoiceGblContent;
 import org.youngjin.net.invoice.InvoiceService;
 import org.youngjin.net.login.User;
+import org.youngjin.net.outbound.OutboundFilter;
 
 @Controller
 public class InvoiceController {
@@ -53,12 +53,18 @@ public class InvoiceController {
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{process}/invoice/invoiceAddSetting", method = RequestMethod.GET)
-	public String invoiceAddSetting(Model model, User user,
+	public String invoiceAddSetting(Model model, User user, @ModelAttribute OutboundFilter outboundFilter,
 			@PathVariable String process) {
+		
+		System.out.println("cehck");
+		outboundFilter.getPagination().setNumItems(
+				invoiceService.getInvoiceSettingGblListCount(outboundFilter));
+		
+		List<GBL> invoiceGblList = invoiceService.getInvoiceSettingGblList(outboundFilter);
 
-		List<Code> tspList = codeService.getAllCarrierList();
-
-		model.addAttribute("tspList", tspList);
+		model.addAttribute("filterMap", invoiceService.getFilterMap());
+		
+		model.addAttribute("gblList", invoiceGblList);
 
 		return process + "/invoice/invoiceAddSettingPop";
 	}

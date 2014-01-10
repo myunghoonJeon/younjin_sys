@@ -10,8 +10,12 @@ public class InvoiceGbl {
 	private String code;
 	private String amount;
 	private Boolean complete;
-	
+
 	private Invoice invoice;
+
+	// invoice List 작성을 위한 param
+	private String tsp;
+	private String pud;
 
 	public Integer getSeq() {
 		return seq;
@@ -84,6 +88,7 @@ public class InvoiceGbl {
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
 	}
+
 	public String getCode() {
 		return code;
 	}
@@ -92,12 +97,29 @@ public class InvoiceGbl {
 		this.code = code;
 	}
 
+	public String getTsp() {
+		return tsp;
+	}
+
+	public void setTsp(String tsp) {
+		this.tsp = tsp;
+	}
+
+	public String getPud() {
+		return pud;
+	}
+
+	public void setPud(String pud) {
+		this.pud = pud;
+	}
+
 	@Override
 	public String toString() {
 		return "InvoiceGbl [seq=" + seq + ", invoiceListSeq=" + invoiceListSeq
 				+ ", gblSeq=" + gblSeq + ", gblNo=" + gblNo + ", rank=" + rank
 				+ ", name=" + name + ", code=" + code + ", amount=" + amount
-				+ ", complete=" + complete + ", invoice=" + invoice + "]";
+				+ ", complete=" + complete + ", invoice=" + invoice + ", tsp="
+				+ tsp + ", pud=" + pud + "]";
 	}
 
 }

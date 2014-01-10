@@ -2,12 +2,25 @@ package org.youngjin.net.invoice;
 
 public class Invoice {
 	private Integer seq;
+	private String invoiceNo;
 	private String tsp;
 	private String startDate;
 	private String endDate;
 	private String writeDate;
 	private Boolean complete;
 	private String process;
+	
+	private String amount;
+
+	private String seqList;
+
+	public String getSeqList() {
+		return seqList;
+	}
+
+	public void setSeqList(String seqList) {
+		this.seqList = seqList;
+	}
 
 	public Integer getSeq() {
 		return seq;
@@ -64,13 +77,30 @@ public class Invoice {
 	public void setProcess(String process) {
 		this.process = process;
 	}
+	
+	public String getInvoiceNo() {
+		return invoiceNo;
+	}
+
+	public void setInvoiceNo(String invoiceNo) {
+		this.invoiceNo = invoiceNo;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
 
 	@Override
 	public String toString() {
-		return "Invoice [seq=" + seq + ", tsp=" + tsp + ", startDate="
-				+ startDate + ", endDate=" + endDate + ", writeDate="
-				+ writeDate + ", complete=" + complete + ", process=" + process
-				+ "]";
+		return "Invoice [seq=" + seq + ", invoiceNo=" + invoiceNo + ", tsp="
+				+ tsp + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", writeDate=" + writeDate + ", complete=" + complete
+				+ ", process=" + process + ", amount=" + amount + ", seqList="
+				+ seqList + "]";
 	}
 
 }

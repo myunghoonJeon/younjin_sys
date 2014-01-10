@@ -9,13 +9,14 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.youngjin.net.GBL;
-import org.youngjin.net.InvoiceController;
+import org.youngjin.net.code.Code;
+import org.youngjin.net.code.CodeDao;
 import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumDao;
 import org.youngjin.net.outbound.Addition;
 import org.youngjin.net.outbound.OutboundDao;
+import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.Weightcertificate;
-import org.youngjin.net.util.CalcUtil;
 import org.youngjin.net.util.DateUtil;
 
 @Service
@@ -29,6 +30,9 @@ public class InvoiceService {
 	
 	@Resource
 	private MemorandumDao memorandumDao;
+	
+	@Resource
+	private CodeDao codeDao;
 
 	public void checkNewYearRate() {
 		//SIT charge Rate schedule check
@@ -344,7 +348,26 @@ public class InvoiceService {
 	}
 
 	public Invoice invoiceListAdd(Invoice invoice, String process) {		
-		List<InvoiceGbl> settingGblList = invoiceDao.getSettingGblList(invoice);	
+		String [] invoiceGblSeqList = invoice.getSeqList().split(",");
+		
+		List<InvoiceGbl> settingGblList = new ArrayList<InvoiceGbl>();
+		
+		for(String gblSeq : invoiceGblSeqList){
+			settingGblList.add(invoiceDao.getInvoiceSettingGblListContent(gblSeq));
+		}
+		
+		invoice.setTsp(settingGblList.get(0).getTsp());
+		invoice.setStartDate(settingGblList.get(0).getPud());
+		invoice.setEndDate(settingGblList.get(settingGblList.size() - 1).getPud());
+		
+		if(invoiceDao.checkTodayInvoiceNo() != null){
+			String invoiceNo = invoiceDao.checkTodayInvoiceNo();
+			String invoiceNoCount = invoiceNo.substring(7, invoiceNo.length());
+			
+			invoice.setInvoiceNo(DateUtil.getToday("YYYYMMDD") + Integer.toString(Integer.parseInt(invoiceNoCount) + 1));
+		} else {
+			invoice.setInvoiceNo(DateUtil.getToday("YYYYMMDD") + "1");
+		}
 		
 		if(settingGblList.size() > 0){
 			invoice.setProcess(process);			
@@ -771,5 +794,28 @@ public class InvoiceService {
 
 	public InvoiceGbl getInvoiceGblContentInfo(Integer invoiceGblSeq) {
 		return invoiceDao.getInvoiceGblcontentInfo(invoiceGblSeq);
+	}
+
+	public int getInvoiceSettingGblListCount(OutboundFilter outboundFilter) {
+		return invoiceDao.getInvoiceSettingGblListCount(outboundFilter);
+	}
+
+	public List<GBL> getInvoiceSettingGblList(OutboundFilter outboundFilter) {
+		return invoiceDao.getInvoiceSettingGblList(outboundFilter);
+	}
+
+	public Map<String, List<Code>> getFilterMap() {
+		Map<String, List<Code>> filterMap = new HashMap<String, List<Code>>();
+		List<Code> branchList = codeDao.getAllAreaList();		
+		filterMap.put("branchList", branchList);
+		
+		List<Code> carrierList = outboundDao.getCarrierList();
+		filterMap.put("carrierList", carrierList);
+		
+		List<Code> codeList = outboundDao.getCodeList();
+		filterMap.put("codeList", codeList);
+		
+		
+		return filterMap;
 	}
 }

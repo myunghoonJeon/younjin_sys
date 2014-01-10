@@ -29,7 +29,7 @@
 
 </head>
 <body>
-	<div class="invoice_gbl_list_wrap">
+	<div class="invoice_gbl_content_list_wrap">
 		<div class="pop_title_line">
 			<span>INVOICE GBL LIST</span>
 		</div>	

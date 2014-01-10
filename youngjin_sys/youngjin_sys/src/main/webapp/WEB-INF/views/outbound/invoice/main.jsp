@@ -31,9 +31,10 @@
 			<thead>
 				<tr>
 					<th>NO</th>
-					<th>TSP</th>
+					<th>INVOICE NO</th>
 					<th>START DATE</th>
 					<th>END DATE</th>
+					<th>AMOUNT</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -45,9 +46,10 @@
 				<c:forEach var="invoice" items="${invoiceList }" varStatus="i">
 					<tr data-seq="${invoice.seq }">
 						<td>${i.count }</td>
-						<td>${invoice.tsp }</td>
+						<td>${invoice.invoiceNo }</td>
 						<td>${invoice.startDate }</td>
 						<td>${invoice.endDate }</td>
+						<td>${invoice.amount }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

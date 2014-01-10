@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.youngjin.net.GBL;
+import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.Weightcertificate;
 
 @Repository
@@ -190,6 +192,22 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 
 	public InvoiceGbl getInvoiceGblcontentInfo(Integer invoiceGblSeq) {
 		return getSqlSession().selectOne("invoiceMapper.getInvoiceGblContentInfo", invoiceGblSeq);
+	}
+
+	public int getInvoiceSettingGblListCount(OutboundFilter outboundFilter) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoicesttingGblListCount", outboundFilter);
+	}
+
+	public List<GBL> getInvoiceSettingGblList(OutboundFilter outboundFilter) {
+		return getSqlSession().selectList("invoiceMapper.getInvoiceSettingGblList", outboundFilter);
+	}
+
+	public InvoiceGbl getInvoiceSettingGblListContent(String gblSeq) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoiceSettingGblContent", gblSeq);
+	}
+
+	public String checkTodayInvoiceNo() {
+		return getSqlSession().selectOne("invoiceMapper.checkTodayInvoiceNo");
 	}
 	
 }

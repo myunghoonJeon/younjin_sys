@@ -23,8 +23,8 @@ youngjin.invoice.invoiceListSync = function(){
 /*	$('input#invoice_add_start_date').datepicker({dateFormat: 'yymmdd'});
 	$('input#invoice_add_end_date').datepicker({dateFormat: 'yymmdd'});*/
 	
-	$('.invoice_add_submit_button').unbind('click');
-	$('.invoice_add_submit_button').bind('click', function(){
+	$('.invoice_gbl_addButton').unbind('click');
+	$('.invoice_gbl_addButton').bind('click', function(){
 		youngjin.invoice.invoiceListAddSubmit($(this));
 	});
 	
@@ -83,6 +83,14 @@ youngjin.invoice.rateSync = function(){
 	
 	$('.other_rate_input').focusout(function(){
 		youngjin.invoice.otherInput($(this));
+	});
+	
+	$('.invoice_gbl_list_tr').unbind('click');
+	$('.invoice_gbl_list_tr').bind('click', function(){
+		if($(this).find('input').attr('checked') != 'checked')
+			$(this).find('input').attr('checked', 'checked');
+		else 
+			$(this).find('input').removeAttr('checked');	
 	});
 };
 
@@ -242,50 +250,37 @@ youngjin.invoice.invoiceListAddPop = function(target){
 	var url = contextPath + '/outbound/invoice/invoiceAddSetting';
 	
 	$.smartPop.open({
-		width : 600,
-		height : 180,
+		width: 1000,
+		height: 700,
 		url : url
-	});
+	});	
 };
 
 youngjin.invoice.invoiceListAddSubmit = function(target){
-	var tsp = $('#invoice_add_select').val();
-	var startDate = $('#invoice_add_start_date').val();
-	var endDate = $('#invoice_add_end_date').val();
+	var gblSeq = '';
+	
+	$(':checkbox:checked').each(function(){
+		gblSeq = gblSeq + $(this).val() + ",";
+	});
 	
 	var url = contextPath + '/outbound/invoice/invoiceListAdd.json';
 	
 	var json = {
-			'tsp' : tsp,
-			'startDate' : startDate,
-			'endDate' : endDate
+			'seqList' : gblSeq
 	};
 	
 	$.postJSON(url, json, function(invoice){
 		return jQuery.ajax({
 			success : function(){
-				if(invoice != '' && invoice != undefined){
-					var goUrl = contextPath + '/outbound/invoice/' + invoice.seq + '/invoiceGblList'; 
-					
-					parent.$.smartPop.close();
-					
-					parent.$.smartPop.open({
-						width : 800,
-						height : 500,
-						url : goUrl
-					});
-				} else {
-					alert('해당 조건에 GBL이 존재하지 않습니다!');
-					var beforeUrl = contextPath + '/outbound/invoice/invoiceAddSetting';
-					
-					parent.$.smartPop.close();
-					
-					parent.$.smartPop.open({
-						width : 600,
-						height : 180,
-						url : beforeUrl
-					});
-				}
+				var goUrl = contextPath + '/outbound/invoice/' + invoice.seq + '/invoiceGblList'; 
+				
+				parent.$.smartPop.close();
+				
+				parent.$.smartPop.open({
+					width : 800,
+					height : 500,
+					url : goUrl
+				});
 			},
 			
 			error : function(){
@@ -309,8 +304,8 @@ youngjin.invoice.invoiceGblListBack = function(target){
 					parent.$.smartPop.close();
 					
 					parent.$.smartPop.open({
-						width : 600,
-						height : 180,
+						width : 1000,
+						height : 700,
 						url : beforeUrl
 					});					
 				},
