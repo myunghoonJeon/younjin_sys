@@ -1,5 +1,6 @@
 package org.youngjin.net.outbound;
 
+import java.awt.Container;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -525,5 +526,9 @@ public class OutboundService {
 		outboundDao.mergeGbl(gbl);
 		
 		outboundDao.setSeperatedFlag(gbl);
+	}
+
+	public List<Container> getContainerList() {
+		return outboundDao.getContainerList();
 	}
 }

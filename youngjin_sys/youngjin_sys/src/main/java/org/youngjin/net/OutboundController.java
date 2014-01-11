@@ -473,6 +473,9 @@ public class OutboundController {
 		model.addAttribute("seq", seq);
 		model.addAttribute("weightcertificateList",
 				outboundService.getWeightcertificateList(seq));
+		
+		model.addAttribute("containerList", outboundService.getContainerList());
+		
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
 
 		return process + "/gbl/weightcertificate";

@@ -112,5 +112,11 @@ public class AdminController {
 	@ResponseBody
 	public void otherRateInsert(@RequestBody Rate rate) {
 		invoiceService.otherInsert(rate);
-	}			
+	}
+	
+	@RequestMapping(value = "/container", method = RequestMethod.GET)
+	public String container(Model model, User user){
+		
+		return "admin/container";
+	}	
 }

@@ -1,5 +1,6 @@
 package org.youngjin.net.outbound;
 
+import java.awt.Container;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -248,5 +249,9 @@ public class OutboundDao extends SqlSessionDaoSupport {
 
 	public void updateGblStatusByGblNo(String gblNo) {
 		getSqlSession().update("outboundMapper.updateGblStatusByGblNo", gblNo);
+	}
+
+	public List<Container> getContainerList() {
+		return getSqlSession().selectList("outboundMapper.getContainerManageList");
 	}
 }

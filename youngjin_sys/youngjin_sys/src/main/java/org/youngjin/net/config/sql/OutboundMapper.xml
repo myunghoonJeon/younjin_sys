@@ -653,6 +653,13 @@
 		truck_seq is null
 </select>
 
+<select id="getContainerManageList" resultType="Container">
+	SELECT
+		seq, status, count, remark
+	FROM
+		container
+</select>
+
 <insert id="insertGbl" parameterType="GBL">
 	INSERT INTO
 		gbl

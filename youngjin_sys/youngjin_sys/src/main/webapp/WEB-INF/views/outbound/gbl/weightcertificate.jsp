@@ -120,7 +120,13 @@
 									<tr>	
 										<td class="piece_td"><input name="piece" type="text" value="${weightcertificate.piece }" /></td>
 										<td class="type_td"><input name="type" type="text" value="${weightcertificate.type }"/></td>
-										<td class="status_td"><input name="status" type="text" value="${weightcertificate.status }" /></td>
+										<td class="status_td">
+											<select name="status">
+												<c:forEach var="container" items="${containerList }">
+													<option data-count="${container.count }" value="${container.seq }" ${weightcertificate.status eq container.status ? 'selected=selected' : ''}>${container.status }</option>
+												</c:forEach>
+											</select>
+										</td>
 										<td class="gross_td"><input name="grossKg" type="text" value="${weightcertificate.grossKg }" /></td>
 										<td class="gross_td"><input name="gross" type="text" value="${weightcertificate.gross }"/></td>
 										<td class="tare_td"><input name="tare" type="text" value="${weightcertificate.tare }" /></td>
