@@ -1382,6 +1382,149 @@
 		tcmd_seq = #{tcmdSeq}
 </update>
 
+<update id="updateTcmd" parameterType="Map">
+	UPDATE
+		tcmd
+	SET
+		seq = seq
+		<choose>
+			<when test="column == 'pageNo'">
+				,pageNo = #{value}
+			</when>
+			<when test="column == 'trirCont'">
+				,trirCont = #{value}
+			</when>
+			<when test="column == 'consignor'">
+				,consignor = #{value}
+			</when>
+			<when test="column == 'commSpecHdig'">
+				,commSpecHdig = #{value}
+			</when>
+			<when test="column == 'airDim'">
+				,airDim = #{value}
+			</when>
+			<when test="column == 'poe'">
+				,poe = #{value}
+			</when>
+			<when test="column == 'pod'">
+				,pod = #{value}
+			</when>
+			<when test="column == 'mode'">
+				,mode = #{value}
+			</when>
+			<when test="column == 'pack'">
+				,pack = #{value}
+			</when>
+			<when test="column == 'transControlNo1'">
+				,transControlNo1 = #{value}
+			</when>
+			<when test="column == 'transControlNo2'">
+				,transControlNo2 = #{value}
+			</when>
+			<when test="column == 'transControlNo3'">
+				,transControlNo3 = #{value}
+			</when>
+			<when test="column == 'transControlNo4'">
+				,transControlNo4 = #{value}
+			</when>
+			<when test="column == 'transControlNo5'">
+				,transControlNo5 = #{value}
+			</when>
+			<when test="column == 'consignee'">
+				,consignee = #{value}
+			</when>
+			<when test="column == 'pri'">
+				,pri = #{value}
+			</when>
+			<when test="column == 'rdd'">
+				,rdd = #{value}
+			</when>
+			<when test="column == 'proj'">
+				,proj = #{value}
+			</when>
+			<when test="column == 'dataShpd'">
+				,dataShpd = #{value}
+			</when>
+			<when test="column == 'eta'">
+				,eta = #{value}
+			</when>
+			<when test="column == 'trAcct'">
+				,trAcct = #{value}
+			</when>
+			<when test="column == 'carrier'">
+				,carrier = #{value}
+			</when>
+			<when test="column == 'flightTruckVoyDoc'">
+				,flightTruckVoyDoc = #{value}
+			</when>
+			<when test="column == 'ref'">
+				,ref = #{value}
+			</when>
+			<when test="column == 'pieces'">
+				,pieces = #{value}
+			</when>
+			<when test="column == 'weight'">
+				,weight = #{value}
+			</when>
+			<when test="column == 'cube'">
+				,cube = #{value}
+			</when>
+			<when test="column == 'transhipPoint1'">
+				,transhipPoint1 = #{value}
+			</when>
+			<when test="column == 'transhipPoint2'">
+				,transhipPoint2 = #{value}
+			</when>
+			<when test="column == 'transhipPoint3'">
+				,transhipPoint3 = #{value}
+			</when>
+			<when test="column == 'consignee2'">
+				,consignee2 = #{value}
+			</when>
+			<when test="column == 'dataReceivedOffered'">
+				,dataReceivedOffered = #{value}
+			</when>
+			<when test="column == 'condition'">
+				,condition = #{value}
+			</when>
+			<when test="column == 'remarks'">
+				,remarks = #{value}
+			</when>
+			<when test="column == 'trailerContainer'">
+				,trailerContainer = #{value}
+			</when>
+			<when test="column == 'transportationCa'">
+				,transportationCa = #{value}
+			</when>
+			<when test="column == 'consignee3'">
+				,consignee3 = #{value}
+			</when>
+			<when test="column == 'pri2'">
+				,pri2 = #{value}
+			</when>
+			<when test="column == 'remark2'">
+				,remark2 = #{value}
+			</when>
+			<when test="column == 'additionalRemark'">
+				,additionalRemark = #{value}
+			</when>
+			<when test="column == 'army'">
+				,army = #{value}
+			</when>
+			<when test="column == 'turnInDate'">
+				,turnInDate = #{value}
+			</when>
+			<when test="column == 'date'">
+				,date = #{value}
+			</when>
+			<when test="column == 'dodsponsred'">
+				,dodsponsred = #{value}
+			</when>			
+		</choose>
+		WHERE
+			seq = #{tcmdSeq}
+</update>
+
 <delete id="deleteWeightCertificateByTruckManifast" parameterType="Integer">
 	UPDATE
 		weight_certificate

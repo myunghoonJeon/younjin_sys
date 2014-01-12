@@ -867,6 +867,21 @@ public class OutboundController {
 		
 		return process + "/delivery/tcmdModify";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/delivery/mil/{seq}/tcmdPrint")
+	public String tcmdPrint(Model model, User user, @PathVariable String process, @PathVariable Integer seq, @ModelAttribute OutboundFilter outboundFilter){			
+		model.addAttribute("user", user);
+		
+		String year = Integer.toString(DateUtil.getYear());
+		String getJulianDate = year.substring(3, 4) + DateUtil.getDaysBetween(year + "0101", DateUtil.getToday("YYYYMMDD"));
+		
+		model.addAttribute("julianDate", getJulianDate);
+		model.addAttribute("tcmd", outboundService.getTcmdContent(seq));
+		model.addAttribute("gblList", outboundService.getTcmdContentGblList(seq));
+		
+		return process + "/delivery/tcmdPrint";
+	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{process}/tcmd/tcmdListAdd.json")
@@ -880,6 +895,13 @@ public class OutboundController {
 	@ResponseBody
 	public void tcmdGblUpdate(@RequestBody Map<String, String> map) {
 		outboundService.updateTcmdGbl(map);
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/tcmdUpdate.json")
+	@ResponseBody
+	public void tcmdUpdate(@RequestBody Map<String, String> map) {
+		outboundService.updateTcmd(map);
 	}	
 	/**
 	 * DownLoadControl

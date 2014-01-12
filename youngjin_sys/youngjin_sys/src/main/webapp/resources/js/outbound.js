@@ -333,6 +333,10 @@ youngjin.outbound.tcmdSync = function(){
 	$('.tcmdGbl_wrap input').focusout(function(){
 		youngjin.outbound.tcmdGblModify($(this));
 	});
+	
+	$('.tcmdInfo_wrap input').focusout(function(){
+		youngjin.outbound.tcmdInfoModify($(this));
+	});
 };
 
 youngjin.outbound.backButtonSync = function(){
@@ -1771,5 +1775,31 @@ youngjin.outbound.tcmdGblModify = function(target){
 				alert('에러 발생');
 			}
 		});
-	})
+	});
+};
+
+youngjin.outbound.tcmdInfoModify = function(target){
+	var tcmdSeq = $('#page1-div').attr('data-tcmdSeq');
+	
+	var column = target.attr('name');
+	var value = target.val();
+	
+	var json = {
+		'tcmdSeq' : tcmdSeq,
+		'column' : column,
+		'value' : value
+	};
+	
+	var url = contextPath + '/outbound/tcmdUpdate.json';
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				
+			}, 
+			error : function(){
+				alert('에러 발생');
+			}
+		});
+	});
 };

@@ -701,4 +701,8 @@ public class OutboundService {
 	public void updateTcmdGbl(Map<String, String> map) {
 		outboundDao.updateTcmdGbl(map);
 	}
+
+	public void updateTcmd(Map<String, String> map) {
+		outboundDao.updateTcmd(map);
+	}
 }

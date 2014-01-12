@@ -62,10 +62,7 @@
 
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
-<body  bgcolor="#A0A0A0" vlink="blue" link="blue"> 
-<div>
-	<span class="yj_button" onclick="location.href='${cp}/outbound/delivery/mil/${tcmd.seq }/tcmdPrint'">print</span>
-</div>
+<body  bgcolor="#A0A0A0" vlink="blue" link="blue" onload="window.print();"> 
 <a name="1"></a>
 <DIV id="page1-div" style="position:relative; width:1010px; height:714px;" data-tcmdSeq="${tcmd.seq }">
 	<div class="tcmdInfo_wrap">

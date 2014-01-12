@@ -49,6 +49,11 @@ public class Tcmd {
 
 	private String oneTcmdFlag;
 
+	private String date;
+	private String army;
+	private String dodsponsred;
+	private String turnInDate;
+
 	public Integer getSeq() {
 		return seq;
 	}
@@ -409,6 +414,38 @@ public class Tcmd {
 		this.oneTcmdFlag = oneTcmdFlag;
 	}
 
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getArmy() {
+		return army;
+	}
+
+	public void setArmy(String army) {
+		this.army = army;
+	}
+
+	public String getDodsponsred() {
+		return dodsponsred;
+	}
+
+	public void setDodsponsred(String dodsponsred) {
+		this.dodsponsred = dodsponsred;
+	}
+
+	public String getTurnInDate() {
+		return turnInDate;
+	}
+
+	public void setTurnInDate(String turnInDate) {
+		this.turnInDate = turnInDate;
+	}
+
 	@Override
 	public String toString() {
 		return "Tcmd [seq=" + seq + ", docId=" + docId + ", trirCont="
@@ -433,7 +470,9 @@ public class Tcmd {
 				+ consignee3 + ", pri2=" + pri2 + ", remark2=" + remark2
 				+ ", addtionalRemark=" + addtionalRemark + ", writeDate="
 				+ writeDate + ", pageNo=" + pageNo + ", oneTcmdFlag="
-				+ oneTcmdFlag + "]";
+				+ oneTcmdFlag + ", date=" + date + ", army=" + army
+				+ ", dodsponsred=" + dodsponsred + ", turnInDate=" + turnInDate
+				+ "]";
 	}
 
 }

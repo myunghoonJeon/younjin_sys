@@ -92,8 +92,7 @@
 				<c:when test="${user.process eq 'outbound' }">
 					<%@include file="outbound_left_menu.jspf" %>
 				</c:when>
-			</c:choose>
-		
+			</c:choose>		
 		</c:if>
 		
 		<c:if test = "${user.process ne 'admin' and user.process ne 'gblock' }">

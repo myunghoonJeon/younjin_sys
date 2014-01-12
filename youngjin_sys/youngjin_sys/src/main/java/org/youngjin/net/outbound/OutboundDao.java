@@ -308,4 +308,8 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void updateTcmdGbl(Map<String, String> map) {
 		getSqlSession().update("outboundMapper.updateTcmdGbl", map);
 	}
+
+	public void updateTcmd(Map<String, String> map) {
+		getSqlSession().update("outboundMapper.updateTcmd", map);
+	}
 }
