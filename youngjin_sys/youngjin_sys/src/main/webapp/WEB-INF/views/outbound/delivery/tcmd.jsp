@@ -22,32 +22,55 @@
 	}
 </script>	
 
-	<div class="invoice_add_button_wrap">
-		<span class="invoice_add_button yj_button" >add</span>
+	<div class="tcmd_add_button_wrap">
+		<span class="tcmd_add_button yj_button" >add</span>
 	</div>	
 	
 	<div>
-		<table class="yj_table invoice_table">
+		<table class="yj_table tcmd_table">
 			<thead>
 				<tr>
 					<th>NO</th>
-					<th>TSP</th>
-					<th>START DATE</th>
-					<th>END DATE</th>
+					<th>WRITE DATE</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${invoiceList eq '[]' }">
+				<c:if test="${ tcmdList eq '[]' }">
 					<tr>
-						<td colspan="5">등록된 invoice가 없습니다.</td>
+						<td colspan="5">등록된 tcmd가 없습니다.</td>
 					</tr>
 				</c:if>
-				<c:forEach var="invoice" items="${invoiceList }" varStatus="i">
-					<tr data-seq="${invoice.seq }">
-						<td>${i.count }</td>
-						<td>${invoice.tsp }</td>
-						<td>${invoice.startDate }</td>
-						<td>${invoice.endDate }</td>
+				<c:set var="index" value="1" />
+				<c:set var="length" value="${fn:length(tcmdList)}" />
+				<c:forEach var="tcmd" items="${tcmdList }" varStatus="i">
+					<c:choose>
+						<c:when test="${length ne i.count and tcmdList[i.index + 1].oneTcmdFlag eq tcmd.oneTcmdFlag}">
+							<c:set var="nextCheck" value="R" />
+						</c:when>
+						<c:when test="${length eq 1 }">
+							<c:set var="nextCheck" value="O" />
+						</c:when>
+						<c:when test="${length ne i.count and tcmdList[i.index + 1].oneTcmdFlag ne tcmd.oneTcmdFlag and nextCheck ne 'N'}">
+							<c:set var="nextCheck" value="O" />
+						</c:when>
+						<c:when test="${length eq i.count and nextCheck ne 'N'}">
+							<c:set var="nextCheck" value="O" />
+						</c:when>
+					</c:choose>
+					<tr data-seq="${tcmd.seq }">
+						<c:if test="${nextCheck eq'N' }">
+							<c:set var="nextCheck" value="T" />
+						</c:if>
+						<c:if test="${nextCheck eq 'R' }" >
+							<td rowspan="2">${index }</td>
+							<c:set var="index" value="${index + 1 }" />
+							<c:set var="nextCheck" value="N"/>
+						</c:if>	
+						<c:if test="${nextCheck eq 'O' }">
+							<td>${index }</td>
+							<c:set var="index" value="${index + 1 }" />
+						</c:if>						
+						<td>${tcmd.writeDate }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

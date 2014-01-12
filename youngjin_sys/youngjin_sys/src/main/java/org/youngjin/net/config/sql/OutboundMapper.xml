@@ -31,6 +31,9 @@
 	<result column="cuft" property="cuft" />
 	<result column="truck_check" property="truckCheck"/>
 	<result column="booking_check" property="bookingCheck"/>
+	<result column="remark_rdd" property="remarkRdd" />
+	<result column="remark_tac" property="remarkTac"/>
+	<result column="consignee" property="consignee"/>
 </resultMap>
 
 <resultMap type="GBLStatus" id="StatusMap">
@@ -264,7 +267,6 @@
 		g.pod, 
 		g.poe, 
 		g.area, 
-		g.lbs,
 		g.origin_address, 
 		g.us_no, 
 		g.dest_port, 
@@ -273,11 +275,75 @@
 		g.mil_svc,
 		g.etd,
 		g.eta,
-		g.bl_no
+		g.bl_no,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+		g.lbs,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
 	FROM
 		gbl g
+		LEFT OUTER JOIN
+		(
+		SELECT
+			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+		FROM
+			gbl gt
+		JOIN
+			weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		GROUP BY
+			gt.seq
+		) gwc
+		ON (gwc.seq = g.seq)
 	WHERE
 		g.seq = #{seq}
+</select>
+
+<select id="getMilSvcGbl" parameterType="Map" resultMap="GblMap">
+	SELECT
+		g.no, 
+		g.seq,
+		g.customer_name, 
+		g.rank, 
+		g.code, 
+		g.scac, 
+		g.origin_gblock, 
+		g.dest_gblock, 
+		g.pud, 
+		g.ssn, 
+		g.rdd, 
+		g.pod, 
+		g.poe, 
+		g.area, 
+		g.origin_address, 
+		g.us_no, 
+		g.dest_port, 
+		g.origin_port, 
+		g.origin_city, 
+		g.mil_svc,
+		g.etd,
+		g.eta,
+		g.bl_no,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+		g.lbs,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
+	FROM
+		gbl g
+		LEFT OUTER JOIN
+		(
+		SELECT
+			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+		FROM
+			gbl gt
+		JOIN
+			weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		GROUP BY
+			gt.seq
+		) gwc
+		ON (gwc.seq = g.seq)
+	WHERE
+		g.seq = #{seq}
+	AND
+		g.mil_svc = #{milSvc}
+	
 </select>
 
 <select id="getCarrierList" resultType="Code">
@@ -424,6 +490,15 @@
 		gbl_seq = #{gblSeq}
 	AND
 		piece = #{piece}
+</select>
+
+<select id="getWeightcertificateOne" parameterType="Integer" resultType="Weightcertificate">
+        SELECT
+        	seq, piece, type, status, gross_kg AS grossKg, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq
+        FROM
+        	weight_certificate
+        WHERE
+        	seq = #{value}
 </select>
 
 <select id="getTruckCount" parameterType="OutboundFilter" resultType="Integer">
@@ -660,6 +735,230 @@
 		container
 </select>
 
+<select id="getTcmdList" resultType="Tcmd">
+	SELECT
+		*
+	FROM
+		tcmd
+	ORDER BY
+		seq, oneTcmdFlag
+</select>
+
+<select id="getTcmdContent" parameterType="Integer" resultType="Tcmd" >
+	SELECT
+		*
+	FROM
+		tcmd
+	WHERE
+		seq = #{value}
+</select>
+
+<select id="getTcmdContentGblList" parameterType="Integer" resultMap="GblMap">
+	SELECT
+		g.no, 
+		g.seq,
+		g.customer_name, 
+		g.rank, 
+		g.code, 
+		g.scac, 
+		g.origin_gblock, 
+		g.dest_gblock, 
+		g.pud, 
+		g.ssn, 
+		g.rdd, 
+		g.pod, 
+		g.poe, 
+		g.area, 
+		g.origin_address, 
+		g.us_no, 
+		g.dest_port, 
+		g.origin_port, 
+		g.origin_city, 
+		g.mil_svc,
+		g.etd,
+		g.eta,
+		g.bl_no,
+		tgl.remark_rdd,
+		tgl.remark_tac,
+		tgl.consignee,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+		g.lbs,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
+	FROM
+		gbl g
+		LEFT OUTER JOIN
+		(
+		SELECT
+			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+		FROM
+			gbl gt
+		JOIN
+			weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		GROUP BY
+			gt.seq
+		) gwc
+		ON (gwc.seq = g.seq), tcmd_gbl_list tgl
+	WHERE
+		tgl.gbl_seq = g.seq
+	AND
+		g.seq IN (
+			SELECT
+				gbl_seq
+			FROM
+				tcmd_gbl_list
+			WHERE
+				tcmd_seq = #{seq}
+		)
+		
+		
+</select>
+
+<select id="getTcmdGblListCount" parameterType="OutboundFilter" resultType="Integer">
+	SELECT
+		count(*)
+	FROM
+		gbl
+	WHERE
+		code in ('J', 'T')
+	AND
+		no NOT LIKE '%-sub%'		
+	
+	AND seq IN (
+			SELECT
+				seq
+			FROM
+				gbl g1, gbl_status g2
+			WHERE
+				g1.no = g2.gbl_no
+			AND
+				g2.gbl_preperation = TRUE
+			
+		)	
+	AND
+		seq NOT IN (
+			SELECT
+				gbl_seq
+			FROM
+				tcmd_gbl_list
+		)
+	<if test="area != null and area != ''">
+		AND
+			area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+	</if>
+	<if test="branch != null and branch != ''">
+		AND		
+			area = #{branch}			
+	</if>
+	<if test="carrier != null and carrier != ''">
+		AND
+			scac = #{carrier}
+	</if>
+	<if test="code != null and code != ''">
+		AND
+			code = #{code}
+	</if>
+	<if test="startPud != null and startPud != ''">
+		AND
+			pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+	</if>
+	<if test="endPud != null and endPud != ''">
+		AND
+			pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+	</if>	
+</select>
+
+<select id="getTcmdGblList" parameterType="OutboundFilter" resultMap="GblMap">
+	SELECT 
+		*
+	FROM	
+		(
+			SELECT
+				(@rownum := @rownum + 1) AS rownum,
+				g.seq,
+				g.no,
+				g.pud,
+				g.rank,
+				g.code,
+				g.scac,
+				g.customer_name,
+				g.area,
+				g.us_no,
+				g.dest_port,
+				g.etd,
+				g.eta,
+				g.bl_no,
+				g.pod,
+				CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+				g.lbs,
+				CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
+			FROM
+				gbl g
+				LEFT OUTER JOIN
+				(
+				SELECT
+					gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+				FROM
+					gbl gt
+				JOIN
+					weight_certificate wc ON (wc.gbl_seq = gt.seq)
+				GROUP BY
+					gt.seq
+				) gwc
+				ON (gwc.seq = g.seq),
+				(SELECT @rownum := 0) r
+			WHERE
+				code in ('J', 'T')		
+			
+			AND g.seq IN (
+				SELECT
+					seq
+				FROM
+					gbl g1, gbl_status g2
+				WHERE
+					g1.no = g2.gbl_no
+				AND
+					g2.gbl_preperation = TRUE
+				
+			)	
+			AND
+				g.seq NOT IN (
+					SELECT
+						gbl_seq
+					FROM
+						tcmd_gbl_list
+				)
+			AND
+				no NOT LIKE '%-sub%'
+			<if test="area != null and area != ''">
+				AND
+					area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+			</if>
+			<if test="branch != null and branch != ''">
+				AND		
+					area = #{branch}			
+			</if>
+			<if test="carrier != null and carrier != ''">
+				AND
+					scac = #{carrier}
+			</if>
+			<if test="code != null and code != ''">
+				AND
+					code = #{code}
+			</if>
+			<if test="startPud != null and startPud != ''">
+				AND
+					pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+			</if>
+			<if test="endPud != null and endPud != ''">
+				AND
+					pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+			</if>
+			ORDER BY
+				g.seq
+		)u	
+	WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+</select>
+
 <insert id="insertGbl" parameterType="GBL">
 	INSERT INTO
 		gbl
@@ -798,6 +1097,33 @@
 	VALUES
 		(
 			#{title}, #{cost}, #{gblSeq}, #{dd619Seq}, #{price}, #{memorandumSeq}
+		)
+</insert>
+
+<insert id="insertTcmd" parameterType="Tcmd">
+	INSERT INTO
+		tcmd
+		(
+			docId, consignor, commSpecHdig, airDim, poe, pod, mode, pack, transControlNo1, transControlNo2, transControlNo3, transControlNo4, transControlNo5, consignee, pri, carrier, remark, writeDate, oneTcmdFlag
+		)
+	VALUES
+		(
+			#{docId}, #{consignor}, #{commSpecHdig}, #{airDim}, #{poe}, #{pod}, #{mode}, #{pack}, #{transControlNo1}, #{transControlNo2}, #{transControlNo3}, #{transControlNo4}, #{transControlNo5}, #{consignee}, #{pri}, #{carrier}, #{remark}, SYSDATE(), #{oneTcmdFlag}
+		)		
+	<selectKey keyProperty="seq" resultType="Integer">
+		SELECT LAST_INSERT_ID() 
+	</selectKey>
+</insert>
+
+<insert id="insertTcmdGblList" parameterType="Map">
+	INSERT INTO
+		tcmd_gbl_list
+		(
+			gbl_seq, tcmd_seq
+		)
+	VALUES
+		(
+			#{gblSeq}, #{tcmdSeq}
 		)
 </insert>
 
@@ -1014,6 +1340,46 @@
 		seperate_flag = false
 	WHERE
 		no = #{no}
+</update>
+
+<update id="minusContainerByStatus" parameterType="String">
+	UPDATE
+		container
+	SET
+		count = count - 1
+	WHERE
+		status = #{value}
+</update>
+
+<update id="plusContainerByStatus" parameterType="String">
+	UPDATE
+		container
+	SET
+		count = count + 1
+	WHERE
+		status = #{value}
+</update>
+
+<update id="updateTcmdGbl" parameterType="Map">
+	UPDATE
+		tcmd_gbl_list
+	SET
+		gbl_seq = gbl_seq
+		<choose>
+			<when test="column == 'remark_rdd'">	
+				,remark_rdd = #{value}
+			</when>
+			<when test="column == 'remark_tac'">	
+				,remark_tac = #{value}
+			</when>
+			<when test="column == 'consignee'">	
+				,consignee = #{value}
+			</when>
+		</choose>
+	WHERE
+		gbl_seq = #{gblSeq}
+	AND
+		tcmd_seq = #{tcmdSeq}
 </update>
 
 <delete id="deleteWeightCertificateByTruckManifast" parameterType="Integer">

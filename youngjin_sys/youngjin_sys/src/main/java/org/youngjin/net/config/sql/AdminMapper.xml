@@ -27,7 +27,14 @@
 			username = #{username}
 		</if>
 		ORDER BY
-			seq;
+			seq
+	</select>
+	
+	<select id="getContainerList" resultType="Container">
+		SELECT
+			seq, status, count
+		FROM
+			container 
 	</select>
 
 </mapper>

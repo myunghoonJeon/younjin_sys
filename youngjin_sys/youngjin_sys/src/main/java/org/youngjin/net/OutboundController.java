@@ -31,6 +31,7 @@ import org.youngjin.net.outbound.PreMoveSurvey;
 import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.upload.DownloadView;
+import org.youngjin.net.util.DateUtil;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_NORMAL')")
@@ -830,11 +831,56 @@ public class OutboundController {
 
 		user.setSubProcess("tcmd");
 		
+		model.addAttribute("tcmdList", outboundService.getTcmdList());		
 		model.addAttribute("user", user);
 		
 		return process + "/delivery/tcmd";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/delivery/mil/tcmdGblSetting", method=RequestMethod.GET)
+	public String tcmdGblSetting(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
 
+		outboundFilter.getPagination().setNumItems(
+				outboundService.getTcmdGblListCount(outboundFilter));
+
+		model.addAttribute("filterMap", outboundService.getFilterMap());
+
+		model.addAttribute("gblList",
+				outboundService.getTcmdGblList(outboundFilter));
+		model.addAttribute("user", user);
+		
+		return process + "/delivery/tcmdGblList";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/delivery/mil/{seq}/tcmdModify")
+	public String tcmdModify(Model model, User user, @PathVariable String process, @PathVariable Integer seq, @ModelAttribute OutboundFilter outboundFilter){			
+		model.addAttribute("user", user);
+		
+		String year = Integer.toString(DateUtil.getYear());
+		String getJulianDate = year.substring(3, 4) + DateUtil.getDaysBetween(year + "0101", DateUtil.getToday("YYYYMMDD"));
+		
+		model.addAttribute("julianDate", getJulianDate);
+		model.addAttribute("tcmd", outboundService.getTcmdContent(seq));
+		model.addAttribute("gblList", outboundService.getTcmdContentGblList(seq));
+		
+		return process + "/delivery/tcmdModify";
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/tcmd/tcmdListAdd.json")
+	@ResponseBody
+	public void tcmdAdd(@RequestBody Map<String, String> gblSeq) {
+		outboundService.insertTcmdList(gblSeq);
+	}	
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/tcmdGblUpdate.json")
+	@ResponseBody
+	public void tcmdGblUpdate(@RequestBody Map<String, String> map) {
+		outboundService.updateTcmdGbl(map);
+	}	
 	/**
 	 * DownLoadControl
 	 */

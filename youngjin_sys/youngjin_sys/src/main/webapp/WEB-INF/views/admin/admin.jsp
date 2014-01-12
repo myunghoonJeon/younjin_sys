@@ -5,8 +5,8 @@
 		<h1>All User Management</h1>
 	</div>
 	
-	<div class="admin_user_addButton user_addButton">
-		<span >add</span>
+	<div class="admin_user_addButton_wrap">
+		<span class="admin_user_addButton yj_button">add</span>
 	</div>
 	
 	<div id="admin_user_managementDiv">

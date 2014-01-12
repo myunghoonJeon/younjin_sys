@@ -55,8 +55,12 @@ public class GBL {
 	private String etd;
 	private String eta;
 	private String blNo;
-	
+
 	private Boolean seperateFlag;
+
+	private String remarkRdd;
+	private String remarkTac;
+	private String consignee;
 
 	// inbound
 	private String gross;
@@ -363,9 +367,32 @@ public class GBL {
 	public void setSeperateFlag(Boolean seperateFlag) {
 		this.seperateFlag = seperateFlag;
 	}
-	
-	//inbound
 
+	public String getRemarkRdd() {
+		return remarkRdd;
+	}
+
+	public void setRemarkRdd(String remarkRdd) {
+		this.remarkRdd = remarkRdd;
+	}
+
+	public String getRemarkTac() {
+		return remarkTac;
+	}
+
+	public void setRemarkTac(String remarkTac) {
+		this.remarkTac = remarkTac;
+	}
+
+	public String getConsignee() {
+		return consignee;
+	}
+	
+	// inbound
+
+	public void setConsignee(String consignee) {
+		this.consignee = consignee;
+	}
 
 	public String getGross() {
 		return gross;

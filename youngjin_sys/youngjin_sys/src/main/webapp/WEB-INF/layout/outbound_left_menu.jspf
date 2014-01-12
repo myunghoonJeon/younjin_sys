@@ -26,8 +26,18 @@
 		<!-- li>
 			FREIGHT				
 		</li-->
-		<li onclick="location.href='${cp }/outbound/invoice/'" style="${(user.subProcess eq 'invoice') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
-			INVOICE	
+		<li class="outbound_invoice" style="${(user.subProcess eq 'invoice' or user.subProcess eq 'collection') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+			INVOICE
+		</li>
+		<li class="outbound_invoice_item_list" style="${(user.subProcess eq 'invoice' or user.subProcess eq 'collection') ? 'display:block;' : 'display:none;'}">
+			<ul class="outbound_invoice_item">
+				<li  onclick="location.href='${cp }/outbound/invoice/'" style="${(user.subProcess eq 'invoice') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+					INVOICE
+				</li>
+				<li style="${(user.subProcess eq 'collection') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+					COLLECTION
+				</li>
+			</ul>	
 		</li>
 	</sec:authorize>
 </ul>

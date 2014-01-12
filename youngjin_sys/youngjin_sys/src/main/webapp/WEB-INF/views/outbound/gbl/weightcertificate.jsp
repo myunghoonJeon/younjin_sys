@@ -19,6 +19,18 @@
 <script>
 	var contextPath = '<c:out value="${cp}"/>';
 	var realPath = '<c:out value="${rp}"/>';
+	var containerList = new Array();
+	
+	'<c:forEach var="container" items="${containerList}"  varStatus = "i">';
+		var container = {
+			'status' : '<c:out value="${container.status}"/>',
+			'count' : '<c:out value="${container.count}" />',
+			'remark' : '<c:out value="${container.remark}" />'
+		};
+		
+		containerList.push(container);
+	'</c:forEach>';	
+	
 	var addError = false;
 	if (typeof youngjin == 'undefined') {
 		youngjin = {};
@@ -123,7 +135,7 @@
 										<td class="status_td">
 											<select name="status">
 												<c:forEach var="container" items="${containerList }">
-													<option data-count="${container.count }" value="${container.seq }" ${weightcertificate.status eq container.status ? 'selected=selected' : ''}>${container.status }</option>
+													<option data-count="${container.count }" value="${container.status }" ${weightcertificate.status eq container.status ? 'selected=selected' : ''}>${container.status }</option>																											
 												</c:forEach>
 											</select>
 										</td>

@@ -254,4 +254,58 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public List<Container> getContainerList() {
 		return getSqlSession().selectList("outboundMapper.getContainerManageList");
 	}
+
+	public void minusContainerByStatus(String status) {
+		getSqlSession().update("outboundMapper.minusContainerByStatus", status);
+	}
+
+	public Weightcertificate getWeightcertificateOne(
+			Integer seq) {
+		return getSqlSession().selectOne("outboundMapper.getWeightcertificateOne", seq);
+	}
+
+	public void plusContainerByStatus(String status) {
+		getSqlSession().update("outboundMapper.plusContainerByStatus", status);
+		
+	}
+
+	public List<Tcmd> getTcmdList() {
+		return getSqlSession().selectList("outboundMapper.getTcmdList");
+	}
+
+	public List<GBL> getTcmdGblList(OutboundFilter outboundFilter) {
+		return getSqlSession().selectList("outboundMapper.getTcmdGblList", outboundFilter);
+	}
+
+	public int getTcmdGblListCount(OutboundFilter outboundFilter) {
+		return getSqlSession().selectOne("outboundMapper.getTcmdGblListCount", outboundFilter);
+	}
+
+	public void insertTcmd(Tcmd tcmd) {
+		getSqlSession().insert("outboundMapper.insertTcmd", tcmd);
+	}
+
+	public void insertTcmdGblList(Map<String, Integer> seqMap) {
+		getSqlSession().insert("outboundMapper.insertTcmdGblList", seqMap);
+	}
+
+	public Tcmd getTcmdContent(Integer seq) {
+		return getSqlSession().selectOne("outboundMapper.getTcmdContent", seq);
+	}
+
+	public List<GBL> getTcmdContentGblList(Integer seq) {
+		return getSqlSession().selectList("outboundMapper.getTcmdContentGblList", seq);
+	}
+
+	public GBL getMilSvcGbl(String seq, String type) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("seq", seq);
+		map.put("milSvc", type);
+		
+		return getSqlSession().selectOne("outboundMapper.getMilSvcGbl", map);
+	}
+
+	public void updateTcmdGbl(Map<String, String> map) {
+		getSqlSession().update("outboundMapper.updateTcmdGbl", map);
+	}
 }

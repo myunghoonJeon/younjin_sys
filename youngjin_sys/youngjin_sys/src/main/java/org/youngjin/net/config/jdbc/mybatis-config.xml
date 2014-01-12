@@ -20,6 +20,7 @@
 		<typeAlias alias="Addition" type="org.youngjin.net.outbound.Addition"/>
 		<typeAlias alias="DeliveryGbl" type="org.youngjin.net.outbound.DeliveryGbl"/>
 		<typeAlias alias="Container" type="org.youngjin.net.Container"/>
+		<typeAlias alias="Tcmd" type="org.youngjin.net.outbound.Tcmd"/>
 		
 		
 		<typeAlias alias="Rate" type="org.youngjin.net.invoice.Rate"/>

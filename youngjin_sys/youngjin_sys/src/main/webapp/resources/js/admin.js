@@ -86,6 +86,11 @@ youngjin.admin.sync = function(){
 	
 	youngjin.admin.user_no = parseInt($('#admin_user_managementDiv .yj_table tbody tr').last().children('.admin_user_list_no').html()) + 1;
 	
+	$('.container_list_tr').unbind('click');
+	$('.container_list_tr').bind('click', function(){
+		
+	});
+	
 	
 };
 

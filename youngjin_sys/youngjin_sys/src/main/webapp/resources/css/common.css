@@ -134,6 +134,12 @@ li.outbound_delivery_item_list:HOVER{ border-left: 0px;}
 li.outbound_delivery_item_list ul li{ width: 136px; font-size: 12px;}
 li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646; width: 122px; }
 
+li.outbound_invoice_item_list{ border-left: 0px;}
+li.outbound_invoice_item_list:HOVER{ border-left: 0px;}
+
+li.outbound_invoice_item_list ul li{ width: 136px; font-size: 12px;}
+li.outbound_invoice_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646; width: 122px; }
+
 /* content */
 
 #content{ float: left; width: 1000px; min-height: 600px; background-color: #BFBFBF; }
@@ -144,6 +150,12 @@ li.outbound_delivery_item_list ul li:HOVER{ color: #F79646; border-left: 12px so
 
 .gblock_addButton_wrap{ width: 920px; margin: 20px auto; }
 .gblock_addButton{ float: right; margin-bottom: 10px; }
+
+.admin_user_addButton_wrap{ width: 920px; margin: 10px auto;}
+.admin_user_addButton{ float: right; margin-bottom: 10px; }
+
+/* container */
+.container_wrap{ width: 920px; marign: 20px auto; }
 
 /* GBL List */
 .gbl_filter{ width: 920px; margin: 20px auto; }
@@ -424,6 +436,21 @@ td.seperate_merge{ border: none !important;}
 .container_rate_input { width: 40px; border: none;}
 .sit_rate_input{ width: 45px; border: none;}
 .other_rate_input{ width: 45px; border:none;}
+
+/* TCMD */
+.tcmd_add_button{ float: right; margin-bottom : 10px;}
+.tcmd_add_button_wrap{ width: 920px; margin: 20px auto;}
+
+.tcmd_addButton_wrap{ width: 920px; margin: 20px auto; }
+.tcmd_addButton{ float: right; margin-bottom: 10px; }
+
+.tcmd_gbl_list_wrap { width: 1000px; height: 700px; background-color: white; }
+
+.tcmd_gbl_addButton{ float: right; }
+
+.tcmd_table tbody tr:HOVER{background-color: white;}
+.tcmd_table tbody tr td{ vertical-align: middle;}
+.tcmd_table tbody tr td:HOVER{ background-color: #B7B9CC;}
 
 /* Invoice */
 .invoice_add_button{ float: right; margin-bottom : 10px;}

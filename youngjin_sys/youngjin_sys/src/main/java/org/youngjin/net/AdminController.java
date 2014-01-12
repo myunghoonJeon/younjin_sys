@@ -117,6 +117,10 @@ public class AdminController {
 	@RequestMapping(value = "/container", method = RequestMethod.GET)
 	public String container(Model model, User user){
 		
+		List<Container> containerList = adminService.getContainerList();
+		
+		model.addAttribute("containerList", containerList);
+		
 		return "admin/container";
 	}	
 }

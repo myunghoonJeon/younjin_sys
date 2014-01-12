@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.youngjin.net.Container;
 import org.youngjin.net.login.User;
 
 @Service
@@ -17,6 +18,10 @@ public class AdminService {
 		List<User> userList = adminDao.getAllUserList();
 		
 		return userList;
+	}
+
+	public List<Container> getContainerList() {
+		return adminDao.getContainerList();
 	}
 	
 	

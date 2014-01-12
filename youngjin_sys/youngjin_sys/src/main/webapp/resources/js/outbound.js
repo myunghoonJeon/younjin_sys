@@ -131,6 +131,8 @@ youngjin.outbound.sync = function(){
 	youngjin.outbound.additionDecideSync();
 	
 	youngjin.outbound.backButtonSync();
+	
+	youngjin.outbound.tcmdSync();
 };
 
 youngjin.outbound.preMoveSurveySync = function(){
@@ -299,6 +301,40 @@ youngjin.outbound.additionDecideSync = function(){
 	});
 };
 
+youngjin.outbound.tcmdSync = function(){
+	$('.tcmd_add_button').unbind('click');
+	$('.tcmd_add_button').bind('click', function(){
+		youngjin.outbound.tcmdAddButton($(this));
+	});
+	
+	$('.tcmd_gbl_list_tr').unbind('click');
+	$('.tcmd_gbl_list_tr').bind('click', function(){
+		if($(this).find('input').attr('checked') != 'checked')
+			$(this).find('input').attr('checked', 'checked');
+		else 
+			$(this).find('input').removeAttr('checked');	
+	});
+	
+	$('.tcmd_gbl_addButton').unbind('click');
+	$('.tcmd_gbl_addButton').bind('click', function(){
+		youngjin.outbound.tcmdListAddButton($(this));
+	});
+	
+	$('.tcmd_table tr').unbind('click');
+	$('.tcmd_table tr').bind('click', function(){
+		youngjin.outbound.tcmdModify($(this));
+	});
+	
+	$('#page1-div input').unbind('click');
+	$('#page1-div input').bind('click', function(){
+		//youngjin.outbound.tcmdModify($(this));
+	});
+	
+	$('.tcmdGbl_wrap input').focusout(function(){
+		youngjin.outbound.tcmdGblModify($(this));
+	});
+};
+
 youngjin.outbound.backButtonSync = function(){
 	//back
 	$('.pre_back_button').unbind('click');
@@ -344,6 +380,7 @@ youngjin.outbound.backButtonSync = function(){
 
 youngjin.outbound.findUsNo = function(target){
 	var url = contextPath + '/outbound/findUsNo.json';
+	
 	var gblock = target.val();
 	var json = {
 		"gblock" : gblock 	
@@ -1442,11 +1479,20 @@ youngjin.outbound.weightCertificateColumnAdd = function(target){
 	var tbody = table.children('tbody');
 	
 	count = Number(count) + 1;
-		
+	
 	var html = '<tr>'+
 					'<td class="piece_td"><input name="piece" type="text" /></td>'+
 					'<td class="type_td"><input name="type" type="text" /></td>'+
-					'<td class="status_td"><input name="status" type="text" /></td>'+
+					'<td class="status_td">' + 
+						'<select name="status">';
+							for(var i = 0 ; i < containerList.length ; i ++ ){
+								var container = containerList[i];
+								if(container.count != 0){	
+									html += '<option data-count="' + container.count +'" value="' + container.status +'">' + container.status + '</option>';
+								}
+							}
+	html += 			'</select>' + 
+					'</td>'+
 					'<td class="gross_td"><input name="grossKg" type="text" /></td>'+
 					'<td class="gross_td"><input name="gross" type="text" /></td>'+
 					'<td class="tare_td"><input name="tare" type="text" /></td>'+
@@ -1477,7 +1523,7 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 	var form = $('#weightcertificate_form');
 	var piece = form.find('input[name="piece"]').eq(0).val();
 	var type = form.find('input[name="type"]').eq(0).val();
-	var status = form.find('input[name="status"]').eq(0).val();
+	var status = form.find('select[name="status"]').eq(0).val();
 	var grossKg = form.find('input[name=grossKg]').eq(0).val();
 	var gross = form.find('input[name="gross"]').eq(0).val();
 	var tare = form.find('input[name="tare"]').eq(0).val();
@@ -1485,16 +1531,12 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 	var cuft = form.find('input[name="cuft"]').eq(0).val();
 	var remark = form.find('input[name="remark"]').eq(0).val();
 	
-	var progear = $('#weightcertificate_progear').val();
-	var sealNo = $('#weightcertificate_seal_no').val();
-	var lbs = $('#weightcertificate_lbs').val();
-	
 	var date = $('#weightcertificate_date').val();
 	
 	for( var i = 1 ; i < count ; i ++ ){	
 		piece += ',' + form.find('input[name="piece"]').eq(i).val();
 		type += ',' + form.find('input[name="type"]').eq(i).val();
-		status += ',' + form.find('input[name="status"]').eq(i).val();
+		status += ',' + form.find('select[name="status"]').eq(i).val();
 		grossKg += ',' + form.find('input[name=grossKg]').eq(i).val();
 		gross += ',' + form.find('input[name="gross"]').eq(i).val();
 		tare += ',' + form.find('input[name="tare"]').eq(i).val();
@@ -1518,6 +1560,8 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 		"date" : date,
 		"count" : count
 	};
+	
+	alert(json.status);
 	
 	$.postJSON(url, json, function(){
 		return jQuery.ajax({
@@ -1651,4 +1695,81 @@ youngjin.outbound.weightCertificatePrint = function(target){
 	window.open(url ,'weightPrint', 'width=1263, height=892, status=no');	
 	
 	
+};
+
+youngjin.outbound.tcmdAddButton = function(target){
+	var url = contextPath + '/outbound/delivery/mil/tcmdGblSetting';
+	
+	$.smartPop.open({
+		width: 1000,
+		height: 700,
+		url : url
+	});		
+};
+
+youngjin.outbound.tcmdListAddButton = function(target){
+	var gblSeq = '';
+	
+	$(':checkbox:checked').each(function(){
+		gblSeq = gblSeq + $(this).val() + ",";
+	});
+	
+	var url = contextPath + '/outbound/tcmd/tcmdListAdd.json';
+	
+	var json = {
+			'seqList' : gblSeq
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				parent.location.href = contextPath + '/outbound/delivery/mil/tcmd';
+				parent.$.smartPop.close();
+			},
+			error : function(){
+				alert("에러 발생!");
+			}
+		});
+	});
+	
+};
+youngjin.outbound.tcmdModify = function(target){
+	var seq = target.attr('data-seq');
+	
+	var url = contextPath + '/outbound/delivery/mil/' + seq + '/tcmdModify';
+	
+	$.smartPop.open({
+		width : 1000,
+		height : 521,
+		url : url
+	});	
+	
+};
+
+youngjin.outbound.tcmdGblModify = function(target){
+	var gblSeq = target.parents('div').attr('data-seq');
+	var tcmdSeq = $('#page1-div').attr('data-tcmdSeq');
+	
+	var column = target.attr('name');
+	var value = target.val();
+	
+	var json = {
+		'gblSeq' : gblSeq,
+		'tcmdSeq' : tcmdSeq,
+		'column' : column,
+		'value' : value
+	};
+	
+	var url = contextPath + '/outbound/tcmdGblUpdate.json';
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				
+			},
+			error : function(){
+				alert('에러 발생');
+			}
+		});
+	})
 };
