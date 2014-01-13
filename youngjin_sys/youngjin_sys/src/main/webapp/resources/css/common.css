@@ -453,6 +453,9 @@ td.seperate_merge{ border: none !important;}
 .tcmd_table tbody tr td:HOVER{ background-color: #B7B9CC;}
 
 /* Invoice */
+.invoice_filter{ width: 920px; margin: 20px auto; }
+.invoice_filter ul li{ display: inline;}
+
 .invoice_add_button{ float: right; margin-bottom : 10px;}
 .invoice_add_button_wrap{ width: 920px; margin: 20px auto;}
 

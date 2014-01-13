@@ -21,11 +21,32 @@
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
 </script>	
-
-	<div class="invoice_add_button_wrap">
-		<span class="invoice_add_button yj_button" >add</span>
-	</div>	
+	<c:set var="carrierList" value="${filterMap['tspList'] }" />
 	
+	<div class="invoice_filter">	
+		<ul>
+			<form:form commandName="invoiceFilter" method="get">
+				<li>
+					<form:select path="tsp">
+						<form:option value="">Carrier(All)</form:option>
+						<c:forEach var="tsp" items="${carrierList }">
+							<form:option value="${tsp.subCode }">${tsp.subCode }</form:option>
+						</c:forEach>
+					</form:select>
+				</li>
+				<li>
+					<form:input path="startDate"/> ~ <form:input path="endDate"/>
+				</li>
+				<li>
+					<form:hidden path="page" value="${pagination.currentPage}"/>
+				</li>
+				<li>	
+					<span class="invoice_add_button yj_button" >add</span>
+				</li>
+			</form:form>
+		</ul>	
+	</div>
+		
 	<div>
 		<table class="yj_table invoice_table">
 			<thead>

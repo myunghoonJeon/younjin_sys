@@ -11,7 +11,7 @@
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
 <html>
 <head>
-<title>DD619 LIST</title>
+<title>TCMD MODIFY</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">

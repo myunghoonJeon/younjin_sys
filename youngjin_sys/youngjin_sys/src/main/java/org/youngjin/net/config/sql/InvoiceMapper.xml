@@ -423,6 +423,20 @@
 			count(*)
 		FROM
 			invoice_list
+		WHERE
+			1 = 1
+		<if test="tsp != null and tsp != ''">
+			AND
+				tsp = #{tsp}
+		</if>			
+		<if test="startDate != null and startDate != ''">
+			AND
+				start_date &gt;= str_to_date(#{startDate}, '%Y%m%d')
+		</if>
+		<if test="endDate != null and endDate != ''">
+			AND
+				end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+		</if>
 	</select>
 	
 	<select id="getInvoiceList" parameterType="InvoiceFilter" resultMap="InvoiceMap">
@@ -435,6 +449,20 @@
 				i.seq, i.invoice_no, i.tsp, i.start_date, i.end_date, i.write_date, i.complete, i.amount
 			FROM
 				invoice_list i, (SELECT @rownum := 0) r
+			WHERE
+				1 = 1
+			<if test="tsp != null and tsp != ''">
+				AND
+					tsp = #{tsp}
+			</if>			
+			<if test="startDate != null and startDate != ''">
+				AND
+					start_date &gt;= str_to_date(#{startDate}, '%Y%m%d')
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND
+					end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+			</if>
 			ORDER BY
 				i.seq
 		) il
@@ -540,6 +568,13 @@
 			g.seq = ig.gbl_seq
 		AND
 			ig.seq = #{value}
+	</select>
+	
+	<select id="getCarrierList" resultType="Code">
+		SELECT DISTINCT
+			tsp AS subCode
+		FROM
+			invoice_list	
 	</select>
 	
 	<insert id="insertNewYearSIT" parameterType="Map">

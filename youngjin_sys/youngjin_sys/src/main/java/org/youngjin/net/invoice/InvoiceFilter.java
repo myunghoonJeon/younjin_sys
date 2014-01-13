@@ -9,14 +9,44 @@ public class InvoiceFilter extends AbstractListFilter {
 	public String getProcess() {
 		return process;
 	}
+	
+	public String tsp;
+	
+	public String startDate;
+	public String endDate;
 
 	public void setProcess(String process) {
 		this.process = process;
 	}
 
+	public String getTsp() {
+		return tsp;
+	}
+
+	public void setTsp(String tsp) {
+		this.tsp = tsp;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
 	@Override
 	public String toString() {
-		return "InvoiceFilter [process=" + process + "]";
+		return "InvoiceFilter [process=" + process + ", carrier=" + tsp
+				+ ", startDate=" + startDate + ", endDate=" + endDate + "]";
 	}
 
 }

@@ -803,6 +803,14 @@ public class InvoiceService {
 	public List<GBL> getInvoiceSettingGblList(OutboundFilter outboundFilter) {
 		return invoiceDao.getInvoiceSettingGblList(outboundFilter);
 	}
+	
+	public Map<String, List<Code>> getInvoiceFilterMap() {
+		Map<String, List<Code>> filterMap = new HashMap<String, List<Code>>();		
+		List<Code> carrierList = invoiceDao.getCarrierList();
+		filterMap.put("tspList", carrierList);		
+		
+		return filterMap;
+	}
 
 	public Map<String, List<Code>> getFilterMap() {
 		Map<String, List<Code>> filterMap = new HashMap<String, List<Code>>();

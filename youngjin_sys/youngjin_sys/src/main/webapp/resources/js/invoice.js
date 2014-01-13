@@ -92,6 +92,27 @@ youngjin.invoice.rateSync = function(){
 		else 
 			$(this).find('input').removeAttr('checked');	
 	});
+
+	$('input#startDate').datepicker({dateFormat: 'yymmdd'});
+	$('input#endDate').datepicker({dateFormat: 'yymmdd'});
+	
+	$('select#tsp').unbind('change');
+	$('select#tsp').bind('change', function(){
+		var form = document.forms['invoiceFilter'];
+		form.submit();
+	});
+	
+	$('input#startDate').unbind('change');
+	$('input#startDate').bind('change', function(){
+		var form = document.forms['invoiceFilter'];
+		form.submit();
+	});
+	
+	$('input#endDate').unbind('change');
+	$('input#endDate').bind('change', function(){
+		var form = document.forms['invoiceFilter'];
+		form.submit();
+	});
 };
 
 youngjin.invoice.backSync = function(){

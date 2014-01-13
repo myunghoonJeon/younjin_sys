@@ -45,11 +45,35 @@ public class InvoiceController {
 		List<Invoice> invoiceList = invoiceService
 				.getInvoiceList(invoiceFilter);
 
+		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap());
+
 		model.addAttribute("user", user);
 		model.addAttribute("invoiceList", invoiceList);
 
 		return process + "/invoice/main";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoice", method = RequestMethod.POST)
+	public String invoiceMainPost(Model model, User user,
+			@ModelAttribute InvoiceFilter invoiceFilter,
+			@PathVariable String process) {
+
+		user.setSubProcess("invoice");
+
+		invoiceFilter.getPagination().setNumItems(
+				invoiceService.getInvoiceListCount(invoiceFilter, process));
+
+		List<Invoice> invoiceList = invoiceService
+				.getInvoiceList(invoiceFilter);
+
+		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap());
+
+		model.addAttribute("user", user);
+		model.addAttribute("invoiceList", invoiceList);
+
+		return process + "/invoice/main";
+	}	
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{process}/invoice/invoiceAddSetting", method = RequestMethod.GET)

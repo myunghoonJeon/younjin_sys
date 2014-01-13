@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.youngjin.net.GBL;
+import org.youngjin.net.code.Code;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.Weightcertificate;
 
@@ -208,6 +209,10 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 
 	public String checkTodayInvoiceNo() {
 		return getSqlSession().selectOne("invoiceMapper.checkTodayInvoiceNo");
+	}
+
+	public List<Code> getCarrierList() {
+		return getSqlSession().selectList("invoiceMapper.getCarrierList");
 	}
 	
 }
