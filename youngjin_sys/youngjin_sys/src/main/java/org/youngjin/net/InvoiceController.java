@@ -1,6 +1,7 @@
 package org.youngjin.net;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.invoice.Invoice;
+import org.youngjin.net.invoice.InvoiceCollection;
 import org.youngjin.net.invoice.InvoiceFilter;
 import org.youngjin.net.invoice.InvoiceGbl;
 import org.youngjin.net.invoice.InvoiceGblContent;
@@ -153,4 +155,61 @@ public class InvoiceController {
 
 		return process + "/invoice/invoiceGblContent";
 	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoiceCollection", method = RequestMethod.GET)
+	public String invoicCollectionMain(Model model, User user,
+			@ModelAttribute InvoiceFilter invoiceFilter,
+			@PathVariable String process) {
+
+		user.setSubProcess("collection");
+
+		invoiceFilter.getPagination().setNumItems(
+				invoiceService.getInvoiceListCount(invoiceFilter, process));
+
+		List<Invoice> invoiceList = invoiceService
+				.getInvoiceList(invoiceFilter);
+
+		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap());
+
+		Map<Integer, InvoiceCollection> invoiceCollectionMap = invoiceService.getInvoiceCollectionMap(invoiceFilter);
+		model.addAttribute("user", user);
+		model.addAttribute("invoiceList", invoiceList);
+		model.addAttribute("invoiceCollectionMap", invoiceCollectionMap);
+
+		return process + "/invoice/invoiceCollection";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoiceCollection", method = RequestMethod.POST)
+	public String invoiceCollectionMainPost(Model model, User user,
+			@ModelAttribute InvoiceFilter invoiceFilter,
+			@PathVariable String process) {
+
+		user.setSubProcess("collection");
+
+		invoiceFilter.getPagination().setNumItems(
+				invoiceService.getInvoiceCollectionListCount(invoiceFilter, process));
+
+		List<Invoice> invoiceList = invoiceService
+				.getInvoiceCollectionList(invoiceFilter);
+
+		Map<Integer, InvoiceCollection> invoiceCollectionMap = invoiceService.getInvoiceCollectionMap(invoiceFilter);
+		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap());
+
+		model.addAttribute("user", user);
+		model.addAttribute("invoiceList", invoiceList);
+		model.addAttribute("invoiceCollectionMap", invoiceCollectionMap);
+
+		return process + "/invoice/invoiceCollection";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/inputCollectionNet", method = RequestMethod.POST)
+	@ResponseBody
+	public void inputCollectionNet(@RequestBody InvoiceCollection invoiceCollection){
+		invoiceService.inputCollectionNet(invoiceCollection);
+	}
+	
+	
 }

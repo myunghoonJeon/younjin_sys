@@ -34,7 +34,7 @@
 				<li  onclick="location.href='${cp }/outbound/invoice/'" style="${(user.subProcess eq 'invoice') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
 					INVOICE
 				</li>
-				<li style="${(user.subProcess eq 'collection') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+				<li onclick="location.href='${cp }/outbound/invoiceCollection/'" style="${(user.subProcess eq 'collection') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
 					COLLECTION
 				</li>
 			</ul>	

@@ -577,6 +577,97 @@
 			invoice_list	
 	</select>
 	
+	<select id="getInvoiceCollectionListCount" parameterType="InvoiceFilter" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			invoice_list
+		WHERE
+			amount IS NOT NULL
+		<if test="tsp != null and tsp != ''">
+			AND
+				tsp = #{tsp}
+		</if>			
+		<if test="startDate != null and startDate != ''">
+			AND
+				start_date &gt;= str_to_date(#{startDate}, '%Y%m%d')
+		</if>
+		<if test="endDate != null and endDate != ''">
+			AND
+				end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+		</if>
+	</select>
+	
+	<select id="getInvoicecollectionList" parameterType="InvoiceFilter" resultMap="InvoiceMap">
+		SELECT 
+			*
+		FROM	
+		(
+			SELECT
+				(@rownum := @rownum + 1) AS rownum,
+				i.seq, i.invoice_no, i.tsp, i.start_date, i.end_date, i.write_date, i.complete, i.amount
+			FROM
+				invoice_list i, (SELECT @rownum := 0) r
+			WHERE
+				amount IS NOT NULL
+			<if test="tsp != null and tsp != ''">
+				AND
+					tsp = #{tsp}
+			</if>			
+			<if test="startDate != null and startDate != ''">
+				AND
+					start_date &gt;= str_to_date(#{startDate}, '%Y%m%d')
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND
+					end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+			</if>
+			ORDER BY
+				i.seq
+		) il
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+		
+	</select>
+	
+	<resultMap type="InvoiceCollection" id="InvoiceCollectionMap">
+		<result column="seq" property="seq"/>
+		<result column="state" property="state"/>
+		<result column="net" property="net"/>
+		<result column="remark" property="remark"/>
+		<result column="invoice_seq" property="invoiceSeq"/>
+		<collection property="invoiceColltionFlowList" column="seq" javaType="ArrayList" ofType="InvoiceCollectionFlow" select="getInvoiceCollectionFlow" /> 
+	</resultMap>
+	
+	<select id="getInvoiceCollectionListAndFlow" parameterType="InvoiceFilter" resultMap="InvoiceCollectionMap">
+		SELECT
+			ic.seq, ic.state, ic.net, ic.difference, ic.remark, ic.invoice_seq
+		FROM
+			invoice_collection ic, invoice_list il
+		WHERE
+			ic.invoice_seq = il.seq
+		<if test="tsp != null and tsp != ''">
+			AND
+				tsp = #{tsp}
+		</if>			
+		<if test="startDate != null and startDate != ''">
+			AND
+				start_date &gt;= str_to_date(#{startDate}, '%Y%m%d')
+		</if>
+		<if test="endDate != null and endDate != ''">
+			AND
+				end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+		</if>
+	</select>
+	
+	<select id="getInvoiceCollectionFlow" resultType="InvoiceCollectionFlow">
+		SELECT
+			seq, amount, state, remark, write_date AS writeDate, invoice_collection_seq AS invoiceCollectionSeq
+		FROM
+			invoice_collection_flow
+		WHERE
+			invoice_collection_seq = #{seq}
+	</select>
+	
 	<insert id="insertNewYearSIT" parameterType="Map">
 		INSERT INTO
 			invoice_sit_rate
@@ -680,6 +771,18 @@
 		VALUES
 			(
 				#{invoiceGblSeq}, #{chargingItem}, #{quantity}, #{amount}
+			)
+	</insert>
+	
+	<insert id="inputCollectionNet" parameterType="InvoiceCollection">
+		INSERT INTO
+			invoice_collection
+			(
+				state, net, difference, invoice_seq
+			)
+		VALUES
+			(
+				#{state}, #{net}, #{difference}, #{invoiceSeq}
 			)
 	</insert>
 	

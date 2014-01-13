@@ -21,3 +21,41 @@ function roundXL(n, digits) {
 
 	  return parseFloat(t.toFixed(0));
 }
+
+/**
+ * 폼생성
+ * @param frmName {폼이름}
+ * @param frmMethod {get post)
+ * @param frmAction {액션 주소)
+ * @param frmTarget {타겟)
+ */
+ function createForm(frmName, frmMethod, frmAction) {
+   var frm = document.createElement("form");
+   frm.name  = frmName;
+   frm.method  = frmMethod;
+   frm.action  = frmAction;
+   return frm;
+ }
+ /**
+ * 히든추가
+ * @param frmName {폼이름}
+ * @param hiddenName {히튼이름)
+ * @param hiddenValue {히든 값)
+ */
+  function addHidden(hiddenName, hiddenValue) {
+   var item = document.createElement("input");  
+   item.type = "hidden";
+   item.name = hiddenName;
+   item.value = hiddenValue;
+   return item;
+}
+/**
+  * 폼 서브밋
+  */
+function fromSubmit(){
+ var form = createForm("popForm", "post", "thekziel.html", "kizel");
+ document.body.appendChild(popForm);
+ addHidden(form, "method", "pop");
+ form.submit();
+ document.body.removeChild(popForm);
+}

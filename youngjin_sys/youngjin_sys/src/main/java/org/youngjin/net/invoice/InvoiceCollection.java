@@ -1,11 +1,18 @@
 package org.youngjin.net.invoice;
 
+import java.util.List;
+
 public class InvoiceCollection {
 	private Integer seq;
-	private String status;
+	private String invoiceNo;
 	private String amount;
+	private String state;
+	private String net;
 	private String remark;
+	private String difference;
 	private Integer invoiceSeq;
+	
+	private List<InvoiceCollectionFlow> invoiceColltionFlowList;
 
 	public Integer getSeq() {
 		return seq;
@@ -14,13 +21,13 @@ public class InvoiceCollection {
 	public void setSeq(Integer seq) {
 		this.seq = seq;
 	}
-
-	public String getStatus() {
-		return status;
+	
+	public String getInvoiceNo() {
+		return invoiceNo;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setInvoiceNo(String invoiceNo) {
+		this.invoiceNo = invoiceNo;
 	}
 
 	public String getAmount() {
@@ -30,6 +37,32 @@ public class InvoiceCollection {
 	public void setAmount(String amount) {
 		this.amount = amount;
 	}
+
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+	
+	public String getNet() {
+		return net;
+	}
+
+	public void setNet(String net) {
+		this.net = net;
+	}
+	
+	public String getDifference() {
+		return difference;
+	}
+
+	public void setDifference(String difference) {
+		this.difference = difference;
+	}
+
 
 	public String getRemark() {
 		return remark;
@@ -47,11 +80,22 @@ public class InvoiceCollection {
 		this.invoiceSeq = invoiceSeq;
 	}
 
+	public List<InvoiceCollectionFlow> getInvoiceColltionFlowList() {
+		return invoiceColltionFlowList;
+	}
+
+	public void setInvoiceColltionFlowList(
+			List<InvoiceCollectionFlow> invoiceColltionFlowList) {
+		this.invoiceColltionFlowList = invoiceColltionFlowList;
+	}
+
 	@Override
 	public String toString() {
-		return "InvoiceCollection [seq=" + seq + ", status=" + status
-				+ ", amount=" + amount + ", remark=" + remark + ", invoiceSeq="
-				+ invoiceSeq + "]";
+		return "InvoiceCollection [seq=" + seq + ", invoiceNo=" + invoiceNo
+				+ ", amount=" + amount + ", state=" + state + ", net=" + net
+				+ ", remark=" + remark + ", difference=" + difference
+				+ ", invoiceSeq=" + invoiceSeq + ", invoiceColltionFlowList="
+				+ invoiceColltionFlowList + "]";
 	}
 
 }

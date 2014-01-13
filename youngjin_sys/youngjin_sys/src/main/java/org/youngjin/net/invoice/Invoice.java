@@ -9,7 +9,7 @@ public class Invoice {
 	private String writeDate;
 	private Boolean complete;
 	private String process;
-	
+
 	private String amount;
 
 	private String seqList;
@@ -77,7 +77,7 @@ public class Invoice {
 	public void setProcess(String process) {
 		this.process = process;
 	}
-	
+
 	public String getInvoiceNo() {
 		return invoiceNo;
 	}

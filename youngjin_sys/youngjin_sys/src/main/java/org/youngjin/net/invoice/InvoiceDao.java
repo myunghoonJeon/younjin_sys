@@ -214,5 +214,21 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public List<Code> getCarrierList() {
 		return getSqlSession().selectList("invoiceMapper.getCarrierList");
 	}
+
+	public int getInvoiceCollectionListCount(InvoiceFilter invoiceFilter) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoiceCollectionListCount", invoiceFilter);
+	}
+
+	public List<Invoice> getInvoiceCollectionList(InvoiceFilter invoiceFilter) {
+		return getSqlSession().selectList("invoiceMapper.getInvoicecollectionList", invoiceFilter);
+	}
+
+	public List<InvoiceCollection> getInvoiceCollectionListAndFlow(InvoiceFilter invoiceFilter) {
+		return getSqlSession().selectList("invoiceMapper.getInvoiceCollectionListAndFlow", invoiceFilter);
+	}
+
+	public void inputCollectionNet(InvoiceCollection invoiceCollection) {
+		getSqlSession().insert("invoiceMapper.inputCollectionNet", invoiceCollection);
+	}
 	
 }

@@ -826,4 +826,32 @@ public class InvoiceService {
 		
 		return filterMap;
 	}
+
+	public int getInvoiceCollectionListCount(InvoiceFilter invoiceFilter,
+			String process) {
+		invoiceFilter.setProcess(process);
+		
+		return invoiceDao.getInvoiceCollectionListCount(invoiceFilter);
+	}
+
+	public List<Invoice> getInvoiceCollectionList(InvoiceFilter invoiceFilter) {
+		return invoiceDao.getInvoiceCollectionList(invoiceFilter);
+	}
+
+	public Map<Integer, InvoiceCollection> getInvoiceCollectionMap(
+			InvoiceFilter invoiceFilter) {
+		Map<Integer, InvoiceCollection> map = new HashMap<Integer, InvoiceCollection>();
+		List<InvoiceCollection> list = invoiceDao.getInvoiceCollectionListAndFlow(invoiceFilter);
+		
+		for(InvoiceCollection invoiceCollection : list){
+			map.put(invoiceCollection.getInvoiceSeq(), invoiceCollection);
+		}
+		
+		return map;
+		
+	}
+
+	public void inputCollectionNet(InvoiceCollection invoiceCollection) {
+		invoiceDao.inputCollectionNet(invoiceCollection);
+	}
 }

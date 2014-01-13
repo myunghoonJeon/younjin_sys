@@ -25,6 +25,8 @@
 		
 		<typeAlias alias="Rate" type="org.youngjin.net.invoice.Rate"/>
 		<typeAlias alias="Invoice" type="org.youngjin.net.invoice.Invoice"/>
+		<typeAlias alias="InvoiceCollection" type="org.youngjin.net.invoice.InvoiceCollection"/>
+		<typeAlias alias="InvoiceCollectionFlow" type="org.youngjin.net.invoice.InvoiceCollectionFlow"/>
 		<typeAlias alias="InvoiceFilter" type="org.youngjin.net.invoice.InvoiceFilter"/>
 		<typeAlias alias="InvoiceGbl" type="org.youngjin.net.invoice.InvoiceGbl"/>
 		<typeAlias alias="InvoiceGblContent" type="org.youngjin.net.invoice.InvoiceGblContent"/>

@@ -11,6 +11,8 @@ youngjin.invoice.sync = function(){
 	
 	youngjin.invoice.invoiceListSync();
 	
+	youngjin.invoice.invoiceCollectionSync();
+	
 	youngjin.invoice.backSync();
 };
 
@@ -112,6 +114,17 @@ youngjin.invoice.rateSync = function(){
 	$('input#endDate').bind('change', function(){
 		var form = document.forms['invoiceFilter'];
 		form.submit();
+	});
+};
+
+youngjin.invoice.invoiceCollectionSync = function(){
+	$('.collection_net').focusout(function(){
+		youngjin.invoice.inputCollectionNet($(this));
+	});
+	
+	$('.collection_plus').unbind('click');
+	$('.collection_plus').bind('click', function(){
+		youngjin.invoice.inputCollectionFlowTable($(this));
 	});
 };
 
@@ -380,4 +393,64 @@ youngjin.invoice.invoiceGblContentBack = function(target){
 		height : 500,
 		url : url
 	});		
+};
+
+youngjin.invoice.inputCollectionNet = function(target){
+	var net = target.val();
+	var invoiceAmount = target.parents().children('.invoice_amount').children('.invoice_amountValue').val();
+	var state = '';
+	var difference = 0;
+	var url = contextPath + '/outbound/inputCollectionNet';
+	if(net != ''){
+		if( net == invoiceAmount ){
+			state = 'COMPLETE';
+		} else if ( net < invoiceAmount ){
+			state = 'RESENT';
+		}
+		
+		difference = net - invoiceAmount;
+		
+		alert(difference);
+		
+		var json = {
+			'invoiceSeq' : target.parents('tr').attr('data-seq'),
+			'net' : net,
+			'state' : state,
+			'difference' : difference
+		};
+		
+		$.postJSON(url, json, function(){
+			return jQuery.ajax({
+				success : function(){
+					location.href = contextPath + '/outbound/invoiceCollection';
+				},
+				error : function(){
+					alert('에러 발생');
+				}
+			});
+		});
+	}
+};
+
+youngjin.invoice.inputCollectionFlowTable = function(target){
+	var html = '<li>' + 
+					'<table>' + 
+						'<tr>' + 
+							'<td>' +
+								'<select name="flow_state">' + 
+									'<option value="DEPOSIT">DEPOSIT</option>' +
+									'<option value="ACCEPT">ACCEPT</option>' +
+									'<option value="CLAIM">CLAIM</option>' +
+								'</select>' +
+							'</td>' + 
+							'<td>' + todayDate + '</td>' + 
+							'<td>AMOUNT</td>' + 
+							'<td><input type="text" /></td>' +
+							'<td>REMARK</td>' + 
+							'<td><textarea></textarea></td>' +
+						'</tr>' + 
+					'</table>' + 
+				'</li>';
+	
+	target.parents('.collection_flow_wrap').children('ul').children('li').children('.collection_plus').parents('li').before(html);
 };
