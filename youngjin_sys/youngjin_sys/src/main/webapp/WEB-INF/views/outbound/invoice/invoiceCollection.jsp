@@ -91,21 +91,21 @@
 							</td>
 							<td class="collection_flow_wrap">
 								<ul>
-									<c:forEach var="flow" items="${collectionMap.invoiceColltionFlowList }">
+									<c:forEach var="flow" items="${collectionMap.invoiceColltionFlowList }" varStatus="i">
 										<li>
-											<table class="collection_flow_table" data-flowSeq="${flow.seq }">
+											<table class="collection_flow_table" data-flowSeq="${flow.seq }" data-collectionSeq="${flow.invoiceCollectionSeq }" data-count="${i.count }">
 												<tr>
 													<td colspan="2">
 														<select name="flow_state" disabled="disabled">
-															<option value="DEPOSIT" ${flow.state eq 'DEPOSIT' ? 'checked=checked' : '' }>DEPOSIT</option>
-															<option value="ACCEPT" ${flow.state eq 'ACCEPT' ? 'checked=checked' : '' }>ACCEPT</option>
-															<option value="CLAIM" ${flow.state eq 'CLAIM' ? 'checked=checked' : '' }>CLAIM</option>
+															<option value="DEPOSIT" ${flow.state eq 'DEPOSIT' ? 'selected=selected' : '' }>DEPOSIT</option>
+															<option value="ACCEPT" ${flow.state eq 'ACCEPT' ? 'selected=selected' : '' }>ACCEPT</option>
+															<option value="CLAIM" ${flow.state eq 'CLAIM' ? 'selected=selected' : '' }>CLAIM</option>
 														</select>
 													</td>
 													<td>DATE</td>
 													<td>${flow.writeDate }</td>
 													<td>AMOUNT</td>
-													<td>${flow.amount }</td>
+													<td class="collection_amount">${flow.amount }</td>
 													<td>REMARK</td>
 													<td>${flow.remark }</td>
 												</tr>
@@ -118,6 +118,9 @@
 											<c:if test="${collectionMap.invoiceColltionFlowList ne '[]' and collectionMap.invoiceColltionFlowList ne null }">
 												<div class="collection_delete"><img src="${cp }/resources/images/collection_delete.png" /></div>
 											</c:if>
+										</c:if>
+										<c:if test="${collectionMap.state eq 'COMPLETE'}">
+											<div class="collection_delete"><img src="${cp }/resources/images/collection_delete.png" /></div>
 										</c:if>
 									</li>											
 								</ul>					

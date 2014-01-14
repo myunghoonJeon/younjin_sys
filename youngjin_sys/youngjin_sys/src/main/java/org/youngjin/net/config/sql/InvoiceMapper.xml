@@ -638,6 +638,15 @@
 		<collection property="invoiceColltionFlowList" column="seq" javaType="ArrayList" ofType="InvoiceCollectionFlow" select="getInvoiceCollectionFlow" /> 
 	</resultMap>
 	
+	<resultMap type="InvoiceCollection" id="InvoiceCollectionGblMap">
+		<result column="seq" property="seq"/>
+		<result column="state" property="state"/>
+		<result column="net" property="net"/>
+		<result column="remark" property="remark"/>
+		<result column="invoice_seq" property="invoiceSeq"/>
+		<collection property="invoiceColltionFlowList" column="seq" javaType="ArrayList" ofType="InvoiceCollectionFlow" select="getInvoiceCollectionGblFlow" /> 
+	</resultMap>
+	
 	<select id="getInvoiceCollectionListAndFlow" parameterType="InvoiceFilter" resultMap="InvoiceCollectionMap">
 		SELECT
 			ic.seq, ic.state, ic.net, ic.difference, ic.remark, ic.invoice_seq
@@ -666,6 +675,44 @@
 			invoice_collection_flow
 		WHERE
 			invoice_collection_seq = #{seq}
+	</select>
+	
+	<select id="checkAndGetCollectionSeq" parameterType="Integer" resultType="InvoiceCollection">
+		SELECT
+			seq, state, net, difference, invoice_seq AS invoiceSeq, remark
+		FROM
+			invoice_collection
+		WHERE
+			invoice_seq = #{value}
+	</select>
+	
+	<select id="getInvoiceCollectionGblListAndFlow" parameterType="Integer" resultMap="InvoiceCollectionGblMap">
+		SELECT
+			ic.seq, ic.state, ic.net, ic.difference, ic.remark, ic.invoice_gbl_seq AS invoiceSeq
+		FROM
+			invoice_gbl_collection ic, invoice_gbl ig
+		WHERE
+			ic.invoice_gbl_seq = ig.seq
+		AND
+			ig.invoice_list_seq = #{value}		
+	</select>
+	
+	<select id="getInvoiceCollectionGblFlow" resultType="InvoiceCollectionFlow">
+		SELECT
+			seq, amount, state, remark, write_date AS writeDate, invoice_gbl_collection_seq AS invoiceCollectionSeq
+		FROM
+			invoice_gbl_collection_flow
+		WHERE
+			invoice_gbl_collection_seq = #{seq}
+	</select>
+	
+	<select id="checkAndGetGblCollectionSeq" parameterType="Integer" resultType="InvoiceCollection">
+		SELECT
+			seq, state, net, difference, invoice_gbl_seq AS invoiceSeq, remark
+		FROM
+			invoice_gbl_collection
+		WHERE
+			invoice_gbl_seq = #{value}
 	</select>
 	
 	<insert id="insertNewYearSIT" parameterType="Map">
@@ -801,6 +848,33 @@
 			)
 	</insert>
 	
+	<insert id="inputGblCollectionNet" parameterType="InvoiceCollection">
+		INSERT INTO
+			invoice_gbl_collection
+			(
+				state, net, difference, invoice_gbl_seq
+			)
+		VALUES
+			(
+				#{state}, #{net}, #{difference}, #{invoiceSeq}
+			)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID()		
+		</selectKey>
+	</insert>
+	
+	<insert id="inputGblCollectionFlow" parameterType="InvoiceCollectionFlow">
+		INSERT INTO
+			invoice_gbl_collection_flow
+			(
+				amount, state, remark, write_date, invoice_gbl_collection_seq
+			)
+		VALUES
+			(
+				#{amount}, #{state}, #{remark}, SYSDATE(), #{invoiceCollectionSeq}
+			)
+	</insert>
+	
 	<update id="basicUpdate" parameterType="Rate">
 		UPDATE
 			invoice_rate
@@ -919,10 +993,46 @@
 				)			
 	</update>
 	
+	<update id="updateCollectionNet" parameterType="InvoiceCollection">
+		UPDATE
+			invoice_collection
+		SET
+			state = #{state},
+			net = #{net},
+			difference = #{difference}
+		WHERE
+			seq = #{seq}
+	</update>
+	
+	<update id="updateGblCollectionNet" parameterType="InvoiceCollection">
+		UPDATE
+			invoice_gbl_collection
+		SET
+			state = #{state},
+			net = #{net},
+			difference = #{difference}
+		WHERE
+			seq = #{seq}
+	</update>
+	
 	<delete id="deleteInvoice" parameterType="Invoice">
 		DELETE FROM
 			invoice_list
 		WHERE
 			seq = #{seq}
+	</delete>
+	
+	<delete id="deleteInvoiceCollection" parameterType="String">
+		DELETE FROM
+			invoice_collection
+		WHERE
+			seq = #{value}
+	</delete>
+	
+	<delete id="deleteInvoiceCollectionFlow" parameterType="String">
+		DELETE FROM
+			invoice_collection_flow
+		WHERE
+			seq = #{value}
 	</delete>
 </mapper>

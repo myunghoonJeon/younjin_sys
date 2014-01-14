@@ -502,6 +502,9 @@ td.seperate_merge{ border: none !important;}
 .collection_flow_wrap{text-align: left!important; padding-left: 5px!important; }
 .collection_flow_wrap img { width: 20px; height: 20px; }
 
+.collection_gbl_flow_wrap{text-align: left!important; padding-left: 5px!important; }
+.collection_gbl_flow_wrap img { width: 20px; height: 20px; }
+
 .collection_net{width: 40px; border: none;}
 .invoice_amountValue{ width: 40px; border: none;}
 
@@ -515,6 +518,21 @@ td.seperate_merge{ border: none !important;}
 
 .collection_flow_table tr:HOVER{background-color : white!important;}
 .collection_flow_table{ height: 60px; }
+
+.collection_gbl_flow_wrap ul li{margin-right: 5px; float: left; margin-bottom: 5px;  }
+.collection_gbl_flow_wrap ul li input { width: 50px; }
+.collection_gbl_flow_wrap ul li textarea { width : 190px; height: 40px; }
+.collection_gbl_flow_wrap ul li table td{ padding: 2px 3px; }
+
+.invoice_gbl_collection_list_table{ width : 80% ; margin: 10px auto; text-align: center;}
+.invoice_gbl_collection_list_table thead tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.invoice_gbl_collection_list_table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle; }
+.invoice_gbl_collection_list_table tbody tr{ background-color: white; cursor: pointer;  }
+.invoice_gbl_collection_list_table tbody tr:HOVER {background-color: #B7B9CC;}
+.invoice_gbl_collection_list_table tfoot tr td{ padding-top: 5px; text-align: right; }
+
+.invoice_collection_gbl_list_wrap{ width: 1000px; height: 500px; background-color: white;}
+
 /* Inbound */
 /* Freight List */
 .freight_add{float: right; margin-bottom: 10px; }

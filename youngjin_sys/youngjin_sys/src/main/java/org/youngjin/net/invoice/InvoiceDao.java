@@ -235,8 +235,41 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 		getSqlSession().insert("invoiceMapper.inputCollectionFlow", invoiceCollectionFlow);
 	}
 
-	public Integer checkAndGetCollectionSeq(String invoiceSeq) {
+	public InvoiceCollection checkAndGetCollectionSeq(String invoiceSeq) {
 		return getSqlSession().selectOne("invoiceMapper.checkAndGetCollectionSeq", invoiceSeq);
+	}
+
+	public void updateCollectionNet(InvoiceCollection invoiceCollection) {
+		getSqlSession().update("invoiceMapper.updateCollectionNet", invoiceCollection);
+	}
+
+	public void deleteInvoiceCollection(String collectionSeq) {
+		getSqlSession().delete("invoiceMapper.deleteInvoiceCollection", collectionSeq);
+	}
+
+	public void deleteInvoiceCollectionFlow(String flowSeq) {
+		getSqlSession().delete("invoiceMapper.deleteInvoiceCollectionFlow", flowSeq);
+	}
+
+	public List<InvoiceCollection> getInvoiceCollectionGblListAndFlow(Integer seq) {
+		return getSqlSession().selectList("invoiceMapper.getInvoiceCollectionGblListAndFlow", seq);
+	}
+
+	public void updateGblCollectionNet(InvoiceCollection invoiceCollection) {
+		getSqlSession().update("invoiceMapper.updateGblCollectionNet", invoiceCollection);		
+	}
+
+	public void inputGblCollectionNet(InvoiceCollection invoiceCollection) {
+		getSqlSession().insert("invoiceMapper.inputGblCollectionNet", invoiceCollection);
+	}
+
+	public InvoiceCollection checkAndGetGblCollectionSeq(String invoiceGblSeq) {
+		return getSqlSession().selectOne("invoiceMapper.checkAndGetGblCollectionSeq", invoiceGblSeq);
+	}
+
+	public void inputGblCollectionFlow(
+			InvoiceCollectionFlow invoiceGblCollectionFlow) {
+		getSqlSession().insert("invoiceMapper.inputGblCollectionFlow", invoiceGblCollectionFlow);		
 	}
 	
 }

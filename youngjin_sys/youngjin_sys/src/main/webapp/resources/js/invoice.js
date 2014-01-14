@@ -124,11 +124,14 @@ youngjin.invoice.invoiceCollectionSync = function(){
 	
 	$('.collection_plus').unbind('click');
 	$('.collection_plus').bind('click', function(){
+		$(this).parents().parents().parents().parents('tr').attr('data-click', 'yes');
 		youngjin.invoice.inputCollectionFlowTable($(this));
 	});
 	
 	$('.collection_delete').unbind('click');
 	$('.collection_delete').bind('click', function(){
+		$(this).parents().parents().parents().parents('tr').attr('data-click', 'yes');
+
 		if($(this).parents('.collection_flow_wrap').find('.collection_flow_table').attr('data-flowSeq') == undefined){
 			$('.collection_flow_table:last').parents('li').remove();
 			
@@ -137,13 +140,97 @@ youngjin.invoice.invoiceCollectionSync = function(){
 				$('.collection_save').remove();
 			}
 		} else {
-			
+			if($(this).parents().parents('ul').find('.collection_flow_table:last').attr('data-flowSeq') != undefined)
+				youngjin.invoice.collectionDelete($(this));
+			else {
+				$(this).parents().parents('ul').find('.collection_flow_table:last').parents('li').remove();
+				
+				if($(this).parents().parents('ul').find('.collection_flow_table:last').html() != undefined && $(this).parents().parents('ul').find('.collection_flow_table:last').attr('data-flowSeq') != undefined){
+					$(this).parents().children('.collection_save').remove();
+				}				
+			}
 		}
+	});
+	
+	$('.collection_flow_table tr').unbind('click');
+	$('.collection_flow_table tr').bind('click', function(){
+		$(this).parents().parents().parents().parents().parents('tr').attr('data-click', 'yes');
+		$(this).attr('data-click', 'yes');
+	});
+	
+	$('.collection_flow_table tr td').unbind('click');
+	$('.collection_flow_table tr td').bind('click', function(){
+		$(this).parents().parents().parents().parents().parents().parents('tr').attr('data-click', 'yes');
+		$(this).parents('tr').attr('data-click', 'yes');
+	});
+	
+	$('.collection_flow_table tr td input').unbind('click');
+	$('.collection_flow_table tr td input').bind('click', function(){
+		$(this).parents().parents().parents().parents.parents().parents().parents('tr').attr('data-click', 'yes');
+		$(this).parents().parents('tr').attr('data-click', 'yes');
+	});
+	
+	$('.collection_flow_table tr td select').unbind('click');
+	$('.collection_flow_table tr td select').bind('click', function(){
+		$(this).parents().parents().parents().parents.parents().parents().parents('tr').attr('data-click', 'yes');
+		$(this).parents().parents('tr').attr('data-click', 'yes');
+	});
+	
+	$('.collection_flow_table tr td textarea').unbind('click');
+	$('.collection_flow_table tr td textarea').bind('click', function(){
+		$(this).parents().parents().parents().parents.parents().parents().parents('tr').attr('data-click', 'yes');
+		$(this).parents().parents('tr').attr('data-click', 'yes');
 	});
 	
 	$('.collection_save').unbind('click');
 	$('.collection_save').bind('click', function(){
+		$(this).parents().parents().parents().parents('tr').attr('data-click', 'yes');
 		youngjin.invoice.collectionSave($(this));
+	});
+	
+	$('.invoice_collection_table tbody tr').unbind('click');
+	$('.invoice_collection_table tbody tr').bind('click', function(){
+		if($(this).attr('data-click') == 'yes'){
+			$(this).attr('data-click', 'no');
+		} else {
+			youngjin.invoice.invoiceCollectionGbl($(this));
+		}
+	});
+	
+	$('.collection_gbl_plus').unbind('click');
+	$('.collection_gbl_plus').bind('click', function(){
+		$(this).parents().parents().parents().parents('tr').attr('data-click', 'yes');
+		youngjin.invoice.inputGblCollectionFlowTable($(this));
+	});
+	
+	$('.collection_gbl_delete').unbind('click');
+	$('.collection_gbl_delete').bind('click', function(){
+		$(this).parents().parents().parents().parents('tr').attr('data-click', 'yes');
+
+		if($(this).parents('.collection_gbl_flow_wrap').find('.collection_flow_table').attr('data-flowSeq') == undefined){
+			$('.collection_flow_table:last').parents('li').remove();
+			
+			if($('.collection_flow_table').html() == undefined){
+				$(this).remove();
+				$('.collection_save').remove();
+			}
+		} else {
+			if($(this).parents().parents('ul').find('.collection_flow_table:last').attr('data-flowSeq') != undefined)
+				youngjin.invoice.collectionGblDelete($(this));
+			else {
+				$(this).parents().parents('ul').find('.collection_flow_table:last').parents('li').remove();
+				
+				if($(this).parents().parents('ul').find('.collection_flow_table:last').html() != undefined && $(this).parents().parents('ul').find('.collection_flow_table:last').attr('data-flowSeq') != undefined){
+					$(this).parents().children('.collection_save').remove();
+				}				
+			}
+		}
+	});
+	
+	$('.collection_gbl_save').unbind('click');
+	$('.collection_gbl_save').bind('click', function(){
+		$(this).parents().parents().parents().parents('tr').attr('data-click', 'yes');
+		youngjin.invoice.collectionGblSave($(this));
 	});
 };
 
@@ -474,8 +561,12 @@ youngjin.invoice.inputCollectionFlowTable = function(target){
 	target.parents('.collection_flow_wrap').children('ul').children('li').children('.collection_plus').parents('li').before(html);
 	
 	if(target.parents('.collection_button').children('.collection_delete').html() == undefined){
-		var button = '<div class="collection_delete"><img src="' + contextPath + '/resources/images/collection_delete.png" /></div>' +
-						'<div class="collection_save"><img src="' + contextPath + '/resources/images/collection_save.png" /></div>';
+		var button = '<div class="collection_delete"><img src="' + contextPath + '/resources/images/collection_delete.png" /></div>';
+		target.parents('.collection_button').append(button);
+	}
+	
+	if(target.parents('.collection_button').children('.collection_save').html() == undefined){
+		var button = '<div class="collection_save"><img src="' + contextPath + '/resources/images/collection_save.png" /></div>';
 		target.parents('.collection_button').append(button);
 	}
 	
@@ -485,28 +576,33 @@ youngjin.invoice.inputCollectionFlowTable = function(target){
 youngjin.invoice.collectionSave = function(target){
 	var tr = target.parents().parents().parents().parents('tr');
 	var invoiceAmount = tr.children('.invoice_amount').children('input').val();
-	var net = $('.collection_flow_table:last').find('.flow_amount input').val();
+	
+	var ul = target.parents().parents('ul');
+	var table = ul.find('.collection_flow_table:last');
+	
+	var net = table.find('.flow_amount input').val();
 	var difference = 0;
-	var url = contextPath + '/outbound/inputCollectionNet';
+	var state = '';
+	var url = contextPath + '/outbound/inputCollectionNet.json';
 	
 	var ul = target.parents().parents('ul');
 	
-	var flowState = ul.find('select').val();
+	var flowState = ul.find('select:last option:selected').val();
 	var flowRemark = ul.find('textarea').val();
 	
-	if( net != '' && flowState == 'DEPOSIT'){
-		if( net == invoiceAmount ){
+	if( net != '' ){
+		if( net == invoiceAmount || flowState == 'ACCEPT' ){
 			state = 'COMPLETE';
 		} else if ( net < invoiceAmount ){
-			state = 'RESENT';
+			state = 'RESENT';			
+			difference = net - invoiceAmount;
 		}
-		
-		difference = net - invoiceAmount;
 		
 		var json = {
 			'invoiceSeq' : target.parents().parents().parents().parents('tr').attr('data-seq'),
 			'net' : net,
 			'state' : state,
+			'amount' : invoiceAmount,
 			'difference' : String(difference),
 			'flowAmount' : net,
 			'flowState' : flowState,
@@ -522,41 +618,177 @@ youngjin.invoice.collectionSave = function(target){
 					alert('에러 발생');
 				}
 			});
-		});		
+		});	
+	}	
+};
+
+youngjin.invoice.collectionDelete = function(target){
+	var invoiceSeq = target.parents().parents().parents().parents('tr').attr('data-seq');
+	
+	var ul = target.parents().parents('ul');
+	var table = ul.find('.collection_flow_table:last');
+	var flowSeq = table.attr('data-flowSeq');
+	var collectionSeq = table.attr('data-collectionSeq');
+	var count = table.attr('data-count');
+	
+	var state = table.find('select option:selected').val();
+	var amount = table.find('.collection_amount').text();
+	
+	var url = contextPath + '/outbound/invoiceCollectionFlowDelete.json';	
+	
+	var json = {
+			'flowSeq' : flowSeq,
+			'invoiceSeq' : invoiceSeq,
+			'collectionSeq' : collectionSeq,
+			'count' : count,
+			'state' : state,
+			'amount' : amount
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				location.href = contextPath + '/outbound/invoiceCollection';
+			},
+			error : function(){
+				alert('에러 발생');
+			}
+		});
+	});
+};
+
+youngjin.invoice.invoiceCollectionGbl = function(target){
+	var seq = target.attr('data-seq');
+	
+	var url = contextPath + '/outbound/invoice/' + seq + '/invoiceCollectionGbl'; 
+	
+	parent.$.smartPop.close();
+	
+	parent.$.smartPop.open({
+		width : 1000,
+		height : 500,
+		url : url
+	});	
+};
+
+youngjin.invoice.inputGblCollectionFlowTable = function(target){
+	var html = '<li>' + 
+					'<table class="collection_flow_table">' + 
+						'<tr>' + 
+							'<td class="flow_state">' +
+								'<select name="flow_state">' + 
+									'<option value="DEPOSIT">DEPOSIT</option>' +
+									'<option value="ACCEPT">ACCEPT</option>' +
+									'<option value="CLAIM">CLAIM</option>' +
+								'</select>' +
+							'</td>' + 
+							'<td>' + todayDate + '</td>' + 
+							'<td>AMOUNT</td>' + 
+							'<td class="flow_amount"><input name="amount" type="text" /></td>' +
+							'<td>REMARK</td>' + 
+							'<td><textarea name="remark"></textarea></td>' +
+						'</tr>' + 
+					'</table>' + 
+				'</li>';
+	
+	target.parents('.collection_gbl_flow_wrap').children('ul').children('li').children('.collection_gbl_plus').parents('li').before(html);
+	
+	if(target.parents('.collection_button').children('.collection_gbl_delete').html() == undefined){
+		var button = '<div class="collection_gbl_delete"><img src="' + contextPath + '/resources/images/collection_delete.png" /></div>';
+		target.parents('.collection_button').append(button);
 	}
-	/*var net = target.val();
-	var invoiceAmount = target.parents().children('.invoice_amount').children('.invoice_amountValue').val();
-	var state = '';
+	
+	if(target.parents('.collection_button').children('.collection_gbl_save').html() == undefined){
+		var button = '<div class="collection_gbl_save"><img src="' + contextPath + '/resources/images/collection_save.png" /></div>';
+		target.parents('.collection_button').append(button);
+	}
+	
+	youngjin.invoice.sync();
+};
+
+youngjin.invoice.collectionGblSave = function(target){
+	var tr = target.parents().parents().parents().parents('tr');
+	var invoiceAmount = tr.children('.invoice_amount').children('input').val();
+	
+	var ul = target.parents().parents('ul');
+	var table = ul.find('.collection_flow_table:last');
+	
+	var net = table.find('.flow_amount input').val();
 	var difference = 0;
-	var url = contextPath + '/outbound/inputCollectionNet';
-	if(net != ''){
-		if( net == invoiceAmount ){
+	var state = '';
+	var url = contextPath + '/outbound/inputGblCollectionNet.json';
+	
+	var ul = target.parents().parents('ul');
+	
+	var flowState = ul.find('select:last option:selected').val();
+	var flowRemark = ul.find('textarea').val();
+	
+	var invoiceGblSeq = target.parents().parents().parents().parents('tr').attr('data-invoiceGblSeq');
+	var invoiceSeq = $('.invoice_gbl_collection_list_table').attr('data-seq');
+	
+	if( net != '' ){
+		if( net == invoiceAmount || flowState == 'ACCEPT' ){
 			state = 'COMPLETE';
 		} else if ( net < invoiceAmount ){
-			state = 'RESENT';
+			state = 'RESENT';			
+			difference = net - invoiceAmount;
 		}
-		
-		difference = net - invoiceAmount;
-		
-		alert(difference);
-		
+		alert(invoiceAmount + " " + net + " " + flowState + " " + flowRemark);
 		var json = {
-			'invoiceSeq' : target.parents('tr').attr('data-seq'),
+			'invoiceSeq' : invoiceGblSeq,
 			'net' : net,
 			'state' : state,
-			'difference' : difference
+			'amount' : invoiceAmount,
+			'difference' : String(difference),
+			'flowAmount' : net,
+			'flowState' : flowState,
+			'flowRemark' : flowRemark
 		};
 		
 		$.postJSON(url, json, function(){
 			return jQuery.ajax({
 				success : function(){
-					location.href = contextPath + '/outbound/invoiceCollection';
+					location.href = contextPath + '/outbound/invoice/' + invoiceSeq + '/invoiceCollectionGbl';
 				},
 				error : function(){
 					alert('에러 발생');
 				}
 			});
-		});
-	}*/
+		});	
+	}	
+};
+
+youngjin.invoice.collectionGblDelete = function(target){
+	var invoiceSeq = target.parents().parents().parents().parents('tr').attr('data-seq');
 	
+	var ul = target.parents().parents('ul');
+	var table = ul.find('.collection_flow_table:last');
+	var flowSeq = table.attr('data-flowSeq');
+	var collectionSeq = table.attr('data-collectionSeq');
+	var count = table.attr('data-count');
+	
+	var state = table.find('select option:selected').val();
+	var amount = table.find('.collection_amount').text();
+	
+	var url = contextPath + '/outbound/invoiceCollectionFlowDelete.json';	
+	
+	var json = {
+			'flowSeq' : flowSeq,
+			'invoiceSeq' : invoiceSeq,
+			'collectionSeq' : collectionSeq,
+			'count' : count,
+			'state' : state,
+			'amount' : amount
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				location.href = contextPath + '/outbound/invoiceCollection';
+			},
+			error : function(){
+				alert('에러 발생');
+			}
+		});
+	});
 };

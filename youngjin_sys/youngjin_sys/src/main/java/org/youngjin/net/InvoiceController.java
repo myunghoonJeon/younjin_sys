@@ -205,9 +205,41 @@ public class InvoiceController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/{process}/inputCollectionNet", method = RequestMethod.POST)
+	@RequestMapping(value = "/{process}/inputCollectionNet.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void inputCollectionNet(@RequestBody Map<String, String> invoiceCollection){
 		invoiceService.inputCollection(invoiceCollection);
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoiceCollectionFlowDelete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void invoiceCollectionDelete(@RequestBody Map<String, String> invoiceCollection){
+		invoiceService.invoiceCollectionDelete(invoiceCollection);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoice/{seq}/invoiceCollectionGbl", method = RequestMethod.GET)
+	public String invoiceCollectionGbl(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq) {
+
+		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq);
+		
+		Map<Integer, InvoiceCollection> invoiceCollectionGblMap = invoiceService.getInvoiceCollectionGblMap(seq);
+
+		model.addAttribute("invoicSeq", seq);
+
+		model.addAttribute("invoiceListSeq", seq);
+		model.addAttribute("invoiceGblList", invoiceGblList);
+		model.addAttribute("invoiceCollectionGblMap", invoiceCollectionGblMap);
+
+		return process + "/invoice/invoiceCollectionGbl";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/inputGblCollectionNet.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void inputGblCollectionNet(@RequestBody Map<String, String> invoiceCollection){
+		invoiceService.inputGblCollection(invoiceCollection);
 	}	
 }
