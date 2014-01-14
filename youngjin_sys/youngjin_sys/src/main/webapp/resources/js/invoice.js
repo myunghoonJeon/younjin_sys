@@ -129,7 +129,7 @@ youngjin.invoice.invoiceCollectionSync = function(){
 	
 	$('.collection_delete').unbind('click');
 	$('.collection_delete').bind('click', function(){
-		if($(this).parents('.collection_flow_wrap').children().children('.collection_flow_table').attr('data-flowSeq') == undefined){
+		if($(this).parents('.collection_flow_wrap').find('.collection_flow_table').attr('data-flowSeq') == undefined){
 			$('.collection_flow_table:last').parents('li').remove();
 			
 			if($('.collection_flow_table').html() == undefined){

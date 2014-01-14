@@ -42,7 +42,6 @@ public class InboundController {
 	@RequestMapping(value = "/{process}/freightList", method = RequestMethod.GET)
 	public String freightList(Model model, User user,
 			@PathVariable String process, @ModelAttribute InboundFilter inboundFilter) {
-
 		inboundFilter.getPagination().setNumItems(
 				inboundService.getFreightListCount(inboundFilter, user));
 

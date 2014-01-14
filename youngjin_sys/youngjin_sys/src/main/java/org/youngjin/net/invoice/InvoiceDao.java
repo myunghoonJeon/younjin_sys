@@ -234,5 +234,9 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public void inputCollectionFlow(InvoiceCollectionFlow invoiceCollectionFlow) {
 		getSqlSession().insert("invoiceMapper.inputCollectionFlow", invoiceCollectionFlow);
 	}
+
+	public Integer checkAndGetCollectionSeq(String invoiceSeq) {
+		return getSqlSession().selectOne("invoiceMapper.checkAndGetCollectionSeq", invoiceSeq);
+	}
 	
 }

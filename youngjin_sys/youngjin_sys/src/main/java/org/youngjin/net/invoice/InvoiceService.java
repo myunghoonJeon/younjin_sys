@@ -854,11 +854,11 @@ public class InvoiceService {
 	public void inputCollection(Map<String, String> invoiceCollectionMap) {
 		InvoiceCollection invoiceCollection = new InvoiceCollection();
 		invoiceCollection.setNet(invoiceCollectionMap.get("net"));
-		System.out.println(invoiceCollectionMap.get("difference"));
 		invoiceCollection.setDifference(invoiceCollectionMap.get("difference"));
 		invoiceCollection.setState(invoiceCollectionMap.get("state"));
 		invoiceCollection.setInvoiceSeq(Integer.parseInt(invoiceCollectionMap.get("invoiceSeq")));
 		
+		Integer collectionSeq = invoiceDao.checkAndGetCollectionSeq(invoiceCollectionMap.get("invoiceSeq"));
 		invoiceDao.inputCollectionNet(invoiceCollection);
 		
 		InvoiceCollectionFlow invoiceCollectionFlow = new InvoiceCollectionFlow();
