@@ -77,7 +77,7 @@
 						<tr data-seq="${invoice.seq }">
 							<td>${invoice.invoiceNo }</td>
 							<td class="invoice_amount"><input class="invoice_amountValue" value="${invoice.amount }" readonly="readonly"/>$</td>
-							<td><input class="collection_net" name="collection_net" type="text" value="${collectionMap.net }" />$</td>
+							<td><input class="collection_net" name="collection_net" type="text" value="${collectionMap.net }" readonly="readonly" />$</td>
 							<td>
 								<c:choose>
 									<c:when test="${collectionMap.state eq 'COMPLETE' }">
@@ -93,34 +93,31 @@
 								<ul>
 									<c:forEach var="flow" items="${collectionMap.invoiceColltionFlowList }">
 										<li>
-											<table>
+											<table class="collection_flow_table" data-flowSeq="${flow.seq }">
 												<tr>
 													<td colspan="2">
-														<select name="flow_state">
+														<select name="flow_state" disabled="disabled">
 															<option value="DEPOSIT" ${flow.state eq 'DEPOSIT' ? 'checked=checked' : '' }>DEPOSIT</option>
 															<option value="ACCEPT" ${flow.state eq 'ACCEPT' ? 'checked=checked' : '' }>ACCEPT</option>
 															<option value="CLAIM" ${flow.state eq 'CLAIM' ? 'checked=checked' : '' }>CLAIM</option>
 														</select>
 													</td>
-												</tr>
-												<tr>
 													<td>DATE</td>
 													<td>${flow.writeDate }</td>
-												</tr>
-												<tr>
 													<td>AMOUNT</td>
 													<td>${flow.amount }</td>
-												</tr>
-												<tr>
 													<td>REMARK</td>
 													<td>${flow.remark }</td>
 												</tr>
 											</table>
 										</li>
 									</c:forEach>
-									<li>																
+									<li class="collection_button">																
 										<c:if test="${collectionMap.state ne 'COMPLETE' }">
 											<div class="collection_plus"><img src="${cp }/resources/images/collection_plus.png" /></div>
+											<c:if test="${collectionMap.invoiceColltionFlowList ne '[]' and collectionMap.invoiceColltionFlowList ne null }">
+												<div class="collection_delete"><img src="${cp }/resources/images/collection_delete.png" /></div>
+											</c:if>
 										</c:if>
 									</li>											
 								</ul>					

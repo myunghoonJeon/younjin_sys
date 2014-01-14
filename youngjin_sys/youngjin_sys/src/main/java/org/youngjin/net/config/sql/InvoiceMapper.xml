@@ -784,6 +784,21 @@
 			(
 				#{state}, #{net}, #{difference}, #{invoiceSeq}
 			)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID()		
+		</selectKey>
+	</insert>
+	
+	<insert id="inputCollectionFlow" parameterType="InvoiceCollectionFlow">
+		INSERT INTO
+			invoice_collection_flow
+			(
+				amount, state, remark, write_date, invoice_collection_seq
+			)
+		VALUES
+			(
+				#{amount}, #{state}, #{remark}, SYSDATE(), #{invoiceCollectionSeq}
+			)
 	</insert>
 	
 	<update id="basicUpdate" parameterType="Rate">

@@ -510,9 +510,11 @@ td.seperate_merge{ border: none !important;}
 
 .collection_flow_wrap ul li{margin-right: 5px; float: left; margin-bottom: 5px;  }
 .collection_flow_wrap ul li input { width: 50px; }
-.collection_flow_wrap ul li textarea { width : 280px; }
+.collection_flow_wrap ul li textarea { width : 280px; height: 40px; }
 .collection_flow_wrap ul li table td{ padding: 2px 3px; }
 
+.collection_flow_table tr:HOVER{background-color : white!important;}
+.collection_flow_table{ height: 60px; }
 /* Inbound */
 /* Freight List */
 .freight_add{float: right; margin-bottom: 10px; }

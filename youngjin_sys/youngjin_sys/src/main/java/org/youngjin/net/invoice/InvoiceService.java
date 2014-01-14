@@ -851,7 +851,22 @@ public class InvoiceService {
 		
 	}
 
-	public void inputCollectionNet(InvoiceCollection invoiceCollection) {
+	public void inputCollection(Map<String, String> invoiceCollectionMap) {
+		InvoiceCollection invoiceCollection = new InvoiceCollection();
+		invoiceCollection.setNet(invoiceCollectionMap.get("net"));
+		System.out.println(invoiceCollectionMap.get("difference"));
+		invoiceCollection.setDifference(invoiceCollectionMap.get("difference"));
+		invoiceCollection.setState(invoiceCollectionMap.get("state"));
+		invoiceCollection.setInvoiceSeq(Integer.parseInt(invoiceCollectionMap.get("invoiceSeq")));
+		
 		invoiceDao.inputCollectionNet(invoiceCollection);
+		
+		InvoiceCollectionFlow invoiceCollectionFlow = new InvoiceCollectionFlow();
+		invoiceCollectionFlow.setAmount(invoiceCollectionMap.get("flowAmount"));
+		invoiceCollectionFlow.setState(invoiceCollectionMap.get("flowState"));
+		invoiceCollectionFlow.setRemark(invoiceCollectionMap.get("flowRemark"));
+		invoiceCollectionFlow.setInvoiceCollectionSeq(invoiceCollection.getSeq());
+		
+		invoiceDao.inputCollectionFlow(invoiceCollectionFlow);
 	}
 }

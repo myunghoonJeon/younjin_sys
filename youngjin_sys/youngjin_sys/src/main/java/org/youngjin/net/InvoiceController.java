@@ -207,9 +207,7 @@ public class InvoiceController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{process}/inputCollectionNet", method = RequestMethod.POST)
 	@ResponseBody
-	public void inputCollectionNet(@RequestBody InvoiceCollection invoiceCollection){
-		invoiceService.inputCollectionNet(invoiceCollection);
-	}
-	
-	
+	public void inputCollectionNet(@RequestBody Map<String, String> invoiceCollection){
+		invoiceService.inputCollection(invoiceCollection);
+	}	
 }

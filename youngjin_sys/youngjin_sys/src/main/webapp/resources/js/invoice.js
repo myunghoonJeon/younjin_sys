@@ -118,13 +118,32 @@ youngjin.invoice.rateSync = function(){
 };
 
 youngjin.invoice.invoiceCollectionSync = function(){
-	$('.collection_net').focusout(function(){
+/*	$('.collection_net').focusout(function(){
 		youngjin.invoice.inputCollectionNet($(this));
-	});
+	});*/
 	
 	$('.collection_plus').unbind('click');
 	$('.collection_plus').bind('click', function(){
 		youngjin.invoice.inputCollectionFlowTable($(this));
+	});
+	
+	$('.collection_delete').unbind('click');
+	$('.collection_delete').bind('click', function(){
+		if($(this).parents('.collection_flow_wrap').children().children('.collection_flow_table').attr('data-flowSeq') == undefined){
+			$('.collection_flow_table:last').parents('li').remove();
+			
+			if($('.collection_flow_table').html() == undefined){
+				$(this).remove();
+				$('.collection_save').remove();
+			}
+		} else {
+			
+		}
+	});
+	
+	$('.collection_save').unbind('click');
+	$('.collection_save').bind('click', function(){
+		youngjin.invoice.collectionSave($(this));
 	});
 };
 
@@ -434,9 +453,9 @@ youngjin.invoice.inputCollectionNet = function(target){
 
 youngjin.invoice.inputCollectionFlowTable = function(target){
 	var html = '<li>' + 
-					'<table>' + 
+					'<table class="collection_flow_table">' + 
 						'<tr>' + 
-							'<td>' +
+							'<td class="flow_state">' +
 								'<select name="flow_state">' + 
 									'<option value="DEPOSIT">DEPOSIT</option>' +
 									'<option value="ACCEPT">ACCEPT</option>' +
@@ -445,12 +464,99 @@ youngjin.invoice.inputCollectionFlowTable = function(target){
 							'</td>' + 
 							'<td>' + todayDate + '</td>' + 
 							'<td>AMOUNT</td>' + 
-							'<td><input type="text" /></td>' +
+							'<td class="flow_amount"><input name="amount" type="text" /></td>' +
 							'<td>REMARK</td>' + 
-							'<td><textarea></textarea></td>' +
+							'<td><textarea name="remark"></textarea></td>' +
 						'</tr>' + 
 					'</table>' + 
 				'</li>';
 	
 	target.parents('.collection_flow_wrap').children('ul').children('li').children('.collection_plus').parents('li').before(html);
+	
+	if(target.parents('.collection_button').children('.collection_delete').html() == undefined){
+		var button = '<div class="collection_delete"><img src="' + contextPath + '/resources/images/collection_delete.png" /></div>' +
+						'<div class="collection_save"><img src="' + contextPath + '/resources/images/collection_save.png" /></div>';
+		target.parents('.collection_button').append(button);
+	}
+	
+	youngjin.invoice.sync();
+};
+
+youngjin.invoice.collectionSave = function(target){
+	var tr = target.parents().parents().parents().parents('tr');
+	var invoiceAmount = tr.children('.invoice_amount').children('input').val();
+	var net = $('.collection_flow_table:last').find('.flow_amount input').val();
+	var difference = 0;
+	var url = contextPath + '/outbound/inputCollectionNet';
+	
+	var ul = target.parents().parents('ul');
+	
+	var flowState = ul.find('select').val();
+	var flowRemark = ul.find('textarea').val();
+	
+	if( net != '' && flowState == 'DEPOSIT'){
+		if( net == invoiceAmount ){
+			state = 'COMPLETE';
+		} else if ( net < invoiceAmount ){
+			state = 'RESENT';
+		}
+		
+		difference = net - invoiceAmount;
+		
+		var json = {
+			'invoiceSeq' : target.parents().parents().parents().parents('tr').attr('data-seq'),
+			'net' : net,
+			'state' : state,
+			'difference' : String(difference),
+			'flowAmount' : net,
+			'flowState' : flowState,
+			'flowRemark' : flowRemark
+		};
+		
+		$.postJSON(url, json, function(){
+			return jQuery.ajax({
+				success : function(){
+					location.href = contextPath + '/outbound/invoiceCollection';
+				},
+				error : function(){
+					alert('에러 발생');
+				}
+			});
+		});		
+	}
+	/*var net = target.val();
+	var invoiceAmount = target.parents().children('.invoice_amount').children('.invoice_amountValue').val();
+	var state = '';
+	var difference = 0;
+	var url = contextPath + '/outbound/inputCollectionNet';
+	if(net != ''){
+		if( net == invoiceAmount ){
+			state = 'COMPLETE';
+		} else if ( net < invoiceAmount ){
+			state = 'RESENT';
+		}
+		
+		difference = net - invoiceAmount;
+		
+		alert(difference);
+		
+		var json = {
+			'invoiceSeq' : target.parents('tr').attr('data-seq'),
+			'net' : net,
+			'state' : state,
+			'difference' : difference
+		};
+		
+		$.postJSON(url, json, function(){
+			return jQuery.ajax({
+				success : function(){
+					location.href = contextPath + '/outbound/invoiceCollection';
+				},
+				error : function(){
+					alert('에러 발생');
+				}
+			});
+		});
+	}*/
+	
 };
