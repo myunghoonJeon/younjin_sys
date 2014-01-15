@@ -242,4 +242,11 @@ public class InvoiceController {
 	public void inputGblCollectionNet(@RequestBody Map<String, String> invoiceCollection){
 		invoiceService.inputGblCollection(invoiceCollection);
 	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoiceGblCollectionFlowDelete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void invoiceGblCollectionDelete(@RequestBody Map<String, String> invoiceCollection){
+		invoiceService.invoiceGblCollectionDelete(invoiceCollection);
+	}
 }

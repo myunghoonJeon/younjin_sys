@@ -1115,4 +1115,57 @@ public class InvoiceService {
 
 		invoiceDao.inputGblCollectionFlow(invoiceCollectionFlow);
 	}
+	
+	public void invoiceGblCollectionDelete(Map<String, String> invoiceCollection) {
+		String invoiceSeq = invoiceCollection.get("invoiceSeq");
+		String flowSeq = invoiceCollection.get("flowSeq");
+		String collectionSeq = invoiceCollection.get("collectionSeq");
+		String state = invoiceCollection.get("state");
+		String amount = invoiceCollection.get("amount");
+
+		Integer count = Integer.parseInt(invoiceCollection.get("count"));
+
+		if (state.equals("DEPOSIT")) {
+			if (count == 1) {
+				invoiceDao.deleteGblInvoiceCollection(collectionSeq);
+			} else {
+				invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
+
+				InvoiceCollection collection = invoiceDao
+						.checkAndGetGblCollectionSeq(invoiceSeq);
+				InvoiceCollection collectionParam = new InvoiceCollection();
+				Integer net = Integer.parseInt(collection.getNet())
+						- Integer.parseInt(amount);
+				collectionParam.setNet(net.toString());
+
+				Integer difference = Integer.parseInt(collection
+						.getDifference()) - Integer.parseInt(amount);
+				collectionParam.setDifference(difference.toString());
+				collectionParam.setState("RESENT");
+
+				collectionParam.setSeq(Integer.parseInt(collectionSeq));
+
+				invoiceDao.updateGblCollectionNet(collectionParam);
+			}
+		} else if (state.equals("ACCEPT")) {
+			invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
+			InvoiceCollection collection = invoiceDao
+					.checkAndGetGblCollectionSeq(invoiceSeq);
+			InvoiceCollection collectionParam = new InvoiceCollection();
+
+			Integer difference = Integer.parseInt(collection.getDifference())
+					- Integer.parseInt(amount);
+			collectionParam.setDifference(difference.toString());
+			collectionParam.setState("RESENT");
+
+			collectionParam.setNet(collection.getNet());
+
+			collectionParam.setSeq(Integer.parseInt(collectionSeq));
+
+			invoiceDao.updateGblCollectionNet(collectionParam);
+
+		} else if (state.equals("CLAIM")) {
+			invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
+		}
+	}
 }

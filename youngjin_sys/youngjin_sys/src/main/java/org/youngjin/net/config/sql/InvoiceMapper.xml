@@ -1035,4 +1035,18 @@
 		WHERE
 			seq = #{value}
 	</delete>
+	
+	<delete id="deleteGblInvoiceCollection" parameterType="String">
+		DELETE FROM
+			invoice_gbl_collection
+		WHERE
+			seq = #{value}
+	</delete>
+	
+	<delete id="deleteGblInvoiceCollectionFlow" parameterType="String">
+		DELETE FROM
+			invoice_gbl_collection_flow
+		WHERE
+			seq = #{value}
+	</delete>
 </mapper>

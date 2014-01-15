@@ -733,7 +733,7 @@ youngjin.invoice.collectionGblSave = function(target){
 			state = 'RESENT';			
 			difference = net - invoiceAmount;
 		}
-		alert(invoiceAmount + " " + net + " " + flowState + " " + flowRemark);
+		
 		var json = {
 			'invoiceSeq' : invoiceGblSeq,
 			'net' : net,
@@ -770,11 +770,14 @@ youngjin.invoice.collectionGblDelete = function(target){
 	var state = table.find('select option:selected').val();
 	var amount = table.find('.collection_amount').text();
 	
-	var url = contextPath + '/outbound/invoiceCollectionFlowDelete.json';	
+	var invoiceGblSeq = target.parents().parents().parents().parents('tr').attr('data-invoiceGblSeq');
+	var invoiceSeq = $('.invoice_gbl_collection_list_table').attr('data-seq');
+	
+	var url = contextPath + '/outbound/invoiceGblCollectionFlowDelete.json';	
 	
 	var json = {
 			'flowSeq' : flowSeq,
-			'invoiceSeq' : invoiceSeq,
+			'invoiceSeq' : invoiceGblSeq,
 			'collectionSeq' : collectionSeq,
 			'count' : count,
 			'state' : state,
@@ -784,7 +787,7 @@ youngjin.invoice.collectionGblDelete = function(target){
 	$.postJSON(url, json, function(){
 		return jQuery.ajax({
 			success : function(){
-				location.href = contextPath + '/outbound/invoiceCollection';
+				location.href = contextPath + '/outbound/invoice/' + invoiceSeq + '/invoiceCollectionGbl';
 			},
 			error : function(){
 				alert('에러 발생');
