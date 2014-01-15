@@ -4,9 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.youngjin.net.inbound.WeightIb;
 
 public class GBL {
-	// 공통
+
+	// outbound
 	private Integer seq;
 	private String no;
 	private String customerName;
@@ -24,8 +26,6 @@ public class GBL {
 	private String pcs;
 	private String lbs;
 	private String cuft;
-
-	// outbound
 	private String usNo;
 	private String pod;
 	private String poe;
@@ -63,14 +63,25 @@ public class GBL {
 	private String consignee;
 
 	// inbound
-	private String gross;
-	private String net;
-	private String tare;
-	private String itemEa;
+	private String gblNo;
+	private String shipperName;
+	private String tsp;
+	private String destAddress;
 	private String arriveDate;
-	private String oblNo;
+	private String awbNo;
 	private String pmjDate;
+	private String fright;
+	private String eMailAddress;
+	private String oblNo;
+	private String vessle;
+	private String blCompany;
 	private String remark;
+	private String sit;
+	private String rate;
+	private String yjNo;
+	private String totalPcs;
+
+	private WeightIb weightIb;
 
 	public Boolean getTruckCheck() {
 		return truckCheck;
@@ -387,43 +398,43 @@ public class GBL {
 	public String getConsignee() {
 		return consignee;
 	}
-	
-	// inbound
 
 	public void setConsignee(String consignee) {
 		this.consignee = consignee;
 	}
 
-	public String getGross() {
-		return gross;
+	// inbound
+
+	public String getGblNo() {
+		return gblNo;
 	}
 
-	public void setGross(String gross) {
-		this.gross = gross;
+	public void setGblNo(String gblNo) {
+		this.gblNo = gblNo;
 	}
 
-	public String getNet() {
-		return net;
+	public String getShipperName() {
+		return shipperName;
 	}
 
-	public void setNet(String net) {
-		this.net = net;
+	public void setShipperName(String shipperName) {
+		this.shipperName = shipperName;
 	}
 
-	public String getTare() {
-		return tare;
+	public String getTsp() {
+		return tsp;
 	}
 
-	public void setTare(String tare) {
-		this.tare = tare;
+	public void setTsp(String tsp) {
+		this.tsp = tsp;
 	}
 
-	public String getItemEa() {
-		return itemEa;
+	public String getDestAddress() {
+		return destAddress;
 	}
 
-	public void setItemEa(String itemEa) {
-		this.itemEa = itemEa;
+	public void setDestAddress(String destAddress) {
+		this.destAddress = destAddress;
 	}
 
 	public String getArriveDate() {
@@ -434,12 +445,12 @@ public class GBL {
 		this.arriveDate = arriveDate;
 	}
 
-	public String getOblNo() {
-		return oblNo;
+	public String getAwbNo() {
+		return awbNo;
 	}
 
-	public void setOblNo(String oblNo) {
-		this.oblNo = oblNo;
+	public void setAwbNo(String awbNo) {
+		this.awbNo = awbNo;
 	}
 
 	public String getPmjDate() {
@@ -450,12 +461,92 @@ public class GBL {
 		this.pmjDate = pmjDate;
 	}
 
+	public String getFright() {
+		return fright;
+	}
+
+	public void setFright(String fright) {
+		this.fright = fright;
+	}
+
+	public String geteMailAddress() {
+		return eMailAddress;
+	}
+
+	public void seteMailAddress(String eMailAddress) {
+		this.eMailAddress = eMailAddress;
+	}
+
+	public String getOblNo() {
+		return oblNo;
+	}
+
+	public void setOblNo(String oblNo) {
+		this.oblNo = oblNo;
+	}
+
+	public String getVessle() {
+		return vessle;
+	}
+
+	public void setVessle(String vessle) {
+		this.vessle = vessle;
+	}
+
+	public String getBlCompany() {
+		return blCompany;
+	}
+
+	public void setBlCompany(String blCompany) {
+		this.blCompany = blCompany;
+	}
+
 	public String getRemark() {
 		return remark;
 	}
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public String getSit() {
+		return sit;
+	}
+
+	public void setSit(String sit) {
+		this.sit = sit;
+	}
+
+	public String getRate() {
+		return rate;
+	}
+
+	public void setRate(String rate) {
+		this.rate = rate;
+	}
+
+	public String getYjNo() {
+		return yjNo;
+	}
+
+	public void setYjNo(String yjNo) {
+		this.yjNo = yjNo;
+	}
+
+	public String getTotalPcs() {
+		return totalPcs;
+	}
+
+	public void setTotalPcs(String totalPcs) {
+		this.totalPcs = totalPcs;
+	}
+
+	public WeightIb getWeightIb() {
+		return weightIb;
+	}
+
+	public void setWeightIb(WeightIb weightIb) {
+		this.weightIb = weightIb;
 	}
 
 	@Override
@@ -476,11 +567,17 @@ public class GBL {
 				+ ", truckCheck=" + truckCheck + ", bookingCheck="
 				+ bookingCheck + ", truckSeq=" + truckSeq + ", bookingSeq="
 				+ bookingSeq + ", etd=" + etd + ", eta=" + eta + ", blNo="
-				+ blNo + ", seperateFlag=" + seperateFlag + ", gross=" + gross
-				+ ", net=" + net + ", tare=" + tare + ", itemEa=" + itemEa
-				+ ", arriveDate=" + arriveDate + ", oblNo=" + oblNo
-				+ ", pmjDate=" + pmjDate + ", remark=" + remark
-				+ ", attachments=" + Arrays.toString(attachments)
+				+ blNo + ", seperateFlag=" + seperateFlag + ", remarkRdd="
+				+ remarkRdd + ", remarkTac=" + remarkTac + ", consignee="
+				+ consignee + ", gblNo=" + gblNo + ", shipperName="
+				+ shipperName + ", tsp=" + tsp + ", destAddress=" + destAddress
+				+ ", arriveDate=" + arriveDate + ", awbNo=" + awbNo
+				+ ", pmjDate=" + pmjDate + ", fright=" + fright
+				+ ", eMailAddress=" + eMailAddress + ", oblNo=" + oblNo
+				+ ", vessle=" + vessle + ", blCompany=" + blCompany
+				+ ", remark=" + remark + ", sit=" + sit + ", rate=" + rate
+				+ ", yjNo=" + yjNo + ", totalPcs=" + totalPcs + ", weightIb="
+				+ weightIb + ", attachments=" + Arrays.toString(attachments)
 				+ ", attachmentList=" + attachmentList + ", deleteAttachments="
 				+ Arrays.toString(deleteAttachments) + "]";
 	}

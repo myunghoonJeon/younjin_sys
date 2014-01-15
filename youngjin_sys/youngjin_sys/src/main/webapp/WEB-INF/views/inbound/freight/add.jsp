@@ -37,10 +37,10 @@
 		<table class="gbl_add_table">
 			<tr>
 				<th>GBL NO</th>
-				<td><form:input path="no" />
-				<br><form:errors path="no" /></td>
-				<th>NAME</th>
-				<td><form:input path="customerName"/></td>
+				<td><form:input path="gblNo" />
+				<br><form:errors path="gblNo" /></td>
+				<th>SHIPPER NAME</th>
+				<td><form:input path="shipperName"/></td>
 			</tr>
 			<tr>
 				<th>RANK</th>
@@ -50,57 +50,65 @@
 			</tr>
 			<tr>
 				<th>TSP</th>
-				<td><form:input path="scac" /> </td>
-				<th>PUD</th>
-				<td><form:input path="pud" /> </td>
+				<td><form:input path="tsp" /> </td>
+				<th>DEST ADDRESS</th>
+				<td><form:input path="destAddress" /> </td>
 			</tr>
 			<tr>
-				<th>SSN</th>
-				<td><form:input path="ssn" /> </td>
+				<th>PUD</th>
+				<td><form:input path="pud" /> </td>
 				<th>RDD</th>
 				<td><form:input path="rdd" /> </td>
 			</tr>
 			<tr>
 			</tr>
 			<tr>
-				<th>AREA</th>
-				<td><form:input path="areaLocal" /> </td>
-				<th>ADDRESS</th>
-				<td><form:input path="originAddress" /> </td>
-			</tr>
-			<tr>
-				<th>GROSS</th>
-				<td><form:input path="gross" /> </td>
-				<th>TARE</th>
-				<td><form:input path="tare" /> </td>
-			</tr>
-			<tr>
-				<th>NET</th>
-				<td><form:input path="net" /> </td>
-				<th>ADDRESS</th>
-				<td><form:input path="cuft" /> </td>
-			</tr>
-			<tr>
-				<th>PIECE</th>
-				<td><form:input path="pcs" /> </td>
-				<th>ITEM EA</th>
-				<td><form:input path="itemEa" /> </td>
-			</tr>
-			<tr>
-				<th>VESSEL NAME</th>
-				<td><form:input path="vessel" /> </td>
 				<th>ARRIVE DATE</th>
 				<td><form:input path="arriveDate" /> </td>
+				<th>AWB NO</th>
+				<td><form:input path="awbNo" /> </td>
 			</tr>
 			<tr>
-				<th>OBL NO</th>
-				<td><form:input path="oblNo" /> </td>
+				<th>SSN</th>
+				<td><form:input path="ssn" /> </td>
 				<th>PMJ DATE</th>
 				<td><form:input path="pmjDate" /> </td>
 			</tr>
 			<tr>
+				<th>AREA</th>
+				<td><form:input path="areaLocal" /> </td>
+				<th>FRIGHT</th>
+				<td><form:input path="fright" /> </td>
+			</tr>
+			<tr>
+				<th>E-MAIL ADDRESS</th>
+				<td><form:input path="eMailAddress" /> </td>
+				<th>OBL NO</th>
+				<td><form:input path="oblNo" /> </td>
+			</tr>
+			<tr>
+				<th>VESSEL</th>
+				<td><form:input path="vessle" /> </td>
+				<th>BL 분할 업체</th>
+				<td><form:input path="blCompany" /> </td>
+			</tr>
+			<tr>
 				<th>REMARK</th>
-				<td colspan="3"><form:textarea path="remark" /></td>
+				<td><form:input path="remark" /> </td>
+				<th>ETA</th>
+				<td><form:input path="eta" /> </td>
+			</tr>
+			<tr>
+				<th>GBL RATE</th>
+				<td><form:input path="rate" /> </td>
+				<th>SIT</th>
+				<td><form:input path="sit" /> </td>
+			</tr>
+			<tr>
+				<th>YJ NO</th>
+				<td><form:input path="yjNo" /> </td>
+				<th>TOTAL PCS</th>
+				<td><form:input path="totalPcs" /> </td>
 			</tr>
 			<tfoot>
 				<tr>

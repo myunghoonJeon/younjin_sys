@@ -1,6 +1,7 @@
 package org.youngjin.net.inbound;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -28,6 +29,21 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public void insertFreightStatus(GBL gbl) {
 		getSqlSession().insert("inboundMapper.insertFreightStatus", gbl);
 	}
+
+	public Boolean checkWeight(Map<String, Integer> param) {
+		int checkWeight = getSqlSession().selectOne("inboundMapper.checkWeight", param);
+		if(checkWeight > 0){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public List<WeightIb> getWeightList(Integer seq) {
+		return getSqlSession().selectList("inboundMapper.getWeightList", seq);
+	}
+	
+	//이전버전
 
 	public GBLStatus getGblProcess(Integer seq) {
 		return getSqlSession().selectOne("inboundMapper.getGblProcess", seq);

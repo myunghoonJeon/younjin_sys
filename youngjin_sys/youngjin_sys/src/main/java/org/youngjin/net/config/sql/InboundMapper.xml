@@ -1,31 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="inboundMapper">
-	<resultMap type="GBL" id="FGblMap">
-		<result column="seq" property="seq" />
-		<result column="gbl_no" property="no" />
-		<result column="pud" property="pud" />
-		<result column="rank" property="rank" />
-		<result column="code" property="code" />
-		<result column="tsp" property="scac" />
-		<result column="ssn" property="ssn" />
-		<result column="name" property="customerName" />
-		<result column="area" property="areaLocal" />
-		<result column="rdd" property="rdd"/>
-		<result column="address" property="originAddress"/>
-		<result column="vessel_name" property="vessel" />
-		<result column="piece" property="pcs" />
-		<result column="cuft" property="cuft" />
-		<result column="gross" property="gross" />
-		<result column="tare" property="tare" />
-		<result column="net" property="net" />
-		<result column="item_ea" property="itemEa" />
-		<result column="arrive_date" property="arriveDate" />
-		<result column="obl_no" property="oblNo" />
-		<result column="pmj_date" property="pmjDate" />
-		<result column="remark" property="remark" />	
-	</resultMap>
-	
+<mapper namespace="inboundMapper">	
 	<resultMap type="GBLStatus" id="StatusMap">
 		<result column="gbl_no" property="no"/>
 		<result column="gbl_input" property="input" />
@@ -111,7 +86,7 @@
 			</if>
 	</select>
 	
-	<select id="getFreightList" parameterType="InboundFilter" resultMap="FGblMap">
+	<select id="getFreightList" parameterType="InboundFilter" resultType="GBL">
 		SELECT 
 			*
 		FROM	
@@ -119,27 +94,30 @@
 				SELECT
 					(@rownum := @rownum + 1) AS rownum,
 					g.seq,
-					g.gbl_no,
-					g.name,
+					g.gblNo,
+					g.shipperName,
 					g.rank,
 					g.code,
 					g.tsp,
-					g.address,
-					g.area,
-					g.ssn,
+					g.destAddress,
 					g.pud,
 					g.rdd,
-					g.gross,
-					g.net,
-					g.tare,
-					g.cuft,
-					g.piece,
-					g.item_ea,
-					g.vessel_name,
-					g.arrive_date,
-					g.obl_no,
-					g.pmj_date,
-					g.remark
+					g.arriveDate,
+					g.awbNo,
+					g.ssn,
+					g.pmjDate,
+					g.area AS areaLocal,
+					g.fright,
+					g.eMailAddress,
+					g.oblNo,
+					g.vessle,
+					g.blCompany,
+					g.remark,
+					g.eta,
+					g.sit,
+					g.rate,
+					g.yjNo,
+					g.totalPcs
 				FROM
 					gbl_ib g, (SELECT @rownum := 0) r
 				WHERE
@@ -218,30 +196,33 @@
 			)
 	</select>
 	
-	<select id="getGbl" parameterType="Integer" resultMap="FGblMap">
+	<select id="getGbl" parameterType="Integer" resultType="GBL">
 		SELECT
 			g.seq,
-			g.gbl_no,
-			g.name,
+			g.gblNo,
+			g.shipperName,
 			g.rank,
 			g.code,
 			g.tsp,
-			g.address,
-			g.area,
-			g.ssn,
+			g.destAddress,
 			g.pud,
 			g.rdd,
-			g.gross,
-			g.net,
-			g.tare,
-			g.cuft,
-			g.piece,
-			g.item_ea,
-			g.vessel_name,
-			g.arrive_date,
-			g.obl_no,
-			g.pmj_date,
-			g.remark
+			g.arriveDate,
+			g.awbNo,
+			g.ssn,
+			g.pmjDate,
+			g.area AS areaLocal,
+			g.fright,
+			g.eMailAddress,
+			g.oblNo,
+			g.vessle,
+			g.blCompany,
+			g.remark,
+			g.eta,
+			g.sit,
+			g.rate,
+			g.yjNo,
+			g.totalPcs
 		FROM
 			gbl_ib g
 		WHERE
@@ -261,6 +242,26 @@
 		FROM
 			gbl_ib	
 	</select>
+	
+	<select id="checkWeight" parameterType="Map" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			weight_ib
+		WHERE
+			gblSeq = #{seq}			
+	</select>
+	
+	<select id="getWeightList" parameterType="Integer" resultType="WeightIb">
+		SELECT
+			seq, piece, type, gross, grossKg, tare, net, cuft, reweight, remark, gblSeq
+		FROM
+			weight_ib
+		WHERE
+			gblSeq = #{value}
+	</select>
+	
+	<!-- 이전 버전 -->
 	
 	<select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">
 		SELECT
@@ -293,31 +294,57 @@
 	INSERT INTO
 		gbl_ib
 		(
-			gbl_no,
-			name,
+			gblNo,
+			shipperName,
 			rank,
 			code,
 			tsp,
-			address,
-			area,
-			ssn,
+			destAddress,
 			pud,
 			rdd,
-			gross,
-			net,
-			tare,
-			cuft,
-			piece,
-			item_ea,
-			vessel_name,
-			arrive_date,
-			obl_no,
-			pmj_date,
-			remark
+			arriveDate,
+			awbNo,
+			ssn,
+			pmjDate,
+			area,
+			fright,
+			eMailAddress,
+			oblNo,
+			vessle,
+			blCompany,
+			remark,
+			eta,
+			sit,
+			rate,
+			yjNo,
+			totalPcs
 		)
 	VALUES
 		(
-			#{no}, #{customerName}, #{rank}, #{code}, #{scac}, #{originAddress}, #{areaLocal}, #{ssn}, #{pud}, #{rdd}, #{gross}, #{net}, #{tare}, #{cuft}, #{pcs}, #{itemEa}, #{vessel}, #{arriveDate}, #{oblNo}, #{pmjDate}, #{remark}		
+			#{gblNo},
+			#{shipperName},
+			#{rank},
+			#{code},
+			#{tsp},
+			#{destAddress},
+			#{pud},
+			#{rdd},
+			#{arriveDate},
+			#{awbNo},
+			#{ssn},
+			#{pmjDate},
+			#{areaLocal},
+			#{fright},
+			#{eMailAddress},
+			#{oblNo},
+			#{vessle},
+			#{blCompany},
+			#{remark},
+			#{eta},
+			#{sit},
+			#{rate},
+			#{yjNo},
+			#{totalPcs}		
 		)
 	</insert>
 	<insert id="insertFreightStatus" parameterType="GBL">
@@ -328,7 +355,7 @@
 		)
 	VALUES
 		(
-			#{no}, 1, 0, 0, 0, 0, 0, 0, 0
+			#{gblNo}, 1, 0, 0, 0, 0, 0, 0, 0
 		)
 	</insert>
 

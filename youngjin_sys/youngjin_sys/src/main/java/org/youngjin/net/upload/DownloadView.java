@@ -63,5 +63,4 @@ public class DownloadView extends AbstractView {
 		}
 		responseOut.flush();
 	}
-
 }

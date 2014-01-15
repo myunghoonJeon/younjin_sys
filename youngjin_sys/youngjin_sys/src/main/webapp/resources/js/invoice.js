@@ -232,6 +232,24 @@ youngjin.invoice.invoiceCollectionSync = function(){
 		$(this).parents().parents().parents().parents('tr').attr('data-click', 'yes');
 		youngjin.invoice.collectionGblSave($(this));
 	});
+	
+	$('.invoice_gbl_collection_list_table tr').unbind('click');
+	$('.invoice_gbl_collection_list_table tr').bind('click', function(){
+		if($(this).attr('data-click') == 'yes'){
+			$(this).attr('data-click', 'no');
+		}else {
+			youngjin.invoice.invoiceGblCollectionContent($(this));
+		}
+	});
+	
+	$('.collection_remark').focusout(function(){
+		youngjin.invoice.inputGblCollectionRemark($(this));
+	});
+	
+	$('.invoice_gbl_content_list_pdf').unbind('click');
+	$('.invoice_gbl_content_list_pdf').bind('click',function(){
+		youngjin.invoice.gblCollectionPdf($(this));
+	});
 };
 
 youngjin.invoice.backSync = function(){
@@ -794,4 +812,59 @@ youngjin.invoice.collectionGblDelete = function(target){
 			}
 		});
 	});
+};
+
+youngjin.invoice.invoiceGblCollectionContent = function(target){
+	var seq = $('.invoice_gbl_collection_list_table').attr('data-seq');
+	var invoiceGblSeq = target.attr('data-invoiceGblSeq');
+	var gblSeq = target.attr('data-gblSeq');
+	
+	var url = contextPath + '/outbound/invoice/' + seq + '/' + invoiceGblSeq + '/' + gblSeq + '/invoiceGblCollectionContent';
+	
+	parent.$.smartPop.close();
+	
+	parent.$.smartPop.open({
+		width : 800,
+		height : 900,
+		url : url
+	});	
+};
+
+youngjin.invoice.inputGblCollectionRemark = function(target){
+	var invoiceGblSeq = $('.invoice_gbl_content_list_pdf').attr('data-invoiceGblSeq');
+	var remark = target.val();
+	
+	var url = contextPath + '/outbound/invoice/collectionRemarkInput.json';
+	
+	var json = {
+			'seq' : invoiceGblSeq,
+			'remark' : remark
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				
+			},
+			error : function(){
+				alert('에러발생!');
+			}
+		});
+	});
+};
+
+youngjin.invoice.gblCollectionPdf = function(target){
+	var seq = target.attr('data-seq');
+	var invoiceGblSeq = target.attr('data-invoiceGblSeq');
+	var gblSeq = target.attr('data-gblSeq');	
+	
+	var url = contextPath + '/outbound/invoice/' + seq + '/' + invoiceGblSeq + '/' + gblSeq + '/invoiceContentPdfView';
+	
+	parent.$.smartPop.close();
+	
+	parent.$.smartPop.open({
+		width : 800,
+		height : 900,
+		url : url
+	});	
 };

@@ -168,21 +168,21 @@
 						<c:if test="${inboundFilter.code eq '' or inboundFilter.code eq null }">
 							<td>${gbl.code }</td>
 						</c:if>
-						<td>${gblStatus[gbl.no] }</td>
+						<td>${gblStatus[gbl.gblNo] }</td>
 						<td>
 							${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }
 						</td>
 						<c:if test="${inboundFilter.carrier eq '' or inboundFilter.carrier eq null }">
 							<td>${gbl.scac }</td>
 						</c:if>
-						<td>${gbl.no }</td>
+						<td>${gbl.gblNo }</td>
 						<td>${gbl.rank }</td>
-						<td>${gbl.customerName }</td>
-						<td>${gbl.pcs }</td>
-						<td>${gbl.gross }</td>
-						<td>${gbl.tare }</td>
-						<td>${gbl.net }</td>
-						<td>${gbl.cuft }</td>
+						<td>${gbl.shipperName }</td>
+						<td>${gbl.totalPcs }</td>
+						<td>${gbl.weightIb.gross }</td>
+						<td>${gbl.weightIb.tare }</td>
+						<td>${gbl.weightIb.net }</td>
+						<td>${gbl.weightIb.cuft }</td>
 						<c:if test="${inboundFilter.branch eq '' or inboundFilter.branch eq null }">
 							<td>${gbl.areaLocal }</td>
 						</c:if>

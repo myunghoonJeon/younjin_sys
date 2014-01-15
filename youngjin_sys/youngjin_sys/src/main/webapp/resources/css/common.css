@@ -533,6 +533,21 @@ td.seperate_merge{ border: none !important;}
 
 .invoice_collection_gbl_list_wrap{ width: 1000px; height: 500px; background-color: white;}
 
+.invoice_gbl_content_list_pdf{ float: left; margin-bottom : 10px; }
+
+.collection_remark_th{ vertical-align: middle;}
+.collection_remark{ width: 390px; height: 20px; }
+
 /* Inbound */
 /* Freight List */
 .freight_add{float: right; margin-bottom: 10px; }
+
+#weight_add_wrap{ width: 700px; height: 500px; background-color: white;}
+
+#weight_add_wrap table{ width : 90% ; margin: 10px auto; text-align: center;}
+#weight_add_wrap table thead tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+#weight_add_wrap table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; }
+#weight_add_wrap table tbody tr{ background-color: white; }
+#weight_add_wrap input{ width: 40px; border: none; }
+
+.weight_remark{width: 140px;}

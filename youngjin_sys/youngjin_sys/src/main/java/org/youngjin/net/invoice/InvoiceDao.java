@@ -278,5 +278,10 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 
 	public void deleteGblInvoiceCollectionFlow(String flowSeq) {
 		getSqlSession().delete("invoiceMapper.deleteGblInvoiceCollectionFlow", flowSeq);
+	}
+
+	public void invoiceCollectionRemarkInput(
+			Map<String, String> invoiceCollection) {
+		getSqlSession().update("invoiceMapper.invoiceCollectionRemarkInput", invoiceCollection);
 	}	
 }

@@ -177,15 +177,41 @@ youngjin.inbound.freightAddSubmit = function(){
 };
 
 youngjin.inbound.freightProcess = function(target){
-	var seq =  target.attr('data-seq');
-	var url = contextPath + '/inbound/freight/' + seq;
+	var seq = target.attr('data-seq');
 	
-	$.smartPop.open({
-		width : 1000,
-		height : 521,
-		url : url
-	});	
+	var json = {
+			'seq' : seq
+	};
 	
+	var url = contextPath + '/inbound/freight/checkWeight.json';
+	
+	$.postJSON(url, json, function(data){
+		return jQuery.ajax({
+			success : function(){
+				if(data == true){
+					var url = contextPath + '/inbound/freight/' + seq;
+					
+					$.smartPop.open({
+						width : 1000,
+						height : 521,
+						url : url
+					});					
+				} else {
+					var url = contextPath + '/inbound/freight/' + seq + '/weight';
+					
+					$.smartPop.open({
+						width : 700,
+						height : 500,
+						url : url
+					});		
+					
+				}
+			},
+			error : function(){
+				
+			}
+		});	
+	});
 };
 
 youngjin.inbound.uploadPage = function(target){

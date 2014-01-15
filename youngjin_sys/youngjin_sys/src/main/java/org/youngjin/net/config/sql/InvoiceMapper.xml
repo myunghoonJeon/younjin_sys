@@ -64,6 +64,7 @@
 		<result column="rank" property="rank" />
 		<result column="name" property="name" />
 		<result column="code" property="code" />
+		<result column="remark" property="remark" />
 	</resultMap>
 	
 	<select id="getInvoicesttingGblListCount" parameterType="OutboundFilter" resultType="Integer">			
@@ -559,7 +560,7 @@
 	
 	<select id="getInvoiceGblContentInfo" parameterType="Integer" resultMap="InvoiceInfoMap">
 		SELECT
-			ig.invoice_list_seq, i.tsp, i.process, ig.gbl_no, ig.rank, ig.name, g.code
+			ig.invoice_list_seq, i.tsp, i.process, ig.gbl_no, ig.rank, ig.name, g.code, ig.remark
 		FROM
 			invoice_list i, invoice_gbl ig, gbl g
 		WHERE
@@ -1011,6 +1012,15 @@
 			state = #{state},
 			net = #{net},
 			difference = #{difference}
+		WHERE
+			seq = #{seq}
+	</update>
+	
+	<update id="invoiceCollectionRemarkInput" parameterType="Map">
+		UPDATE
+			invoice_gbl
+		SET
+			remark = #{remark}
 		WHERE
 			seq = #{seq}
 	</update>

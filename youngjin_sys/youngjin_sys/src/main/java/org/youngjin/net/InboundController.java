@@ -21,6 +21,7 @@ import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.inbound.InboundFilter;
 import org.youngjin.net.inbound.InboundService;
+import org.youngjin.net.inbound.WeightIb;
 import org.youngjin.net.login.User;
 import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumList;
@@ -28,20 +29,21 @@ import org.youngjin.net.memorandum.MemorandumService;
 
 @Controller
 public class InboundController {
-	
+
 	@Resource
 	private InboundService inboundService;
-	
+
 	@Resource
 	private MemorandumService memorandumService;
-	
+
 	@Resource
 	private CodeService codeService;
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freightList", method = RequestMethod.GET)
 	public String freightList(Model model, User user,
-			@PathVariable String process, @ModelAttribute InboundFilter inboundFilter) {
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
 		inboundFilter.getPagination().setNumItems(
 				inboundService.getFreightListCount(inboundFilter, user));
 
@@ -53,16 +55,17 @@ public class InboundController {
 				inboundService.getFreightList(inboundFilter, user));
 		model.addAttribute("gblStatus",
 				inboundService.getGblStatus(inboundFilter));
-		
+
 		model.addAttribute("user", user);
 
 		return process + "/freight/list";
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freightList", method = RequestMethod.POST)
 	public String freightListPost(Model model, User user,
-			@PathVariable String process, @ModelAttribute InboundFilter inboundFilter) {
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
 
 		inboundFilter.getPagination().setNumItems(
 				inboundService.getFreightListCount(inboundFilter, user));
@@ -75,12 +78,12 @@ public class InboundController {
 				inboundService.getFreightList(inboundFilter, user));
 		model.addAttribute("gblStatus",
 				inboundService.getGblStatus(inboundFilter));
-		
+
 		model.addAttribute("user", user);
 
 		return process + "/freight/list";
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/add", method = RequestMethod.GET)
 	public String freightAdd(Model model, User user,
@@ -89,7 +92,7 @@ public class InboundController {
 
 		return process + "/freight/add";
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/add", method = RequestMethod.POST)
 	public String freightAddSubmit(Model model, User user,
@@ -126,8 +129,27 @@ public class InboundController {
 
 			return process + "/freight/list";
 		}
-	}	
-	
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/freight/{seq}/weight", method = RequestMethod.GET)
+	public String weightAdd(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq, @ModelAttribute WeightIb weightIb) {
+		model.addAttribute("user", user);
+		
+		List<WeightIb> weightList = inboundService.getWeightList(seq);
+		model.addAttribute("weightList", weightList);
+
+		return process + "/freight/weight";
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/freight/checkWeight.json")
+	@ResponseBody
+	public Boolean checkWeight(@RequestBody Map<String, Integer> param) {
+		return inboundService.checkWeight(param);
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}", method = RequestMethod.GET)
 	public String gblSelect(Model model, User user,
@@ -136,12 +158,11 @@ public class InboundController {
 		model.addAttribute("process",
 				inboundService.getGblProcessAndUpload(seq));
 		model.addAttribute("seq", seq);
-		model.addAttribute("fileList",
-				inboundService.getGblFileList(seq));
+		model.addAttribute("fileList", inboundService.getGblFileList(seq));
 
 		return process + "/freight/processAndUpload";
-	}	
-	
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/upload", method = RequestMethod.GET)
 	public String gblSelectUplaod(Model model, User user,
@@ -160,8 +181,8 @@ public class InboundController {
 
 		model.addAttribute("seq", seq);
 		inboundService.insertGblFile(gbl);
-	}	
-	
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/bl", method = RequestMethod.GET)
 	public String blSeperate(Model model, User user,
@@ -170,9 +191,8 @@ public class InboundController {
 
 		model.addAttribute("seq", seq);
 		return process + "/freight/bl";
-	}	
-	
-	
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/preparation", method = RequestMethod.GET)
 	public String gblPreparation(Model model, User user,
@@ -182,39 +202,44 @@ public class InboundController {
 		model.addAttribute("seq", seq);
 
 		return process + "/freight/preparation";
-	}		
-	
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/memorandumList", method = RequestMethod.GET)
 	public String memorandumList(Model model, User user,
-			@PathVariable String process, @PathVariable String seq){
-		
-		List<MemorandumList> memorandumList = memorandumService.getMemorandumAllList(seq, "inbound");
+			@PathVariable String process, @PathVariable String seq) {
+
+		List<MemorandumList> memorandumList = memorandumService
+				.getMemorandumAllList(seq, "inbound");
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("memroandumList", memorandumList);
-		
+
 		return process + "/freight/memorandumAllList";
-	}	
-	
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/addMemorandumAndDd619.json")
 	@ResponseBody
-	public MemorandumList addMemorandumAndDd619(@RequestBody MemorandumList memorandumList, User user){
-		return memorandumService.addMemorandumAndDd619(memorandumList, user, "inbound");
+	public MemorandumList addMemorandumAndDd619(
+			@RequestBody MemorandumList memorandumList, User user) {
+		return memorandumService.addMemorandumAndDd619(memorandumList, user,
+				"inbound");
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/deleteMemorandumAllList.json")
 	@ResponseBody
-	public void deleteMemorandumAllList(@RequestBody MemorandumList memorandumList){
+	public void deleteMemorandumAllList(
+			@RequestBody MemorandumList memorandumList) {
 		memorandumService.deleteMemorandumAllList(memorandumList, "inbound");
-	}	
-	
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum", method = RequestMethod.GET)
 	public String gblMemorandum(Model model, User user,
-			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq) {
+			@PathVariable String process, @PathVariable String seq,
+			@PathVariable Integer memorandumSeq) {
 
 		GBL gbl = inboundService.getGbl(Integer.parseInt(seq));
 
@@ -235,19 +260,20 @@ public class InboundController {
 		model.addAttribute("checkMemorandumMap", checkMemorandumMap);
 
 		return process + "/freight/memorandumList";
-	}	
+	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}", method = RequestMethod.GET)
 	public String gblMemorandumForm(Model model, User user,
-			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq,
-			@PathVariable String type) {
+			@PathVariable String process, @PathVariable String seq,
+			@PathVariable Integer memorandumSeq, @PathVariable String type) {
 
 		GBL gbl = inboundService.getGbl(Integer.parseInt(seq));
 
 		Code code = codeService.getCode("03", type);
 
-		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "inbound");
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
+				memorandumSeq, "inbound");
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("gbl", gbl);
@@ -262,14 +288,16 @@ public class InboundController {
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}/{article}", method = RequestMethod.GET)
 	public String gblMemorandumFormArticle(Model model, User user,
-			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq,
-			@PathVariable String type, @PathVariable String article) {
+			@PathVariable String process, @PathVariable String seq,
+			@PathVariable Integer memorandumSeq, @PathVariable String type,
+			@PathVariable String article) {
 
 		GBL gbl = inboundService.getGbl(Integer.parseInt(seq));
 
 		Code code = codeService.getCode("03", type);
 
-		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "inbound");
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
+				memorandumSeq, "inbound");
 
 		String[] articles = article.split(",");
 
@@ -306,32 +334,35 @@ public class InboundController {
 			@PathVariable String type, @PathVariable Integer memorandumSeq) {
 		memorandumService.deleteMemorandum(seq, type, memorandumSeq, "inbound");
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/memorandum/invoice/{article}/insert.json", method = RequestMethod.POST)
 	@ResponseBody
-	public void insertInvoiceMemorandum(@RequestBody Memorandum memorandum, @PathVariable String article){
+	public void insertInvoiceMemorandum(@RequestBody Memorandum memorandum,
+			@PathVariable String article) {
 		memorandumService.insertInvoiceMemorandum(memorandum, "inbound");
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/memorandum/invoice/{article}/modify.json", method = RequestMethod.POST)
 	@ResponseBody
-	public void modifyInvoiceMemorandum(@RequestBody Memorandum memorandum, @PathVariable String article){
+	public void modifyInvoiceMemorandum(@RequestBody Memorandum memorandum,
+			@PathVariable String article) {
 		memorandumService.modifyInvoiceMemorandum(memorandum, "inbound");
-	}	
-	
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}/print", method = RequestMethod.GET)
 	public String gblMemorandumPrint(Model model, User user,
-			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq,
-			@PathVariable String type) {
+			@PathVariable String process, @PathVariable String seq,
+			@PathVariable Integer memorandumSeq, @PathVariable String type) {
 
 		GBL gbl = inboundService.getGbl(Integer.parseInt(seq));
 
 		Code code = codeService.getCode("03", type);
 
-		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "inbound");
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
+				memorandumSeq, "inbound");
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("gbl", gbl);
@@ -341,19 +372,21 @@ public class InboundController {
 		model.addAttribute("checkMemorandum", memorandom);
 
 		return process + "/freight/memorandumPrint";
-	}	
-	
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}/{article}/print", method = RequestMethod.GET)
 	public String gblMemorandumPrintArticle(Model model, User user,
-			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq,
-			@PathVariable String type, @PathVariable String article) {
+			@PathVariable String process, @PathVariable String seq,
+			@PathVariable Integer memorandumSeq, @PathVariable String type,
+			@PathVariable String article) {
 
 		GBL gbl = inboundService.getGbl(Integer.parseInt(seq));
 
 		Code code = codeService.getCode("03", type);
 
-		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "inbound");
+		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
+				memorandumSeq, "inbound");
 
 		String[] articles = article.split(",");
 
@@ -367,18 +400,18 @@ public class InboundController {
 		model.addAttribute("checkMemorandum", memorandom);
 
 		return process + "/freight/memorandumPrint";
-	}	
+	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/dd619List", method = RequestMethod.GET)
 	public String dd619List(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
-	
+
 		List<Dd619> dd619List = inboundService.getDd619List(seq);
-	
+
 		model.addAttribute("seq", seq);
 		model.addAttribute("dd619List", dd619List);
-	
+
 		return process + "/freight/dd619List";
 	}
 }

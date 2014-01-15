@@ -98,6 +98,17 @@ public class InboundService {
 		
 		return filterMap;
 	}
+
+	public Boolean checkWeight(Map<String, Integer> param) {
+		return inboundDao.checkWeight(param);
+	}
+
+	public List<WeightIb> getWeightList(Integer seq) {
+		return inboundDao.getWeightList(seq);
+	}
+	
+	
+	//이전버전
 	
 	public List<GBLAttachment> getGblFileList(Integer seq) {
 		return inboundDao.getGblFileList(seq);
@@ -147,6 +158,5 @@ public class InboundService {
 
 	public List<Dd619> getDd619List(String seq) {
 		return inboundDao.getDd619List(seq);
-	}
-	
+	}	
 }

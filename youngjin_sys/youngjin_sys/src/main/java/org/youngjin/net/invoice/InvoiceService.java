@@ -1168,4 +1168,9 @@ public class InvoiceService {
 			invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
 		}
 	}
+
+	public void invoiceCollectionRemarkInput(
+			Map<String, String> invoiceCollection) {
+		invoiceDao.invoiceCollectionRemarkInput(invoiceCollection);
+	}
 }

@@ -32,5 +32,6 @@
 		<typeAlias alias="InvoiceGblContent" type="org.youngjin.net.invoice.InvoiceGblContent"/>
 		
 		<typeAlias alias="InboundFilter" type="org.youngjin.net.inbound.InboundFilter"/>
+		<typeAlias alias="WeightIb" type="org.youngjin.net.inbound.WeightIb"/>
 	</typeAliases>
 </configuration>

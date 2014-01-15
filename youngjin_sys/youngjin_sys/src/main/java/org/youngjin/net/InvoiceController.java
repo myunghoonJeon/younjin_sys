@@ -20,6 +20,7 @@ import org.youngjin.net.invoice.InvoiceCollection;
 import org.youngjin.net.invoice.InvoiceFilter;
 import org.youngjin.net.invoice.InvoiceGbl;
 import org.youngjin.net.invoice.InvoiceGblContent;
+import org.youngjin.net.invoice.InvoicePdfPrintView;
 import org.youngjin.net.invoice.InvoiceService;
 import org.youngjin.net.login.User;
 import org.youngjin.net.outbound.OutboundFilter;
@@ -248,5 +249,51 @@ public class InvoiceController {
 	@ResponseBody
 	public void invoiceGblCollectionDelete(@RequestBody Map<String, String> invoiceCollection){
 		invoiceService.invoiceGblCollectionDelete(invoiceCollection);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoice/{seq}/{invoiceGblSeq}/{gblSeq}/invoiceGblCollectionContent", method = RequestMethod.GET)
+	public String invoiceGblCollectionContent(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq,
+			@PathVariable Integer invoiceGblSeq, @PathVariable Integer gblSeq) {
+		
+		List<InvoiceGblContent> invoiceGblContentList = invoiceService
+				.getInvoiceGblContentList(seq, invoiceGblSeq, gblSeq, process);
+		
+		model.addAttribute("gblSeq", gblSeq);
+		model.addAttribute("invoiceSeq", seq);
+		model.addAttribute("invoiceGblSeq", invoiceGblSeq);
+		
+		model.addAttribute("invoiceGblContentInfo", invoiceService.getInvoiceGblContentInfo(invoiceGblSeq));
+		
+		model.addAttribute("invoiceGblContentList", invoiceGblContentList);
+
+		return process + "/invoice/invoiceGblCollectionContent";
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoice/collectionRemarkInput.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void invoiceCollectionRemarkInput(@RequestBody Map<String, String> invoiceCollection){
+		invoiceService.invoiceCollectionRemarkInput(invoiceCollection);
+	}
+
+	@Resource
+	private InvoicePdfPrintView invoicePdfPrintView;
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoice/{seq}/{invoiceGblSeq}/{gblSeq}/invoiceContentPdfView", method = RequestMethod.GET)
+	public InvoicePdfPrintView invoiceContentPdfView(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq,
+			@PathVariable Integer invoiceGblSeq, @PathVariable Integer gblSeq) {
+		
+		List<InvoiceGblContent> invoiceGblContentList = invoiceService
+				.getInvoiceGblContentList(seq, invoiceGblSeq, gblSeq, process);
+		
+		model.addAttribute("invoiceGblContentInfo", invoiceService.getInvoiceGblContentInfo(invoiceGblSeq));
+		
+		model.addAttribute("invoiceGblContentList", invoiceGblContentList);
+		
+		return invoicePdfPrintView;
 	}
 }

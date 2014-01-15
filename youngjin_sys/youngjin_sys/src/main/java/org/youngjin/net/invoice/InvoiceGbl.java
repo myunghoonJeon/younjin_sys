@@ -10,6 +10,8 @@ public class InvoiceGbl {
 	private String code;
 	private String amount;
 	private Boolean complete;
+	
+	private String remark;
 
 	private Invoice invoice;
 
@@ -112,14 +114,23 @@ public class InvoiceGbl {
 	public void setPud(String pud) {
 		this.pud = pud;
 	}
+	
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 	@Override
 	public String toString() {
 		return "InvoiceGbl [seq=" + seq + ", invoiceListSeq=" + invoiceListSeq
 				+ ", gblSeq=" + gblSeq + ", gblNo=" + gblNo + ", rank=" + rank
 				+ ", name=" + name + ", code=" + code + ", amount=" + amount
-				+ ", complete=" + complete + ", invoice=" + invoice + ", tsp="
-				+ tsp + ", pud=" + pud + "]";
+				+ ", complete=" + complete + ", remark=" + remark
+				+ ", invoice=" + invoice + ", tsp=" + tsp + ", pud=" + pud
+				+ "]";
 	}
 
 }
