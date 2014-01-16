@@ -114,10 +114,20 @@
 					g.blCompany,
 					g.remark,
 					g.eta,
-					g.sit,
+					g.sitIn,
+					g.sitOut,
+					g.sitNo,
 					g.rate,
 					g.yjNo,
-					g.totalPcs
+					g.totalPcs,
+					g.phone,
+					g.address,
+					g.onHandDate,
+					g.gbloc,
+					g.destinationGbloc,
+					g.itemsPieces,
+					g.grossWeight,
+					g.netWeight
 				FROM
 					gbl_ib g, (SELECT @rownum := 0) r
 				WHERE
@@ -219,10 +229,20 @@
 			g.blCompany,
 			g.remark,
 			g.eta,
-			g.sit,
+			g.sitIn,
+			g.sitOut,
+			g.sitNo,
 			g.rate,
 			g.yjNo,
-			g.totalPcs
+			g.totalPcs,
+			g.phone,
+			g.address,
+			g.onHandDate,
+			g.gbloc,
+			g.destinationGbloc,
+			g.itemsPieces,
+			g.grossWeight,
+			g.netWeight
 		FROM
 			gbl_ib g
 		WHERE
@@ -314,10 +334,20 @@
 			blCompany,
 			remark,
 			eta,
-			sit,
+			sitIn,
+			sitOut,
+			sitNo,
 			rate,
 			yjNo,
-			totalPcs
+			totalPcs,
+			phone,
+			address,
+			onHandDate,
+			gbloc,
+			destinationGbloc,
+			itemsPieces,
+			grossWeight,
+			netWeight
 		)
 	VALUES
 		(
@@ -341,10 +371,20 @@
 			#{blCompany},
 			#{remark},
 			#{eta},
-			#{sit},
+			#{sitIn},
+			#{sitOut},
+			#{sitNo},
 			#{rate},
 			#{yjNo},
-			#{totalPcs}		
+			#{totalPcs},
+			#{phone},			
+			#{address},
+			#{onHandDate},
+			#{gbloc},
+			#{destinationGbloc},
+			#{itemsPieces},
+			#{grossWeight},
+			#{netWeight}		
 		)
 	</insert>
 	

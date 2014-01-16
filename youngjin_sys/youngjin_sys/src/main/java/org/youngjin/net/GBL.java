@@ -76,10 +76,20 @@ public class GBL {
 	private String vessle;
 	private String blCompany;
 	private String remark;
-	private String sit;
+	private String sitIn;
+	private String sitOut;
+	private String sitNo;
 	private String rate;
 	private String yjNo;
 	private String totalPcs;
+	private String phone;
+	private String address;
+	private String onHandDate;
+	private String gbloc;
+	private String destinationGbloc;
+	private String itemsPieces;
+	private String grossWeight;
+	private String netWeight;
 
 	private WeightIb weightIb;
 
@@ -509,14 +519,6 @@ public class GBL {
 		this.remark = remark;
 	}
 
-	public String getSit() {
-		return sit;
-	}
-
-	public void setSit(String sit) {
-		this.sit = sit;
-	}
-
 	public String getRate() {
 		return rate;
 	}
@@ -549,6 +551,94 @@ public class GBL {
 		this.weightIb = weightIb;
 	}
 
+	public String getSitIn() {
+		return sitIn;
+	}
+
+	public void setSitIn(String sitIn) {
+		this.sitIn = sitIn;
+	}
+
+	public String getSitOut() {
+		return sitOut;
+	}
+
+	public void setSitOut(String sitOut) {
+		this.sitOut = sitOut;
+	}
+
+	public String getSitNo() {
+		return sitNo;
+	}
+
+	public void setSitNo(String sitNo) {
+		this.sitNo = sitNo;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getOnHandDate() {
+		return onHandDate;
+	}
+
+	public void setOnHandDate(String onHandDate) {
+		this.onHandDate = onHandDate;
+	}
+
+	public String getGbloc() {
+		return gbloc;
+	}
+
+	public void setGbloc(String gbloc) {
+		this.gbloc = gbloc;
+	}
+
+	public String getDestinationGbloc() {
+		return destinationGbloc;
+	}
+
+	public void setDestinationGbloc(String destinationGbloc) {
+		this.destinationGbloc = destinationGbloc;
+	}
+
+	public String getItemsPieces() {
+		return itemsPieces;
+	}
+
+	public void setItemsPieces(String itemsPieces) {
+		this.itemsPieces = itemsPieces;
+	}
+
+	public String getGrossWeight() {
+		return grossWeight;
+	}
+
+	public void setGrossWeight(String grossWeight) {
+		this.grossWeight = grossWeight;
+	}
+
+	public String getNetWeight() {
+		return netWeight;
+	}
+
+	public void setNetWeight(String netWeight) {
+		this.netWeight = netWeight;
+	}
+
 	@Override
 	public String toString() {
 		return "GBL [seq=" + seq + ", no=" + no + ", customerName="
@@ -575,9 +665,14 @@ public class GBL {
 				+ ", pmjDate=" + pmjDate + ", fright=" + fright
 				+ ", eMailAddress=" + eMailAddress + ", oblNo=" + oblNo
 				+ ", vessle=" + vessle + ", blCompany=" + blCompany
-				+ ", remark=" + remark + ", sit=" + sit + ", rate=" + rate
-				+ ", yjNo=" + yjNo + ", totalPcs=" + totalPcs + ", weightIb="
-				+ weightIb + ", attachments=" + Arrays.toString(attachments)
+				+ ", remark=" + remark + ", sitIn=" + sitIn + ", sitOut="
+				+ sitOut + ", sitNo=" + sitNo + ", rate=" + rate + ", yjNo="
+				+ yjNo + ", totalPcs=" + totalPcs + ", phone=" + phone
+				+ ", address=" + address + ", onHandDate=" + onHandDate
+				+ ", gbloc=" + gbloc + ", destinationGbloc=" + destinationGbloc
+				+ ", itemPieces=" + itemsPieces + ", grossWeight=" + grossWeight
+				+ ", netWeight=" + netWeight + ", weightIb=" + weightIb
+				+ ", attachments=" + Arrays.toString(attachments)
 				+ ", attachmentList=" + attachmentList + ", deleteAttachments="
 				+ Arrays.toString(deleteAttachments) + "]";
 	}

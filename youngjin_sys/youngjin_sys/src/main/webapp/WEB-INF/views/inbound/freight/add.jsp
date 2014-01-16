@@ -101,14 +101,48 @@
 			<tr>
 				<th>GBL RATE</th>
 				<td><form:input path="rate" /> </td>
-				<th>SIT</th>
-				<td><form:input path="sit" /> </td>
+				<th>SIT IN</th>
+				<td><form:input path="sitIn" /> </td>
+			</tr>
+			<tr>
+				<th>SIT OUT</th>
+				<td><form:input path="sitOut" /> </td>
+				<th>SIT NO</th>
+				<td><form:input path="sitNo" /> </td>
 			</tr>
 			<tr>
 				<th>YJ NO</th>
 				<td><form:input path="yjNo" /> </td>
 				<th>TOTAL PCS</th>
 				<td><form:input path="totalPcs" /> </td>
+			</tr>
+			<tr>
+				<th>PHONE</th>
+				<td><form:input path="phone" /> </td>
+				<th>ADDRESS</th>
+				<td><form:input path="address" /> </td>
+			</tr>
+			<tr>
+				<th>ON HAND DATE</th>
+				<td><form:input path="onHandDate" /> </td>
+				<th>GBLOC</th>
+				<td><form:input path="gbloc" /> </td>
+			</tr>
+			<tr>
+				<th>DESTINATION GBLOC</th>
+				<td><form:input path="destinationGbloc" /> </td>
+				<th>ITEMS PIECES</th>
+				<td><form:input path="itemsPieces" /> </td>
+			</tr>
+			<tr>
+				<th>GROSS WEIGHT</th>
+				<td><form:input path="grossWeight" /> </td>
+				<th>NET WEIGHT</th>
+				<td><form:input path="netWeight" /> </td>
+			</tr>
+			<tr>
+				<th colspan="2">CUFT</th>
+				<td colspan="2"><form:input path="cuft" /> </td>
 			</tr>
 			<tfoot>
 				<tr>

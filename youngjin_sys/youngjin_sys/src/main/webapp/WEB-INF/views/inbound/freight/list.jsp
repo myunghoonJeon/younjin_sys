@@ -179,10 +179,10 @@
 						<td>${gbl.rank }</td>
 						<td>${gbl.shipperName }</td>
 						<td>${gbl.totalPcs }</td>
-						<td>${gbl.weightIb.gross }</td>
+						<td>${gbl.grossWeight }</td>
 						<td>${gbl.weightIb.tare }</td>
-						<td>${gbl.weightIb.net }</td>
-						<td>${gbl.weightIb.cuft }</td>
+						<td>${gbl.netWeight }</td>
+						<td>${gbl.cuft }</td>
 						<c:if test="${inboundFilter.branch eq '' or inboundFilter.branch eq null }">
 							<td>${gbl.areaLocal }</td>
 						</c:if>

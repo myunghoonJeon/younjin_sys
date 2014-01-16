@@ -167,6 +167,8 @@ public class InboundController {
 	public Boolean checkWeight(@RequestBody Map<String, Integer> param) {
 		return inboundService.checkWeight(param);
 	}
+	
+	//이전 버전
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}", method = RequestMethod.GET)
@@ -180,7 +182,7 @@ public class InboundController {
 
 		return process + "/freight/processAndUpload";
 	}
-
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/upload", method = RequestMethod.GET)
 	public String gblSelectUplaod(Model model, User user,

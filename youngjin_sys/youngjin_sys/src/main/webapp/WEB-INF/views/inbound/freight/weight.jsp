@@ -87,7 +87,7 @@
 							<td class="weight_piece_td"><form:input path="piece" /></td>
 							<td><form:input path="type" /></td>
 							<td class="weight_gross_td"><form:input path="gross" /></td>
-							<td><form:input path="grossKg" readonly="readonly"/></td>
+							<td><form:input path="grossKg"/></td>
 							<td class="weight_tare_td"><form:input path="tare" /></td>
 							<td><form:input path="net" readonly="readonly"/></td>
 							<td class="weight_cuft_td"><form:input path="cuft" /></td>

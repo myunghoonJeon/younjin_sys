@@ -197,12 +197,15 @@ youngjin.inbound.weightSync = function(){
 	$('input[name=gross]').focusout(function(){
 		var totalGross = 0;
 		var totalGrossKg = 0;
+		var totalNet = 0;
 		
 		var grossKg = 0.45359237 * Number($(this).val());
 		$(this).parents().parents('tr').children().children('input[name=grossKg]').val(roundXL(grossKg, 2));
+		$(this).parents().parents('tr').children().children('input[name=grossKg]').attr('readonly', 'readonly');
 		
 		var net = Number($(this).val()) - Number($(this).parents().parents('tr').children().children('input[name=tare]').val());
 		$(this).parents().parents('tr').children().children('input[name=net]').val(net);
+		$(this).parents().parents('tr').children().children('input[name=net]').attr('readonly', 'readonly');
 		
 		var count = Number($('.weight_table').attr('data-count')) + 1;
 		for( var i = 0 ; i < count ; i ++ ){
@@ -213,6 +216,7 @@ youngjin.inbound.weightSync = function(){
 		
 		$('.total_gross_td').html(totalGross);
 		$('.total_grossKg_td').html(totalGrossKg);
+		$('.total_net_td').html(totalNet);
 	});
 	
 	$('input[name=tare]').focusout(function(){
@@ -221,6 +225,7 @@ youngjin.inbound.weightSync = function(){
 		
 		var net = Number($(this).parents().parents('tr').children().children('input[name=gross]').val()) - Number($(this).val());
 		$(this).parents().parents('tr').children().children('input[name=net]').val(net);
+		$(this).parents().parents('tr').children().children('input[name=net]').attr('readonly', 'readonly');
 		
 		var count = Number($('.weight_table').attr('data-count')) + 1;
 		for( var i = 0 ; i < count ; i ++ ){
@@ -233,8 +238,21 @@ youngjin.inbound.weightSync = function(){
 	
 	$('input[name=cuft]').focusout(function(){
 		var totalCuft = 0;
+		var type = '';
 
 		var count = Number($('.weight_table').attr('data-count')) + 1;
+		var cuft = $(this).val();
+		if(Number(cuft) >= 0 && Number(cuft) <= 124){
+			type = 'O/F';
+		} else if(Number(cuft) >= 125 && Number(cuft) <= 179 ) {
+			type = 'O/F';
+		} else if(Number(cuft) >= 180 && Number(cuft) <= 207){
+			type = 'typeII';
+		}
+		
+		$(this).parents().parents('tr').children().children('input[name=type]').val(type);
+		$(this).parents().parents('tr').children().children('input[name=type]').attr('readonly', 'readonly');
+		
 		for( var i = 0 ; i < count ; i ++ ){
 			totalCuft += Number($('input[name="cuft"]').eq(i).val());
 		}
@@ -878,7 +896,7 @@ youngjin.inbound.weightColumnAdd = function(target){
 			totalPcs += 1;
 		}
 		
-		$('.total_piece_td').html(totalPcs + 1);
+		$('.total_piece_td').html(totalPcs);
 	} else {
 		alert('값을 모두 입력해야 열 추가가 가능합니다');
 	}

@@ -555,3 +555,12 @@ td.seperate_merge{ border: none !important;}
 .weight_add_button_list{ width :100%; padding:10px 0;}
 .weight_add_button_wrap{ width: 90%; margin: 0 auto;}
 .weight_addButton{ float: right; margin-bottom: 10px; margin-right: 3%;}
+
+/* Custom */
+
+
+li.inbound_custom_item_list{ border-left: 0px;}
+li.inbound_custom_item_list:HOVER{ border-left: 0px;}
+
+li.inbound_custom_item_list ul li{ width: 136px; font-size: 12px;}
+li.inbound_custom_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646; width: 122px; }

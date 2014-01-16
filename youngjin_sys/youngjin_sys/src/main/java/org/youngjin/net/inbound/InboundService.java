@@ -108,7 +108,33 @@ public class InboundService {
 	}
 
 	public void insertWeightAdd(WeightIb weightIb) {
-		inboundDao.insertWeightAdd(weightIb);
+		String [] pcs = weightIb.getPiece().split(",");
+
+		int count = pcs.length;		
+		
+		String [] type = weightIb.getType().split(",", count);
+		String [] gross = weightIb.getGross().split(",", count);
+		String [] grossKg = weightIb.getGrossKg().split(",", count);
+		String [] tare = weightIb.getTare().split(",", count);
+		String [] net = weightIb.getNet().split(",", count);
+		String [] cuft = weightIb.getCuft().split(",", count);
+		String [] remark = weightIb.getRemark().split(",", count);
+		Integer gblSeq = weightIb.getGblSeq();
+		
+		for( int i = 0 ; i < count ; i ++ ){
+			WeightIb weightParam = new WeightIb();
+			weightParam.setPiece(pcs[i]);
+			weightParam.setType(type[i]);
+			weightParam.setGross(gross[i]);
+			weightParam.setGrossKg(grossKg[i]);
+			weightParam.setTare(tare[i]);
+			weightParam.setNet(net[i]);
+			weightParam.setCuft(cuft[i]);
+			weightParam.setRemark(remark[i]);
+			weightParam.setGblSeq(gblSeq);
+			
+			inboundDao.insertWeightAdd(weightParam);
+		}
 	}	
 	
 	
