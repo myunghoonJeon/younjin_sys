@@ -549,5 +549,9 @@ td.seperate_merge{ border: none !important;}
 #weight_add_wrap table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; }
 #weight_add_wrap table tbody tr{ background-color: white; }
 #weight_add_wrap input{ width: 40px; border: none; }
+#weight_add_wrap table tfoot tr td{padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center;  }
 
-.weight_remark{width: 140px;}
+.weight_remark input#remark{width: 140px;}
+.weight_add_button_list{ width :100%; padding:10px 0;}
+.weight_add_button_wrap{ width: 90%; margin: 0 auto;}
+.weight_addButton{ float: right; margin-bottom: 10px; margin-right: 3%;}

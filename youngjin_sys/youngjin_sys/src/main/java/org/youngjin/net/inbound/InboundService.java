@@ -106,6 +106,10 @@ public class InboundService {
 	public List<WeightIb> getWeightList(Integer seq) {
 		return inboundDao.getWeightList(seq);
 	}
+
+	public void insertWeightAdd(WeightIb weightIb) {
+		inboundDao.insertWeightAdd(weightIb);
+	}	
 	
 	
 	//이전버전
@@ -158,5 +162,5 @@ public class InboundService {
 
 	public List<Dd619> getDd619List(String seq) {
 		return inboundDao.getDd619List(seq);
-	}	
+	}
 }

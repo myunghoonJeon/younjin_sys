@@ -169,6 +169,78 @@ youngjin.inbound.sync = function(){
 	$('#inbound_memorandum_print').bind('click', function(){
 		youngjin.inbound.memorandumPrint($(this));
 	});
+	
+	youngjin.inbound.weightSync();
+};
+
+youngjin.inbound.weightSync = function(){
+	$('.weight_plus_Box_td').unbind('click');
+	$('.weight_plus_Box_td').bind('click', function(){
+		youngjin.inbound.weightColumnAdd($(this));
+	});
+	
+	$('.weight_addButton').unbind('click');
+	$('.weight_addButton').bind('click', function(){
+		youngjin.inbound.weightAddSubmit($(this));
+	});
+	
+	$('input[name=piece]').focusout(function(){
+		var totalPcs = 0;
+		var count = Number($('.weight_table').attr('data-count')) + 1;
+		for( var i = 0 ; i < count; i ++ ){
+			totalPcs += 1;
+		}
+		
+		$('.total_piece_td').html(totalPcs);
+	});
+	
+	$('input[name=gross]').focusout(function(){
+		var totalGross = 0;
+		var totalGrossKg = 0;
+		
+		var grossKg = 0.45359237 * Number($(this).val());
+		$(this).parents().parents('tr').children().children('input[name=grossKg]').val(roundXL(grossKg, 2));
+		
+		var net = Number($(this).val()) - Number($(this).parents().parents('tr').children().children('input[name=tare]').val());
+		$(this).parents().parents('tr').children().children('input[name=net]').val(net);
+		
+		var count = Number($('.weight_table').attr('data-count')) + 1;
+		for( var i = 0 ; i < count ; i ++ ){
+			totalGross += Number($('input[name="gross"]').eq(i).val());
+			totalGrossKg += roundXL(0.45359237 * Number($('input[name="gross"]').eq(i).val()), 2);
+			totalNet += Number($('input[name=net]').eq(i).val());
+		}
+		
+		$('.total_gross_td').html(totalGross);
+		$('.total_grossKg_td').html(totalGrossKg);
+	});
+	
+	$('input[name=tare]').focusout(function(){
+		var totalTare = 0;
+		var totalNet = 0;
+		
+		var net = Number($(this).parents().parents('tr').children().children('input[name=gross]').val()) - Number($(this).val());
+		$(this).parents().parents('tr').children().children('input[name=net]').val(net);
+		
+		var count = Number($('.weight_table').attr('data-count')) + 1;
+		for( var i = 0 ; i < count ; i ++ ){
+			totalTare += Number($('input[name="tare"]').eq(i).val());
+			totalNet += Number($('input[name=net]').eq(i).val());
+		}
+		$('.total_tare_td').html(totalTare);
+		$('.total_net_td').html(totalNet);
+	});
+	
+	$('input[name=cuft]').focusout(function(){
+		var totalCuft = 0;
+
+		var count = Number($('.weight_table').attr('data-count')) + 1;
+		for( var i = 0 ; i < count ; i ++ ){
+			totalCuft += Number($('input[name="cuft"]').eq(i).val());
+		}
+		$('.total_cuft_td').html(totalCuft);
+		
+	});
 };
 
 youngjin.inbound.freightAddSubmit = function(){
@@ -775,4 +847,47 @@ youngjin.inbound.dd619Pop = function(target){
 		url : url
 	});
 	
+};
+
+youngjin.inbound.weightColumnAdd = function(target){
+	var column = '<tr>' +
+					'<input type="hidden" name="gblSeq" id="gblSeq" value="' + $("#gblSeq").val()  + '" />' +
+					'<td><input type="text" id="piece" name="piece"/></td>' +
+					'<td><input type="text" id="type" name="type"/></td>' +
+					'<td><input type="text" id="gross" name="gross"/></td>' +
+					'<td><input type="text" id="grossKg" name="grossKg"/></td>' +
+					'<td><input type="text" id="tare" name="tare"/></td>' +
+					'<td><input type="text" id="net" name="net"/></td>' +
+					'<td><input type="text" id="cuft" name="cuft"/></td>' +
+					'<td><input type="text" id="reweight" name="reweight"/></td>' +
+					'<td class="weight_remark"><input type="text" id="remark" name="remark"/></td>' +
+					'<td class="weight_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>';
+				 '</tr>';
+	
+	if(target.parents('tr').find('#cuft').val() != ''){
+		target.parents().parents('tbody').append(column);
+		
+		target.remove();
+		
+		var count = $('.weight_table').attr('data-count');
+		$('.weight_table').attr('data-count', Number(count) + 1);
+		
+		var totalPcs = 0;
+		var count = Number($('.weight_table').attr('data-count')) + 1;
+		for( var i = 0 ; i < count; i ++ ){
+			totalPcs += 1;
+		}
+		
+		$('.total_piece_td').html(totalPcs + 1);
+	} else {
+		alert('값을 모두 입력해야 열 추가가 가능합니다');
+	}
+	
+	youngjin.inbound.sync();
+};
+
+youngjin.inbound.weightAddSubmit = function(target){
+	 var form = document.forms['weightIb'];
+
+	 form.submit();	 
 };

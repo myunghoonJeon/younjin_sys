@@ -138,11 +138,29 @@ public class InboundController {
 		model.addAttribute("user", user);
 		
 		List<WeightIb> weightList = inboundService.getWeightList(seq);
+		model.addAttribute("seq", seq);
 		model.addAttribute("weightList", weightList);
 
 		return process + "/freight/weight";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/freight/{seq}/weight", method = RequestMethod.POST)
+	public String weightAddPost(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq, @ModelAttribute WeightIb weightIb) {		
+		inboundService.insertWeightAdd(weightIb);
+		model.addAttribute("user", user);
+		
+		System.out.println("seq : " + seq);
+
+		model.addAttribute("process",
+				inboundService.getGblProcessAndUpload(seq));
+		model.addAttribute("seq", seq);
+		model.addAttribute("fileList", inboundService.getGblFileList(seq));
+		
+		return process + "/freight/processAndUpload";
+	}
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/checkWeight.json")
 	@ResponseBody

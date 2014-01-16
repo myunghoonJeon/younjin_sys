@@ -84,4 +84,8 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public List<Dd619> getDd619List(String seq) {
 		return getSqlSession().selectList("inboundMapper.getDd619List", seq);
 	}
+
+	public void insertWeightAdd(WeightIb weightIb) {
+		getSqlSession().insert("inboundMapper.insertWeightAdd", weightIb);
+	}
 }

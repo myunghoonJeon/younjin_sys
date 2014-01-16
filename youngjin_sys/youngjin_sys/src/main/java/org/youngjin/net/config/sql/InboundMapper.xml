@@ -347,6 +347,7 @@
 			#{totalPcs}		
 		)
 	</insert>
+	
 	<insert id="insertFreightStatus" parameterType="GBL">
 	INSERT INTO
 		gbl_status
@@ -357,6 +358,18 @@
 		(
 			#{gblNo}, 1, 0, 0, 0, 0, 0, 0, 0
 		)
+	</insert>
+	
+	<insert id="insertWeightAdd" parameterType="WeightIb">
+		INSERT INTO
+			weight_ib
+			(
+				piece, type, gross, grossKg, tare, net, cuft, remark, gblSeq
+			)
+		VALUES
+			(
+				#{piece}, #{type}, #{gross}, #{grossKg}, #{tare}, #{net}, #{cuft}, #{remark}, #{gblSeq}
+			)
 	</insert>
 
 	<insert id="insertAttachment" parameterType="GBLAttachment">
