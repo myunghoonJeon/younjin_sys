@@ -136,7 +136,10 @@ public class InboundService {
 			inboundDao.insertWeightAdd(weightParam);
 		}
 	}	
-	
+
+	public int getCustomInvoiceGblListCount(InboundFilter inboundFilter) {
+		return inboundDao.getCustomInvoiceGblListCount(inboundFilter);
+	}	
 	
 	//이전버전
 	
@@ -188,5 +191,13 @@ public class InboundService {
 
 	public List<Dd619> getDd619List(String seq) {
 		return inboundDao.getDd619List(seq);
+	}
+
+	public int getInboundInvoiceListCount(InboundFilter inboundFilter) {
+		return inboundDao.getInboundInvoiceListCount(inboundFilter);
+	}
+
+	public List<InboundInvoice> getInboundInvoiceList(InboundFilter inboundFilter) {
+		return inboundDao.getInboundInvoiceList(inboundFilter);
 	}
 }

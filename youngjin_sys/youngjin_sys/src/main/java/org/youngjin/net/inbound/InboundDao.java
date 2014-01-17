@@ -88,4 +88,17 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public void insertWeightAdd(WeightIb weightIb) {
 		getSqlSession().insert("inboundMapper.insertWeightAdd", weightIb);
 	}
+
+	public int getInboundInvoiceListCount(InboundFilter inboundFilter) {
+		return getSqlSession().selectOne("inboundMapper.getInboundInvoiceListCount", inboundFilter);
+	}
+
+	public List<InboundInvoice> getInboundInvoiceList(
+			InboundFilter inboundFilter) {
+		return getSqlSession().selectList("inboundMapper.getInboundInvoiceList", inboundFilter);
+	}
+
+	public int getCustomInvoiceGblListCount(InboundFilter inboundFilter) {
+		return getSqlSession().selectOne("inboundMapper.getCustomInvoiceGblListCount", inboundFilter);
+	}
 }

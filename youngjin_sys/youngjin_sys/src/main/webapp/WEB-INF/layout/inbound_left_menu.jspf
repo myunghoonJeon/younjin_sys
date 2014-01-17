@@ -10,12 +10,10 @@
 		</li>
 		<li class="inbound_custom_item_list" style="${(user.subProcess eq 'custom' or user.subProcess eq 'inboundInvoice' or user.subProcess eq 'declare') ? 'display:block;' : 'display:none;'}">				
 			<ul class="inbound_custom_item">
-				<!--  li onclick="location.href='${cp }/outbound/delivery/main'" style="${(user.subProcess eq 'delivery') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">					DELIVERY LIST	
-				</li-->
-				<li onclick="location.href='${cp }/outbound/delivery/truckManifast'" style="${(user.subProcess eq 'inboundInvoice') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+				<li onclick="location.href='${cp }/inbound/custom/invoice'" style="${(user.subProcess eq 'inboundInvoice') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
 					INBOUND INVOICE
 				</li>
-				<li onclick="location.href='${cp }/outbound/delivery/bookingList'" style="${(user.subProcess eq 'declare') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+				<li onclick="location.href='${cp }/inbound/custom/declarationList'" style="${(user.subProcess eq 'declare') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
 					DECLARATION LIST
 				</li>			
 			</ul>	

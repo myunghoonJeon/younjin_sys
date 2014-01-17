@@ -281,6 +281,36 @@
 			gblSeq = #{value}
 	</select>
 	
+	<select id="getInboundInvoiceListCount" parameterType="InboundFilter" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			inbound_invoice_list
+	</select>
+	
+	<select id="getInboundInvoiceList" parameterType="InboundFilter" resultType="Integer">
+		SELECT 
+			*
+		FROM	
+			(		
+				SELECT
+					(@rownum := @rownum + 1) AS rownum,
+					iil.seq, iil.gblNo, iil.name, iil.ssn, iil.inboundInvoiceNo, iil.gblSeq, iil.invoiceDate
+				FROM
+					inbound_invoice_list iil, (SELECT @rownum := 0) r
+				ORDER BY
+					iil.seq
+			)u	
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}	
+	</select>
+
+	<select id="getCustomInvoiceGblListCount" parameterType="InboundFilter" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			
+	</select>
+	
 	<!-- 이전 버전 -->
 	
 	<select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">

@@ -171,6 +171,8 @@ youngjin.inbound.sync = function(){
 	});
 	
 	youngjin.inbound.weightSync();
+	
+	youngjin.inbound.customSync();
 };
 
 youngjin.inbound.weightSync = function(){
@@ -258,6 +260,19 @@ youngjin.inbound.weightSync = function(){
 		}
 		$('.total_cuft_td').html(totalCuft);
 		
+	});
+};
+
+youngjin.inbound.customSync = function(){
+	$('.inbound_invoice_add_button').unbind('click');
+	$('.inbound_invoice_add_button').bind('click', function(){
+		var url = contextPath + '/inbound/custom/invoice/add';
+		
+		$.smartPop.open({
+			width: 1000,
+			height: 700,
+			url : url
+		});		
 	});
 };
 

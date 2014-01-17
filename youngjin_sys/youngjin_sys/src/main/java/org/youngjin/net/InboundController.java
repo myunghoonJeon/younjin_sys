@@ -150,8 +150,6 @@ public class InboundController {
 			@PathVariable String process, @PathVariable Integer seq, @ModelAttribute WeightIb weightIb) {		
 		inboundService.insertWeightAdd(weightIb);
 		model.addAttribute("user", user);
-		
-		System.out.println("seq : " + seq);
 
 		model.addAttribute("process",
 				inboundService.getGblProcessAndUpload(seq));
@@ -167,6 +165,35 @@ public class InboundController {
 	public Boolean checkWeight(@RequestBody Map<String, Integer> param) {
 		return inboundService.checkWeight(param);
 	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/custom/invoice", method = RequestMethod.GET)
+	public String customInboundInvoice(Model model, User user,
+			@PathVariable String process, @ModelAttribute InboundFilter inboundFilter) {
+		
+		user.setSubProcess("inboundInvoice");
+		
+		inboundFilter.getPagination().setNumItems(
+				inboundService.getInboundInvoiceListCount(inboundFilter));
+
+		model.addAttribute("inboundInvoiceList",
+				inboundService.getInboundInvoiceList(inboundFilter));
+		
+		model.addAttribute("user", user);		
+		
+		return process + "/custom/inboundInvoice";
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/custom/invoice/add", method = RequestMethod.GET)
+	public String customInvoiceAdd(Model model, User user,
+			@PathVariable String process, @ModelAttribute InboundFilter inboundFilter) {
+		inboundFilter.getPagination().setNumItems(
+				inboundService.getCustomInvoiceGblListCount(inboundFilter));
+		
+		
+		return process + "/custom/invoiceAdd";
+	}		
 	
 	//이전 버전
 

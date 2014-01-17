@@ -564,3 +564,7 @@ li.inbound_custom_item_list:HOVER{ border-left: 0px;}
 
 li.inbound_custom_item_list ul li{ width: 136px; font-size: 12px;}
 li.inbound_custom_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646; width: 122px; }
+
+.inbound_invoice_add_button{ float: right; margin-bottom : 10px; }
+
+.inbound_invoice_gbl_list_wrap{ width: 1000px; height: 700px; background-color: white;}

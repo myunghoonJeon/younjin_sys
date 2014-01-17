@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../../layout/head.jspf"%>
+<%@ include file="../../../layout/head.jspf"%>
 <%-- Page 처리 Script --%>
 <c:set var="pagination" value="${inboundFilter.pagination }"/>
 <script type="text/javascript">
@@ -31,7 +31,7 @@
 	<div class="gbl_filter">	
 		<ul class="freight_filter_wrap">
 			<li>	
-				<span class="freight_add yj_button" >add</span>
+				<span class="inbound_invoice_add_button yj_button" >add</span>
 			</li>
 		</ul>	
 	</div>
@@ -65,7 +65,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${gblList eq '[]' or gblList eq null or gblList eq '' }">
+				<c:if test="${inboundInvoiceList eq '[]' or inboundInvoiceList eq null or inboundInvoiceList eq '' }">
 					<tr>
 						<td colspan="14">invoice 가 없습니다.</td>
 					</tr>
@@ -73,4 +73,4 @@
 			</tbody>
 		</table>
 	</div>	
-<%@ include file="../../layout/foot.jspf"%>
+<%@ include file="../../../layout/foot.jspf"%>
