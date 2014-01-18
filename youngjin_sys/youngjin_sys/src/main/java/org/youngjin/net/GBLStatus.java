@@ -3,13 +3,20 @@ package org.youngjin.net;
 public class GBLStatus {
 	private String no;
 	private String input;
+
+	// outbound
 	private String preperation;
-	private String delivery;
 	private String truckManifast;
 	private String bookingList;
 	private String invoice;
 	private String arrival;
 	private String process;
+
+	// inbound
+	private String weight;
+	private String custom;
+	private String onHandList;
+	private String delivery;
 
 	public String getNo() {
 		return no;
@@ -82,13 +89,37 @@ public class GBLStatus {
 	public void setBookingList(String bookingList) {
 		this.bookingList = bookingList;
 	}
-	
-	public String getCurrentState(){
-		if( this.input.equals("1")){
-			if(this.preperation.equals("1")){
-				if(this.truckManifast.equals("1")){
-					if(this.bookingList.equals("1")){
-						if(this.invoice.equals("1")){
+
+	public String getWeight() {
+		return weight;
+	}
+
+	public void setWeight(String weight) {
+		this.weight = weight;
+	}
+
+	public String getCustom() {
+		return custom;
+	}
+
+	public void setCustom(String custom) {
+		this.custom = custom;
+	}
+
+	public String getOnHandList() {
+		return onHandList;
+	}
+
+	public void setOnHandList(String onHandList) {
+		this.onHandList = onHandList;
+	}
+
+	public String getCurrentState() {
+		if (this.input.equals("1")) {
+			if (this.preperation.equals("1")) {
+				if (this.truckManifast.equals("1")) {
+					if (this.bookingList.equals("1")) {
+						if (this.invoice.equals("1")) {
 							return "COMPLETE";
 						} else {
 							return "INVOICE";
@@ -96,9 +127,9 @@ public class GBLStatus {
 					} else {
 						return "BOOKINGLIST";
 					}
-				} else if(this.bookingList.equals("1")){
-					if(this.truckManifast.equals("1")){
-						if(this.invoice.equals("1")){
+				} else if (this.bookingList.equals("1")) {
+					if (this.truckManifast.equals("1")) {
+						if (this.invoice.equals("1")) {
 							return "COMPLETE";
 						} else {
 							return "INVOICE";
@@ -106,11 +137,35 @@ public class GBLStatus {
 					} else {
 						return "TRUCKMANIFAST";
 					}
-				}else{
+				} else {
 					return "DELIVERY";
 				}
-			}else
+			} else
 				return "PREPARATION";
+		}
+
+		return "INPUT";
+	}
+	
+	public String getInboundCurrentState(){
+		if (this.input.equals("1")) {
+			if(this.weight.equals("1")){
+				if(this.custom.equals("1")){
+					if(this.onHandList.equals("1")){
+						if(this.delivery.equals("1")){
+							return "COMPLETE";
+						} else {
+							return "DELIVERY";
+						}
+					} else {
+						return "ON HAND LIST";
+					}
+				} else {
+					return "CUSTOM";
+				}
+			} else {
+				return "WEIGHT";
+			}
 		}
 		
 		return "INPUT";
@@ -118,16 +173,12 @@ public class GBLStatus {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("GBLStatus [no : ").append(no).append(" ;\ninput : ")
-				.append(input).append(" ;\npreperation : ").append(preperation)
-				.append(" ;\ndelivery : ").append(delivery)
-				.append(" ;\ntruckManifast : ").append(truckManifast)
-				.append(" ;\nbookingList : ").append(bookingList)
-				.append(" ;\ninvoice : ").append(invoice)
-				.append(" ;\narrival : ").append(arrival)
-				.append(" ;\nprocess : ").append(process).append(" ]");
-		return builder.toString();
+		return "GBLStatus [no=" + no + ", input=" + input + ", preperation="
+				+ preperation + ", truckManifast=" + truckManifast
+				+ ", bookingList=" + bookingList + ", invoice=" + invoice
+				+ ", arrival=" + arrival + ", process=" + process + ", weight="
+				+ weight + ", custom=" + custom + ", onHandList=" + onHandList
+				+ ", delivery=" + delivery + "]";
 	}
 
 }

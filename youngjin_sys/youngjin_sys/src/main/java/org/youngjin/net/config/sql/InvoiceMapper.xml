@@ -438,6 +438,10 @@
 			AND
 				end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
 		</if>
+		<if test="gblNo != null and gblNo != ''">
+			AND
+				seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
+		</if>
 	</select>
 	
 	<select id="getInvoiceList" parameterType="InvoiceFilter" resultMap="InvoiceMap">
@@ -463,6 +467,10 @@
 			<if test="endDate != null and endDate != ''">
 				AND
 					end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+			</if>
+			<if test="gblNo != null and gblNo != ''">
+				AND
+					seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
 			</if>
 			ORDER BY
 				i.seq
@@ -597,6 +605,10 @@
 			AND
 				end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
 		</if>
+		<if test="gblNo != null and gblNo != ''">
+			AND
+				seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
+		</if>
 	</select>
 	
 	<select id="getInvoicecollectionList" parameterType="InvoiceFilter" resultMap="InvoiceMap">
@@ -622,6 +634,10 @@
 			<if test="endDate != null and endDate != ''">
 				AND
 					end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+			</if>
+			<if test="gblNo != null and gblNo != ''">
+				AND
+					i.seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
 			</if>
 			ORDER BY
 				i.seq
@@ -666,6 +682,10 @@
 		<if test="endDate != null and endDate != ''">
 			AND
 				end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+		</if>
+		<if test="gblNo != null and gblNo != ''">
+			AND
+				ic.invoice_seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
 		</if>
 	</select>
 	
@@ -716,6 +736,15 @@
 			invoice_gbl_seq = #{value}
 	</select>
 	
+	<select id="getInvoiceCollectionSeq" parameterType="Integer" resultType="Integer">
+		SELECT
+			seq
+		FROM
+			invoice_collection
+		WHERE
+			invoice_seq = #{value}
+	</select>
+	 
 	<insert id="insertNewYearSIT" parameterType="Map">
 		INSERT INTO
 			invoice_sit_rate

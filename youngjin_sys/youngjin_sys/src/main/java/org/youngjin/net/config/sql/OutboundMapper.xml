@@ -246,7 +246,7 @@
 						no NOT LIKE '%-sub%'
 				</if>
 			ORDER BY
-				g.seq
+				g.seq desc
 		)u	
 	WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
 </select>

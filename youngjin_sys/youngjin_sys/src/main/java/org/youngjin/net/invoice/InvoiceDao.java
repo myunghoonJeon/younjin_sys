@@ -283,5 +283,9 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public void invoiceCollectionRemarkInput(
 			Map<String, String> invoiceCollection) {
 		getSqlSession().update("invoiceMapper.invoiceCollectionRemarkInput", invoiceCollection);
+	}
+
+	public Integer getInvoiceCollectionSeq(Integer invoiceSeq) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoiceCollectionSeq", invoiceSeq);
 	}	
 }

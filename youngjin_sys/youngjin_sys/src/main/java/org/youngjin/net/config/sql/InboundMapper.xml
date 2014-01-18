@@ -4,13 +4,11 @@
 	<resultMap type="GBLStatus" id="StatusMap">
 		<result column="gbl_no" property="no"/>
 		<result column="gbl_input" property="input" />
-		<result column="gbl_preperation" property="preperation" />
+		<result column="gbl_weight" property="weight" />
+		<result column="gbl_custom" property="custom" />
+		<result column="gbl_onHandList" property="onHandList" />
 		<result column="gbl_delivery" property="delivery" />
-		<result column="gbl_truckManifast" property="truckManifast"/>
-		<result column="gbl_bookingList" property="bookingList"/>
 		<result column="gbl_invoice" property="invoice" />
-		<result column="gbl_arrival" property="arrival" />
-		<result column="gbl_process" property="process" />
 	</resultMap>
 
 	<resultMap type="GBLAttachment" id="GBLAttachmentMap">
@@ -166,23 +164,19 @@
 		SELECT
 			gbl_no,
 			gbl_input,
-			gbl_preperation,
+			gbl_weight,
+			gbl_custom,
+			gbl_onHandList,
 			gbl_delivery,
-			gbl_truckmanifast,
-			gbl_arrival,
-			gbl_process,
-			gbl_bookinglist,
 			gbl_invoice
 		FROM
 			gbl_status
 		WHERE
 			gbl_no IN (
 				SELECT
-						gbl_no
+						gblNo
 					FROM
 						gbl_ib
-					WHERE
-						1 = 1
 						<if test="branch != null and branch != ''">
 							AND		
 								area = #{branch}			
@@ -304,18 +298,148 @@
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}	
 	</select>
 
-	<select id="getCustomInvoiceGblListCount" parameterType="InboundFilter" resultType="Integer">
+	<select id="getCustomInvoiceGblListCount" parameterType="InboundFilter" resultType="Integer">		
 		SELECT
 			count(*)
 		FROM
-			
+			gbl_ib
+		WHERE
+			gblNo IN (select gbl_no from gbl_status where gbl_weight = 1 and gbl_custom = 0 )
+		AND
+			gblNo NOT IN (select gblNo from inbound_invoice_list)
+			<if test="area != null and area != ''">
+				AND
+					area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+			</if>
+			<if test="branch != null and branch != ''">
+				AND		
+					area = #{branch}			
+			</if>
+			<if test="carrier != null and carrier != ''">
+				AND
+					tsp = #{carrier}
+			</if>
+			<if test="code != null and code != ''">
+				AND
+					code = #{code}
+			</if>
+			<if test="startPud != null and startPud != ''">
+				AND
+					pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+			</if>
+			<if test="endPud != null and endPud != ''">
+				AND
+					pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+			</if>			
+	</select>
+	
+	<select id="getCustomInvoiceGblList" parameterType="InboundFilter" resultType="GBL">
+		SELECT 
+			*
+		FROM	
+			(
+				SELECT
+					(@rownum := @rownum + 1) AS rownum,
+					g.seq,
+					g.gblNo,
+					g.shipperName,
+					g.rank,
+					g.code,
+					g.tsp,
+					g.destAddress,
+					g.pud,
+					g.rdd,
+					g.arriveDate,
+					g.awbNo,
+					g.ssn,
+					g.pmjDate,
+					g.area AS areaLocal,
+					g.fright,
+					g.eMailAddress,
+					g.oblNo,
+					g.vessle,
+					g.blCompany,
+					g.remark,
+					g.eta,
+					g.sitIn,
+					g.sitOut,
+					g.sitNo,
+					g.rate,
+					g.yjNo,
+					g.totalPcs,
+					g.phone,
+					g.address,
+					g.onHandDate,
+					g.gbloc,
+					g.destinationGbloc,
+					g.itemsPieces,
+					g.grossWeight,
+					g.netWeight
+				FROM
+					gbl_ib g, (SELECT @rownum := 0) r
+				WHERE
+					gblNo IN (select gbl_no from gbl_status where gbl_weight = 1 and gbl_custom = 0 )
+				AND
+					gblNo NOT IN (select gblNo from inbound_invoice_list)
+					<if test="area != null and area != ''">
+						AND
+							area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+					</if>
+					<if test="branch != null and branch != ''">
+						AND		
+							area = #{branch}			
+					</if>
+					<if test="carrier != null and carrier != ''">
+						AND
+							tsp = #{carrier}
+					</if>
+					<if test="code != null and code != ''">
+						AND
+							code = #{code}
+					</if>
+					<if test="startPud != null and startPud != ''">
+						AND
+							pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+					</if>
+					<if test="endPud != null and endPud != ''">
+						AND
+							pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+					</if>
+				ORDER BY
+					g.seq
+			)u	
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}	
+	</select>
+	
+	<select id="getLastInboundInvoiceNo" parameterType="Integer" resultType="InboundInvoice">
+		SELECT 
+			MAX(inboundInvoiceNo) + 1 AS inboundInvoiceNo, DATE_FORMAT(SYSDATE(), '%y') AS invoiceDate
+		FROM
+			inbound_invoice_list
+		WHERE
+			invoiceDate = DATE_FORMAT(SYSDATE(), '%y')
+	</select>
+	
+	<select id="getInboundInvoice" parameterType="Integer" resultType="InboundInvoice">
+		SELECT
+			seq, gblNo, name, ssn, inboundInvoiceNo, gblSeq, invoiceDate
+		FROM
+			inbound_invoice_list
+		WHERE
+			seq = #{value}
 	</select>
 	
 	<!-- 이전 버전 -->
 	
 	<select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">
-		SELECT
-			gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast, gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
+		SELECT			
+			gbl_no,
+			gbl_input,
+			gbl_weight,
+			gbl_custom,
+			gbl_onHandList,
+			gbl_delivery,
+			gbl_invoice
 		FROM
 			gbl_status
 		WHERE
@@ -422,11 +546,11 @@
 	INSERT INTO
 		gbl_status
 		(
-			gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast, gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
+			gbl_no, gbl_input, gbl_weight, gbl_custom, gbl_onHandList, gbl_delivery, gbl_invoice
 		)
 	VALUES
 		(
-			#{gblNo}, 1, 0, 0, 0, 0, 0, 0, 0
+			#{gblNo}, 1, 0, 0, 0, 0, 0
 		)
 	</insert>
 	
@@ -440,6 +564,21 @@
 			(
 				#{piece}, #{type}, #{gross}, #{grossKg}, #{tare}, #{net}, #{cuft}, #{remark}, #{gblSeq}
 			)
+	</insert>
+	
+	<insert id="inputCustomInboundInvoiceAddSetting" parameterType="InboundInvoice">
+		INSERT INTO
+			inbound_invoice_list
+			(
+				gblNo, name, ssn inboundInvoiceNo, invoiceDate, gblSeq
+			)
+		VALUES
+			(
+				#{gblNo}, (select name from gbl_ib where seq = #{gblSeq}), (select ssn from gbl_ib where seq = #{gblSeq}) #{inboundInvoiceNo}, #{invoiceDate}, #{gblSeq}
+			)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID() 			
+		</selectKey>
 	</insert>
 
 	<insert id="insertAttachment" parameterType="GBLAttachment">

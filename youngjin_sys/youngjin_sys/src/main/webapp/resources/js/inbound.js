@@ -274,6 +274,34 @@ youngjin.inbound.customSync = function(){
 			url : url
 		});		
 	});
+	
+	$('.inbound_invoice_gbl_list').unbind('click');
+	$('.inbound_invoice_gbl_list').bind('click', function(){
+		youngjin.inbound.customInoviceAddSetting($(this));
+	});
+	
+	$('.inbound_invoice_add_back').unbind('click');
+	$('.inbound_invoice_add_back').bind('click', function(){
+		var url = contextPath + '/inbound/custom/invoice/add';
+		
+		parent.$.smartPop.close();
+		parent.$.smartPop.open({
+			width: 1000,
+			height: 700,
+			url : url
+		});		
+		
+	});
+	
+	$('.inbound_invoice_add_next').unbind('click');
+	$('.inbound_invoice_add_next').bind('click', function(){
+		youngjin.inbound.invoiceAddNext($(this));
+	});
+	
+	$('.inbound_invoice_select_weight_add').unbind('click');
+	$('.inbound_invoice_select_weight_add').bind('click', function(){
+		youngjin.inbound.invoiceSelectWeight($(this));
+	});
 };
 
 youngjin.inbound.freightAddSubmit = function(){
@@ -923,4 +951,57 @@ youngjin.inbound.weightAddSubmit = function(target){
 	 var form = document.forms['weightIb'];
 
 	 form.submit();	 
+};
+
+youngjin.inbound.customInoviceAddSetting = function(target){
+	var gblSeq = target.attr('data-seq');
+	
+	var url = contextPath + '/inbound/custom/invoice/' + gblSeq + '/setting';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 600,
+		height: 180,
+		url : url
+	});	
+};
+
+youngjin.inbound.invoiceAddNext = function(target){
+	var gblNo = $('#inbound_invoice_add_gblNo').val();
+	var invoiceDate = $('#inbound_invoice_add_date').val();
+	var inboundInvoiceNo = $('#inbound_invoice_add_no').val();
+	var gblSeq = target.attr('data-seq');
+	
+	var url = contextPath + '/inbound/custom/invoice/inboundInvoiceAdd.json';
+	
+	var json = {
+		'gblNo' : gblNo,
+		'invoiceDate' : invoiceDate,
+		'inboundInvoiceNo' : inboundInvoiceNo,
+		'gblSeq' : gblSeq
+	};
+	
+	$.postJSON(url, json, function(data){
+		return jQuery.ajax({
+			success : function(){
+				var url = contextPath + '/inbound/custom/invoice/' + data + '/selectWeight';
+				
+				parent.$.smartPop.close();
+				
+				parent.$.smartPop.open({
+					width : 700,
+					height : 500,
+					url : url
+				});		
+			},
+			error : function(){
+				alert('에러 발생!');
+			}
+		});
+	});
+};
+
+youngjin.inbound.invoiceSelectWeight = function(target){
+	
 };

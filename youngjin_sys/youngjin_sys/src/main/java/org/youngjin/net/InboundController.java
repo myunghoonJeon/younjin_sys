@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.inbound.InboundFilter;
+import org.youngjin.net.inbound.InboundInvoice;
 import org.youngjin.net.inbound.InboundService;
 import org.youngjin.net.inbound.WeightIb;
 import org.youngjin.net.login.User;
@@ -134,9 +135,10 @@ public class InboundController {
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/weight", method = RequestMethod.GET)
 	public String weightAdd(Model model, User user,
-			@PathVariable String process, @PathVariable Integer seq, @ModelAttribute WeightIb weightIb) {
+			@PathVariable String process, @PathVariable Integer seq,
+			@ModelAttribute WeightIb weightIb) {
 		model.addAttribute("user", user);
-		
+
 		List<WeightIb> weightList = inboundService.getWeightList(seq);
 		model.addAttribute("seq", seq);
 		model.addAttribute("weightList", weightList);
@@ -147,7 +149,8 @@ public class InboundController {
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/weight", method = RequestMethod.POST)
 	public String weightAddPost(Model model, User user,
-			@PathVariable String process, @PathVariable Integer seq, @ModelAttribute WeightIb weightIb) {		
+			@PathVariable String process, @PathVariable Integer seq,
+			@ModelAttribute WeightIb weightIb) {
 		inboundService.insertWeightAdd(weightIb);
 		model.addAttribute("user", user);
 
@@ -155,10 +158,10 @@ public class InboundController {
 				inboundService.getGblProcessAndUpload(seq));
 		model.addAttribute("seq", seq);
 		model.addAttribute("fileList", inboundService.getGblFileList(seq));
-		
+
 		return process + "/freight/processAndUpload";
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/checkWeight.json")
 	@ResponseBody
@@ -169,33 +172,74 @@ public class InboundController {
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/custom/invoice", method = RequestMethod.GET)
 	public String customInboundInvoice(Model model, User user,
-			@PathVariable String process, @ModelAttribute InboundFilter inboundFilter) {
-		
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
+
 		user.setSubProcess("inboundInvoice");
-		
+
 		inboundFilter.getPagination().setNumItems(
 				inboundService.getInboundInvoiceListCount(inboundFilter));
 
 		model.addAttribute("inboundInvoiceList",
 				inboundService.getInboundInvoiceList(inboundFilter));
-		
-		model.addAttribute("user", user);		
-		
+
+		model.addAttribute("user", user);
+
 		return process + "/custom/inboundInvoice";
-	}	
-	
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/custom/invoice/add", method = RequestMethod.GET)
 	public String customInvoiceAdd(Model model, User user,
-			@PathVariable String process, @ModelAttribute InboundFilter inboundFilter) {
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
 		inboundFilter.getPagination().setNumItems(
 				inboundService.getCustomInvoiceGblListCount(inboundFilter));
-		
-		
+
+		model.addAttribute("gblList",
+				inboundService.getCustomInvoiceGblList(inboundFilter));
+
 		return process + "/custom/invoiceAdd";
-	}		
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/custom/invoice/{gblSeq}/setting", method = RequestMethod.GET)
+	public String customInboundInvoiceAddSetting(Model model, User user,
+			@PathVariable String process, @PathVariable Integer gblSeq) {
+
+		model.addAttribute("gblSeq", gblSeq);
+
+		model.addAttribute("settingValueMap",
+				inboundService.getInboundInvoiceSettingMap(gblSeq));
+
+		return process + "/custom/invoiceAddSetting";
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/custom/invoice/inboundInvoiceAdd.json")
+	@ResponseBody
+	public Integer inputCustomInboundInvoiceAddSettingAdd(@RequestBody InboundInvoice inboundInvoice) {
+		return inboundService.inputCustomInboundInvoiceAddSetting(inboundInvoice);
+	}
 	
-	//이전 버전
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/custom/invoice/{inboundInvoiceSeq}/selectWeight", method = RequestMethod.GET)
+	public String customInboundInvoiceSelectWeight(Model model, User user,
+			@PathVariable String process, @PathVariable Integer inboundInvoiceSeq) {
+		
+		InboundInvoice inboundInvoice = inboundService.getInboundInvoiceBasicInfo(inboundInvoiceSeq);
+
+		model.addAttribute("inboundInvoiceSeq", inboundInvoiceSeq);
+
+		model.addAttribute("inboundInvoiceBasicInfo",
+				inboundInvoice);
+		
+		model.addAttribute("weightList", inboundService.getWeightList(inboundInvoice.getGblSeq()));
+
+		return process + "/custom/invoiceAddWeight";
+	}
+
+	// 이전 버전
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}", method = RequestMethod.GET)
@@ -209,7 +253,7 @@ public class InboundController {
 
 		return process + "/freight/processAndUpload";
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/upload", method = RequestMethod.GET)
 	public String gblSelectUplaod(Model model, User user,

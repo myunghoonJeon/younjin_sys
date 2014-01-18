@@ -101,18 +101,28 @@ youngjin.invoice.rateSync = function(){
 	$('select#tsp').unbind('change');
 	$('select#tsp').bind('change', function(){
 		var form = document.forms['invoiceFilter'];
+		form.method = 'post';
 		form.submit();
 	});
 	
 	$('input#startDate').unbind('change');
 	$('input#startDate').bind('change', function(){
 		var form = document.forms['invoiceFilter'];
+		form.method = 'post';
 		form.submit();
 	});
 	
 	$('input#endDate').unbind('change');
 	$('input#endDate').bind('change', function(){
 		var form = document.forms['invoiceFilter'];
+		form.method = 'post';
+		form.submit();
+	});
+	
+	$('input#gblNo').unbind('change');
+	$('input#gblNo').bind('change', function(){
+		var form = document.forms['invoiceFilter'];
+		form.method = 'post';
 		form.submit();
 	});
 };
@@ -747,7 +757,7 @@ youngjin.invoice.collectionGblSave = function(target){
 	if( net != '' ){
 		if( net == invoiceAmount || flowState == 'ACCEPT' ){
 			state = 'COMPLETE';
-		} else if ( net < invoiceAmount ){
+		} else if ( Number(net) < Number(invoiceAmount) ){
 			state = 'RESENT';			
 			difference = net - invoiceAmount;
 		}
@@ -760,7 +770,8 @@ youngjin.invoice.collectionGblSave = function(target){
 			'difference' : String(difference),
 			'flowAmount' : net,
 			'flowState' : flowState,
-			'flowRemark' : flowRemark
+			'flowRemark' : flowRemark,
+			'invoiceNormalSeq' : invoiceSeq
 		};
 		
 		$.postJSON(url, json, function(){
@@ -776,9 +787,7 @@ youngjin.invoice.collectionGblSave = function(target){
 	}	
 };
 
-youngjin.invoice.collectionGblDelete = function(target){
-	var invoiceSeq = target.parents().parents().parents().parents('tr').attr('data-seq');
-	
+youngjin.invoice.collectionGblDelete = function(target){	
 	var ul = target.parents().parents('ul');
 	var table = ul.find('.collection_flow_table:last');
 	var flowSeq = table.attr('data-flowSeq');
@@ -799,7 +808,8 @@ youngjin.invoice.collectionGblDelete = function(target){
 			'collectionSeq' : collectionSeq,
 			'count' : count,
 			'state' : state,
-			'amount' : amount
+			'amount' : amount,
+			'invoiceNormalSeq' : invoiceSeq
 	};
 	
 	$.postJSON(url, json, function(){

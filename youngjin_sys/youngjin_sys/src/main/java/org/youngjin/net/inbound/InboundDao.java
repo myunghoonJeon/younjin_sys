@@ -101,4 +101,23 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public int getCustomInvoiceGblListCount(InboundFilter inboundFilter) {
 		return getSqlSession().selectOne("inboundMapper.getCustomInvoiceGblListCount", inboundFilter);
 	}
+
+	public List<GBL> getCustomInvoiceGblList(InboundFilter inboundFilter) {
+		return getSqlSession().selectList("inboundMapper.getCustomInvoiceGblList", inboundFilter);
+	}
+
+	public InboundInvoice getLastInboundInvoiceNo(Integer gblSeq) {
+		return getSqlSession().selectOne("inboundMapper.getLastInboundInvoiceNo", gblSeq);
+	}
+
+	public Integer inputCustomInboundInvoiceAddSetting(
+			InboundInvoice inboundInvoice) {
+		getSqlSession().insert("inboundMapper.inputCustomInboundInvoiceAddSetting", inboundInvoice);
+		
+		return inboundInvoice.getSeq();
+	}
+
+	public InboundInvoice getInboundInvoice(Integer inboundInvoiceSeq) {
+		return getSqlSession().selectOne("inboundMapper.getInboundInvoice", inboundInvoiceSeq);
+	}
 }

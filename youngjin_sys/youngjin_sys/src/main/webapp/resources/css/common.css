@@ -524,7 +524,7 @@ td.seperate_merge{ border: none !important;}
 .collection_gbl_flow_wrap ul li textarea { width : 190px; height: 40px; }
 .collection_gbl_flow_wrap ul li table td{ padding: 2px 3px; }
 
-.invoice_gbl_collection_list_table{ width : 80% ; margin: 10px auto; text-align: center;}
+.invoice_gbl_collection_list_table{ width : 90% ; margin: 10px auto; text-align: center;}
 .invoice_gbl_collection_list_table thead tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
 .invoice_gbl_collection_list_table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle; }
 .invoice_gbl_collection_list_table tbody tr{ background-color: white; cursor: pointer;  }
@@ -558,7 +558,6 @@ td.seperate_merge{ border: none !important;}
 
 /* Custom */
 
-
 li.inbound_custom_item_list{ border-left: 0px;}
 li.inbound_custom_item_list:HOVER{ border-left: 0px;}
 
@@ -568,3 +567,27 @@ li.inbound_custom_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79
 .inbound_invoice_add_button{ float: right; margin-bottom : 10px; }
 
 .inbound_invoice_gbl_list_wrap{ width: 1000px; height: 700px; background-color: white;}
+
+.inbound_invoice_add_button_list{ width: 80%;}
+.inbound_invoice_add_back{ float: left; margin-bottom: 10px;}
+.inbound_invoice_add_next{ float: right; margin-bottom: 10px;}
+
+.inbound_invoice_add_table{ width: 80%; margin : 10px auto; text-align : center; }
+.inbound_invoice_add_table thead tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.inbound_invoice_add_table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; }
+.inbound_invoice_add_table tbody tr{ background-color: white; }
+.inbound_invoice_add_table input{ width: 90%; border: none; }
+.inbound_invoice_add_table tfoot tr td{padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center;  }
+
+.inbound_invoice_select_weight_wrap{ width: 700px; height: 500px;  background-color: white;}
+
+.inbound_invoice_select_weight_list{ width: 80%;}
+.inbound_invoice_select_weight_back{ float: left; margin-bottom: 10px;}
+.inbound_invoice_select_weight_add{ float: right; margin-bottom: 10px;}
+
+.inbound_invoice_select_weight_table{ width: 80%; margin : 10px auto; text-align : center; }
+.inbound_invoice_select_weight_table thead tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.inbound_invoice_select_weight_table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; }
+.inbound_invoice_select_weight_table tbody tr{ background-color: white; }
+.inbound_invoice_select_weight_table input{ width: 90%; border: none; }
+.inbound_invoice_select_weight_table tfoot tr td{padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center;  }

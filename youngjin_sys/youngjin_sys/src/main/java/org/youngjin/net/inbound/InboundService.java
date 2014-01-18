@@ -78,7 +78,7 @@ public class InboundService {
 		List<GBLStatus> gblStatusList = inboundDao.getGblStatus(inboundFilter);
 		
 		for ( GBLStatus gblStatus : gblStatusList ){
-				gblStatusMap.put(gblStatus.getNo(), gblStatus.getCurrentState());
+				gblStatusMap.put(gblStatus.getNo(), gblStatus.getInboundCurrentState());
 		}
 		
 		return gblStatusMap;
@@ -199,5 +199,51 @@ public class InboundService {
 
 	public List<InboundInvoice> getInboundInvoiceList(InboundFilter inboundFilter) {
 		return inboundDao.getInboundInvoiceList(inboundFilter);
+	}
+
+	public List<GBL> getCustomInvoiceGblList(InboundFilter inboundFilter) {
+		return inboundDao.getCustomInvoiceGblList(inboundFilter);
+	}
+
+	public Map<String, String> getInboundInvoiceSettingMap(Integer gblSeq) {
+		Map<String, String> settingMap = new HashMap<String, String>();
+		GBL gbl = inboundDao.getGbl(gblSeq);
+		
+		settingMap.put("gblNo", gbl.getGblNo());
+		
+		InboundInvoice lastInboundInvoice = inboundDao.getLastInboundInvoiceNo(gblSeq);
+		
+		String inboundInvoiceNo = "";
+		if(lastInboundInvoice.getInboundInvoiceNo() == null){
+			inboundInvoiceNo = lastInboundInvoice.getInvoiceDate() + "-00001";
+		} else {
+			if(lastInboundInvoice.getInboundInvoiceNo().length() == 1){
+				inboundInvoiceNo = lastInboundInvoice.getInvoiceDate() + "-0000" + lastInboundInvoice.getInboundInvoiceNo();
+			} else if(lastInboundInvoice.getInboundInvoiceNo().length() == 2){
+				inboundInvoiceNo = lastInboundInvoice.getInvoiceDate() + "-000" + lastInboundInvoice.getInboundInvoiceNo();
+			} else if(lastInboundInvoice.getInboundInvoiceNo().length() == 3){
+				inboundInvoiceNo = lastInboundInvoice.getInvoiceDate() + "-00" + lastInboundInvoice.getInboundInvoiceNo();
+			} else if(lastInboundInvoice.getInboundInvoiceNo().length() == 4){
+				inboundInvoiceNo = lastInboundInvoice.getInvoiceDate() + "-0" + lastInboundInvoice.getInboundInvoiceNo();
+			} else {
+				inboundInvoiceNo = lastInboundInvoice.getInvoiceDate() + lastInboundInvoice.getInboundInvoiceNo();
+			}
+		}
+		
+		settingMap.put("inboundInvoiceNo", inboundInvoiceNo);
+		
+		return settingMap;
+	}
+
+	public Integer inputCustomInboundInvoiceAddSetting(
+			InboundInvoice inboundInvoice) {
+		String inboundInvoiceNo = inboundInvoice.getInboundInvoiceNo().substring(3, 8);
+		inboundInvoice.setInboundInvoiceNo(inboundInvoiceNo);
+		
+		return inboundDao.inputCustomInboundInvoiceAddSetting(inboundInvoice);
+	}
+
+	public InboundInvoice getInboundInvoiceBasicInfo(Integer inboundInvoiceSeq) {
+		return inboundDao.getInboundInvoice(inboundInvoiceSeq);
 	}
 }

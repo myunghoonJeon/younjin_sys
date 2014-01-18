@@ -9,11 +9,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="cp" value="<%=request.getContextPath() %>"/>
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
-<c:set var="pagination" value="${outboundFilter.pagination }"/>
+<c:set var="pagination" value="${inboundFilter.pagination }"/>
 <html>
 <head>
-<title>Book GBL List</title>
-
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">
 <link rel="stylesheet" href="${cp }/resources/jquery/jquery-ui-1.10.3.custom.min.css">
@@ -140,7 +138,6 @@
 						<th>GBL NO</th>
 						<th>NAME</th>
 						<th>SSN</th>
-						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -150,11 +147,10 @@
 						</tr>
 					</c:if>
 					<c:forEach var="gbl" items="${gblList }">
-						<tr class="freight_list" data-seq="${gbl.seq }">
+						<tr class="inbound_invoice_gbl_list" data-seq="${gbl.seq }">
 							<td>${gbl.gblNo }</td>
-							<td>${gbl.name }</td>
+							<td>${gbl.shipperName }</td>
 							<td>XXXX-XX-${fn:substring(gbl.ssn, 8, 12) }
-							<td><input type="checkbox"></td>
 						</tr>
 					</c:forEach>
 				</tbody>

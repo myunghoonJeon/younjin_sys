@@ -37,30 +37,35 @@ youngjin.outbound.sync = function(){
 	$('select#branch').unbind('change');
 	$('select#branch').bind('change', function(){
 		var form = document.forms['outboundFilter'];
+		form.method = 'post';
 		form.submit();
 	});
 	
 	$('select#carrier').unbind('change');
 	$('select#carrier').bind('change', function(){
 		var form = document.forms['outboundFilter'];
+		form.method = 'post';
 		form.submit();
 	});
 	
 	$('select#code').unbind('change');
 	$('select#code').bind('change', function(){
 		var form = document.forms['outboundFilter'];
+		form.method = 'post';
 		form.submit();
 	});
 	
 	$('input#startPud').unbind('change');
 	$('input#startPud').bind('change', function(){
 		var form = document.forms['outboundFilter'];
+		form.method = 'post';
 		form.submit();
 	});
 	
 	$('input#endPud').unbind('change');
 	$('input#endPud').bind('change', function(){
 		var form = document.forms['outboundFilter'];
+		form.method = 'post';
 		form.submit();
 	});
 	

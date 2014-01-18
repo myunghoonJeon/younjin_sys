@@ -1114,6 +1114,43 @@ public class InvoiceService {
 		}
 
 		invoiceDao.inputGblCollectionFlow(invoiceCollectionFlow);
+		
+		
+		// 내부 GBL 입력 완료후 합이나, 상태를 invoice로 업데이트
+		InvoiceCollection parentInvoiceCollection = new InvoiceCollection();
+		String invoiceSeq = invoiceCollectionMap.get("invoiceNormalSeq");
+		List<InvoiceCollection> invoiceCollectionGblList = invoiceDao.getInvoiceCollectionGblListAndFlow(Integer.parseInt(invoiceSeq));
+		
+		Double invoiceCollectionNetSum = 0.0;
+		Double invoiceCollectionDifferencSum = 0.0;
+		boolean checkResent = false;
+		
+		for( InvoiceCollection invoiceCollectionGbl : invoiceCollectionGblList){
+			invoiceCollectionNetSum += Double.parseDouble(invoiceCollectionGbl.getNet());
+			invoiceCollectionDifferencSum += Double.parseDouble(invoiceCollectionGbl.getDifference());
+			if(invoiceCollectionGbl.getState().equals("RESENT") || invoiceCollectionGbl.getState() == null || invoiceCollectionGbl.getState().equals("")){
+				checkResent = true;
+			}
+		}
+		
+		parentInvoiceCollection.setNet(invoiceCollectionNetSum.toString());
+		parentInvoiceCollection.setDifference(invoiceCollectionDifferencSum.toString());
+		
+		if(checkResent){
+			parentInvoiceCollection.setState("RESENT");
+		} else {
+			parentInvoiceCollection.setState("COMPLETE");
+		}
+		
+		parentInvoiceCollection.setInvoiceSeq(Integer.parseInt(invoiceSeq));
+		
+		Integer invoiceCollectionSeq = invoiceDao.getInvoiceCollectionSeq(Integer.parseInt(invoiceSeq));
+		if(invoiceCollectionSeq != null && invoiceCollectionSeq > 0){
+			parentInvoiceCollection.setSeq(invoiceCollectionSeq);
+			invoiceDao.updateCollectionNet(parentInvoiceCollection);
+		} else {
+			invoiceDao.inputCollectionNet(parentInvoiceCollection);
+		}		
 	}
 	
 	public void invoiceGblCollectionDelete(Map<String, String> invoiceCollection) {
@@ -1167,6 +1204,49 @@ public class InvoiceService {
 		} else if (state.equals("CLAIM")) {
 			invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
 		}
+		
+		InvoiceCollection parentInvoiceCollection = new InvoiceCollection();
+		String invoiceNormalSeq = invoiceCollection.get("invoiceNormalSeq");
+		List<InvoiceCollection> invoiceCollectionGblList = invoiceDao.getInvoiceCollectionGblListAndFlow(Integer.parseInt(invoiceNormalSeq));
+		
+		Double invoiceCollectionNetSum = 0.0;
+		Double invoiceCollectionDifferencSum = 0.0;
+		int checkResent = 0; // 0 : complete , 1 : resent , 2 : ''
+		
+		for( InvoiceCollection invoiceCollectionGbl : invoiceCollectionGblList){
+			invoiceCollectionNetSum += Double.parseDouble(invoiceCollectionGbl.getNet());
+			invoiceCollectionDifferencSum += Double.parseDouble(invoiceCollectionGbl.getDifference());
+			if(invoiceCollectionGbl.getState().equals("RESENT")){
+				checkResent = 1;
+			} else if( invoiceCollectionGbl.getState() == null || invoiceCollectionGbl.getState().equals("")){
+				checkResent = 2;
+			} else {
+				checkResent = 0;
+			}
+		}
+		
+		if(invoiceCollectionGblList.size() == 0){
+			checkResent = 2;
+		}
+		
+		parentInvoiceCollection.setNet(invoiceCollectionNetSum.toString());
+		parentInvoiceCollection.setDifference(invoiceCollectionDifferencSum.toString());
+		
+		if(checkResent == 1){
+			parentInvoiceCollection.setState("RESENT");
+		} else if (checkResent == 2) {
+			parentInvoiceCollection.setState("");
+			parentInvoiceCollection.setNet("");
+		} else {
+			parentInvoiceCollection.setState("COMPLETE");
+		}
+		
+		parentInvoiceCollection.setInvoiceSeq(Integer.parseInt(invoiceNormalSeq));
+		
+		Integer invoiceCollectionSeq = invoiceDao.getInvoiceCollectionSeq(Integer.parseInt(invoiceNormalSeq));
+		
+		parentInvoiceCollection.setSeq(invoiceCollectionSeq);
+		invoiceDao.updateCollectionNet(parentInvoiceCollection);
 	}
 
 	public void invoiceCollectionRemarkInput(

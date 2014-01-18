@@ -38,10 +38,10 @@
 					<form:input path="startDate"/> ~ <form:input path="endDate"/>
 				</li>
 				<li>
-					<form:hidden path="page" value="${pagination.currentPage}"/>
+					GBL NO : <form:input path="gblNo" />
 				</li>
-				<li>	
-					<span class="invoice_add_button yj_button" >add</span>
+				<li>
+					<form:hidden path="page" value="${pagination.currentPage}"/>
 				</li>
 			</form:form>
 		</ul>	
@@ -49,20 +49,20 @@
 		
 	<div>
 		<table class="yj_table invoice_collection_table">
-			<colgroup>
+			<!-- <colgroup>
 				<col width="8%">
 				<col width="6%">
 				<col width="6%">
 				<col width="8%">
 				<col width="72%">
-			</colgroup>
+			</colgroup> -->
 			<thead>
 				<tr>
 					<th>NO</th>
 					<th>AMOUNT</th>
 					<th>NET</th>
 					<th>STATE</th>
-					<th>FLOW</th>
+					<!-- <th>FLOW</th> -->
 				</tr>
 			</thead>
 			<tbody>
@@ -89,7 +89,7 @@
 									</c:when>
 								</c:choose>								
 							</td>
-							<td class="collection_flow_wrap">
+							<%-- <td class="collection_flow_wrap">
 								<ul>
 									<c:forEach var="flow" items="${collectionMap.invoiceColltionFlowList }" varStatus="i">
 										<li>
@@ -124,7 +124,7 @@
 										</c:if>
 									</li>											
 								</ul>					
-							</td>
+							</td> --%>
 						</tr>
 					</c:if>		
 				</c:forEach>
