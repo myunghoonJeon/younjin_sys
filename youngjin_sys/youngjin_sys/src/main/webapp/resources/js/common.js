@@ -81,5 +81,14 @@ youngjin.top.leftDeliveryMenu = function(){
 			$('.inbound_custom_item_list').slideUp();
 		}
 	});
+
+	$('.inbound_onHand').click(function(){
+		if ($('.inbound_onHand_item_list').css('display') == 'none'){			
+			$('.inbound_onHand_item_list').slideDown();
+			$('.inbound_onHand_item_list').css('display', 'block');
+		} else if($('.inbound_onHand_item_list').css('display') == 'block'){
+			$('.inbound_onHand_item_list').slideUp();
+		}
+	});
 	
 };

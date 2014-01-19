@@ -25,6 +25,14 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 		
 		return getSqlSession().selectList("memorandumMapper.getMemorandumList", param);
 	}
+	
+	public List<Memorandum> getMemorandumListIb(String seq, Integer memorandumSeq) {
+		Map<String, Integer> param = new HashMap<String, Integer>();
+		param.put("seq", Integer.parseInt(seq));
+		param.put("memorandumSeq", memorandumSeq);
+		
+		return getSqlSession().selectList("memorandumMapper.getMemorandumListIb", param);
+	}	
 
 	public void deleteMemorandum(Memorandum paramMemorandum) {
 		getSqlSession().delete("memorandumMapper.deleteMemorandum", paramMemorandum);
@@ -79,15 +87,6 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 
 	public void deleteMemorandumAllListIb(MemorandumList memorandumList) {
 		getSqlSession().delete("memorandumMapper.deleteMemorandumAllListIb", memorandumList);		
-	}
-
-	public List<Memorandum> getMemorandumListIb(String seq,
-			Integer memorandumSeq) {
-		Map<String, Integer> param = new HashMap<String, Integer>();
-		param.put("seq", Integer.parseInt(seq));
-		param.put("memorandumSeq", memorandumSeq);
-		
-		return getSqlSession().selectList("memorandumMapper.getMemorandumListIb", param);
 	}
 
 	public Memorandum getMemorandumIb(Memorandum paramMemorandum) {

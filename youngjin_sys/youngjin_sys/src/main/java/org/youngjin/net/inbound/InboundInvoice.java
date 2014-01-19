@@ -10,9 +10,13 @@ public class InboundInvoice {
 	private String inboundInvoiceNo;
 	private String invoiceDate;
 	private Integer gblSeq;
-	
+
+	private String rank;
+	private String eta;
+	private Boolean delcarationCheck;
+
 	private List<WeightIb> weightList;
-	
+
 	public void setSeq(Integer seq) {
 		this.seq = seq;
 	}
@@ -77,11 +81,38 @@ public class InboundInvoice {
 		return seq;
 	}
 
+	public Boolean getDelcarationCheck() {
+		return delcarationCheck;
+	}
+	
+	public String getRank() {
+		return rank;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+
+	public String getEta() {
+		return eta;
+	}
+
+	public void setEta(String eta) {
+		this.eta = eta;
+	}
+
+
+	public void setDelcarationCheck(Boolean delcarationCheck) {
+		this.delcarationCheck = delcarationCheck;
+	}
+
 	@Override
 	public String toString() {
 		return "InboundInvoice [seq=" + seq + ", gblNo=" + gblNo + ", name="
 				+ name + ", ssn=" + ssn + ", inboundInvoiceNo="
 				+ inboundInvoiceNo + ", invoiceDate=" + invoiceDate
-				+ ", gblSeq=" + gblSeq + ", weightList=" + weightList + "]";
+				+ ", gblSeq=" + gblSeq + ", rank=" + rank + ", eta=" + eta
+				+ ", delcarationCheck=" + delcarationCheck + ", weightList="
+				+ weightList + "]";
 	}
 }

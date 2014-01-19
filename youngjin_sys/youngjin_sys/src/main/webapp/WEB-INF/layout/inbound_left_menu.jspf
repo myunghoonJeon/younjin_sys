@@ -18,8 +18,18 @@
 				</li>			
 			</ul>	
 		</li>
-		<li>
-			INVOICE		
+		<li class="inbound_onHand" style="${(user.subProcess eq 'onHand' or user.subProcess eq 'onHandList' or user.subProcess eq 'truck') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+			ON HAND	
+		</li>
+		<li class="inbound_onHand_item_list" style="${(user.subProcess eq 'onHand' or user.subProcess eq 'onHandList' or user.subProcess eq 'truck') ? 'display:block;' : 'display:none;'}">				
+			<ul class="inbound_onHand_item">
+				<li onclick="location.href='${cp }/inbound/onHand/onHandList'" style="${(user.subProcess eq 'onHandList') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+					ON HAND LIST
+				</li>
+				<li onclick="location.href='${cp }/inbound/onHand/truckManifast'" style="${(user.subProcess eq 'truck') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+					TRUCK MANIFAST
+				</li>			
+			</ul>	
 		</li>
 	</sec:authorize>
 </ul>

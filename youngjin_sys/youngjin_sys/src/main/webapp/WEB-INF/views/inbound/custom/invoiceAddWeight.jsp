@@ -41,7 +41,7 @@
 					<span class="yj_button inbound_invoice_select_weight_back">back</span>
 				</li>
 				<li>
-					<span class="yj_button inbound_invoice_select_weight_add">add</span>
+					<span data-inboundInvoiceSeq="${inboundInvoiceSeq }" class="yj_button inbound_invoice_select_weight_add">add</span>
 				</li>
 			</ul>
 		</div>
@@ -56,6 +56,18 @@
 							<c:choose>
 								<c:when test="${fn:length(inboundInvoiceBasicInfo.inboundInvoiceNo) eq 1 }">
 									${fn:substring(inboundInvoiceBasicInfo.invoiceDate, 2, 4)}-0000${inboundInvoiceBasicInfo.inboundInvoiceNo }
+								</c:when>
+								<c:when test="${fn:length(inboundInvoiceBasicInfo.inboundInvoiceNo) eq 2 }">
+									${fn:substring(inboundInvoiceBasicInfo.invoiceDate, 2, 4)}-000${inboundInvoiceBasicInfo.inboundInvoiceNo }
+								</c:when>
+								<c:when test="${fn:length(inboundInvoiceBasicInfo.inboundInvoiceNo) eq 3 }">
+									${fn:substring(inboundInvoiceBasicInfo.invoiceDate, 2, 4)}-00${inboundInvoiceBasicInfo.inboundInvoiceNo }
+								</c:when>
+								<c:when test="${fn:length(inboundInvoiceBasicInfo.inboundInvoiceNo) eq 4 }">
+									${fn:substring(inboundInvoiceBasicInfo.invoiceDate, 2, 4)}-0${inboundInvoiceBasicInfo.inboundInvoiceNo }
+								</c:when>
+								<c:when test="${fn:length(inboundInvoiceBasicInfo.inboundInvoiceNo) eq 5 }">
+									${fn:substring(inboundInvoiceBasicInfo.invoiceDate, 2, 4)}-${inboundInvoiceBasicInfo.inboundInvoiceNo }
 								</c:when>
 							</c:choose>
 						</th>
@@ -85,7 +97,7 @@
 							<td>${weight.grossKg }</td>
 							<td>${weight.net * 0.45359237 }</td>
 							<td>${weight.cuft / 35.315 }</td>
-							<td><input name="" type="checkbox" value="${weight.seq }"/></td>	
+							<td><input name="inbound_invoice_weight_check" type="checkbox" value="${weight.seq }"/></td>	
 						</tr>
 					</c:forEach>
 				</tbody>

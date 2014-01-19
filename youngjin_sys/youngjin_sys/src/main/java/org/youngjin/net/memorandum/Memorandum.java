@@ -14,13 +14,13 @@ public class Memorandum {
 	private Integer gblSeq;
 
 	private String writeDate;
-	
+
 	private String extraPickUpCharge;
 	private String termination;
 	private String sitStartDate;
 	private String sitEndDate;
-	private String lognCarry;
-	
+	private String longCarry;
+
 	private String invoiceValue;
 
 	private Integer memorandumSeq;
@@ -128,7 +128,7 @@ public class Memorandum {
 	public void setMemorandumSeq(Integer memorandumSeq) {
 		this.memorandumSeq = memorandumSeq;
 	}
-	
+
 	public String getExtraPickUpCharge() {
 		return extraPickUpCharge;
 	}
@@ -153,14 +153,14 @@ public class Memorandum {
 		this.sitEndDate = sitEndDate;
 	}
 
-	public String getLognCarry() {
-		return lognCarry;
+	public String getLongCarry() {
+		return longCarry;
 	}
 
-	public void setLognCarry(String lognCarry) {
-		this.lognCarry = lognCarry;
+	public void setLongCarry(String longCarry) {
+		this.longCarry = longCarry;
 	}
-	
+
 	public String getTermination() {
 		return termination;
 	}
@@ -176,8 +176,8 @@ public class Memorandum {
 	public void setInvoiceValue(String invoiceValue) {
 		this.invoiceValue = invoiceValue;
 	}
-	
-	public String[] getArticleList(){
+
+	public String[] getArticleList() {
 		return this.articles.split(",");
 	}
 
@@ -191,8 +191,8 @@ public class Memorandum {
 				+ areaDirector + ", gblSeq=" + gblSeq + ", writeDate="
 				+ writeDate + ", extraPickUpCharge=" + extraPickUpCharge
 				+ ", termination=" + termination + ", sitStartDate="
-				+ sitStartDate + ", sitEndDate=" + sitEndDate + ", lognCarry="
-				+ lognCarry + ", invoiceValue=" + invoiceValue
+				+ sitStartDate + ", sitEndDate=" + sitEndDate + ", longCarry="
+				+ longCarry + ", invoiceValue=" + invoiceValue
 				+ ", memorandumSeq=" + memorandumSeq + "]";
 	}
 

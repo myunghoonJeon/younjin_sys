@@ -78,14 +78,14 @@ youngjin.inbound.sync = function(){
 		youngjin.inbound.uploadSubmit();
 	});
 	
-	$('.inbound_gbl_process_delivery').unbind('click');
-	$('.inbound_gbl_process_delivery').bind('click', function(){
+	$('.inbound_gbl_process_onHand').unbind('click');
+	$('.inbound_gbl_process_onHand').bind('click', function(){
 		youngjin.inbound.goOnHandList($(this));
 	});
 	
-	$('.inbound_gbl_process_preparation').unbind('click');
-	$('.inbound_gbl_process_preparation').bind('click', function(){
-		youngjin.inbound.preparation($(this));
+	$('.inbound_gbl_process_delivery').unbind('click');
+	$('.inbound_gbl_process_delivery').bind('click', function(){
+		youngjin.inbound.delivery($(this));
 	});
 	
 	$('.inbound_preparation_memorandum').unbind('click');
@@ -135,6 +135,11 @@ youngjin.inbound.sync = function(){
 		youngjin.inbound.memorandumBack($(this));		
 	});
 	
+	$('.inbound_memorandum_complete .yj_button').unbind('click');
+	$('.inbound_memorandum_complete .yj_button').bind('click', function(){
+		youngjin.inbound.memorandumBack($(this));
+	});
+	
 	$('.inbound_memorandum_input_subButton').unbind('click');
 	$('.inbound_memorandum_input_subButton').bind('click', function(){
 		youngjin.inbound.memorandumPop($(this));
@@ -169,6 +174,8 @@ youngjin.inbound.sync = function(){
 	$('#inbound_memorandum_print').bind('click', function(){
 		youngjin.inbound.memorandumPrint($(this));
 	});
+	
+	youngjin.inbound.dd619Sync();
 	
 	youngjin.inbound.weightSync();
 	
@@ -302,6 +309,23 @@ youngjin.inbound.customSync = function(){
 	$('.inbound_invoice_select_weight_add').bind('click', function(){
 		youngjin.inbound.invoiceSelectWeight($(this));
 	});
+	
+	$('.inbound_invoice_tr').unbind('click');
+	$('.inbound_invoice_tr').bind('click', function(){
+		youngjin.inbound.inboundInvoicePop($(this));
+	});
+};
+
+youngjin.inbound.dd619Sync = function(){	
+	$('.inbound_dd619_back').unbind('click');
+	$('.inbound_dd619_back').bind('click', function(){
+		youngjin.inbound.dd619Back($(this));
+	});
+	
+	$('.inbound_dd619_table tr').unbind('click');
+	$('.inbound_dd619_table tr').bind('click', function(){
+		youngjin.inbound.dd619($(this));
+	});
 };
 
 youngjin.inbound.freightAddSubmit = function(){
@@ -387,10 +411,10 @@ youngjin.inbound.goOnHandList = function(target){
 	
 };
 
-youngjin.inbound.preparation = function(target){
+youngjin.inbound.delivery = function(target){
 	var seq = target.parents().parents('.gbl_process').attr('data-seq');
 	
-	var url = contextPath + '/inbound/freight/' + seq + '/preparation';
+	var url = contextPath + '/inbound/freight/' + seq + '/delivery';
 	
 	parent.$.smartPop.close();
 
@@ -451,7 +475,7 @@ youngjin.inbound.addMemorandum = function(target){
 youngjin.inbound.memorandumAllBack = function(target){
 	var seq = $('.memorandum_all_list_wrap').attr('data-seq');
 	
-	var url = contextPath + '/inbound/freight/' + seq + '/preparation';
+	var url = contextPath + '/inbound/freight/' + seq + '/delivery';
 	
 	parent.$.smartPop.close();
 
@@ -501,6 +525,20 @@ youngjin.inbound.goToMemorandum = function(target){
 	
 	parent.$.smartPop.close();
 	
+	parent.$.smartPop.open({
+		width: 700,
+		height: 400,
+		url : url
+	});
+};
+
+youngjin.inbound.memorandumBack = function(target){
+	var seq = $('.memorandum_table').attr('data-seq');
+	
+	var url = contextPath + '/inbound/freight/' + seq + '/memorandumList';
+	
+	parent.$.smartPop.close();
+
 	parent.$.smartPop.open({
 		width: 700,
 		height: 400,
@@ -1003,5 +1041,94 @@ youngjin.inbound.invoiceAddNext = function(target){
 };
 
 youngjin.inbound.invoiceSelectWeight = function(target){
+	var inboundInvoiceSeq = target.attr('data-inboundInvoiceSeq');
 	
+	var weightSeqList = $('input:checked');
+	var count = weightSeqList.length;
+	var weightSeqCommaList = weightSeqList.eq(0).val();
+	
+	for( var i = 1 ; i < count ; i ++ ){
+		weightSeqCommaList += ',' + weightSeqList.eq(i).val();
+	}
+	
+	var url = contextPath + '/inbound/custom/invoice/invoiceSelectWeightAdd.json';
+	
+	var json = {
+		'inboundInvoiceSeq' : inboundInvoiceSeq,
+		'count' : count,
+		'weightSeqCommaList' : weightSeqCommaList
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				alert('입력 완료!');
+			},
+			error : function(){
+				alert('에러발생!');
+			}
+		});
+	});
+};
+
+youngjin.inbound.inboundInvoicePop = function(target){
+	var inboundInvoiceSeq = target.attr('data-inboundInvoiceSeq');
+	var gblSeq = target.attr('data-gblSeq');
+	
+	var url = contextPath + '/inbound/custom/invoice/checkInboundInvoiceWeight.json';
+	
+	var json = {
+			'seq' : inboundInvoiceSeq,
+			'gblSeq' : gblSeq
+	};
+	
+	$.postJSON(url, json, function(data){
+		return jQuery.ajax({
+			success : function(){
+				if(data == false){
+					goUrl = contextPath + '/inbound/custom/invoice/' + inboundInvoiceSeq + '/selectWeight';
+					
+					$.smartPop.open({
+						width : 700,
+						height : 500,
+						url : goUrl
+					});		
+				} else {
+					
+				}
+			}, 
+			error : function(){
+				alert('에러 발생!');
+			}
+		});
+	});
+};
+
+youngjin.inbound.dd619Back = function(target){
+	var seq = target.parents('.inbound_dd619_list_wrap').attr('data-seq');
+	
+	var url = contextPath + '/inbound/freight/' + seq + '/delivery';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 350,
+		height: 310,
+		url : url
+	});
+};
+
+youngjin.inbound.dd619 = function(target){
+	var seq = target.parents().parents('.inbound_dd619_table').attr('data-seq');
+	var listSeq = target.attr('data-list');
+	
+	var url = contextPath + '/inbound/freight/' + seq + '/' + listSeq + '/dd619Modify';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width : 700,
+		height : 900,
+		url : url
+	});
 };

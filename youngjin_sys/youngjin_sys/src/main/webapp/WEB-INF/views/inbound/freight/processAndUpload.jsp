@@ -37,10 +37,10 @@
 				<li class="gbl_process_input inbound_gbl_process_input" ><img src="${cp }/resources/images/gbl/gbl_input_complete.png" /></li>
 				<li class="gbl_process_delivery inbound_gbl_process_delivery">
 					<c:choose>									
-						<c:when test="${process.preperation eq 0}">
+						<c:when test="${process.custom eq 0}">
 							<img src="${cp }/resources/images/gbl/delivery_delay.png" />
 						</c:when>
-						<c:when test="${process.preperation eq 1 and process.preperation eq 1}">
+						<c:when test="${process.input eq 1 and process.custom eq 1}">
 							<img src="${cp }/resources/images/gbl/delivery_complete.png" />
 						</c:when>
 						<c:otherwise>
@@ -50,10 +50,10 @@
 				</li>
 				<li class="gbl_process_preparation inbound_gbl_process_preparation">
 					<c:choose>
-						<c:when test="${process.preperation eq 1 and process.preperation eq 0 }">
+						<c:when test="${process.custom eq 1 and process.onHandList eq 0 }">
 							<img src="${cp }/resources/images/gbl/gbl_preaparation_delay.png" />
 						</c:when>
-						<c:when test="${process.preperation eq 1 and process.preperation eq 1}">
+						<c:when test="${process.custom eq 1 and process.onHandList eq 1}">
 							<img src="${cp }/resources/images/gbl/gbl_preaparation_complete.png" />
 						</c:when>
 						<c:otherwise>
@@ -61,9 +61,9 @@
 						</c:otherwise>
 					</c:choose>
 				</li>
-				<li>	
+				<li class="gbl_process_preparation inbound_gbl_process_delivery">	
 					<c:choose>					
-						<c:when test="${process.bookingList eq 1 and process.truckManifast eq 1 and process.invoice eq 0 }">
+						<c:when test="${process.onHandList eq 1 and process.delivery eq 0 and process.invoice eq 0 }">
 							<img src="${cp }/resources/images/gbl/invoice_delay.png" />
 						</c:when>
 						<c:when test="${process.bookingList eq 1 and process.truckManifast eq 1 and process.invoice eq 1}">
@@ -122,8 +122,8 @@
 				<tfoot>
 					<tr>
 						<td id="upload_tfoot" class="inbound_upload_tfoot" colspan="4" data-seq="${seq }">
-							<span class="document_bl_button yj_button">BL 분할 신청서</span>
-							<span class="document_power_of_attorney_button yj_button">Power Of Attorney</span>
+						<!-- 	<span class="document_bl_button yj_button">BL 분할 신청서</span>
+							<span class="document_power_of_attorney_button yj_button">Power Of Attorney</span> -->
 							<span class="document_upload_button yj_button">Document Upload</span>
 							<span class="document_view yj_button">Document Download</span>
 						</td>

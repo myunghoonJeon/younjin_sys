@@ -16,6 +16,7 @@ import org.youngjin.net.GBLStatus;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeDao;
 import org.youngjin.net.login.User;
+import org.youngjin.net.outbound.Addition;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.upload.UploadService;
 
@@ -158,15 +159,15 @@ public class InboundService {
 	private void insertAttachments(GBL gbl) {
 		List<GBLAttachment> files = gblAttachments(gbl.getAttachments());
 		gbl.setAttachmentList(files);
-		gbl.setNo(getGbl(gbl.getSeq()).getNo());
+		gbl.setGblNo(getGbl(gbl.getSeq()).getGblNo());
 		
 		for (GBLAttachment gblAttachment : files) {
 			CommonsMultipartFile uploadedFile = gblAttachment.getCommonsMultipartFile();
 			if (uploadedFile.isEmpty()) continue;
-			String filePath = uploadService.transferFile(uploadedFile, "inbound", gbl.getNo());
+			String filePath = uploadService.transferFile(uploadedFile, "inbound", gbl.getGblNo());
 			
 			gblAttachment.setFilePath(filePath);	
-			gblAttachment.setGblNo(gbl.getNo());
+			gblAttachment.setGblNo(gbl.getGblNo());
 			gblAttachment.setGblFileNo(gbl.getGblFileNo());
 			
 			inboundDao.insertAttachment(gblAttachment);
@@ -245,5 +246,50 @@ public class InboundService {
 
 	public InboundInvoice getInboundInvoiceBasicInfo(Integer inboundInvoiceSeq) {
 		return inboundDao.getInboundInvoice(inboundInvoiceSeq);
+	}
+
+	public Boolean checkInboundInvoiceWeight(InboundInvoice inboundInvoice) {
+		int checkInboundInvoice = inboundDao.checkInboundInvoiceWeight(inboundInvoice);
+		
+		if(checkInboundInvoice > 0){
+			return true;
+		}
+		
+		return false;
+	}
+
+	public void inboundInvoiceWeightAdd(
+			Map<String, String> inboundInvoiceWeightMap) {
+		String [] weightSeqList = inboundInvoiceWeightMap.get("weightSeqCommaList").split(",");
+		String inboundInvoiceSeq = inboundInvoiceWeightMap.get("inboundInvoiceSeq");
+		
+		for(String weightSeq : weightSeqList){
+			Map<String, Integer> weightMap = new HashMap<String, Integer>();
+			weightMap.put("weightSeq", Integer.parseInt(weightSeq));
+			weightMap.put("inboundInvoiceSeq", Integer.parseInt(inboundInvoiceSeq));
+			
+			inboundDao.inboundInvoiceWeightAdd(weightMap);
+		}
+	}
+
+	public List<InboundInvoice> getDeclarationList() {
+		return inboundDao.getDeclarationList();
+	}
+
+	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {
+		return inboundDao.getDd619ListSelectOne(dd619Seq);
+	}
+	
+	public Map<String, Double> getRemarkValue(String seq,
+			Integer memorandumListSeq) {
+		Map<String, Double> remarkValue = new HashMap<String, Double>();
+		List<Addition> additionList = inboundDao.getRemarkValue(seq,
+				memorandumListSeq);
+
+		for (Addition addition : additionList) {
+			remarkValue.put(addition.getTitle(), addition.getCost());
+		}
+
+		return remarkValue;
 	}
 }

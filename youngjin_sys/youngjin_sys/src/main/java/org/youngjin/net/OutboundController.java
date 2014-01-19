@@ -422,7 +422,7 @@ public class OutboundController {
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
 		model.addAttribute("remarkList",
-				memorandumService.getMemorandumList(seq, null));
+				memorandumService.getMemorandumList(seq, null, process));
 		model.addAttribute("seq", seq);
 
 		return process + "/gbl/dd619Add";
@@ -440,7 +440,7 @@ public class OutboundController {
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
 		model.addAttribute("dd619", dd619);
 		model.addAttribute("remarkList",
-				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq()));
+				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq(), process));
 		model.addAttribute("remarkValue", outboundService.getRemarkValue(seq, dd619.getMemorandumListSeq()));
 		model.addAttribute("seq", seq);
 
@@ -460,7 +460,7 @@ public class OutboundController {
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
 		model.addAttribute("dd619", dd619);
 		model.addAttribute("remarkList",
-				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq()));
+				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq(), process));
 		model.addAttribute("seq", seq);
 
 		return process + "/gbl/dd619";

@@ -31,7 +31,7 @@
 	<div class="gbl_filter">	
 		<ul class="freight_filter_wrap">
 			<li>	
-				<span class="inbound_invoice_add_button yj_button" >add</span>
+				<span class="onHand_onHandList_add yj_button" >add</span>
 			</li>
 		</ul>	
 	</div>
@@ -65,37 +65,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${inboundInvoiceList eq '[]' or inboundInvoiceList eq null or inboundInvoiceList eq '' }">
+				<c:if test="${onHandList eq '[]' or onHandList eq null or onHandList eq '' }">
 					<tr>
 						<td colspan="14">invoice 가 없습니다.</td>
 					</tr>
 				</c:if>
-				<c:forEach var="inboundInvoice" items="${inboundInvoiceList }">
-					<tr class="inbound_invoice_tr" data-inboundInvoiceSeq="${inboundInvoice.seq }" data-gblSeq="${inboundInvoice.gblSeq }">
-						<td>${inboundInvoice.gblNo }</td>
-						<td>${inboundInvoice.name }</td>
-						<td>XXXX-XX-${fn:substring(inboundInvoice.ssn, 8,12)}</td>
-						<td>							
-							<c:choose>
-								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 1 }">
-									${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-0000${inboundInvoice.inboundInvoiceNo }
-								</c:when>
-								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 2 }">
-									${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-000${inboundInvoice.inboundInvoiceNo }
-								</c:when>
-								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 3 }">
-									${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-00${inboundInvoice.inboundInvoiceNo }
-								</c:when>
-								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 4 }">
-									${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-0${inboundInvoice.inboundInvoiceNo }
-								</c:when>
-								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 5 }">
-									${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-${inboundInvoice.inboundInvoiceNo }
-								</c:when>
-							</c:choose>
-						</td>
-						<td></td>
-					</tr>
+				<c:forEach var="onHandContent" items="${onHandList }">
 				</c:forEach>
 			</tbody>
 		</table>

@@ -103,7 +103,7 @@
 				</tbody>
 			</table>		
 		</div>		
-		<div class="memorandum_complete">
+		<div class="inbound_memorandum_complete">
 			<span class="yj_button" >complete</span>
 		</div>
 	</div>	

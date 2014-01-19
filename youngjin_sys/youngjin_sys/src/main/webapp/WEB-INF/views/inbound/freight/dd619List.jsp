@@ -29,22 +29,22 @@
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
 <body>
-	<div class="dd619_list_wrap" data-seq="${seq}">
+	<div class="inbound_dd619_list_wrap" data-seq="${seq}">
 		<div class="pop_title_line">
 			<span>DD619 LIST</span>
 		</div>	
-		<div id="dd619_addButton">
-			<ul id="dd619_button_list">
+		<div id="inbound_dd619_addButton">
+			<ul id="inbound_dd619_button_list">
 				<li>
-					<span class="yj_button dd619_back">back</span>
+					<span class="yj_button inbound_dd619_back">back</span>
 				</li>
 				<li>
-					<span class= "yj_button dd619_addButton">add</span>
+					<span class= "yj_button inbound_dd619_addButton">add</span>
 				</li>
 			</ul>
 		</div>
 		<div>
-			<table class="yj_table dd619_table" data-seq="${seq }">
+			<table class="yj_table inbound_dd619_table" data-seq="${seq }">
 				<thead>
 					<tr>
 						<th>

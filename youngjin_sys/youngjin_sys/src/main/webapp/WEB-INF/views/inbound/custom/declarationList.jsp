@@ -31,7 +31,7 @@
 	<div class="gbl_filter">	
 		<ul class="freight_filter_wrap">
 			<li>	
-				<span class="inbound_invoice_add_button yj_button" >add</span>
+				<h2>DECLARATION LIST</h2>
 			</li>
 		</ul>	
 	</div>
@@ -60,39 +60,42 @@
 					<th>GBL NO</th>
 					<th>NAME</th>
 					<th>SSN</th>
-					<th>INBOUND INVOICE NO</th>
+					<th>RANK</th>
+					<th>INBOUND INVOICE NO / DATE</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${inboundInvoiceList eq '[]' or inboundInvoiceList eq null or inboundInvoiceList eq '' }">
+				<c:if test="${declarationList eq '[]' or declarationList eq null or declarationList eq '' }">
 					<tr>
-						<td colspan="14">invoice 가 없습니다.</td>
+						<td colspan="14">declaration list 가 없습니다.</td>
 					</tr>
 				</c:if>
-				<c:forEach var="inboundInvoice" items="${inboundInvoiceList }">
-					<tr class="inbound_invoice_tr" data-inboundInvoiceSeq="${inboundInvoice.seq }" data-gblSeq="${inboundInvoice.gblSeq }">
-						<td>${inboundInvoice.gblNo }</td>
-						<td>${inboundInvoice.name }</td>
-						<td>XXXX-XX-${fn:substring(inboundInvoice.ssn, 8,12)}</td>
+				<c:forEach var="declaration" items="${declarationList }">
+					<tr>
+						<td>${declaration.gblNo }</td>
+						<td>${declaration.name }</td>
+						<td>XXXX-XX-${fn:substring(declaration.ssn, 8,12) }</td>
+						<td>${declaration.rank }</td>
 						<td>							
 							<c:choose>
-								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 1 }">
-									${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-0000${inboundInvoice.inboundInvoiceNo }
+								<c:when test="${fn:length(declaration.inboundInvoiceNo) eq 1 }">
+									${fn:substring(declaration.invoiceDate, 2, 4)}-0000${declaration.inboundInvoiceNo }
 								</c:when>
-								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 2 }">
-									${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-000${inboundInvoice.inboundInvoiceNo }
+								<c:when test="${fn:length(declaration.inboundInvoiceNo) eq 2 }">
+									${fn:substring(declaration.invoiceDate, 2, 4)}-000${declaration.inboundInvoiceNo }
 								</c:when>
-								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 3 }">
-									${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-00${inboundInvoice.inboundInvoiceNo }
+								<c:when test="${fn:length(declaration.inboundInvoiceNo) eq 3 }">
+									${fn:substring(declaration.invoiceDate, 2, 4)}-00${declaration.inboundInvoiceNo }
 								</c:when>
-								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 4 }">
-									${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-0${inboundInvoice.inboundInvoiceNo }
+								<c:when test="${fn:length(declaration.inboundInvoiceNo) eq 4 }">
+									${fn:substring(declaration.invoiceDate, 2, 4)}-0${declaration.inboundInvoiceNo }
 								</c:when>
-								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 5 }">
-									${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-${inboundInvoice.inboundInvoiceNo }
+								<c:when test="${fn:length(declaration.inboundInvoiceNo) eq 5 }">
+									${fn:substring(declaration.invoiceDate, 2, 4)}-${declaration.inboundInvoiceNo }
 								</c:when>
 							</c:choose>
+							/ ${declaration.eta }
 						</td>
 						<td></td>
 					</tr>

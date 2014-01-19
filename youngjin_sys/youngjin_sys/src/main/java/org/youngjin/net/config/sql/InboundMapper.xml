@@ -282,7 +282,7 @@
 			inbound_invoice_list
 	</select>
 	
-	<select id="getInboundInvoiceList" parameterType="InboundFilter" resultType="Integer">
+	<select id="getInboundInvoiceList" parameterType="InboundFilter" resultType="InboundInvoice">
 		SELECT 
 			*
 		FROM	
@@ -299,14 +299,21 @@
 	</select>
 
 	<select id="getCustomInvoiceGblListCount" parameterType="InboundFilter" resultType="Integer">		
-		SELECT
+		SELECT 
 			count(*)
 		FROM
-			gbl_ib
+			gbl_ib g
 		WHERE
 			gblNo IN (select gbl_no from gbl_status where gbl_weight = 1 and gbl_custom = 0 )
 		AND
-			gblNo NOT IN (select gblNo from inbound_invoice_list)
+			g.seq IN (
+				SELECT
+					gblSeq
+				FROM
+					weight_ib w
+				WHERE
+					w.seq NOT IN (SELECT weightSeq FROM inbound_invoice_weight WHERE gblSeq = g.seq)
+			)
 			<if test="area != null and area != ''">
 				AND
 					area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
@@ -380,7 +387,14 @@
 				WHERE
 					gblNo IN (select gbl_no from gbl_status where gbl_weight = 1 and gbl_custom = 0 )
 				AND
-					gblNo NOT IN (select gblNo from inbound_invoice_list)
+					g.seq IN (
+					SELECT
+						gblSeq
+					FROM
+						weight_ib w
+					WHERE
+						w.seq NOT IN (SELECT weightSeq FROM inbound_invoice_weight WHERE gblSeq = g.seq)
+					)
 					<if test="area != null and area != ''">
 						AND
 							area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
@@ -417,7 +431,7 @@
 		FROM
 			inbound_invoice_list
 		WHERE
-			invoiceDate = DATE_FORMAT(SYSDATE(), '%y')
+			DATE_FORMAT(invoiceDate, '%y') = DATE_FORMAT(SYSDATE(), '%y')
 	</select>
 	
 	<select id="getInboundInvoice" parameterType="Integer" resultType="InboundInvoice">
@@ -429,7 +443,27 @@
 			seq = #{value}
 	</select>
 	
-	<!-- 이전 버전 -->
+	<select id="checkInboundInvoiceWeight" parameterType="InboundInvoice" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			inbound_invoice_weight
+		WHERE
+			inboundInvoiceSeq = #{seq}
+	</select>
+	
+	<select id="getDeclarationList" resultType="InboundInvoice">
+		SELECT 
+			il.seq, g.gblNO, g.shipperName AS name, g.ssn, g.rank, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck
+		FROM
+			inbound_invoice_list il, gbl_ib g
+		WHERE
+			il.gblSeq = g.seq
+		AND
+			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
+		AND
+			il.declarationCheck &lt;&gt; 1
+	</select>
 	
 	<select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">
 		SELECT			
@@ -443,7 +477,7 @@
 		FROM
 			gbl_status
 		WHERE
-			gbl_no = (select gbl_no from gbl_ib where seq = #{value})
+			gbl_no = (select gblNo from gbl_ib where seq = #{value})
 	</select>
 	
 	<select id="getGblFileList" parameterType="Integer" resultMap="GBLAttachmentMap">
@@ -452,7 +486,7 @@
 		FROM
 			gbl_attachments
 		WHERE
-			gbl_no = (select gbl_no from gbl_ib where seq = ${value})
+			gbl_no = (select gblNo from gbl_ib where seq = ${value})
 	</select>
 
 	<select id="getDd619List" parameterType="String" resultMap="Dd619Map">
@@ -463,7 +497,27 @@
 		WHERE
 			gbl_seq = #{seq}
 	</select>
+
+	<select id="getDd619ListSelectOne" parameterType="Integer" resultMap="Dd619Map">
+		SELECT
+			seq, gbl_no, date, name, ssn, rank, origin_of_shipment, destination, ordering_activity_name, carrier_name, agent_name, signature, carrier_shipment_reference, code, other, total, remark, officer_material, officer_signature, officer_date, rank_and_name, transportation_date, gbl_seq, write_date, write_user, memorandum_list_seq
+		FROM
+			dd619_ib
+		WHERE
+			seq = #{value}
+	</select>
 	
+	<select id="getRemarkValueList" parameterType="Map" resultType="Addition">
+		SELECT
+			seq, title, cost, price, gbl_seq AS gblSeq, dd619_seq AS dd619Seq, memorandum_list_seq AS memorandumListSeq
+		FROM
+			decide_ib
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			memorandum_list_seq = #{memorandumSeq}
+	</select>	
+		
 	<insert id="insertFreight" parameterType="GBL">
 	INSERT INTO
 		gbl_ib
@@ -570,11 +624,11 @@
 		INSERT INTO
 			inbound_invoice_list
 			(
-				gblNo, name, ssn inboundInvoiceNo, invoiceDate, gblSeq
+				gblNo, name, ssn, inboundInvoiceNo, invoiceDate, gblSeq
 			)
 		VALUES
 			(
-				#{gblNo}, (select name from gbl_ib where seq = #{gblSeq}), (select ssn from gbl_ib where seq = #{gblSeq}) #{inboundInvoiceNo}, #{invoiceDate}, #{gblSeq}
+				#{gblNo}, (select shipperName from gbl_ib where seq = #{gblSeq}), (select ssn from gbl_ib where seq = #{gblSeq}), #{inboundInvoiceNo}, #{invoiceDate}, #{gblSeq}
 			)
 		<selectKey keyProperty="seq" resultType="Integer">
 			SELECT LAST_INSERT_ID() 			
@@ -602,6 +656,18 @@
 		VALUES
 		(
 			#{gblSeq}, #{gblNo}, #{name}, #{rank}, #{ssn}, #{code}, #{carrierShipmentReference}, SYSDATE(), #{memorandumListSeq}
+		)
+	</insert>
+	
+	<insert id="inboundInvoiceWeightAdd" parameterType="Map">
+		INSERT INTO
+			inbound_invoice_weight
+			(
+				weightSeq, inboundInvoiceSeq, gblSeq
+			)
+		VALUES
+		(
+			#{weightSeq}, #{inboundInvoiceSeq}, (select gblSeq from inbound_invoice_list where seq = #{inboundInvoiceSeq})
 		)
 	</insert>
 

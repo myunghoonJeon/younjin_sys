@@ -1,5 +1,6 @@
 package org.youngjin.net.inbound;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.youngjin.net.GBL;
 import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
 import org.youngjin.net.code.Code;
+import org.youngjin.net.outbound.Addition;
 
 @Repository
 public class InboundDao extends SqlSessionDaoSupport {
@@ -119,5 +121,29 @@ public class InboundDao extends SqlSessionDaoSupport {
 
 	public InboundInvoice getInboundInvoice(Integer inboundInvoiceSeq) {
 		return getSqlSession().selectOne("inboundMapper.getInboundInvoice", inboundInvoiceSeq);
+	}
+
+	public int checkInboundInvoiceWeight(InboundInvoice inboundInvoice) {
+		return getSqlSession().selectOne("inboundMapper.checkInboundInvoiceWeight", inboundInvoice);
+	}
+
+	public void inboundInvoiceWeightAdd(Map<String, Integer> weightMap) {
+		getSqlSession().insert("inboundMapper.inboundInvoiceWeightAdd", weightMap);
+	}
+
+	public List<InboundInvoice> getDeclarationList() {
+		return getSqlSession().selectList("inboundMapper.getDeclarationList");
+	}
+
+	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {
+		return getSqlSession().selectOne("inboundMapper.getDd619ListSelectOne", dd619Seq);
+	}
+	
+	public List<Addition> getRemarkValue(String seq, Integer memorandumListSeq) {
+		Map<String, Integer> param = new HashMap<String, Integer>();
+		param.put("gblSeq", Integer.parseInt(seq));
+		param.put("memorandumSeq", memorandumListSeq);
+
+		return getSqlSession().selectList("inboundMapper.getRemarkValueList", param);
 	}
 }

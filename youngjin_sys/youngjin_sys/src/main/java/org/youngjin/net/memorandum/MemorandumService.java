@@ -79,8 +79,13 @@ public class MemorandumService {
 			memorandumDao.deleteMemorandumIb(paramMemorandum);
 	}
 
-	public List<Memorandum> getMemorandumList(String seq, Integer memorandumSeq) {
-		return memorandumDao.getMemorandumList(seq, memorandumSeq);
+	public List<Memorandum> getMemorandumList(String seq, Integer memorandumSeq, String process) {
+		if("outbound".equals(process)){
+			return memorandumDao.getMemorandumList(seq, memorandumSeq);
+		} else if ("inbound".equals(process)){
+			return memorandumDao.getMemorandumListIb(seq, memorandumSeq);
+		}
+		return new ArrayList<Memorandum>();
 	}
 
 	public void updateMemorandum(Memorandum memorandum, String process) {
@@ -131,7 +136,12 @@ public class MemorandumService {
 
 	private Dd619 setDd619(GBL gbl, MemorandumList memorandumList) {
 		Dd619 dd619 = new Dd619();
-		dd619.setGblNo(gbl.getNo());
+		
+		if( gbl.getNo() == null || gbl.getNo().equals("")){
+			dd619.setGblNo(gbl.getGblNo());
+		} else {
+			dd619.setGblNo(gbl.getNo());
+		}
 		dd619.setGblSeq(memorandumList.getGblSeq());
 		dd619.setMemorandumListSeq(memorandumList.getSeq());
 		dd619.setName(gbl.getCustomerName());
