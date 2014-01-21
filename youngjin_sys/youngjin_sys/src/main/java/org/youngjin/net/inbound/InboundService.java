@@ -287,9 +287,36 @@ public class InboundService {
 				memorandumListSeq);
 
 		for (Addition addition : additionList) {
-			remarkValue.put(addition.getTitle(), addition.getCost());
+			remarkValue.put(addition.getTitle(), (addition.getCost() == null || addition.getCost().equals("")) ? Double.parseDouble(addition.getPrice()) : addition.getCost());
 		}
 
 		return remarkValue;
+	}
+
+	public void modifyDd619(Dd619 dd619) {
+		inboundDao.updateDd619(dd619);
+
+		Addition paramAddition = new Addition();
+		paramAddition.setDd619Seq(dd619.getSeq());
+		paramAddition.setGblSeq(dd619.getGblSeq());
+		paramAddition.setMemorandumSeq(dd619.getMemorandumListSeq());
+
+		Integer additionCheck = inboundDao.checkAddtionComplete(paramAddition);
+
+		String[] invoiceMemorandumType = dd619.getInvoiceMemorandumType()
+				.split(",", dd619.getCount());
+		String[] invoiceMemorandumValue = dd619.getInvoiceMemorandumValue()
+				.split(",", dd619.getCount());
+
+		for (int i = 0; i < dd619.getCount(); i++) {
+			paramAddition.setTitle(invoiceMemorandumType[i]);
+			paramAddition.setPrice(invoiceMemorandumValue[i]);
+
+			if (additionCheck > 0) {
+				inboundDao.additionCompleteUpdate(paramAddition);
+			} else {
+				inboundDao.additionComplete(paramAddition);
+			}
+		}
 	}
 }

@@ -27,6 +27,7 @@ import org.youngjin.net.login.User;
 import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumList;
 import org.youngjin.net.memorandum.MemorandumService;
+import org.youngjin.net.outbound.Addition;
 
 @Controller
 public class InboundController {
@@ -566,5 +567,53 @@ public class InboundController {
 		model.addAttribute("seq", seq);
 
 		return process + "/freight/dd619Update";
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/freight/{seq}/dd619/modify.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblDd619ModifySubmit(@RequestBody Dd619 dd619) {
+		inboundService.modifyDd619(dd619);
+	}		
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/freight/{seq}/dd619/{listSeq}/print", method = RequestMethod.GET)
+	public String dd619(Model model, User user, @PathVariable String process,
+			@PathVariable String seq, @PathVariable Integer listSeq, @ModelAttribute Dd619 dd619) {
+
+		dd619 = inboundService.getDd619ListSelectOne(listSeq);
+		
+		model.addAttribute("user", user);
+		model.addAttribute("gbl", inboundService.getGbl(Integer.parseInt(seq)));
+		model.addAttribute("dd619", dd619);
+		model.addAttribute("remarkList",
+				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq(), process));
+		model.addAttribute("seq", seq);
+
+		return process + "/freight/dd619";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/freight/{seq}/additional", method = RequestMethod.GET)
+	public String additionalDecideMain(Model model, User user,
+			@PathVariable String process, @PathVariable String seq) {
+		Map<String, Memorandum> checkMemorandumMap = memorandumService
+				.getMemorandumMap(seq, null, "outbound");
+
+		model.addAttribute("seq", seq);
+
+		if (checkMemorandumMap.get("02") != null
+				&& checkMemorandumMap.get("02").getArticles() != null) {
+			String articleList[] = checkMemorandumMap.get("02").getArticles()
+					.split(",");
+			model.addAttribute("articles", articleList);
+		}
+		
+		//List<Addition> additionList = outboundService.getAddtionList(seq);
+
+		model.addAttribute("checkMemorandumMap", checkMemorandumMap);
+		//model.addAttribute("additionList", additionList);
+
+		return process + "/gbl/additionalDecide";
 	}	
 }

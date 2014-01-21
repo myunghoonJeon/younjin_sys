@@ -512,7 +512,7 @@ public class InvoiceService {
 
 				rate.setCode(gbl.getCode());
 				rate.setTsp(gbl.getScac());
-				rate.setProcess(process);
+				rate.setProcess(process.toUpperCase());
 				rate.setWriteYear(gbl.getPud());
 
 				Rate gblRate = invoiceDao.getBasicRate(rate);

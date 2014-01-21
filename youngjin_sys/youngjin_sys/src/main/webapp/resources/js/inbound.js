@@ -326,6 +326,21 @@ youngjin.inbound.dd619Sync = function(){
 	$('.inbound_dd619_table tr').bind('click', function(){
 		youngjin.inbound.dd619($(this));
 	});
+	
+	$('.inbound_dd619_form_back').unbind('click');
+	$('.inbound_dd619_form_back').bind('click', function(){
+		youngjin.inbound.dd619FormBack($(this));
+	});
+	
+	$('.inbound_dd619_modify_submit_button').unbind('click');
+	$('.inbound_dd619_modify_submit_button').bind('click', function(){
+		youngjin.inbound.dd619Modify($(this));
+	});
+	
+	$('.inbound_dd619_form_print').unbind('click');
+	$('.inbound_dd619_form_print').bind('click', function(){
+		youngjin.inbound.dd619Print($(this));
+	});
 };
 
 youngjin.inbound.freightAddSubmit = function(){
@@ -381,7 +396,7 @@ youngjin.inbound.uploadPage = function(target){
 };
 
 youngjin.inbound.bl = function(target){
-	var seq = $('.gbl_process').attr('data-seq');
+	var seq = $('.inbound_gbl_process').attr('data-seq');
 	
 	var url = contextPath + '/inbound/freight/' + seq + '/bl';
 	
@@ -412,7 +427,7 @@ youngjin.inbound.goOnHandList = function(target){
 };
 
 youngjin.inbound.delivery = function(target){
-	var seq = target.parents().parents('.gbl_process').attr('data-seq');
+	var seq = target.parents().parents('.inbound_gbl_process').attr('data-seq');
 	
 	var url = contextPath + '/inbound/freight/' + seq + '/delivery';
 	
@@ -1131,4 +1146,121 @@ youngjin.inbound.dd619 = function(target){
 		height : 900,
 		url : url
 	});
+};
+
+youngjin.inbound.dd619FormBack = function(target){
+	var seq = $('.inbound_dd619_add_table').attr('data-seq');
+	
+	var url = contextPath + '/inbound/freight/' + seq + '/dd619List';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 1000,
+		height: 400,
+		url : url
+	});
+};
+
+youngjin.inbound.dd619Modify = function(target){
+	var table = target.parents().parents().parents().parents('.inbound_dd619_add_table');
+	var seq = table.attr('data-dd619Seq');
+	var memorandumSeq = table.attr('data-memorandumSeq');
+	var gblSeq = table.attr('data-seq');
+	var gblNo = $('#gblNo').val();
+	var date = $('#date').val();
+	var name = $('#name').val();
+	var ssn = $('#ssn').val();
+	var rank = $('#rank').val();
+	var originOfShipment = $('#originOfShipment').val();
+	var destination = $('#destination').val();
+	var orderingActivityName = $('#orderingActivityName').val();
+	var carrierName = $('#carrierName').val();
+	var agentName = $('#agentName').val();
+	var signature = $('#signature').val();
+	var carrierShipmentReference = $('#carrierShipmentReference').val();
+	var code = $('#code').val();
+	var other = $('#other1').val() + ',' + $('#other2').val() + ',' + $('#other3').val();
+	var total = $('#total1').val() + ',' + $('#total2').val() + ',' + $('#total3').val();
+	var officerMaterial = $('#officerMaterial').val();
+	var officerSignature = $('#officerSignature').val();
+	var officerDate = $('#officerDate').val();
+	var rankAndName = $('#rankAndName').val();
+	var transportationDate = $('#transportationDate').val();
+	var remark = $('#remark').val();
+	var writeUser = $('#writeUser').val();	
+	
+	var count = $('#dd619Count').val();
+	
+	var invoiceMemorandumType = $('input[name="invoiceMemorandumType"]').eq(0).val();
+	for ( var i = 1 ; i < count ; i ++ ){
+		invoiceMemorandumType += ',' + $('input[name="invoiceMemorandumType"]').eq(i).val();
+	}
+	
+	var invoiceMemorandumValue = $('input[name="invoiceMemorandumValue"]').eq(0).val();
+	for ( var i = 1 ; i < count ; i ++ ){
+		invoiceMemorandumValue += ',' + $('input[name="invoiceMemorandumValue"]').eq(i).val();
+	}
+	
+	var url = contextPath + '/inbound/freight/' + gblSeq + '/dd619/' + 'modify.json';
+	var json = {
+		'seq' : seq,
+		'gblSeq' : gblSeq,
+		'memorandumListSeq' : memorandumSeq,
+		'gblNo' : gblNo,
+		'date' : date,
+		'name' : name,
+		'ssn' : ssn,
+		'rank' : rank,
+		'originOfShipment' : originOfShipment,
+		'destination' : destination,
+		'orderingActivityName' : orderingActivityName,
+		'carrierName' : carrierName,
+		'agentName' : agentName,
+		'signature' : signature,
+		'carrierShipmentReference' : carrierShipmentReference,
+		'code' : code,
+		'other' : other,
+		'total' : total,
+		'officerMaterial' : officerMaterial,
+		'officerSignature' : officerSignature,
+		'officerDate' : officerDate,
+		'rankAndName' : rankAndName,
+		'transportationDate' : transportationDate,
+		'remark' : remark,
+		'writeUser' : writeUser,
+		'invoiceMemorandumType' : invoiceMemorandumType,
+		'invoiceMemorandumValue' : invoiceMemorandumValue,
+		'count' : count
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){				
+				var url = contextPath + '/inbound/freight/' + gblSeq + '/dd619List';
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width: 1000,
+					height: 400,
+					url : url
+				});
+				
+			}, 
+			error: function(){
+				alert('에러발생!');
+			}
+		});
+	});	
+	
+};
+
+youngjin.inbound.dd619Print = function(target){
+	var seq = $('.inbound_dd619_add_table').attr('data-seq');
+	var dd619Seq = $('.inbound_dd619_add_table').attr('data-dd619Seq');
+	
+	var url = contextPath + '/inbound/freight/' + seq + '/dd619/' + dd619Seq + '/print';
+	
+	window.open(url, 'dd619Print', 'width=1224, height=1584, status=no, scrollbars=no');
 };

@@ -2,6 +2,11 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
+		<typeAlias alias="Branch" type="org.youngjin.net.basic.Branch"/>
+		<typeAlias alias="Pod" type="org.youngjin.net.basic.Pod"/>
+		<typeAlias alias="Company" type="org.youngjin.net.basic.Company"/>
+		<typeAlias alias="Carrier" type="org.youngjin.net.basic.Carrier"/>
+	
 		<typeAlias alias="User" type="org.youngjin.net.login.User"/>
 		<typeAlias alias="UserFilter" type="org.youngjin.net.util.UserFilter"/>
 		<typeAlias alias="Code" type="org.youngjin.net.code.Code"/>

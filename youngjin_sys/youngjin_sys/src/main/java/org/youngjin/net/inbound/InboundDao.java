@@ -146,4 +146,20 @@ public class InboundDao extends SqlSessionDaoSupport {
 
 		return getSqlSession().selectList("inboundMapper.getRemarkValueList", param);
 	}
+
+	public void updateDd619(Dd619 dd619) {
+		getSqlSession().update("inboundMapper.updateDd619", dd619);
+	}
+
+	public Integer checkAddtionComplete(Addition paramAddition) {
+		return getSqlSession().selectOne("inboundMapper.checkAddtionComplete", paramAddition);
+	}
+
+	public void additionCompleteUpdate(Addition paramAddition) {
+		getSqlSession().update("inboundMapper.additionCompleteUpdate", paramAddition);
+	}
+
+	public void additionComplete(Addition paramAddition) {
+		getSqlSession().insert("inboundMapper.addtionComplete", paramAddition);
+	}
 }

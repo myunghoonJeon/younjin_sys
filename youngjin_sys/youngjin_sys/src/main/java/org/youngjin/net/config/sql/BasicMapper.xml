@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="basicMapper">
+	<select id="getBranch" parameterType="Branch" resultType="Branch">
+		SELECT
+			seq, branchAcronym, branch, branchManager, telNo, faxNo, eMailAddress, itoTelNo, itoDsnNo, itoChief, itoAddress, dGbloc, dodac
+		FROM
+			branch
+		WHERE
+			1 = 1
+			<if test="seq != null">
+				AND
+					seq = #{seq}
+			</if>
+	</select>
+	<insert id="insertBranch" parameterType="Branch">
+		INSERT INTO
+			branch
+			(
+				branchAcronym, branch, branchManager, telNo, faxNo, eMailAddress, itoTelNo, itoDsnNo, itoChief, itoAddress, dGbloc, dodac
+			)	
+		VALUES
+			(
+				#{branchAcronym}, #{branch}, #{branchManager}, #{telNo}, #{faxNo}, #{eMailAddress}, #{itoTelNo}, #{itoDsnNo}, #{itoChief}, #{itoAddress}, #{dGbloc}, #{dodac}
+			)
+	</insert>
+	
+	<update id="updateBranch" parameterType="Branch">
+		UPDATE
+			branch
+		SET
+			branchAcronym = #{branchAcronym},
+			branch = #{branch},
+			branchManager = #{branchManager},
+			telNo = #{telNo},
+			faxNo = #{faxNo},
+			eMailAddress = #{eMailAddress},
+			itoTelNo = #{itoTelNo},
+			itoDsnNo = #{itoDsnNo},
+			itoChief = #{itoChief},
+			itoAddress = #{itoAddress},
+			dGbloc = #{dGbloc},
+			dodac = #{dodac}
+		WHERE
+			seq = #{seq}
+	</update>
+	
+	<delete id="deleteBranch" parameterType="Branch">
+		DELETE FROM
+			branch
+		WHERE
+			seq = #{seq}
+	</delete>
+</mapper>

@@ -29,25 +29,25 @@
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
 <body>
-	<div id="dd619_add_div">
+	<div id="inbound_dd619_add_div">
 		<div class="pop_title_line">
 			<span>DD619 MODIFY</span>
 		</div>	
 		
 		<div class="yj_button_wrap">
-			<ul class="yj_button_list dd619_back_wrap">
+			<ul class="yj_button_list inbound_dd619_back_wrap">
 				<li>
-					<span class="yj_button dd619_form_back">back</span>
+					<span class="yj_button inbound_dd619_form_back">back</span>
 				</li>
 				<li>
-					<span class="yj_button dd619_form_print">print</span>
+					<span class="yj_button inbound_dd619_form_print">print</span>
 				</li>
 			</ul>
 		</div>
 		
 		<form:form commandName="dd619">
 			<form:hidden path="writeUser" value="${user.name }"/>
-		<table class="dd619_add_table" data-seq="${seq }" data-dd619Seq="${dd619.seq }", data-memorandumSeq="${dd619.memorandumListSeq }">
+		<table class="inbound_dd619_add_table" data-seq="${seq }" data-dd619Seq="${dd619.seq }", data-memorandumSeq="${dd619.memorandumListSeq }">
 			<tr>
 				<th>GBL NO</th>
 				<td><form:input path="gblNo"/></td>
@@ -182,7 +182,7 @@
 				<tr>
 					<td colspan="4">
 						<div>
-							<span class="dd619_modify_submit_button yj_button">modify</span>
+							<span class="inbound_dd619_modify_submit_button yj_button">modify</span>
 						</div>
 					</td>
 				</tr>

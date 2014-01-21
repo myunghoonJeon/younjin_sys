@@ -58,10 +58,11 @@ public class ControllerAspect {
 					if (annotations[0].annotationType() == ModelAttribute.class
 							|| annotations[0].annotationType() == RequestBody.class || annotations[0].annotationType() == PathVariable.class) {
 						newParmSkip[i] = true;
-						if ( annotations[0].annotationType() == PathVariable.class && processCheck != true){
-							
-							user.setProcess((String)param[i]);
-							processCheck = true;
+						if ( annotations[0].annotationType() == PathVariable.class && processCheck != true){							
+							if(param[i] instanceof String && (((String)param[i]).equals("outbound") || ((String)param[i]).equals("inbound"))){
+								user.setProcess((String)param[i]);
+								processCheck = true;
+							}
 						}
 					}
 				} else {

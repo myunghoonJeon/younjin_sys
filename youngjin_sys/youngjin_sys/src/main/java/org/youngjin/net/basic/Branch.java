@@ -115,11 +115,11 @@ public class Branch {
 		this.dGbloc = dGbloc;
 	}
 
-	public String getdodac() {
+	public String getDodac() {
 		return dodac;
 	}
 
-	public void setdDodac(String dodac) {
+	public void setDodac(String dodac) {
 		this.dodac = dodac;
 	}
 

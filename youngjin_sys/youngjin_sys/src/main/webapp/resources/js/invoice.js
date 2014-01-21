@@ -39,6 +39,11 @@ youngjin.invoice.invoiceListSync = function(){
 	$('.invoice_table tr').bind('click', function(){
 		youngjin.invoice.invoiceList($(this));
 	});
+	
+	$('.invoice_gbl_print').unbind('click');
+	$('.invoice_gbl_print').bind('click', function(){
+		
+	});
 };
 
 youngjin.invoice.rateSync = function(){

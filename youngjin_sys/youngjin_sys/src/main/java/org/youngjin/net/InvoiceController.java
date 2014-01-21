@@ -120,6 +120,21 @@ public class InvoiceController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{process}/invoice/{seq}/invoicePrint", method = RequestMethod.GET)
+	public String invoicePrint(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq) {
+
+		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq);
+
+		model.addAttribute("invoicSeq", seq);
+
+		model.addAttribute("invoiceListSeq", seq);
+		model.addAttribute("invoiceGblList", invoiceGblList);
+
+		return process + "/invoice/invoicePrint";
+	}	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{process}/invoice/{seq}/invoiceGblListCommon", method = RequestMethod.GET)
 	public String invoiceGblListCommon(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {

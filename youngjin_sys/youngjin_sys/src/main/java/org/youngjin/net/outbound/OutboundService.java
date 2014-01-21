@@ -449,7 +449,7 @@ public class OutboundService {
 				memorandumListSeq);
 
 		for (Addition addition : additionList) {
-			remarkValue.put(addition.getTitle(), addition.getCost());
+			remarkValue.put(addition.getTitle(), (addition.getCost() == null || addition.getCost().equals("")) ? Double.parseDouble(addition.getPrice()) : addition.getCost());
 		}
 
 		return remarkValue;
@@ -588,7 +588,12 @@ public class OutboundService {
 				gblForceList.add(gblForce);
 		}
 		
-		String oneTcmdFlag = gblArmyList.get(0).getNo();
+		String oneTcmdFlag = "";
+		if(gblArmyList.size() > 0){
+			oneTcmdFlag = gblArmyList.get(0).getNo();
+		} else if (gblForceList.size() > 0 ){
+			oneTcmdFlag = gblForceList.get(0).getNo();
+		}
 		
 		if(gblArmyList.size() > 0){			
 			GBL gbl = gblArmyList.get(0);

@@ -58,8 +58,8 @@ youngjin.top.leftDeliveryMenu = function(){
 	$('.outbound_delivery').click(function(){
 		if ($('.outbound_delivery_item_list').css('display') == 'none'){			
 			$('.outbound_delivery_item_list').slideDown();
-			$('.outbound_delivery_item_list').css('display', 'block');
-		} else if($('.outbound_delivery_item_list').css('display') == 'block'){
+			$('.outbound_delivery_item_list').css('display', 'inline-block');
+		} else if($('.outbound_delivery_item_list').css('display') == 'inline-block'){
 			$('.outbound_delivery_item_list').slideUp();
 		}
 	});
@@ -67,8 +67,8 @@ youngjin.top.leftDeliveryMenu = function(){
 	$('.outbound_invoice').click(function(){
 		if ($('.outbound_invoice_item_list').css('display') == 'none'){			
 			$('.outbound_invoice_item_list').slideDown();
-			$('.outbound_invoice_item_list').css('display', 'block');
-		} else if($('.outbound_invoice_item_list').css('display') == 'block'){
+			$('.outbound_invoice_item_list').css('display', 'inline-block');
+		} else if($('.outbound_invoice_item_list').css('display') == 'inline-block'){
 			$('.outbound_invoice_item_list').slideUp();
 		}
 	});
@@ -76,8 +76,8 @@ youngjin.top.leftDeliveryMenu = function(){
 	$('.inbound_custom').click(function(){
 		if ($('.inbound_custom_item_list').css('display') == 'none'){			
 			$('.inbound_custom_item_list').slideDown();
-			$('.inbound_custom_item_list').css('display', 'block');
-		} else if($('.inbound_custom_item_list').css('display') == 'block'){
+			$('.inbound_custom_item_list').css('display', 'inline-block');
+		} else if($('.inbound_custom_item_list').css('display') == 'inline-block'){
 			$('.inbound_custom_item_list').slideUp();
 		}
 	});
@@ -85,9 +85,18 @@ youngjin.top.leftDeliveryMenu = function(){
 	$('.inbound_onHand').click(function(){
 		if ($('.inbound_onHand_item_list').css('display') == 'none'){			
 			$('.inbound_onHand_item_list').slideDown();
-			$('.inbound_onHand_item_list').css('display', 'block');
-		} else if($('.inbound_onHand_item_list').css('display') == 'block'){
+			$('.inbound_onHand_item_list').css('display', 'inline-block');
+		} else if($('.inbound_onHand_item_list').css('display') == 'inline-block'){
 			$('.inbound_onHand_item_list').slideUp();
+		}
+	});
+
+	$('.basic').click(function(){
+		if ($('.basic_item_list').css('display') == 'none'){			
+			$('.basic_item_list').slideDown();
+			$('.basic_item_list').css('display', 'inline-block');
+		} else if($('.basic_item_list').css('display') == 'inline-block'){
+			$('.basic_item_list').slideUp();
 		}
 	});
 	

@@ -30,33 +30,4 @@ public class ProcessController {
 		
 		return process + "/" + process;
 	}	
-	
-	@RequestMapping( value = "/{process}/gblock/main", method = RequestMethod.GET)
-	public String gblock(Model model, User user, @PathVariable String process){
-		
-		user.setSubProcess("gBlock");
-				
-		model.addAttribute("user", user);
-		model.addAttribute("gblockList", processService.getGBlockList());
-		
-		return process + "/main";
-	}	
-	
-	@RequestMapping( value = "/gblock/gblock/add.json", method = RequestMethod.POST)
-	@ResponseBody
-	public GBlock gblockAdd(){
-		GBlock gblock = new GBlock();
-		
-		processService.gblockAdd(gblock);
-		
-		return gblock;
-	}
-
-	@RequestMapping( value = "/gblock/gblock/updateGBlock.json", method = RequestMethod.POST)
-	@ResponseBody
-	public GBlock gblockUpdate(@RequestBody GBlock gblock){		
-		processService.gblockUpdate(gblock);
-		
-		return gblock;
-	}	
 }

@@ -95,11 +95,30 @@
 			</c:choose>		
 		</c:if>
 		
-		<c:if test = "${user.process ne 'admin' and user.process ne 'gblock' }">
-			<ul class="left_detail_menu_wrap">				
-				<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')">
-					<li onclick="location.href='${cp }/gblock/gblock/main'">GBLOCK</li>
-				</sec:authorize>
+		<c:if test = "${user.process ne 'admin' or user.process ne 'basic'}">
+			<ul class="left_detail_menu_wrap">	
+				<li class="basic" style="${(user.subProcess eq 'pod' or user.subProcess eq 'branch' or user.subProcess eq 'company' or user.subProcess eq 'carrier' or user.subProcess eq 'gBlock') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+					BASIC	
+				</li>
+				<li class="basic_item_list" style="${(user.subProcess eq 'pod' or user.subProcess eq 'branch' or user.subProcess eq 'company' or user.subProcess eq 'carrier' or user.subProcess eq 'gBlock') ? 'display:block;' : 'display:none;'}">				
+					<ul class="basic_item">
+						<li onclick="location.href='${cp }/basic/pod'" style="${(user.subProcess eq 'pod') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+							POD BASIC
+						</li>
+						<li onclick="location.href='${cp }/basic/branch'" style="${(user.subProcess eq 'branch') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+							BRANCH BASIC
+						</li>
+						<li onclick="location.href='${cp }/basic/company'" style="${(user.subProcess eq 'company') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+							COMPANY BASIC
+						</li>
+						<li onclick="location.href='${cp }/basic/carrier'" style="${(user.subProcess eq 'carrier') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+							CARRIER BASIC
+						</li>								
+						<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')">
+							<li onclick="location.href='${cp }/basic/gblock/gblock/main'" style="${(user.subProcess eq 'gBlock') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">GBLOCK</li>
+						</sec:authorize>		
+					</ul>	
+				</li>
 			
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<li onclick="location.href='${cp }/admin/adminMain'">ADMIN</li>			

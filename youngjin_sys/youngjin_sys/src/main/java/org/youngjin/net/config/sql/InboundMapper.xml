@@ -517,6 +517,27 @@
 		AND
 			memorandum_list_seq = #{memorandumSeq}
 	</select>	
+
+	<select id="checkAddtionComplete" parameterType="Addition" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			decide_ib
+		WHERE
+			gbl_seq = #{gblSeq}
+		<if test="dd619Seq != null">
+			AND
+				dd619_seq = #{dd619Seq}
+		</if>
+		<if test="memorandumSeq != null">		
+			AND
+				memorandum_list_seq = #{memorandumSeq}
+		</if>
+		<if test="title != null">		
+			AND
+				title = #{title}
+		</if>		
+	</select>
 		
 	<insert id="insertFreight" parameterType="GBL">
 	INSERT INTO
@@ -670,6 +691,79 @@
 			#{weightSeq}, #{inboundInvoiceSeq}, (select gblSeq from inbound_invoice_list where seq = #{inboundInvoiceSeq})
 		)
 	</insert>
+
+	<insert id="addtionComplete" parameterType="Addition">
+		INSERT INTO
+			decide_ib
+			(
+				title, cost, gbl_seq, dd619_seq, price, memorandum_list_seq
+			)
+		VALUES
+			(
+				#{title}, #{cost}, #{gblSeq}, #{dd619Seq}, #{price}, #{memorandumSeq}
+			)
+	</insert>
+
+	<update id="updateDd619" parameterType="Dd619">
+	    UPDATE
+	    	dd619_ib
+	    SET
+	    	date = #{date},
+	    	name = #{name},
+	    	ssn = #{ssn},
+	    	rank = #{rank},
+	    	origin_of_shipment = #{originOfShipment},
+	    	destination = #{destination},
+	    	ordering_activity_name = #{orderingActivityName},
+	    	carrier_name = #{carrierName},
+	    	agent_name = #{agentName},
+	    	signature = #{signature},
+	    	carrier_shipment_reference = #{carrierShipmentReference},
+	    	code = #{code},
+	    	other = #{other},
+	    	total = #{total},
+	    	remark = #{remark},
+	    	officer_material = #{officerMaterial},
+	    	officer_signature = #{officerSignature},
+	    	officer_date = #{officerDate},
+	    	rank_and_name = #{rankAndName},
+	    	transportation_date = #{transportationDate},
+	    	update_date = SYSDATE(),
+	    	update_user = #{writeUser}
+	    WHERE
+	    	seq = #{seq}
+	</update>
+
+	<update id="additionCompleteUpdate" parameterType="Addition">
+		UPDATE
+			decide_ib
+		SET
+			<if test="title != null">
+				title = #{title},
+			</if>
+			<choose>
+				<when test="cost != null">
+					cost = #{cost}
+				</when>
+				<otherwise>
+					price = #{price}
+				</otherwise>
+			</choose>
+		WHERE
+			gbl_seq = #{gblSeq}
+		<if test="dd619Seq != null">
+			AND
+				dd619_seq = #{dd619Seq}
+		</if>
+		<if test="memorandumSeq != null">		
+			AND
+				memorandum_list_seq = #{memorandumSeq}
+		</if>
+		<if test="title != null">		
+			AND
+				title = #{title}
+		</if>
+	</update>
 
 	<delete id="deleteDd619" parameterType="Dd619">
 		DELETE FROM

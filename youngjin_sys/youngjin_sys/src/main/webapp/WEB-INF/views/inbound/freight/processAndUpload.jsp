@@ -32,46 +32,69 @@
 		<div class="pop_title_line">
 			<span>GBL</span>
 		</div>
-		<div class="gbl_process" data-seq="${seq}">
+		<div class="inbound_gbl_process" data-seq="${seq}">
 			<ul>
-				<li class="gbl_process_input inbound_gbl_process_input" ><img src="${cp }/resources/images/gbl/gbl_input_complete.png" /></li>
-				<li class="gbl_process_delivery inbound_gbl_process_delivery">
-					<c:choose>									
-						<c:when test="${process.custom eq 0}">
-							<img src="${cp }/resources/images/gbl/delivery_delay.png" />
-						</c:when>
-						<c:when test="${process.input eq 1 and process.custom eq 1}">
-							<img src="${cp }/resources/images/gbl/delivery_complete.png" />
-						</c:when>
-						<c:otherwise>
-							<img src="${cp }/resources/images/gbl/delivery_basic.png" />
-						</c:otherwise>
-					</c:choose>
-				</li>
-				<li class="gbl_process_preparation inbound_gbl_process_preparation">
+				<li class="gbl_process_input inbound_gbl_process_input" ><img src="${cp }/resources/images/freight/gbl_input_complete.png" /></li>
+				<li class="gbl_process_input inbound_gbl_process_weight">
 					<c:choose>
-						<c:when test="${process.custom eq 1 and process.onHandList eq 0 }">
-							<img src="${cp }/resources/images/gbl/gbl_preaparation_delay.png" />
+						<c:when test="${process.weight eq 0 }">
+							<img src="${cp }/resources/images/freight/gbl_weight_delay.png" />
 						</c:when>
-						<c:when test="${process.custom eq 1 and process.onHandList eq 1}">
-							<img src="${cp }/resources/images/gbl/gbl_preaparation_complete.png" />
-						</c:when>
-						<c:otherwise>
-							<img src="${cp }/resources/images/gbl/gbl_preaparation_basic.png" />
-						</c:otherwise>
+						<c:when test="${process.weight eq 1 }">
+							<img src="${cp }/resources/images/freight/gbl_weight_complete.png" />
+						</c:when>						
 					</c:choose>
 				</li>
-				<li class="gbl_process_preparation inbound_gbl_process_delivery">	
-					<c:choose>					
-						<c:when test="${process.onHandList eq 1 and process.delivery eq 0 and process.invoice eq 0 }">
-							<img src="${cp }/resources/images/gbl/invoice_delay.png" />
+				<li class="gbl_process_input inbound_gbl_process_custom">
+					<c:choose>
+						<c:when test="${process.custom eq 0 and process.weight eq 0 }">
+							<img src="${cp }/resources/images/freight/custom_basic.png" />
 						</c:when>
-						<c:when test="${process.bookingList eq 1 and process.truckManifast eq 1 and process.invoice eq 1}">
-							<img src="${cp }/resources/images/gbl/invoice_complete.png" />
+						<c:when test="${process.custom eq 0 and process.weight eq 1 }">
+							<img src="${cp }/resources/images/freight/custom_delay.png" />
+						</c:when>						
+						<c:when test="${process.custom eq 1 }">
+							<img src="${cp }/resources/images/freight/custom_complete.png" />
+						</c:when>						
+					</c:choose>
+				</li>
+				<li class="gbl_process_delivery inbound_gbl_process_onHandList">
+					<c:choose>									
+						<c:when test="${process.custom eq 0 and process.onHandList eq 0}">
+							<img src="${cp }/resources/images/freight/onhandlist_basic.png" />
+						</c:when>									
+						<c:when test="${process.custom eq 1 and process.onHandList eq 0}">
+							<img src="${cp }/resources/images/freight/onhandlist_delay.png" />
+						</c:when>									
+						<c:when test="${process.onHandList eq 1}">
+							<img src="${cp }/resources/images/freight/onhandlist_complete.png" />
 						</c:when>
-						<c:otherwise>
-							<img src="${cp }/resources/images/gbl/invoice_basic.png" />
-						</c:otherwise>
+					</c:choose>
+				</li>
+				<li class="gbl_process_preparation inbound_gbl_process_delivery">
+					<c:choose>
+						<c:when test="${process.onHandList eq 0 and process.delivery eq 0 }">
+							<img src="${cp }/resources/images/freight/delivery_basic.png" />
+						</c:when>
+						<c:when test="${process.onHandList eq 1 and process.delivery eq 0 }">
+							<img src="${cp }/resources/images/freight/delivery_delay.png" />
+						</c:when>
+						<c:when test="${process.delivery eq 1 }">
+							<img src="${cp }/resources/images/freight/delivery_complete.png" />
+						</c:when>
+					</c:choose>
+				</li>
+				<li class="gbl_process_preparation inbound_gbl_process_invoice">	
+					<c:choose>				
+						<c:when test="${process.delivery eq 0 and process.invoice eq 0 }">
+							<img src="${cp }/resources/images/freight/invoice_basic.png" />
+						</c:when>
+						<c:when test="${process.delivery eq 1 and process.invoice eq 0 }">
+							<img src="${cp }/resources/images/freight/invoice_delay.png" />
+						</c:when>
+						<c:when test="${process.invoice eq 1 }">
+							<img src="${cp }/resources/images/freight/invoice_complete.png" />
+						</c:when>
 					</c:choose>
 				</li>
 			</ul>

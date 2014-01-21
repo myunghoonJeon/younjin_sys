@@ -164,7 +164,7 @@
 			<tbody>
 				<c:if test="${gblList eq '[]' or gblList eq null or gblList eq '' }">
 					<tr>
-						<td colspan="13">GBL이 없습니다.</td>
+						<td colspan="17">GBL이 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="gbl" items="${gblList }">

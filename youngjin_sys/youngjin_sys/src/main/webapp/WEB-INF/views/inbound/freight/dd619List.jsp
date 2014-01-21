@@ -38,9 +38,6 @@
 				<li>
 					<span class="yj_button inbound_dd619_back">back</span>
 				</li>
-				<li>
-					<span class= "yj_button inbound_dd619_addButton">add</span>
-				</li>
 			</ul>
 		</div>
 		<div>
