@@ -17,7 +17,6 @@ import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeDao;
 import org.youngjin.net.login.User;
 import org.youngjin.net.outbound.Addition;
-import org.youngjin.net.process.GBlock;
 import org.youngjin.net.upload.UploadService;
 
 @Service
@@ -136,6 +135,11 @@ public class InboundService {
 			
 			inboundDao.insertWeightAdd(weightParam);
 		}
+		
+		Map<String, Integer> statusParam = new HashMap<String, Integer>();
+		statusParam.put("gblSeq", gblSeq);
+		statusParam.put("weight", 1);
+		inboundDao.updateGblStatus(statusParam);
 	}	
 
 	public int getCustomInvoiceGblListCount(InboundFilter inboundFilter) {
@@ -272,8 +276,24 @@ public class InboundService {
 		}
 	}
 
-	public List<InboundInvoice> getDeclarationList() {
-		return inboundDao.getDeclarationList();
+	public int getDeclarationListCount(InboundFilter inboundFilter) {
+		return inboundDao.getDeclarationListCount(inboundFilter);
+	}
+
+	public List<InboundInvoice> getDeclarationList(InboundFilter inboundFilter) {
+		
+		return inboundDao.getDeclarationList(inboundFilter);
+	}
+
+	public InboundInvoice getDeclaration(Integer seq) {
+		InboundInvoice inboundInvoice = new InboundInvoice();
+		inboundInvoice.setSeq(seq);
+		
+		return null;//inboundDao.getDeclarationList(inboundFilter).get(0);
+	}
+
+	public List<InboundInvoice> getInboundInvoiceDeclarationList() {
+		return inboundDao.getInboundInvoiceDeclarationList();
 	}
 
 	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {
@@ -318,5 +338,63 @@ public class InboundService {
 				inboundDao.additionComplete(paramAddition);
 			}
 		}
+	}
+
+	public void declarationListSelectAdd(Map<String, String> inboundInvoiceMap) {
+		String [] inboundInvoiceSeqList = inboundInvoiceMap.get("inboundInvoiceCommaList").split(",");
+		
+		InboundInvoice declarationInbound = new InboundInvoice();
+		inboundDao.insertDeclarationList(declarationInbound);
+		
+		for(String inboundInvoiceSeq : inboundInvoiceSeqList){
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("declarationListSeq", declarationInbound.getSeq().toString());
+			map.put("inboundInvoiceSeq", inboundInvoiceSeq);
+			
+			inboundDao.insertDeclarationListContent(map);
+			
+			inboundDao.updateInboundInvoiceDeclaration(inboundInvoiceSeq);
+		}
+		
+	}
+
+	public void declarationListDelete(Map<String, Integer> inboundInvoiceMap) {
+		inboundDao.updateInboundInvoiceDeclarationDelete(inboundInvoiceMap);
+		
+		inboundDao.deleteDeclarationList(inboundInvoiceMap);
+	}
+
+	public List<InboundInvoice> getInboundInvoiceListDeclaration(Integer seq) {
+		return inboundDao.getInboundInvoiceListDeclaration(seq);
+	}
+
+	public void inboundInvoiceDelete(Map<String, Integer> inboundInvoiceMap) {
+		inboundDao.deleteInboundInvoice(inboundInvoiceMap);
+	}
+
+	public Integer onHandListAdd(OnHandList onHandList) {
+		inboundDao.insertOnHandList(onHandList);		
+		
+		return onHandList.getSeq();
+	}
+
+	public List<InboundInvoice> getInboundInvoiceOnHandList() {
+		return inboundDao.getInboundInvoiceOnHandList();
+	}
+
+	public int getOnHandListCount(InboundFilter inboundFilter) {
+		return inboundDao.getOnHandListCount(inboundFilter);
+	}
+
+	public List<OnHandList> getOnHandList(InboundFilter inboundFilter) {
+		return inboundDao.getOnHandList(inboundFilter);
+	}
+
+	public boolean checkSelectonHandList(Map<String, Integer> map) {
+		return inboundDao.checkSelectOnHandList(map);
+	}
+
+	public boolean checkSelectonHandListContentWeight(Map<String, Integer> map) {
+		return inboundDao.checkSelectOnHandListContentWeight(map);
 	}
 }

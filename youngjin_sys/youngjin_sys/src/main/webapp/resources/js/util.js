@@ -22,6 +22,22 @@ function roundXL(n, digits) {
 	  return parseFloat(t.toFixed(0));
 }
 
+function calcDate(date){
+	var year = date.getFullYear();
+	var month = Number(date.getMonth()) + 1;
+	var dateData = date.getDate();
+
+	if(month < 10){
+		month = '0' + month;
+	}
+	
+	if(dateData < 10){
+		dateData = '0' + dateData;
+	}
+	
+	return year + '-' + month + '-' + dateData;
+}
+
 /**
  * 폼생성
  * @param frmName {폼이름}

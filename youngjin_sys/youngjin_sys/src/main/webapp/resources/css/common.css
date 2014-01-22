@@ -621,12 +621,32 @@ li.inbound_custom_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79
 .inbound_invoice_select_weight_table input{ width: 90%; border: none; }
 .inbound_invoice_select_weight_table tfoot tr td{padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center;  }
 
+.declaration_list_add{ float: right; margin-bottom : 10px; }
+
+.inbound_invoice_declaration_add{ float: right; margin-bottom : 10px; }
+.declaration_list_delete{ width: 16px; height: 16px;}
+.inbound_invoice_list_delete{ width: 16px; height: 16px; }
 /* ON HAND */
 li.inbound_onHand_item_list{ border-left: 0px;}
 li.inbound_onHand_item_list:HOVER{ border-left: 0px;}
 
 li.inbound_onHand_item_list ul li{ width: 136px; font-size: 12px;}
 li.inbound_onHand_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646; width: 122px; }
+
+.onHand_onHandList_add{float: right; margin-bottom : 10px; }
+
+.on_hand_list_add_button_list{ width: 80%;}
+.on_hand_list_add_next{ float: right; margin-bottom: 10px;}
+
+.on_hand_list_add_table{ width: 80%; margin : 10px auto; text-align : center; }
+.on_hand_list_add_table thead tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.on_hand_list_add_table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; }
+.on_hand_list_add_table tbody tr{ background-color: white; }
+.on_hand_list_add_table input{ width: 90%; border: none; }
+.on_hand_list_add_table tfoot tr td{padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center;  }
+
+.on_hand_list_add_setting_wrap{ width: 600px; height: 182px; background-color: }
+.on_hand_list_delete{ width: 16px; height: 16px;}
 
 /* INBOUND DELIVERY */
 /* DD 619 */

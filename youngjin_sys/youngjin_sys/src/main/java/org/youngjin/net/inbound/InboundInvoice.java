@@ -14,6 +14,10 @@ public class InboundInvoice {
 	private String rank;
 	private String eta;
 	private Boolean delcarationCheck;
+	private String writeDate;
+	private String oblNo;
+	private String vessle;
+	private String code;
 
 	private List<WeightIb> weightList;
 
@@ -84,7 +88,7 @@ public class InboundInvoice {
 	public Boolean getDelcarationCheck() {
 		return delcarationCheck;
 	}
-	
+
 	public String getRank() {
 		return rank;
 	}
@@ -101,9 +105,40 @@ public class InboundInvoice {
 		this.eta = eta;
 	}
 
-
 	public void setDelcarationCheck(Boolean delcarationCheck) {
 		this.delcarationCheck = delcarationCheck;
+	}
+
+	public String getWriteDate() {
+		return writeDate;
+	}
+
+	public void setWriteDate(String writeDate) {
+		this.writeDate = writeDate;
+	}
+
+	public String getOblNo() {
+		return oblNo;
+	}
+
+	public void setOblNo(String oblNo) {
+		this.oblNo = oblNo;
+	}
+
+	public String getVessle() {
+		return vessle;
+	}
+
+	public void setVessle(String vessle) {
+		this.vessle = vessle;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Override
@@ -112,7 +147,8 @@ public class InboundInvoice {
 				+ name + ", ssn=" + ssn + ", inboundInvoiceNo="
 				+ inboundInvoiceNo + ", invoiceDate=" + invoiceDate
 				+ ", gblSeq=" + gblSeq + ", rank=" + rank + ", eta=" + eta
-				+ ", delcarationCheck=" + delcarationCheck + ", weightList="
-				+ weightList + "]";
+				+ ", delcarationCheck=" + delcarationCheck + ", writeDate="
+				+ writeDate + ", oblNo=" + oblNo + ", vessle=" + vessle
+				+ ", code=" + code + ", weightList=" + weightList + "]";
 	}
 }

@@ -94,7 +94,7 @@
 								</c:when>
 							</c:choose>
 						</td>
-						<td></td>
+						<td><img class="inbound_invoice_list_delete" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>
 			</tbody>

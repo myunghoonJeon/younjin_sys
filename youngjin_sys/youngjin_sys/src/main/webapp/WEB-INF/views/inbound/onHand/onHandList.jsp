@@ -36,7 +36,7 @@
 		</ul>	
 	</div>
 	<div>
-		<table class="yj_table">
+		<table class="yj_table on_hand_list_table">
 			<tfoot>
 				<tr>
 					<td colspan="13">
@@ -57,20 +57,25 @@
 			</tfoot>
 			<thead>
 				<tr>
-					<th>GBL NO</th>
-					<th>NAME</th>
-					<th>SSN</th>
-					<th>INBOUND INVOICE NO</th>
+					<th>NO</th>
+					<th>ON HAND DATE</th>
+					<th>FIRST ARRIVALABLE DELIVER DATE</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${onHandList eq '[]' or onHandList eq null or onHandList eq '' }">
 					<tr>
-						<td colspan="14">invoice 가 없습니다.</td>
+						<td colspan="14">onHandList 가 없습니다.</td>
 					</tr>
 				</c:if>
-				<c:forEach var="onHandContent" items="${onHandList }">
+				<c:forEach var="onHand" items="${onHandList }" varStatus="i">
+					<tr data-seq="${onHand.seq }">
+						<td>${i.count }</td>
+						<td>${onHand.onHandDate }</td>
+						<td>${onHand.firstArrivalableDeliverDate }</td>
+						<td><img class="on_hand_list_delete" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
+					</tr>
 				</c:forEach>
 			</tbody>
 		</table>

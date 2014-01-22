@@ -131,8 +131,12 @@ public class InboundDao extends SqlSessionDaoSupport {
 		getSqlSession().insert("inboundMapper.inboundInvoiceWeightAdd", weightMap);
 	}
 
-	public List<InboundInvoice> getDeclarationList() {
-		return getSqlSession().selectList("inboundMapper.getDeclarationList");
+	public int getDeclarationListCount(InboundFilter inboundFilter) {
+		return getSqlSession().selectOne("inboundMapper.getDeclarationListCount", inboundFilter);
+	}
+
+	public List<InboundInvoice> getDeclarationList(InboundFilter inboundFilter) {
+		return  getSqlSession().selectList("inboundMapper.getDeclarationList", inboundFilter);
 	}
 
 	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {
@@ -161,5 +165,78 @@ public class InboundDao extends SqlSessionDaoSupport {
 
 	public void additionComplete(Addition paramAddition) {
 		getSqlSession().insert("inboundMapper.addtionComplete", paramAddition);
+	}
+
+	public List<InboundInvoice> getInboundInvoiceDeclarationList() {
+		return getSqlSession().selectList("inboundMapper.getInboundInvoiceDeclarationList");
+	}
+
+	public void updateGblStatus(Map<String, Integer> statusParam) {
+		getSqlSession().update("inboundMapper.updateGblStatus", statusParam);
+	}
+
+	public void insertDeclarationList(InboundInvoice declarationInbound) {
+		getSqlSession().insert("inboundMapper.inserDeclarationList", declarationInbound);
+	}
+
+	public void insertDeclarationListContent(Map<String, String> map) {
+		getSqlSession().insert("inboundMapper.insertDeclarationListContent", map);		
+	}
+
+	public void updateInboundInvoiceDeclaration(String inboundInvoiceSeq) {
+		getSqlSession().update("inboundMapper.updateInboundInvoiceDeclaration", Integer.parseInt(inboundInvoiceSeq));
+	}
+
+	public void deleteDeclarationList(Map<String, Integer> inboundInvoiceMap) {
+		getSqlSession().delete("inboundMapper.deleteDeclarationList", inboundInvoiceMap);
+	}
+
+	public void updateInboundInvoiceDeclarationDelete(
+			Map<String, Integer> inboundInvoiceMap) {
+		getSqlSession().update("inboundMapper.updateInboundInvoiceDeclarationDelete", inboundInvoiceMap);
+	}
+
+	public List<InboundInvoice> getInboundInvoiceListDeclaration(Integer seq) {
+		return getSqlSession().selectList("inboundMapper.getInboundInvoiceListDeclaration", seq);
+	}
+
+	public void deleteInboundInvoice(Map<String, Integer> inboundInvoiceMap) {
+		getSqlSession().delete("inboundMapper.deleteInboundInvoice", inboundInvoiceMap);
+	}
+
+	public void insertOnHandList(OnHandList onHandList) {
+		getSqlSession().insert("inboundMapper.insertOnHandList", onHandList);
+	}
+
+	public List<InboundInvoice> getInboundInvoiceOnHandList() {
+		return getSqlSession().selectList("inboundMapper.getInboundInvoiceOnHandList");
+	}
+
+	public int getOnHandListCount(InboundFilter inboundFilter) {
+		return getSqlSession().selectOne("inboundMapper.getOnHandListCount");
+	}
+
+	public List<OnHandList> getOnHandList(InboundFilter inboundFilter) {
+		return getSqlSession().selectList("inboundMapper.getOnHandList", inboundFilter);
+	}
+
+	public boolean checkSelectOnHandList(Map<String, Integer> map) {
+		int checkCount = getSqlSession().selectOne("inboundMapper.checkSelectOnHandList", map);
+		
+		if(checkCount > 0){
+			return true; 
+		} else {
+			return false;
+		}
+	}
+
+	public boolean checkSelectOnHandListContentWeight(Map<String, Integer> map) {
+		int checkCount = getSqlSession().selectOne("inboundMapper.checkSelectOnHandListContentWeight", map);
+		
+		if(checkCount > 0){
+			return true; 
+		} else {
+			return false;
+		}
 	}
 }

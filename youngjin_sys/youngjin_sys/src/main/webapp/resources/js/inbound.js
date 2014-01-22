@@ -180,6 +180,8 @@ youngjin.inbound.sync = function(){
 	youngjin.inbound.weightSync();
 	
 	youngjin.inbound.customSync();
+	
+	youngjin.inbound.onHandSync();
 };
 
 youngjin.inbound.weightSync = function(){
@@ -312,7 +314,102 @@ youngjin.inbound.customSync = function(){
 	
 	$('.inbound_invoice_tr').unbind('click');
 	$('.inbound_invoice_tr').bind('click', function(){
-		youngjin.inbound.inboundInvoicePop($(this));
+		if($(this).attr('data-click') != 'yes'){
+		} else {
+			youngjin.inbound.inboundInvoicePop($(this));
+		}
+	});
+	
+	$('.inbound_invoice_list_delete').unbind('click');
+	$('.inbound_invoice_list_delete').bind('click', function(){
+		$(this).parents().parents('tr').attr('data-click', 'yes');
+		youngjin.inbound.inboundInvoiceDelete($(this));
+	});
+	
+	$('.declaration_list_add').unbind('click');
+	$('.declaration_list_add').bind('click', function(){
+		var url = contextPath + '/inbound/custom/declarationListSelect';
+		
+		$.smartPop.open({
+			width: 1000,
+			height: 700,
+			url : url
+		});		
+	});
+	
+	$('.inbound_invoice_declaration_tr').unbind('click');
+	$('.inbound_invoice_declaration_tr').bind('click', function(){
+		var check = $(this).find('.inbound_invoice_declaration_check');
+		if(check.attr('checked') != 'checked'){
+			check.attr('checked', 'checked');
+		} else {
+			check.removeAttr('checked');
+		}
+	});
+	
+	$('.inbound_invoice_declaration_add').unbind('click');
+	$('.inbound_invoice_declaration_add').bind('click', function(){
+		youngjin.inbound.declarationListSelectAdd();
+	});
+	
+	$('.declaration_list_delete').unbind('click');
+	$('.declaration_list_delete').bind('click', function(){
+		$(this).parents().parents('tr').attr('data-click', 'yes');
+		youngjin.inbound.declarationListDelete($(this));
+	});
+	
+	$('.declarationList_table tbody tr').unbind('click');
+	$('.declarationList_table tbody tr').bind('click', function(){
+		if($(this).attr('data-click') != 'yes'){
+			youngjin.inbound.declarationListContent($(this));
+		} else {
+			$(this).attr('data-click', 'no');
+		}
+	});
+};
+
+youngjin.inbound.onHandSync = function(){
+	$('.on_hand_list_table tbody tr').unbind('click');
+	$('.on_hand_list_table tbody tr').bind('click', function(){
+		youngjin.inbound.onHandList($(this));
+	});
+	
+	$('.onHand_onHandList_add').unbind('click');
+	$('.onHand_onHandList_add').bind('click', function(){
+		youngjin.inbound.onHandListAddSetting();
+	});
+	
+	$('.on_hand_list_add_onHandDate').unbind('click');
+	$('.on_hand_list_add_onHandDate').bind('click', function(){
+		$(this).css('color', 'black');
+		$(this).val('');
+	});
+	
+	$('.on_hand_list_add_onHandDate').focusout(function(){
+		if($(this).val() == ''){
+			$(this).css('color', 'gray');
+			$(this).val('ex) YYYY-MM-DD');
+			$('.on_hand_list_add_firstDeliverDate').val('');
+		}
+	});
+	
+	$('.on_hand_list_add_onHandDate').unbind('change');
+	$('.on_hand_list_add_onHandDate').bind('change', function(){
+		youngjin.inbound.calcFirstArrivalableDeliverDate($(this));
+	});
+	
+	$('.on_hand_list_add_next').unbind('click');
+	$('.on_hand_list_add_next').bind('click', function(){
+		if($('.on_hand_list_add_firstDeliverDate').val() == ''){
+			alert('날짜를 입력하세요');
+		} else {
+			youngjin.inbound.onHandListAdd();
+		}
+	});
+	
+	$('.on_hand_list_content_select_tr').unbind('click');
+	$('.on_hand_list_content_select_tr').bind('click', function(){
+		youngjin.inbound.onHandContentSelect($(this));
 	});
 };
 
@@ -420,10 +517,6 @@ youngjin.inbound.uploadSubmit = function(){
 		height : 521,
 		url : url
 	});		*/
-};
-
-youngjin.inbound.goOnHandList = function(target){
-	
 };
 
 youngjin.inbound.delivery = function(target){
@@ -1078,6 +1171,10 @@ youngjin.inbound.invoiceSelectWeight = function(target){
 		return jQuery.ajax({
 			success : function(){
 				alert('입력 완료!');
+				
+				parent.location.href = contextPath + '/inbound/custom/invoice';
+				
+				parent.$.smartPop.close();				
 			},
 			error : function(){
 				alert('에러발생!');
@@ -1117,6 +1214,227 @@ youngjin.inbound.inboundInvoicePop = function(target){
 			}
 		});
 	});
+};
+
+youngjin.inbound.inboundInvoiceDelete = function(target){
+	var seq = target.parents().parents('tr').attr('data-inboundInvoiceSeq');
+	
+	var url = contextPath + '/inbound/custom/invoice/inboundInvoiceDelete.json';
+	
+	$.postJSON(url, {'seq' : seq }, function(){
+		return jQuery.ajax({
+			success : function(){
+				alert('삭제 완료');
+				location.href = contextPath + '/inbound/custom/invoice';
+			}, 
+			error : function(){
+				alert('에러 발생!');
+			}
+		});
+	});
+	
+};
+
+youngjin.inbound.declarationListSelectAdd = function(target){
+	var inboundInvoicelList = $('input:checked');
+	var count = inboundInvoicelList.length;
+	var inboundInvoiceCommaList = inboundInvoicelList.eq(0).val();
+	
+	for( var i = 1 ; i < count ; i ++ ){
+		inboundInvoiceCommaList += ',' + inboundInvoicelList.eq(i).val();
+	}
+	
+	var url = contextPath + '/inbound/custom/invoice/declarationListSelectAdd.json';
+	
+	var json = {
+		'count' : count,
+		'inboundInvoiceCommaList' : inboundInvoiceCommaList
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				parent.location.href = contextPath + '/inbound/custom/declarationList';
+				parent.$.smartPop().close();
+			},
+			error : function(){
+				alert('에러발생!');
+			}
+		});
+	});
+	
+};
+
+youngjin.inbound.declarationListDelete = function(target){
+	var seq = target.parents().parents('tr').attr('data-seq');
+	
+	var url = contextPath + '/inbound/custom/declarationListDelete.json';
+	
+	$.postJSON(url, {'seq' : seq }, function(){
+		return jQuery.ajax({
+			success : function(){
+				alert('삭제 완료');
+				location.href = contextPath + '/inbound/custom/declarationList';
+			}, 
+			error : function(){
+				alert('에러 발생!');
+			}
+		});
+	});
+};
+
+youngjin.inbound.declarationListContent = function(target){	
+	var seq = target.attr('data-seq');
+	
+	var url = contextPath + '/inbound/custom/' + seq + '/declarationListContent';
+	
+	$.smartPop.open({
+		width: 930.7,
+		height: 1122.5,
+		url : url
+	});
+};
+
+youngjin.inbound.onHandList = function(target){
+	var seq = target.attr('data-seq');
+	
+	var url = contextPath + '/inbound/onHand/checkSelectOnHandList.json';
+	
+	$.postJSON(url, {'seq' : seq }, function(data){
+		return jQuery.ajax({
+			success : function(){
+				if(data == true){
+					
+				} else if (data == false){
+					var goUrl = contextPath + '/inbound/onHand/' + seq + '/onHandListSelect';
+					
+					parent.$.smartPop.close();
+
+					parent.$.smartPop.open({
+						width: 1000,
+						height: 700,
+						url : goUrl
+					});						
+				}
+			}, 
+			error : function(){
+				alert('에러 발생!');
+			}
+		});
+	});
+};
+
+youngjin.inbound.onHandListAddSetting = function(){	
+	var url = contextPath + '/inbound/onHand/onHandListAddSetting';
+	
+	$.smartPop.open({
+		width: 600,
+		height: 180,
+		url : url
+	});		
+};
+
+youngjin.inbound.calcFirstArrivalableDeliverDate = function(target){
+	var onHandDate = target.val();
+	
+	var onHandDateForm = new Date(onHandDate);
+	
+	if(onHandDateForm == 'Invalid Date' && onHandDate != ''){
+		alert('ex) YYYY-MM-DD 형식으로 입력해주세요');
+		return;
+	} else if( onHandDate == ''){
+		return ;
+	}
+	
+	var week = new Array(7);
+	week[0] = 'SUN';
+	week[1] = 'MON';
+	week[2] = 'TUE';
+	week[3] = 'WED';
+	week[4] = 'THU';
+	week[5] = 'FRI';
+	week[6] = 'SAT';
+	
+	onHandDateForm.setDate(onHandDateForm.getDate() + 1);
+	
+	if( week[onHandDateForm.getDay()] == 'SUN'){
+		onHandDateForm.setDate(onHandDateForm.getDate() + 1);
+	} else if ( week[onHandDateForm.getDay()] == 'SAT'){
+		onHandDateForm.setDate(onHandDateForm.getDate() + 2);		
+	}
+	
+	firstArrivalableDeliverDate = calcDate(onHandDateForm);
+	
+	$('.on_hand_list_add_firstDeliverDate').val(firstArrivalableDeliverDate);
+};
+
+youngjin.inbound.onHandListAdd = function(){
+	var onHandDate = $('.on_hand_list_add_onHandDate').val();
+	var firstArrivalableDeliverDate = $('.on_hand_list_add_firstDeliverDate').val();
+	
+	var url = contextPath + '/inbound/onHand/onHandListAdd.json';
+	
+	var json = {
+		'onHandDate' : onHandDate,
+		'firstArrivalableDeliverDate' : firstArrivalableDeliverDate
+	};
+	
+	$.postJSON(url, json, function(seq){
+		return jQuery.ajax({
+			success : function(){
+				var goUrl = contextPath + '/inbound/onHand/' + seq + '/onHandListSelect';
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width: 1000,
+					height: 700,
+					url : goUrl
+				});		
+			},
+			error : function(){
+				alert('에러 발생');
+			}
+		});
+	});
+};
+
+youngjin.inbound.onHandContentSelect = function(target){
+	var seq = target.attr('data-seq');
+	var gblSeq = target.attr('data-gblSeq');
+	
+	var url = contextPath +'/inbound/onHand/checkOnHandListContentWeight.json';
+	
+	if($('.on_hand_list_content_select_check').attr('checked') != 'checked'){
+		$.postJSON(url, {'seq' : seq }, function(data){
+			return jQuery.ajax({
+				success : function(){
+					if(data == true){
+						if(confirm('설정한 weight선택을 수정하시겠습니까?')){
+							
+						} else {
+							$('.on_hand_list_content_select_check').attr('checked', 'checked');
+						}
+					} else if (data == false ){
+						var goUrl = contextPath + '/inbound/onHand/' + seq + '/' + gblSeq + '/getWeight';
+						
+						parent.$.smartPop.close();
+						
+						parent.$.smartPop.open({
+							width : 700,
+							height : 500,
+							url : goUrl
+						});								
+					}
+				},
+				error : function(){
+					
+				}
+			});
+		});
+	} else {
+		$('.on_hand_list_content_select_check').removeAttr('checked');
+	}
 };
 
 youngjin.inbound.dd619Back = function(target){

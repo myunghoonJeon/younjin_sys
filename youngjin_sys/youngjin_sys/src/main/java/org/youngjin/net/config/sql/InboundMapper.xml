@@ -452,7 +452,32 @@
 			inboundInvoiceSeq = #{seq}
 	</select>
 	
-	<select id="getDeclarationList" resultType="InboundInvoice">
+	<select id="getDeclarationListCount" parameterType="InboundFilter" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			declaration_list d
+	</select>
+	
+	<select id="getDeclarationList" parameterType="InboundFilter" resultType="InboundInvoice">
+		SELECT 
+			*
+		FROM	
+			(
+				SELECT
+					(@rownum := @rownum + 1) AS rownum,
+					d.seq, d.writeDate
+				FROM
+					declaration_list d, (SELECT @rownum := 0) r
+		
+				ORDER BY
+					d.seq
+			)u	
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}	
+			
+	</select>
+	
+	<select id="getInboundInvoiceDeclarationList" resultType="InboundInvoice">
 		SELECT 
 			il.seq, g.gblNO, g.shipperName AS name, g.ssn, g.rank, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck
 		FROM
@@ -462,7 +487,7 @@
 		AND
 			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
 		AND
-			il.declarationCheck &lt;&gt; 1
+			il.declarationCheck &lt;&gt; 1			
 	</select>
 	
 	<select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">
@@ -537,6 +562,17 @@
 			AND
 				title = #{title}
 		</if>		
+	</select>
+	
+	<select id="getInboundInvoiceListDeclaration" parameterType="Integer" resultType="InboundInvoice">
+		SELECT 
+			g.rank, il.name, il.gblNo, il.ssn, g.oblNo, g.vessle FROM inbound_invoice_list il, declaration d, gbl_ib g
+		WHERE
+			il.seq = d.inboundInvoiceSeq
+		AND
+			d.declarationListSeq = #{value}
+		AND
+			il.gblSeq = g.seq
 	</select>
 		
 	<insert id="insertFreight" parameterType="GBL">
@@ -655,6 +691,29 @@
 			SELECT LAST_INSERT_ID() 			
 		</selectKey>
 	</insert>
+	
+	<insert id="inserDeclarationList" parameterType="InboundInvoice">
+		INSERT INTO
+			declaration_list
+			(writeDate)
+		VALUES
+			(DATE_FORMAT(SYSDATE(), '%Y%m%d'))		
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID() 			
+		</selectKey>
+	</insert>
+	
+	<insert id="insertDeclarationListContent" parameterType="Map">
+		INSERT INTO
+			declaration
+			(
+				declarationListSeq, inboundInvoiceSeq, writeDate
+			)
+		VALUES
+			(
+				#{declarationListSeq}, #{inboundInvoiceSeq}, DATE_FORMAT(SYSDATE(), '%Y%m%d')
+			)
+	</insert>
 
 	<insert id="insertAttachment" parameterType="GBLAttachment">
 		INSERT INTO
@@ -764,6 +823,36 @@
 				title = #{title}
 		</if>
 	</update>
+	
+	<update id="updateGblStatus" parameterType="Map">
+		UPDATE
+			gbl_status
+		SET
+			gbl_no = gbl_no
+			<if test="weight != null">
+				, gbl_weight = #{weight}
+			</if>
+		WHERE
+			gbl_no = (select gblNo from gbl_ib where seq = #{gblSeq})
+	</update>
+	
+	<update id="updateInboundInvoiceDeclaration" parameterType="Integer">
+		UPDATE
+			inbound_invoice_list
+		SET
+			declarationCheck = true
+		WHERE
+			seq = #{value}
+	</update>
+	
+	<update id="updateInboundInvoiceDeclarationDelete" parameterType="Map">
+		UPDATE
+			inbound_invoice_list
+		SET
+			declarationCheck = false
+		WHERE
+			seq IN (select inboundInvoiceSeq from declaration where declarationListSeq = #{seq})
+	</update>
 
 	<delete id="deleteDd619" parameterType="Dd619">
 		DELETE FROM
@@ -773,4 +862,92 @@
 		AND
 			memorandum_list_seq = #{memorandumListSeq}
 	</delete>
+	
+	<delete id="deleteInboundInvoice" parameterType="Map">
+		DELETE FROM
+			inbound_invoice_list
+		WHERE
+			seq = #{seq}
+	</delete>
+	
+	<delete id="deleteDeclarationList" parameterType="Map">
+		DELETE FROM
+			declaration_list
+		WHERE
+			seq = #{seq}
+	</delete>	
+	
+	<!-- On Hand List -->
+	<select id="getOnHandListCount" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			on_hand_list
+	</select>
+	
+	<select id="getOnHandList" parameterType="InboundFilter" resultType="OnHandList">		
+		SELECT 
+			*
+		FROM	
+			(
+				SELECT
+					(@rownum := @rownum + 1) AS rownum,
+					o.seq, o.onHandDate, o.firstArrivalableDeliverDate, o.writeDate
+				
+				FROM
+					on_hand_list o, (SELECT @rownum := 0) r
+		
+				ORDER BY
+					o.seq
+			)u	
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+	</select>
+	
+	<select id="checkSelectOnHandList" parameterType="Map" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			on_hand_list_content
+		WHERE
+			onHandListSeq = #{seq}
+	</select>
+	
+	<select id="checkSelectOnHandListContentWeight" parameterType="Map" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			on_hand_list_content_weight
+		WHERE
+			onHandListContentSeq = #{seq}
+	</select>
+	
+	<insert id="insertOnHandList" parameterType="OnHandList">
+		INSERT INTO
+			on_hand_list
+			(
+				onHandDate, firstArrivalableDeliverDate, writeDate
+			)
+		VALUES
+		(
+			#{onHandDate}, #{firstArrivalableDeliverDate}, DATE_FORMAT(SYSDATE(), '%Y%m%d')
+		)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID() 			
+		</selectKey>
+	</insert>
+	
+	<select id="getInboundInvoiceOnHandList" resultType="InboundInvoice">
+		SELECT 
+			il.seq, g.gblNo, g.shipperName AS name, g.ssn, g.rank, g.code, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck, il.gblSeq
+		FROM
+			inbound_invoice_list il, gbl_ib g
+		WHERE
+			il.gblSeq = g.seq
+		AND
+			g.seq NOT IN (SELECT gblSeq FROM on_hand_list_content)
+		AND
+			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
+		AND
+			il.declarationCheck = 1		
+	</select>
 </mapper>

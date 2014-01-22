@@ -39,5 +39,8 @@
 		<typeAlias alias="InboundFilter" type="org.youngjin.net.inbound.InboundFilter"/>
 		<typeAlias alias="WeightIb" type="org.youngjin.net.inbound.WeightIb"/>
 		<typeAlias alias="InboundInvoice" type="org.youngjin.net.inbound.InboundInvoice"/>
+		<typeAlias alias="OnHandList" type="org.youngjin.net.inbound.OnHandList"/>
+		<typeAlias alias="OnHandListContent" type="org.youngjin.net.inbound.OnHandListContent"/>
+		<typeAlias alias="OnHandListContentWeight" type="org.youngjin.net.inbound.OnHandListContentWeight"/>
 	</typeAliases>
 </configuration>

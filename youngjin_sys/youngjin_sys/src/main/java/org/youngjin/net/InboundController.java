@@ -22,12 +22,12 @@ import org.youngjin.net.code.CodeService;
 import org.youngjin.net.inbound.InboundFilter;
 import org.youngjin.net.inbound.InboundInvoice;
 import org.youngjin.net.inbound.InboundService;
+import org.youngjin.net.inbound.OnHandList;
 import org.youngjin.net.inbound.WeightIb;
 import org.youngjin.net.login.User;
 import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumList;
 import org.youngjin.net.memorandum.MemorandumService;
-import org.youngjin.net.outbound.Addition;
 
 @Controller
 public class InboundController {
@@ -226,6 +226,14 @@ public class InboundController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/custom/invoice/inboundInvoiceDelete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void inboundInvoiceDelete(
+			@RequestBody Map<String, Integer> inboundInvoiceMap) {
+		inboundService.inboundInvoiceDelete(inboundInvoiceMap);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/custom/invoice/checkInboundInvoiceWeight.json", method = RequestMethod.POST)
 	@ResponseBody
 	public Boolean checkInboundInvoiceWeight(
@@ -263,28 +271,151 @@ public class InboundController {
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/custom/declarationList", method = RequestMethod.GET)
 	public String declarationList(Model model, User user,
-			@PathVariable String process) {
-		
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
+
 		user.setSubProcess("declare");
-				
-		List<InboundInvoice> declarationList = inboundService.getDeclarationList();
+		inboundFilter.getPagination().setNumItems(
+				inboundService.getDeclarationListCount(inboundFilter));
+
+		List<InboundInvoice> declarationList = inboundService
+				.getDeclarationList(inboundFilter);
 		model.addAttribute("declarationList", declarationList);
 		model.addAttribute("user", user);
-		
+
 		return process + "/custom/declarationList";
 	}
-	
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/custom/declarationListSelect", method = RequestMethod.GET)
+	public String declarationListSelect(Model model, User user,
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
+
+		user.setSubProcess("declare");
+
+		List<InboundInvoice> inboundInvoiceList = inboundService
+				.getInboundInvoiceDeclarationList();
+		model.addAttribute("inboundInvoiceList", inboundInvoiceList);
+		model.addAttribute("user", user);
+
+		return process + "/custom/declarationSelect";
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/custom/invoice/declarationListSelectAdd.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void declarationListSelectAdd(
+			@RequestBody Map<String, String> inboundInvoiceMap) {
+		inboundService.declarationListSelectAdd(inboundInvoiceMap);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/custom/declarationListDelete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void declarationListDelete(
+			@RequestBody Map<String, Integer> inboundInvoiceMap) {
+		inboundService.declarationListDelete(inboundInvoiceMap);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/custom/{seq}/declarationListContent", method = RequestMethod.GET)
+	public String declarationListContent(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq) {
+
+		user.setSubProcess("declare");
+
+		List<InboundInvoice> inboundInvoiceList = inboundService
+				.getInboundInvoiceListDeclaration(seq);
+		model.addAttribute("inboundInvoiceList", inboundInvoiceList);
+		model.addAttribute("user", user);
+
+		return process + "/custom/declarationListContent";
+	}
+
+	// -onHand
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/onHand/onHandList", method = RequestMethod.GET)
 	public String onHandList(Model model, User user,
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
+
+		user.setSubProcess("onHandList");
+		inboundFilter.getPagination().setNumItems(
+				inboundService.getOnHandListCount(inboundFilter));
+
+		model.addAttribute("onHandList",
+				inboundService.getOnHandList(inboundFilter));
+		model.addAttribute("user", user);
+
+		return process + "/onHand/onHandList";
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/onHand/checkSelectOnHandList.json")
+	@ResponseBody
+	public boolean checkSelectOnHandList(@RequestBody Map<String, Integer> map) {
+		return inboundService.checkSelectonHandList(map);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/onHand/onHandListAddSetting", method = RequestMethod.GET)
+	public String onHandListAddSetting(Model model, User user,
 			@PathVariable String process) {
-		
+
 		user.setSubProcess("onHandList");
 		model.addAttribute("user", user);
-		
-		return process + "/onHand/onHandList";
-	}	
 
+		return process + "/onHand/onHandListAddSetting";
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/onHand/onHandListAdd.json")
+	@ResponseBody
+	public Integer onHandListAdd(@RequestBody OnHandList onHandList) {
+		return inboundService.onHandListAdd(onHandList);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListSelect", method = RequestMethod.GET)
+	public String onHandListContentList(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq) {
+
+		user.setSubProcess("onHandList");
+		model.addAttribute("onHandListSeq", seq);
+		model.addAttribute("inboundInvoiceList",
+				inboundService.getInboundInvoiceOnHandList());
+		model.addAttribute("user", user);
+
+		return process + "/onHand/onHandListSelect";
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/onHand/checkOnHandListContentWeight.json")
+	@ResponseBody
+	public boolean checkSelectOnHandListContentWeight(
+			@RequestBody Map<String, Integer> map) {
+		return inboundService.checkSelectonHandListContentWeight(map);
+	}
+
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/onHand/{seq}/{gblSeq}/getWeight", method = RequestMethod.GET)
+	public String getOnHandListContentWeightList(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq,
+			@PathVariable Integer gblSeq) {
+
+		user.setSubProcess("onHandList");
+		model.addAttribute("onHandListSeq", seq);
+		model.addAttribute("gblSeq", gblSeq);
+		
+		model.addAttribute("weightList",
+				inboundService.getWeightList(gblSeq));
+		model.addAttribute("user", user);
+
+		return process + "/onHand/onHandListContentWeightSelect";
+	}
+
+	// -process
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}", method = RequestMethod.GET)
 	public String gblSelect(Model model, User user,
@@ -549,50 +680,56 @@ public class InboundController {
 
 		return process + "/freight/dd619List";
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/{dd619Seq}/dd619Modify", method = RequestMethod.GET)
 	public String dd619Modify(Model model, User user,
-			@PathVariable String process, @PathVariable String seq, @PathVariable Integer dd619Seq,
-			@ModelAttribute Dd619 dd619) {
+			@PathVariable String process, @PathVariable String seq,
+			@PathVariable Integer dd619Seq, @ModelAttribute Dd619 dd619) {
 
 		dd619 = inboundService.getDd619ListSelectOne(dd619Seq);
-		
+
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", inboundService.getGbl(Integer.parseInt(seq)));
 		model.addAttribute("dd619", dd619);
-		model.addAttribute("remarkList",
-				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq(), process));
-		model.addAttribute("remarkValue", inboundService.getRemarkValue(seq, dd619.getMemorandumListSeq()));
+		model.addAttribute(
+				"remarkList",
+				memorandumService.getMemorandumList(seq,
+						dd619.getMemorandumListSeq(), process));
+		model.addAttribute("remarkValue", inboundService.getRemarkValue(seq,
+				dd619.getMemorandumListSeq()));
 		model.addAttribute("seq", seq);
 
 		return process + "/freight/dd619Update";
-	}	
-	
+	}
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/dd619/modify.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblDd619ModifySubmit(@RequestBody Dd619 dd619) {
 		inboundService.modifyDd619(dd619);
-	}		
+	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/dd619/{listSeq}/print", method = RequestMethod.GET)
 	public String dd619(Model model, User user, @PathVariable String process,
-			@PathVariable String seq, @PathVariable Integer listSeq, @ModelAttribute Dd619 dd619) {
+			@PathVariable String seq, @PathVariable Integer listSeq,
+			@ModelAttribute Dd619 dd619) {
 
 		dd619 = inboundService.getDd619ListSelectOne(listSeq);
-		
+
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", inboundService.getGbl(Integer.parseInt(seq)));
 		model.addAttribute("dd619", dd619);
-		model.addAttribute("remarkList",
-				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq(), process));
+		model.addAttribute(
+				"remarkList",
+				memorandumService.getMemorandumList(seq,
+						dd619.getMemorandumListSeq(), process));
 		model.addAttribute("seq", seq);
 
 		return process + "/freight/dd619";
 	}
-	
+
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/freight/{seq}/additional", method = RequestMethod.GET)
 	public String additionalDecideMain(Model model, User user,
@@ -608,12 +745,12 @@ public class InboundController {
 					.split(",");
 			model.addAttribute("articles", articleList);
 		}
-		
-		//List<Addition> additionList = outboundService.getAddtionList(seq);
+
+		// List<Addition> additionList = outboundService.getAddtionList(seq);
 
 		model.addAttribute("checkMemorandumMap", checkMemorandumMap);
-		//model.addAttribute("additionList", additionList);
+		// model.addAttribute("additionList", additionList);
 
 		return process + "/gbl/additionalDecide";
-	}	
+	}
 }
