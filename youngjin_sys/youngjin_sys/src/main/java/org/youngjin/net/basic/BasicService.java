@@ -25,4 +25,65 @@ public class BasicService {
 		
 		return basicDao.getBranch(branch).get(0);
 	}
+
+	public void branchModify(Branch branch) {
+		basicDao.updateBranch(branch);
+	}
+
+	public List<Pod> getPodList() {
+		return basicDao.getPodList(null);
+	}
+
+	public void podAdd(Pod pod) {
+		basicDao.podAdd(pod);
+	}
+
+	public Pod getPod(Integer seq) {
+		Pod pod = new Pod();
+		pod.setSeq(seq);
+		
+		return basicDao.getPodList(pod).get(0);
+	}
+
+	public void podModify(Pod pod) {
+		basicDao.updatePod(pod);
+	}
+	
+	public List<Carrier> getCarrierList(){
+		return basicDao.getCarrierList(null);
+	}
+	
+	public List<Company> getCompanyList(){
+		return basicDao.getCompanyList(null);
+	}
+
+	public void carrierAdd(Carrier carrier) {
+		basicDao.insertCarrier(carrier);
+	}
+
+	public Carrier getCarrier(Integer seq) {
+		Carrier carrier = new Carrier();
+		carrier.setSeq(seq);
+		
+		return basicDao.getCarrierList(carrier).get(0);
+	}
+
+	public void carrierModify(Carrier carrier) {
+		basicDao.updateCarrier(carrier);
+	}
+
+	public void companyAdd(Company company) {
+		basicDao.insertCompany(company);
+	}
+
+	public Company getCompany(Integer seq) {
+		Company company = new Company();
+		company.setSeq(seq);
+		
+		return basicDao.getCompanyList(company).get(0);
+	}
+
+	public void companyModify(Company company) {
+		basicDao.updateCompany(company);	
+	}
 }

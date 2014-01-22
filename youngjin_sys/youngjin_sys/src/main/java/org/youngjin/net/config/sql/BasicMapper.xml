@@ -12,6 +12,10 @@
 				AND
 					seq = #{seq}
 			</if>
+			<if test="branchAcronym != null">
+				AND
+					branchAcronym = #{branchAcronym}
+			</if>
 	</select>
 	<insert id="insertBranch" parameterType="Branch">
 		INSERT INTO
@@ -51,4 +55,156 @@
 		WHERE
 			seq = #{seq}
 	</delete>
+	
+	<select id="getPod" parameterType="Pod" resultType="Pod">
+		SELECT
+			seq, podAcronym, podFull, destAddress, podAgentName, remark
+		FROM
+			pod
+		WHERE
+			1 = 1
+			<if test="seq != null">
+			AND
+				seq = #{seq}
+			</if>
+			<if test="podAcronym != null">
+			AND
+				podAcronym = #{podAcronym}
+			</if>
+	</select>
+	
+	<insert id="insertPod" parameterType="Pod">
+		INSERT INTO
+			pod
+			(
+				podAcronym, podFull, destAddress, podAgentName, remark
+			)
+		VALUES
+			(
+				#{podAcronym}, #{podFull}, #{destAddress}, #{podAgentName}, #{remark}
+			)
+	</insert>
+	
+	<update id="updatePod" parameterType="Pod">
+		UPDATE
+			pod
+		SET
+			podAcronym = #{podAcronym},
+			podFull = #{podFull},
+			destAddress = #{destAddress},
+			podAgentName = #{podAgentName},
+			remark = #{remark}
+		WHERE
+			seq = #{seq}
+	</update>
+	
+	<delete id="deletePod" parameterType="Pod">
+		DELETE FROM
+			pod
+		WHERE
+			seq = #{seq}
+	</delete>
+	
+	<select id="getCarrier" parameterType="Carrier" resultType="Carrier">
+		SELECT
+			seq, scac, scacFullName, address, telNo, faxNo, president, manager, mainEmail, trafficEmail, agent
+		FROM
+			carrier
+		WHERE
+			1 = 1
+			<if test="seq != null" >
+				AND	
+					seq = #{seq}
+			</if>
+			<if test="scac != null">
+				AND
+					scac = #{scac}
+			</if>
+	</select>
+	
+	<insert id="insertCarrier" parameterType="Carrier">
+		INSERT INTO
+			carrier
+			(
+				scac, scacFullName, address, telNo, faxNo, president, manager, mainEmail, trafficEmail, agent
+			)
+		VALUES
+			(
+				#{scac}, #{scacFullName}, #{address}, #{telNo}, #{faxNo}, #{president}, #{manager}, #{mainEmail}, #{trafficEmail}, #{agent}
+			)
+	</insert>
+	
+	<update id="updateCarrier" parameterType="Carrier">
+		UPDATE
+			carrier
+		SET
+			scac = #{scac},
+			scacFullName = #{scacFullName},
+			address = #{address},
+			telNo = #{telNo},
+			faxNo = #{faxNo},
+			president = #{president},
+			manager = #{manager},
+			mainEmail = #{mainEmail},
+			trafficEmail = #{trafficEmail},
+			agent = #{agent}
+		WHERE
+			seq = #{seq}
+	</update>
+	
+	<delete id="deleteCarrier" parameterType="Carrier">
+		DELETE FROM
+			carrier
+		WHERE
+			seq = #{seq}
+	</delete>
+	
+	<select id="getCompany" parameterType="Company" resultType="Company">
+		SELECT
+			seq, companyCode, companyName, companyNameAcronym, companyFullName, address, president, manager, telNo, faxNo, eMailAddress, businessLicenceNo
+		FROM
+			company
+		WHERE
+			1 = 1
+			<if test="seq != null">
+				AND
+					seq = #{seq}
+			</if>
+			<if test="companyCode != null">
+				AND
+					companyCode = #{companyCode}
+			</if>			
+	</select>
+	
+	<insert id="insertCompany" parameterType="Company">
+		INSERT INTO
+			company
+			(
+				companyCode, companyName, companyNameAcronym, companyFullName, address, president, manager, telNo, faxNo, eMailAddress, businessLicenceNo
+			)
+		VALUES
+			(
+				#{companyCode}, #{companyName}, #{companyNameAcronym}, #{companyFullName}, #{address}, #{president}, #{manager}, #{telNo}, #{faxNo}, #{eMailAddress}, #{businessLicenceNo}
+			)
+	</insert>
+	
+	<update id="updateCompany" parameterType="Company">
+		UPDATE
+			company
+		SET
+			companyCode = #{companyCode},
+			companyName = #{companyName},
+			companyNameAcronym = #{companyNameAcronym},
+			companyFullName = #{companyFullName},
+			address = #{address},
+			president = #{president},
+			manager = #{manager},
+			telNo = #{telNo},
+			faxNo = #{faxNo},
+			eMailAddress = #{eMailAddress},
+			businessLicenceNo = #{businessLicenceNo}
+		WHERE
+			seq = #{seq}
+	</update>
+	
 </mapper>

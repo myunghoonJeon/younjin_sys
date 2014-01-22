@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.basic.BasicService;
 import org.youngjin.net.basic.Branch;
+import org.youngjin.net.basic.Carrier;
+import org.youngjin.net.basic.Company;
+import org.youngjin.net.basic.Pod;
 import org.youngjin.net.login.User;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.process.ProcessService;
@@ -46,6 +49,7 @@ public class BasicController {
 		
 		user.setSubProcess("branch");
 		
+		model.addAttribute("flag", "add");		
 		model.addAttribute("user", user);
 		
 		return "basic/branchForm";
@@ -65,12 +69,22 @@ public class BasicController {
 		
 		user.setSubProcess("branch");
 		
+		model.addAttribute("flag", "modify");
 		model.addAttribute("branch", basicService.getBranch(seq));
 		
 		model.addAttribute("user", user);
 		
 		return "basic/branchForm";
 	}	
+	
+	@RequestMapping(value = "/branchModifySubmit", method = RequestMethod.POST)
+	public String branchModifySubmit(Model model, User user, @ModelAttribute Branch branch){
+		model.addAttribute("check", "yes");
+		
+		basicService.branchModify(branch);
+		
+		return "basic/branchForm";
+	}
 	
 	//company
 	@RequestMapping(value = "/company", method = RequestMethod.GET)
@@ -79,8 +93,51 @@ public class BasicController {
 		user.setSubProcess("company");
 		
 		model.addAttribute("user", user);
+		model.addAttribute("companyList", basicService.getCompanyList());
 		
 		return "basic/company";
+	}
+	
+	@RequestMapping(value = "/companyAdd", method = RequestMethod.GET)
+	public String companyAdd(Model model, User user, @ModelAttribute Company company){
+		
+		user.setSubProcess("company");
+
+		model.addAttribute("flag", "add");	
+		model.addAttribute("user", user);
+		
+		return "basic/companyForm";
+	}	
+	
+	@RequestMapping(value = "/companyAddSubmit", method = RequestMethod.POST)
+	public String companyAddSubmit(Model model, User user, @ModelAttribute Company company){
+		model.addAttribute("check", "yes");
+		
+		basicService.companyAdd(company);
+		
+		return "basic/companyForm";
+	}	
+	
+	@RequestMapping(value = "/{seq}/companyModify", method = RequestMethod.GET)
+	public String companyModify(Model model, User user, @PathVariable Integer seq, @ModelAttribute Company company){
+		
+		user.setSubProcess("company");
+		
+		model.addAttribute("flag", "modify");
+		model.addAttribute("company", basicService.getCompany(seq));
+		
+		model.addAttribute("user", user);
+		
+		return "basic/companyForm";
+	}
+	
+	@RequestMapping(value = "/companyModifySubmit", method = RequestMethod.POST)
+	public String companyModifySubmit(Model model, User user, @ModelAttribute Company company){
+		model.addAttribute("check", "yes");
+		
+		basicService.companyModify(company);
+		
+		return "basic/companyForm";
 	}
 	
 	//pod
@@ -89,10 +146,54 @@ public class BasicController {
 		
 		user.setSubProcess("pod");
 		
+		model.addAttribute("podList", basicService.getPodList());
+		
 		model.addAttribute("user", user);
 		
 		return "basic/pod";
 	}
+	
+	@RequestMapping(value = "/podAdd", method = RequestMethod.GET)
+	public String podAdd(Model model, User user, @ModelAttribute Pod pod){
+		
+		user.setSubProcess("pod");
+
+		model.addAttribute("flag", "add");	
+		model.addAttribute("user", user);
+		
+		return "basic/podForm";
+	}
+	
+	@RequestMapping(value = "/podAddSubmit", method = RequestMethod.POST)
+	public String podAddSubmit(Model model, User user, @ModelAttribute Pod pod){
+		model.addAttribute("check", "yes");
+		
+		basicService.podAdd(pod);
+		
+		return "basic/podForm";
+	}		
+	
+	@RequestMapping(value = "/{seq}/podModify", method = RequestMethod.GET)
+	public String podModify(Model model, User user, @PathVariable Integer seq, @ModelAttribute Pod pod){
+		
+		user.setSubProcess("pod");
+		
+		model.addAttribute("flag", "modify");
+		model.addAttribute("pod", basicService.getPod(seq));
+		
+		model.addAttribute("user", user);
+		
+		return "basic/podForm";
+	}
+	
+	@RequestMapping(value = "/podModifySubmit", method = RequestMethod.POST)
+	public String podModifySubmit(Model model, User user, @ModelAttribute Pod pod){
+		model.addAttribute("check", "yes");
+		
+		basicService.podModify(pod);
+		
+		return "basic/podForm";
+	}	
 	
 	//carrier
 	@RequestMapping(value = "/carrier", method = RequestMethod.GET)
@@ -100,10 +201,54 @@ public class BasicController {
 		
 		user.setSubProcess("carrier");
 		
+		model.addAttribute("carrierList", basicService.getCarrierList());
 		model.addAttribute("user", user);
 		
 		return "basic/carrier";
 	}
+	
+	@RequestMapping(value = "/carrierAdd", method = RequestMethod.GET)
+	public String carrierAdd(Model model, User user, @ModelAttribute Carrier carrier){
+		
+		user.setSubProcess("carrier");
+
+		model.addAttribute("flag", "add");	
+		model.addAttribute("user", user);
+		
+		return "basic/carrierForm";
+	}
+	
+	@RequestMapping(value = "/carrierAddSubmit", method = RequestMethod.POST)
+	public String carrierAddSubmit(Model model, User user, @ModelAttribute Carrier carrier){
+		model.addAttribute("check", "yes");
+		
+		basicService.carrierAdd(carrier);
+		
+		return "basic/carrierForm";
+	}		
+	
+	@RequestMapping(value = "/{seq}/carrierModify", method = RequestMethod.GET)
+	public String carrierModify(Model model, User user, @PathVariable Integer seq, @ModelAttribute Carrier carrier){
+		
+		user.setSubProcess("carrier");
+		
+		model.addAttribute("flag", "modify");
+		model.addAttribute("carrier", basicService.getCarrier(seq));
+		
+		model.addAttribute("user", user);
+		
+		return "basic/carrierForm";
+	}	
+	
+	
+	@RequestMapping(value = "/carrierModifySubmit", method = RequestMethod.POST)
+	public String carrierModifySubmit(Model model, User user, @ModelAttribute Carrier carrier){
+		model.addAttribute("check", "yes");
+		
+		basicService.carrierModify(carrier);
+		
+		return "basic/carrierForm";
+	}	
 	
 	//gbloc
 	@RequestMapping( value = "/{process}/gblock/main", method = RequestMethod.GET)

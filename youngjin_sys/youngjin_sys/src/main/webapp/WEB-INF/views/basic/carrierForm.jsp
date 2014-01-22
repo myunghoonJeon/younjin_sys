@@ -38,25 +38,25 @@
 
 </head>
 <body>
-	<div id="gbl_add_div">
+	<div class="carrier_add_div">
 		<div class="pop_title_line">
-			<span>BRANCH ${(flag eq 'add') ? 'ADD' : 'MODIFY' }</span>
+			<span>CARRIER ${(flag eq 'add') ? 'ADD' : 'MODIFY' }</span>
 		</div>	
-		<form:form commandName="branch">
+		<form:form commandName="carrier">
 		<form:hidden path="seq"/>
 		<table class="gbl_add_table">
 			<tbody>
 				<tr>
-					<th>BRANCH ACRONYM</th>
-					<td><form:input path="branchAcronym"/></td>
+					<th>SCAC</th>
+					<td><form:input path="scac"/></td>
 				</tr>
 				<tr>
-					<th>BRANCH</th>
-					<td><form:input path="branch"/></td>
+					<th>SCAC FULL NAME</th>
+					<td><form:input path="scacFullName"/></td>
 				</tr>
 				<tr>
-					<th>BRANCH MANAGER</th>
-					<td><form:input path="branchManager"/></td>
+					<th>ADDRESS</th>
+					<td><form:input path="address"/></td>
 				</tr>
 				<tr>
 					<th>TEL NO</th>
@@ -67,38 +67,30 @@
 					<td><form:input path="faxNo"/></td>
 				</tr>
 				<tr>
-					<th>EMAIL ADDRESS</th>
-					<td><form:input path="eMailAddress"/></td>
+					<th>PRESIDENT</th>
+					<td><form:input path="president"/></td>
 				</tr>
 				<tr>
-					<th>ITO TEL NO</th>
-					<td><form:input path="itoTelNo"/></td>
+					<th>MANAGER</th>
+					<td><form:input path="manager"/></td>
 				</tr>
 				<tr>
-					<th>ITO DSN NO</th>
-					<td><form:input path="itoDsnNo"/></td>
+					<th>E-MAIL(MAININ)</th>
+					<td><form:input path="mainEmail"/></td>
 				</tr>
 				<tr>
-					<th>ITO CHIEF</th>
-					<td><form:input path="itoChief"/></td>
+					<th>E-MAIL(TRAFFIC MANAGER)</th>
+					<td><form:input path="trafficEmail"/></td>
 				</tr>
 				<tr>
-					<th>ITO ADDRESS</th>
-					<td><form:input path="itoAddress"/></td>
+					<th>AGENT</th>
+					<td><form:input path="agent"/></td>
 				</tr>
-				<tr>
-					<th>DGBLOC</th>
-					<td><form:input path="dGbloc"/></td>
-				</tr>
-				<tr>
-					<th>DODAC</th>
-					<td><form:input path="dodac"/></td>
-				</tr>	
 			</tbody>
 			<tfoot>
 				<tr>
 					<td colspan="2">
-						<div><span class="yj_button ${(flag eq 'add') ? 'basic_add_submit' : 'basic_modify_submit' }">${(flag eq 'add') ? 'add' : 'modify' }</span></div>
+						<div><span class="yj_button ${(flag eq 'add') ? 'basic_carrier_add_submit' : 'basic_carrier_modify_submit' }">${(flag eq 'add') ? 'add' : 'modify' }</span></div>
 					</td>
 				</tr>
 			</tfoot>		

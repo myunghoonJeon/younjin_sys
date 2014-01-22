@@ -97,9 +97,11 @@
 		
 		<c:if test = "${user.process ne 'admin' or user.process ne 'basic'}">
 			<ul class="left_detail_menu_wrap">	
-				<li class="basic" style="${(user.subProcess eq 'pod' or user.subProcess eq 'branch' or user.subProcess eq 'company' or user.subProcess eq 'carrier' or user.subProcess eq 'gBlock') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
-					BASIC	
-				</li>
+				<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')">
+					<li class="basic" style="${(user.subProcess eq 'pod' or user.subProcess eq 'branch' or user.subProcess eq 'company' or user.subProcess eq 'carrier' or user.subProcess eq 'gBlock') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+						BASIC	
+					</li>
+				</sec:authorize>
 				<li class="basic_item_list" style="${(user.subProcess eq 'pod' or user.subProcess eq 'branch' or user.subProcess eq 'company' or user.subProcess eq 'carrier' or user.subProcess eq 'gBlock') ? 'display:block;' : 'display:none;'}">				
 					<ul class="basic_item">
 						<li onclick="location.href='${cp }/basic/pod'" style="${(user.subProcess eq 'pod') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">

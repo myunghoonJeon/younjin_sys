@@ -10,7 +10,7 @@
 .title h1 { padding : 10px 10px; font-size: 20pt; color: #000;  }
 
 .yj_table { width: 920px; text-align: center; margin: 10px auto;}
-.yj_table thead tr th{ font-size: 13px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.yj_table thead tr th{ font-size: 13px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; vertical-align: middle;}
 .yj_table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; cursor: pointer; }
 .yj_table tbody tr{ background-color: white; }
 .yj_table tbody tr:HOVER {background-color: #B7B9CC;}
@@ -154,6 +154,20 @@ li.basic_item_list ul li{ width: 136px; font-size: 12px;}
 li.basic_item_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646; width: 122px; }
 
 .basic_branch_add { float: right; margin-bottom: 10px; }
+.branch_table tbody tr td{ vertical-align: middle; }
+
+.pod_add_div{ width: 600px; height: 352px; background-color: white;}
+.basic_pod_add{ float: right; margin-bottom: 10px; }
+.pod_table tbody tr td{ vertical-align: middle; }
+
+.basic_carrier_add{ float: right; margin-bottom: 10px;}
+.carrier_add_div{ width: 600px; height: 570px; background-color: white;}
+.carrier_table tbody tr td{ vertical-align: middle; }
+
+.basic_company_add{ float: right; margin-bottom: 10px; }
+.company_table thead tr th{ font-size : 11px; }
+.company_table tbody tr td{ vertical-align: middle; }
+.company_add_div{ width : 600px; height: 630px; background-color: white;}
 
 .save_button_wrap{ width: 920px; margin: 20px auto; }
 .save_button{ float: right; margin-bottom: 10px; }

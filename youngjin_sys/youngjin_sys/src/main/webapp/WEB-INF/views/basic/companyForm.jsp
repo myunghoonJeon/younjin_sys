@@ -38,25 +38,41 @@
 
 </head>
 <body>
-	<div id="gbl_add_div">
+	<div class="company_add_div">
 		<div class="pop_title_line">
-			<span>BRANCH ${(flag eq 'add') ? 'ADD' : 'MODIFY' }</span>
+			<span>COMPANY ${(flag eq 'add') ? 'ADD' : 'MODIFY' }</span>
 		</div>	
-		<form:form commandName="branch">
+		<form:form commandName="company">
 		<form:hidden path="seq"/>
 		<table class="gbl_add_table">
 			<tbody>
 				<tr>
-					<th>BRANCH ACRONYM</th>
-					<td><form:input path="branchAcronym"/></td>
+					<th>COMPANY CODE</th>
+					<td><form:input path="companyCode"/></td>
 				</tr>
 				<tr>
-					<th>BRANCH</th>
-					<td><form:input path="branch"/></td>
+					<th>COMPANY NAME</th>
+					<td><form:input path="companyName"/></td>
 				</tr>
 				<tr>
-					<th>BRANCH MANAGER</th>
-					<td><form:input path="branchManager"/></td>
+					<th>COMPANY NAME ACRONYM</th>
+					<td><form:input path="companyNameAcronym"/></td>
+				</tr>
+				<tr>
+					<th>COMPANY FULL NAME</th>
+					<td><form:input path="companyFullName"/></td>
+				</tr>
+				<tr>
+					<th>ADDRESS</th>
+					<td><form:input path="address"/></td>
+				</tr>
+				<tr>
+					<th>PRESIDENT</th>
+					<td><form:input path="president"/></td>
+				</tr>
+				<tr>
+					<th>MANAGER</th>
+					<td><form:input path="manager"/></td>
 				</tr>
 				<tr>
 					<th>TEL NO</th>
@@ -67,38 +83,18 @@
 					<td><form:input path="faxNo"/></td>
 				</tr>
 				<tr>
-					<th>EMAIL ADDRESS</th>
+					<th>E-MAIL ADDRESS</th>
 					<td><form:input path="eMailAddress"/></td>
 				</tr>
 				<tr>
-					<th>ITO TEL NO</th>
-					<td><form:input path="itoTelNo"/></td>
-				</tr>
-				<tr>
-					<th>ITO DSN NO</th>
-					<td><form:input path="itoDsnNo"/></td>
-				</tr>
-				<tr>
-					<th>ITO CHIEF</th>
-					<td><form:input path="itoChief"/></td>
-				</tr>
-				<tr>
-					<th>ITO ADDRESS</th>
-					<td><form:input path="itoAddress"/></td>
-				</tr>
-				<tr>
-					<th>DGBLOC</th>
-					<td><form:input path="dGbloc"/></td>
-				</tr>
-				<tr>
-					<th>DODAC</th>
-					<td><form:input path="dodac"/></td>
+					<th>사업자 등록 번호</th>
+					<td><form:input path="businessLicenceNo"/></td>
 				</tr>	
 			</tbody>
 			<tfoot>
 				<tr>
 					<td colspan="2">
-						<div><span class="yj_button ${(flag eq 'add') ? 'basic_add_submit' : 'basic_modify_submit' }">${(flag eq 'add') ? 'add' : 'modify' }</span></div>
+						<div><span class="yj_button ${(flag eq 'add') ? 'basic_company_add_submit' : 'basic_company_modify_submit' }">${(flag eq 'add') ? 'add' : 'modify' }</span></div>
 					</td>
 				</tr>
 			</tfoot>		
