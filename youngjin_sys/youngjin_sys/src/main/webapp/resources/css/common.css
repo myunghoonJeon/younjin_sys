@@ -648,6 +648,12 @@ li.inbound_onHand_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79
 .on_hand_list_add_setting_wrap{ width: 600px; height: 182px; background-color: }
 .on_hand_list_delete{ width: 16px; height: 16px;}
 
+.on_hand_list_content_weight_button_list{ width: 90%; }
+.on_hand_list_content_weight_back{ float: left; margin-bottom : 10px; }
+.on_hand_list_content_weight_add{ float: right; margin-bottom: 10px; }
+
+.on_hand_list_content_add{float: right; margin-bottom: 10px; }
+
 /* INBOUND DELIVERY */
 /* DD 619 */
 .inbound_dd619_list_wrap{ width: 1000px; height: 400px; background-color: white;}

@@ -35,7 +35,7 @@
 		<div class="gbl_filter">	
 			<ul class="freight_filter_wrap">
 				<li>	
-					<span class="inbound_invoice_declaration_add yj_button" >add</span>
+					<span data-onHandListseq="${onHandListSeq }" class="on_hand_list_content_add yj_button" >add</span>
 				</li>
 			</ul>	
 		</div>
@@ -60,13 +60,13 @@
 						</tr>
 					</c:if>
 					<c:forEach var="inboundInvoice" items="${inboundInvoiceList }">
-						<tr class="on_hand_list_content_select_tr" data-seq="${inboundInvoice.seq }" data-gblSeq="${inboundInvoice.gblSeq }">
+						<tr class="on_hand_list_content_select_tr" data-onHandListContentSeq="${ inboundInvoice.onHandListContentSeq}" data-onHandListseq="${onHandListSeq }" data-seq="${inboundInvoice.seq }" data-gblSeq="${inboundInvoice.gblSeq }">
 							<td>${inboundInvoice.gblNo }</td>
 							<td>${inboundInvoice.rank }</td>
 							<td>${inboundInvoice.name }</td>
 							<td>XXXX-XX-${fn:substring(inboundInvoice.ssn, 8, 12) }
 							<td>${inboundInvoice.code }</td>	
-							<td>
+							<td class="on_hand_list_content_select_select">
 								<select>
 									<option value="nextWeek">다음주 예정</option>
 									<option value="email">E-MAIL</option>

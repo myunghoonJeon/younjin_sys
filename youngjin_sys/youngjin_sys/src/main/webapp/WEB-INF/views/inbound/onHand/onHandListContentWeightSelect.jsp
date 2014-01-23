@@ -36,12 +36,12 @@
 			<span>INBOUND INVOICE SELECT WEIGHT</span>
 		</div>
 		<div class="yj_button_wrap">
-			<ul class="yj_button_list inbound_invoice_select_weight_list">
+			<ul class="yj_button_list on_hand_list_content_weight_button_list">
 				<li>
-					<span class="yj_button inbound_invoice_select_weight_back">back</span>
+					<span class="yj_button on_hand_list_content_weight_back">back</span>
 				</li>
 				<li>
-					<span data-inboundInvoiceSeq="${inboundInvoiceSeq }" class="yj_button inbound_invoice_select_weight_add">add</span>
+					<span data-onHandListContentSeq="${onHandListContentSeq }" data-onHandListSeq="${onHandListSeq }" data-gblSeq="${gblSeq }" class="yj_button on_hand_list_content_weight_add">add</span>
 				</li>
 			</ul>
 		</div>
@@ -74,7 +74,7 @@
 							<td>${weight.grossKg }</td>
 							<td>${weight.net * 0.45359237 }</td>
 							<td>${weight.cuft / 35.315 }</td>
-							<td><input name="inbound_invoice_weight_check" type="checkbox" value="${weight.seq }"/></td>	
+							<td><input name="on_hand_list_content_weight_check" type="checkbox" value="${weight.seq }" ${(checkWeightList[weight.seq]) ? 'checked=checked' : '' }/></td>	
 						</tr>
 					</c:forEach>
 				</tbody>

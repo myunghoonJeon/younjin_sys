@@ -211,6 +211,10 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public List<InboundInvoice> getInboundInvoiceOnHandList() {
 		return getSqlSession().selectList("inboundMapper.getInboundInvoiceOnHandList");
 	}
+	
+	public List<InboundInvoice> getOnHandInvoiceListAlreadyInsert(Integer seq) {
+		return getSqlSession().selectList("inboundMapper.getOnHandInvoiceListAlreadyInsert", seq);
+	}
 
 	public int getOnHandListCount(InboundFilter inboundFilter) {
 		return getSqlSession().selectOne("inboundMapper.getOnHandListCount");
@@ -239,4 +243,33 @@ public class InboundDao extends SqlSessionDaoSupport {
 			return false;
 		}
 	}
+
+	public void insertOnHandListContentWeight(Map<String, String> paramMap) {
+		getSqlSession().insert("inboundMapper.insertOnHandListContentWeight", paramMap);
+	}
+
+	public void insertOnHandListContent(OnHandListContent onHandListContent) {
+		getSqlSession().insert("inboundMapper.insertOnHandListContent", onHandListContent);
+	}
+
+	public List<Integer> getCheckWeightOnHandList(Integer onHandListContentSeq) {
+		return getSqlSession().selectList("inboundMapper.getCheckWeightOnHandList", onHandListContentSeq);
+	}
+
+	public void deleteOnHandListContentWeight(String onHandListContentSeq) {
+		getSqlSession().delete("inboundMapper.deleteOnHandListContentWeight", onHandListContentSeq);		
+	}
+
+	public void deleteOnHandListContent(String onHandListContentSeq) {
+		getSqlSession().delete("inboundMapper.deleteOnHandListContent", onHandListContentSeq);	
+		
+	}
+
+	public void updateOnHandListContent(Map<String, String> map) {
+		getSqlSession().update("inboundMapper.updateOnHandListContent", map);
+	}
+
+	public void deleteOnHandList(Map<String, String> map) {
+		getSqlSession().delete("inboundMapper.deleteOnHandList", map);
+	}	
 }

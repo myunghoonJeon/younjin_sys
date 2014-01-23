@@ -407,9 +407,46 @@ youngjin.inbound.onHandSync = function(){
 		}
 	});
 	
+	$('.on_hand_list_content_select_select').unbind('click');
+	$('.on_hand_list_content_select_select').bind('click', function(){
+		$(this).parents('.on_hand_list_content_select_tr').attr('data-click', 'yes');
+	});
+	
 	$('.on_hand_list_content_select_tr').unbind('click');
 	$('.on_hand_list_content_select_tr').bind('click', function(){
-		youngjin.inbound.onHandContentSelect($(this));
+		if($(this).attr('data-click') == 'yes'){
+			$(this).attr('data-click', 'no');
+		} else {
+			youngjin.inbound.onHandContentSelect($(this));
+		}
+	});
+	
+	$('.on_hand_list_content_weight_back').unbind('click');
+	$('.on_hand_list_content_weight_back').bind('click', function(){
+		var goUrl = contextPath + '/inbound/onHand/' + $('.on_hand_list_content_weight_add').attr('data-onHandListSeq') + '/onHandListSelect';
+		
+		parent.$.smartPop.close();
+
+		parent.$.smartPop.open({
+			width: 1000,
+			height: 700,
+			url : goUrl
+		});				
+	});
+	
+	$('.on_hand_list_content_weight_add').unbind('click');
+	$('.on_hand_list_content_weight_add').bind('click', function(){
+		youngjin.inbound.onHandListContentWeightAdd($(this));
+	});
+	
+	$('.on_hand_list_content_add').unbind('click');
+	$('.on_hand_list_content_add').bind('click', function(){
+		youngjin.inbound.onHandListContentSelectAdd($(this));
+	});
+	
+	$('.on_hand_list_delete').unbind('click');
+	$('.on_hand_list_delete').bind('click', function(){
+		youngjin.inbound.onHandListDelete($(this));
 	});
 };
 
@@ -1400,18 +1437,27 @@ youngjin.inbound.onHandListAdd = function(){
 };
 
 youngjin.inbound.onHandContentSelect = function(target){
-	var seq = target.attr('data-seq');
+	var seq = target.attr('data-onHandListseq');
 	var gblSeq = target.attr('data-gblSeq');
+	var onHandListContentSeq = target.attr('data-onHandListContentSeq');
 	
 	var url = contextPath +'/inbound/onHand/checkOnHandListContentWeight.json';
 	
 	if($('.on_hand_list_content_select_check').attr('checked') != 'checked'){
-		$.postJSON(url, {'seq' : seq }, function(data){
+		$.postJSON(url, {'seq' : onHandListContentSeq }, function(data){
 			return jQuery.ajax({
 				success : function(){
 					if(data == true){
 						if(confirm('설정한 weight선택을 수정하시겠습니까?')){
+							var goUrl = contextPath + '/inbound/onHand/' + seq + '/' + gblSeq + '/' + onHandListContentSeq + '/getWeight';
 							
+							parent.$.smartPop.close();
+							
+							parent.$.smartPop.open({
+								width : 700,
+								height : 500,
+								url : goUrl
+							});								
 						} else {
 							$('.on_hand_list_content_select_check').attr('checked', 'checked');
 						}
@@ -1435,6 +1481,86 @@ youngjin.inbound.onHandContentSelect = function(target){
 	} else {
 		$('.on_hand_list_content_select_check').removeAttr('checked');
 	}
+};
+
+youngjin.inbound.onHandListContentWeightAdd = function(target){
+	var onHandListContentSeq = target.attr('data-onHandListContentSeq');
+	var onHandListSeq = target.attr('data-onHandListSeq');
+	var gblSeq = target.attr('data-gblSeq');
+	
+	var weightSeqList = $('input:checked');
+	var count = weightSeqList.length;
+	var weightSeqCommaList = weightSeqList.eq(0).val();
+	
+	for( var i = 1 ; i < count ; i ++ ){
+		weightSeqCommaList += ',' + weightSeqList.eq(i).val();
+	}
+	
+	var url = contextPath + '/inbound/onHand/onHandListContentWeightAdd.json';
+	
+	var json = {
+		'onHandListSeq' : onHandListSeq,
+		'count' : count,
+		'weightSeqCommaList' : weightSeqCommaList,
+		'gblSeq' : gblSeq,
+		'onHandListContentSeq' : onHandListContentSeq
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				alert('입력 완료!');
+				
+				var goUrl = contextPath + '/inbound/onHand/' + onHandListSeq + '/onHandListSelect';
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width: 1000,
+					height: 700,
+					url : goUrl
+				});				
+			},
+			error : function(){
+				alert('에러발생!');
+			}
+		});
+	});
+	
+};
+
+youngjin.inbound.onHandListContentSelectAdd = function(target){
+	var onHandListSeq = target.attr('data-onHandListSeq');
+	
+	var url = contextPath + '/inbound/onHand/onHandListContentSelectAdd.json';
+	
+	$.postJSON(url, {'seq' : onHandListSeq }, function(){
+		return jQuery.ajax({
+			success : function(){
+				parent.$.smartPop.close();
+			},
+			error : function(){
+				alert('에러 발생!');
+			}
+		});
+	});
+};
+
+youngjin.inbound.onHandListDelete = function(target){
+	var seq = target.parents('tr').attr('data-seq');
+	
+	var url = contextPath + '/inbound/onHand/onHandListDelete.json';
+	
+	$.postJSON(url, {'seq' : seq }, function(){
+		return jQuery.ajax({
+			success : function(){
+				location.href = contextPath + '/inbound/onHand/onHandList';
+			},
+			error : function(){
+				alert('에러 발생!');
+			}
+		});
+	});
 };
 
 youngjin.inbound.dd619Back = function(target){

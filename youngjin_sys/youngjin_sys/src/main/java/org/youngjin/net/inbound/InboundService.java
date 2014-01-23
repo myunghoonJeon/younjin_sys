@@ -107,6 +107,18 @@ public class InboundService {
 		return inboundDao.getWeightList(seq);
 	}
 
+	public Map<Integer, Boolean> getCheckWeightList(Integer onHandListContentSeq) {
+		Map<Integer, Boolean> checkMap = new HashMap<Integer, Boolean>();
+		
+		List<Integer> tempList = inboundDao.getCheckWeightOnHandList(onHandListContentSeq);
+		
+		for(Integer weightSeq : tempList){
+			checkMap.put(weightSeq, true);
+		}
+		
+		return checkMap;
+	}
+
 	public void insertWeightAdd(WeightIb weightIb) {
 		String [] pcs = weightIb.getPiece().split(",");
 
@@ -378,8 +390,16 @@ public class InboundService {
 		return onHandList.getSeq();
 	}
 
-	public List<InboundInvoice> getInboundInvoiceOnHandList() {
-		return inboundDao.getInboundInvoiceOnHandList();
+	public List<InboundInvoice> getInboundInvoiceOnHandList(Integer seq) {
+		List<InboundInvoice> onHandInvoiceList = inboundDao.getInboundInvoiceOnHandList();
+		
+		List<InboundInvoice> onHandInvoiceListAlreadyInsert = inboundDao.getOnHandInvoiceListAlreadyInsert(seq);
+		
+		for(InboundInvoice inboundInvoice : onHandInvoiceListAlreadyInsert){
+			onHandInvoiceList.add(inboundInvoice);
+		}
+		
+		return onHandInvoiceList;
 	}
 
 	public int getOnHandListCount(InboundFilter inboundFilter) {
@@ -396,5 +416,47 @@ public class InboundService {
 
 	public boolean checkSelectonHandListContentWeight(Map<String, Integer> map) {
 		return inboundDao.checkSelectOnHandListContentWeight(map);
+	}
+
+	public void onHandListContentWeightAdd(Map<String, String> map) {
+		String [] weightSeqCommaList = map.get("weightSeqCommaList").split(",");
+		
+		String onHandListContentSeq = map.get("onHandListContentSeq");
+		
+		inboundDao.deleteOnHandListContent(onHandListContentSeq);
+		
+		OnHandListContent onHandListContent = new OnHandListContent();
+		onHandListContent.setGblSeq(Integer.parseInt(map.get("gblSeq")));
+		onHandListContent.setOnHandListSeq(Integer.parseInt(map.get("onHandListSeq")));
+		inboundDao.insertOnHandListContent(onHandListContent);
+		
+		for(String weightSeqComma : weightSeqCommaList){
+			Map<String, String> paramMap = new HashMap<String, String>();
+			paramMap.put("onHandListContentSeq", onHandListContent.getSeq().toString());
+			paramMap.put("weightSeq", weightSeqComma);
+			
+			inboundDao.insertOnHandListContentWeight(paramMap);
+		}				
+	}
+
+	public void onHandListContentSelectAdd(Map<String, String> map) {
+		inboundDao.updateOnHandListContent(map);
+		
+		Map<String, Integer> statusParam = new HashMap<String, Integer>();
+		statusParam.put("seq", Integer.parseInt(map.get("seq")));
+		statusParam.put("onHandList", 1);
+		
+		inboundDao.updateGblStatus(statusParam);
+	}
+
+	public void onHandListDelete(Map<String, String> map) {
+		
+		Map<String, Integer> statusParam = new HashMap<String, Integer>();
+		statusParam.put("seq", Integer.parseInt(map.get("seq")));
+		statusParam.put("onHandList", 0);
+		
+		inboundDao.updateGblStatus(statusParam);
+		
+		inboundDao.deleteOnHandList(map);
 	}
 }

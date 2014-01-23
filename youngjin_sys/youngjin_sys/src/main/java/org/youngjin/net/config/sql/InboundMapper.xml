@@ -832,8 +832,19 @@
 			<if test="weight != null">
 				, gbl_weight = #{weight}
 			</if>
+			<if test="onHandList != null">
+				, gbl_onHandList = #{onHandList}
+			</if>
 		WHERE
-			gbl_no = (select gblNo from gbl_ib where seq = #{gblSeq})
+			1 = 1
+			<if test="weight != null">
+				AND
+					gbl_no = (select gblNo from gbl_ib where seq = #{gblSeq})
+			</if>
+			<if test="onHandList != null">
+				AND
+					gbl_no IN (select gblNo from gbl_ib where seq = (select gblSeq from on_hand_list_content where onHandListSeq = #{value}))
+			</if>
 	</update>
 	
 	<update id="updateInboundInvoiceDeclaration" parameterType="Integer">
@@ -910,6 +921,8 @@
 			on_hand_list_content
 		WHERE
 			onHandListSeq = #{seq}
+		AND
+			check_up = true
 	</select>
 	
 	<select id="checkSelectOnHandListContentWeight" parameterType="Map" resultType="Integer">
@@ -950,4 +963,87 @@
 		AND
 			il.declarationCheck = 1		
 	</select>
+	
+	<select id="getOnHandInvoiceListAlreadyInsert" parameterType="Integer" resultType="InboundInvoice">
+		SELECT 
+			o.seq AS onHandListContentSeq, il.seq, g.gblNo, g.shipperName AS NAME, g.ssn, g.rank, g.code, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck, il.gblSeq
+		FROM
+			inbound_invoice_list il, gbl_ib g, on_hand_list_content o
+		WHERE
+			il.gblSeq = g.seq
+		AND
+			o.gblSeq = g.seq
+		AND
+			g.seq IN (SELECT gblSeq FROM on_hand_list_content WHERE onHandListSeq = #{value})
+		AND
+			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
+		AND
+			il.declarationCheck = 1	
+	</select>
+	
+	<insert id="insertOnHandListContent" parameterType="OnHandListContent">
+		INSERT INTO
+			on_hand_list_content
+			(
+				gblSeq, onHandListSeq, check_up
+			)
+		VALUES
+			(
+				#{gblSeq}, #{onHandListSeq}, false
+			)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID() 			
+		</selectKey>
+	</insert>
+	
+	<insert id="insertOnHandListContentWeight" parameterType="Map">
+		INSERT INTO
+			on_hand_list_content_weight
+			(
+				onHandListContentSeq, weightSeq
+			)
+		VALUES
+			(
+				#{onHandListContentSeq}, #{weightSeq}
+			)
+	</insert>
+	
+	<select id="getCheckWeightOnHandList" parameterType="Integer" resultType="Integer">
+		SELECT
+			weightSeq
+		FROM
+			on_hand_list_content_weight
+		WHERE
+			onHandListContentSeq = #{value}
+	</select>
+	
+	<delete id="deleteOnHandListContentWeight" parameterType="Integer">
+		DELETE FROM
+			on_hand_list_content_weight
+		WHERE
+			onHandListContentSeq = #{value}
+	</delete>
+	
+	<delete id="deleteOnHandListContent" parameterType="Integer">
+		DELETE FROM
+			on_hand_list_content
+		WHERE
+			seq = #{value}	
+	</delete>
+	
+	<update id="updateOnHandListContent" parameterType="Map">
+		UPDATE
+			on_hand_list_content
+		SET
+			check_up = 1
+		WHERE
+			onHandListSeq = #{seq}
+	</update>
+	
+	<delete id="deleteOnHandList" parameterType="Map">
+		DELETE FROM
+			on_hand_list
+		WHERE
+			seq = #{seq}
+	</delete>
 </mapper>

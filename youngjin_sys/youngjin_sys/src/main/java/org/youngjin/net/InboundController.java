@@ -384,7 +384,7 @@ public class InboundController {
 		user.setSubProcess("onHandList");
 		model.addAttribute("onHandListSeq", seq);
 		model.addAttribute("inboundInvoiceList",
-				inboundService.getInboundInvoiceOnHandList());
+				inboundService.getInboundInvoiceOnHandList(seq));
 		model.addAttribute("user", user);
 
 		return process + "/onHand/onHandListSelect";
@@ -413,6 +413,49 @@ public class InboundController {
 		model.addAttribute("user", user);
 
 		return process + "/onHand/onHandListContentWeightSelect";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/onHand/{seq}/{gblSeq}/{onHandListContentSeq}/getWeight", method = RequestMethod.GET)
+	public String getOnHandListContentWeightListByContentSeq(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq,
+			@PathVariable Integer gblSeq, @PathVariable Integer onHandListContentSeq) {
+
+		user.setSubProcess("onHandList");
+		model.addAttribute("onHandListSeq", seq);
+		model.addAttribute("onHandListContentSeq", onHandListContentSeq);
+		model.addAttribute("gblSeq", gblSeq);
+		
+		model.addAttribute("checkWeightList", inboundService.getCheckWeightList(onHandListContentSeq));
+		model.addAttribute("weightList",
+				inboundService.getWeightList(gblSeq));
+		model.addAttribute("user", user);
+
+		return process + "/onHand/onHandListContentWeightSelect";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/onHand/onHandListContentWeightAdd.json")
+	@ResponseBody
+	public void onHandListContentWeightAdd(
+			@RequestBody Map<String, String> map) {
+		inboundService.onHandListContentWeightAdd(map);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/onHand/onHandListContentSelectAdd.json")
+	@ResponseBody
+	public void onHandListContentSelectAdd(
+			@RequestBody Map<String, String> map) {
+		inboundService.onHandListContentSelectAdd(map);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+	@RequestMapping(value = "/{process}/onHand/onHandListDelete.json")
+	@ResponseBody
+	public void onHandListDelete(
+			@RequestBody Map<String, String> map) {
+		inboundService.onHandListDelete(map);
 	}
 
 	// -process

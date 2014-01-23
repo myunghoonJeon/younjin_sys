@@ -18,6 +18,8 @@ public class InboundInvoice {
 	private String oblNo;
 	private String vessle;
 	private String code;
+	
+	private Integer onHandListContentSeq;
 
 	private List<WeightIb> weightList;
 
@@ -141,6 +143,14 @@ public class InboundInvoice {
 		this.code = code;
 	}
 
+	public Integer getOnHandListContentSeq() {
+		return onHandListContentSeq;
+	}
+
+	public void setOnHandListContentSeq(Integer onHandListContentSeq) {
+		this.onHandListContentSeq = onHandListContentSeq;
+	}
+
 	@Override
 	public String toString() {
 		return "InboundInvoice [seq=" + seq + ", gblNo=" + gblNo + ", name="
@@ -149,6 +159,7 @@ public class InboundInvoice {
 				+ ", gblSeq=" + gblSeq + ", rank=" + rank + ", eta=" + eta
 				+ ", delcarationCheck=" + delcarationCheck + ", writeDate="
 				+ writeDate + ", oblNo=" + oblNo + ", vessle=" + vessle
-				+ ", code=" + code + ", weightList=" + weightList + "]";
+				+ ", code=" + code + ", onHandListContentSeq="
+				+ onHandListContentSeq + ", weightList=" + weightList + "]";
 	}
 }
