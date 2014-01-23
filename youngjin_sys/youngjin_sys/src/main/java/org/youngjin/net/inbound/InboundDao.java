@@ -271,5 +271,9 @@ public class InboundDao extends SqlSessionDaoSupport {
 
 	public void deleteOnHandList(Map<String, String> map) {
 		getSqlSession().delete("inboundMapper.deleteOnHandList", map);
+	}
+
+	public List<Addition> getAddtionList(String seq) {
+		return getSqlSession().selectList("inboundMapper.getAdditionList", Integer.parseInt(seq));
 	}	
 }

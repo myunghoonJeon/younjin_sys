@@ -34,7 +34,7 @@ import org.youngjin.net.upload.DownloadView;
 import org.youngjin.net.util.DateUtil;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_NORMAL')")
+@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') ")
 public class OutboundController {
 
 	@Resource
@@ -46,7 +46,6 @@ public class OutboundController {
 	@Resource
 	private MemorandumService memorandumService;
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/gblList", method = RequestMethod.GET)
 	public String gblList(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -68,7 +67,6 @@ public class OutboundController {
 		return process + "/gbl/list";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/gblList", method = RequestMethod.POST)
 	public String gblListPost(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -83,12 +81,13 @@ public class OutboundController {
 
 		model.addAttribute("gblList",
 				outboundService.getGblList(outboundFilter, user));
+		model.addAttribute("gblStatus",
+				outboundService.getGblStatus(outboundFilter));
 		model.addAttribute("user", user);
 
 		return process + "/gbl/list";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/add", method = RequestMethod.GET)
 	public String gblAdd(Model model, User user,
 			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process) {
@@ -97,7 +96,6 @@ public class OutboundController {
 		return process + "/gbl/add";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/add", method = RequestMethod.POST)
 	public String gblAddSubmit(Model model, User user,
 			@ModelAttribute(value = "gbl") GBL gbl,
@@ -135,7 +133,6 @@ public class OutboundController {
 		}
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 	@RequestMapping(value = "/{process}/declarationList", method = RequestMethod.GET)
 	public String declarationList(Model model, User user,
 			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process) {
@@ -143,7 +140,7 @@ public class OutboundController {
 		return process + "/gbl/declarationList";
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/modify", method = RequestMethod.GET)
 	public String gblModify(Model model, User user,
 			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process, @PathVariable Integer seq) {
@@ -156,14 +153,14 @@ public class OutboundController {
 		return process + "/gbl/modify";
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/gblModify.json")
 	@ResponseBody
 	public void gblModifySubmit(@RequestBody GBL gbl){
 		outboundService.modifyGbl(gbl);
 	}	
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}", method = RequestMethod.GET)
 	public String gblSelect(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -177,7 +174,7 @@ public class OutboundController {
 		return process + "/gbl/processAndUpload";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/powerOfAttorney", method = RequestMethod.GET)
 	public String gblPowerOfAttorney(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -185,7 +182,7 @@ public class OutboundController {
 		return process + "/gbl/powerOfAttorney";
 	}	
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/upload", method = RequestMethod.GET)
 	public String gblSelectUplaod(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -195,7 +192,7 @@ public class OutboundController {
 		return process + "/gbl/upload";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/upload", method = RequestMethod.POST)
 	public void gblSelectUplaodPost(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -205,7 +202,7 @@ public class OutboundController {
 		outboundService.insertGblFile(gbl);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/preparation", method = RequestMethod.GET)
 	public String gblPreparation(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -215,7 +212,7 @@ public class OutboundController {
 		return process + "/gbl/preparation";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/preMoveSurvey", method = RequestMethod.GET)
 	public String gblPreMoveSurvey(
 			Model model,
@@ -237,7 +234,7 @@ public class OutboundController {
 		return process + "/gbl/preMoveSurvey";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/memorandumList", method = RequestMethod.GET)
 	public String memorandumList(Model model, User user,
 			@PathVariable String process, @PathVariable String seq){
@@ -250,21 +247,21 @@ public class OutboundController {
 		return process + "/gbl/memorandumAllList";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/addMemorandumAndDd619.json")
 	@ResponseBody
 	public MemorandumList addMemorandumAndDd619(@RequestBody MemorandumList memorandumList, User user){
 		return memorandumService.addMemorandumAndDd619(memorandumList, user, "outbound");
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/deleteMemorandumAllList.json")
 	@ResponseBody
 	public void deleteMemorandumAllList(@RequestBody MemorandumList memorandumList){
 		memorandumService.deleteMemorandumAllList(memorandumList, "outbound");
 	}	
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum", method = RequestMethod.GET)
 	public String gblMemorandum(Model model, User user,
 			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq) {
@@ -290,7 +287,7 @@ public class OutboundController {
 		return process + "/gbl/memorandumList";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum/{type}", method = RequestMethod.GET)
 	public String gblMemorandumForm(Model model, User user,
 			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq,
@@ -312,7 +309,7 @@ public class OutboundController {
 		return process + "/gbl/memorandumForm";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum/{type}/{article}", method = RequestMethod.GET)
 	public String gblMemorandumFormArticle(Model model, User user,
 			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq,
@@ -338,21 +335,21 @@ public class OutboundController {
 		return process + "/gbl/memorandumForm";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/memorandum/invoice/{article}/insert.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void insertInvoiceMemorandum(@RequestBody Memorandum memorandum, @PathVariable String article){
 		memorandumService.insertInvoiceMemorandum(memorandum, "outbound");
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/memorandum/invoice/{article}/modify.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void modifyInvoiceMemorandum(@RequestBody Memorandum memorandum, @PathVariable String article){
 		memorandumService.modifyInvoiceMemorandum(memorandum, "outbound");
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum/{type}/print", method = RequestMethod.GET)
 	public String gblMemorandumPrint(Model model, User user,
 			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq,
@@ -374,7 +371,7 @@ public class OutboundController {
 		return process + "/gbl/memorandumPrint";
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum/{type}/{article}/print", method = RequestMethod.GET)
 	public String gblMemorandumPrintArticle(Model model, User user,
 			@PathVariable String process, @PathVariable String seq, @PathVariable Integer memorandumSeq,
@@ -400,7 +397,7 @@ public class OutboundController {
 		return process + "/gbl/memorandumPrint";
 	}	
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/dd619List", method = RequestMethod.GET)
 	public String dd619List(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -413,7 +410,7 @@ public class OutboundController {
 		return process + "/gbl/dd619List";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/dd619Add", method = RequestMethod.GET)
 	public String dd619Add(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -428,7 +425,7 @@ public class OutboundController {
 		return process + "/gbl/dd619Add";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/{dd619Seq}/dd619Modify", method = RequestMethod.GET)
 	public String dd619Modify(Model model, User user,
 			@PathVariable String process, @PathVariable String seq, @PathVariable Integer dd619Seq,
@@ -447,7 +444,7 @@ public class OutboundController {
 		return process + "/gbl/dd619Update";
 	}	
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/dd619/{listSeq}/print", method = RequestMethod.GET)
 	public String dd619(Model model, User user, @PathVariable String process,
 			@PathVariable String seq, @PathVariable Integer listSeq, @ModelAttribute Dd619 dd619) {
@@ -466,7 +463,7 @@ public class OutboundController {
 		return process + "/gbl/dd619";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/weightcertificate", method = RequestMethod.GET)
 	public String weightcertificate(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -482,7 +479,7 @@ public class OutboundController {
 		return process + "/gbl/weightcertificate";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/weightcertificate/print", method = RequestMethod.GET)
 	public String weightcertificatePrint(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -495,7 +492,7 @@ public class OutboundController {
 		return process + "/gbl/weightcertificatePrint";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/additional", method = RequestMethod.GET)
 	public String additionalDecideMain(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -519,14 +516,14 @@ public class OutboundController {
 		return process + "/gbl/additionalDecide";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/additionComplete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void additionalComplete(@RequestBody Addition addition) {
 		outboundService.additionComplete(addition);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/weightcertificate/add.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblWeightcertificateSubmit(
@@ -535,28 +532,28 @@ public class OutboundController {
 		outboundService.insertWeightcertificate(weightcertificate);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/dd619/add.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblDd619AddSubmit(@RequestBody Dd619 dd619) {
 		outboundService.insertDd619(dd619);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/dd619/modify.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblDd619ModifySubmit(@RequestBody Dd619 dd619) {
 		outboundService.modifyDd619(dd619);
 	}	
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/dd619/update.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblDd619UpdateSubmit(@RequestBody Dd619 dd619) {
 		outboundService.updateDd619(dd619);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/{memorandumSeq}/memorandum/{type}/delete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumDelete(@PathVariable String seq,
@@ -564,28 +561,28 @@ public class OutboundController {
 		memorandumService.deleteMemorandum(seq, type, memorandumSeq, "outbound");
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/memorandum/memorandumInput.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumInput(@RequestBody Memorandum memorandum) {
 		memorandumService.insertMemorandum(memorandum, "outbound");
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/memorandum/memorandumUpdate.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumUpdate(@RequestBody Memorandum memorandum) {
 		memorandumService.updateMemorandum(memorandum, "outbound");
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/preMoveSurveySubmit.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblPreMoveSurveySubmit(@RequestBody PreMoveSurvey preMoveSurvey) {
 		outboundService.insertPreMoveSurvey(preMoveSurvey);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/{seq}/preMoveSurveyEditSubmit.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblPreMoveSurveyEditSubmit(
@@ -593,7 +590,7 @@ public class OutboundController {
 		outboundService.updatePreMoveSurvey(preMoveSurvey);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/findUsNo.json", method = RequestMethod.POST)
 	@ResponseBody
 	public GBlock findUsNo(@RequestBody GBlock gBlock) {
@@ -604,7 +601,7 @@ public class OutboundController {
 	/**
 	 * DeliveryControl
 	 */
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/main", method = RequestMethod.GET)
 	public String deliveryMain(Model model, User user,
 			@PathVariable String process) {
@@ -618,7 +615,7 @@ public class OutboundController {
 		return process + "/delivery/main";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/add", method = RequestMethod.GET)
 	public String deliveryAdd(Model model, User user,
 			@PathVariable String process) {
@@ -628,7 +625,7 @@ public class OutboundController {
 		return process + "/delivery/add";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/delivery/truckManifast", method = RequestMethod.GET)
 	public String truckManifastMain(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -648,7 +645,7 @@ public class OutboundController {
 		return process + "/delivery/truckManifast";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/delivery/truckManifast", method = RequestMethod.POST)
 	public String truckManifastMainPost(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -668,7 +665,7 @@ public class OutboundController {
 		return process + "/delivery/truckManifast";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/delivery/truckManifastGblList", method = RequestMethod.GET)
 	public String truckManifastGblList(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -687,7 +684,7 @@ public class OutboundController {
 		return process + "/delivery/gblList";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/delivery/{seq}/truckSeperateSetting", method = RequestMethod.GET)
 	public String truckSeperateSetting(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -699,7 +696,7 @@ public class OutboundController {
 		return process + "/delivery/truckSeperate";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/delivery/truckManifast/seperate.json")
 	@ResponseBody
 	public void gblSperateSubmit(@RequestBody Map<String, String> gblSeq) {
@@ -708,14 +705,14 @@ public class OutboundController {
 	
 	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/delivery/truckManifast/merge.json")
 	@ResponseBody
 	public void gblMergeSubmit(@RequestBody Map<String, String> gblSeq) {
 		outboundService.mergeSubmit(gblSeq);
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/delivery/{seq}/deleteTruckManifast", method = RequestMethod.GET)
 	public String deleteTruckManifast(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -737,14 +734,14 @@ public class OutboundController {
 		return process + "/delivery/truckManifast";
 	}	
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/delivery/truckAdd.json")
 	@ResponseBody
 	public void truckAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertTruckManifast(gblSeq);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/delivery/{seq}/truckManifastPrint", method = RequestMethod.GET)
 	public String truckManifastPrint(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -761,7 +758,7 @@ public class OutboundController {
 		return process + "/delivery/truckManifastPrint";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/delivery/bookingList", method = RequestMethod.GET)
 	public String bookingListMain(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -782,7 +779,7 @@ public class OutboundController {
 		return process + "/delivery/bookingList";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/bookingGblList", method = RequestMethod.GET)
 	public String bookingListGblList(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -800,7 +797,7 @@ public class OutboundController {
 		return process + "/delivery/bookGblList";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/{seq}/bookingListPrint", method = RequestMethod.GET)
 	public String bookingListPrint(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -818,14 +815,14 @@ public class OutboundController {
 		return process + "/delivery/bookingListPrint";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/bookingAdd.json")
 	@ResponseBody
 	public void bookingAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertBookingList(gblSeq);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/mil/tcmd")
 	public String tcmdMain(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
 
@@ -837,7 +834,7 @@ public class OutboundController {
 		return process + "/delivery/tcmd";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/mil/tcmdGblSetting", method=RequestMethod.GET)
 	public String tcmdGblSetting(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
 
@@ -853,7 +850,7 @@ public class OutboundController {
 		return process + "/delivery/tcmdGblList";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/mil/{seq}/tcmdModify")
 	public String tcmdModify(Model model, User user, @PathVariable String process, @PathVariable Integer seq, @ModelAttribute OutboundFilter outboundFilter){			
 		model.addAttribute("user", user);
@@ -868,7 +865,7 @@ public class OutboundController {
 		return process + "/delivery/tcmdModify";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/mil/{seq}/tcmdPrint")
 	public String tcmdPrint(Model model, User user, @PathVariable String process, @PathVariable Integer seq, @ModelAttribute OutboundFilter outboundFilter){			
 		model.addAttribute("user", user);
@@ -883,21 +880,21 @@ public class OutboundController {
 		return process + "/delivery/tcmdPrint";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/tcmd/tcmdListAdd.json")
 	@ResponseBody
 	public void tcmdAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertTcmdList(gblSeq);
 	}	
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/tcmdGblUpdate.json")
 	@ResponseBody
 	public void tcmdGblUpdate(@RequestBody Map<String, String> map) {
 		outboundService.updateTcmdGbl(map);
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/tcmdUpdate.json")
 	@ResponseBody
 	public void tcmdUpdate(@RequestBody Map<String, String> map) {
@@ -910,7 +907,7 @@ public class OutboundController {
 	@Resource
 	private DownloadView downloadView;
 
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+
 	@RequestMapping(value = "/{process}/file/{seq}/{flag}")
 	public DownloadView pdfDownView(Model model, @PathVariable String seq,
 			@PathVariable String process, @PathVariable String flag) {

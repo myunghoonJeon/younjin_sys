@@ -6,7 +6,7 @@ package org.youngjin.net.login;
  */
 public enum Authority {
 
-	ANONYMOUS(0), NORMAL(3), MANAGER(2), ADMIN(1);
+	LEVEL1(0), LEVEL2(3), LEVEL3(2), LEVEL4(1);
 
 	private int value;
 
@@ -25,13 +25,13 @@ public enum Authority {
 	public String getStrAuthority() {
 		switch (this.value) {
 		case 0:
-			return "ANONYMOUS";
+			return "LEVEL1";
 		case 3:
-			return "NORMAL";
+			return "LEVEL2";
 		case 2:
-			return "MANAGER";
+			return "LEVEL3";
 		case 1:
-			return "ADMIN";
+			return "LEVEL4";
 		default:
 			return null;
 		}

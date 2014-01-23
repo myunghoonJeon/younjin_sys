@@ -53,10 +53,11 @@
 						<c:when test="${process.custom eq 0 and process.weight eq 1 }">
 							<img src="${cp }/resources/images/freight/custom_delay.png" />
 						</c:when>						
-						<c:when test="${process.custom eq 1 }">
-							<img src="${cp }/resources/images/freight/custom_complete.png" />
-						</c:when>						
+						<c:when test="${process.custom eq 1 }"></c:when>						
 					</c:choose>
+					<c:if test="${process.custom eq 1 }">						
+						<img src="${cp }/resources/images/freight/custom_complete.png" />
+					</c:if>
 				</li>
 				<li class="gbl_process_delivery inbound_gbl_process_onHandList">
 					<c:choose>									
@@ -66,10 +67,11 @@
 						<c:when test="${process.custom eq 1 and process.onHandList eq 0}">
 							<img src="${cp }/resources/images/freight/onhandlist_delay.png" />
 						</c:when>									
-						<c:when test="${process.onHandList eq 1}">
-							<img src="${cp }/resources/images/freight/onhandlist_complete.png" />
-						</c:when>
+						<c:when test="${process.onHandList eq 1}"></c:when>
 					</c:choose>
+					<c:if test="${process.onHandList eq 1}">
+						<img src="${cp }/resources/images/freight/onhandlist_complete.png" />
+					</c:if>
 				</li>
 				<li class="gbl_process_preparation inbound_gbl_process_delivery">
 					<c:choose>
@@ -80,9 +82,11 @@
 							<img src="${cp }/resources/images/freight/delivery_delay.png" />
 						</c:when>
 						<c:when test="${process.delivery eq 1 }">
-							<img src="${cp }/resources/images/freight/delivery_complete.png" />
 						</c:when>
 					</c:choose>
+					<c:if test="${process.delivery eq 1 }">
+						<img src="${cp }/resources/images/freight/delivery_complete.png" />
+					</c:if>
 				</li>
 				<li class="gbl_process_preparation inbound_gbl_process_invoice">	
 					<c:choose>				
@@ -93,9 +97,11 @@
 							<img src="${cp }/resources/images/freight/invoice_delay.png" />
 						</c:when>
 						<c:when test="${process.invoice eq 1 }">
-							<img src="${cp }/resources/images/freight/invoice_complete.png" />
 						</c:when>
 					</c:choose>
+					<c:if test="${process.invoice eq 1 }">
+						<img src="${cp }/resources/images/freight/invoice_complete.png" />
+					</c:if>
 				</li>
 			</ul>
 		</div>

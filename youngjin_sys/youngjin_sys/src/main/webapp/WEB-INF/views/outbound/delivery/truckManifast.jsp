@@ -26,7 +26,7 @@
 	<div class="gbl_filter">	
 		<ul>
 			<form:form commandName="outboundFilter" method="get">
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<sec:authorize access="hasRole('ROLE_LEVEL4')">
 					<li>	
 						<form:select path="branch">
 							<form:option value="">All</form:option>

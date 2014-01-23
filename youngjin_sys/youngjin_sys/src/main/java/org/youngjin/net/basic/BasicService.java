@@ -82,6 +82,13 @@ public class BasicService {
 		
 		return basicDao.getCompanyList(company).get(0);
 	}
+	
+	public Company getCompanyByCode(String code){
+		Company company = new Company();
+		company.setCompanyCode(code);
+		
+		return basicDao.getCompanyList(company).get(0);		
+	}
 
 	public void companyModify(Company company) {
 		basicDao.updateCompany(company);	

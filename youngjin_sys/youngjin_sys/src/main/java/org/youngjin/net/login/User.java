@@ -136,14 +136,14 @@ public class User extends AbstractUser {
 	}
 
 	public String getAuthStr() {
-		if (super.getAuth().equals(Authority.NORMAL.getAuthority()))
-			return Authority.NORMAL.getStrAuthority();
-		else if (super.getAuth().equals(Authority.MANAGER.getAuthority()))
-			return Authority.MANAGER.getStrAuthority();
-		else if (super.getAuth().equals(Authority.ADMIN.getAuthority()))
-			return Authority.ADMIN.getStrAuthority();
+		if (super.getAuth().equals(Authority.LEVEL2.getAuthority()))
+			return Authority.LEVEL2.getStrAuthority();
+		else if (super.getAuth().equals(Authority.LEVEL3.getAuthority()))
+			return Authority.LEVEL3.getStrAuthority();
+		else if (super.getAuth().equals(Authority.LEVEL4.getAuthority()))
+			return Authority.LEVEL4.getStrAuthority();
 		else
-			return Authority.ANONYMOUS.getStrAuthority();
+			return Authority.LEVEL1.getStrAuthority();
 	}
 
 	@Override

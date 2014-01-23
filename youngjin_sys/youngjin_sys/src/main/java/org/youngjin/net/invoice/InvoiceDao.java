@@ -195,24 +195,37 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 		return getSqlSession().selectOne("invoiceMapper.getInvoiceGblContentInfo", invoiceGblSeq);
 	}
 
-	public int getInvoiceSettingGblListCount(OutboundFilter outboundFilter) {
-		return getSqlSession().selectOne("invoiceMapper.getInvoicesttingGblListCount", outboundFilter);
+	public int getInvoiceSettingGblListCount(InvoiceGblFilter invoiceGblFilter) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoicesttingGblListCount", invoiceGblFilter);
 	}
 
-	public List<GBL> getInvoiceSettingGblList(OutboundFilter outboundFilter) {
-		return getSqlSession().selectList("invoiceMapper.getInvoiceSettingGblList", outboundFilter);
+	public int getInvoiceSettingGblListIbCount(InvoiceGblFilter invoiceGblFilter) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoiceSettingGblListIbCount", invoiceGblFilter);
 	}
+
+	public List<GBL> getInvoiceSettingGblList(InvoiceGblFilter invoiceGblFilter) {
+		return getSqlSession().selectList("invoiceMapper.getInvoiceSettingGblList", invoiceGblFilter);
+	}
+
+	public List<GBL> getInvoiceSettingGblListIb(
+			InvoiceGblFilter invoiceGblFilter) {
+		return getSqlSession().selectList("invoiceMapper.getInvoiceSettingGblListIb", invoiceGblFilter);
+	}	
 
 	public InvoiceGbl getInvoiceSettingGblListContent(String gblSeq) {
 		return getSqlSession().selectOne("invoiceMapper.getInvoiceSettingGblContent", gblSeq);
+	}
+
+	public InvoiceGbl getInvoiceSettingGblListContentIb(String gblSeq) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoiceSettingGblContentIb", gblSeq);
 	}
 
 	public String checkTodayInvoiceNo() {
 		return getSqlSession().selectOne("invoiceMapper.checkTodayInvoiceNo");
 	}
 
-	public List<Code> getCarrierList() {
-		return getSqlSession().selectList("invoiceMapper.getCarrierList");
+	public List<Code> getCarrierList(InvoiceFilter invoiceFilter) {
+		return getSqlSession().selectList("invoiceMapper.getCarrierList", invoiceFilter);
 	}
 
 	public int getInvoiceCollectionListCount(InvoiceFilter invoiceFilter) {
@@ -287,5 +300,5 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 
 	public Integer getInvoiceCollectionSeq(Integer invoiceSeq) {
 		return getSqlSession().selectOne("invoiceMapper.getInvoiceCollectionSeq", invoiceSeq);
-	}	
+	}
 }

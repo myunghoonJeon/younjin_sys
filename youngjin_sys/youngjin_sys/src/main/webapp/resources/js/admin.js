@@ -12,8 +12,8 @@ youngjin.admin.user_no = 1;
 youngjin.admin.sync = function(){
 	var eventString = webBrowserCheck() == 'C' ? 'keydown' : 'keypress';
 	
-	$('.admin_user_addButton span').unbind('click');
-	$('.admin_user_addButton span').bind('click', function(){
+	$('.admin_user_addButton').unbind('click');
+	$('.admin_user_addButton').bind('click', function(){
 		youngjin.admin.user_add();
 	});
 	

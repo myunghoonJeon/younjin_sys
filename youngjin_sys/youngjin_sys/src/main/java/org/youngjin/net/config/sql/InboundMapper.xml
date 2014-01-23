@@ -177,6 +177,8 @@
 						gblNo
 					FROM
 						gbl_ib
+					WHERE
+						1 = 1
 						<if test="branch != null and branch != ''">
 							AND		
 								area = #{branch}			
@@ -435,12 +437,34 @@
 	</select>
 	
 	<select id="getInboundInvoice" parameterType="Integer" resultType="InboundInvoice">
-		SELECT
-			seq, gblNo, name, ssn, inboundInvoiceNo, gblSeq, invoiceDate
+		SELECT 
+			il.seq, g.gblNo, w.piece, w.cuft, w.grossWt, w.netWt, g.shipperName AS NAME, g.code,
+			g.ssn, g.rank, il.inboundInvoiceNo, il.invoiceDate, g.eta, g.vessle, g.oblNo,
+			g.fright, g.awbNo ,g.itemsPieces
 		FROM
-			inbound_invoice_list
+			inbound_invoice_list il, gbl_ib g,
+			(
+				SELECT 
+					iiw.inboundInvoiceseq,
+					COUNT(piece) AS piece,
+					SUM(cuft) AS cuft,
+					SUM(gross) AS grossWt,
+					SUM(net) AS netWt  
+				FROM
+					weight_ib wi, inbound_invoice_weight iiw
+				WHERE
+					wi.seq = iiw.weightSeq
+				GROUP BY
+					iiw.inboundInvoiceSeq
+			) w
 		WHERE
-			seq = #{value}
+			il.gblSeq = g.seq
+		AND
+			il.seq = w.inboundInvoiceSeq
+		AND
+			il.seq = #{value}
+		AND
+			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
 	</select>
 	
 	<select id="checkInboundInvoiceWeight" parameterType="InboundInvoice" resultType="Integer">
@@ -479,7 +503,7 @@
 	
 	<select id="getInboundInvoiceDeclarationList" resultType="InboundInvoice">
 		SELECT 
-			il.seq, g.gblNO, g.shipperName AS name, g.ssn, g.rank, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck
+			il.seq, g.gblNo, g.shipperName AS name, g.ssn, g.rank, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck
 		FROM
 			inbound_invoice_list il, gbl_ib g
 		WHERE
@@ -832,8 +856,14 @@
 			<if test="weight != null">
 				, gbl_weight = #{weight}
 			</if>
+			<if test="custom != null">
+				, gbl_custom = #{custom}
+			</if>
 			<if test="onHandList != null">
 				, gbl_onHandList = #{onHandList}
+			</if>
+			<if test="delivery != null">
+				, gbl_delivery = #{delivery}
 			</if>
 		WHERE
 			1 = 1
@@ -841,9 +871,17 @@
 				AND
 					gbl_no = (select gblNo from gbl_ib where seq = #{gblSeq})
 			</if>
+			<if test="custom != null">
+				AND
+					gbl_no = (select gblNo from inbound_invoice_list where seq = #{seq})
+			</if>
 			<if test="onHandList != null">
 				AND
-					gbl_no IN (select gblNo from gbl_ib where seq = (select gblSeq from on_hand_list_content where onHandListSeq = #{value}))
+					gbl_no IN (select gblNo from gbl_ib where seq = (select gblSeq from on_hand_list_content where onHandListSeq = #{seq}))
+			</if>
+			<if test="delivery != null">
+				AND
+					gbl_no = (select gblNo from gbl_ib where seq = #{seq})
 			</if>
 	</update>
 	
@@ -1046,4 +1084,15 @@
 		WHERE
 			seq = #{seq}
 	</delete>
+	
+	<!-- comfirm -->
+		
+	<select id="getAdditionList" parameterType="Integer" resultType="Addition">
+		SELECT
+			seq, title, cost, price, gbl_seq AS gblSeq
+		FROM
+			decide_ib
+		WHERE
+			gbl_seq = #{value}
+	</select>
 </mapper>

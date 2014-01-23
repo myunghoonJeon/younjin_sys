@@ -402,8 +402,13 @@ public class InvoiceService {
 		List<InvoiceGbl> settingGblList = new ArrayList<InvoiceGbl>();
 
 		for (String gblSeq : invoiceGblSeqList) {
-			settingGblList.add(invoiceDao
-					.getInvoiceSettingGblListContent(gblSeq));
+			if(process.equals("outbound")){
+				settingGblList.add(invoiceDao
+						.getInvoiceSettingGblListContent(gblSeq));
+			} else if(process.equals("inbound")){
+				settingGblList.add(invoiceDao
+						.getInvoiceSettingGblListContentIb(gblSeq));				
+			}
 		}
 
 		invoice.setTsp(settingGblList.get(0).getTsp());
@@ -865,6 +870,8 @@ public class InvoiceService {
 			invoiceDao.updateInvoiceGbl(invoiceGbl);
 
 			invoiceDao.checkAndUpdateInvoice(invoiceSeq);
+		} else {
+			
 		}
 
 		return invoiceGblContentList;
@@ -885,17 +892,29 @@ public class InvoiceService {
 		return invoiceDao.getInvoiceGblcontentInfo(invoiceGblSeq);
 	}
 
-	public int getInvoiceSettingGblListCount(OutboundFilter outboundFilter) {
-		return invoiceDao.getInvoiceSettingGblListCount(outboundFilter);
+	public int getInvoiceSettingGblListCount(InvoiceGblFilter invoiceGblFilter) {
+		if(invoiceGblFilter.getProcess().equals("outbound")){
+			return invoiceDao.getInvoiceSettingGblListCount(invoiceGblFilter);
+		} else if (invoiceGblFilter.getProcess().equals("inbound")){
+			return invoiceDao.getInvoiceSettingGblListIbCount(invoiceGblFilter);
+		}
+		
+		return 0;
 	}
 
-	public List<GBL> getInvoiceSettingGblList(OutboundFilter outboundFilter) {
-		return invoiceDao.getInvoiceSettingGblList(outboundFilter);
+	public List<GBL> getInvoiceSettingGblList(InvoiceGblFilter invoiceGblFilter) {
+		if(invoiceGblFilter.getProcess().equals("outbound")){
+			return invoiceDao.getInvoiceSettingGblList(invoiceGblFilter);
+		} else if (invoiceGblFilter.getProcess().equals("inbound")){
+			return invoiceDao.getInvoiceSettingGblListIb(invoiceGblFilter);
+		}
+		
+		return new ArrayList<GBL>();
 	}
 
-	public Map<String, List<Code>> getInvoiceFilterMap() {
+	public Map<String, List<Code>> getInvoiceFilterMap(InvoiceFilter invoiceFilter) {
 		Map<String, List<Code>> filterMap = new HashMap<String, List<Code>>();
-		List<Code> carrierList = invoiceDao.getCarrierList();
+		List<Code> carrierList = invoiceDao.getCarrierList(invoiceFilter);
 		filterMap.put("tspList", carrierList);
 
 		return filterMap;

@@ -153,7 +153,11 @@ public class GBLStatus {
 				if(this.custom.equals("1")){
 					if(this.onHandList.equals("1")){
 						if(this.delivery.equals("1")){
-							return "COMPLETE";
+							if(this.invoice.equals("1")){
+								return "COMPLETE";
+							} else {
+								return "INOVICE";
+							}
 						} else {
 							return "DELIVERY";
 						}

@@ -626,6 +626,26 @@ li.inbound_custom_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79
 .inbound_invoice_declaration_add{ float: right; margin-bottom : 10px; }
 .declaration_list_delete{ width: 16px; height: 16px;}
 .inbound_invoice_list_delete{ width: 16px; height: 16px; }
+
+.inbound_invoice_print_wrap{ width : 100%; height: 100%; background-color: white;}
+.inbound_invoice_print_list{width: 80%; height: 180px; margin: 0 auto;}
+.inbound_invoice_print_list li { width : 100%; height: 40px; margin: 21px 0; padding-top: 15px; cursor: pointer; background-color: #A6A6A6; color: #10253F; font-weight: bold; text-align: center;
+	/* Opera */
+	box-shadow:10px 10px 10px silver;
+	
+	/* Firefox */
+	-moz-box-shadow:10px 10px 10px silver;
+	
+	/* Safiri, Chrome */
+	-webkit-box-shadow:5px 5px 5px silver;
+	
+	/* IE */
+	filter:progid:DXImageTransform.Microsoft.Shadow(color=silver,direction=55, strength=10);
+ }
+ 
+ .inbound_invoice_print_list li:HOVER{ background-color: #F79646; }
+
+
 /* ON HAND */
 li.inbound_onHand_item_list{ border-left: 0px;}
 li.inbound_onHand_item_list:HOVER{ border-left: 0px;}
@@ -704,3 +724,23 @@ li.inbound_onHand_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79
 /* MEMORANDUM */
 .inbound_memorandum_complete{ width: 70%; margin: 0 auto;  }
 .inbound_memorandum_complete .yj_button{ float: right; margin-bottom: 20px;   }
+
+/* DELIVERY */
+.inbound_final_back_wrap{ width: 90%; }
+.inbound_final_back{ margin-left: 5px; }
+
+/* INBOUND INVOICE */
+li.inbound_invoice_item_list{ border-left: 0px;}
+li.inbound_invoice_item_list:HOVER{ border-left: 0px;}
+
+li.inbound_invoice_item_list ul li{ width: 136px; font-size: 12px;}
+li.inbound_invoice_item_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646; width: 122px; }
+
+.inboundInvoice_add_button{float: right;}
+
+.inbound_invoice_gbl_list_table{ width : 80% ; margin: 10px auto; text-align: center;}
+.inbound_invoice_gbl_list_table thead tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.inbound_invoice_gbl_list_table tbody tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle; }
+.inbound_invoice_gbl_list_table tbody tr{ background-color: white; cursor: pointer;  }
+.inbound_invoice_gbl_list_table tbody tr:HOVER {background-color: #B7B9CC;}
+.inbound_invoice_gbl_list_table tfoot tr td{ padding-top: 5px; text-align: right; }

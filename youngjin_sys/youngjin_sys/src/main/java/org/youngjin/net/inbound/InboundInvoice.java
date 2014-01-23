@@ -2,6 +2,8 @@ package org.youngjin.net.inbound;
 
 import java.util.List;
 
+import org.youngjin.net.util.CalcUtil;
+
 public class InboundInvoice {
 	private Integer seq;
 	private String gblNo;
@@ -16,9 +18,17 @@ public class InboundInvoice {
 	private Boolean delcarationCheck;
 	private String writeDate;
 	private String oblNo;
+	private String awbNo;
 	private String vessle;
+	private String fright;
 	private String code;
-	
+
+	private String piece;
+	private String cuft;
+	private String grossWt;
+	private String netWt;
+	private String itemsPieces;
+
 	private Integer onHandListContentSeq;
 
 	private List<WeightIb> weightList;
@@ -151,6 +161,74 @@ public class InboundInvoice {
 		this.onHandListContentSeq = onHandListContentSeq;
 	}
 
+	public String getPiece() {
+		return piece;
+	}
+
+	public void setPiece(String piece) {
+		this.piece = piece;
+	}
+
+	public String getCuft() {
+		return CalcUtil.checkCommaString(cuft);
+	}
+	
+	public String getCbm(){
+		return String.format("%.3f", (Integer.parseInt(cuft) / 35.315));
+	}
+
+	public void setCuft(String cuft) {
+		this.cuft = cuft;
+	}
+
+	public String getGrossWt() {
+		return CalcUtil.checkCommaString(grossWt);
+	}
+	
+	public String getGrossWtKg(){
+		return String.format("%.3f", (Integer.parseInt(grossWt) / 0.45359237));
+	}
+
+	public void setGrossWt(String grossWt) {
+		this.grossWt = grossWt;
+	}
+
+	public String getNetWt() {
+		return CalcUtil.checkCommaString(netWt);
+	}
+	
+	public String getNetWtKg(){
+		return String.format("%.3f", (Integer.parseInt(netWt) / 0.45359237));
+	}
+
+	public void setNetWt(String netWt) {
+		this.netWt = netWt;
+	}
+
+	public String getAwbNo() {
+		return awbNo;
+	}
+
+	public void setAwbNo(String awbNo) {
+		this.awbNo = awbNo;
+	}
+
+	public String getFright() {
+		return fright;
+	}
+
+	public void setFright(String fright) {
+		this.fright = fright;
+	}
+
+	public String getItemsPieces() {
+		return itemsPieces;
+	}
+
+	public void setItemsPieces(String itemsPieces) {
+		this.itemsPieces = itemsPieces;
+	}
+
 	@Override
 	public String toString() {
 		return "InboundInvoice [seq=" + seq + ", gblNo=" + gblNo + ", name="
@@ -158,8 +236,11 @@ public class InboundInvoice {
 				+ inboundInvoiceNo + ", invoiceDate=" + invoiceDate
 				+ ", gblSeq=" + gblSeq + ", rank=" + rank + ", eta=" + eta
 				+ ", delcarationCheck=" + delcarationCheck + ", writeDate="
-				+ writeDate + ", oblNo=" + oblNo + ", vessle=" + vessle
-				+ ", code=" + code + ", onHandListContentSeq="
-				+ onHandListContentSeq + ", weightList=" + weightList + "]";
+				+ writeDate + ", oblNo=" + oblNo + ", awbNo=" + awbNo
+				+ ", vessle=" + vessle + ", fright=" + fright + ", code="
+				+ code + ", piece=" + piece + ", cuft=" + cuft + ", grossWt="
+				+ grossWt + ", netWt=" + netWt + ", itemsPieces=" + itemsPieces
+				+ ", onHandListContentSeq=" + onHandListContentSeq
+				+ ", weightList=" + weightList + "]";
 	}
 }

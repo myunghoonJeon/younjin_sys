@@ -35,7 +35,7 @@ public class OutboundService {
 	private CodeDao codeDao;
 
 	public int getGblListCount(OutboundFilter outboundFilter, User user) {
-		if (!"ADMIN".equals(user.getAuthStr())) {
+		if(!"LEVEL4".equals(user.getAuthStr()) && !"LEVEL3".equals(user.getAuthStr()) && !"LEVEL2".equals(user.getAuthStr())){
 			outboundFilter.setArea("0" + user.getArea().toString());
 		}
 
@@ -43,7 +43,7 @@ public class OutboundService {
 	}
 
 	public List<GBL> getGblList(OutboundFilter outboundFilter, User user) {
-		if (!"ADMIN".equals(user.getAuthStr())) {
+		if(!"LEVEL4".equals(user.getAuthStr()) && !"LEVEL3".equals(user.getAuthStr()) && !"LEVEL2".equals(user.getAuthStr())){
 			outboundFilter.setArea("0" + user.getArea().toString());
 		}
 

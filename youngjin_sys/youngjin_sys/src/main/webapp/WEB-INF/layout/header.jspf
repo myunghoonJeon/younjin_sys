@@ -13,22 +13,22 @@
 			<li class="top_menu_li" style="${(user.process eq 'home') ? 'padding-top: 35px; border-top: 10px solid #F79646; color: #F79646;' : ''}" onclick="location.href='${cp}/'">
 				HOME
 			</li>
-				<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
+				<sec:authorize access="hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
 					<li class="top_menu_li top_menu_inbound" style="${(user.process eq 'inbound') ? 'padding-top: 35px; border-top: 10px solid #F79646; color: #F79646;' : ''}" onclick="location.href='${cp}/inbound/freightList'">
 						INBOUND
 					</li>
 				</sec:authorize>
-				<sec:authorize access="!hasRole('ROLE_NORMAL') and !hasRole('ROLE_MANAGER') and !hasRole('ROLE_ADMIN')">
+				<sec:authorize access="!hasRole('ROLE_LEVEL1') and !hasRole('ROLE_LEVEL2') and !hasRole('ROLE_LEVEL3') and !hasRole('ROLE_LEVEL4')">
 					<li class="top_menu_li top_menu_inbound" style="${(user.process eq 'inbound') ? 'padding-top: 35px; border-top: 10px solid #F79646; color: #F79646;' : ''}" onclick="location.href='${cp}/noPermission'">
 						INBOUND
 					</li>
 				</sec:authorize>				
-				<sec:authorize access="hasRole('ROLE_NORMAL') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')">
+				<sec:authorize access="hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
 					<li class="top_menu_li top_menu_outbound" style="${(user.process eq 'outbound') ? 'padding-top: 35px; border-top: 10px solid #F79646; color: #F79646;' : ''}" onclick="location.href='${cp}/outbound/gblList'">
 						OUTBOUND
 					</li>
 				</sec:authorize>		
-				<sec:authorize access="!hasRole('ROLE_NORMAL') and !hasRole('ROLE_MANAGER') and !hasRole('ROLE_ADMIN')">
+				<sec:authorize access="!hasRole('ROLE_LEVEL1') and !hasRole('ROLE_LEVEL2') and !hasRole('ROLE_LEVEL3') and !hasRole('ROLE_LEVEL4')">
 					<li class="top_menu_li top_menu_outbound" style="${(user.process eq 'outbound') ? 'padding-top: 35px; border-top: 10px solid #F79646; color: #F79646;' : ''}" onclick="location.href='${cp}/noPermission'">
 						OUTBOUND
 					</li>
@@ -73,7 +73,7 @@
 					</table>
 				</form>
 			</sec:authorize>
-			<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_NORMAL')">
+			<sec:authorize access="hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
 				<ul class="user_info_ul">
 					<li id="user_title">User Infomation</li>
 					<li><span>Location : </span>${user.areaStr }</li>
@@ -97,40 +97,42 @@
 		
 		<c:if test = "${user.process ne 'admin' or user.process ne 'basic'}">
 			<ul class="left_detail_menu_wrap">	
-				<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')">
+				<sec:authorize access="hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
 					<li class="basic" style="${(user.subProcess eq 'pod' or user.subProcess eq 'branch' or user.subProcess eq 'company' or user.subProcess eq 'carrier' or user.subProcess eq 'gBlock') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
 						BASIC	
 					</li>
 				</sec:authorize>
 				<li class="basic_item_list" style="${(user.subProcess eq 'pod' or user.subProcess eq 'branch' or user.subProcess eq 'company' or user.subProcess eq 'carrier' or user.subProcess eq 'gBlock') ? 'display:block;' : 'display:none;'}">				
 					<ul class="basic_item">
-						<li onclick="location.href='${cp }/basic/pod'" style="${(user.subProcess eq 'pod') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
-							POD BASIC
-						</li>
-						<li onclick="location.href='${cp }/basic/branch'" style="${(user.subProcess eq 'branch') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
-							BRANCH BASIC
-						</li>
-						<li onclick="location.href='${cp }/basic/company'" style="${(user.subProcess eq 'company') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
-							COMPANY BASIC
-						</li>
-						<li onclick="location.href='${cp }/basic/carrier'" style="${(user.subProcess eq 'carrier') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
-							CARRIER BASIC
-						</li>								
-						<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')">
+						<sec:authorize access="hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
+							<li onclick="location.href='${cp }/basic/pod'" style="${(user.subProcess eq 'pod') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+								POD BASIC
+							</li>
+							<li onclick="location.href='${cp }/basic/branch'" style="${(user.subProcess eq 'branch') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+								BRANCH BASIC
+							</li>
+							<li onclick="location.href='${cp }/basic/company'" style="${(user.subProcess eq 'company') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+								COMPANY BASIC
+							</li>
+							<li onclick="location.href='${cp }/basic/carrier'" style="${(user.subProcess eq 'carrier') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+								CARRIER BASIC
+							</li>		
+						</sec:authorize>						
+						<sec:authorize access="hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
 							<li onclick="location.href='${cp }/basic/gblock/gblock/main'" style="${(user.subProcess eq 'gBlock') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">GBLOCK</li>
 						</sec:authorize>		
 					</ul>	
 				</li>
 			
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<sec:authorize access="hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
 					<li onclick="location.href='${cp }/admin/adminMain'">ADMIN</li>			
 				</sec:authorize>
 			
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<sec:authorize access="hasRole('ROLE_LEVEL4')">
 					<li onclick="location.href='${cp }/admin/rate'">RATE</li>			
 				</sec:authorize>
 			
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<sec:authorize access="hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
 					<li onclick="location.href='${cp }/admin/container'">CONTAINER</li>			
 				</sec:authorize>
 			</ul>

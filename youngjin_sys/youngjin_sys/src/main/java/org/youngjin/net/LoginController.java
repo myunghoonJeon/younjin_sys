@@ -27,7 +27,6 @@ public class LoginController {
 			return "login/noPermission";
 		}
 		
-		@PreAuthorize("hasRole('ROLE_ADMIN')")
 		@RequestMapping( value= "/admin/add.json", method = RequestMethod.POST)
 		@ResponseBody
 		public User addUser(@RequestBody User user){			
@@ -38,14 +37,12 @@ public class LoginController {
 			return user;
 		}
 		
-		@PreAuthorize("hasRole('ROLE_ADMIN')")
 		@RequestMapping( value = "/admin/delete.json", method = RequestMethod.POST)
 		@ResponseBody
 		public void deleteUser(@RequestBody User user){
 			customJdbcUserDetailManager.deleteUser(user.getUsername());
 		}
 		
-		@PreAuthorize("hasRole('ROLE_ADMIN')")
 		@RequestMapping( value = "/admin/updateUserInfo.json", method = RequestMethod.POST)
 		@ResponseBody
 		public User updateUserByAdmin(@RequestBody User user){
@@ -54,7 +51,6 @@ public class LoginController {
 			return customJdbcUserDetailManager.selectUser(user);
 		}
 		
-		@PreAuthorize("hasRole('ROLE_ADMIN')")
 		@RequestMapping( value = "/admin/clearPassword.json", method = RequestMethod.POST)
 		@ResponseBody
 		public User clearPasword(@RequestBody User user){
@@ -63,21 +59,18 @@ public class LoginController {
 			return customJdbcUserDetailManager.selectUser(user);
 		}
 		
-		@PreAuthorize("hasRole('ROLE_ADMIN')")
 		@RequestMapping( value = "/admin/authChange.json", method = RequestMethod.POST)
 		@ResponseBody
 		public void authChange(@RequestBody User user){
 			customJdbcUserDetailManager.updateUserByAdmin(user);
 		}
 		
-		@PreAuthorize("hasRole('ROLE_ADMIN')")
 		@RequestMapping( value = "/admin/areaChange.json", method = RequestMethod.POST)
 		@ResponseBody
 		public void areaChange(@RequestBody User user){
 			customJdbcUserDetailManager.updateUserByAdmin(user);
 		}
 		
-		@PreAuthorize("hasRole('ROLE_ADMIN')")
 		@RequestMapping( value = "/admin/enabledChange.json", method = RequestMethod.POST)
 		@ResponseBody
 		public void enabledChange(@RequestBody User user){

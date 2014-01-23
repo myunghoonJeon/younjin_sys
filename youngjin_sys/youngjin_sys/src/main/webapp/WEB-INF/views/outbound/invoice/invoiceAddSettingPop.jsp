@@ -9,10 +9,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="cp" value="<%=request.getContextPath() %>"/>
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
-<c:set var="pagination" value="${outboundFilter.pagination }"/>
+<c:set var="pagination" value="${invoiceGblFilter.pagination }"/>
 <html>
 <head>
-<title>Book GBL List</title>
 
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">
@@ -37,7 +36,7 @@
 	function goToPage(page) {	
 		//location.href =  contextPath + '/member/leading/archives/page/'+page;
 		$("input#page").val(page);
-		$("form#outboundFilter").submit();
+		$("form#invoiceGblFilter").submit();
 	}
 	
 	function goToPreviousPages() {
@@ -59,8 +58,8 @@
 		
 		<div class="gbl_filter">
 			<ul>	
-				<form:form commandName="outboundFilter" method="get">
-					<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<form:form commandName="invoiceGblFilter" method="get">
+					<sec:authorize access="hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2')">
 						<li>	
 							<form:select path="branch">
 								<form:option value="">All</form:option>
@@ -94,11 +93,11 @@
 		<div>
 			<table class="yj_table">
 				<colgroup>
-					<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null }">
+					<c:if test="${invoiceGblFilter.code eq '' or invoiceGblFilter.code eq null }">
 						<col width="5%" />
 					</c:if>
 					<col width="8%" />
-					<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
+					<c:if test="${invoiceGblFilter.carrier eq '' or invoiceGblFilter.carrier eq null }">
 						<col width="5%" />
 					</c:if>
 					<col width="11%" />
@@ -108,7 +107,7 @@
 					<col width="5%" />
 					<col width="5%" />
 					<col width="10%" />
-					<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
+					<c:if test="${invoiceGblFilter.branch eq '' or invoiceGblFilter.branch eq null }">
 						<col width="5%" />
 					</c:if>
 					<col width="10%" />
@@ -134,11 +133,11 @@
 				</tfoot>
 				<thead>
 					<tr>
-						<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null}">
+						<c:if test="${invoiceGblFilter.code eq '' or invoiceGblFilter.code eq null}">
 							<th>CODE</th>
 						</c:if>
 						<th>PUD</th>
-						<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
+						<c:if test="${invoiceGblFilter.carrier eq '' or invoiceGblFilter.carrier eq null }">
 							<th>SCAC</th>
 						</c:if>
 						<th>GBL_NO</th>
@@ -148,7 +147,7 @@
 						<th>LBS</th>
 						<th>CUFT</th>
 						<th>US_NO</th>
-						<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
+						<c:if test="${invoiceGblFilter.branch eq '' or invoiceGblFilter.branch eq null }">
 							<th>BRANCH</th>
 						</c:if>
 						<th>DEST_PORT</th>
@@ -165,23 +164,23 @@
 						<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
 						<c:set var="pud" value="${parsePud }" />
 						<tr class="invoice_gbl_list_tr" data-seq="${gbl.seq }" data-ws="1">
-							<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null }">
+							<c:if test="${invoiceGblFilter.code eq '' or invoiceGblFilter.code eq null }">
 								<td>${gbl.code }</td>
 							</c:if>
 							<td>
 								${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }
 							</td>
-							<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
+							<c:if test="${invoiceGblFilter.carrier eq '' or invoiceGblFilter.carrier eq null }">
 								<td>${gbl.scac }</td>
 							</c:if>
 							<td>${gbl.no }</td>
 							<td>${gbl.rank }</td>
 							<td>${gbl.customerName }</td>
 							<td>${gbl.pcs }</td>
-							<td>${gb.lbs }</td>
+							<td>${gbl.lbs }</td>
 							<td>${gbl.cuft }</td>
 							<td>${gbl.usNo }</td>
-							<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
+							<c:if test="${invoiceGblFilter.branch eq '' or invoiceGblFilter.branch eq null }">
 								<td>${gbl.areaLocal }</td>
 							</c:if>
 							<td>${gbl.destPort }</td>

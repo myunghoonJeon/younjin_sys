@@ -32,7 +32,7 @@ public class InboundService {
 	private CodeDao codeDao;
 	
 	public int getFreightListCount(InboundFilter inboundFilter, User user) {	
-		if(!"ADMIN".equals(user.getAuthStr())){
+		if(!"LEVEL4".equals(user.getAuthStr()) && !"LEVEL3".equals(user.getAuthStr()) && !"LEVEL2".equals(user.getAuthStr())){
 			inboundFilter.setArea("0" + user.getArea().toString());
 		}
 		
@@ -40,7 +40,7 @@ public class InboundService {
 	}
 
 	public List<GBL> getFreightList(InboundFilter inboundFilter, User user) {
-		if(!"ADMIN".equals(user.getAuthStr())){
+		if(!"LEVEL4".equals(user.getAuthStr()) && !"LEVEL3".equals(user.getAuthStr()) && !"LEVEL2".equals(user.getAuthStr())){
 			inboundFilter.setArea("0" + user.getArea().toString());
 		}
 		
@@ -458,5 +458,55 @@ public class InboundService {
 		inboundDao.updateGblStatus(statusParam);
 		
 		inboundDao.deleteOnHandList(map);
+	}
+
+	public void updateStatusCustom(Integer seq) {
+		Map<String, Integer> statusParam = new HashMap<String, Integer>();
+		statusParam.put("seq", seq);
+		statusParam.put("custom", 1);
+		
+		inboundDao.updateGblStatus(statusParam);
+	}
+
+	public List<Addition> getAddtionList(String seq) {
+		return inboundDao.getAddtionList(seq);
+	}
+
+	public void additionComplete(Addition addition) {
+		String titleList[] = addition.getTitle().split(",");
+		String priceList[] = addition.getPrice().split(",");
+
+		int titleListSize = titleList.length;
+		int priceListSize = priceList.length;
+
+		if (titleListSize != priceListSize) {
+			if (titleListSize > priceListSize) {
+				titleList[titleListSize - 1] = null;
+			} else {
+				priceList[priceListSize - 1] = null;
+			}
+		}
+
+		Addition paramAddition = new Addition();
+		paramAddition.setGblSeq(addition.getGblSeq());
+
+		for (int i = 0; i < titleListSize; i++) {
+			paramAddition.setTitle(titleList[i]);
+			paramAddition.setCost(Double.parseDouble(priceList[i]));
+
+			Integer checkAddition = inboundDao
+					.checkAddtionComplete(paramAddition);
+
+			if (checkAddition == 0) {
+				inboundDao.additionComplete(paramAddition);
+			} else {
+				inboundDao.additionCompleteUpdate(paramAddition);
+			}
+		}
+
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("delivery", 1);
+		map.put("seq", addition.getGblSeq());
+		inboundDao.updateGblStatus(map);
 	}
 }

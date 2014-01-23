@@ -20,10 +20,10 @@ import org.youngjin.net.invoice.InvoiceCollection;
 import org.youngjin.net.invoice.InvoiceFilter;
 import org.youngjin.net.invoice.InvoiceGbl;
 import org.youngjin.net.invoice.InvoiceGblContent;
+import org.youngjin.net.invoice.InvoiceGblFilter;
 import org.youngjin.net.invoice.InvoicePdfPrintView;
 import org.youngjin.net.invoice.InvoiceService;
 import org.youngjin.net.login.User;
-import org.youngjin.net.outbound.OutboundFilter;
 
 @Controller
 public class InvoiceController {
@@ -34,13 +34,15 @@ public class InvoiceController {
 	@Resource
 	private CodeService codeService;
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice", method = RequestMethod.GET)
 	public String invoiceMain(Model model, User user,
 			@ModelAttribute InvoiceFilter invoiceFilter,
 			@PathVariable String process) {
 
 		user.setSubProcess("invoice");
+		
+		invoiceFilter.setProcess(process);
 
 		invoiceFilter.getPagination().setNumItems(
 				invoiceService.getInvoiceListCount(invoiceFilter, process));
@@ -48,7 +50,7 @@ public class InvoiceController {
 		List<Invoice> invoiceList = invoiceService
 				.getInvoiceList(invoiceFilter);
 
-		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap());
+		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
 
 		model.addAttribute("user", user);
 		model.addAttribute("invoiceList", invoiceList);
@@ -56,7 +58,7 @@ public class InvoiceController {
 		return process + "/invoice/main";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice", method = RequestMethod.POST)
 	public String invoiceMainPost(Model model, User user,
 			@ModelAttribute InvoiceFilter invoiceFilter,
@@ -64,13 +66,15 @@ public class InvoiceController {
 
 		user.setSubProcess("invoice");
 
+		invoiceFilter.setProcess(process);
+
 		invoiceFilter.getPagination().setNumItems(
 				invoiceService.getInvoiceListCount(invoiceFilter, process));
-
+		
 		List<Invoice> invoiceList = invoiceService
 				.getInvoiceList(invoiceFilter);
 
-		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap());
+		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
 
 		model.addAttribute("user", user);
 		model.addAttribute("invoiceList", invoiceList);
@@ -78,16 +82,17 @@ public class InvoiceController {
 		return process + "/invoice/main";
 	}	
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/invoiceAddSetting", method = RequestMethod.GET)
-	public String invoiceAddSetting(Model model, User user, @ModelAttribute OutboundFilter outboundFilter,
+	public String invoiceAddSetting(Model model, User user, @ModelAttribute InvoiceGblFilter invoiceGblFilter,
 			@PathVariable String process) {
 		
-		System.out.println("cehck");
-		outboundFilter.getPagination().setNumItems(
-				invoiceService.getInvoiceSettingGblListCount(outboundFilter));
+		invoiceGblFilter.setProcess(process);
 		
-		List<GBL> invoiceGblList = invoiceService.getInvoiceSettingGblList(outboundFilter);
+		invoiceGblFilter.getPagination().setNumItems(
+				invoiceService.getInvoiceSettingGblListCount(invoiceGblFilter));
+		
+		List<GBL> invoiceGblList = invoiceService.getInvoiceSettingGblList(invoiceGblFilter);
 
 		model.addAttribute("filterMap", invoiceService.getFilterMap());
 		
@@ -96,7 +101,7 @@ public class InvoiceController {
 		return process + "/invoice/invoiceAddSettingPop";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/invoiceListAdd.json", method = RequestMethod.POST)
 	@ResponseBody
 	public Invoice invoiceListAdd(@RequestBody Invoice invoice,
@@ -104,7 +109,7 @@ public class InvoiceController {
 		return invoiceService.invoiceListAdd(invoice, process);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/{seq}/invoiceGblList", method = RequestMethod.GET)
 	public String invoiceGblList(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
@@ -119,7 +124,7 @@ public class InvoiceController {
 		return process + "/invoice/invoiceGblList";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/{seq}/invoicePrint", method = RequestMethod.GET)
 	public String invoicePrint(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
@@ -134,7 +139,7 @@ public class InvoiceController {
 		return process + "/invoice/invoicePrint";
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/{seq}/invoiceGblListCommon", method = RequestMethod.GET)
 	public String invoiceGblListCommon(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
@@ -149,14 +154,14 @@ public class InvoiceController {
 		return process + "/invoice/invoiceGblListCommon";
 	}	
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/invoiceDelete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void invoiceDelete(@RequestBody Invoice invoice) {
 		invoiceService.invoiceDelete(invoice);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/{seq}/{invoiceGblSeq}/{gblSeq}/invoiceGblContent", method = RequestMethod.GET)
 	public String invoiceGblContent(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq,
@@ -172,13 +177,15 @@ public class InvoiceController {
 		return process + "/invoice/invoiceGblContent";
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoiceCollection", method = RequestMethod.GET)
 	public String invoicCollectionMain(Model model, User user,
 			@ModelAttribute InvoiceFilter invoiceFilter,
 			@PathVariable String process) {
 
 		user.setSubProcess("collection");
+		
+		invoiceFilter.setProcess(process);
 
 		invoiceFilter.getPagination().setNumItems(
 				invoiceService.getInvoiceListCount(invoiceFilter, process));
@@ -186,7 +193,7 @@ public class InvoiceController {
 		List<Invoice> invoiceList = invoiceService
 				.getInvoiceList(invoiceFilter);
 
-		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap());
+		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
 
 		Map<Integer, InvoiceCollection> invoiceCollectionMap = invoiceService.getInvoiceCollectionMap(invoiceFilter);
 		model.addAttribute("user", user);
@@ -196,13 +203,15 @@ public class InvoiceController {
 		return process + "/invoice/invoiceCollection";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoiceCollection", method = RequestMethod.POST)
 	public String invoiceCollectionMainPost(Model model, User user,
 			@ModelAttribute InvoiceFilter invoiceFilter,
 			@PathVariable String process) {
 
 		user.setSubProcess("collection");
+
+		invoiceFilter.setProcess(process);
 
 		invoiceFilter.getPagination().setNumItems(
 				invoiceService.getInvoiceCollectionListCount(invoiceFilter, process));
@@ -211,7 +220,7 @@ public class InvoiceController {
 				.getInvoiceCollectionList(invoiceFilter);
 
 		Map<Integer, InvoiceCollection> invoiceCollectionMap = invoiceService.getInvoiceCollectionMap(invoiceFilter);
-		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap());
+		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
 
 		model.addAttribute("user", user);
 		model.addAttribute("invoiceList", invoiceList);
@@ -220,21 +229,21 @@ public class InvoiceController {
 		return process + "/invoice/invoiceCollection";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/inputCollectionNet.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void inputCollectionNet(@RequestBody Map<String, String> invoiceCollection){
 		invoiceService.inputCollection(invoiceCollection);
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoiceCollectionFlowDelete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void invoiceCollectionDelete(@RequestBody Map<String, String> invoiceCollection){
 		invoiceService.invoiceCollectionDelete(invoiceCollection);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/{seq}/invoiceCollectionGbl", method = RequestMethod.GET)
 	public String invoiceCollectionGbl(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
@@ -252,21 +261,21 @@ public class InvoiceController {
 		return process + "/invoice/invoiceCollectionGbl";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/inputGblCollectionNet.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void inputGblCollectionNet(@RequestBody Map<String, String> invoiceCollection){
 		invoiceService.inputGblCollection(invoiceCollection);
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoiceGblCollectionFlowDelete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void invoiceGblCollectionDelete(@RequestBody Map<String, String> invoiceCollection){
 		invoiceService.invoiceGblCollectionDelete(invoiceCollection);
 	}
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/{seq}/{invoiceGblSeq}/{gblSeq}/invoiceGblCollectionContent", method = RequestMethod.GET)
 	public String invoiceGblCollectionContent(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq,
@@ -286,7 +295,7 @@ public class InvoiceController {
 		return process + "/invoice/invoiceGblCollectionContent";
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/collectionRemarkInput.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void invoiceCollectionRemarkInput(@RequestBody Map<String, String> invoiceCollection){
@@ -296,7 +305,7 @@ public class InvoiceController {
 	@Resource
 	private InvoicePdfPrintView invoicePdfPrintView;
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/{seq}/{invoiceGblSeq}/{gblSeq}/invoiceContentPdfView", method = RequestMethod.GET)
 	public InvoicePdfPrintView invoiceContentPdfView(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq,

@@ -15,7 +15,7 @@ import org.youngjin.net.process.GBlock;
 import org.youngjin.net.process.ProcessService;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_NORMAL')")
+@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') ")
 public class ProcessController {
 	
 	@Resource

@@ -100,12 +100,11 @@ youngjin.inbound.sync = function(){
 	
 	$('.inbound_preparation_additional_decide').unbind('click');
 	$('.inbound_preparation_additional_decide').bind('click', function(){
-		
+		youngjin.inbound.confirmPage($(this));		
 	});
 	
 	$('.inbound_preparation_complete').unbind('click');
 	$('.inbound_preparation_complete').bind('click', function(){
-		
 	});
 	
 	$('#inbound_memorandum_all_addButton').unbind('click');
@@ -182,6 +181,8 @@ youngjin.inbound.sync = function(){
 	youngjin.inbound.customSync();
 	
 	youngjin.inbound.onHandSync();
+	
+	youngjin.inbound.confirmSync();
 };
 
 youngjin.inbound.weightSync = function(){
@@ -326,6 +327,11 @@ youngjin.inbound.customSync = function(){
 		youngjin.inbound.inboundInvoiceDelete($(this));
 	});
 	
+	$('.inbound_invoice_tr').unbind('click');
+	$('.inbound_invoice_tr').bind('click', function(){
+		youngjin.inbound.inboundInvoiceAndPowerPop($(this));
+	});
+	
 	$('.declaration_list_add').unbind('click');
 	$('.declaration_list_add').bind('click', function(){
 		var url = contextPath + '/inbound/custom/declarationListSelect';
@@ -335,6 +341,16 @@ youngjin.inbound.customSync = function(){
 			height: 700,
 			url : url
 		});		
+	});
+	
+	$('.inbound_invoice_print').unbind('click');
+	$('.inbound_invoice_print').bind('click', function(){
+		youngjin.inbound.inboundInvoicePrint($(this));
+	});
+	
+	$('.inbound_power_of_attorny_print').unbind('click');
+	$('.inbound_power_of_attorny_print').bind('click', function(){
+		youngjin.inbound.powerOfAttornyPrint($(this));
 	});
 	
 	$('.inbound_invoice_declaration_tr').unbind('click');
@@ -474,6 +490,26 @@ youngjin.inbound.dd619Sync = function(){
 	$('.inbound_dd619_form_print').unbind('click');
 	$('.inbound_dd619_form_print').bind('click', function(){
 		youngjin.inbound.dd619Print($(this));
+	});
+};
+
+youngjin.inbound.confirmSync = function(){
+	$('.inbound_final_back').unbind('click');
+	$('.inbound_final_back').bind('click', function(){		
+		var url = contextPath + '/inbound/freight/' + $('#addition_table').attr('data-seq') + '/delivery';
+		
+		parent.$.smartPop.close();
+
+		parent.$.smartPop.open({
+			width: 350,
+			height: 310,
+			url : url
+		});
+	});
+	
+	$('.inbound_addition_complete_btn').unbind('click');
+	$('.inbound_addition_complete_btn').bind('click', function(){
+		youngjin.inbound.additionComplete($(this));
 	});
 };
 
@@ -1272,6 +1308,40 @@ youngjin.inbound.inboundInvoiceDelete = function(target){
 	
 };
 
+youngjin.inbound.inboundInvoiceAndPowerPop = function(target){
+	var seq = target.attr('data-inboundInvoiceSeq');
+	
+	var url = contextPath + '/inbound/custom/invoice/' + seq + '/customPrintSelect';
+
+	$.smartPop.open({
+		width: 350,
+		height: 180,
+		url : url
+	});
+};
+
+youngjin.inbound.inboundInvoicePrint = function(target){
+	var seq = target.parents('ul').attr('data-seq');
+	
+	var url = contextPath + '/inbound/custom/invoice/' + seq + '/inboundInvoicePrint';
+	
+	parent.$.smartPop.close();
+	
+	parent.$.smartPop.open({
+		width: 930.7,
+		height: 1122.5,
+		url : url
+	});	
+};
+
+youngjin.inbound.powerOfAttornyPrint = function(target){
+	var seq = target.parents('ul').attr('data-seq');
+	
+	var url = contextPath + '/inbound/custom/invoice/' + seq + '/powerOfAttornyPrint';
+	
+	window.open(url, 'powerOfAttornyPrint', 'width=930.7, height=1122.5 scrollbar=no');
+};
+
 youngjin.inbound.declarationListSelectAdd = function(target){
 	var inboundInvoicelList = $('input:checked');
 	var count = inboundInvoicelList.length;
@@ -1707,4 +1777,59 @@ youngjin.inbound.dd619Print = function(target){
 	var url = contextPath + '/inbound/freight/' + seq + '/dd619/' + dd619Seq + '/print';
 	
 	window.open(url, 'dd619Print', 'width=1224, height=1584, status=no, scrollbars=no');
+};
+
+youngjin.inbound.confirmPage = function(target){
+	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
+	
+	var url = contextPath + '/inbound/freight/' + seq + '/additional';
+	
+	parent.$.smartPop.close();
+
+	parent.$.smartPop.open({
+		width: 400,
+		height: 500,
+		url : url
+	});		
+};
+
+youngjin.inbound.additionComplete = function(target){
+	var table = $('#addition_table');
+	var seq = table.attr('data-seq');
+	
+	var type = $('input[name=type]').eq(0).val();
+	var cost = $('input[name=cost]').eq(0).val();
+	
+	for( var i = 1 ; i < $('input[name=type]').length ; i ++ ){
+		type += ',' + $('input[name=type]').eq(i).val();
+		cost += ',' + $('input[name=cost]').eq(i).val();
+	}
+	
+	var url = contextPath + '/inbound/freight/additionComplete.json';
+	
+	var json = {
+			'title' : type,
+			'price' : cost,
+			'gblSeq' : seq
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){				
+				var goUrl = contextPath + '/inbound/freight/' + seq + '/delivery';
+				
+				parent.$.smartPop.close();
+
+				parent.$.smartPop.open({
+					width: 350,
+					height: 310,
+					url : goUrl
+				});				
+			},
+			
+			error : function(){
+				alert("에러 발생!");
+			}
+		});
+	});
 };

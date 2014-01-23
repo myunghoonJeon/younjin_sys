@@ -58,7 +58,7 @@
 		<div class="gbl_filter">	
 			<ul class="freight_filter_wrap">
 				<form:form commandName="inboundFilter" method="get">
-					<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<sec:authorize access="hasRole('ROLE_LEVEL4')">
 						<li style="font-size: 10pt;">
 							<form:select path="branch">
 								<form:option value="">Branch(All)</form:option>

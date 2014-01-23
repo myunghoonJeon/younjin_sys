@@ -67,7 +67,7 @@
 		<result column="remark" property="remark" />
 	</resultMap>
 	
-	<select id="getInvoicesttingGblListCount" parameterType="OutboundFilter" resultType="Integer">			
+	<select id="getInvoicesttingGblListCount" parameterType="InvoiceGblFilter" resultType="Integer">			
 		SELECT 
 			count(*) AS count
 		FROM 
@@ -124,7 +124,117 @@
 		</if>			
 	</select>
 	
-	<select id="getInvoiceSettingGblList" parameterType="OutboundFilter" resultMap="GblMap">				
+	<select id="getInvoiceSettingGblListIbCount" parameterType="InvoiceGblFilter" resultType="Integer">			
+		SELECT 
+			count(*) AS count
+		FROM 
+			gbl_ib g
+		WHERE
+			 g.seq IN (
+				SELECT
+					seq
+				FROM
+					gbl_ib g1, gbl_status g2
+				WHERE
+					g1.gblNo = g2.gbl_no
+				AND
+					g2.gbl_weight = TRUE
+				AND
+					g2.gbl_custom = TRUE
+				AND
+					g2.gbl_onHandList = TRUE
+				AND
+					g2.gbl_delivery = TRUE
+				AND
+					g2.gbl_invoice = FALSE
+				
+			)
+		<if test="area != null and area != ''">
+			AND
+				area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND		
+				area = #{branch}			
+		</if>
+		<if test="carrier != null and carrier != ''">
+			AND
+				scac = #{carrier}
+		</if>
+		<if test="code != null and code != ''">
+			AND
+				code = #{code}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+				pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+				pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+		</if>		
+	</select>
+	
+	<select id="getInvoiceSettingGblListIb" parameterType="InvoiceGblFilter" resultMap="GblMap">				
+		SELECT 
+			a.cuft, gt.*, a.lbs, pcs
+		FROM 
+			(SELECT
+				g.gblNo, SUM(w.gross) AS lbs, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
+			FROM gbl_ib g, weight_ib w
+			WHERE g.seq = w.gblSeq
+			<if test="area != null and area != ''">
+				AND
+					g.area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+			</if>
+			<if test="branch != null and branch != ''">
+				AND		
+					g.area = #{branch}			
+			</if>
+			<if test="carrier != null and carrier != ''">
+				AND
+					g.scac = #{carrier}
+			</if>
+			<if test="code != null and code != ''">
+				AND
+					g.code = #{code}
+			</if>
+			<if test="startPud != null and startPud != ''">
+				AND
+					g.pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+			</if>
+			<if test="endPud != null and endPud != ''">
+				AND
+					g.pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+			</if>
+			AND g.seq IN (
+				SELECT
+					seq
+				FROM
+					gbl_ib g1, gbl_status g2
+				WHERE
+					g1.gblNo = g2.gbl_no
+				AND
+					g2.gbl_weight = TRUE
+				AND
+					g2.gbl_custom = TRUE
+				AND
+					g2.gbl_onHandList = TRUE
+				AND
+					g2.gbl_delivery = TRUE
+				AND
+					g2.gbl_invoice = FALSE
+				
+			)		
+			GROUP BY g.gblNo
+			) a, gbl_ib gt
+		WHERE
+			gt.gblNo = a.gblNo
+		ORDER BY
+			gt.pud	
+	</select>
+	
+	<select id="getInvoiceSettingGblList" parameterType="InvoiceGblFilter" resultMap="GblMap">				
 		SELECT 
 			gt.*, cuft, pcs
 		FROM 
@@ -204,6 +314,27 @@
 			gs.gbl_truckmanifast = true
 		AND
 			gs.gbl_bookingList = true			
+	</select>
+	
+	<select id="getInvoiceSettingGblContentIb" parameterType="String" resultMap="InvoiceGblMap">		
+		SELECT
+			g.seq AS gbl_seq, g.gblNo AS gbl_no, g.rank, g.shipperName AS name, g.tsp, g.pud 
+		FROM
+			gbl_ib g, gbl_status gs
+		WHERE
+			g.seq = #{value}
+		AND
+			g.gblNo = gs.gbl_no
+		AND
+			gs.gbl_invoice = false
+		AND
+			gs.gbl_delivery = true
+		AND
+			gs.gbl_onHandList = true
+		AND
+			gs.gbl_custom = true
+		AND
+			gs.gbl_weight = true			
 	</select>
 	
 	<select id="checkTodayInvoiceNo" resultType="String">
@@ -442,6 +573,10 @@
 			AND
 				seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
 		</if>
+		<if test="process != null and process != ''">
+			AND
+				process = #{process}
+		</if>
 	</select>
 	
 	<select id="getInvoiceList" parameterType="InvoiceFilter" resultMap="InvoiceMap">
@@ -471,6 +606,10 @@
 			<if test="gblNo != null and gblNo != ''">
 				AND
 					seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
+			</if>
+			<if test="process != null and process != ''">
+				AND
+					process = #{process}
 			</if>
 			ORDER BY
 				i.seq
@@ -579,11 +718,13 @@
 			ig.seq = #{value}
 	</select>
 	
-	<select id="getCarrierList" resultType="Code">
+	<select id="getCarrierList" parameterType="InvoiceFilter" resultType="Code">
 		SELECT DISTINCT
 			tsp AS subCode
 		FROM
 			invoice_list	
+		WHERE
+			process = #{process}
 	</select>
 	
 	<select id="getInvoiceCollectionListCount" parameterType="InvoiceFilter" resultType="Integer">
@@ -608,6 +749,10 @@
 		<if test="gblNo != null and gblNo != ''">
 			AND
 				seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
+		</if>
+		<if test="process != null and process != ''">
+			AND
+				process = #{process}
 		</if>
 	</select>
 	
@@ -638,6 +783,10 @@
 			<if test="gblNo != null and gblNo != ''">
 				AND
 					i.seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
+			</if>
+			<if test="process != null and process != ''">
+				AND
+					process = #{process}
 			</if>
 			ORDER BY
 				i.seq
@@ -686,6 +835,10 @@
 		<if test="gblNo != null and gblNo != ''">
 			AND
 				ic.invoice_seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
+		</if>
+		<if test="process != null and process != ''">
+			AND
+				process = #{process}
 		</if>
 	</select>
 	
