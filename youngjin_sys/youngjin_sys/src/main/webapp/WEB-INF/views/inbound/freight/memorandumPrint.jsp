@@ -66,7 +66,6 @@
 		font-size:10pt;
 		padding-top:0.8cm;
 		width:8cm;
-		height:2cm;
 	}
 	#localmanager{
 		font-size:10pt;
@@ -116,8 +115,19 @@
 		</tr>
 		<tr>
 			
-			<td id='subject_title_td'>SUBJECT : </td>
-			<td id='subject_context_td'>${checkMemorandum.subject }</td>
+			<td colspan="2" id='subject_title_td'>SUBJECT : 
+				<c:choose> 
+					<c:when test="${memorandum.subCode eq '01' }">
+						Request For Authorization of additional Service for rowering of article
+					</c:when>
+					<c:when test="${memorandum.subCode eq '03' }">
+						Request For Authorization of special crate
+					</c:when>
+					<c:otherwise>
+						${checkMemorandum.subject }
+					</c:otherwise>
+				</c:choose>
+			</td>
 			<td id='right'></td>
 		</tr>
 	</table>
@@ -140,7 +150,7 @@
 		<tr>			
 			<td id='name_td'>NAME : ${gbl.customerName }</td>
 			<td id='rank_td'>RANK : ${gbl.rank }</td>
-			<td id='ssn_td' colspan="2">SSN : ${gbl.ssn }</td>
+			<td id='ssn_td' colspan="2">SSN : XXXX-XX-${fn:substring(gbl.ssn, 6,10)}</td>
 		</tr>
 		<tr>			
 			<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
@@ -151,26 +161,26 @@
 			<td id='code_td'>CODE : ${gbl.code }</td>
 		</tr>
 		<tr>			
-			<td id='address_td' colspan="4">ADRESS : ${gbl.originAddress }</td>
+			<td id='address_td' colspan="4">ADDRESS : ${gbl.originAddress }</td>
 		</tr>
 		<tr>			
-			<td id='nameofarticle_td' colspan="4">			
+			<td id='nameofarticle_td' colspan="4">
 				<c:choose>
 					<c:when test="${articles ne '' and articles ne '[]' and articles ne null }">
-						NAME OF ARTICLE : 
+					NAME OF ARTICLE : 
 						<c:forEach var="article" items="${articles}" varStatus="i">
 							<c:if test="${i.count > 1 }">
-								<c:forEach begin="0" end="8" step="1">
+								<c:forEach begin="0" end="13" step="1">
 									&nbsp;
 								</c:forEach>
 							</c:if>
-							(${i.count }) ${memorandum.codeName } ${article }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						(${i.count }) ${memorandum.codeName } ${article }<br/>
 						</c:forEach>
 						<input type="hidden" id="memorandum_articles" value="${articleComa }">
 					</c:when>
-					<c:otherwise>
-						NAME OF ARTICLE : ${(type eq '01') ? '' : (1)} ${memorandum.codeName }							
-					</c:otherwise>
+					<c:when test="${ memorandum.subCode eq '03'}">
+						NAME OF ARTICLE : (1) ${memorandum.codeName }							
+					</c:when>
 				</c:choose>
 			</td>
 		</tr>
@@ -182,17 +192,65 @@
 	</table>
 	<table style="font-weight: bold;" align="center" cellspacing="0">
 		<tr>			
-			<td id='thirdparty' >${checkMemorandum.articleComment }</td>
+			<td id='thirdparty' >
+				<c:choose>
+					<c:when test="${memorandum.subCode eq '02' or memorandum.subCode eq '03' }">
+						${checkMemorandum.articleComment1 }
+						<c:if test="${checkMemorandum.articleComment1 ne null and  checkMemorandum.articleComment1 ne '' }">
+							<br />
+						</c:if>
+						${checkMemorandum.articleComment2 }
+						<c:if test="${checkMemorandum.articleComment2 ne null and  checkMemorandum.articleComment2 ne '' }">
+							<br />
+						</c:if>
+						${checkMemorandum.articleComment3 }
+						<c:if test="${checkMemorandum.articleComment3 ne null and  checkMemorandum.articleComment3 ne '' }">
+							<br />
+						</c:if>
+						${checkMemorandum.articleComment4 }
+						<c:if test="${checkMemorandum.articleComment4 ne null and  checkMemorandum.articleComment4 ne '' }">
+							<br />
+						</c:if>
+						${checkMemorandum.articleComment5 }
+					</c:when>
+					<c:when test="${memorandum.subCode eq '01' }">
+						${checkMemorandum.articleComment1 }
+						<c:if test="${checkMemorandum.articleComment1 ne null and  checkMemorandum.articleComment1 ne '' }">
+							<br />
+						</c:if>
+						${checkMemorandum.articleComment2 }
+						<c:if test="${checkMemorandum.articleComment2 ne null and  checkMemorandum.articleComment2 ne '' }">
+							<br />
+						</c:if>
+						${checkMemorandum.articleComment3 }
+						<c:if test="${checkMemorandum.articleComment3 ne null and  checkMemorandum.articleComment3 ne '' }">
+							<br /><br />
+						</c:if>
+						${checkMemorandum.articleComment4 }
+						<c:if test="${checkMemorandum.articleComment4 ne null and  checkMemorandum.articleComment4 ne '' }">
+							<br />
+						</c:if>
+						${checkMemorandum.articleComment5 }
+					</c:when>
+				</c:choose>
+			</td>
 			<td id='term'></td>
 			<td></td>
 		</tr>
 		<tr>			
 			<td></td>
 			<td></td>
-			<td id='localmanager'>${checkMemorandum.chiefOfOffice }</td>
+			<td id='localmanager'>
+				${branch.branchManager }<br />
+				${branch.position }<br />
+				YOUNGJIN TRAED & TRANS CO.,LTD
+			</td>
 		</tr>
 		<tr>			
-			<td id='locality'>${checkMemorandum.officeInfo }</td>
+			<td id='locality'>
+				${branch.itoAddress } <br/>
+				FOR YOUNGJIN T&T CO.,LTD
+			</td>
 			<td id='term'></td>
 			<td></td>
 		</tr>
@@ -202,7 +260,9 @@
 		<tr>			
 			<td></td>
 			<td></td>
-			<td id='taforto'>${checkMemorandum.areaDirector }</td>
+			<td id='taforto'>				
+				${branch.itoChief }
+			</td>
 		</tr>
 	</table>
 </body>

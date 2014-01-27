@@ -94,6 +94,14 @@
 					<th>DODAC</th>
 					<td><form:input path="dodac"/></td>
 				</tr>	
+				<tr>
+					<th>영업소 총괄담당 주소</th>
+					<td><form:textarea path="responsibility"/>
+				</tr>
+				<tr>
+					<th>직책</th>
+					<td><form:input path="position"/></td>
+				</tr>
 			</tbody>
 			<tfoot>
 				<tr>

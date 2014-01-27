@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
@@ -288,13 +289,15 @@
 <p style="position:absolute;top:808px;left:724px;white-space:nowrap" class="ft10"><input name='16-cc-3' style="width: 65px; height: 10px; font-size: 8pt;"></p>
 <p style="position:absolute;top:808px;left:794px;white-space:nowrap" class="ft10"><input name='16-cc-4' style="width: 65px; height: 10px; font-size: 8pt;"></p>
 
-<p style="position:absolute;top:827px;left:681px;white-space:nowrap" class="ft10"><input name='16-dd-2' style="width: 38px; height: 9px; font-size: 8pt;"></p>
-<p style="position:absolute;top:827px;left:724px;white-space:nowrap" class="ft10"><input name='16-dd-3' style="width: 65px; height: 9px; font-size: 8pt;"></p>
-<p style="position:absolute;top:827px;left:794px;white-space:nowrap" class="ft10"><input name='16-dd-4' style="width: 65px; height: 9px; font-size: 8pt;"></p>
+<c:set var="otherList" value="${fn:split(dd619.other, ',') }" />
+<p style="position:absolute;top:827px;left:681px;white-space:nowrap" class="ft10">${otherList[0] }</p>
+<p style="position:absolute;top:827px;left:724px;white-space:nowrap" class="ft10">${otherList[1] }</p>
+<p style="position:absolute;top:827px;left:794px;white-space:nowrap" class="ft10">${otherList[2] }</p>
 
-<p style="position:absolute;top:850px;left:681px;white-space:nowrap" class="ft10"><input name='16-ee-2' style="width: 38px; height: 10px; font-size: 8pt;"></p>
-<p style="position:absolute;top:850px;left:724px;white-space:nowrap" class="ft10"><input name='16-ee-3' style="width: 65px; height: 10px; font-size: 8pt;"></p>
-<p style="position:absolute;top:850px;left:794px;white-space:nowrap" class="ft10"><input name='16-ee-4' style="width: 65px; height: 10px; font-size: 8pt;"></p>
+<c:set var="totalList" value="${fn:split(dd619.total, ',') }" />
+<p style="position:absolute;top:850px;left:681px;white-space:nowrap" class="ft10">${totalList[0] }</p>
+<p style="position:absolute;top:850px;left:724px;white-space:nowrap" class="ft10">${totalList[1] }</p>
+<p style="position:absolute;top:850px;left:794px;white-space:nowrap" class="ft10">${totalList[2] }</p>
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 </div>

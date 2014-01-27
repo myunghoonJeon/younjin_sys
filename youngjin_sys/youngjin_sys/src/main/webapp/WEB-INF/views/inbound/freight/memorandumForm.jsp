@@ -56,26 +56,33 @@
 			<ul>	
 				<li id="memorandum_date"></li>
 				<li id="memorandum_form_subject">
-					SUBJECT : <input type="text" id="memorandum_subject" value="${checkMemorandum.subject }" />
+					SUBJECT :
+					<c:choose> 
+						<c:when test="${memorandum.subCode eq '01' }">
+							Request For Authorization of additional Service for rowering of article
+						</c:when>
+						<c:when test="${memorandum.subCode eq '03' }">
+							Request For Authorization of special crate
+						</c:when>
+						<c:otherwise>
+							<input type="text" id="memorandum_subject" value="${checkMemorandum.subject }" />
+						</c:otherwise>
+					</c:choose>
 				</li>
 				<li>
 					INSTALLATION TRANSPORTATION OFFICER<br/>
-					403rd Army Field Supprot Brigade(AFSB)<br/>
-					Logistics Readiness Center Yongsan<br/>
-					UNIT #15802, APO AP 96205-5802
-				</li>
-				<li id="memorandum_form_comment">
-					<textarea id="memorandum_comment">${checkMemorandum.comment }</textarea>
+					${responsibility }
 				</li>
 				<li>
 					<p>NAME: ${gbl.customerName }</p>
 					<p>RANK: ${gbl.rank }</p>
-					<p>SSN: ${gbl.ssn }</p><br/>
+					<p>SSN: XXXX-XX-${fn:substring(gbl.ssn, 6,10)}</p><br/>
 					<p>P/U DATE: ${gbl.pud }</p>
 					<p>GBL NO: ${gbl.no }</p>
 					<p>CARRIER: ${gbl.scac }</p>
 					<p>CODE: ${gbl.code }</p>
 				</li>
+				<li>
 				<li>
 					<c:choose>
 						<c:when test="${articles ne '' and articles ne '[]' and articles ne null }">
@@ -90,22 +97,41 @@
 							</c:forEach>
 							<input type="hidden" id="memorandum_articles" value="${articleComa }">
 						</c:when>
-						<c:otherwise>
+						<c:when test="${ memorandum.subCode eq '03'}">
 							NAME OF ARTICLE : (1) ${memorandum.codeName }							
-						</c:otherwise>
+						</c:when>
 					</c:choose>
 				</li>
 				<li id="memorandum_form_article_comment">
-					<textarea id="memorandum_article_comment">${checkMemorandum.articleComment }</textarea>
+					<c:choose>
+						<c:when test="${memorandum.subCode eq '02' or memorandum.subCode eq '03' }">
+							<input type="text" id="memorandum_article_comment1" value="${checkMemorandum.articleComment1 }" /><br/>
+							<input type="text" id="memorandum_article_comment2" value="${checkMemorandum.articleComment2 }" /><br/>
+							<input type="text" id="memorandum_article_comment3" value="${checkMemorandum.articleComment3 }" /><br/>
+							<input type="text" id="memorandum_article_comment4" value="${checkMemorandum.articleComment4 }" /><br/>
+							<input type="text" id="memorandum_article_comment5" value="${checkMemorandum.articleComment5 }" />
+						</c:when>
+						<c:when test="${memorandum.subCode eq '01' }">
+							<input type="text" id="memorandum_article_comment1" value="${checkMemorandum.articleComment1 }" /><br/>
+							<input type="text" id="memorandum_article_comment2" value="${checkMemorandum.articleComment2 }" /><br/>
+							<input type="text" id="memorandum_article_comment3" value="${checkMemorandum.articleComment3 }" /><br/><br/>
+							<input type="text" id="memorandum_article_comment4" value="${checkMemorandum.articleComment4 }" /><br/>
+							<input type="text" id="memorandum_article_comment5" value="${checkMemorandum.articleComment5 }" />							
+						</c:when>
+					</c:choose>
 				</li>
 				<li id="memorandum_form_chief_of_office">
-					<textarea id="memorandum_chief_of_office">${checkMemorandum.chiefOfOffice }</textarea>
+					${branch.branchManager }<br />
+					${branch.position }<br />
+					YOUNGJIN TRAED & TRANS CO.,LTD
 				</li>
 				<li id="memorandum_form_office_info">
-					<textarea id="memorandum_office_info">${checkMemorandum.officeInfo}</textarea>
+					${branch.itoAddress } <br/>
+					FOR YOUNGJIN T&T CO.,LTD
 				</li>				
 				<li id="memorandum_form_area_director">
-					<textarea id="memorandum_area_director">${checkMemorandum.areaDirector }</textarea>
+					<span>TA FOR TO</span><br/>
+					${branch.itoChief }
 				</li>
 			</ul>
 		</div>

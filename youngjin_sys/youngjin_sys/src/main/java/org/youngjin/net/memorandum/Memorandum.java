@@ -7,10 +7,11 @@ public class Memorandum {
 	private String comment;
 	private String area;
 	private String articles;
-	private String articleComment;
-	private String chiefOfOffice;
-	private String officeInfo;
-	private String areaDirector;
+	private String articleComment1;
+	private String articleComment2;
+	private String articleComment3;
+	private String articleComment4;
+	private String articleComment5;
 	private Integer gblSeq;
 
 	private String writeDate;
@@ -73,36 +74,44 @@ public class Memorandum {
 		this.articles = articles;
 	}
 
-	public String getArticleComment() {
-		return articleComment;
+	public String getArticleComment1() {
+		return articleComment1;
 	}
 
-	public void setArticleComment(String articleComment) {
-		this.articleComment = articleComment;
+	public void setArticleComment1(String articleComment1) {
+		this.articleComment1 = articleComment1;
 	}
 
-	public String getChiefOfOffice() {
-		return chiefOfOffice;
+	public String getArticleComment2() {
+		return articleComment2;
 	}
 
-	public void setChiefOfOffice(String chiefOfOffice) {
-		this.chiefOfOffice = chiefOfOffice;
+	public void setArticleComment2(String articleComment2) {
+		this.articleComment2 = articleComment2;
 	}
 
-	public String getOfficeInfo() {
-		return officeInfo;
+	public String getArticleComment3() {
+		return articleComment3;
 	}
 
-	public void setOfficeInfo(String officeInfo) {
-		this.officeInfo = officeInfo;
+	public void setArticleComment3(String articleComment3) {
+		this.articleComment3 = articleComment3;
 	}
 
-	public String getAreaDirector() {
-		return areaDirector;
+	public String getArticleComment4() {
+		return articleComment4;
 	}
 
-	public void setAreaDirector(String areaDirector) {
-		this.areaDirector = areaDirector;
+	public void setArticleComment4(String articleComment4) {
+		this.articleComment4 = articleComment4;
+	}
+
+	public String getArticleComment5() {
+		return articleComment5;
+	}
+
+	public void setArticleComment5(String articleComment5) {
+		this.articleComment5 = articleComment5;
 	}
 
 	public Integer getGblSeq() {
@@ -185,15 +194,16 @@ public class Memorandum {
 	public String toString() {
 		return "Memorandum [seq=" + seq + ", type=" + type + ", subject="
 				+ subject + ", comment=" + comment + ", area=" + area
-				+ ", articles=" + articles + ", articleComment="
-				+ articleComment + ", chiefOfOffice=" + chiefOfOffice
-				+ ", officeInfo=" + officeInfo + ", areaDirector="
-				+ areaDirector + ", gblSeq=" + gblSeq + ", writeDate="
-				+ writeDate + ", extraPickUpCharge=" + extraPickUpCharge
-				+ ", termination=" + termination + ", sitStartDate="
-				+ sitStartDate + ", sitEndDate=" + sitEndDate + ", longCarry="
-				+ longCarry + ", invoiceValue=" + invoiceValue
-				+ ", memorandumSeq=" + memorandumSeq + "]";
+				+ ", articles=" + articles + ", articleComment1="
+				+ articleComment1 + ", articleComment2=" + articleComment2
+				+ ", articleComment3=" + articleComment3 + ", articleComment4="
+				+ articleComment4 + ", articleComment5=" + articleComment5
+				+ ", gblSeq=" + gblSeq + ", writeDate=" + writeDate
+				+ ", extraPickUpCharge=" + extraPickUpCharge + ", termination="
+				+ termination + ", sitStartDate=" + sitStartDate
+				+ ", sitEndDate=" + sitEndDate + ", longCarry=" + longCarry
+				+ ", invoiceValue=" + invoiceValue + ", memorandumSeq="
+				+ memorandumSeq + "]";
 	}
 
 }

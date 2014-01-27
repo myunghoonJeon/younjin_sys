@@ -23,7 +23,23 @@ public class BasicService {
 		Branch branch = new Branch();
 		branch.setSeq(seq);
 		
-		return basicDao.getBranch(branch).get(0);
+		try {
+			return basicDao.getBranch(branch).get(0);
+		} catch (IndexOutOfBoundsException e) {
+			return new Branch();
+		}		
+	}
+
+	public Branch getBranch(String areaLocal) {
+		Branch branch = new Branch();
+		branch.setBranchAcronym(areaLocal);
+		
+		try {
+			return basicDao.getBranch(branch).get(0);			
+		} catch (IndexOutOfBoundsException e) {
+			return new Branch();
+		}
+		
 	}
 
 	public void branchModify(Branch branch) {
@@ -42,7 +58,22 @@ public class BasicService {
 		Pod pod = new Pod();
 		pod.setSeq(seq);
 		
-		return basicDao.getPodList(pod).get(0);
+		try {
+			return basicDao.getPodList(pod).get(0);			
+		} catch (IndexOutOfBoundsException e) {
+			return new Pod();
+		}
+	}
+
+	public Pod getPod(String podParam) {
+		Pod pod = new Pod();
+		pod.setPodAcronym(podParam);
+		
+		try {
+			return basicDao.getPodList(pod).get(0);			
+		} catch (IndexOutOfBoundsException e) {
+			return new Pod();
+		}
 	}
 
 	public void podModify(Pod pod) {
@@ -65,7 +96,11 @@ public class BasicService {
 		Carrier carrier = new Carrier();
 		carrier.setSeq(seq);
 		
-		return basicDao.getCarrierList(carrier).get(0);
+		try {
+			return basicDao.getCarrierList(carrier).get(0);			
+		} catch (IndexOutOfBoundsException e) {
+			return new Carrier();
+		}
 	}
 
 	public void carrierModify(Carrier carrier) {
@@ -80,14 +115,22 @@ public class BasicService {
 		Company company = new Company();
 		company.setSeq(seq);
 		
-		return basicDao.getCompanyList(company).get(0);
+		try {
+			return basicDao.getCompanyList(company).get(0);			
+		} catch (IndexOutOfBoundsException e) {
+			return new Company();
+		}
 	}
 	
 	public Company getCompanyByCode(String code){
 		Company company = new Company();
 		company.setCompanyCode(code);
 		
-		return basicDao.getCompanyList(company).get(0);		
+		try {
+			return basicDao.getCompanyList(company).get(0);					
+		} catch (IndexOutOfBoundsException e) {
+			return new Company();
+		}
 	}
 
 	public void companyModify(Company company) {

@@ -24,7 +24,7 @@
 						<th>ITO CHIEF</th>
 						<th>ITO ADDRESS</th>
 						<th>D GBLOCK</th>
-						<th>DODAC</th>
+						<th>DODAC</th>			
 					</tr>
 				</thead>
 				<tbody>

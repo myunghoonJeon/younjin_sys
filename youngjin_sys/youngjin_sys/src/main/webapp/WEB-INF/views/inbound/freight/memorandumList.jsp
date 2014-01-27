@@ -94,6 +94,9 @@
 										<li><img class="memorandum_icon inbound_memorandum_modify_subButton" src="${cp }/resources/images/gbl/memorandum_edit.png" /></li>
 									</c:if>
 									<c:if test="${checkMemorandumMap[memorandum.subCode] ne null}">
+										<li><img class="memorandum_icon inbound_memorandum_icon_print" src="${cp }/resources/images/print-icon.png" /></li>
+									</c:if>
+									<c:if test="${checkMemorandumMap[memorandum.subCode] ne null}">
 										<li><img class="memorandum_icon inbound_memorandum_delete_subButton" src="${cp }/resources/images/gbl/memorandum_delete.png" /></li>
 									</c:if>
 								</ul>

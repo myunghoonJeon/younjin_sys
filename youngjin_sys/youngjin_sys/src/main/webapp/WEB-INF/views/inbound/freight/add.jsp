@@ -141,8 +141,10 @@
 				<td><form:input path="netWeight" /> </td>
 			</tr>
 			<tr>
-				<th colspan="2">CUFT</th>
-				<td colspan="2"><form:input path="cuft" /> </td>
+				<th>CUFT</th>
+				<td><form:input path="cuft" /> </td>
+				<th>STORED AT</th>
+				<td><form:input path="storedAt" /> </td>
 			</tr>
 			<tfoot>
 				<tr>

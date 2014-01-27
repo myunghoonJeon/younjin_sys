@@ -8,10 +8,11 @@
 		<result property="comment" column="comment"/>
 		<result property="area" column="area"/>
 		<result property="articles" column="articles" />
-		<result property="articleComment" column="article_comment"/>
-		<result property="chiefOfOffice" column="chief_of_office"/>
-		<result property="officeInfo" column="office_info"/>
-		<result property="areaDirector" column="area_director"/>
+		<result property="articleComment1" column="article_comment1"/>
+		<result property="articleComment2" column="article_comment2"/>
+		<result property="articleComment3" column="article_comment3"/>
+		<result property="articleComment4" column="article_comment4"/>
+		<result property="articleComment5" column="article_comment5"/>
 		<result property="gblSeq" column="gbl_seq" />
 		<result property="writeDate" column="write_date" />
 		<result property="extraPickUpCharge" column="extra_pick_up_charge" />
@@ -23,7 +24,7 @@
 	
 	<select id="getMemorandum" parameterType="Memorandum" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, termination, sit_start_date, sit_end_date, long_carry
 		FROM
 			memorandum
 		WHERE
@@ -38,7 +39,7 @@
 	
 	<select id="getMemorandumIb" parameterType="Memorandum" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, write_date, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
 		FROM
 			memorandum_ib
 		WHERE
@@ -53,7 +54,7 @@
 	
 	<select id="getMemorandumList" parameterType="Map" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
 		FROM
 			memorandum
 		WHERE
@@ -66,7 +67,7 @@
 	
 	<select id="getMemorandumListIb" parameterType="Map" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
 		FROM
 			memorandum_ib
 		WHERE
@@ -147,11 +148,11 @@
 		INSERT INTO
 			memorandum
 			(
-				type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date, memorandum_list_seq
+				type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, write_date, memorandum_list_seq
 			)
 		VALUES
 			(
-				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment}, #{chiefOfOffice}, #{officeInfo}, #{areaDirector}, #{gblSeq}, SYSDATE(), #{memorandumSeq}
+				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment1}, #{articleComment2}, #{articleComment3}, #{articleComment4}, #{articleComment5}, #{gblSeq}, SYSDATE(), #{memorandumSeq}
 			)
 	</insert>
 	
@@ -159,11 +160,11 @@
 		INSERT INTO
 			memorandum_ib
 			(
-				type, subject, comment, area, articles, article_comment, chief_of_office, office_info, area_director, gbl_seq, write_date, memorandum_list_seq
+				type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, write_date, memorandum_list_seq
 			)
 		VALUES
 			(
-				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment}, #{chiefOfOffice}, #{officeInfo}, #{areaDirector}, #{gblSeq}, SYSDATE(), #{memorandumSeq}
+				#{type}, #{subject}, #{comment}, #{area}, #{articles}, #{articleComment1}, #{articleComment2}, #{articleComment3}, #{articleComment4}, #{articleComment5}, #{gblSeq}, SYSDATE(), #{memorandumSeq}
 			)
 	</insert>
 	
@@ -299,10 +300,11 @@
 	    	comment = #{comment},
 	    	area = #{area},
 	    	articles = #{articles},
-	    	article_comment = #{articleComment},
-	    	chief_of_office = #{chiefOfOffice},
-	    	office_info = #{officeInfo},
-	    	area_director = #{areaDirector}
+	    	article_comment1 = #{articleComment1},
+	    	article_comment2 = #{articleComment2},
+	    	article_comment3 = #{articleComment3},
+	    	article_comment4 = #{articleComment4},
+	    	article_comment5 = #{articleComment5}
 	    WHERE
 	    	gbl_seq = #{gblSeq}
 	    AND
@@ -317,10 +319,11 @@
 	    	comment = #{comment},
 	    	area = #{area},
 	    	articles = #{articles},
-	    	article_comment = #{articleComment},
-	    	chief_of_office = #{chiefOfOffice},
-	    	office_info = #{officeInfo},
-	    	area_director = #{areaDirector}
+	    	article_comment1 = #{articleComment1},
+	    	article_comment2 = #{articleComment2},
+	    	article_comment3 = #{articleComment3},
+	    	article_comment4 = #{articleComment4},
+	    	article_comment5 = #{articleComment5}
 	    WHERE
 	    	gbl_seq = #{gblSeq}
 	    AND

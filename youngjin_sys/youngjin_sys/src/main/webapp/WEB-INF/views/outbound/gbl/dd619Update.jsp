@@ -58,17 +58,17 @@
 				<th>NAME</th>
 				<td><form:input path="name"/></td>
 				<th>SSN</th>
-				<td>XXX - XX - <form:input path="ssn" style="width: 50px;"/></td>
+				<td>XXX - XX - <form:input path="ssn" style="width: 50px;" value="${fn:substring(dd619.ssn, 5, 9) }"/></td>
 			</tr>
 			<tr>
 				<th>RANK</th>
 				<td><form:input path="rank"/></td>
 				<th>ORIGIN OF SHIPMENT</th>
-				<td><form:input path="originOfShipment"/></td>
+				<td><form:input path="originOfShipment" value="${branch.branch }"/></td>
 			</tr>		
 			<tr>
-				<th>DESTINATION</th>
-				<td><form:input path="destination"/></td>
+				<th>DESTINATION OF SHIPMENT</th>
+				<td><form:input path="destination" value="${pod.destAddress }"/></td>
 				<th>ORDERING ACTIVITY NAME</th>
 				<td><form:input path="orderingActivityName" /></td>
 			</tr>		
@@ -80,21 +80,7 @@
 			</tr>		
 			<tr>
 				<th>SINGNATURE</th>
-				<c:choose>
-					<c:when test="${user.areaStr eq 'YongSan'}">
-						<c:set var="signature" value="DOO S SHIN / BRANCH MANAGER" />
-					</c:when>
-					<c:when test="${user.areaStr eq 'PyungTaek' or user.areaStr eq 'Osan'}">
-						<c:set var="signature" value="PAK,OK MAN / BRANCH MANAGER" />
-					</c:when>
-					<c:when test="${user.areaStr eq 'TongDooChun' or user.areaStr eq 'UyJungBu'}">
-						<c:set var="signature" value="SON-YOUN-A / BRANCH MANAGER" />
-					</c:when>
-					<c:when test="${user.areaStr eq 'DaeGu' or user.areaStr eq 'Busan'}">
-						<c:set var="signature" value="YI, CHIN HUN / BRANCH MANAGER" />
-					</c:when>								
-				</c:choose>
-				<td><form:input path="signature" value="${signature }" /></td>
+				<td><form:input path="signature" value="${branch.branchManager }" /></td>
 				<th>CARRIER'S SHIPMENT REFER</th>
 				<td><form:input path="carrierShipmentReference"/></td>
 			</tr>		
@@ -129,7 +115,7 @@
 				<th>MATERIALS WERE FURNISHED/ACCESSORIAL SERVICES WERE PERFORMED</th>
 				<td><form:input path="officerMaterial" value="ORIGIN"/></td>				
 				<th>SIGNATURE</th>
-				<td><form:input path="officerSignature" value="${gbl.rank } ${gbl.customerName }"/></td>				
+				<td><form:input path="officerSignature" value="${gbl.rank } / ${gbl.customerName }"/></td>				
 			</tr>
 			<tr>							
 				<th colspan="2">DATE SIGNED</th>
@@ -154,25 +140,21 @@
 					<c:forEach var="remark" items="${remarkList }">
 						<c:choose>
 							<c:when test="${remark.type eq '01' }">
-								<input type="hidden" id="dd619Count" value="1"/>
+								<input type="hidden" id="dd619Count1" value="1"/>
 								<form:input path="invoiceMemorandumType" value="LOWERING EQIPMENT"/> : 
 								<form:input path="invoiceMemorandumValue" value="${remarkValue['LOWERING EQIPMENT'] }" />
 							</c:when>
 							<c:when test="${remark.type eq '02' }">
 								<c:forEach var="article" items="${remark.articleList }"> 	
-									<input type="hidden" id="dd619Count" value="${fn:length(remark.articleList) }"/>
+									<input type="hidden" id="dd619Count2" value="${fn:length(remark.articleList) }"/>
 									<form:input path="invoiceMemorandumType" value="${article }"/> : 
 									<form:input path="invoiceMemorandumValue" value="${remarkValue[article] }" />
 								</c:forEach>
 							</c:when>
 							<c:when test="${remark.type eq '03' }">
-								<input type="hidden" id="dd619Count" value="3"/>
+								<input type="hidden" id="dd619Count3" value="1"/>
 								<form:input path="invoiceMemorandumType" value="MOTO CYCLE"/> :
-								<form:input path="invoiceMemorandumValue" value="${remarkValue['MOTO CYCLE'] }" /> 
-								<form:input path="invoiceMemorandumType" value="FABRICATED ONE CRATE"/> :
-								<form:input path="invoiceMemorandumValue" value="${remarkValue['FABRICATED ONE CRATE'] }" /> 
-								<form:input path="invoiceMemorandumType" value="TOTAL AMOUNT"/> :
-								<form:input path="invoiceMemorandumValue" value="${remarkValue['TOTAL AMOUNT'] }" /> 								
+								<form:input path="invoiceMemorandumValue" value="${remarkValue['MOTO CYCLE'] }" /> 						
 							</c:when>
 						</c:choose>	
 					</c:forEach>

@@ -149,6 +149,11 @@ youngjin.inbound.sync = function(){
 		youngjin.inbound.memorandumModify($(this));
 	});	
 	
+	$('.inbound_memorandum_icon_print').unbind('click');
+	$('.inbound_memorandum_icon_print').bind('click', function(){
+		youngjin.inbound.memorandumPrint($(this));
+	});
+	
 	$('.inbound_memorandum_delete_subButton').unbind('click');
 	$('.inbound_memorandum_delete_subButton').bind('click', function(){
 		youngjin.inbound.memorandumDelete($(this));
@@ -167,11 +172,6 @@ youngjin.inbound.sync = function(){
 	$('#inbound_memorandum_update').unbind('click');
 	$('#inbound_memorandum_update').bind('click', function(){
 		youngjin.inbound.memorandumUpdate($(this));
-	});
-	
-	$('#inbound_memorandum_print').unbind('click');
-	$('#inbound_memorandum_print').bind('click', function(){
-		youngjin.inbound.memorandumPrint($(this));
 	});
 	
 	youngjin.inbound.dd619Sync();
@@ -863,9 +863,7 @@ youngjin.inbound.memorandumPop = function(target){
 };
 
 
-youngjin.inbound.memorandumModify = function(target){
-	alert("!!");
-	
+youngjin.inbound.memorandumModify = function(target){	
 	var seq = $('.memorandum_table').attr('data-seq');
 	var memorandumSeq = $('.memorandum_table').attr('data-memorandumSeq');
 	
@@ -1002,10 +1000,11 @@ youngjin.inbound.memorandumAdd = function(target){
 	var type = parents.attr('data-type');
 	var subject = $('#memorandum_subject').val();
 	var comment = $('#memorandum_comment').val();
-	var articleComment = $('#memorandum_article_comment').val();
-	var chiefOfOffice = $('#memorandum_chief_of_office').val();
-	var officeInfo = $('#memorandum_office_info').val();
-	var areaDirector = $('#memorandum_area_director').val();
+	var articleComment1 = $('#memorandum_article_comment1').val();
+	var articleComment2 = $('#memorandum_article_comment2').val();
+	var articleComment3 = $('#memorandum_article_comment3').val();
+	var articleComment4 = $('#memorandum_article_comment4').val();
+	var articleComment5 = $('#memorandum_article_comment5').val();
 	var articles = $('#memorandum_articles').val();
 	var gblSeq = parents.attr('data-seq');
 	var memorandumSeq = parents.attr('data-memorandumSeq');
@@ -1020,10 +1019,11 @@ youngjin.inbound.memorandumAdd = function(target){
 		'subject' : subject,
 		'comment' : comment,
 		'articles' : articles,
-		'articleComment' : articleComment,
-		'chiefOfOffice' : chiefOfOffice,
-		'officeInfo' : officeInfo,
-		'areaDirector' : areaDirector,
+		'articleComment1' : articleComment1,
+		'articleComment2' : articleComment2,
+		'articleComment3' : articleComment3,
+		'articleComment4' : articleComment4,
+		'articleComment5' : articleComment5,
 		'gblSeq' : gblSeq,
 		'memorandumSeq' : memorandumSeq
 	};
@@ -1052,10 +1052,11 @@ youngjin.inbound.memorandumUpdate = function(target){
 	var type = parents.attr('data-type');
 	var subject = $('#memorandum_subject').val();
 	var comment = $('#memorandum_comment').val();
-	var articleComment = $('#memorandum_article_comment').val();
-	var chiefOfOffice = $('#memorandum_chief_of_office').val();
-	var officeInfo = $('#memorandum_office_info').val();
-	var areaDirector = $('#memorandum_area_director').val();
+	var articleComment1 = $('#memorandum_article_comment1').val();
+	var articleComment2 = $('#memorandum_article_comment2').val();
+	var articleComment3 = $('#memorandum_article_comment3').val();
+	var articleComment4 = $('#memorandum_article_comment4').val();
+	var articleComment5 = $('#memorandum_article_comment5').val();
 	var articles = $('#memorandum_articles').val();
 	var gblSeq = parents.attr('data-seq');
 	var memorandumSeq = parents.attr('data-memorandumSeq');
@@ -1070,10 +1071,11 @@ youngjin.inbound.memorandumUpdate = function(target){
 		'subject' : subject,
 		'comment' : comment,
 		'articles' : articles,
-		'articleComment' : articleComment,
-		'chiefOfOffice' : chiefOfOffice,
-		'officeInfo' : officeInfo,
-		'areaDirector' : areaDirector,
+		'articleComment1' : articleComment1,
+		'articleComment2' : articleComment2,
+		'articleComment3' : articleComment3,
+		'articleComment4' : articleComment4,
+		'articleComment5' : articleComment5,
 		'gblSeq' : gblSeq,
 		'memorandumSeq' : memorandumSeq
 	};
@@ -1098,16 +1100,23 @@ youngjin.inbound.memorandumUpdate = function(target){
 };
 
 youngjin.inbound.memorandumPrint = function(target){
-	var seq = target.attr('data-seq');
-	var type = target.attr('data-type');
-	var article = target.attr('data-article');
-	var memorandumSeq = target.attr('data-memorandumSeq');
+	var seq = $('.memorandum_table').attr('data-seq');
+	var memorandumSeq = $('.memorandum_table').attr('data-memorandumSeq');
 	
-	var url;
+	var checkbox = target.parents().parents().parents().parents().children('.memorandum_type').children('input');
+	var type = checkbox.val();
+
+	var url = contextPath + '/inbound/freight/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/print';
+
 	
-	if( article == null || article == '' || article == 'undefined'){
-		url = contextPath + '/inbound/freight/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/print';
-	}	else {
+	if( type == '02' ){
+		var article = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
+		if(article.val() == '' || article.val() == null){
+			youngjin.outbound.sync();
+			article.focus();
+			return;
+		}
+
 		url = contextPath + '/inbound/freight/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/' + article + '/print';
 	}
 	

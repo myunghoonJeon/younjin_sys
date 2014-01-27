@@ -200,6 +200,11 @@ youngjin.outbound.memorandumSync = function(){
 		youngjin.outbound.memorandumDelete($(this));
 	});
 	
+	$('.meomorandum_icon_print').unbind('click');
+	$('.meomorandum_icon_print').bind('click', function(){
+		youngjin.outbound.memorandumPrint($(this));
+	});
+	
 	$('.memorandum_name input').unbind('click');
 	$('.memorandum_name input').bind('click',function(){
 		$(this).attr('data-value', $(this).val());
@@ -376,11 +381,6 @@ youngjin.outbound.backButtonSync = function(){
 		youngjin.outbound.weightCertificateBack($(this));
 	});
 	
-	$('.memorandum_print').unbind('click');
-	$('.memorandum_print').bind('click', function(){
-		youngjin.outbound.memorandumPrint($(this));
-	});
-	
 	$('.dd619_back').unbind('click');
 	$('.dd619_back').bind('click', function(){
 		youngjin.outbound.dd619Back($(this));
@@ -526,7 +526,13 @@ youngjin.outbound.gblkModifySubmit = function(target){
 	var usNo = form.usNo.value;
 	var destPort = form.destPort.value;
 	var originPort = form.originPort.value;
-	var originCity = form.originCity.value;
+	var destState = form.destState.value;
+	var vessel = form.vessel.value;
+	var consoleCompany = form.consoleCompany.value;
+	var hbBookingNo = form.hbBookingNo.value;
+	var clpNo = form.clpNo.value;
+	var containerNo = form.containerNo.value;
+	var export1 = form.export.value;
 	var milSVC = form.milSVC.value;
 	var etd = form.etd.value;
 	var eta = form.eta.value;
@@ -552,7 +558,13 @@ youngjin.outbound.gblkModifySubmit = function(target){
 			'usNo' : usNo,
 			'destPort' : destPort,
 			'originPort' : originPort,
-			'originCity' : originCity,
+			'vessel' : vessel,
+			'consoleCompany' : consoleCompany,
+			'hbBookingNo' : hbBookingNo,
+			'clpNo' : clpNo,
+			'containerNo' : containerNo,
+			'export' : export1,
+			'destState' : destState,
 			'milSVC' : milSVC,
 			'etd' : etd,
 			'eta' : eta,
@@ -1062,12 +1074,16 @@ youngjin.outbound.memorandumFormBack = function(target){
 youngjin.outbound.memorandumAdd = function(target){
 	var parents = target.parents().parents().parents().parents('.memorandum_form_content_wrap');
 	var type = parents.attr('data-type');
-	var subject = $('#memorandum_subject').val();
+	var subject = '';
+	if($('#memorandum_subject').val() != undefined){
+		subject = $('#memorandum_subject').val();
+	}
 	var comment = $('#memorandum_comment').val();
-	var articleComment = $('#memorandum_article_comment').val();
-	var chiefOfOffice = $('#memorandum_chief_of_office').val();
-	var officeInfo = $('#memorandum_office_info').val();
-	var areaDirector = $('#memorandum_area_director').val();
+	var articleComment1 = $('#memorandum_article_comment1').val();
+	var articleComment2 = $('#memorandum_article_comment2').val();
+	var articleComment3 = $('#memorandum_article_comment3').val();
+	var articleComment4 = $('#memorandum_article_comment4').val();
+	var articleComment5 = $('#memorandum_article_comment5').val();
 	var articles = $('#memorandum_articles').val();
 	var gblSeq = parents.attr('data-seq');
 	var memorandumSeq = parents.attr('data-memorandumSeq');
@@ -1082,10 +1098,11 @@ youngjin.outbound.memorandumAdd = function(target){
 		'subject' : subject,
 		'comment' : comment,
 		'articles' : articles,
-		'articleComment' : articleComment,
-		'chiefOfOffice' : chiefOfOffice,
-		'officeInfo' : officeInfo,
-		'areaDirector' : areaDirector,
+		'articleComment1' : articleComment1,
+		'articleComment2' : articleComment2,
+		'articleComment3' : articleComment3,
+		'articleComment4' : articleComment4,
+		'articleComment5' : articleComment5,
 		'gblSeq' : gblSeq,
 		'memorandumSeq' : memorandumSeq
 	};
@@ -1114,10 +1131,11 @@ youngjin.outbound.memorandumUpdate = function(target){
 	var type = parents.attr('data-type');
 	var subject = $('#memorandum_subject').val();
 	var comment = $('#memorandum_comment').val();
-	var articleComment = $('#memorandum_article_comment').val();
-	var chiefOfOffice = $('#memorandum_chief_of_office').val();
-	var officeInfo = $('#memorandum_office_info').val();
-	var areaDirector = $('#memorandum_area_director').val();
+	var articleComment1 = $('#memorandum_article_comment1').val();
+	var articleComment2 = $('#memorandum_article_comment2').val();
+	var articleComment3 = $('#memorandum_article_comment3').val();
+	var articleComment4 = $('#memorandum_article_comment4').val();
+	var articleComment5 = $('#memorandum_article_comment5').val();
 	var articles = $('#memorandum_articles').val();
 	var gblSeq = parents.attr('data-seq');
 	var memorandumSeq = parents.attr('data-memorandumSeq');
@@ -1132,10 +1150,11 @@ youngjin.outbound.memorandumUpdate = function(target){
 		'subject' : subject,
 		'comment' : comment,
 		'articles' : articles,
-		'articleComment' : articleComment,
-		'chiefOfOffice' : chiefOfOffice,
-		'officeInfo' : officeInfo,
-		'areaDirector' : areaDirector,
+		'articleComment1' : articleComment1,
+		'articleComment2' : articleComment2,
+		'articleComment3' : articleComment3,
+		'articleComment4' : articleComment4,
+		'articleComment5' : articleComment5,
 		'gblSeq' : gblSeq,
 		'memorandumSeq' : memorandumSeq
 	};
@@ -1362,7 +1381,22 @@ youngjin.outbound.dd619Modify = function(target){
 	var remark = $('#remark').val();
 	var writeUser = $('#writeUser').val();	
 	
-	var count = $('#dd619Count').val();
+	var count = 0;
+	var count1 = $('#dd619Count1').val();
+	var count2 = $('#dd619Count2').val();
+	var count3 = $('#dd619Count3').val();
+	
+	if(count1 != undefined){
+		count += Number(count1);
+	}
+	
+	if(count2 != undefined){
+		count += Number(count2);
+	}
+	
+	if(count3 != undefined){
+		count += Number(count3);
+	}
 	
 	var invoiceMemorandumType = $('input[name="invoiceMemorandumType"]').eq(0).val();
 	for ( var i = 1 ; i < count ; i ++ ){
@@ -1680,17 +1714,24 @@ youngjin.outbound.additionComplete = function(target){
 };
 
 youngjin.outbound.memorandumPrint = function(target){
-	var seq = target.attr('data-seq');
-	var type = target.attr('data-type');
-	var article = target.attr('data-article');
-	var memorandumSeq = target.attr('data-memorandumSeq');
+	var seq = $('.memorandum_table').attr('data-seq');
+	var memorandumSeq = $('.memorandum_table').attr('data-memorandumSeq');
 	
-	var url;
+	var checkbox = target.parents().parents().parents().parents().children('.memorandum_type').children('input');
+	var type = checkbox.val();
 	
-	if( article == null || article == '' || article == 'undefined'){
-		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/print';
-	}	else {
-		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/' + article + '/print';
+	var url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/print';	
+
+	
+	if( type == '02' ){
+		var article = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
+		if(article.val() == '' || article.val() == null){
+			youngjin.outbound.sync();
+			article.focus();
+			return;
+		}
+
+		url = contextPath + '/outbound/' + seq + '/' + memorandumSeq + '/memorandum/' + type + '/' + article.val() + '/print';
 	}
 	
 	window.open(url ,'memoprint', 'width=1263, height=892, status=no');	

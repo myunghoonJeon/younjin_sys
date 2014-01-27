@@ -88,8 +88,8 @@
 			<tr>
 				<th>ORIGIN PORT</th>
 				<td><form:input path="originPort" /> </td>
-				<th>ORIGIN CITY </th>
-				<td><form:input path="originCity" /> </td>
+				<th>DEST STATE </th>
+				<td><form:input path="destState" /> </td>
 			</tr>
 			<tr>
 				<th>MIL SVC</th>
@@ -98,10 +98,28 @@
 				<td><form:input path="etd" /></td>
 			</tr>
 			<tr>
+				<th>VESSEL</th>
+				<td><form:input path="vessel" /></td>
+				<th>CONSOL COMPANY</th>
+				<td><form:input path="consoleCompany" /></td>
+			</tr>
+			<tr>
+				<th>H/B BOOKING NO</th>
+				<td><form:input path="hbBookingNo" /></td>
+				<th>CLP NO</th>
+				<td><form:input path="clpNo" /></td>
+			</tr>
+			<tr>
 				<th>ETA</th>
 				<td><form:input path="eta" /></td>
 				<th>BL NO</th>
 				<td><form:input path="blNo" /></td>
+			</tr>
+			<tr>
+				<th>CONTAINER NO</th>
+				<td><form:input path="containerNo" /></td>
+				<th>export</th>
+				<td><form:input path="export" /></td>
 			</tr>
 			<tfoot>
 				<tr>

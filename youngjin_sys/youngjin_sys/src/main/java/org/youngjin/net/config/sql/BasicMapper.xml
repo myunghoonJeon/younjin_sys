@@ -3,7 +3,7 @@
 <mapper namespace="basicMapper">
 	<select id="getBranch" parameterType="Branch" resultType="Branch">
 		SELECT
-			seq, branchAcronym, branch, branchManager, telNo, faxNo, eMailAddress, itoTelNo, itoDsnNo, itoChief, itoAddress, dGbloc, dodac
+			seq, branchAcronym, branch, branchManager, telNo, faxNo, eMailAddress, itoTelNo, itoDsnNo, itoChief, itoAddress, dGbloc, dodac, responsibility, position
 		FROM
 			branch
 		WHERE
@@ -21,11 +21,11 @@
 		INSERT INTO
 			branch
 			(
-				branchAcronym, branch, branchManager, telNo, faxNo, eMailAddress, itoTelNo, itoDsnNo, itoChief, itoAddress, dGbloc, dodac
+				branchAcronym, branch, branchManager, telNo, faxNo, eMailAddress, itoTelNo, itoDsnNo, itoChief, itoAddress, dGbloc, dodac, responsibility, position
 			)	
 		VALUES
 			(
-				#{branchAcronym}, #{branch}, #{branchManager}, #{telNo}, #{faxNo}, #{eMailAddress}, #{itoTelNo}, #{itoDsnNo}, #{itoChief}, #{itoAddress}, #{dGbloc}, #{dodac}
+				#{branchAcronym}, #{branch}, #{branchManager}, #{telNo}, #{faxNo}, #{eMailAddress}, #{itoTelNo}, #{itoDsnNo}, #{itoChief}, #{itoAddress}, #{dGbloc}, #{dodac}, #{responsibility}, #{position}
 			)
 	</insert>
 	
@@ -44,7 +44,9 @@
 			itoChief = #{itoChief},
 			itoAddress = #{itoAddress},
 			dGbloc = #{dGbloc},
-			dodac = #{dodac}
+			dodac = #{dodac},
+			responsibility = #{responsibility},
+			position = #{position}
 		WHERE
 			seq = #{seq}
 	</update>

@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.youngjin.net.basic.BasicService;
+import org.youngjin.net.basic.Branch;
+import org.youngjin.net.basic.Pod;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.login.User;
@@ -45,6 +48,9 @@ public class OutboundController {
 
 	@Resource
 	private MemorandumService memorandumService;
+	
+	@Resource
+	private BasicService basicService;
 
 	@RequestMapping(value = "/{process}/gblList", method = RequestMethod.GET)
 	public String gblList(Model model, User user,
@@ -298,10 +304,13 @@ public class OutboundController {
 		Code code = codeService.getCode("03", type);
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "outbound");
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("gbl", gbl);
 		model.addAttribute("memorandumSeq", memorandumSeq);
+		model.addAttribute("branch", branch);
 		model.addAttribute("type", type);
 		model.addAttribute("memorandum", code);
 		model.addAttribute("checkMemorandum", memorandom);
@@ -320,6 +329,8 @@ public class OutboundController {
 		Code code = codeService.getCode("03", type);
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "outbound");
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		String[] articles = article.split(",");
 
@@ -327,6 +338,7 @@ public class OutboundController {
 		model.addAttribute("gbl", gbl);
 		model.addAttribute("type", type);
 		model.addAttribute("memorandumSeq", memorandumSeq);
+		model.addAttribute("branch", branch);
 		model.addAttribute("memorandum", code);
 		model.addAttribute("articleComa", article);
 		model.addAttribute("articles", articles);
@@ -360,10 +372,13 @@ public class OutboundController {
 		Code code = codeService.getCode("03", type);
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "outbound");
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("gbl", gbl);
 		model.addAttribute("memorandumSeq", memorandumSeq);
+		model.addAttribute("branch", branch);
 		model.addAttribute("type", type);
 		model.addAttribute("memorandum", code);
 		model.addAttribute("checkMemorandum", memorandom);
@@ -382,12 +397,15 @@ public class OutboundController {
 		Code code = codeService.getCode("03", type);
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type, memorandumSeq, "outbound");
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		String[] articles = article.split(",");
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("gbl", gbl);
 		model.addAttribute("memorandumSeq", memorandumSeq);
+		model.addAttribute("branch", branch);
 		model.addAttribute("type", type);
 		model.addAttribute("memorandum", code);
 		model.addAttribute("articleComa", article);
@@ -431,15 +449,22 @@ public class OutboundController {
 			@PathVariable String process, @PathVariable String seq, @PathVariable Integer dd619Seq,
 			@ModelAttribute Dd619 dd619) {
 
+		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
+		
 		dd619 = outboundService.getDd619ListSelectOne(dd619Seq);
 		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
+		Pod pod = basicService.getPod(gbl.getPod());
+		
 		model.addAttribute("user", user);
-		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
+		model.addAttribute("gbl", gbl);
 		model.addAttribute("dd619", dd619);
 		model.addAttribute("remarkList",
 				memorandumService.getMemorandumList(seq, dd619.getMemorandumListSeq(), process));
 		model.addAttribute("remarkValue", outboundService.getRemarkValue(seq, dd619.getMemorandumListSeq()));
 		model.addAttribute("seq", seq);
+		model.addAttribute("branch", branch);
+		model.addAttribute("pod", pod);		
 
 		return process + "/gbl/dd619Update";
 	}	

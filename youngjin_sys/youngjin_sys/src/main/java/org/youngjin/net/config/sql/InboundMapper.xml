@@ -125,7 +125,8 @@
 					g.destinationGbloc,
 					g.itemsPieces,
 					g.grossWeight,
-					g.netWeight
+					g.netWeight,
+					g.storedAt
 				FROM
 					gbl_ib g, (SELECT @rownum := 0) r
 				WHERE
@@ -238,7 +239,8 @@
 			g.destinationGbloc,
 			g.itemsPieces,
 			g.grossWeight,
-			g.netWeight
+			g.netWeight,
+			g.storedAt
 		FROM
 			gbl_ib g
 		WHERE
@@ -636,7 +638,8 @@
 			destinationGbloc,
 			itemsPieces,
 			grossWeight,
-			netWeight
+			netWeight,
+			storedAt
 		)
 	VALUES
 		(
@@ -673,7 +676,8 @@
 			#{destinationGbloc},
 			#{itemsPieces},
 			#{grossWeight},
-			#{netWeight}		
+			#{netWeight},
+			#{storedAt}		
 		)
 	</insert>
 	

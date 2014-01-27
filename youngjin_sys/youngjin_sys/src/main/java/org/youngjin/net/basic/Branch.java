@@ -18,6 +18,8 @@ public class Branch {
 	private String itoAddress;
 	private String dGbloc;
 	private String dodac;
+	private String responsibility;
+	private String position;
 
 	public Integer getSeq() {
 		return seq;
@@ -123,6 +125,22 @@ public class Branch {
 		this.dodac = dodac;
 	}
 
+	public String getResponsibility() {
+		return responsibility;
+	}
+
+	public void setResponsibility(String responsibility) {
+		this.responsibility = responsibility;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
 	@Override
 	public String toString() {
 		return "Branch [seq=" + seq + ", branchAcronym=" + branchAcronym
@@ -130,7 +148,9 @@ public class Branch {
 				+ ", telNo=" + telNo + ", faxNo=" + faxNo + ", eMailAddress="
 				+ eMailAddress + ", itoTelNo=" + itoTelNo + ", itoDsnNo="
 				+ itoDsnNo + ", itoChief=" + itoChief + ", itoAddress="
-				+ itoAddress + ", dGbloc=" + dGbloc + ", dodac=" + dodac + "]";
+				+ itoAddress + ", dGbloc=" + dGbloc + ", dodac=" + dodac
+				+ ", responsibility=" + responsibility + ", position="
+				+ position + "]";
 	}
 
 }

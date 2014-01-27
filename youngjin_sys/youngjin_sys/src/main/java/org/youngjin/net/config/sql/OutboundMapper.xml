@@ -21,7 +21,13 @@
 	<result column="poe" property="poe"/>
 	<result column="origin_address" property="originAddress"/>
 	<result column="origin_port" property="originPort"/>
-	<result column="origin_city" property="originCity"/>
+	<result column="dest_state" property="destState"/>
+	<result column="clp_no" property="clpNo"/>
+	<result column="seal_no" property="sealNo"/>
+	<result column="consol_company" property="consoleCompany"/>
+	<result column="container_no" property="containerNo"/>
+	<result column="hb_booking_no" property="hbBookingNo"/>
+	<result column="export" property="export"/>
 	<result column="mil_svc" property="milSVC"/>
 	<result column="etd" property="etd"/>
 	<result column="eta" property="eta"/>
@@ -271,7 +277,14 @@
 		g.us_no, 
 		g.dest_port, 
 		g.origin_port, 
-		g.origin_city, 
+		g.vessel, 
+		g.consol_company,
+		g.hb_booking_no,  
+		g.container_no,
+		g.clp_no, 
+		g.seal_no, 
+		g.dest_state,
+		g.export,  
 		g.mil_svc,
 		g.etd,
 		g.eta,
@@ -1157,7 +1170,14 @@
 		us_no = #{usNo},
 		dest_port = #{destPort},
 		origin_port = #{originPort},
-		origin_city = #{originCity},
+		vessel = #{vessel},
+		consol_company = #{consoleCompany},
+		hb_booking_no = #{hbBookingNo},
+		clp_no = #{clpNo},
+		seal_no = #{sealNo},
+		container_no = #{containerNo},
+		dest_state = #{destState},
+		export = #{export},
 		mil_svc = #{milSVC},
 		eta = #{eta},
 		etd = #{etd},

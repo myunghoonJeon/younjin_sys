@@ -30,13 +30,14 @@ public class GBL {
 	private String pod;
 	private String poe;
 	private String consoleCompany;
-	private Integer hbBookingNo;
+	private String containerNo;
+	private String hbBookingNo;
 	private String clpNo;
 	private String sealNo;
 	private String originPort;
 	private String destPort;
 	private String destState;
-
+	private String export;
 	private String originGBlock;
 	private String destGBlock;
 
@@ -90,6 +91,7 @@ public class GBL {
 	private String itemsPieces;
 	private String grossWeight;
 	private String netWeight;
+	private String storedAt;
 
 	private WeightIb weightIb;
 
@@ -261,11 +263,11 @@ public class GBL {
 		this.consoleCompany = consoleCompany;
 	}
 
-	public Integer getHbBookingNo() {
+	public String getHbBookingNo() {
 		return hbBookingNo;
 	}
 
-	public void setHbBookingNo(Integer hbBookingNo) {
+	public void setHbBookingNo(String hbBookingNo) {
 		this.hbBookingNo = hbBookingNo;
 	}
 
@@ -411,6 +413,22 @@ public class GBL {
 
 	public void setConsignee(String consignee) {
 		this.consignee = consignee;
+	}
+
+	public String getContainerNo() {
+		return containerNo;
+	}
+
+	public void setContainerNo(String containerNo) {
+		this.containerNo = containerNo;
+	}
+
+	public String getExport() {
+		return export;
+	}
+
+	public void setExport(String export) {
+		this.export = export;
 	}
 
 	// inbound
@@ -639,6 +657,14 @@ public class GBL {
 		this.netWeight = netWeight;
 	}
 
+	public String getStoredAt() {
+		return storedAt;
+	}
+
+	public void setStoredAt(String storedAt) {
+		this.storedAt = storedAt;
+	}
+
 	@Override
 	public String toString() {
 		return "GBL [seq=" + seq + ", no=" + no + ", customerName="
@@ -648,10 +674,11 @@ public class GBL {
 				+ phoneNo + ", email=" + email + ", rdd=" + rdd + ", vessel="
 				+ vessel + ", pcs=" + pcs + ", lbs=" + lbs + ", cuft=" + cuft
 				+ ", usNo=" + usNo + ", pod=" + pod + ", poe=" + poe
-				+ ", consoleCompany=" + consoleCompany + ", hbBookingNo="
-				+ hbBookingNo + ", clpNo=" + clpNo + ", sealNo=" + sealNo
-				+ ", originPort=" + originPort + ", destPort=" + destPort
-				+ ", destState=" + destState + ", originGBlock=" + originGBlock
+				+ ", consoleCompany=" + consoleCompany + ", containerNo="
+				+ containerNo + ", hbBookingNo=" + hbBookingNo + ", clpNo="
+				+ clpNo + ", sealNo=" + sealNo + ", originPort=" + originPort
+				+ ", destPort=" + destPort + ", destState=" + destState
+				+ ", export=" + export + ", originGBlock=" + originGBlock
 				+ ", destGBlock=" + destGBlock + ", originCity=" + originCity
 				+ ", milSVC=" + milSVC + ", gblFileNo=" + gblFileNo
 				+ ", truckCheck=" + truckCheck + ", bookingCheck="
@@ -670,9 +697,9 @@ public class GBL {
 				+ yjNo + ", totalPcs=" + totalPcs + ", phone=" + phone
 				+ ", address=" + address + ", onHandDate=" + onHandDate
 				+ ", gbloc=" + gbloc + ", destinationGbloc=" + destinationGbloc
-				+ ", itemPieces=" + itemsPieces + ", grossWeight=" + grossWeight
-				+ ", netWeight=" + netWeight + ", weightIb=" + weightIb
-				+ ", attachments=" + Arrays.toString(attachments)
+				+ ", itemsPieces=" + itemsPieces + ", grossWeight="
+				+ grossWeight + ", netWeight=" + netWeight + ", weightIb="
+				+ weightIb + ", attachments=" + Arrays.toString(attachments)
 				+ ", attachmentList=" + attachmentList + ", deleteAttachments="
 				+ Arrays.toString(deleteAttachments) + "]";
 	}

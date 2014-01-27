@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.basic.BasicService;
+import org.youngjin.net.basic.Branch;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.inbound.InboundFilter;
@@ -603,10 +604,13 @@ public class InboundController {
 		List<Code> memorandumList = codeService.getCodeList("03");
 		Map<String, Memorandum> checkMemorandumMap = memorandumService
 				.getMemorandumMap(seq, memorandumSeq, "inbound");
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("memorandumSeq", memorandumSeq);
 		model.addAttribute("gbl", gbl);
+		model.addAttribute("branch", branch);
 		model.addAttribute("memorandumList", memorandumList);
 
 		if (checkMemorandumMap.get("02") != null
@@ -631,12 +635,15 @@ public class InboundController {
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
 				memorandumSeq, "inbound");
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("gbl", gbl);
 		model.addAttribute("memorandumSeq", memorandumSeq);
 		model.addAttribute("type", type);
 		model.addAttribute("memorandum", code);
+		model.addAttribute("branch", branch);
 		model.addAttribute("checkMemorandum", memorandom);
 
 		return process + "/freight/memorandumForm";
@@ -655,6 +662,8 @@ public class InboundController {
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
 				memorandumSeq, "inbound");
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		String[] articles = article.split(",");
 
@@ -665,6 +674,7 @@ public class InboundController {
 		model.addAttribute("memorandum", code);
 		model.addAttribute("articleComa", article);
 		model.addAttribute("articles", articles);
+		model.addAttribute("branch", branch);
 		model.addAttribute("checkMemorandum", memorandom);
 
 		return process + "/freight/memorandumForm";
@@ -720,12 +730,15 @@ public class InboundController {
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
 				memorandumSeq, "inbound");
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		model.addAttribute("seq", seq);
 		model.addAttribute("gbl", gbl);
 		model.addAttribute("memorandumSeq", memorandumSeq);
 		model.addAttribute("type", type);
 		model.addAttribute("memorandum", code);
+		model.addAttribute("branch", branch);
 		model.addAttribute("checkMemorandum", memorandom);
 
 		return process + "/freight/memorandumPrint";
@@ -744,6 +757,8 @@ public class InboundController {
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
 				memorandumSeq, "inbound");
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		String[] articles = article.split(",");
 
@@ -752,6 +767,7 @@ public class InboundController {
 		model.addAttribute("memorandumSeq", memorandumSeq);
 		model.addAttribute("type", type);
 		model.addAttribute("memorandum", code);
+		model.addAttribute("branch", branch);
 		model.addAttribute("articleComa", article);
 		model.addAttribute("articles", articles);
 		model.addAttribute("checkMemorandum", memorandom);

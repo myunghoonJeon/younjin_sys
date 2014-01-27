@@ -419,8 +419,6 @@ public class OutboundService {
 		paramAddition.setGblSeq(dd619.getGblSeq());
 		paramAddition.setMemorandumSeq(dd619.getMemorandumListSeq());
 
-		Integer additionCheck = outboundDao.checkAddtionComplete(paramAddition);
-
 		String[] invoiceMemorandumType = dd619.getInvoiceMemorandumType()
 				.split(",", dd619.getCount());
 		String[] invoiceMemorandumValue = dd619.getInvoiceMemorandumValue()
@@ -429,6 +427,8 @@ public class OutboundService {
 		for (int i = 0; i < dd619.getCount(); i++) {
 			paramAddition.setTitle(invoiceMemorandumType[i]);
 			paramAddition.setPrice(invoiceMemorandumValue[i]);
+
+			Integer additionCheck = outboundDao.checkAddtionComplete(paramAddition);
 
 			if (additionCheck > 0) {
 				outboundDao.additionCompleteUpdate(paramAddition);
