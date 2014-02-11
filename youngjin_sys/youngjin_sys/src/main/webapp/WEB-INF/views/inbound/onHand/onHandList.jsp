@@ -70,7 +70,7 @@
 					</tr>
 				</c:if>
 				<c:forEach var="onHand" items="${onHandList }" varStatus="i">
-					<tr data-seq="${onHand.seq }">
+					<tr class="on_hand_list_print_tr" data-seq="${onHand.seq }">
 						<td>${i.count }</td>
 						<td>${onHand.onHandDate }</td>
 						<td>${onHand.firstArrivalableDeliverDate }</td>

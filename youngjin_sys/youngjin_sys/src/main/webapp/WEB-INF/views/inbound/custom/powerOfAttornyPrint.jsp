@@ -158,7 +158,9 @@
         <div id="mail">
             <div class="to_subject">
                 <label for="textarea">To :</label>
-                <textarea></textarea>
+                Chief of Customs<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inchon / Pusan Customs Office<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Incon / Pusan, Korea
             </div>
             <div class="to_subject">
                 Subject : Customs Clearance of Used Household Goods and Personal Effects
@@ -173,13 +175,15 @@
             <div class="mail_context">
                 <p class="header">Gentleman :</p>
                 
-                <p style="text-indent: 0.7em;" id="mail_body">I, the undersigned, authorize Youngjin Trade &amp; Transportation Co., Ltd. <c:out value="${company.address}" /> who represents<br><input type="text" class="underline_box" style="width: 100%"><br> U. S GBL carrier approved by Department of Defense of United States of America to process customs clearance for my househould goods moved under GBL number / Carrier's B/L number <span id="gbl_no"><c:out value="${gbl_no}" /></span> at Inchon / Pusan Customs Office, on my behalf.</p>
+                <p style="text-indent: 0.7em;" id="mail_body">I, the undersigned, authorize Youngjin Trade &amp; Transportation Co., Ltd. <c:out value="${company.address}" /> who represents<br><input type="text" class="underline_box" style="width: 100%"><br> U. S GBL carrier approved by Department of Defense of United States of America to process customs clearance for my househould goods moved under GBL number / Carrier's B/L number <span id="gbl_no"><c:out value="${inboundInvoiceBasicInfo.gblNo}" /></span> at Inchon / Pusan Customs Office, on my behalf.</p>
             </div>
             
             <div id="footer">
                 <p id="very_turly_yours">Very turly yours,</p>
                 <input type="text" class="underline_box">
-                <textarea class="add_left_more" style="margin-top:1em;"></textarea>
+                <br/><br/> &nbsp;&nbsp;&nbsp;&nbsp;Customs Clearance Officer<br/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;United States Forces, Korea/<br/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;Property Owner
                 <input type="text" class="underline_box">
                 <p id="data_signed">Date signed</p>
             </div>

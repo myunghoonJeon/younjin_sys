@@ -1,150 +1,194 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<c:set var="cp" value="<%=request.getContextPath() %>"/>
-<c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<title>POWER OF ATTORNEY</title>
-
-<script>
-	var contextPath = '<c:out value="${cp}"/>';
-	var realPath = '<c:out value="${rp}"/>';
-	var addError = false;
-	if (typeof youngjin == 'undefined') {
-		youngjin = {};
-	}
-</script>
-
-<%@ include file="../../../layout/include_script.jspf" %>
-
-<style type="text/css">
-* {
-	padding: 0;
-	margin: 0;
-}
-
-body {
-	margin: 0 auto;
-	padding: 0;
-	background: #ffffff;
-	color: #000000;
-	text-align: center;
-	text-decoration: none;
-	word-break: break-all;
-}
-div{
-	word-break: break-all;
-}
-p {
-	margin-left: 3pt;
-	margin-right: 3pt;
-	word-break: break-all;	
-}
-input {
-	border: 0 solid #000000;
-	border-bottom: 1px solid #000000;
-}
-.input1{
-	width:150px;
-}
-.input2{
-	width:370px;
-}
-.input3{
-	width:220px;
-}
-.content{
-	width: 600px;
-	height: 1000px;
-}
-.subjectTable{
-	margin-left: 35px;
-}
-</style>
-
-</head>
-<body>
-	<%
-		String to_line[] = new String[3];
-		to_line[0] = "Chief of Custorms";
-		to_line[1] = "Inchon / Pusan Customs Office";
-		to_line[2] = "Inchon / Pusan, Korea";
-		String subject_line[] = new String[5];
-		subject_line[0] = "Customs Clearance of Used Household Goods and Personal Effects";
-		subject_line[1] = "GS12  ASHMORE, JACQUELINE R";
-		subject_line[2] = "6949";
-		subject_line[3] = "5450";
-		subject_line[4] = "　";
-		String content_line[] = new String[6];
-		content_line[0] = "Gentleman";
-		content_line[1] = "";
-		content_line[2] = "";
-		content_line[3] = "WK-079939";
-		content_line[4] = "";
-		content_line[5] = "";
-	%>
-	<c:set var="to_line" value="<%=to_line%>" />
-	<c:set var="subject_line" value="<%=subject_line%>" />
-	<c:set var="content_line" value="<%=content_line%>" />
-	
-	<div class="content">
-	<p class="title" align="center" style="margin:20px">
-		POWER OF ATTORNEY
-	</p>
-	<p class="to" align="left">
-		To : ${to_line[0]}<br>
-		　　${to_line[1]}<br>
-		　　${to_line[2]}
-	</p>
-	<br>
-	<p class="subject" align="left">
-		Subject : ${subject_line[0]}<br><br>
-	</p>
-		<table class="subjectTable">
-		<tr>
-			<td align="left">Name of Owner :</td>
-			<td colspan="2">${subject_line[1]}</td>
-		</tr>
-		<tr>
-			<td align="left">Gross Weight :</td>
-			<td>${subject_line[2]}</td>
-			<td>Lbs</td>
-		</tr>
-		<tr>
-			<td align="left">Net Weight :</td>
-			<td>${subject_line[3]}</td>
-			<td>Lbs</td>
-		</tr>
-		<tr>
-			<td align="left">Booked Vessel :</td>
-			<td colspan="2">${subject_line[4]}</td>
-		</tr>
-		</table>
-	<p align="left"><br><br>
-	${content_line[0]} : <br><br>
-	 I, the undersigned, authorize Youngjin Trade & Transportation Co., Ltd. 4th FL Taeyoung<br>
-	Bldg Konghang-dong, Gangsuh-ku, Seoul, Korea who represents <input type="text" maxlength="15" class="input1" value="${content_line[1]}" /><br>
-	<input type="text" maxlength="30" class="input2" value="${content_line[2]}" /> U. S. GBL carrier approved by<br>
-	Department of Defense of United States of America to process customs clearance for my<br>
-	household goods moved under GBL number / Carrier's B/L number <u>${content_line[3]}</u> at<br>
-	Inchon / Pusan Customs Office, on my behalf.<br><br><br>
-	<p align="left" style="margin-top: 30px; margin-left: 380px;">
-	Very turly yours,<br><br><br>
-	<input type="text" maxlength="30" class="input3" value="${content_line[4]}" /><br>
-	　Customs Clearance Officer<br>
-	　United States Forces, Korea/<br>
-	　Property Owner<br>
-	<input type="text" maxlength="30" class="input3" value="${content_line[5]}"/><br>
-	<br>
-	　Date signed<br><br>
-	</p>
-	<p align="left">Youngjin Form</p>
-	</div>
-</body>
+    <head>
+        <title>POWER OF ATTORNEY</title>
+        <style type="text/css">
+            body
+            {
+                font-family: Arial, sans-serif;
+                font-size: 0.9em;
+                text-align: center;
+            }
+            
+            h1
+            {
+                text-align: center;
+                font-weight: normal;
+                font-size: 1.5em;
+                margin-bottom: 2em;
+            }
+            
+            #mail
+            {
+                width: 14cm;
+                margin: 0 auto;
+                text-align: left;
+            }
+            
+            .to_subject
+            {
+                margin-bottom: 1.5em;
+            }
+            
+            .to_subject *
+            {
+                display:inline-block;
+                vertical-align: top;
+                border: 0px;
+            }
+            
+            textarea
+            {
+                width: 80%;
+                overflow: auto;
+                height: 3.5em;
+                border: 0;
+            }
+            
+            .to_subject input
+            {
+                width: 80%;
+            }
+            
+            .to_subject label
+            {
+                margin-right: 0.05em;
+            }
+            
+            .spec
+            {
+                margin-left: 3em;
+                margin-bottom: 2em;
+            }
+            
+            .underline_box
+            {
+                border-width: 0px;
+                border-bottom: 1px solid black;
+                padding: 0.25em;
+            }
+            
+            .weight_title
+            {
+                width: 7.5em;
+                display: inline-block;
+                overflow: visible;
+                
+                height: 0.8em;
+                line-height: 0.8em;
+                text-align: justify;
+                text-justify: inter-cluster;
+                text-align-last: justify;
+            }
+            
+            span.weight_title:after
+            {
+                content: "";
+                display: inline-block;
+                width: 100%;
+                font-size: 0;
+                height: 0;
+                line-height: 0;
+                visibility: hidden;
+            }
+            
+            .spec .weight
+            {
+                display: inline-block;
+                text-align: center;
+                width: 3.5em;
+            }
+            
+            .mail_context #gbl_no
+            {
+                text-decoration: underline;
+            }
+            
+            .mail_context p
+            {
+                text-align: justify;
+            }
+            
+            .mail_context .underline_box
+            {
+                margin: 0px;
+            }
+            
+            #mail_body
+            {
+                line-height: 2em;
+            }
+            
+            #footer
+            {
+                width: 17em;
+                float: right;
+                margin-top: 1em;
+                margin-right: -5em;
+                text-align: left;
+            }
+            
+            #footer .underline_box
+            {
+                margin-left: 0.7em;
+                width: 85%
+            }
+            
+            #footer #very_turly_yours
+            {
+                margin-bottom: 1.7em;
+            }
+            
+            #footer .add_left_more
+            {
+                margin-left: 1.9em;
+            }
+            
+            #footer #data_signed
+            {
+                margin-top: 2em;
+                margin-left: 1.2em;
+            }
+        </style>
+    </head>
+    <body style="background-color: white;" onload="window.print();">
+        <h1>POWER OF ATTORNEY</h1>
+        
+        <div id="mail">
+            <div class="to_subject">
+                <label for="textarea">To :</label>
+                Chief of Customs<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Inchon / Pusan Customs Office<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Incon / Pusan, Korea
+            </div>
+            <div class="to_subject">
+                Subject : Customs Clearance of Used Household Goods and Personal Effects
+            </div>
+            
+            <div class="spec">
+                <p><span class="weight_title">Name of Owner</span> : <c:out value="${gbl.rank}" /> <c:out value="${gbl.customerName}" /></p>
+                <p><span class="weight_title">Gross Weight</span> : <span class="weight"><c:out value="${gbl.lbs}" /></span>&nbsp;Lbs
+                <p><span class="weight_title">Net Weight</span> : <span class="weight"><c:out value="${gbl.netWeight}" /></span>&nbsp;Lbs
+                <p><span class="weight_title">Booked Vessel</span> : </p>
+            </div>
+            <div class="mail_context">
+                <p class="header">Gentleman :</p>
+                
+                <p style="text-indent: 0.7em;" id="mail_body">I, the undersigned, authorize Youngjin Trade &amp; Transportation Co., Ltd. <c:out value="${company.address}" /> who represents<br><input type="text" class="underline_box" style="width: 100%"><br> U. S GBL carrier approved by Department of Defense of United States of America to process customs clearance for my househould goods moved under GBL number / Carrier's B/L number <span id="gbl_no"><c:out value="${gbl.no}" /></span> at Inchon / Pusan Customs Office, on my behalf.</p>
+            </div>
+            
+            <div id="footer">
+                <p id="very_turly_yours">Very turly yours,</p>
+                <input type="text" class="underline_box">
+                <br/><br/> &nbsp;&nbsp;&nbsp;&nbsp;Customs Clearance Officer<br/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;United States Forces, Korea/<br/>
+                 &nbsp;&nbsp;&nbsp;&nbsp;Property Owner
+                <input type="text" class="underline_box">
+                <p id="data_signed">Date signed</p>
+            </div>
+            
+            <div style="clear: both; text-align: left; margin-left: -2em;">Youngjin Form</div>
+        </div>
+    </body>
 </html>

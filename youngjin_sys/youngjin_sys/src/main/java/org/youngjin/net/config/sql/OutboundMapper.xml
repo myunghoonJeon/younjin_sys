@@ -34,6 +34,7 @@
 	<result column="bl_no" property="blNo"/>
 	<result column="pcs" property="pcs" />
 	<result column="lbs" property="lbs" />
+	<result column="net" property="netWeight" />
 	<result column="cuft" property="cuft" />
 	<result column="truck_check" property="truckCheck"/>
 	<result column="booking_check" property="bookingCheck"/>
@@ -291,13 +292,14 @@
 		g.bl_no,
 		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
 		g.lbs,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.net ELSE '' END AS net
 	FROM
 		gbl g
 		LEFT OUTER JOIN
 		(
 		SELECT
-			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft, SUM(wc.net) AS net
 		FROM
 			gbl gt
 		JOIN
@@ -619,6 +621,8 @@
 				g2.gbl_preperation = TRUE
 			
 		)		
+		AND
+			g.no NOT LIKE '%-sub%'
 		GROUP BY g.no, w.truck_check
 		) a, gbl gt
 	WHERE

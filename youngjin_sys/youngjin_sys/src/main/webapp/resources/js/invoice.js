@@ -62,7 +62,7 @@ youngjin.invoice.invoiceListSync = function(){
 	
 	$('.invoice_gbl_print').unbind('click');
 	$('.invoice_gbl_print').bind('click', function(){
-		
+		youngjin.invoice.invoiceGblPrint($(this), 'outbound');
 	});
 };
 
@@ -543,6 +543,14 @@ youngjin.invoice.invoiceList = function(target, process){
 		height : 500,
 		url : url
 	});	
+};
+
+youngjin.invoice.invoiceGblPrint = function(target, process){
+	var invoiceSeq = $('.invoice_gbl_list_table').attr('data-seq');
+	
+	var url = contextPath + '/' + process + '/invoice/' + invoiceSeq + '/invoicePrint';
+	
+	window.open(url, 'invoiceGblPrint', 'width=1263, height=892, status=no');
 };
 
 youngjin.invoice.invoiceGblContentBack = function(target){

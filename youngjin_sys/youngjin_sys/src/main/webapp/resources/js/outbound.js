@@ -278,10 +278,88 @@ youngjin.outbound.weightCertificateSync = function(){
 		youngjin.outbound.weightCertificateColumnAdd($(this));
 	});
 	
-	$('input[name=grossKg]').unbind('change');
+/*	$('input[name=grossKg]').unbind('change');
 	$('input[name=grossKg]').bind('change', function(){
 		youngjin.outbound.weightFromKgToLbs($(this));
+	});*/
+	
+	$('.weightcertificate_table_wrap input[name=piece]').focusout(function(){
+		var totalPcs = 0;
+		var count = Number($('.weightcertificate_table_wrap').attr('data-count'));
+		for( var i = 0 ; i < count; i ++ ){
+			totalPcs += 1;
+		}
+		
+		$('.total_piece_td').html(totalPcs);
 	});
+	
+	$('.weightcertificate_table_wrap input[name=gross]').focusout(function(){
+		var totalGross = 0;
+		var totalGrossKg = 0;
+		var totalNet = 0;
+		
+		var grossKg = 0.45359237 * Number($(this).val());
+
+		$(this).parents().parents('tr').children().children('input[name=grossKg]').val(roundXL(grossKg, 2));
+		$(this).parents().parents('tr').children().children('input[name=grossKg]').attr('readonly', 'readonly');
+		
+		var net = Number($(this).val()) - Number($(this).parents().parents('tr').children().children('input[name=tare]').val());
+		$(this).parents().parents('tr').children().children('input[name=net]').val(net);
+		$(this).parents().parents('tr').children().children('input[name=net]').attr('readonly', 'readonly');
+		
+		var count = Number($('.weightcertificate_table_wrap').attr('data-count')) + 1;
+		
+		for( var i = 0 ; i < count ; i ++ ){
+			totalGross += Number(($('input[name="gross"]').eq(i).val() == undefined) ? '0' : $('input[name="gross"]').eq(i).val());
+			totalGrossKg += 0.45359237 * Number(($('input[name="gross"]').eq(i).val() == undefined) ? '0' : $('input[name="gross"]').eq(i).val());
+			totalNet += Number(($('input[name=net]').eq(i).val() == undefined) ? '0' : $('input[name=net]').eq(i).val());
+		}
+		
+		$('.total_gross_td').html(roundXL(totalGross, 2));		
+		$('.total_grossKg_td').html(roundXL(totalGrossKg, 2));
+		$('.total_net_td').html(roundXL(totalNet, 2));
+	});
+	
+	$('.weightcertificate_table_wrap input[name=tare]').focusout(function(){
+		var totalTare = 0;
+		var totalNet = 0;
+		
+		var net = Number($(this).parents().parents('tr').children().children('input[name=gross]').val()) - Number($(this).val());
+		$(this).parents().parents('tr').children().children('input[name=net]').val(net);
+		$(this).parents().parents('tr').children().children('input[name=net]').attr('readonly', 'readonly');
+		
+		var count = Number($('.weightcertificate_table_wrap').attr('data-count')) + 1;
+		for( var i = 0 ; i < count ; i ++ ){
+			totalTare +=Number($('input[name="tare"]').eq(i).val());
+			totalNet += Number($('input[name=net]').eq(i).val());
+		}
+		$('.total_tare_td').html(roundXL(totalTare, 2));
+		$('.total_net_td').html(roundXL(totalNet, 2));
+	});
+	
+	$('.weightcertificate_table_wrap input[name=cuft]').focusout(function(){
+		var totalCuft = 0;
+		var type = '';
+
+		var count = Number($('.weightcertificate_table_wrap').attr('data-count')) + 1;
+		var cuft = $(this).val();
+		if(Number(cuft) >= 0 && Number(cuft) <= 124){
+			type = 'O/F';
+		} else if(Number(cuft) >= 125 && Number(cuft) <= 179 ) {
+			type = 'O/F';
+		} else if(Number(cuft) >= 180 && Number(cuft) <= 207){
+			type = 'typeII';
+		}
+		
+		$(this).parents().parents('tr').children().children('input[name=type]').val(type);
+		$(this).parents().parents('tr').children().children('input[name=type]').attr('readonly', 'readonly');
+		
+		for( var i = 0 ; i < count ; i ++ ){
+			totalCuft += Number(($('input[name="cuft"]').eq(i).val() == undefined) ? '0' : $('input[name="cuft"]').eq(i).val() );
+		}
+		$('.total_cuft_td').html(roundXL(totalCuft, 2));
+		
+	});	
 	
 	$('.weightcertificate_write').unbind('click');
 	$('.weightcertificate_write').bind('click', function(){
@@ -478,7 +556,7 @@ youngjin.outbound.powerOfAttorney = function(target){
 	
 	var url = contextPath + '/outbound/' + seq + '/powerOfAttorney';
 	
-	window.open(url ,'powerOfAttorney', 'width=1263, height=892, status=no');
+	window.open(url, 'powerOfAttorny', 'width=930.7, height=1122.5 scrollbar=no');
 };
 
 youngjin.outbound.fileView = function(){
@@ -1536,8 +1614,8 @@ youngjin.outbound.weightCertificateColumnAdd = function(target){
 							}
 	html += 			'</select>' + 
 					'</td>'+
-					'<td class="gross_td"><input name="grossKg" type="text" /></td>'+
 					'<td class="gross_td"><input name="gross" type="text" /></td>'+
+					'<td><input name="grossKg" type="text" readonly="readonly" /></td>'+
 					'<td class="tare_td"><input name="tare" type="text" /></td>'+
 					'<td class="net_td"><input name="net" type="text" /></td>'+
 					'<td class="cuft_td"><input name="cuft" type="text" /></td>'+
@@ -1552,13 +1630,13 @@ youngjin.outbound.weightCertificateColumnAdd = function(target){
 	youngjin.outbound.sync();
 };
 
-youngjin.outbound.weightFromKgToLbs = function(target){
+/*youngjin.outbound.weightFromKgToLbs = function(target){
 	var kg = target.val();
 	var lbsF = Number(kg) * 2.20462262;
 	var lbs = roundXL(lbsF, 2);
 	
 	target.parents().parents('tr').children().children('input[name=gross]').val(lbs);
-};	
+};	*/
 
 youngjin.outbound.weightCertificateSubmit = function(target){
 	var seq = target.parents('.weight_button_list').attr('data-seq');

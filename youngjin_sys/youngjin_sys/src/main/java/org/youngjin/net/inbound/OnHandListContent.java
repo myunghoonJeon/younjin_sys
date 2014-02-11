@@ -1,5 +1,11 @@
 package org.youngjin.net.inbound;
 
+import org.youngjin.net.GBL;
+
+/**
+ * @author kten
+ * 
+ */
 public class OnHandListContent {
 	private Integer seq;
 	private Integer gblSeq;
@@ -7,6 +13,10 @@ public class OnHandListContent {
 	private String by;
 
 	private OnHandListContentWeight onHandListContentWeight;
+
+	private WeightIb weight;
+
+	private GBL gbl;
 
 	public Integer getSeq() {
 		return seq;
@@ -49,11 +59,28 @@ public class OnHandListContent {
 		this.by = by;
 	}
 
+	public WeightIb getWeight() {
+		return weight;
+	}
+
+	public void setWeight(WeightIb weight) {
+		this.weight = weight;
+	}
+
+	public GBL getGbl() {
+		return gbl;
+	}
+
+	public void setGbl(GBL gbl) {
+		this.gbl = gbl;
+	}
+
 	@Override
 	public String toString() {
 		return "OnHandListContent [seq=" + seq + ", gblSeq=" + gblSeq
 				+ ", onHandListSeq=" + onHandListSeq + ", by=" + by
-				+ ", onHandListContentWeight=" + onHandListContentWeight + "]";
+				+ ", onHandListContentWeight=" + onHandListContentWeight
+				+ ", weight=" + weight + ", gbl=" + gbl + "]";
 	}
 
 }

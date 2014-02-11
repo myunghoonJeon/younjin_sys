@@ -27,7 +27,7 @@ import org.youngjin.net.util.UserFilter;
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 public class CustomJdbcUserDetailManagerTest {
-
+/*
 	private static Logger logger = LoggerFactory
 			.getLogger(CustomJdbcUserDetailManagerTest.class);
 
@@ -154,7 +154,7 @@ public class CustomJdbcUserDetailManagerTest {
 		count = loginDao.selectUserCount(new UserFilter());
 		assertThat(count, is(1));
 	}
-/*
+
 	@Test
 	public void SELECT_USERS() throws Exception {
 		loginDao.deleteUserByUsername(null);

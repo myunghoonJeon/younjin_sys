@@ -1272,4 +1272,10 @@ public class InvoiceService {
 			Map<String, String> invoiceCollection) {
 		invoiceDao.invoiceCollectionRemarkInput(invoiceCollection);
 	}
+
+	public Invoice getInvoiceByInvoiceSeq(Integer seq) {
+		Invoice invoice = new Invoice();
+		invoice.setSeq(seq);
+		return invoiceDao.getInvoice(invoice);
+	}
 }

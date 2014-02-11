@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.youngjin.net.basic.BasicService;
+import org.youngjin.net.basic.Carrier;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.invoice.Invoice;
 import org.youngjin.net.invoice.InvoiceCollection;
@@ -33,6 +35,9 @@ public class InvoiceController {
 
 	@Resource
 	private CodeService codeService;
+	
+	@Resource
+	private BasicService basicService;
 
 	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice", method = RequestMethod.GET)
@@ -130,8 +135,16 @@ public class InvoiceController {
 			@PathVariable String process, @PathVariable Integer seq) {
 
 		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq);
+		Invoice invoice = invoiceService.getInvoiceByInvoiceSeq(seq);
+		
+		Carrier carrier = basicService.getCarrier(invoice.getTsp());
 
 		model.addAttribute("invoicSeq", seq);
+		
+		invoice.setProcess(process);
+		model.addAttribute("invoice", invoice);
+		
+		model.addAttribute("scac", carrier);
 
 		model.addAttribute("invoiceListSeq", seq);
 		model.addAttribute("invoiceGblList", invoiceGblList);

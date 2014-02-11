@@ -24,9 +24,22 @@
 	<context:component-scan base-package="org.youngjin.net">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	    <property name="host" value="${mail.host}"/>
+	    <property name="username" value="${mail.username}"/>
+	    <property name="password" value="${mail.password}"/>
+	    <property name="port" value="${mail.port}"/>
+	    <property name="javaMailProperties">
+	        <props>
+	            <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.timeout">8500</prop>
+	        </props>
+	    </property>
+	</bean>
 	
 	<import resource="security-context.xml"/>
 	
-	<import resource="datasource-context.xml"/>		
-		
+	<import resource="datasource-context.xml"/>			
 </beans>

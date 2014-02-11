@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.basic.BasicService;
 import org.youngjin.net.basic.Branch;
+import org.youngjin.net.basic.Company;
 import org.youngjin.net.basic.Pod;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
@@ -184,6 +185,13 @@ public class OutboundController {
 	@RequestMapping(value = "/{process}/{seq}/powerOfAttorney", method = RequestMethod.GET)
 	public String gblPowerOfAttorney(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
+		
+		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
+		
+		Company company = basicService.getCompanyByCode("YJ");
+		
+		model.addAttribute("gbl", gbl);
+		model.addAttribute("company", company);
 
 		return process + "/gbl/powerOfAttorney";
 	}	
@@ -772,9 +780,13 @@ public class OutboundController {
 			@ModelAttribute OutboundFilter outboundFilter,
 			@PathVariable String process, @PathVariable Integer seq) {
 
-		List<DeliveryGbl> list = outboundService.getTruckManifastPrint(seq);		
+		List<DeliveryGbl> list = outboundService.getTruckManifastPrint(seq);
+		
+		Map<String, Pod> podMap = basicService.getpodMap();
 
 		model.addAttribute("gblList", list);
+		
+		model.addAttribute("podMap", podMap);
 		
 		model.addAttribute("truckManisfast", outboundService.getTruckManifastOne(seq));
 		

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
@@ -67,8 +68,21 @@
 <p style="position:absolute;top:378px;left:350px;white-space:nowrap" class="ft11" name="carrier">${gbl.scac }</p>
 
 <p style="position:absolute;top:378px;left:632px;white-space:nowrap" class="ft11" name="rdd">${gbl.rdd }</p>
+					
+<c:set var="totalPcs" value="0" />
+<c:set var="totalGross" value="0" />
+<c:set var="totalGrossKg" value="0" />
+<c:set var="totalTare" value="0" />
+<c:set var="totalNet" value="0" />
+<c:set var="totalCuft" value="0" />
 
 <c:forEach var="weightcertificate" items="${weightcertificateList }" varStatus="i">
+	<c:set var="totalPcs" value="${totalPcs + 1 }" />
+	<c:set var="totalGross" value="${totalGross + weightcertificate.gross}" />
+	<c:set var="totalGrossKg" value="${totalGrossKg + weightcertificate.grossKg}" />
+	<c:set var="totalTare" value="${totalTare + weightcertificate.tare }" />
+	<c:set var="totalNet" value="${totalNet + weightcertificate.net }" />
+	<c:set var="totalCuft" value="${totalCuft + weightcertificate.cuft }" />
 	<c:set var="top" value="${ 513 + i.index * 26 }" />
 	<p style="position:absolute;top:${top}px;left:56px;white-space:nowrap" class="ft10" name="piece${i.count }">${weightcertificate.piece }</p>
 	<p style="position:absolute;top:${top}px;left:127px;white-space:nowrap" class="ft10" name="type${i.count }">${weightcertificate.type }</p>
@@ -135,14 +149,14 @@
 <p style="position:absolute;top:572px;left:624px;white-space:nowrap" class="ft10" name="remark4">r4</p>
 <p style="position:absolute;top:597px;left:624px;white-space:nowrap" class="ft10" name="remark5">r5</p> !-->
 
-<p style="position:absolute;top:694px;left:357px;white-space:nowrap" class="ft10" name="lbs">lll</p>
+<p style="position:absolute;top:694px;left:357px;white-space:nowrap" class="ft10" name="lbs">${totalGross }</p>
 
 
-<p style="position:absolute;top:771px;left:115px;;white-space:nowrap" class="ft10" name="pcs"></p>
-<p style="position:absolute;top:771px;left:267px;white-space:nowrap" class="ft10" name="sum_gross">sum_gross</p>
-<p style="position:absolute;top:771px;left:357px;white-space:nowrap" class="ft10" name="sum_tare">sum_tare</p>
-<p style="position:absolute;top:771px;left:444px;white-space:nowrap" class="ft10" name="sum_net">sum_net</p>
-<p style="position:absolute;top:771px;left:521px;white-space:nowrap" class="ft10" name="sum_cuft">sum_cuft</p>
+<p style="position:absolute;top:771px;left:115px;;white-space:nowrap" class="ft10" name="pcs">${ fn:length(weightcertificateList) }</p>
+<p style="position:absolute;top:771px;left:267px;white-space:nowrap" class="ft10" name="sum_gross">${totalGross }</p>
+<p style="position:absolute;top:771px;left:357px;white-space:nowrap" class="ft10" name="sum_tare">${totalTare }</p>
+<p style="position:absolute;top:771px;left:444px;white-space:nowrap" class="ft10" name="sum_net">${totalNet }</p>
+<p style="position:absolute;top:771px;left:521px;white-space:nowrap" class="ft10" name="sum_cuft">${totalCuft }</p>
 <!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 
 </div>

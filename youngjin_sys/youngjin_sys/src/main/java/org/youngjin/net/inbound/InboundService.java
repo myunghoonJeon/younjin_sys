@@ -509,4 +509,12 @@ public class InboundService {
 		map.put("seq", addition.getGblSeq());
 		inboundDao.updateGblStatus(map);
 	}
+
+	public List<OnHandList> getOnHandListContentListForm(Integer seq) {
+		return inboundDao.getOnHandListContentForm(seq);
+	}
+
+	public void onHandListContentByUpdate(OnHandListContent onHandListContent) {
+		inboundDao.onHandListContentByUpdate(onHandListContent);
+	}
 }

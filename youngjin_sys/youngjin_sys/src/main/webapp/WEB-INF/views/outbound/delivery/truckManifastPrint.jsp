@@ -125,7 +125,7 @@
 	<div>
 		<table align="center" width="90%" cellspacing="0">
 		<tr>
-		<td id='topcodetd' colspan="6">CODE ${truckManisfast.code }</td>
+		<td id='topcodetd' colspan="6">CODE #${truckManisfast.code }</td>
 		</tr>
 		<tr>
 			<fmt:parseDate var="parsePud" value="${fn:substring(truckManisfast.date, 0, 10)}" pattern="yyyy-MM-dd"/>
@@ -145,7 +145,7 @@
 				<td id="inputstart">${gbl.no }</td>
 				<td id="inputstart">${gbl.shipper }</td>
 				<td id="inputstart">${gbl.area }</td>
-				<td id="inputstart">${gbl.pod }</td>
+				<td id="inputstart">${gbl.pod } / ${podMap[gbl.pod].podAgentName})</td>
 				<c:forEach var="weightCertificate" items="${gbl.containerList }" varStatus="i">
 					<c:choose>
 						<c:when test="${i.index eq 0 }">

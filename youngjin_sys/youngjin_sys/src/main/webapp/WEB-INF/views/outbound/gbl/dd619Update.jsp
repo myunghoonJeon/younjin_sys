@@ -160,6 +160,11 @@
 					</c:forEach>
 				</td>
 			</tr>	
+			<tr>
+				<td colspan="4">
+					<form:textarea path="remark"></form:textarea>
+				</td>
+			</tr>
 			<tfoot>
 				<tr>
 					<td colspan="4">

@@ -275,5 +275,13 @@ public class InboundDao extends SqlSessionDaoSupport {
 
 	public List<Addition> getAddtionList(String seq) {
 		return getSqlSession().selectList("inboundMapper.getAdditionList", Integer.parseInt(seq));
+	}
+
+	public List<OnHandList> getOnHandListContentForm(Integer seq){ 
+		return getSqlSession().selectList("inboundMapper.getOnHandListForm", seq);
+	}
+
+	public void onHandListContentByUpdate(OnHandListContent onHandListContent) {
+		getSqlSession().update("inboundMapper.onHandListContentByUpdate", onHandListContent);
 	}	
 }

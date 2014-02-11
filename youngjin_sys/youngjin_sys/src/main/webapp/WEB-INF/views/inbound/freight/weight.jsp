@@ -112,7 +112,7 @@
 						<c:set var="totalNet" value="${totalNet + weight.net }" />
 						<c:set var="totalCuft" value="${totalCuft + weight.cuft }" />
 						<tr>
-							<td class="weight_piece_td"><input type="text" name="piece" id="piece" value="${weight.piece }"/></td>
+							<td class="weight_piece_td"><input type="text" name="piece" id="piece" value="${weight.piece }" readonly="readonly"/></td>
 							<td><input type="text" name="type" id="type" value="${weight.type }" /></td>
 							<td class="weight_gross_td"><input type="text" name="gross" id="gross" value="${weight.gross }" /></td>
 							<td><input type="text" name="grossKg" id="grossKg" value="${weight.grossKg } "/></td>

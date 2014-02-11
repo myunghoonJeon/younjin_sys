@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <HTML>
 <style>
@@ -123,27 +125,39 @@
 	</table>
 	<table border="0" align="center" style="width : 17cm;" cellspacing="0">
 		<tr>
-			<td id='totd' rowspan="3">TO: </td><td id='to' rowspan="3"><textarea style=" border: none; height:100%;width:100%; overflow:hidden;"><%out.println(to);%></textarea></td>
+			<td id='totd' rowspan="3">TO: </td><td id='to' rowspan="3">${scac.scacFullName }<br/>${scac.address }</td>
 			<td id='date' style="width:2.5cm;">DATE: </td > <td id='date'><%out.println(date); %></td>
 		</tr>
 		<tr>
 			<td id='invoiceno' style="width:2.5cm;">INVOICE NO: </td> <td id='invoiceno'><%out.println(invoiceno); %></td>
 		</tr>
 		<tr>
-			<td id='code'style="width:2.5cm;">CODE: </td> <td id='code'><%out.println(code); %></td>
+			<td id='code'style="width:2.5cm;">CODE: </td> <td id='code'>${fn:toUpperCase(invoice.process) }#</td>
 		</tr>		
 	</table>
 	<table id='test'border="0" align="center" style="width : 17cm;" cellspacing="0">
 		<tr style="font-size: 9pt; ">
-		<td id='no'>NO</td>
-		<td id='route'>ROUTE</td>
-		<td id='gblno'>GBL-NO</td>
-		<td id='rank'>RANK</td>
-		<td id='shipper'>SHIPPER</td>
-		<td id='weight'>WEIGHT</td>
-		<td id='ratecwt'>RATE/CWT</td>
-		<td id='amount'>AMOUNT</td>
+			<td id='no'>NO</td>
+			<td id='route'>ROUTE</td>
+			<td id='gblno'>GBL-NO</td>
+			<td id='rank'>RANK</td>
+			<td id='shipper'>SHIPPER</td>
+			<td id='weight'>WEIGHT</td>
+			<td id='ratecwt'>RATE/CWT</td>
+			<td id='amount'>AMOUNT</td>
 		</tr>
+		<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
+			<tr>	
+				<td>${i.count }</td>
+				<td></td>
+				<td>${invoiceGbl.gblNo }</td>
+				<td>${invoiceGbl.rank }</td>
+				<td>${invoiceGbl.name }</td>
+				<td>${i.count }</td>
+				<td>${i.count }</td>
+				<td>${invoiceGbl.amount }</td>
+			</tr>
+		</c:forEach>
 	</table>
 </BODY>
 </HTML>

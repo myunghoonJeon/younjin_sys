@@ -50,6 +50,24 @@
 		<result column="write_user" property="writeUser"/>
 		<result column="memorandum_list_seq" property="memorandumListSeq"/>
 	</resultMap>
+	
+	<resultMap type="onHandList" id="onHandListFormMap">
+		<result column="onHandDate" property="onHandDate" />
+		<result column="firstArrivalableDeliverDate" property="firstArrivalableDeliverDate" />
+		<result column="onHandListContentSeq" property="onHandListContent.seq" />
+		<result column="by" property="onHandListContent.by" />
+		<result column="shipperName" property="onHandListContent.gbl.shipperName" />
+		<result column="rank" property="onHandListContent.gbl.rank" />
+		<result column="ssn" property="onHandListContent.gbl.ssn" />
+		<result column="gblNo" property="onHandListContent.gbl.gblNo" />
+		<result column="code" property="onHandListContent.gbl.code" />
+		<result column="pud" property="onHandListContent.gbl.pud" />
+		<result column="rdd" property="onHandListContent.gbl.rdd" />
+		<result column="piece" property="onHandListContent.weight.piece" />
+		<result column="gross" property="onHandListContent.weight.gross" />
+		<result column="net" property="onHandListContent.weight.net" />
+		<result column="cuft" property="onHandListContent.weight.cuft" />
+	</resultMap>
 
 	<select id="getFreightListCount" parameterType="InboundFilter" resultType="Integer">
 		SELECT
@@ -1022,6 +1040,36 @@
 		AND
 			il.declarationCheck = 1	
 	</select>
+	
+	<select id="getOnHandListForm" parameterType="Integer" resultMap="onHandListFormMap">
+		SELECT
+			ohl.onHandDate, ohl.firstArrivalableDeliverDate, ohlc.seq AS onHandListContentSeq, ohlc.by, g.shipperName, g.rank, g.ssn, g.gblNo, g.code, g.pud, g.rdd, w.piece, w.gross, w.net, w.cuft
+		FROM
+			on_hand_list ohl, on_hand_list_content ohlc, gbl_ib g, 
+			(
+				SELECT
+					COUNT(piece) AS piece, SUM(gross) AS gross, SUM(net) AS net, SUM(cuft) AS cuft
+				FROM
+					weight_ib
+				WHERE
+					seq IN (SELECT weightSeq FROM on_hand_list_content_weight WHERE onHandListContentSeq = (SELECT seq FROM on_hand_list_content WHERE onHandListSeq = #{value}))
+			)w
+		WHERE
+			ohl.seq = #{value}
+		AND
+			ohl.seq = ohlc.onHandListSeq
+		AND
+			g.seq = ohlc.gblSeq			
+	</select>
+	
+	<update id="onHandListContentByUpdate" parameterType="OnHandListContent">
+		UPDATE
+			on_hand_list_content o
+		SET
+			o.by = #{by}
+		WHERE
+			seq = #{seq}
+	</update>
 	
 	<insert id="insertOnHandListContent" parameterType="OnHandListContent">
 		INSERT INTO

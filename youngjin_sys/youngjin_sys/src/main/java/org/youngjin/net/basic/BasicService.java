@@ -1,6 +1,8 @@
 package org.youngjin.net.basic;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -50,6 +52,17 @@ public class BasicService {
 		return basicDao.getPodList(null);
 	}
 
+	public Map<String, Pod> getpodMap() {
+		Map<String, Pod> returnPodMap = new HashMap<String, Pod>();
+		List<Pod> podList = getPodList();
+		
+		for(Pod pod : podList){
+			returnPodMap.put(pod.getPodAcronym(), pod);
+		}
+		
+		return returnPodMap;
+	}
+
 	public void podAdd(Pod pod) {
 		basicDao.podAdd(pod);
 	}
@@ -95,6 +108,17 @@ public class BasicService {
 	public Carrier getCarrier(Integer seq) {
 		Carrier carrier = new Carrier();
 		carrier.setSeq(seq);
+		
+		try {
+			return basicDao.getCarrierList(carrier).get(0);			
+		} catch (IndexOutOfBoundsException e) {
+			return new Carrier();
+		}
+	}
+
+	public Carrier getCarrier(String tsp) {
+		Carrier carrier = new Carrier();
+		carrier.setScac(tsp);
 		
 		try {
 			return basicDao.getCarrierList(carrier).get(0);			

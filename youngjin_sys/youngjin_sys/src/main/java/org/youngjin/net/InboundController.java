@@ -25,6 +25,7 @@ import org.youngjin.net.inbound.InboundFilter;
 import org.youngjin.net.inbound.InboundInvoice;
 import org.youngjin.net.inbound.InboundService;
 import org.youngjin.net.inbound.OnHandList;
+import org.youngjin.net.inbound.OnHandListContent;
 import org.youngjin.net.inbound.WeightIb;
 import org.youngjin.net.login.User;
 import org.youngjin.net.memorandum.Memorandum;
@@ -505,6 +506,36 @@ public class InboundController {
 	public void onHandListDelete(
 			@RequestBody Map<String, String> map) {
 		inboundService.onHandListDelete(map);
+	}
+	
+	
+	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListForm", method = RequestMethod.GET)
+	public String getOnHandListForm(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq) {
+		
+		model.addAttribute("onHandListSeq", seq);
+		
+		model.addAttribute("onHandListContentList", inboundService.getOnHandListContentListForm(seq));
+		
+		return process + "/onHand/onHandListForm";
+	}
+	
+	
+	@RequestMapping(value = "/{process}/onHand/onHandListContentByUpdate.json")
+	@ResponseBody
+	public void onHandListContentByUpdate(
+			@RequestBody OnHandListContent onHandListContent) {
+		inboundService.onHandListContentByUpdate(onHandListContent);
+	}
+	
+	
+	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListFormPrint", method = RequestMethod.GET)
+	public String getOnHandListFormPrint(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq) {
+		
+		model.addAttribute("onHandListContentList", inboundService.getOnHandListContentListForm(seq));
+		
+		return process + "/onHand/onHandListPrint";
 	}
 
 	// -process

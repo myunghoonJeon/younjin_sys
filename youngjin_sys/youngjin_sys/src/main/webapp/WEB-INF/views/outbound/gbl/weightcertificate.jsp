@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -123,13 +124,27 @@
 									<th rowspan="2">REMARK</th>
 								</tr>
 								<tr>
-									<th>KG</th>
 									<th>LBS</th>
+									<th>KG</th>
 								</tr>
 							</thead>
 							<tbody>	
+					
+								<c:set var="totalPcs" value="0" />
+								<c:set var="totalGross" value="0" />
+								<c:set var="totalGrossKg" value="0" />
+								<c:set var="totalTare" value="0" />
+								<c:set var="totalNet" value="0" />
+								<c:set var="totalCuft" value="0" />
+								
 								<c:forEach var="weightcertificate" items="${weightcertificateList }" varStatus="i">
-									<tr>	
+									<c:set var="totalPcs" value="${totalPcs + 1 }" />
+									<c:set var="totalGross" value="${totalGross + weightcertificate.gross}" />
+									<c:set var="totalGrossKg" value="${totalGrossKg + weightcertificate.grossKg}" />
+									<c:set var="totalTare" value="${totalTare + weightcertificate.tare }" />
+									<c:set var="totalNet" value="${totalNet + weightcertificate.net }" />
+									<c:set var="totalCuft" value="${totalCuft + weightcertificate.cuft }" />
+									<tr data-weightSeq="${weightcertificate.seq }">	
 										<td class="piece_td"><input name="piece" type="text" value="${weightcertificate.piece }" /></td>
 										<td class="type_td"><input name="type" type="text" value="${weightcertificate.type }"/></td>
 										<td class="status_td">
@@ -139,8 +154,8 @@
 												</c:forEach>
 											</select>
 										</td>
-										<td class="gross_td"><input name="grossKg" type="text" value="${weightcertificate.grossKg }" /></td>
 										<td class="gross_td"><input name="gross" type="text" value="${weightcertificate.gross }"/></td>
+										<td class="gross_td"><input name="grossKg" type="text" value="${weightcertificate.grossKg }" readonly="readonly" /></td>
 										<td class="tare_td"><input name="tare" type="text" value="${weightcertificate.tare }" /></td>
 										<td class="net_td"><input name="net" type="text" value="${weightcertificate.net }"/></td>
 										<td class="cuft_td"><input name="cuft" type="text" value="${weightcertificate.cuft }" /></td>
@@ -203,17 +218,17 @@
 									<td></td>							
 								</tr>
 								<tr>
+									<td>Total</td>
+									<td class="total_piece_td">${ fn:length(weightcertificateList) }</td>
 									<td></td>
+									<td class="total_gross_td"><fmt:formatNumber value="${totalGross }" pattern=".00"/></td>
+									<td class="total_grossKg_td"><fmt:formatNumber value="${totalGrossKg }" pattern=".00" /></td>
+									<td class="total_tare_td"><fmt:formatNumber value="${totalTare }" pattern=".00" /></td>
+									<td class="total_net_td"><fmt:formatNumber value="${totalNet }" pattern=".00" /></td>
+									<td class="total_cuft_td"><fmt:formatNumber value="${totalCuft }" pattern=".00" /></td>
 									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>							
 								</tr>
-							</tfoot>					
+							</tfoot>			
 						</table>
 					</form>
 				</div>

@@ -196,7 +196,7 @@ youngjin.inbound.weightSync = function(){
 		youngjin.inbound.weightAddSubmit($(this));
 	});
 	
-	$('input[name=piece]').focusout(function(){
+	$('.weight_table input[name=piece]').focusout(function(){
 		var totalPcs = 0;
 		var count = Number($('.weight_table').attr('data-count')) + 1;
 		for( var i = 0 ; i < count; i ++ ){
@@ -206,7 +206,7 @@ youngjin.inbound.weightSync = function(){
 		$('.total_piece_td').html(totalPcs);
 	});
 	
-	$('input[name=gross]').focusout(function(){
+	$('.weight_table input[name=gross]').focusout(function(){
 		var totalGross = 0;
 		var totalGrossKg = 0;
 		var totalNet = 0;
@@ -231,7 +231,7 @@ youngjin.inbound.weightSync = function(){
 		$('.total_net_td').html(totalNet);
 	});
 	
-	$('input[name=tare]').focusout(function(){
+	$('.weight_table input[name=tare]').focusout(function(){
 		var totalTare = 0;
 		var totalNet = 0;
 		
@@ -248,7 +248,7 @@ youngjin.inbound.weightSync = function(){
 		$('.total_net_td').html(totalNet);
 	});
 	
-	$('input[name=cuft]').focusout(function(){
+	$('.weight_table input[name=cuft]').focusout(function(){
 		var totalCuft = 0;
 		var type = '';
 
@@ -463,6 +463,21 @@ youngjin.inbound.onHandSync = function(){
 	$('.on_hand_list_delete').unbind('click');
 	$('.on_hand_list_delete').bind('click', function(){
 		youngjin.inbound.onHandListDelete($(this));
+	});
+	
+	$('.on_hand_list_print_tr').unbind('click');
+	$('.on_hand_list_print_tr').bind('click', function(){
+		youngjin.inbound.onHandListPrint($(this));
+	});
+	
+	$('.on_hand_list_form_tr select[name=arrival_by]').unbind('change');
+	$('.on_hand_list_form_tr select[name=arrival_by]').bind('change', function(){
+		youngjin.inbound.onHandListByUpdate($(this));
+	});
+	
+	$('.on_hand_list_form_print').unbind('click');
+	$('.on_hand_list_form_print').bind('click', function(){
+		youngjin.inbound.onHandListFormPrint($(this));
 	});
 };
 
@@ -1639,6 +1654,55 @@ youngjin.inbound.onHandListDelete = function(target){
 				alert('에러 발생!');
 			}
 		});
+	});
+};
+
+youngjin.inbound.onHandListPrint = function(target){
+	var seq = target.attr('data-seq');
+	
+	var url = contextPath + '/inbound/onHand/' + seq + '/onHandListForm';
+	
+	$.smartPop.open({
+		width: 1263,
+		height: 892,
+		url : url
+	});
+};
+
+youngjin.inbound.onHandListByUpdate = function(target){
+	var ohHandListContentSeq = target.parents().parents('.on_hand_list_form_tr').attr('data-onHandListContentSeq');
+	var by = target.val();
+	
+	var url = contextPath + '/inbound/onHand/onHandListContentByUpdate.json';
+	
+	var json = {
+		'seq' : ohHandListContentSeq,
+		'by' : by
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				alert('변경 완료');
+			},
+			error : function(){
+				alert('에러 발생');
+			}
+		});
+	});
+};
+
+youngjin.inbound.onHandListFormPrint = function(target){
+	var seq = target.parent('div').attr('data-seq');
+	
+	var url = contextPath + '/inbound/onHand/' + seq + '/onHandListFormPrint';
+	
+	parent.$.smartPop.close();
+	
+	parent.$.smartPop.open({
+		width: 1263,
+		height: 892,
+		url : url
 	});
 };
 

@@ -49,6 +49,7 @@
 	}
 	#page1-div checkbox{
 		border:none;
+		background-color: transparent;
 	}
 	#page1-div radio{
 		border:none;;
@@ -86,7 +87,7 @@
 <p style="position:absolute;top:187px;left:65px;white-space:nowrap" class="ft10">${dd619.gblNo }</p>
 <p style="position:absolute;top:187px;left:348px;white-space:nowrap" class="ft10">${gbl.pud}</p>
 <p style="position:absolute;top:223px;left:65px;white-space:nowrap" class="ft10">${dd619.name }</p>
-<p style="position:absolute;top:259px;left:65px;white-space:nowrap" class="ft10">${dd619.ssn }</p>
+<p style="position:absolute;top:259px;left:65px;white-space:nowrap" class="ft10">XXX-XX-${dd619.ssn }</p>
 <p style="position:absolute;top:259px;left:260px;white-space:nowrap" class="ft10">${gbl.rank }</p>
 <p style="position:absolute;top:295px;left:65px;white-space:nowrap" class="ft10">${dd619.originOfShipment }</p>
 <p style="position:absolute;top:295px;left:260px;white-space:nowrap" class="ft10">${dd619.destination }</p>
@@ -136,7 +137,7 @@
 <p style="position:absolute;top:842px;left:369px;white-space:nowrap" class="ft10"></p>
 <p style="position:absolute;top:858px;left:369px;white-space:nowrap" class="ft10"></p>
 
-<p style="position:absolute;top:891px;left:59px;white-space:nowrap" class="ft10"><textarea name='17' style="width:790px; height: 65px; font-size: 7pt;"></textarea></p>
+<p style="position:absolute;top:891px;left:59px;white-space:nowrap" class="ft10">${dd619.remark }</p>
 
 <p style="position:absolute;top:993px;left:56px;white-space:nowrap" class="ft10"><input name="18-a" type="checkbox" value="atorigin" checked="checked"></p>
 <p style="position:absolute;top:1010px;left:56px;white-space:nowrap" class="ft10"></p>
