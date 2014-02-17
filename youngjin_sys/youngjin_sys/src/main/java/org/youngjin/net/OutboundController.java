@@ -937,6 +937,16 @@ public class OutboundController {
 	public void tcmdUpdate(@RequestBody Map<String, String> map) {
 		outboundService.updateTcmd(map);
 	}	
+	
+	@RequestMapping(value = "/{process}/delivery/house")
+	public String houseBl(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){			
+		model.addAttribute("user", user);
+		
+		user.setSubProcess("house");
+		
+		return process + "/delivery/house";
+	}
+	
 	/**
 	 * DownLoadControl
 	 */

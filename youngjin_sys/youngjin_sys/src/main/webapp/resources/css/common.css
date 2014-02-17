@@ -412,7 +412,7 @@ li.basic_item_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646;
 /* Truck Manifast */
 .truck_gbl_list_wrap { width: 1000px; height: 700px; background-color: white; }
 .truck_addButton{ float: right;}
-.truck_gbl_addButton{ float: right;}
+.truck_gbl_addButton{ float: right; margin-bottom: 10px; }
 .gbl_declaration_list_addButton{ float: right; }
 
 .truck_seperate_button_list{ width: 80%; margin: 0px auto; }

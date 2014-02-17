@@ -41,13 +41,20 @@
 </head>
 <body>
 	<div class="pop_title_line">
-		<span>WEIGHT ADD</span>
+		<span>WEIGHT ${(weightList ne '[]') ? 'UPDATE' : 'ADD' }</span>
 	</div>
 	<div id="weight_add_wrap">
 		<div class="weight_add_button_wrap">
 			<ul class="weight_add_button_list">
 				<li>
-					<span class="yj_button weight_addButton">add</span>
+					<c:choose>
+						<c:when test="${weightList eq '[]' }">
+							<span class="yj_button weight_addButton">add</span>
+						</c:when>
+						<c:otherwise>
+							<span class="yj_button weight_updateButton">update</span>							
+						</c:otherwise>
+					</c:choose>					
 				</li>
 			</ul>
 		</div>

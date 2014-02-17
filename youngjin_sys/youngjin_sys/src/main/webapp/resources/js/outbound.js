@@ -328,9 +328,9 @@ youngjin.outbound.weightCertificateSync = function(){
 		$(this).parents().parents('tr').children().children('input[name=net]').val(net);
 		$(this).parents().parents('tr').children().children('input[name=net]').attr('readonly', 'readonly');
 		
-		var count = Number($('.weightcertificate_table_wrap').attr('data-count')) + 1;
+		var count = Number($('.weightcertificate_table_wrap').attr('data-count'));
 		for( var i = 0 ; i < count ; i ++ ){
-			totalTare +=Number($('input[name="tare"]').eq(i).val());
+			totalTare += Number($('input[name="tare"]').eq(i).val());
 			totalNet += Number($('input[name=net]').eq(i).val());
 		}
 		$('.total_tare_td').html(roundXL(totalTare, 2));
@@ -1557,13 +1557,15 @@ youngjin.outbound.dd619Print = function(target){
 	
 	var url = contextPath + '/outbound/' + seq + '/dd619/' + dd619Seq + '/print';
 	
-	parent.$.smartPop.close();
+/*	parent.$.smartPop.close();
 
 	parent.$.smartPop.open({
 		width: 930.7,
 		height: 1122.5,
 		url : url
-	});	
+	});	*/
+	
+	window.open(url, 'dd619Print', 'width=930.7, height: 1122.5, status=no');
 };
 
 youngjin.outbound.weightCertificate = function(target){
@@ -1600,12 +1602,14 @@ youngjin.outbound.weightCertificateColumnAdd = function(target){
 	var tbody = table.children('tbody');
 	
 	count = Number(count) + 1;
+	var piece = Number(table.find('[name=piece]').eq(count - 2).val()) + 1;
 	
 	var html = '<tr>'+
-					'<td class="piece_td"><input name="piece" type="text" /></td>'+
+					'<td class="piece_td"><input name="piece" type="text" value="' + piece + '" /></td>'+
 					'<td class="type_td"><input name="type" type="text" /></td>'+
 					'<td class="status_td">' + 
 						'<select name="status">';
+							html += '<option value=""></option>';
 							for(var i = 0 ; i < containerList.length ; i ++ ){
 								var container = containerList[i];
 								if(container.count != 0){	
@@ -1625,6 +1629,7 @@ youngjin.outbound.weightCertificateColumnAdd = function(target){
 	
 	tbody.append(html);
 	$('.weightcertificate_table_wrap').attr('data-count', count);
+	$('.total_piece_td').html(count);
 	target.css('display', 'none');
 	
 	youngjin.outbound.sync();
@@ -1681,8 +1686,6 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 		"date" : date,
 		"count" : count
 	};
-	
-	alert(json.status);
 	
 	$.postJSON(url, json, function(){
 		return jQuery.ajax({

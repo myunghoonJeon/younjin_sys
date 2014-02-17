@@ -1137,6 +1137,33 @@
 			seq = #{seq}
 	</delete>
 	
+	<insert id="insertTruckManifast" parameterType="TruckManifastIb">
+		INSERT INTO
+			truck_manifast_ib
+			(
+				truckManifastDate, area
+			)
+		VALUES
+			(
+				#{truckManifastDate}, #{area}
+			)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID() 			
+		</selectKey>
+	</insert>
+	
+	<insert id="insertTruckManifastOnHand" parameterType="TruckManifastIb">
+		INSERT INTO
+			truck_manifast_ib_onHand
+			(
+				truckSeq, onHandSeq
+			)			
+		VALUES
+			(
+				#{seq}, #{onHandSeq}
+			)
+	</insert>
+	 
 	<!-- comfirm -->
 		
 	<select id="getAdditionList" parameterType="Integer" resultType="Addition">

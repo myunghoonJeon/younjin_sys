@@ -36,7 +36,7 @@
 -->
 </style>
 </head>
-<body bgcolor="#A0A0A0" vlink="blue" link="blue">
+<body bgcolor="#A0A0A0" vlink="blue" link="blue" onload="window.print();">
 <!-- Page 1 -->
 <a name="1"></a>
 <style type="text/css"> 
@@ -156,7 +156,7 @@
 <p style="position:absolute;top:1058px;left:455px;white-space:nowrap" class="ft10"><input name="19-7" type="checkbox" value="unpackingservice" checked="checked"></p>
 <p style="position:absolute;top:1073px;left:455px;white-space:nowrap" class="ft10"><input name="19-8" type="checkbox" value="overtimeloading" checked="checked"></p>
 <p style="position:absolute;top:1043px;left:681px;white-space:nowrap" class="ft10"><input name="19-9" type="checkbox" value="other" checked="checked"></p>
-<p style="position:absolute;top:1060px;left:720px;white-space:nowrap" class="ft10">${dd619.rankAndName }</p>
+<p style="position:absolute;top:1115px;left:150px;white-space:nowrap" class="ft10">${gbl.rank } ${gbl.customerName }</p>
 <p style="position:absolute;top:1105px;left:65px;white-space:nowrap" class="ft10"></p>
 <p style="position:absolute;top:1105px;left:421px;white-space:nowrap" class="ft10"></p>
 <p style="position:absolute;top:1115px;left:740px;white-space:nowrap" class="ft10">${dd619.transportationDate }</p>

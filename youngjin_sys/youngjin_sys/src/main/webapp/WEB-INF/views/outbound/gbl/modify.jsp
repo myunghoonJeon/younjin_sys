@@ -118,7 +118,7 @@
 			<tr>
 				<th>CONTAINER NO</th>
 				<td><form:input path="containerNo" /></td>
-				<th>export</th>
+				<th>EXPORT</th>
 				<td><form:input path="export" /></td>
 			</tr>
 			<tfoot>

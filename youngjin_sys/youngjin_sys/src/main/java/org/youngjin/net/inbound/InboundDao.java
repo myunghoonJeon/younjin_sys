@@ -283,5 +283,17 @@ public class InboundDao extends SqlSessionDaoSupport {
 
 	public void onHandListContentByUpdate(OnHandListContent onHandListContent) {
 		getSqlSession().update("inboundMapper.onHandListContentByUpdate", onHandListContent);
+	}
+
+	public int getTruckGblListCount(InboundFilter inboundFilter) {
+		return getSqlSession().selectOne("inboundMapper.getTruckGblListCount", inboundFilter);
+	}
+
+	public void insertTruckManifast(TruckManifast truckManifast) {
+		getSqlSession().insert("inboundMapper.insertTruckManifast", truckManifast);
+	}
+
+	public void insertTruckManifastOnHand(TruckManifast truckManifast) {
+		getSqlSession().insert("inboundMapper.insertTruckManifastOnHand", truckManifast);
 	}	
 }

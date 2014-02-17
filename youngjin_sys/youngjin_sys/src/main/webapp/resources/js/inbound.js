@@ -186,6 +186,18 @@ youngjin.inbound.sync = function(){
 };
 
 youngjin.inbound.weightSync = function(){
+	$('.inbound_gbl_process_weight').unbind('click');
+	$('.inbound_gbl_process_weight').bind('click', function(){
+		var url = contextPath + '/inbound/freight/' + $('.inbound_gbl_process').attr('data-seq') + '/weight';
+		
+		parent.$.smartPop.close();
+		parent.$.smartPop.open({
+			width : 700,
+			height : 500,
+			url : url
+		});	
+	});
+	
 	$('.weight_plus_Box_td').unbind('click');
 	$('.weight_plus_Box_td').bind('click', function(){
 		youngjin.inbound.weightColumnAdd($(this));
@@ -479,6 +491,16 @@ youngjin.inbound.onHandSync = function(){
 	$('.on_hand_list_form_print').bind('click', function(){
 		youngjin.inbound.onHandListFormPrint($(this));
 	});
+	
+	$('.inbound_truck_addButton').unbind('click');
+	$('.inbound_truck_addButton').bind('click', function(){
+		youngjin.inbound.getTruckmainifastGblList($(this));
+	});
+	
+	$('.truck_gbl_onHand_addbutton').unbind('click');
+	$('.truck_gbl_onHand_addbutton').bind('click', function(){
+		youngjin.inbound.truckGblOnHandInsert($(this));
+	});
 };
 
 youngjin.inbound.dd619Sync = function(){	
@@ -517,7 +539,7 @@ youngjin.inbound.confirmSync = function(){
 
 		parent.$.smartPop.open({
 			width: 350,
-			height: 310,
+			height: 450,
 			url : url
 		});
 	});
@@ -616,7 +638,7 @@ youngjin.inbound.delivery = function(target){
 
 	parent.$.smartPop.open({
 		width: 350,
-		height: 310,
+		height: 450,
 		url : url
 	});
 	
@@ -677,7 +699,7 @@ youngjin.inbound.memorandumAllBack = function(target){
 
 	parent.$.smartPop.open({
 		width: 350,
-		height: 310,
+		height: 450,
 		url : url
 	});
 };
@@ -1706,6 +1728,52 @@ youngjin.inbound.onHandListFormPrint = function(target){
 	});
 };
 
+youngjin.inbound.getTruckmainifastGblList = function(target){
+	var url = contextPath + '/inbound/onHand/truckManifastOnhandList';
+	
+	$.smartPop.open({
+		width: 1000,
+		height: 700,
+		url : url
+	});
+};
+
+youngjin.inbound.truckGblOnHandInsert = function(target){
+	var onHandSeq = '';
+	$(':checkbox:checked').each(function(){
+		onHandSeq = onHandSeq + $(this).val() + ",";
+	});		
+	
+	
+	alert(onHandSeq);
+	var truckManifastDate = $('#truck_manifast_date').val();
+	var area = $('#truck_manifast_area').val();
+	
+	var url = contextPath + '/inbound/onHand/inputTuruckManifast.json';
+	
+	var json = {
+		'truckManifastDate' : truckManifastDate,
+		'area' : area,
+		'onHandSeq' : onHandSeq
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				parent.location.href = contextPath + '/inbound/onHand/truckManifast';
+				parent.$.smartPop.close();
+			},
+			error : function(){
+				alert("에러 발생!");
+			}
+		});		
+	});
+	
+	
+	
+	
+};
+
 youngjin.inbound.dd619Back = function(target){
 	var seq = target.parents('.inbound_dd619_list_wrap').attr('data-seq');
 	
@@ -1715,7 +1783,7 @@ youngjin.inbound.dd619Back = function(target){
 
 	parent.$.smartPop.open({
 		width: 350,
-		height: 310,
+		height: 450,
 		url : url
 	});
 };
@@ -1895,7 +1963,7 @@ youngjin.inbound.additionComplete = function(target){
 
 				parent.$.smartPop.open({
 					width: 350,
-					height: 310,
+					height: 450,
 					url : goUrl
 				});				
 			},

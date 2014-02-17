@@ -118,9 +118,9 @@
 	String date="30-AUG-13";
 %> --%>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<title>Truck Manifast</title>
 </head>
-<body>
+<body onload="window.print();">
 	
 	<div>
 		<table align="center" width="90%" cellspacing="0">
@@ -150,7 +150,7 @@
 					<c:choose>
 						<c:when test="${i.index eq 0 }">
 							<td id="inputstart">
-								${weightCertificate.gross }-${weightCertificate.net }-${weightCertificate.tare } ${weightCertificate.piece }
+								${weightCertificate.gross }-${weightCertificate.tare }-${weightCertificate.cuft } ${weightCertificate.piece }
 							</td>
 							<td id="inputstart">
 								${weightCertificate.remark }
@@ -163,7 +163,7 @@
 								<td></td>
 								<td></td>
 								<td id="inputstart">
-									${weightCertificate.gross }-${weightCertificate.net }-${weightCertificate.tare } ${weightCertificate.piece }
+									${weightCertificate.gross }-${weightCertificate.tare }-${weightCertificate.cuft } ${weightCertificate.piece }
 								</td>
 								<td id="inputstart">
 									${weightCertificate.remark }

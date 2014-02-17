@@ -5,10 +5,10 @@
 		<li onclick="location.href='${cp }/outbound/gblList'" style="${(user.subProcess eq 'gblList') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
 			GBL LIST			
 		</li>
-		<li class="outbound_delivery" style="${(user.subProcess eq 'delivery' or user.subProcess eq 'truckManifast' or user.subProcess eq 'bookingList') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+		<li class="outbound_delivery" style="${(user.subProcess eq 'delivery' or user.subProcess eq 'truckManifast' or user.subProcess eq 'bookingList' or user.subProcess eq 'house') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
 			DELIVERY	
 		</li>
-		<li class="outbound_delivery_item_list" style="${(user.subProcess eq 'delivery' or user.subProcess eq 'truckManifast' or user.subProcess eq 'bookingList') ? 'display:block;' : 'display:none;'}">				
+		<li class="outbound_delivery_item_list" style="${(user.subProcess eq 'delivery' or user.subProcess eq 'truckManifast' or user.subProcess eq 'bookingList' or user.subProcess eq 'house') ? 'display:block;' : 'display:none;'}">				
 			<ul class="outbound_delivery_item">
 				<!--  li onclick="location.href='${cp }/outbound/delivery/main'" style="${(user.subProcess eq 'delivery') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">					DELIVERY LIST	
 				</li-->
@@ -17,6 +17,9 @@
 				</li>
 				<li onclick="location.href='${cp }/outbound/delivery/bookingList'" style="${(user.subProcess eq 'bookingList') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
 					BOOKING LIST
+				</li>
+				<li onclick="location.href='${cp }/outbound/delivery/house'" style="${(user.subProcess eq 'house') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+					HOUSE BL
 				</li>			
 			</ul>	
 		</li>

@@ -537,6 +537,32 @@ public class InboundController {
 		
 		return process + "/onHand/onHandListPrint";
 	}
+	
+	@RequestMapping( value ="/{process}/onHand/truckManifast", method = RequestMethod.GET)
+	public String truckManifastInbound(Model model, User user, @PathVariable String process, @ModelAttribute InboundFilter inboundFilter){
+		
+		user.setSubProcess("truck");
+		
+		model.addAttribute("user", user);
+		
+		return process + "/onHand/truckManifast"; 
+	}
+	
+	@RequestMapping( value ="/{process}/onHand/truckManifastOnhandList", method = RequestMethod.GET)
+	public String truckManifastOnhandList(Model model, User user, @PathVariable String process, @ModelAttribute InboundFilter inboundFilter){
+		
+		List<OnHandList> onHandListes = inboundService.getOnHandList(inboundFilter);
+		
+		model.addAttribute("onHandList", onHandListes);
+		
+		return process + "/onHand/truckManifastOnhandList";
+	}
+	
+	@RequestMapping( value = "/{process}/onHand/inputTuruckManifast.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void inputTruckManifast(@RequestBody Map<String, String> resultMap){
+		inboundService.insertTruckManifast(resultMap);
+	}
 
 	// -process
 	

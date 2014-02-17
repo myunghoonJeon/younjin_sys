@@ -149,6 +149,7 @@
 										<td class="type_td"><input name="type" type="text" value="${weightcertificate.type }"/></td>
 										<td class="status_td">
 											<select name="status">
+												<option value=""></option>
 												<c:forEach var="container" items="${containerList }">
 													<option data-count="${container.count }" value="${container.status }" ${weightcertificate.status eq container.status ? 'selected=selected' : ''}>${container.status }</option>																											
 												</c:forEach>
@@ -221,11 +222,11 @@
 									<td>Total</td>
 									<td class="total_piece_td">${ fn:length(weightcertificateList) }</td>
 									<td></td>
-									<td class="total_gross_td"><fmt:formatNumber value="${totalGross }" pattern=".00"/></td>
-									<td class="total_grossKg_td"><fmt:formatNumber value="${totalGrossKg }" pattern=".00" /></td>
-									<td class="total_tare_td"><fmt:formatNumber value="${totalTare }" pattern=".00" /></td>
-									<td class="total_net_td"><fmt:formatNumber value="${totalNet }" pattern=".00" /></td>
-									<td class="total_cuft_td"><fmt:formatNumber value="${totalCuft }" pattern=".00" /></td>
+									<td class="total_gross_td"><fmt:formatNumber value="${totalGross }" /></td>
+									<td class="total_grossKg_td"><fmt:formatNumber value="${totalGrossKg }" /></td>
+									<td class="total_tare_td"><fmt:formatNumber value="${totalTare }"  /></td>
+									<td class="total_net_td"><fmt:formatNumber value="${totalNet }"  /></td>
+									<td class="total_cuft_td"><fmt:formatNumber value="${totalCuft }" /></td>
 									<td></td>
 								</tr>
 							</tfoot>			

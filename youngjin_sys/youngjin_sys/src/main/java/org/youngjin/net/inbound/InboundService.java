@@ -517,4 +517,22 @@ public class InboundService {
 	public void onHandListContentByUpdate(OnHandListContent onHandListContent) {
 		inboundDao.onHandListContentByUpdate(onHandListContent);
 	}
+
+	public void insertTruckManifast(Map<String, String> resultMap) {
+		String truckManifastDate = resultMap.get("truckManifastDate");
+		String area = resultMap.get("area");
+		String [] onHandListSeqList = resultMap.get("onHandSeq").split(",");
+		
+		TruckManifast truckManifast = new TruckManifast();
+		truckManifast.setTruckManifastDate(truckManifastDate);
+		truckManifast.setArea(area);
+		
+		inboundDao.insertTruckManifast(truckManifast);
+		
+		for(String onHandSeq : onHandListSeqList){
+			truckManifast.setOnHandSeq(Integer.parseInt(onHandSeq));
+			
+			inboundDao.insertTruckManifastOnHand(truckManifast);
+		}
+	}
 }
