@@ -130,6 +130,7 @@ public class InboundService {
 		String [] tare = weightIb.getTare().split(",", count);
 		String [] net = weightIb.getNet().split(",", count);
 		String [] cuft = weightIb.getCuft().split(",", count);
+		String [] reweight = weightIb.getReweight().split(",", count);
 		String [] remark = weightIb.getRemark().split(",", count);
 		Integer gblSeq = weightIb.getGblSeq();
 		
@@ -142,10 +143,16 @@ public class InboundService {
 			weightParam.setTare(tare[i]);
 			weightParam.setNet(net[i]);
 			weightParam.setCuft(cuft[i]);
+			weightParam.setReweight(reweight[i]);
 			weightParam.setRemark(remark[i]);
 			weightParam.setGblSeq(gblSeq);
 			
-			inboundDao.insertWeightAdd(weightParam);
+			WeightIb weight = inboundDao.getWeight(weightParam);
+			if(weight != null){
+				inboundDao.updateWeight(weightParam);
+			} else {			
+				inboundDao.insertWeightAdd(weightParam);
+			}
 		}
 		
 		Map<String, Integer> statusParam = new HashMap<String, Integer>();
@@ -405,9 +412,13 @@ public class InboundService {
 	public int getOnHandListCount(InboundFilter inboundFilter) {
 		return inboundDao.getOnHandListCount(inboundFilter);
 	}
-
+	
 	public List<OnHandList> getOnHandList(InboundFilter inboundFilter) {
 		return inboundDao.getOnHandList(inboundFilter);
+	}
+
+	public List<GBL> getOnHandGBLList(InboundFilter inboundFilter) {
+		return inboundDao.getOnHandGBLList(inboundFilter);
 	}
 
 	public boolean checkSelectonHandList(Map<String, Integer> map) {
@@ -530,9 +541,17 @@ public class InboundService {
 		inboundDao.insertTruckManifast(truckManifast);
 		
 		for(String onHandSeq : onHandListSeqList){
-			truckManifast.setOnHandSeq(Integer.parseInt(onHandSeq));
+			truckManifast.setOnHandListContentSeq(Integer.parseInt(onHandSeq));
 			
 			inboundDao.insertTruckManifastOnHand(truckManifast);
 		}
+	}
+
+	public List<TruckManifast> getTruckManifastList(InboundFilter inboundFilter) {
+		return inboundDao.getTruckManifastList(inboundFilter);
+	}
+
+	public void deleteTruckManifast(Map<String, String> resultMap) {
+		inboundDao.deleteTruckManifast(resultMap);
 	}
 }

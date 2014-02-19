@@ -385,6 +385,10 @@ public class OutboundService {
 		}
 	}
 
+	public void deleteBookingList(Map<String, String> bookingSeq) {
+		outboundDao.deleteBookingList(bookingSeq);
+	}
+
 	public List<DeliveryGbl> getBookingListPrint(Integer seq) {
 		List<DeliveryGbl> bookingGblList = outboundDao.getBookingListPrint(seq);
 
@@ -709,5 +713,9 @@ public class OutboundService {
 
 	public void updateTcmd(Map<String, String> map) {
 		outboundDao.updateTcmd(map);
+	}
+
+	public void deleteGBL(GBL gbl) {
+		outboundDao.deleteGBL(gbl);
 	}
 }

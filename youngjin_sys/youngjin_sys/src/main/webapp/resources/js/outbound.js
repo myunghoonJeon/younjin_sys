@@ -19,6 +19,11 @@ youngjin.outbound.sync = function(){
 		});
 	});
 	
+	$('.gbl_deleteButton').unbind('click');
+	$('.gbl_deleteButton').bind('click', function(){
+		youngjin.outbound.gblDelete();
+	});
+	
 	$('input#destGBlock').unbind('change');
 	$('input#destGBlock').bind('change', function(){
 		youngjin.outbound.findUsNo($(this));
@@ -463,6 +468,30 @@ youngjin.outbound.backButtonSync = function(){
 	$('.dd619_back').bind('click', function(){
 		youngjin.outbound.dd619Back($(this));
 	});
+};
+
+youngjin.outbound.gblDelete = function(){
+	var seq = $('#upload_tfoot').attr('data-seq');
+	
+	var url = contextPath + '/outbound/gblDelete.json';
+	
+	var json = {
+		'seq' : seq
+	};
+	
+	if(confirm('삭제하시겠습니까?')){
+		$.postJSON(url, json, function(){
+			return jQuery.ajax({
+				success : function(){
+					parent.location.href = contextPath + '/outbound/gblList';
+					parent.$.smartPop.close();
+				}, 
+				error : function(){
+					alert('에러발생');
+				}
+			});
+		});
+	}
 };
 
 youngjin.outbound.findUsNo = function(target){

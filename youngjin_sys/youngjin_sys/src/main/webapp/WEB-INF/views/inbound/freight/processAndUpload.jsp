@@ -27,6 +27,12 @@
 
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
+
+<c:if test="${addUpdateCheck eq 'true'}">
+	<script>
+		parent.$.smartPop.close();
+	</script>
+</c:if>
 <body>
 	<div class="gbl_process_and_upload_div">
 		<div class="pop_title_line">

@@ -72,9 +72,6 @@
 				<li>	
 					<span class="gbl_addButton yj_button" >add</span>
 				</li>
-				<li>	
-					<span class="gbl_declaration_list_addButton yj_button" >declaration list</span>
-				</li>
 			</form:form>
 		</ul>	
 	</div>

@@ -26,6 +26,7 @@ import org.youngjin.net.inbound.InboundInvoice;
 import org.youngjin.net.inbound.InboundService;
 import org.youngjin.net.inbound.OnHandList;
 import org.youngjin.net.inbound.OnHandListContent;
+import org.youngjin.net.inbound.TruckManifast;
 import org.youngjin.net.inbound.WeightIb;
 import org.youngjin.net.login.User;
 import org.youngjin.net.memorandum.Memorandum;
@@ -167,6 +168,8 @@ public class InboundController {
 				inboundService.getGblProcessAndUpload(seq));
 		model.addAttribute("seq", seq);
 		model.addAttribute("fileList", inboundService.getGblFileList(seq));
+		
+		model.addAttribute("addUpdateCheck", "true");
 
 		return process + "/freight/processAndUpload";
 	}
@@ -543,6 +546,10 @@ public class InboundController {
 		
 		user.setSubProcess("truck");
 		
+		List<TruckManifast> truckManifastList = inboundService.getTruckManifastList(inboundFilter);
+		
+		model.addAttribute("truckList", truckManifastList);
+		
 		model.addAttribute("user", user);
 		
 		return process + "/onHand/truckManifast"; 
@@ -551,17 +558,23 @@ public class InboundController {
 	@RequestMapping( value ="/{process}/onHand/truckManifastOnhandList", method = RequestMethod.GET)
 	public String truckManifastOnhandList(Model model, User user, @PathVariable String process, @ModelAttribute InboundFilter inboundFilter){
 		
-		List<OnHandList> onHandListes = inboundService.getOnHandList(inboundFilter);
+		List<GBL> onHandListes = inboundService.getOnHandGBLList(inboundFilter);
 		
-		model.addAttribute("onHandList", onHandListes);
+		model.addAttribute("onHandGblList", onHandListes);
 		
 		return process + "/onHand/truckManifastOnhandList";
 	}
 	
-	@RequestMapping( value = "/{process}/onHand/inputTuruckManifast.json", method = RequestMethod.POST)
+	@RequestMapping( value = "/{process}/onHand/inputTruckManifast.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void inputTruckManifast(@RequestBody Map<String, String> resultMap){
 		inboundService.insertTruckManifast(resultMap);
+	}
+	
+	@RequestMapping( value = "/{process}/onHand/deleteTruckManifast.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void deleteTruckManifast(@RequestBody Map<String, String> resultMap){
+		inboundService.deleteTruckManifast(resultMap);
 	}
 
 	// -process
@@ -923,5 +936,11 @@ public class InboundController {
 	@ResponseBody
 	public void additionalComplete(@RequestBody Addition addition) {
 		inboundService.additionComplete(addition);
+	}
+	
+	@RequestMapping(value ="{process}/reweight", method = RequestMethod.GET)
+	public String reweightMain(Model model, User user, @PathVariable String process){
+		
+		return process + "/reweight";
 	}
 }

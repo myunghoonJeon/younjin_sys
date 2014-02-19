@@ -92,6 +92,7 @@ public class GBL {
 	private String grossWeight;
 	private String netWeight;
 	private String storedAt;
+	private String onHandContentSeq;
 
 	private WeightIb weightIb;
 
@@ -663,6 +664,14 @@ public class GBL {
 
 	public void setStoredAt(String storedAt) {
 		this.storedAt = storedAt;
+	}
+
+	public String getOnHandContentSeq() {
+		return onHandContentSeq;
+	}
+
+	public void setOnHandContentSeq(String onHandContentSeq) {
+		this.onHandContentSeq = onHandContentSeq;
 	}
 
 	@Override

@@ -75,6 +75,16 @@ youngjin.outbound.delivery.sync = function(){
 		youngjin.outbound.delivery.bookingPrint($(this));
 	});
 	
+	$('.declaration_list_content').unbind('click');
+	$('.declaration_list_content').bind('click', function(){
+		youngjin.outbound.delivery.declarationList($(this));
+	});
+	
+	$('.booking_deleteButton img').unbind('click');
+	$('.booking_deleteButton img').bind('click', function(){
+		youngjin.outbound.delivery.deleteBookingList($(this));
+	});
+	
 	$('.truck_manifast_form').unbind('click');
 	$('.truck_manifast_form').bind('click', function(){
 		if($(this).attr('data-delete') != 'delete'){
@@ -260,6 +270,34 @@ youngjin.outbound.delivery.bookingPrint = function(target){
 	var url = contextPath + '/outbound/delivery/' + seq + '/bookingListPrint';
 	
 	window.open(url ,'bookingListPrintPop', 'width=1263, height=892, status=no');
+};
+
+youngjin.outbound.delivery.declarationList = function(target){
+	var seq = target.attr('data-bookSeq');
+	var url = contextPath + '/outbound/delivery/' + seq + '/declarationList';
+	
+	window.open(url ,'bookingListPrintPop', 'width=1263, height=892, status=no');	
+};
+
+youngjin.outbound.delivery.deleteBookingList = function(target){
+	var seq = target.parents('.booking_deleteButton').attr('data-bookSeq');
+	
+	var json = {
+		'seq' : seq	
+	};
+	
+	var url = contextPath + '/outbound/delivery/bookingListDelete.json';
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				location.href = contextPath + '/outbound/delivery/bookingList';
+			},
+			error : function(){
+				alert("에러 발생!");
+			}
+		});		
+	});
 };
 
 youngjin.outbound.delivery.truckManifastPrint = function(target){

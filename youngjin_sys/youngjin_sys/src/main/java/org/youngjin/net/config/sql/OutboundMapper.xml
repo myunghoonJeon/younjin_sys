@@ -120,6 +120,8 @@
 	<result column="code" property="code" />
 	<result column="scac" property="scac" />
 	<result column="customer_name" property="shipper" />
+	<result column="rank" property="rank" />
+	<result column="ssn" property="ssn" />
 	<result column="mil_svc" property="milSvc"/>
 	<result column="origin_gblock" property="originGblock" />
 	<result column="pcs" property="pcs"/>
@@ -311,6 +313,13 @@
 	WHERE
 		g.seq = #{seq}
 </select>
+
+<delete id="deleteGbl" parameterType="GBL">
+	DELETE FROM
+		gbl
+	WHERE
+		seq = #{seq}
+</delete>
 
 <select id="getMilSvcGbl" parameterType="Map" resultMap="GblMap">
 	SELECT
@@ -664,7 +673,7 @@
 
 <select id="getBookingListPrint" parameterType="Integer" resultMap="BookingGblMap">
 		SELECT
-			g.pud, g.scac, g.code, g.customer_name, 
+			g.pud, g.scac, g.code, g.customer_name, g.rank, g.ssn,
 			g.no, g.mil_svc, g.origin_gblock, w.booking_check, 
 			SUM(w.cuft) AS cuft, SUM(w.gross) AS gross, SUM(w.net) AS net, COUNT(w.piece) AS pcs, 
 			g.dest_port, g.dest_state
@@ -679,6 +688,13 @@
 		ORDER BY
 			g.no
 </select>
+
+<delete id="deleteBookingList" parameterType="Map">
+	DELETE FROM
+		booking_list
+	WHERE
+		seq = #{seq}
+</delete>
 	
 <select id="getContainerList" resultType="WeightCertificate">
 	SELECT

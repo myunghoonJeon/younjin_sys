@@ -25,7 +25,7 @@
 	
 	<div class="gbl_filter">	
 		<ul>
-			<form:form commandName="inboundFilter" method="get">
+			<form:form commandName="inboundFilter" method="get"><%-- 
 				<sec:authorize access="hasRole('ROLE_LEVEL4')">
 					<li>	
 						<form:select path="branch">
@@ -43,7 +43,7 @@
 					</li>
 					<li>
 						<form:hidden path="page" value="${pagination.currentPage}"/>
-					</li>
+					</li> --%>
 					<li>
 						<span class="truck_addButton inbound_truck_addButton yj_button" >add</span>
 					</li>
@@ -56,12 +56,11 @@
 			<thead>
 				<tr>
 					<th>NO</th>
-					<th>BRANCH</th>
-					<th>CODE</th>
-					<th>DATE</th>
+					<th>TRUCKMANIFAST DATE</th>
+					<th>AREA</th>
 					<th></th>
 				</tr>
-			</thead>
+			</thead><%-- 
 			<tfoot>
 				<tr>
 					<td colspan="4">
@@ -79,7 +78,7 @@
 						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
 					</td>
 				</tr>
-			</tfoot>			
+			</tfoot> --%>			
 			<tbody>
 				<c:if test="${truckList eq '[]' or truckList eq null }">
 					<tr>
@@ -89,10 +88,9 @@
 				<c:forEach var="truck" items="${truckList }" varStatus="i">
 					<tr class="inbound_truck_manifast_form" data-seq="${truck.seq }">
 						<td>${i.count }</td>
-						<td>${truck.branch }</td>
-						<td>${truck.code }</td>
-						<td>${truck.date }</td>
-						<td  class="inbound_truck_manifast_deleteButton"><img src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
+						<td>${truck.truckManifastDate }</td>
+						<td>${truck.area }</td>
+						<td  class="truck_manifast_deleteButton inbound_truck_manifast_deleteButton"><img src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>
 			</tbody>

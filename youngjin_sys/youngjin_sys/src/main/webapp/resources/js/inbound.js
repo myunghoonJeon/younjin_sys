@@ -208,6 +208,11 @@ youngjin.inbound.weightSync = function(){
 		youngjin.inbound.weightAddSubmit($(this));
 	});
 	
+	$('.weight_updateButton').unbind('click');
+	$('.weight_updateButton').bind('click', function(){
+		youngjin.inbound.weightAddSubmit($(this));		
+	});
+	
 	$('.weight_table input[name=piece]').focusout(function(){
 		var totalPcs = 0;
 		var count = Number($('.weight_table').attr('data-count')) + 1;
@@ -231,7 +236,7 @@ youngjin.inbound.weightSync = function(){
 		$(this).parents().parents('tr').children().children('input[name=net]').val(net);
 		$(this).parents().parents('tr').children().children('input[name=net]').attr('readonly', 'readonly');
 		
-		var count = Number($('.weight_table').attr('data-count')) + 1;
+		var count = Number($('.weight_table').attr('data-count'));
 		for( var i = 0 ; i < count ; i ++ ){
 			totalGross += Number($('input[name="gross"]').eq(i).val());
 			totalGrossKg += roundXL(0.45359237 * Number($('input[name="gross"]').eq(i).val()), 2);
@@ -251,7 +256,7 @@ youngjin.inbound.weightSync = function(){
 		$(this).parents().parents('tr').children().children('input[name=net]').val(net);
 		$(this).parents().parents('tr').children().children('input[name=net]').attr('readonly', 'readonly');
 		
-		var count = Number($('.weight_table').attr('data-count')) + 1;
+		var count = Number($('.weight_table').attr('data-count'));
 		for( var i = 0 ; i < count ; i ++ ){
 			totalTare += Number($('input[name="tare"]').eq(i).val());
 			totalNet += Number($('input[name=net]').eq(i).val());
@@ -264,7 +269,7 @@ youngjin.inbound.weightSync = function(){
 		var totalCuft = 0;
 		var type = '';
 
-		var count = Number($('.weight_table').attr('data-count')) + 1;
+		var count = Number($('.weight_table').attr('data-count'));
 		var cuft = $(this).val();
 		if(Number(cuft) >= 0 && Number(cuft) <= 124){
 			type = 'O/F';
@@ -500,6 +505,11 @@ youngjin.inbound.onHandSync = function(){
 	$('.truck_gbl_onHand_addbutton').unbind('click');
 	$('.truck_gbl_onHand_addbutton').bind('click', function(){
 		youngjin.inbound.truckGblOnHandInsert($(this));
+	});
+	
+	$('.inbound_truck_manifast_deleteButton').unbind('click');
+	$('.inbound_truck_manifast_deleteButton').bind('click', function(){
+		youngjin.inbound.truckManifastOnHandDelete($(this));
 	});
 };
 
@@ -1189,7 +1199,7 @@ youngjin.inbound.weightColumnAdd = function(target){
 					'<td class="weight_remark"><input type="text" id="remark" name="remark"/></td>' +
 					'<td class="weight_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>';
 				 '</tr>';
-	
+				 
 	if(target.parents('tr').find('#cuft').val() != ''){
 		target.parents().parents('tbody').append(column);
 		
@@ -1199,7 +1209,7 @@ youngjin.inbound.weightColumnAdd = function(target){
 		$('.weight_table').attr('data-count', Number(count) + 1);
 		
 		var totalPcs = 0;
-		var count = Number($('.weight_table').attr('data-count')) + 1;
+		var count = Number($('.weight_table').attr('data-count'));
 		for( var i = 0 ; i < count; i ++ ){
 			totalPcs += 1;
 		}
@@ -1745,11 +1755,10 @@ youngjin.inbound.truckGblOnHandInsert = function(target){
 	});		
 	
 	
-	alert(onHandSeq);
 	var truckManifastDate = $('#truck_manifast_date').val();
 	var area = $('#truck_manifast_area').val();
 	
-	var url = contextPath + '/inbound/onHand/inputTuruckManifast.json';
+	var url = contextPath + '/inbound/onHand/inputTruckManifast.json';
 	
 	var json = {
 		'truckManifastDate' : truckManifastDate,
@@ -1769,9 +1778,30 @@ youngjin.inbound.truckGblOnHandInsert = function(target){
 		});		
 	});
 	
+};
+
+youngjin.inbound.truckManifastOnHandDelete = function(target){
+	var truckSeq = target.parents('.inbound_truck_manifast_form').attr('data-seq');
 	
+	var url = contextPath + '/inbound/onHand/deleteTruckManifast.json';
 	
+	var json = {
+		'truckSeq' : truckSeq	
+	};
 	
+	if(confirm('삭제하시겠습니까? ')){	
+		$.postJSON(url, json, function(){
+			return jQuery.ajax({
+				success : function(){
+					parent.location.href = contextPath + '/inbound/onHand/truckManifast';
+					parent.$.smartPop.close();
+				},
+				error : function(){
+					alert("에러 발생!");
+				}
+			});			
+		});
+	} 
 };
 
 youngjin.inbound.dd619Back = function(target){

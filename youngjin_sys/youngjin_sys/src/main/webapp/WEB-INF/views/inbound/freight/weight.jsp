@@ -119,6 +119,7 @@
 						<c:set var="totalNet" value="${totalNet + weight.net }" />
 						<c:set var="totalCuft" value="${totalCuft + weight.cuft }" />
 						<tr>
+							<form:hidden path="gblSeq" value="${seq}"/>	
 							<td class="weight_piece_td"><input type="text" name="piece" id="piece" value="${weight.piece }" readonly="readonly"/></td>
 							<td><input type="text" name="type" id="type" value="${weight.type }" /></td>
 							<td class="weight_gross_td"><input type="text" name="gross" id="gross" value="${weight.gross }" /></td>
@@ -129,7 +130,7 @@
 							<td><input type="text" name="reweight" id="reweight" value="${weight.reweight }" /></td>
 							<td><input type="text" name="remark" id="remark" value="${weight.remark }" /></td>
 							<c:if test="${fn:length(weightList) ==  i.count}">
-								<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
+								<td class="weight_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
 							</c:if>
 						
 						</tr>					
@@ -138,7 +139,7 @@
 				<tfoot>
 					<tr>
 						<td>Total</td>
-						<td class="total_piece_td">${ fn:length(weightList) + 1 }</td>
+						<td class="total_piece_td">${ fn:length(weightList) }</td>
 						<td class="total_gross_td">${totalGross }</td>
 						<td class="total_grossKg_td">${totalGrossKg }</td>
 						<td class="total_tare_td">${totalTare }</td>

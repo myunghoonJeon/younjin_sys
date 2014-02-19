@@ -45,5 +45,7 @@
 				</li>
 			</ul>	
 		</li>
+		
+		<li onclick="location.href='${cp}/inbound/reweight'" class="inbound_reweight" style="${(user.subProcess eq 'reweight') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">REWEIGHT</li>
 	</sec:authorize>
 </ul>

@@ -5,7 +5,7 @@ public class TruckManifast {
 	private String truckManifastDate;
 	private String area;
 
-	private Integer onHandSeq;
+	private Integer onHandListContentSeq;
 
 	public Integer getSeq() {
 		return seq;
@@ -31,12 +31,19 @@ public class TruckManifast {
 		this.area = area;
 	}
 
-	public Integer getOnHandSeq() {
-		return onHandSeq;
+	public Integer getOnHandListContentSeq() {
+		return onHandListContentSeq;
 	}
 
-	public void setOnHandSeq(Integer onHandSeq) {
-		this.onHandSeq = onHandSeq;
+	public void setOnHandListContentSeq(Integer onHandListContentSeq) {
+		this.onHandListContentSeq = onHandListContentSeq;
+	}
+
+	@Override
+	public String toString() {
+		return "TruckManifast [seq=" + seq + ", truckManifastDate="
+				+ truckManifastDate + ", area=" + area
+				+ ", onHandListContentSeq=" + onHandListContentSeq + "]";
 	}
 
 }

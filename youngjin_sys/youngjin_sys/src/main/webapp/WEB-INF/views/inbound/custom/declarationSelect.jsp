@@ -81,7 +81,7 @@
 						<tr class="inbound_invoice_declaration_tr" data-seq="${inboundInvoice.seq }">
 							<td>${inboundInvoice.gblNo }</td>
 							<td>${inboundInvoice.name }</td>
-							<td>XXXX-XX-${fn:substring(inboundInvoice.ssn, 8, 12) }
+							<td>XXXX-XX-${fn:substring(inboundInvoice.ssn, 8, 12) }</td>
 							<td>${inboundInvoice.rank }</td>								
 							<td>							
 								<c:choose>
