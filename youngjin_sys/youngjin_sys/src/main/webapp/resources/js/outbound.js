@@ -19,6 +19,11 @@ youngjin.outbound.sync = function(){
 		});
 	});
 	
+	$('.gbl_delete').unbind('click');
+	$('.gbl_delete').bind('click', function(){
+		
+	});
+	
 	$('input#destGBlock').unbind('change');
 	$('input#destGBlock').bind('change', function(){
 		youngjin.outbound.findUsNo($(this));
