@@ -68,8 +68,7 @@
 					<col width="9%">
 					<col width="9%">
 					<col width="9%">
-					<col width="9%">
-					<col width="26%">
+					<col width="35%">
 				</colgroup>
 				<thead>
 					<tr>
@@ -79,7 +78,6 @@
 						<th rowspan="2">TARE</th>
 						<th rowspan="2">NET</th>
 						<th rowspan="2">CUFT</th>
-						<th rowspan="2">REWEIGHT</th>
 						<th rowspan="2">REMARK</th>
 					</tr>
 					<tr>
@@ -98,7 +96,6 @@
 							<td class="weight_tare_td"><form:input path="tare" /></td>
 							<td><form:input path="net" readonly="readonly"/></td>
 							<td class="weight_cuft_td"><form:input path="cuft" /></td>
-							<td><form:input path="reweight" /></td>
 							<td class="weight_remark"><form:input path="remark" /></td>
 							<td class="weight_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
 						</tr>
@@ -127,7 +124,6 @@
 							<td class="weight_tare_td"><input type="text" name="tare" id="tare" value="${weight.tare }" /></td>
 							<td><input type="text" name="net" id="net" value="${weight.net }" /></td>
 							<td class="weight_cuft_td"><input type="text" name="cuft" id="cuft" value="${weight.cuft }" /></td>
-							<td><input type="text" name="reweight" id="reweight" value="${weight.reweight }" /></td>
 							<td><input type="text" name="remark" id="remark" value="${weight.remark }" /></td>
 							<c:if test="${fn:length(weightList) ==  i.count}">
 								<td class="weight_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
@@ -146,7 +142,12 @@
 						<td class="total_net_td">${totalNet }</td>
 						<td class="total_cuft_td">${totalCuft }</td>
 						<td></td>
-						<td></td>
+					</tr>
+					<tr>
+						<td colspan="3">Reweight</td>
+						<td colspan="5">
+							<input type="text" name="reweight" id="reweight" value="${weightList[0].reweight }"/>
+						</td>
 					</tr>
 				</tfoot>		
 			</table>

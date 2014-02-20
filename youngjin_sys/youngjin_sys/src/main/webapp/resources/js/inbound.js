@@ -183,6 +183,8 @@ youngjin.inbound.sync = function(){
 	youngjin.inbound.onHandSync();
 	
 	youngjin.inbound.confirmSync();
+	
+	youngjin.inbound.reweightSync();
 };
 
 youngjin.inbound.weightSync = function(){
@@ -196,6 +198,21 @@ youngjin.inbound.weightSync = function(){
 			height : 500,
 			url : url
 		});	
+	});
+	
+	$('.inbound_gbl_process_custom').unbind('click');
+	$('.inbound_gbl_process_custom').bind('click', function(){
+		
+	});
+	
+	$('.inbound_gbl_process_onHandList').unbind('click');
+	$('.inbound_gbl_process_onHandList').bind('click', function(){
+		
+	});
+	
+	$('.inbound_gbl_process_invoice').unbind('click');
+	$('.inbound_gbl_process_invoice').bind('click', function(){
+		
 	});
 	
 	$('.weight_plus_Box_td').unbind('click');
@@ -1185,28 +1202,27 @@ youngjin.inbound.dd619Pop = function(target){
 	
 };
 
-youngjin.inbound.weightColumnAdd = function(target){
+youngjin.inbound.weightColumnAdd = function(target){	
+	var count = $('.weight_table').attr('data-count');
+	
 	var column = '<tr>' +
 					'<input type="hidden" name="gblSeq" id="gblSeq" value="' + $("#gblSeq").val()  + '" />' +
-					'<td><input type="text" id="piece" name="piece"/></td>' +
+					'<td><input type="text" id="piece" name="piece" value="' + (Number(count) + 1) + '"/></td>' +
 					'<td><input type="text" id="type" name="type"/></td>' +
 					'<td><input type="text" id="gross" name="gross"/></td>' +
 					'<td><input type="text" id="grossKg" name="grossKg"/></td>' +
 					'<td><input type="text" id="tare" name="tare"/></td>' +
 					'<td><input type="text" id="net" name="net"/></td>' +
 					'<td><input type="text" id="cuft" name="cuft"/></td>' +
-					'<td><input type="text" id="reweight" name="reweight"/></td>' +
 					'<td class="weight_remark"><input type="text" id="remark" name="remark"/></td>' +
 					'<td class="weight_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>';
 				 '</tr>';
 				 
 	if(target.parents('tr').find('#cuft').val() != ''){
+		$('.weight_table').attr('data-count', Number(count) + 1);
 		target.parents().parents('tbody').append(column);
 		
 		target.remove();
-		
-		var count = $('.weight_table').attr('data-count');
-		$('.weight_table').attr('data-count', Number(count) + 1);
 		
 		var totalPcs = 0;
 		var count = Number($('.weight_table').attr('data-count'));
@@ -2002,5 +2018,77 @@ youngjin.inbound.additionComplete = function(target){
 				alert("에러 발생!");
 			}
 		});
+	});
+};
+
+youngjin.inbound.reweightSync = function(){
+	$('.reweight_add').unbind('click');
+	$('.reweight_add').bind('click', function(){
+		var url = contextPath + '/inbound/reweight/gblSelect';
+		
+		$.smartPop.open({
+			width: 1000,
+			height: 700,
+			url : url
+		});		
+	});
+	
+	$('.inbound_reweight_add').unbind('click');
+	$('.inbound_reweight_add').bind('click', function(){
+		youngjin.inbound.reweightAdd($(this));
+	});
+	
+	$('.reweight_delete').unbind('click');
+	$('.reweight_delete').bind('click', function(){
+		youngjin.inbound.reweightDelete($(this));
+	});
+};
+
+youngjin.inbound.reweightAdd = function(target){
+	var reweightSubject = $('#reweight_subject').val();
+	
+	var gblSeqList = $('input:checked');
+	var count = gblSeqList.length;
+	var gblSeqCommaList = gblSeqList.eq(0).val();
+	
+	for( var i = 1 ; i < count ; i ++ ){
+		gblSeqCommaList += ',' + gblSeqList.eq(i).val();
+	}
+	
+	var url = contextPath + '/inbound/reweight/add.json';
+	
+	var json = {
+		'reweightSubject' : reweightSubject,
+		'count' : count,
+		'gblSeqCommaList' : gblSeqCommaList
+	};	
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				parent.location.href = contextPath + '/inbound/reweight';
+				parent.$.smartPop().close();
+			},
+			error : function(){
+				alert('에러발생!');
+			}
+		});		
+	});
+};
+
+youngjin.inbound.reweightDelete = function(target){
+	var seq = target.attr('data-seq');
+	
+	var url = contextPath + '/inbound/reweight/delete.json';
+	
+	$.postJSON(url, {'seq' : seq}, function(){
+		return jQuery.ajax({
+			success : function(){
+				location.href = contextPath + '/inbound/reweight';
+			},
+			error : function(){
+				alert('에러발생!');
+			}
+		});				
 	});
 };

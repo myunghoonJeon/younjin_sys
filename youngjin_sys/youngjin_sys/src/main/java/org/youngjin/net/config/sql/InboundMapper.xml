@@ -1243,4 +1243,88 @@
 		WHERE
 			gbl_seq = #{value}
 	</select>
+	
+	<!-- reweight  -->
+	<select id="getReweightList" parameterType="InboundFilter" resultType="Reweight">
+		SELECT
+			seq, reweightDate, reweightName
+		FROM
+			reweight
+	</select>
+	
+	<resultMap type="GBL" id="GBLMap">
+		<result column="pud" property="pud"/>
+		<result column="gbloc" property="gbloc"/>
+		<result column="tsp" property="tsp"/>
+		<result column="gblNo" property="gblNo"/>
+		<result column="shipperName" property="shipperName"/>
+		<result column="gross" property="weightIb.gross"/>
+		<result column="reweight" property="weightIb.reweight" />
+		<result column="seq" property="seq" />
+	</resultMap>
+	
+	<select id="getReweightGblList" resultMap="GBLMap">
+		SELECT 
+			g.pud, g.gbloc, g.tsp, g.gblNo, g.shipperName, SUM(w.gross) AS gross, reweight, g.seq
+		FROM
+			gbl_ib g, weight_ib w
+		WHERE
+			g.reweightCheck = 0
+		AND
+			g.seq = w.gblSeq
+		AND
+			w.reweight IS NOT NULL
+		GROUP BY
+			w.gblSeq
+	</select>
+	
+	<insert id="insertReweight" parameterType="Reweight">
+		INSERT INTO
+			reweight
+			(
+				reweightDate, reweightName
+			)
+		VALUES
+			(
+				DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{reweightName}
+			)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID() 			
+		</selectKey>
+	</insert>
+	
+	<insert id="insertReweightContent" parameterType="ReweightContent">
+		INSERT INTO
+			reweight_content
+			(
+				reweightSeq, gblSeq
+			)
+		VALUES
+			(
+				#{reweightSeq}, #{gblSeq}
+			)
+	</insert>
+	
+	<delete id="deleteReweight" parameterType="Reweight">
+		DELETE FROM
+			reweight
+		WHERE
+			seq = #{seq}
+	</delete>
+	
+	<update id="updateReweightCheck" parameterType="Map">
+		UPDATE
+			gbl_ib
+		SET
+			reweightCheck = #{check}
+		WHERE
+			<choose>
+				<when test="seq != null">
+					seq = #{seq}
+				</when>
+				<when test="reweightSeq != null">
+					seq in (select gblSeq from reweight_Content where reweightSeq = #{reweightSeq})
+				</when>
+			</choose>
+	</update>
 </mapper>

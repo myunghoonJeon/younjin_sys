@@ -130,7 +130,7 @@ public class InboundService {
 		String [] tare = weightIb.getTare().split(",", count);
 		String [] net = weightIb.getNet().split(",", count);
 		String [] cuft = weightIb.getCuft().split(",", count);
-		String [] reweight = weightIb.getReweight().split(",", count);
+		String reweight = weightIb.getReweight();
 		String [] remark = weightIb.getRemark().split(",", count);
 		Integer gblSeq = weightIb.getGblSeq();
 		
@@ -143,7 +143,7 @@ public class InboundService {
 			weightParam.setTare(tare[i]);
 			weightParam.setNet(net[i]);
 			weightParam.setCuft(cuft[i]);
-			weightParam.setReweight(reweight[i]);
+			weightParam.setReweight(reweight);
 			weightParam.setRemark(remark[i]);
 			weightParam.setGblSeq(gblSeq);
 			
@@ -553,5 +553,109 @@ public class InboundService {
 
 	public void deleteTruckManifast(Map<String, String> resultMap) {
 		inboundDao.deleteTruckManifast(resultMap);
+	}
+
+	public List<Reweight> getReWeightList(InboundFilter inboundFilter) {
+		return inboundDao.getReweightList(inboundFilter);
+	}
+
+	public List<ReweightContent> getReweightGblList() {
+		List<GBL> tempReweightGblList = inboundDao.getReweightGblList();
+		List<ReweightContent> reweightGblList = new ArrayList<ReweightContent>();
+		
+		for( GBL gbl : tempReweightGblList){
+			String [] reweightArray = gbl.getWeightIb().getReweight().split("/", 3);
+			
+			System.out.println(reweightArray[0] + " " + reweightArray[1]);
+			
+			ReweightContent reweightContent = new ReweightContent();
+			reweightContent.setDeliDate(gbl.getPud());
+			reweightContent.setOriginGblock(gbl.getGbloc());
+			reweightContent.setScacCode(gbl.getTsp());
+			reweightContent.setGblNo(gbl.getGblNo());
+			reweightContent.setFullName(gbl.getShipperName());
+			reweightContent.setoWt(gbl.getWeightIb().getGross());
+			reweightContent.setrWt(reweightArray[0]);
+			reweightContent.setDentn(""); // 일단 빈칸
+			reweightContent.setGblSeq(gbl.getSeq());
+			if(reweightArray.length == 3){
+				reweightContent.setRateGbl31("$" + ((reweightArray[2].equals("")) ? "0" : reweightArray[2]));
+			} else {
+				reweightContent.setRateGbl31("");
+			}
+			
+			reweightGblList.add(reweightContent);
+		}
+		
+		return reweightGblList;
+		
+	}
+
+	public void reweightAdd(Map<String, String> paramMap) {
+		String reweightSubject = paramMap.get("reweightSubject");
+		String [] gblSeqList = paramMap.get("gblSeqCommaList").split(",");
+		
+		Reweight reweight = new Reweight();
+		reweight.setReweightName(reweightSubject);
+		
+		inboundDao.insertReweight(reweight);
+		
+		for(String gblSeq : gblSeqList){
+			ReweightContent reweightContent = new ReweightContent();
+			reweightContent.setGblSeq(Integer.parseInt(gblSeq));
+			reweightContent.setReweightSeq(reweight.getSeq());
+			
+			inboundDao.insertReweightContent(reweightContent);
+			
+			Map<String, Integer> map = new HashMap<String, Integer>();
+			map.put("seq", Integer.parseInt(gblSeq));
+			map.put("check", 1);
+			
+			inboundDao.updateReweightCheck(map);
+		}
+		
+	}
+
+	public void reweightDelete(Reweight reweight) {
+		
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("reweightSeq", reweight.getSeq());
+		map.put("check", 0);
+		
+		inboundDao.updateReweightCheck(map);
+		
+		inboundDao.reweightDelete(reweight);
+	}
+
+	public WeightIb getWeightTotal(String seq) {
+		List<WeightIb> weightList = getWeightList(Integer.parseInt(seq));
+		
+		WeightIb weightIb = new WeightIb();
+		Double totalGross = 0.0;
+		Double totalTare = 0.0;
+		Double totalNet = 0.0;
+		for(WeightIb tempWeight : weightList){
+			totalGross += Double.parseDouble(tempWeight.getGross());
+			totalTare += Double.parseDouble(tempWeight.getTare());
+		}
+		
+		totalNet = totalGross - totalTare;
+		
+		weightIb.setGross(totalGross.toString());
+		weightIb.setTare(totalTare.toString());
+		weightIb.setNet(totalNet.toString());
+		
+		if(weightList.get(0).getReweight() != null){
+			String [] reweight = weightList.get(0).getReweight().split("/", 3);
+			
+			if(reweight.length == 3){
+				weightIb.setReGross(reweight[0]);
+				weightIb.setReTare(reweight[1]);
+				
+				Double net = Double.parseDouble(reweight[0]) - Double.parseDouble(reweight[1]);
+				weightIb.setReNet(net.toString());
+			}
+		}
+		return weightIb;
 	}
 }

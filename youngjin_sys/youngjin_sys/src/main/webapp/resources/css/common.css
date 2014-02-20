@@ -749,3 +749,11 @@ li.inbound_invoice_item_list ul li:HOVER{ color: #F79646; border-left: 12px soli
 .inbound_invoice_gbl_list_table tfoot tr td{ padding-top: 5px; text-align: right; }
 
 .inbound_truck_addButton{ margin-bottom: 10px; }
+
+/* Reweight */
+
+.reweight_add{float: right; margin-bottom: 10px; }
+
+.inbound_reweight_gbl_list_wrap{ min-width: 1000px; min-height: 700px; background-color: white;}
+.inbound_reweight_add{ float: right; margin-bottom : 10px; }
+.reweight_delete{ width: 16px; height: 16px;}

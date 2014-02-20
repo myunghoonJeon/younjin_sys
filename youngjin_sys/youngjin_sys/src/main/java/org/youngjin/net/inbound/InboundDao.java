@@ -316,4 +316,28 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public void updateWeight(WeightIb weightParam) {
 		getSqlSession().update("inboundMapper.updateWeight", weightParam);
 	}
+
+	public List<Reweight> getReweightList(InboundFilter inboundFilter) {
+		return getSqlSession().selectList("inboundMapper.getReweightList", inboundFilter);
+	}
+
+	public List<GBL> getReweightGblList() {
+		return getSqlSession().selectList("inboundMapper.getReweightGblList");
+	}
+
+	public void insertReweight(Reweight reweight) {
+		getSqlSession().insert("inboundMapper.insertReweight", reweight);
+	}
+
+	public void insertReweightContent(ReweightContent reweightContent) {
+		getSqlSession().insert("inboundMapper.insertReweightContent", reweightContent);
+	}
+
+	public void reweightDelete(Reweight reweight) {
+		getSqlSession().delete("inboundMapper.deleteReweight", reweight);
+	}
+
+	public void updateReweightCheck(Map<String, Integer> map) {
+		getSqlSession().update("inboundMapper.updateReweightCheck", map);
+	}
 }
