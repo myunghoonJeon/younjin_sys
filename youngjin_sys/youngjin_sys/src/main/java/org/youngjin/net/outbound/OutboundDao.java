@@ -312,4 +312,12 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void updateTcmd(Map<String, String> map) {
 		getSqlSession().update("outboundMapper.updateTcmd", map);
 	}
+
+	public void deleteGBL(GBL gbl) {
+		getSqlSession().delete("outboundMapper.deleteGbl", gbl);
+	}
+
+	public void deleteBookingList(Map<String, String> bookingSeq) {
+		getSqlSession().delete("outboundMapper.deleteBookingList", bookingSeq);
+	}
 }

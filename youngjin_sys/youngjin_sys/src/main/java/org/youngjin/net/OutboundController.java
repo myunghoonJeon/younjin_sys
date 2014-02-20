@@ -102,6 +102,12 @@ public class OutboundController {
 
 		return process + "/gbl/add";
 	}
+	
+	@RequestMapping(value = "/{process}/gblDelete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblDelete(@RequestBody GBL gbl){
+		outboundService.deleteGBL(gbl);
+	}
 
 	@RequestMapping(value = "/{process}/add", method = RequestMethod.POST)
 	public String gblAddSubmit(Model model, User user,
@@ -138,15 +144,7 @@ public class OutboundController {
 
 			return process + "/gbl/list";
 		}
-	}
-	
-	@RequestMapping(value = "/{process}/declarationList", method = RequestMethod.GET)
-	public String declarationList(Model model, User user,
-			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process) {
-		
-		return process + "/gbl/declarationList";
 	}	
-	
 
 	@RequestMapping(value = "/{process}/{seq}/modify", method = RequestMethod.GET)
 	public String gblModify(Model model, User user,
@@ -852,11 +850,29 @@ public class OutboundController {
 		return process + "/delivery/bookingListPrint";
 	}
 
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")	
+	@RequestMapping(value = "/{process}/delivery/{seq}/declarationList", method = RequestMethod.GET)
+	public String declarationList(Model model, User user, @PathVariable String process, @PathVariable Integer seq) {
+
+		List<DeliveryGbl> list = outboundService.getBookingListPrint(seq);		
+
+		model.addAttribute("item_list", list);
+		
+		return process + "/delivery/declarationList";
+	}	
+
 	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/bookingAdd.json")
 	@ResponseBody
 	public void bookingAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertBookingList(gblSeq);
+	}
+
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@RequestMapping(value = "/{process}/delivery/bookingListDelete.json")
+	@ResponseBody
+	public void bookingDelete(@RequestBody Map<String, String> bookingSeq) {
+		outboundService.deleteBookingList(bookingSeq);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_LEVEL4')")

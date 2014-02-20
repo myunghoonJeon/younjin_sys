@@ -101,10 +101,12 @@
 <P style="position:absolute;top:531px;left:1087px;white-space:nowrap" class="ft12"><input type="radio" name="q-13g2" class="q-radio" value="no"></input></P>
 <P style="position:absolute;top:570px;left:631px;white-space:nowrap" class="ft12"><input type="text" name="q-13h" class="q-text" style="width:364px;height:44px;"></P>
 <P style="position:absolute;top:590px;left:1015px;white-space:nowrap" class="ft115"><input type="text" name="q-13i" class="q-text q-center" style="width:125px;height:24px;"></P>
-<P style="position:absolute;top:648px;left:800px;white-space:nowrap" class="ft12"><input type="text" name="q-14a" class="q-text q-right" style="width:80px;height:15px;"></P>
-<P style="position:absolute;top:648px;left:1064px;white-space:nowrap" class="ft12"><input type="text" name="q-14b" class="q-text q-right" style="width:80px;height:15px;"></P>
-<P style="position:absolute;top:672px;left:800px;white-space:nowrap" class="ft12"><input type="text" name="q-14c" class="q-text q-right" style="width:80px;height:15px;"></P>
-<P style="position:absolute;top:672px;left:1064px;white-space:nowrap" class="ft12"><input type="text" name="q-14d" class="q-text q-right" style="width:80px;height:15px;"></P>
+<P style="position:absolute;top:648px;left:800px;white-space:nowrap" class="ft12">${ weight.gross}</P>
+<P style="position:absolute;top:648px;left:1064px;white-space:nowrap" class="ft12">${ weight.reGross }</P>
+<P style="position:absolute;top:672px;left:800px;white-space:nowrap" class="ft12">${ weight.tare}</P>
+<P style="position:absolute;top:672px;left:1064px;white-space:nowrap" class="ft12">${ weight.reTare }</P>
+<P style="position:absolute;top:696px;left:800px;white-space:nowrap" class="ft12">${ weight.net}</P>
+<P style="position:absolute;top:696px;left:1064px;white-space:nowrap" class="ft12">${ weight.reNet }</P>
 <P style="position:absolute;top:790px;left:631px;white-space:nowrap" class="ft12"><input type="text" name="q-14g1" class="q-text" style="width:364px;height:40px;"></P>
 <P style="position:absolute;top:805px;left:1015px;white-space:nowrap" class="ft115"><input type="text" name="q-14g2" class="q-text q-center" style="width:125px;height:24px;"></P>
 <P style="position:absolute;top:872px;left:859px;white-space:nowrap" class="ft16"><input type="text" name="q-15a1" class="q-text q-right" style="width:67px;height:28px;"></P>

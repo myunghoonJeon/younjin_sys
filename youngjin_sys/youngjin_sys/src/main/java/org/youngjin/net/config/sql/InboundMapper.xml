@@ -297,6 +297,36 @@
 			gblSeq = #{value}
 	</select>
 	
+	<select id="getWeight" parameterType="WeightIb" resultType="WeightIb">
+		SELECT
+			seq, piece, type, gross, grossKg, tare, net, cuft, reweight, remark, gblSeq
+		FROM
+			weight_ib
+		WHERE
+			gblSeq = #{gblSeq}
+		AND
+			piece = #{piece}		
+	</select>
+	
+	<update id="updateWeight" parameterType="WeightIb" >
+		UPDATE
+			weight_ib
+		SET
+			piece = #{piece},
+			type = #{type},
+			gross = #{gross},
+			grosskg = #{grossKg},
+			tare = #{tare},
+			net = #{net},
+			cuft = #{cuft},
+			reweight = #{reweight},
+			remark = #{remark}
+		WHERE
+			gblSeq = #{gblSeq}
+		AND
+			piece = #{piece}
+	</update>
+	
 	<select id="getInboundInvoiceListCount" parameterType="InboundFilter" resultType="Integer">
 		SELECT
 			count(*)
@@ -1156,13 +1186,52 @@
 		INSERT INTO
 			truck_manifast_ib_onHand
 			(
-				truckSeq, onHandSeq
+				truckSeq, onHandListContentSeq
 			)			
 		VALUES
 			(
-				#{seq}, #{onHandSeq}
+				#{seq}, #{onHandListContentSeq}
 			)
 	</insert>
+	
+	<select id="getOnHandGblList" parameterType="InboundFilter" resultType="GBL">
+		SELECT 	
+			g.seq, g.gblNo, g.shipperName, g.rank, g.code, g.tsp, g.destAddress, g.pud, g.rdd, g.arriveDate, g.awbNo,
+			g.ssn, g.pmjDate, g.area AS areaLocal, g.fright, g.eMailAddress, g.oblNo, g.vessle, g.blCompany,
+			g.remark, g.eta, g.sitIn, g.sitOut, g.sitNo, g.rate, g.yjNo, g.totalPcs, g.phone, g.address, g.onHandDate, g.gbloc,
+			g.destinationGbloc, g.itemsPieces, g.grossWeight, g.netWeight, g.storedAt, ohlcw.pcs, ohlcw.lbs, ohlcw.cuft,
+			ohlc.seq AS onHandContentSeq
+		FROM
+			gbl_ib g, on_hand_list_content ohlc,
+			(
+				SELECT
+					COUNT(piece) AS pcs, SUM(gross) AS lbs, SUM(cuft) AS cuft, ohlcw.onHandListContentSeq
+				FROM
+					on_hand_list_content_weight ohlcw, weight_ib wi
+				WHERE
+					ohlcw.weightSeq = wi.seq
+			) ohlcw
+		WHERE
+			ohlc.seq NOT IN (SELECT onHandListContentSeq FROM truck_manifast_ib_onHand)
+		AND
+			g.seq = ohlc.gblSeq
+		AND
+			ohlcw.onHandListContentSeq = ohlc.seq	
+	</select>
+	
+	<select id="getTruckManifastList" parameterType="InboundFilter" resultType="TruckManifastIb">
+		SELECT
+			seq, truckManifastDate, area
+		FROM
+			truck_manifast_ib
+	</select>
+	
+	<delete id="deleteTruckManifast" parameterType="Map">
+		DELETE FROM
+			truck_manifast_ib
+		WHERE
+			seq = #{truckSeq}
+	</delete>
 	 
 	<!-- comfirm -->
 		
@@ -1174,4 +1243,88 @@
 		WHERE
 			gbl_seq = #{value}
 	</select>
+	
+	<!-- reweight  -->
+	<select id="getReweightList" parameterType="InboundFilter" resultType="Reweight">
+		SELECT
+			seq, reweightDate, reweightName
+		FROM
+			reweight
+	</select>
+	
+	<resultMap type="GBL" id="GBLMap">
+		<result column="pud" property="pud"/>
+		<result column="gbloc" property="gbloc"/>
+		<result column="tsp" property="tsp"/>
+		<result column="gblNo" property="gblNo"/>
+		<result column="shipperName" property="shipperName"/>
+		<result column="gross" property="weightIb.gross"/>
+		<result column="reweight" property="weightIb.reweight" />
+		<result column="seq" property="seq" />
+	</resultMap>
+	
+	<select id="getReweightGblList" resultMap="GBLMap">
+		SELECT 
+			g.pud, g.gbloc, g.tsp, g.gblNo, g.shipperName, SUM(w.gross) AS gross, reweight, g.seq
+		FROM
+			gbl_ib g, weight_ib w
+		WHERE
+			g.reweightCheck = 0
+		AND
+			g.seq = w.gblSeq
+		AND
+			w.reweight IS NOT NULL
+		GROUP BY
+			w.gblSeq
+	</select>
+	
+	<insert id="insertReweight" parameterType="Reweight">
+		INSERT INTO
+			reweight
+			(
+				reweightDate, reweightName
+			)
+		VALUES
+			(
+				DATE_FORMAT(SYSDATE(), '%Y%m%d'), #{reweightName}
+			)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID() 			
+		</selectKey>
+	</insert>
+	
+	<insert id="insertReweightContent" parameterType="ReweightContent">
+		INSERT INTO
+			reweight_content
+			(
+				reweightSeq, gblSeq
+			)
+		VALUES
+			(
+				#{reweightSeq}, #{gblSeq}
+			)
+	</insert>
+	
+	<delete id="deleteReweight" parameterType="Reweight">
+		DELETE FROM
+			reweight
+		WHERE
+			seq = #{seq}
+	</delete>
+	
+	<update id="updateReweightCheck" parameterType="Map">
+		UPDATE
+			gbl_ib
+		SET
+			reweightCheck = #{check}
+		WHERE
+			<choose>
+				<when test="seq != null">
+					seq = #{seq}
+				</when>
+				<when test="reweightSeq != null">
+					seq in (select gblSeq from reweight_Content where reweightSeq = #{reweightSeq})
+				</when>
+			</choose>
+	</update>
 </mapper>

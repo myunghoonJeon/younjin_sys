@@ -436,6 +436,7 @@ td.seperate_merge{ border: none !important;}
 .booking_gbl_list_wrap { width: 1000px; height: 700px; background-color: white; }
 
 .booking_gbl_addButton{ float: right; }
+.booking_deleteButton img{ width: 16px; height: 16px; }
 
 /* Rate */
 .rate_wrapper{ overflow: auto; height: 600px; }
@@ -580,6 +581,7 @@ td.seperate_merge{ border: none !important;}
 .weight_add_button_list{ width :100%; padding:10px 0;}
 .weight_add_button_wrap{ width: 90%; margin: 0 auto;}
 .weight_addButton{ float: right; margin-bottom: 10px; margin-right: 3%;}
+.weight_updateButton{ float: right; margin-bottom: 10px; margin-right: 3%;}
 
 .inbound_gbl_process{ width: 100%; height : 260px; border-bottom: 1px solid black; background: #F2F2F2;}
 .inbound_gbl_process ul{ width: 900px; height: 145px; margin: 0 auto;  padding-top: 60px; padding-left: 30px; }
@@ -745,3 +747,13 @@ li.inbound_invoice_item_list ul li:HOVER{ color: #F79646; border-left: 12px soli
 .inbound_invoice_gbl_list_table tbody tr{ background-color: white; cursor: pointer;  }
 .inbound_invoice_gbl_list_table tbody tr:HOVER {background-color: #B7B9CC;}
 .inbound_invoice_gbl_list_table tfoot tr td{ padding-top: 5px; text-align: right; }
+
+.inbound_truck_addButton{ margin-bottom: 10px; }
+
+/* Reweight */
+
+.reweight_add{float: right; margin-bottom: 10px; }
+
+.inbound_reweight_gbl_list_wrap{ min-width: 1000px; min-height: 700px; background-color: white;}
+.inbound_reweight_add{ float: right; margin-bottom : 10px; }
+.reweight_delete{ width: 16px; height: 16px;}

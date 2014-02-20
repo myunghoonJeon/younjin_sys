@@ -44,5 +44,7 @@
 		<typeAlias alias="OnHandListContent" type="org.youngjin.net.inbound.OnHandListContent"/>
 		<typeAlias alias="OnHandListContentWeight" type="org.youngjin.net.inbound.OnHandListContentWeight"/>
 		<typeAlias alias="TruckManifastIb" type="org.youngjin.net.inbound.TruckManifast"/>
+		<typeAlias alias="Reweight" type="org.youngjin.net.inbound.Reweight"/>
+		<typeAlias alias="ReweightContent" type="org.youngjin.net.inbound.ReweightContent"/>
 	</typeAliases>
 </configuration>

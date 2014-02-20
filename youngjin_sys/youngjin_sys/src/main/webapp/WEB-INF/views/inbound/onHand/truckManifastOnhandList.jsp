@@ -50,7 +50,7 @@
 <body>
 	<div class="truck_gbl_list_wrap">
 		<div class="pop_title_line">
-			<span>ON HAND LIST</span>
+			<span>GBL LIST</span>
 		</div>	
 		
 		<div class="gbl_filter">
@@ -66,24 +66,54 @@
 			<table class="yj_table">
 				<thead>
 					<tr>
-						<th>NO</th>
-						<th>ON HAND DATE</th>
-						<th>FIRST ARRIVALABLE DELIVER DATE</th>
+						<c:if test="${inboundFilter.code eq '' or inboundFilter.code eq null}">
+							<th>CODE</th>
+						</c:if>
+						<th>PUD</th>
+						<c:if test="${inboundFilter.carrier eq '' or inboundFilter.carrier eq null }">
+							<th>SCAC</th>
+						</c:if>
+						<th>GBL_NO</th>
+						<th>RANK</th>
+						<th>NAME</th>
+						<th>PCS</th>
+						<th>LBS</th>
+						<th>CUFT</th>
+						<c:if test="${inboundFilter.branch eq '' or inboundFilter.branch eq null }">
+							<th>BRANCH</th>
+						</c:if>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:if test="${onHandList eq '[]' or onHandList eq null or onHandList eq '' }">
+					<c:if test="${onHandGblList eq '[]' or onHandGblList eq null or onHandGblList eq '' }">
 						<tr>
-							<td colspan="14">onHandList 가 없습니다.</td>
+							<td colspan="13">GBL이 없습니다.</td>
 						</tr>
 					</c:if>
-					<c:forEach var="onHand" items="${onHandList }" varStatus="i">
-						<tr class="inbound_on_hand_list_select_tr" data-seq="${onHand.seq }">
-							<td>${i.count }</td>
-							<td>${onHand.onHandDate }</td>
-							<td>${onHand.firstArrivalableDeliverDate }</td>
-							<td><input type="checkbox" value="${onHand.seq }" /></td>
+					<c:forEach var="gbl" items="${onHandGblList }">
+						<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
+						<c:set var="pud" value="${parsePud }" />
+						<tr class="booking_gbl_list_tr" data-seq="${gbl.seq }" data-ws="1">
+							<c:if test="${inboundFilter.code eq '' or inboundFilter.code eq null }">
+								<td>${gbl.code }</td>
+							</c:if>
+							<td>
+								${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }
+							</td>
+							<c:if test="${inboundFilter.carrier eq '' or inboundFilter.carrier eq null }">
+								<td>${gbl.tsp }</td>
+							</c:if>
+							<td>${gbl.gblNo }</td>
+							<td>${gbl.rank }</td>
+							<td>${gbl.shipperName }</td>
+							<td>${gbl.pcs }</td>
+							<td>${gbl.lbs }</td>
+							<td>${gbl.cuft }</td>
+							<c:if test="${inboundFilter.branch eq '' or inboundFilter.branch eq null }">
+								<td>${gbl.areaLocal }</td>
+							</c:if>
+							<td><input value="${gbl.onHandContentSeq }" type="checkbox" /></td>
 						</tr>
 					</c:forEach>
 				</tbody>

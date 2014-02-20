@@ -46,15 +46,18 @@
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
 <body>
-	<div class="inbound_invoice_gbl_list_wrap">
+	<div class="inbound_reweight_gbl_list_wrap">
 		<div class="pop_title_line">
-			<span>DECLARATION LIST ADD</span>
+			<span>REWEIGHT SELECT</span>
 		</div>		
 		
 		<div class="gbl_filter">	
 			<ul class="freight_filter_wrap">
+				<li>
+					SUBJECT : <input type="text" id="reweight_subject"/>
+				</li>
 				<li>	
-					<span class="inbound_invoice_declaration_add yj_button" >add</span>
+					<span class="inbound_reweight_add yj_button" >add</span>
 				</li>
 			</ul>	
 		</div>
@@ -63,47 +66,39 @@
 			<table class="yj_table">
 				<thead>
 					<tr>
+						<th>DELI<br/>DATE</th>
+						<th>ORIGIN<br/>GBLOCK</th>
+						<th>SCAC<br/>CODE</th>
 						<th>GBL NO</th>
-						<th>NAME</th>
-						<th>SSN</th>
-						<th>RANK</th>
-						<th>INBOUND INVOICE / DATE </th>
+						<th>FULL NAME</th>
+						<th>O/WT</th>
+						<th>R/WT</th>
+						<th>S/WT</th>
+						<th>DENTN</th>
+						<th>RATE<br/>GBL.31</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:if test="${inboundInvoiceList eq '[]' or inboundInvoiceList eq null or inboundInvoiceList eq '' }">
+					<c:if test="${reweightGblList eq '[]' or reweightGblList eq null or reweightGblList eq '' }">
 						<tr>
-							<td colspan="14">INBOUND INVOICE가 없습니다.</td>
+							<td colspan="11">조건에 맞는 GBL이 없습니다.</td>
 						</tr>
 					</c:if>
-					<c:forEach var="inboundInvoice" items="${inboundInvoiceList }">
-						<tr class="inbound_invoice_declaration_tr" data-seq="${inboundInvoice.seq }">
-							<td>${inboundInvoice.gblNo }</td>
-							<td>${inboundInvoice.name }</td>
-							<td>XXXX-XX-${fn:substring(inboundInvoice.ssn, 8, 12) }</td>
-							<td>${inboundInvoice.rank }</td>								
-							<td>							
-								<c:choose>
-									<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 1 }">
-										${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-0000${inboundInvoice.inboundInvoiceNo }
-									</c:when>
-									<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 2 }">
-										${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-000${inboundInvoice.inboundInvoiceNo }
-									</c:when>
-									<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 3 }">
-										${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-00${inboundInvoice.inboundInvoiceNo }
-									</c:when>
-									<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 4 }">
-										${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-0${inboundInvoice.inboundInvoiceNo }
-									</c:when>
-									<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 5 }">
-										${fn:substring(inboundInvoice.invoiceDate, 2, 4)}-${inboundInvoice.inboundInvoiceNo }
-									</c:when>
-								</c:choose>
-								/ ${inboundInvoice.eta }
-							</td>
-							<td><input class="inbound_invoice_declaration_check" type="checkbox" value="${inboundInvoice.seq }" disabled="disabled"/></td>
+					
+					<c:forEach var="reweight" items="${reweightGblList }" varStatus="i">
+						<tr>
+							<td>${reweight.deliDate }</td>
+							<td>${reweight.originGblock }</td>
+							<td>${reweight.scacCode }</td>
+							<td>${reweight.gblNo }</td>
+							<td>${reweight.fullName }</td>
+							<td>${reweight.oWt }</td>
+							<td>${reweight.rWt }</td>
+							<td></td>
+							<td>${reweight.dentn }</td>
+							<td>${reweight.rateGbl31 }</td>
+							<td><input type="checkbox" value="${reweight.gblSeq }"/></td>
 						</tr>
 					</c:forEach>
 				</tbody>

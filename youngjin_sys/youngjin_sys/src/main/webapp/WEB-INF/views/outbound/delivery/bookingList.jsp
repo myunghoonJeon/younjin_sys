@@ -33,17 +33,26 @@
 	</div>	
 	
 	<div>
-		<table class="yj_table">		
+		<table class="yj_table">
+			<colgroup>
+				<col width="5%">
+				<col width="20%">
+				<col width="45%">
+				<col width="15%">
+				<col width="15%">
+			</colgroup>		
 			<thead>
 				<tr>
 					<th>NO</th>
 					<th>WRITE DATE</th>
 					<th>MEMO</th>
+					<th>BOOKINGLIST</th>
+					<th>DECLARATION</th>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="4">
+					<td colspan="5">
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
@@ -62,14 +71,16 @@
 			<tbody>
 				<c:if test="${bookingList eq '[]' or bookingList eq null }">
 					<tr>
-						<td colspan="3">등록된 정보가 없습니다.</td>
+						<td colspan="5">등록된 정보가 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="book" items="${bookingList }" varStatus="i">
-					<tr class="booking_list_content" data-bookSeq="${book.seq }">
+					<tr>
 						<td>${i.count }</td>
 						<td>${book.writeDate }</td>
 						<td>${book.memo }</td>
+						<td><button data-bookSeq="${book.seq }" class="booking_list_content yj_button">print</button></td>
+						<td><button data-bookSeq="${book.seq }" class="declaration_list_content yj_button">print</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>

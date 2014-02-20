@@ -26,6 +26,9 @@ import org.youngjin.net.inbound.InboundInvoice;
 import org.youngjin.net.inbound.InboundService;
 import org.youngjin.net.inbound.OnHandList;
 import org.youngjin.net.inbound.OnHandListContent;
+import org.youngjin.net.inbound.Reweight;
+import org.youngjin.net.inbound.ReweightContent;
+import org.youngjin.net.inbound.TruckManifast;
 import org.youngjin.net.inbound.WeightIb;
 import org.youngjin.net.login.User;
 import org.youngjin.net.memorandum.Memorandum;
@@ -45,11 +48,10 @@ public class InboundController {
 
 	@Resource
 	private CodeService codeService;
-	
+
 	@Resource
 	private BasicService basicService;
 
-	
 	@RequestMapping(value = "/{process}/freightList", method = RequestMethod.GET)
 	public String freightList(Model model, User user,
 			@PathVariable String process,
@@ -71,7 +73,6 @@ public class InboundController {
 		return process + "/freight/list";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freightList", method = RequestMethod.POST)
 	public String freightListPost(Model model, User user,
 			@PathVariable String process,
@@ -94,7 +95,6 @@ public class InboundController {
 		return process + "/freight/list";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/add", method = RequestMethod.GET)
 	public String freightAdd(Model model, User user,
 			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process) {
@@ -103,7 +103,6 @@ public class InboundController {
 		return process + "/freight/add";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/add", method = RequestMethod.POST)
 	public String freightAddSubmit(Model model, User user,
 			@ModelAttribute(value = "gbl") GBL gbl,
@@ -141,7 +140,6 @@ public class InboundController {
 		}
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/weight", method = RequestMethod.GET)
 	public String weightAdd(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq,
@@ -155,7 +153,6 @@ public class InboundController {
 		return process + "/freight/weight";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/weight", method = RequestMethod.POST)
 	public String weightAddPost(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq,
@@ -168,17 +165,17 @@ public class InboundController {
 		model.addAttribute("seq", seq);
 		model.addAttribute("fileList", inboundService.getGblFileList(seq));
 
+		model.addAttribute("addUpdateCheck", "true");
+
 		return process + "/freight/processAndUpload";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/checkWeight.json")
 	@ResponseBody
 	public Boolean checkWeight(@RequestBody Map<String, Integer> param) {
 		return inboundService.checkWeight(param);
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/invoice", method = RequestMethod.GET)
 	public String customInboundInvoice(Model model, User user,
 			@PathVariable String process,
@@ -197,7 +194,6 @@ public class InboundController {
 		return process + "/custom/inboundInvoice";
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/invoice/add", method = RequestMethod.GET)
 	public String customInvoiceAdd(Model model, User user,
 			@PathVariable String process,
@@ -211,7 +207,6 @@ public class InboundController {
 		return process + "/custom/invoiceAdd";
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/invoice/{gblSeq}/setting", method = RequestMethod.GET)
 	public String customInboundInvoiceAddSetting(Model model, User user,
 			@PathVariable String process, @PathVariable Integer gblSeq) {
@@ -224,7 +219,6 @@ public class InboundController {
 		return process + "/custom/invoiceAddSetting";
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/invoice/inboundInvoiceAdd.json", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer inputCustomInboundInvoiceAddSettingAdd(
@@ -233,7 +227,6 @@ public class InboundController {
 				.inputCustomInboundInvoiceAddSetting(inboundInvoice);
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/invoice/inboundInvoiceDelete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void inboundInvoiceDelete(
@@ -241,7 +234,6 @@ public class InboundController {
 		inboundService.inboundInvoiceDelete(inboundInvoiceMap);
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/invoice/checkInboundInvoiceWeight.json", method = RequestMethod.POST)
 	@ResponseBody
 	public Boolean checkInboundInvoiceWeight(
@@ -249,7 +241,6 @@ public class InboundController {
 		return inboundService.checkInboundInvoiceWeight(inboundInvoice);
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/invoice/{inboundInvoiceSeq}/selectWeight", method = RequestMethod.GET)
 	public String customInboundInvoiceSelectWeight(Model model, User user,
 			@PathVariable String process,
@@ -268,15 +259,13 @@ public class InboundController {
 		return process + "/custom/invoiceAddWeight";
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/invoice/invoiceSelectWeightAdd.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void inboundInvoiceWeightAdd(
 			@RequestBody Map<String, String> inboundInvoiceWeightMap) {
 		inboundService.inboundInvoiceWeightAdd(inboundInvoiceWeightMap);
 	}
-	
-	
+
 	@RequestMapping(value = "/{process}/custom/invoice/{inboundInvoiceSeq}/customPrintSelect", method = RequestMethod.GET)
 	public String customPrintSelect(Model model, User user,
 			@PathVariable String process,
@@ -286,8 +275,7 @@ public class InboundController {
 
 		return process + "/custom/customPrintSelect";
 	}
-	
-	
+
 	@RequestMapping(value = "/{process}/custom/invoice/{inboundInvoiceSeq}/inboundInvoicePrint", method = RequestMethod.GET)
 	public String inboundInvoicePrint(Model model, User user,
 			@PathVariable String process,
@@ -295,30 +283,28 @@ public class InboundController {
 
 		InboundInvoice inboundInvoice = inboundService
 				.getInboundInvoiceBasicInfo(inboundInvoiceSeq);
-		
+
 		model.addAttribute("inboundInvoiceBasicInfo", inboundInvoice);
 
 		return process + "/custom/invoicePrint";
-	}	
+	}
 
-	
 	@RequestMapping(value = "/{process}/custom/invoice/{inboundInvoiceSeq}/powerOfAttornyPrint", method = RequestMethod.GET)
 	public String powerOfAttornyPrint(Model model, User user,
 			@PathVariable String process,
 			@PathVariable Integer inboundInvoiceSeq) {
-		
+
 		inboundService.updateStatusCustom(inboundInvoiceSeq);
 
 		InboundInvoice inboundInvoice = inboundService
 				.getInboundInvoiceBasicInfo(inboundInvoiceSeq);
-		
+
 		model.addAttribute("company", basicService.getCompanyByCode("YJ"));
 		model.addAttribute("inboundInvoiceBasicInfo", inboundInvoice);
 
 		return process + "/custom/powerOfAttornyPrint";
-	}	
+	}
 
-	
 	@RequestMapping(value = "/{process}/custom/declarationList", method = RequestMethod.GET)
 	public String declarationList(Model model, User user,
 			@PathVariable String process,
@@ -336,7 +322,6 @@ public class InboundController {
 		return process + "/custom/declarationList";
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/declarationListSelect", method = RequestMethod.GET)
 	public String declarationListSelect(Model model, User user,
 			@PathVariable String process,
@@ -352,7 +337,6 @@ public class InboundController {
 		return process + "/custom/declarationSelect";
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/invoice/declarationListSelectAdd.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void declarationListSelectAdd(
@@ -360,7 +344,6 @@ public class InboundController {
 		inboundService.declarationListSelectAdd(inboundInvoiceMap);
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/declarationListDelete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void declarationListDelete(
@@ -368,7 +351,6 @@ public class InboundController {
 		inboundService.declarationListDelete(inboundInvoiceMap);
 	}
 
-	
 	@RequestMapping(value = "/{process}/custom/{seq}/declarationListContent", method = RequestMethod.GET)
 	public String declarationListContent(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
@@ -384,7 +366,7 @@ public class InboundController {
 	}
 
 	// -onHand
-	
+
 	@RequestMapping(value = "/{process}/onHand/onHandList", method = RequestMethod.GET)
 	public String onHandList(Model model, User user,
 			@PathVariable String process,
@@ -401,14 +383,12 @@ public class InboundController {
 		return process + "/onHand/onHandList";
 	}
 
-	
 	@RequestMapping(value = "/{process}/onHand/checkSelectOnHandList.json")
 	@ResponseBody
 	public boolean checkSelectOnHandList(@RequestBody Map<String, Integer> map) {
 		return inboundService.checkSelectonHandList(map);
 	}
 
-	
 	@RequestMapping(value = "/{process}/onHand/onHandListAddSetting", method = RequestMethod.GET)
 	public String onHandListAddSetting(Model model, User user,
 			@PathVariable String process) {
@@ -419,14 +399,12 @@ public class InboundController {
 		return process + "/onHand/onHandListAddSetting";
 	}
 
-	
 	@RequestMapping(value = "/{process}/onHand/onHandListAdd.json")
 	@ResponseBody
 	public Integer onHandListAdd(@RequestBody OnHandList onHandList) {
 		return inboundService.onHandListAdd(onHandList);
 	}
 
-	
 	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListSelect", method = RequestMethod.GET)
 	public String onHandListContentList(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
@@ -440,7 +418,6 @@ public class InboundController {
 		return process + "/onHand/onHandListSelect";
 	}
 
-	
 	@RequestMapping(value = "/{process}/onHand/checkOnHandListContentWeight.json")
 	@ResponseBody
 	public boolean checkSelectOnHandListContentWeight(
@@ -448,7 +425,6 @@ public class InboundController {
 		return inboundService.checkSelectonHandListContentWeight(map);
 	}
 
-	
 	@RequestMapping(value = "/{process}/onHand/{seq}/{gblSeq}/getWeight", method = RequestMethod.GET)
 	public String getOnHandListContentWeightList(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq,
@@ -457,115 +433,122 @@ public class InboundController {
 		user.setSubProcess("onHandList");
 		model.addAttribute("onHandListSeq", seq);
 		model.addAttribute("gblSeq", gblSeq);
-		
-		model.addAttribute("weightList",
-				inboundService.getWeightList(gblSeq));
+
+		model.addAttribute("weightList", inboundService.getWeightList(gblSeq));
 		model.addAttribute("user", user);
 
 		return process + "/onHand/onHandListContentWeightSelect";
 	}
-	
-	
+
 	@RequestMapping(value = "/{process}/onHand/{seq}/{gblSeq}/{onHandListContentSeq}/getWeight", method = RequestMethod.GET)
-	public String getOnHandListContentWeightListByContentSeq(Model model, User user,
-			@PathVariable String process, @PathVariable Integer seq,
-			@PathVariable Integer gblSeq, @PathVariable Integer onHandListContentSeq) {
+	public String getOnHandListContentWeightListByContentSeq(Model model,
+			User user, @PathVariable String process, @PathVariable Integer seq,
+			@PathVariable Integer gblSeq,
+			@PathVariable Integer onHandListContentSeq) {
 
 		user.setSubProcess("onHandList");
 		model.addAttribute("onHandListSeq", seq);
 		model.addAttribute("onHandListContentSeq", onHandListContentSeq);
 		model.addAttribute("gblSeq", gblSeq);
-		
-		model.addAttribute("checkWeightList", inboundService.getCheckWeightList(onHandListContentSeq));
-		model.addAttribute("weightList",
-				inboundService.getWeightList(gblSeq));
+
+		model.addAttribute("checkWeightList",
+				inboundService.getCheckWeightList(onHandListContentSeq));
+		model.addAttribute("weightList", inboundService.getWeightList(gblSeq));
 		model.addAttribute("user", user);
 
 		return process + "/onHand/onHandListContentWeightSelect";
 	}
-	
-	
+
 	@RequestMapping(value = "/{process}/onHand/onHandListContentWeightAdd.json")
 	@ResponseBody
-	public void onHandListContentWeightAdd(
-			@RequestBody Map<String, String> map) {
+	public void onHandListContentWeightAdd(@RequestBody Map<String, String> map) {
 		inboundService.onHandListContentWeightAdd(map);
 	}
-	
-	
+
 	@RequestMapping(value = "/{process}/onHand/onHandListContentSelectAdd.json")
 	@ResponseBody
-	public void onHandListContentSelectAdd(
-			@RequestBody Map<String, String> map) {
+	public void onHandListContentSelectAdd(@RequestBody Map<String, String> map) {
 		inboundService.onHandListContentSelectAdd(map);
 	}
-	
-	
+
 	@RequestMapping(value = "/{process}/onHand/onHandListDelete.json")
 	@ResponseBody
-	public void onHandListDelete(
-			@RequestBody Map<String, String> map) {
+	public void onHandListDelete(@RequestBody Map<String, String> map) {
 		inboundService.onHandListDelete(map);
 	}
-	
-	
+
 	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListForm", method = RequestMethod.GET)
 	public String getOnHandListForm(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
-		
+
 		model.addAttribute("onHandListSeq", seq);
-		
-		model.addAttribute("onHandListContentList", inboundService.getOnHandListContentListForm(seq));
-		
+
+		model.addAttribute("onHandListContentList",
+				inboundService.getOnHandListContentListForm(seq));
+
 		return process + "/onHand/onHandListForm";
 	}
-	
-	
+
 	@RequestMapping(value = "/{process}/onHand/onHandListContentByUpdate.json")
 	@ResponseBody
 	public void onHandListContentByUpdate(
 			@RequestBody OnHandListContent onHandListContent) {
 		inboundService.onHandListContentByUpdate(onHandListContent);
 	}
-	
-	
+
 	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListFormPrint", method = RequestMethod.GET)
 	public String getOnHandListFormPrint(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
-		
-		model.addAttribute("onHandListContentList", inboundService.getOnHandListContentListForm(seq));
-		
+
+		model.addAttribute("onHandListContentList",
+				inboundService.getOnHandListContentListForm(seq));
+
 		return process + "/onHand/onHandListPrint";
 	}
-	
-	@RequestMapping( value ="/{process}/onHand/truckManifast", method = RequestMethod.GET)
-	public String truckManifastInbound(Model model, User user, @PathVariable String process, @ModelAttribute InboundFilter inboundFilter){
-		
+
+	@RequestMapping(value = "/{process}/onHand/truckManifast", method = RequestMethod.GET)
+	public String truckManifastInbound(Model model, User user,
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
+
 		user.setSubProcess("truck");
-		
+
+		List<TruckManifast> truckManifastList = inboundService
+				.getTruckManifastList(inboundFilter);
+
+		model.addAttribute("truckList", truckManifastList);
+
 		model.addAttribute("user", user);
-		
-		return process + "/onHand/truckManifast"; 
+
+		return process + "/onHand/truckManifast";
 	}
-	
-	@RequestMapping( value ="/{process}/onHand/truckManifastOnhandList", method = RequestMethod.GET)
-	public String truckManifastOnhandList(Model model, User user, @PathVariable String process, @ModelAttribute InboundFilter inboundFilter){
-		
-		List<OnHandList> onHandListes = inboundService.getOnHandList(inboundFilter);
-		
-		model.addAttribute("onHandList", onHandListes);
-		
+
+	@RequestMapping(value = "/{process}/onHand/truckManifastOnhandList", method = RequestMethod.GET)
+	public String truckManifastOnhandList(Model model, User user,
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
+
+		List<GBL> onHandListes = inboundService.getOnHandGBLList(inboundFilter);
+
+		model.addAttribute("onHandGblList", onHandListes);
+
 		return process + "/onHand/truckManifastOnhandList";
 	}
-	
-	@RequestMapping( value = "/{process}/onHand/inputTuruckManifast.json", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/{process}/onHand/inputTruckManifast.json", method = RequestMethod.POST)
 	@ResponseBody
-	public void inputTruckManifast(@RequestBody Map<String, String> resultMap){
+	public void inputTruckManifast(@RequestBody Map<String, String> resultMap) {
 		inboundService.insertTruckManifast(resultMap);
 	}
 
+	@RequestMapping(value = "/{process}/onHand/deleteTruckManifast.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void deleteTruckManifast(@RequestBody Map<String, String> resultMap) {
+		inboundService.deleteTruckManifast(resultMap);
+	}
+
 	// -process
-	
+
 	@RequestMapping(value = "/{process}/freight/{seq}", method = RequestMethod.GET)
 	public String gblSelect(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
@@ -578,7 +561,6 @@ public class InboundController {
 		return process + "/freight/processAndUpload";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/delivery", method = RequestMethod.GET)
 	public String gblDelivery(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -589,7 +571,6 @@ public class InboundController {
 		return process + "/freight/delivery";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/memorandumList", method = RequestMethod.GET)
 	public String memorandumList(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -603,7 +584,6 @@ public class InboundController {
 		return process + "/freight/memorandumAllList";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/upload", method = RequestMethod.GET)
 	public String gblSelectUplaod(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -613,7 +593,6 @@ public class InboundController {
 		return process + "/freight/upload";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/upload", method = RequestMethod.POST)
 	public void gblSelectUplaodPost(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -623,7 +602,6 @@ public class InboundController {
 		inboundService.insertGblFile(gbl);
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/bl", method = RequestMethod.GET)
 	public String blSeperate(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -633,7 +611,6 @@ public class InboundController {
 		return process + "/freight/bl";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/addMemorandumAndDd619.json")
 	@ResponseBody
 	public MemorandumList addMemorandumAndDd619(
@@ -642,7 +619,6 @@ public class InboundController {
 				"inbound");
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/deleteMemorandumAllList.json")
 	@ResponseBody
 	public void deleteMemorandumAllList(
@@ -650,7 +626,6 @@ public class InboundController {
 		memorandumService.deleteMemorandumAllList(memorandumList, "inbound");
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum", method = RequestMethod.GET)
 	public String gblMemorandum(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -661,7 +636,7 @@ public class InboundController {
 		List<Code> memorandumList = codeService.getCodeList("03");
 		Map<String, Memorandum> checkMemorandumMap = memorandumService
 				.getMemorandumMap(seq, memorandumSeq, "inbound");
-		
+
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		model.addAttribute("seq", seq);
@@ -680,7 +655,6 @@ public class InboundController {
 		return process + "/freight/memorandumList";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}", method = RequestMethod.GET)
 	public String gblMemorandumForm(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -692,7 +666,7 @@ public class InboundController {
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
 				memorandumSeq, "inbound");
-		
+
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		model.addAttribute("seq", seq);
@@ -706,7 +680,6 @@ public class InboundController {
 		return process + "/freight/memorandumForm";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}/{article}", method = RequestMethod.GET)
 	public String gblMemorandumFormArticle(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -719,7 +692,7 @@ public class InboundController {
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
 				memorandumSeq, "inbound");
-		
+
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		String[] articles = article.split(",");
@@ -737,21 +710,18 @@ public class InboundController {
 		return process + "/freight/memorandumForm";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/memorandum/memorandumInput.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumInput(@RequestBody Memorandum memorandum) {
 		memorandumService.insertMemorandum(memorandum, "inbound");
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/memorandum/memorandumUpdate.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumUpdate(@RequestBody Memorandum memorandum) {
 		memorandumService.updateMemorandum(memorandum, "inbound");
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}/delete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblMemorandumDelete(@PathVariable String seq,
@@ -759,7 +729,6 @@ public class InboundController {
 		memorandumService.deleteMemorandum(seq, type, memorandumSeq, "inbound");
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/memorandum/invoice/{article}/insert.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void insertInvoiceMemorandum(@RequestBody Memorandum memorandum,
@@ -767,7 +736,6 @@ public class InboundController {
 		memorandumService.insertInvoiceMemorandum(memorandum, "inbound");
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/memorandum/invoice/{article}/modify.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void modifyInvoiceMemorandum(@RequestBody Memorandum memorandum,
@@ -775,7 +743,6 @@ public class InboundController {
 		memorandumService.modifyInvoiceMemorandum(memorandum, "inbound");
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}/print", method = RequestMethod.GET)
 	public String gblMemorandumPrint(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -787,7 +754,7 @@ public class InboundController {
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
 				memorandumSeq, "inbound");
-		
+
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		model.addAttribute("seq", seq);
@@ -801,7 +768,6 @@ public class InboundController {
 		return process + "/freight/memorandumPrint";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}/{article}/print", method = RequestMethod.GET)
 	public String gblMemorandumPrintArticle(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -814,7 +780,7 @@ public class InboundController {
 
 		Memorandum memorandom = memorandumService.getMemorandum(seq, type,
 				memorandumSeq, "inbound");
-		
+
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 
 		String[] articles = article.split(",");
@@ -832,7 +798,6 @@ public class InboundController {
 		return process + "/freight/memorandumPrint";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/dd619List", method = RequestMethod.GET)
 	public String dd619List(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -845,7 +810,6 @@ public class InboundController {
 		return process + "/freight/dd619List";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/{dd619Seq}/dd619Modify", method = RequestMethod.GET)
 	public String dd619Modify(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -867,14 +831,12 @@ public class InboundController {
 		return process + "/freight/dd619Update";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/dd619/modify.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void gblDd619ModifySubmit(@RequestBody Dd619 dd619) {
 		inboundService.modifyDd619(dd619);
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/dd619/{listSeq}/print", method = RequestMethod.GET)
 	public String dd619(Model model, User user, @PathVariable String process,
 			@PathVariable String seq, @PathVariable Integer listSeq,
@@ -884,6 +846,7 @@ public class InboundController {
 
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", inboundService.getGbl(Integer.parseInt(seq)));
+		model.addAttribute("weight", inboundService.getWeightTotal(seq));
 		model.addAttribute("dd619", dd619);
 		model.addAttribute(
 				"remarkList",
@@ -894,7 +857,6 @@ public class InboundController {
 		return process + "/freight/dd619";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/{seq}/additional", method = RequestMethod.GET)
 	public String additionalDecideMain(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -909,7 +871,7 @@ public class InboundController {
 					.split(",");
 			model.addAttribute("articles", articleList);
 		}
-		
+
 		List<Addition> additionList = inboundService.getAddtionList(seq);
 
 		model.addAttribute("checkMemorandumMap", checkMemorandumMap);
@@ -918,10 +880,49 @@ public class InboundController {
 		return process + "/freight/additionalDecide";
 	}
 
-	
 	@RequestMapping(value = "/{process}/freight/additionComplete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void additionalComplete(@RequestBody Addition addition) {
 		inboundService.additionComplete(addition);
+	}
+
+	@RequestMapping(value = "{process}/reweight", method = RequestMethod.GET)
+	public String reweightMain(Model model, User user,
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
+
+		user.setSubProcess("reweight");
+
+		model.addAttribute("user", user);
+		
+		List<Reweight> reweightList = inboundService.getReWeightList(inboundFilter);
+		
+		model.addAttribute("reweightList", reweightList);
+
+		return process + "/reweight/main";
+	}
+	
+	@RequestMapping(value = "{process}/reweight/gblSelect", method = RequestMethod.GET)
+	public String reweightGblSelect(Model model, User user,
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter){
+		
+		List<ReweightContent> reweightGblList = inboundService.getReweightGblList();
+		
+		model.addAttribute("reweightGblList", reweightGblList);
+		
+		return process + "/reweight/reweightGblList";
+	}
+	
+	@RequestMapping(value = "/{process}/reweight/add.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void reweightAdd(@RequestBody Map<String, String> paramMap) {
+		inboundService.reweightAdd(paramMap);
+	}
+	
+	@RequestMapping(value = "/{process}/reweight/delete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void reweightDelete(@RequestBody Reweight reweight) {
+		inboundService.reweightDelete(reweight);
 	}
 }

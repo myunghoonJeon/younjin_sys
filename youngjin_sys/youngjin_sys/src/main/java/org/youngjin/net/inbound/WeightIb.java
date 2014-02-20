@@ -11,7 +11,11 @@ public class WeightIb {
 	private String cuft;
 	private String reweight;
 	private String remark;
-	
+
+	private String reGross;
+	private String reTare;
+	private String reNet;
+
 	private Integer gblSeq;
 
 	public Integer getSeq() {
@@ -100,6 +104,30 @@ public class WeightIb {
 
 	public void setGblSeq(Integer gblSeq) {
 		this.gblSeq = gblSeq;
+	}
+
+	public String getReGross() {
+		return reGross;
+	}
+
+	public void setReGross(String reGross) {
+		this.reGross = reGross;
+	}
+
+	public String getReTare() {
+		return reTare;
+	}
+
+	public void setReTare(String reTare) {
+		this.reTare = reTare;
+	}
+
+	public String getReNet() {
+		return reNet;
+	}
+
+	public void setReNet(String reNet) {
+		this.reNet = reNet;
 	}
 
 	@Override

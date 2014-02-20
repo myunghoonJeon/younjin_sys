@@ -44,6 +44,10 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public List<WeightIb> getWeightList(Integer seq) {
 		return getSqlSession().selectList("inboundMapper.getWeightList", seq);
 	}
+
+	public WeightIb getWeight(WeightIb weightParam) {
+		return getSqlSession().selectOne("inboundMapper.getWeight", weightParam);
+	}	
 	
 	//이전버전
 
@@ -295,5 +299,45 @@ public class InboundDao extends SqlSessionDaoSupport {
 
 	public void insertTruckManifastOnHand(TruckManifast truckManifast) {
 		getSqlSession().insert("inboundMapper.insertTruckManifastOnHand", truckManifast);
-	}	
+	}
+
+	public List<GBL> getOnHandGBLList(InboundFilter inboundFilter) {
+		return getSqlSession().selectList("inboundMapper.getOnHandGblList", inboundFilter);
+	}
+
+	public List<TruckManifast> getTruckManifastList(InboundFilter inboundFilter) {
+		return getSqlSession().selectList("inboundMapper.getTruckManifastList", inboundFilter);
+	}
+
+	public void deleteTruckManifast(Map<String, String> resultMap) {
+		getSqlSession().delete("inboundMapper.deleteTruckManifast", resultMap);
+	}
+
+	public void updateWeight(WeightIb weightParam) {
+		getSqlSession().update("inboundMapper.updateWeight", weightParam);
+	}
+
+	public List<Reweight> getReweightList(InboundFilter inboundFilter) {
+		return getSqlSession().selectList("inboundMapper.getReweightList", inboundFilter);
+	}
+
+	public List<GBL> getReweightGblList() {
+		return getSqlSession().selectList("inboundMapper.getReweightGblList");
+	}
+
+	public void insertReweight(Reweight reweight) {
+		getSqlSession().insert("inboundMapper.insertReweight", reweight);
+	}
+
+	public void insertReweightContent(ReweightContent reweightContent) {
+		getSqlSession().insert("inboundMapper.insertReweightContent", reweightContent);
+	}
+
+	public void reweightDelete(Reweight reweight) {
+		getSqlSession().delete("inboundMapper.deleteReweight", reweight);
+	}
+
+	public void updateReweightCheck(Map<String, Integer> map) {
+		getSqlSession().update("inboundMapper.updateReweightCheck", map);
+	}
 }

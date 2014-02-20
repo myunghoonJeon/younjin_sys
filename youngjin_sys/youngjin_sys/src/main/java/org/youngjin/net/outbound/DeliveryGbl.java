@@ -7,6 +7,8 @@ public class DeliveryGbl {
 	private String pud;
 	private String scac;
 	private String code;
+	private String rank;
+	private String ssn;
 	private String shipper;
 	private String no;
 	private String milSvc;
@@ -55,8 +57,24 @@ public class DeliveryGbl {
 		this.shipper = shipper;
 	}
 
+	public String getRank() {
+		return rank;
+	}
+
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+
+	public String getSsn() {
+		return ssn;
+	}
+
+	public void setSsn(String ssn) {
+		this.ssn = ssn;
+	}
+
 	public String getNo() {
-		if(this.no.contains("sub")){
+		if (this.no.contains("sub")) {
 			this.no = this.no.substring(0, this.no.length() - 5);
 		}
 		return no;
