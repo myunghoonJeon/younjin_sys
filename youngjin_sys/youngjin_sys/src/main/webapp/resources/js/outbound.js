@@ -643,6 +643,7 @@ youngjin.outbound.gblkModifySubmit = function(target){
 	var etd = form.etd.value;
 	var eta = form.eta.value;
 	var blNo = form.blNo.value;
+	var houseConsignee = form.houseConsignee.value;
 	
 	var url = contextPath + '/outbound/gblModify.json';
 	var json = {
@@ -674,7 +675,8 @@ youngjin.outbound.gblkModifySubmit = function(target){
 			'milSVC' : milSVC,
 			'etd' : etd,
 			'eta' : eta,
-			'blNo' : blNo
+			'blNo' : blNo,
+			'houseConsignee' : houseConsignee
 	};
 	
 	$.postJSON(url, json, function(){

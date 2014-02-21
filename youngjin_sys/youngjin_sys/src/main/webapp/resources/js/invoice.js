@@ -304,6 +304,7 @@ youngjin.invoice.basicRateInput = function(target){
 	var tsp = parent.attr('data-tsp');
 	var code = parent.attr('data-code');
 	var process = parent.attr('data-process');
+	var writeYear = parent.attr('data-writeYear');
 	var obType;
 	var rate = target.val();
 	
@@ -319,6 +320,7 @@ youngjin.invoice.basicRateInput = function(target){
 		'code' : code,
 		'process' : process,
 		'obType' : obType,
+		'writeYear' : writeYear,
 		'rate' : rate
 	};
 	
@@ -339,12 +341,14 @@ youngjin.invoice.basicRateInput = function(target){
 
 youngjin.invoice.compRateInput = function(target){
 	var title = target.attr('data-title');
+	var writeYear = parent.attr('data-writeYear');
 	var rate = target.val();
 	
 	var url = contextPath + '/admin/rate/etc/insert.json';
 	
 	var json = {
 		'title' : title,
+		'writeYear' : writeYear,
 		'rate' : rate,
 	};
 	
@@ -364,12 +368,14 @@ youngjin.invoice.containerRateInput = function(target){
 	var parent = target.parents('td');
 	var tsp = parent.attr('data-tsp');
 	var status = parent.attr('data-status');
+	var writeYear = parent.attr('data-writeYear');
 	var rate = target.val();
 	
 	var url = contextPath + '/admin/rate/container/insert.json';
 	var json = {
 		'tsp' : tsp,
 		'containerRate' : rate,
+		'writeYear' : writeYear,
 		'containerStatus' : status
 	};
 	

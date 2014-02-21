@@ -346,13 +346,29 @@
 			DATE_FORMAT(write_date, '%Y%m%d') = DATE_FORMAT(SYSDATE(), '%Y%m%d')
 	</select>
 	
+	<select id="getYearList" parameterType="Rate" resultType="String">
+		SELECT
+			DISTINCT write_year
+		FROM
+			invoice_rate	
+		ORDER BY
+			write_year desc		
+	</select>
+	
 	<select id="getSitListCount" resultType="Integer">
 		SELECT
 			COUNT(*)
 		FROM
 			invoice_sit_rate
 		WHERE
-			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+			<choose>
+				<when test="writeYear != null">
+					write_year = #{writeYear}
+				</when>
+				<otherwise>
+					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
+				</otherwise>
+			</choose>
 	</select>
 	
 	<select id="getSitList" parameterType="Rate" resultType="Rate">
@@ -392,7 +408,14 @@
 		FROM
 			invoice_other_rate
 		WHERE
-			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+			<choose>
+				<when test="writeYear != null">
+					write_year = #{writeYear}
+				</when>
+				<otherwise>
+					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
+				</otherwise>
+			</choose>			
 	</select>
 	
 	<select id="getOtherList" parameterType="Rate" resultType="Rate">
@@ -439,8 +462,16 @@
 			code = #{code}
 		AND
 			process = #{process}
-		AND
-			write_year = DATE_FORMAT(SYSDATE(), '%Y')			
+		<choose>
+			<when test="writeYear != null">
+				AND
+					write_year = #{writeYear}		
+			</when>
+			<otherwise>
+				AND
+					write_year = DATE_FORMAT(SYSDATE(), '%Y')
+			</otherwise>
+		</choose>		
 		<if test="obType != null">
 			AND
 				ob_type = #{obType}
@@ -453,7 +484,14 @@
 		FROM
 			invoice_rate
 		WHERE
-			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+			<choose>
+				<when test="writeYear != null">
+					write_year = #{writeYear}			
+				</when>
+				<otherwise>
+					write_year = DATE_FORMAT(SYSDATE(), '%Y')
+				</otherwise>
+			</choose>
 		AND
 			container_rate is null
 		ORDER BY
@@ -488,8 +526,16 @@
 			tsp = #{tsp}
 		AND
 			container_status = #{containerStatus}
-		AND
-			write_year = DATE_FORMAT(SYSDATE(), '%Y')	
+		<choose>
+			<when test="writeYear != null">
+				AND
+					write_year = #{writeYear}		
+			</when>
+			<otherwise>
+				AND
+					write_year = DATE_FORMAT(SYSDATE(), '%Y')
+			</otherwise>
+		</choose>
 	</select>
 	
 	<select id="getEtcCheck" parameterType="Rate" resultType="Integer">
@@ -499,8 +545,16 @@
 			invoice_etc_rate
 		WHERE
 			title = #{title}
-		AND
-			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+		<choose>
+			<when test="writeYear != null">
+				AND
+					write_year = #{writeYear}
+			</when>
+			<otherwise>
+				AND
+					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
+			</otherwise>
+		</choose>
 	</select>
 	
 	<select id="etcList" parameterType="Rate" resultType="Rate">
@@ -509,7 +563,14 @@
 		FROM
 			invoice_etc_rate
 		WHERE
-			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+			<choose>
+				<when test="writeYear != null">
+					write_year = #{writeYear}
+				</when>
+				<otherwise>
+					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
+				</otherwise>
+			</choose>
 	</select>
 	
 	<select id="getEtc" parameterType="Map" resultType="Rate">
@@ -530,7 +591,14 @@
 		FROM
 			invoice_rate
 		WHERE
-			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+			<choose>
+				<when test="writeYear != null">
+					write_year = #{writeYear}
+				</when>
+				<otherwise>
+					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
+				</otherwise>
+			</choose>
 		AND
 			container_rate is not null
 		ORDER BY
@@ -933,8 +1001,15 @@
 			)
 		VALUES
 			(
-				#{tsp}, #{code}, #{rate}, #{process}, DATE_FORMAT(SYSDATE(), '%Y')
-				
+				#{tsp}, #{code}, #{rate}, #{process}				
+				<choose>
+					<when test="writeYear != null and writeYear != ''">
+							,#{writeYear}		
+					</when>
+					<otherwise>
+						,DATE_FORMAT(SYSDATE(), '%Y')
+					</otherwise>
+				</choose>	
 				<if test="obType != null">
 					, #{obType}
 				</if>
@@ -949,7 +1024,15 @@
 			)
 		VALUES
 			(
-				#{title}, #{rate}, DATE_FORMAT(SYSDATE(), '%Y')
+				#{title}, #{rate}				
+				<choose>
+					<when test="writeYear != null and writeYear != ''">
+							,#{writeYear}		
+					</when>
+					<otherwise>
+						,DATE_FORMAT(SYSDATE(), '%Y')
+					</otherwise>
+				</choose>	
 			)
 	</insert>
 	
@@ -961,7 +1044,15 @@
 			)
 		VALUES
 			(
-				#{tsp}, #{containerRate}, #{containerStatus}, DATE_FORMAT(SYSDATE(), '%Y')
+				#{tsp}, #{containerRate}, #{containerStatus}				
+				<choose>
+					<when test="writeYear != null and writeYear != ''">
+							,#{writeYear}		
+					</when>
+					<otherwise>
+						,DATE_FORMAT(SYSDATE(), '%Y')
+					</otherwise>
+				</choose>	
 			)
 	</insert>
 	
@@ -1070,7 +1161,7 @@
 		AND
 			process = #{process}
 		AND
-			write_year = DATE_FORMAT(SYSDATE(), '%Y')
+			write_year = #{writeYear}
 		<if test="obType != null">
 			AND
 				ob_type = #{obType}
@@ -1085,7 +1176,7 @@
 		WHERE
 			title = #{title}
 		AND
-			write_year = DATE_FORMAT(SYSDATE(), 'Y%')
+			write_year = #{writeYear}
 	</update>
 	
 	<update id="containerUpdate" parameterType="Rate">
@@ -1097,6 +1188,8 @@
 			tsp = #{tsp}
 		AND
 			container_status = #{containerStatus}		
+		AND
+			write_year = #{writeYear}
 	</update>
 	
 	<update id="sitUpdate" parameterType="Rate">

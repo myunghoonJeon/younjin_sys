@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,12 +54,14 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/rate", method = RequestMethod.GET)
-	public String rate(Model model, User user){
+	public String rate(Model model, User user, @ModelAttribute Rate rate){
 		
 		List<Code> tspList = codeService.getCodeList("04");
 		List<Code> codeList = codeService.getCodeList("05");
 		
 		invoiceService.checkNewYearRate();
+		
+		List<String> yearList = invoiceService.getYearList();
 		
 		Map<String, Map<String, Map<String, Rate>>> basicMap = invoiceService.getBasicMap(null);
 		
@@ -73,6 +76,42 @@ public class AdminController {
 		user.setSubProcess("rate");
 		
 		model.addAttribute("user", user);
+		model.addAttribute("yearList", yearList);
+		model.addAttribute("tspList", tspList);
+		model.addAttribute("codeList", codeList);
+		model.addAttribute("basicMap", basicMap);
+		model.addAttribute("etcMap", etcMap);
+		model.addAttribute("containerMap", containerMap);
+		model.addAttribute("sitMap", sitMap);
+		model.addAttribute("otherMap", otherMap);
+		
+		return "admin/rate";
+	}
+	
+	@RequestMapping(value = "/rate", method = RequestMethod.POST)
+	public String ratePost(Model model, User user, @ModelAttribute Rate rate){
+		
+		List<Code> tspList = codeService.getCodeList("04");
+		List<Code> codeList = codeService.getCodeList("05");
+		
+		invoiceService.checkNewYearRate();
+		
+		List<String> yearList = invoiceService.getYearList();
+		
+		Map<String, Map<String, Map<String, Rate>>> basicMap = invoiceService.getBasicMap(rate);
+		
+		Map<String, Rate> etcMap = invoiceService.getEtcMap(rate);
+		
+		Map<String, Map<String, Rate>> containerMap = invoiceService.getContainerMap(rate);
+		
+		Map<String, Map<String, List<Rate>>> sitMap = invoiceService.getSitMap(rate);
+		
+		Map<String, Map<String, List<Rate>>> otherMap = invoiceService.getOtherMap(rate);
+		
+		user.setSubProcess("rate");
+		
+		model.addAttribute("user", user);
+		model.addAttribute("yearList", yearList);
 		model.addAttribute("tspList", tspList);
 		model.addAttribute("codeList", codeList);
 		model.addAttribute("basicMap", basicMap);

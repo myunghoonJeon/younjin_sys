@@ -1278,4 +1278,8 @@ public class InvoiceService {
 		invoice.setSeq(seq);
 		return invoiceDao.getInvoice(invoice);
 	}
+
+	public List<String> getYearList() {
+		return invoiceDao.getYearList();
+	}
 }

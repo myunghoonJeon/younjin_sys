@@ -12,8 +12,10 @@ public class OutboundFilter extends AbstractListFilter {
 	private String endPud;
 
 	private String area;
-	
+
 	private Boolean truckManifastFlag = false;
+
+	private Boolean houseBlFlag = false;
 
 	public String getArea() {
 		return area;
@@ -69,6 +71,14 @@ public class OutboundFilter extends AbstractListFilter {
 
 	public void setTruckManifastFlag(Boolean truckManifastFlag) {
 		this.truckManifastFlag = truckManifastFlag;
+	}
+
+	public Boolean getHouseBlFlag() {
+		return houseBlFlag;
+	}
+
+	public void setHouseBlFlag(Boolean houseBlFlag) {
+		this.houseBlFlag = houseBlFlag;
 	}
 
 	@Override

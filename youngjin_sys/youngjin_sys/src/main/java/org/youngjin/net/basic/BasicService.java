@@ -160,4 +160,15 @@ public class BasicService {
 	public void companyModify(Company company) {
 		basicDao.updateCompany(company);	
 	}
+
+	public Map<String, Company> getCompanyMap() {
+		Map<String, Company> companyMap = new HashMap<String, Company>();
+		List<Company> companyList = getCompanyList();
+		
+		for(Company company : companyList){
+			companyMap.put(company.getCompanyCode(), company);
+		}
+		
+		return companyMap;
+	}
 }

@@ -762,3 +762,21 @@ li.inbound_invoice_item_list ul li:HOVER{ color: #F79646; border-left: 12px soli
 
 .house_button{ float: right; margin-bottom : 10px;}
 .house_addButton_wrap{ width: 920px; margin: 20px auto;}
+
+.house_gbl_list_wrap { width: 1000px; height: 700px; background-color: white; }
+.house_gbl_addButton{ float: right; margin: 10px 0; }
+
+.house_seperate_button_list{ width: 80%; margin: 0px auto; }
+.house_seperate_back{ float: left; margin-bottom: 20px; }
+.house_seperate_addButton{ float: right; margin-bottom: 20px;  }
+.house_seperate_setting_wrap{ width: 700px; height: 400px; background-color: white; padding-top: 30px;}
+.house_seperate_table{ width : 80% ; margin: 10px auto; text-align: center;}
+.house_seperate_table tr th{ font-size: 12px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.house_seperate_table tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; cursor: pointer; }
+.house_seperate_table tr{ background-color: white; }
+
+td.house_seperate_merge{ border: none !important;}
+.house_seperate_merge img{width: 40px; height: 16px; }
+.house_delete{ width: 16px; height: 16px;}
+
+.house_gbl_list_tr input{ width: 50px; }

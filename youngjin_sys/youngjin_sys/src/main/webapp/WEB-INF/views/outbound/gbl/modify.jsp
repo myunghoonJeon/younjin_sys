@@ -121,6 +121,10 @@
 				<th>EXPORT</th>
 				<td><form:input path="export" /></td>
 			</tr>
+			<tr>
+				<th colspan="2">HOUSE CONSIGNEE</th>
+				<td colspan="2"><form:textarea path="houseConsignee" /></td>
+			</tr>
 			<tfoot>
 				<tr>
 					<td colspan="4"><input class="gbl_modify_submit_button" type="button" value="modify"/></td>

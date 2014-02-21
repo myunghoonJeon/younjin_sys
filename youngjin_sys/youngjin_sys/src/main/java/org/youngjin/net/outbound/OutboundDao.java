@@ -320,4 +320,49 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void deleteBookingList(Map<String, String> bookingSeq) {
 		getSqlSession().delete("outboundMapper.deleteBookingList", bookingSeq);
 	}
+
+	public List<GBL> getHouseGblList(OutboundFilter outboundFilter) {
+		return getSqlSession().selectList("outboundMapper.getHouseGblList", outboundFilter);
+	}
+
+	public void houseMergeGblWeight(GBL gbl) {
+		getSqlSession().delete("outboundMapper.houseMergeGblWeightCertificate", gbl);		
+	}
+
+	public void houseMergeGblStatus(GBL gbl) {
+		getSqlSession().delete("outboundMapper.houseMergeGblStatus", gbl);
+		
+	}
+
+	public void houseMergeGbl(GBL gbl) {
+		getSqlSession().delete("outboundMapper.houseMergeGbl", gbl);		
+	}
+
+	public void setHouseSeperatedFlag(GBL gbl) {
+		getSqlSession().update("outboundMapper.setHouseSeperatedFlag", gbl);
+	}
+
+	public void insertHouse(House house) {
+		getSqlSession().insert("outboundMapper.insertHouse", house);
+	}
+
+	public List<House> getHouseList(OutboundFilter outboundFilter) {
+		return getSqlSession().selectList("outboundMapper.getHouseList", outboundFilter);
+	}
+
+	public void deleteUpdateHouseWeight(Integer seq) {
+		getSqlSession().update("outboundMapper.deleteUpdateHouseWeight", seq);
+	}
+
+	public void deleteHouse(Integer seq) {
+		getSqlSession().delete("outboundMapper.deleteHouse", seq);
+	}
+
+	public List<GBL> getGblListHouse(String seq) {
+		return getSqlSession().selectList("outboundMapper.getGblListHouse", seq);
+	}
+
+	public House getHouse(String seq) {
+		return getSqlSession().selectOne("outboundMapper.getHouse", Integer.parseInt(seq));
+	}
 }

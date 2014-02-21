@@ -39,16 +39,23 @@
 					<th>NO</th>
 					<th>CONT NO</th>
 					<th>SEAL NO</th>
-					<th>WRITE DATE</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${houseList eq '[]' or houseList eq null }">
 					<tr>
-						<td colspan="5">등록된 정보가 없습니다.</td>
+						<td colspan="4">등록된 정보가 없습니다.</td>
 					</tr>
 				</c:if>
+				<c:forEach var="house" items="${houseList }" varStatus="i">
+					<tr class="house_list_tr" data-seq="${house.seq }">
+						<td>${i.count }</td>
+						<td>${house.contNo }</td>
+						<td>${house.sealNo }</td>
+						<td><img class="house_delete" data-seq="${house.seq }" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>	

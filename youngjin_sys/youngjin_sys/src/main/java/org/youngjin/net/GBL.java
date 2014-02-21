@@ -49,19 +49,27 @@ public class GBL {
 
 	private Boolean truckCheck;
 	private Boolean bookingCheck;
+	private Boolean houseCheck;
 
 	private Integer truckSeq;
 	private Integer bookingSeq;
+	private Integer houseSeq;
 
 	private String etd;
 	private String eta;
 	private String blNo;
 
 	private Boolean seperateFlag;
+	private Boolean houseSeperateFlag;
 
 	private String remarkRdd;
 	private String remarkTac;
 	private String consignee;
+
+	private String houseVessel;
+	private String houseVoyage;
+	private String houseCompany;
+	private String houseConsignee;
 
 	// inbound
 	private String gblNo;
@@ -392,6 +400,14 @@ public class GBL {
 		this.seperateFlag = seperateFlag;
 	}
 
+	public Boolean getHouseSeperateFlag() {
+		return houseSeperateFlag;
+	}
+
+	public void setHouseSeperateFlag(Boolean houseSeperateFlag) {
+		this.houseSeperateFlag = houseSeperateFlag;
+	}
+
 	public String getRemarkRdd() {
 		return remarkRdd;
 	}
@@ -414,6 +430,38 @@ public class GBL {
 
 	public void setConsignee(String consignee) {
 		this.consignee = consignee;
+	}
+
+	public String getHouseVessel() {
+		return houseVessel;
+	}
+
+	public void setHouseVessel(String houseVessel) {
+		this.houseVessel = houseVessel;
+	}
+
+	public String getHouseVoyage() {
+		return houseVoyage;
+	}
+
+	public void setHouseVoyage(String houseVoyage) {
+		this.houseVoyage = houseVoyage;
+	}
+
+	public String getHouseCompany() {
+		return houseCompany;
+	}
+
+	public void setHouseCompany(String houseCompany) {
+		this.houseCompany = houseCompany;
+	}
+
+	public String getHouseConsignee() {
+		return houseConsignee;
+	}
+
+	public void setHouseConsignee(String houseConsignee) {
+		this.houseConsignee = houseConsignee;
 	}
 
 	public String getContainerNo() {
@@ -775,4 +823,21 @@ public class GBL {
 	public void setBookingCheck(Boolean bookingCheck) {
 		this.bookingCheck = bookingCheck;
 	}
+
+	public Boolean getHouseCheck() {
+		return houseCheck;
+	}
+
+	public void setHouseCheck(Boolean houseCheck) {
+		this.houseCheck = houseCheck;
+	}
+
+	public Integer getHouseSeq() {
+		return houseSeq;
+	}
+
+	public void setHouseSeq(Integer houseSeq) {
+		this.houseSeq = houseSeq;
+	}
+
 }

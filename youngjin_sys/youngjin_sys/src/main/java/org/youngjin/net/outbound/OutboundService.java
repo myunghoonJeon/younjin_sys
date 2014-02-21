@@ -718,4 +718,158 @@ public class OutboundService {
 	public void deleteGBL(GBL gbl) {
 		outboundDao.deleteGBL(gbl);
 	}
+
+	public List<GBL> getHouseGblList(OutboundFilter outboundFilter) {
+		return outboundDao.getHouseGblList(outboundFilter);
+	}
+
+	public void houseSeperateGbl(Map<String, String> gblMap) {
+		GBL gbl = outboundDao.getGbl(Integer.parseInt(gblMap.get("seq")));
+		String[] weightSeqList = gblMap.get("weightSeqCommaList").split(",");
+
+		List<Weightcertificate> seperateWeightList = outboundDao
+				.getWeightcertificateList(gbl.getSeq().toString());
+
+		List<Weightcertificate> firstSeperateWeightList = new ArrayList<Weightcertificate>();
+		List<Weightcertificate> secondSeperateWeightList = new ArrayList<Weightcertificate>();
+
+		for (Weightcertificate weightParam : seperateWeightList) {
+			boolean checkInputValue = false;
+			for (String firstSeq : weightSeqList) {
+				if (weightParam.getSeq() == Integer.parseInt(firstSeq)) {
+					firstSeperateWeightList.add(weightParam);
+					checkInputValue = true;
+					break;
+				}
+			}
+
+			if (!checkInputValue) {
+				secondSeperateWeightList.add(weightParam);
+			}
+		}
+		GBLStatus gblStatus = outboundDao.getGblProcess(gbl.getSeq());
+
+		Integer gblSeq = gbl.getSeq();
+		String gblNo = gbl.getNo();
+		Double lbs = Double.parseDouble(gbl.getLbs());
+		Double seperateWeightFirst = 0.0;
+		Double seperateWeightSecond = 0.0;
+
+		for (Weightcertificate first : firstSeperateWeightList) {
+			seperateWeightFirst += Double.parseDouble(first.getGross());
+		}
+
+		for (Weightcertificate second : secondSeperateWeightList) {
+			seperateWeightSecond += Double.parseDouble(second.getGross());
+		}
+
+		if (lbs > seperateWeightFirst) {
+			GBL gblSeperateFirst = gbl;
+			gblSeperateFirst.setNo(gblNo + "-house1");
+			gblSeperateFirst.setLbs(seperateWeightFirst.toString());
+
+			outboundDao.insertGbl(gblSeperateFirst);
+			for (Weightcertificate weightcertificate : firstSeperateWeightList) {
+				weightcertificate.setGblSeq(gblSeperateFirst.getSeq());
+				outboundDao.insertWeightcertificate(weightcertificate);
+			}
+
+			GBLStatus gblStatusFirst = gblStatus;
+			gblStatusFirst.setNo(gblSeperateFirst.getNo());
+			outboundDao.insertGblStatusCopy(gblStatusFirst);
+
+			GBL gblSeperateSecond = gbl;
+			gblSeperateSecond.setNo(gblNo + "-house2");
+			gblSeperateSecond.setLbs(seperateWeightSecond.toString());
+
+			outboundDao.insertGbl(gblSeperateSecond);
+			for (Weightcertificate weightcertificate : secondSeperateWeightList) {
+				weightcertificate.setGblSeq(gblSeperateSecond.getSeq());
+				outboundDao.insertWeightcertificate(weightcertificate);
+			}
+
+			GBLStatus gblStatusSecond = gblStatus;
+			gblStatusSecond.setNo(gblSeperateSecond.getNo());
+			outboundDao.insertGblStatusCopy(gblStatusSecond);
+
+			GBL gblTemp = new GBL();
+			gblTemp.setSeq(gblSeq);
+			gblTemp.setHouseSeperateFlag(true);
+			gblTemp.setLbs(lbs.toString());
+			outboundDao.updateGbl(gblTemp);
+		}
+		
+	}
+
+	public void houseMergeSubmit(Map<String, String> gblMap) {
+		GBL gbl = new GBL();
+		gbl.setNo(gblMap.get("no").substring(0, gblMap.get("no").length() - 7));
+
+		outboundDao.houseMergeGblWeight(gbl);
+
+		outboundDao.houseMergeGblStatus(gbl);
+
+		outboundDao.houseMergeGbl(gbl);
+
+		outboundDao.setHouseSeperatedFlag(gbl);		
+	}
+
+	public void insertHouse(Map<String, String> gblSeq) {
+
+		String[] gblSeqList = gblSeq.get("gblSeq").split(",");
+		String[] vesselList = gblSeq.get("vessel").split(",");
+		String[] voyageList = gblSeq.get("voyage").split(",");
+		String[] company = gblSeq.get("company").split(",");
+		
+		String contNo = gblSeq.get("contNo");
+		String sealNo = gblSeq.get("sealNo");
+		String carrierBookingNo = gblSeq.get("carrierBookingNo");
+
+		House house = new House();
+		house.setContNo(contNo);
+		house.setSealNo(sealNo);
+		house.setCarrierBookingNo(carrierBookingNo);
+
+		outboundDao.insertHouse(house);
+
+		for (int i = 0; i < gblSeqList.length; i++) {
+			GBL gblTemp = getGbl(Integer.parseInt(gblSeqList[i]));
+			gblTemp.setHouseSeq(house.getSeq());
+			gblTemp.setHouseVessel(vesselList[i]);
+			gblTemp.setHouseVoyage(voyageList[i]);
+			gblTemp.setHouseCompany(company[i]);
+			outboundDao.updateGbl(gblTemp);
+			outboundDao.updateWeightcertificate(gblTemp);
+			
+			/*if (gblTemp.getNo().contains("-house")) {
+				String gblNo = gblTemp.getNo().substring(0,
+						gblTemp.getNo().length() - 7);
+				int checkSeperateComplete = outboundDao
+						.checkSeperateComplete(gblNo);
+				if (checkSeperateComplete == 0) {
+					outboundDao.updateGblStatusByGblNo(gblNo);
+				}
+			}*/
+		}
+	}
+
+	public List<House> getHouseList(OutboundFilter outboundFilter) {
+		return outboundDao.getHouseList(outboundFilter);
+	}
+
+	public void deleteHouse(Map<String, String> gblSeq) {
+		Integer seq = Integer.parseInt(gblSeq.get("seq"));
+		
+		outboundDao.deleteUpdateHouseWeight(seq);
+		
+		outboundDao.deleteHouse(seq);
+	}
+
+	public List<GBL> getGblListHouse(String seq) {
+		return outboundDao.getGblListHouse(seq);
+	}
+
+	public House getHouse(String seq) {
+		return outboundDao.getHouse(seq);
+	}
 }

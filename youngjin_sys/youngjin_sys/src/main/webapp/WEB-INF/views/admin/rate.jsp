@@ -2,13 +2,22 @@
 <%@ include file="../../layout/head.jspf"%>
 <div class="rate_wrapper">
 	<div>
+		<form:form commandName="rate">
+			<form:select path="writeYear" class="rate_year_change">
+				<c:forEach var="year" items="${yearList }">
+					<form:option value="${year }">${year }년</form:option>
+				</c:forEach>
+			</form:select>
+		</form:form>
+	</div>
+	<div>
 		<p>1. Destination service Charge(inbound) & Packing charge(outbound) GBL RATE schedule</p>
 		<table class="rate_table">
 			<thead>
 				<tr>
 					<th rowspan="4">TSP</th>
 					<th colspan="${fn:length(codeList) }">inbound(destination service charge rate)</th>
-					<th colspan="${fn:length(codeList) + 3 }">outbound(packing service charge rate)</th>
+					<th colspan="${fn:length(codeList) + 4 }">outbound(packing service charge rate)</th>
 					<th colspan="3">outbound(container)</th>
 				</tr>
 				<tr>
@@ -17,7 +26,7 @@
 					</c:forEach>
 					<c:forEach var="codeName" items="${codeList }">
 						<c:choose>
-							<c:when test="${codeName.subCode eq '01' or codeName.subCode eq '02' or codeName.subCode eq '03' }">
+							<c:when test="${codeName.subCode eq '01' or codeName.subCode eq '02' or codeName.subCode eq '03' or codeName.subCode eq '04' }">
 								<th colspan="2">${codeName.codeEtc }</th>
 							</c:when>
 							<c:otherwise>
@@ -33,7 +42,7 @@
 					</c:forEach>					
 					<c:forEach var="codeValue" items="${codeList }">
 						<c:choose>
-							<c:when test="${codeValue.subCode eq '01' or codeValue.subCode eq '02' or codeValue.subCode eq '03' }">
+							<c:when test="${codeValue.subCode eq '01' or codeValue.subCode eq '02' or codeValue.subCode eq '03' or codeValue.subCode eq '04' }">
 								<th colspan="2">${codeValue.codeName }</th>
 							</c:when>
 							<c:otherwise>
@@ -49,12 +58,12 @@
 					<c:forEach var="blankValue" items="${codeList }">
 						<th></th>
 					</c:forEach>
-					<c:forEach begin="0" end="${fn:length(codeList) + 2 }" varStatus="i">
+					<c:forEach begin="0" end="${fn:length(codeList) + 3 }" varStatus="i">
 						<c:choose>
-							<c:when test="${i.count % 2 eq 1 and i.count lt 7}">
+							<c:when test="${i.count % 2 eq 1 and i.count lt 9}">
 								<th>typeII</th>
 							</c:when>
-							<c:when test="${i.count % 2 eq 0 and i.count lt 7}">
+							<c:when test="${i.count % 2 eq 0 and i.count lt 9}">
 								<th>O/F</th>
 							</c:when>
 							<c:otherwise>
@@ -73,9 +82,9 @@
 						<td>${tspRate.codeName }</td>
 						<c:forEach items="${codeList }" varStatus="j">
 							<c:set var="inboundMap" value="${basicMap['inbound'] }" />
-							<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[j.index].codeName }" data-process="inbound"><input class="basic_rate_input" type="text" value="${inboundMap[tspRate.codeName][codeList[j.index].codeName].rate }" /></td>
+							<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[j.index].codeName }" data-process="inbound" data-writeYear="${(inboundMap[tspRate.codeName][codeList[j.index].codeName].writeYear eq null) ? rate.writeYear : inboundMap[tspRate.codeName][codeList[j.index].codeName].writeYear }"><input class="basic_rate_input" type="text" value="${inboundMap[tspRate.codeName][codeList[j.index].codeName].rate }" /></td>
 						</c:forEach>
-						<c:forEach begin="0" end="${fn:length(codeList) + 2 }" varStatus="k">
+						<c:forEach begin="0" end="${fn:length(codeList) + 3 }" varStatus="k">
 							<c:set var="outboundMap" value="${basicMap['outbound'] }" />
 							<c:choose>
 								<c:when test="${k.index eq 1 or k.index eq 0 }">
@@ -87,28 +96,31 @@
 								<c:when test="${k.index gt 3 and k.index lt 6}">
 									<c:set var="index" value="${k.count - k.index + 1}" />									
 								</c:when>
+								<c:when test="${k.index gt 5 and k.index lt 8}">
+									<c:set var="index" value="${k.count - k.index + 2 }" />									
+								</c:when>
 								<c:otherwise>
-									<c:set var="index" value="${k.count - 4}" />
+									<c:set var="index" value="${k.count - 5}" />
 								</c:otherwise>								
 							</c:choose>
 							<c:choose>
-								<c:when test="${k.count % 2 eq 1 and k.count lt 7 }">
+								<c:when test="${k.count % 2 eq 1 and k.count lt 9 }">
 									<c:set var="codeVal" value="${codeList[index].codeName }typeII" />
-									<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[index].codeName }" data-process="outbound" data-obType="typeII"><input class="basic_rate_input" type="text" value="${outboundMap[tspRate.codeName][codeVal].rate}" /></td>
+									<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[index].codeName }" data-process="outbound" data-obType="typeII" data-writeYear="${(outboundMap[tspRate.codeName][codeVal].writeYear eq null or outboundMap[tspRate.codeName][codeVal].writeYear eq '') ? rate.writeYear : outboundMap[tspRate.codeName][codeVal].writeYear }"><input class="basic_rate_input" type="text" value="${outboundMap[tspRate.codeName][codeVal].rate}" /></td>
 								</c:when>
-								<c:when test="${k.count % 2 eq 0 and k.count lt 7 }">
+								<c:when test="${k.count % 2 eq 0 and k.count lt 9 }">
 									<c:set var="codeVal" value="${codeList[index].codeName }O/F" />
-									<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[index].codeName }" data-process="outbound" data-obType="O/F"><input class="basic_rate_input" type="text" value="${outboundMap[tspRate.codeName][codeVal].rate}" /></td>
+									<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[index].codeName }" data-process="outbound" data-obType="O/F" data-writeYear="${(outboundMap[tspRate.codeName][codeVal].writeYear eq null or outboundMap[tspRate.codeName][codeVal].writeYear eq '') ? rate.writeYear : outboundMap[tspRate.codeName][codeVal].writeYear }"><input class="basic_rate_input" type="text" value="${outboundMap[tspRate.codeName][codeVal].rate}" /></td>
 								</c:when>
 								<c:otherwise>
 									<c:set var="codeVal" value="${codeList[index].codeName}" />									
-									<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[index].codeName }" data-process="outbound"><input class="basic_rate_input" type="text" value="${outboundMap[tspRate.codeName][codeVal].rate}" /></td>	
+									<td class="basic_rate_td" data-tsp="${tspRate.codeName }" data-code="${codeList[index].codeName }" data-process="outbound" data-writeYear="${(outboundMap[tspRate.codeName][codeVal].writeYear eq null or outboundMap[tspRate.codeName][codeVal].writeYear eq '') ? rate.writeYear : outboundMap[tspRate.codeName][codeVal].writeYear }"><input class="basic_rate_input" type="text" value="${outboundMap[tspRate.codeName][codeVal].rate}" /></td>	
 								</c:otherwise>
 							</c:choose>						
 						</c:forEach>
-						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="new"><input class="container_rate_input" type="text" value="${containerMap[tspRate.codeName]['new'].containerRate }"/></td>
-						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="used"><input class="container_rate_input" type="text" value="${containerMap[tspRate.codeName]['used'].containerRate }"/></td>
-						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="repair"><input class="container_rate_input" type="text" value="${containerMap[tspRate.codeName]['repair'].containerRate }"/></td>
+						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="new" data-writeYear="${(containerMap[tspRate.codeName]['new'].writeYear eq null) ? rate.writeYear : containerMap[tspRate.codeName]['new'].writeYear }"><input class="container_rate_input" type="text" value="${containerMap[tspRate.codeName]['new'].containerRate }"/></td>
+						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="used" data-writeYear="${(containerMap[tspRate.codeName]['new'].writeYear eq null) ? rate.writeYear : containerMap[tspRate.codeName]['new'].writeYear }"><input class="container_rate_input" type="text" value="${containerMap[tspRate.codeName]['used'].containerRate }"/></td>
+						<td class="container_rate_td" data-tsp="${tspRate.codeName }" data-status="repair" data-writeYear="${(containerMap[tspRate.codeName]['new'].writeYear eq null) ? rate.writeYear : containerMap[tspRate.codeName]['new'].writeYear }"><input class="container_rate_input" type="text" value="${containerMap[tspRate.codeName]['repair'].containerRate }"/></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -122,17 +134,17 @@
 				<tr>
 					<td>company rate1</td>
 					<td>comprate1</td>
-					<td><input class="comprate_input" data-title="comprate1" type="text" value="${etcMap['comprate1'].rate }" /></td>
+					<td><input class="comprate_input" data-title="comprate1" data-writeYear="${(etcMap['comprate1'].writeYear eq null) ? rate.writeYear : etcMap['comprate1'].writeYear }" type="text" value="${etcMap['comprate1'].rate }" /></td>
 				</tr>
 				<tr>
 					<td>company rate2</td>
 					<td>comprate2</td>
-					<td><input class="comprate_input" data-title="comprate2" type="text" value="${etcMap['comprate2'].rate }" /></td>
+					<td><input class="comprate_input" data-title="comprate2" data-writeYear="${(etcMap['comprate1'].writeYear eq null) ? rate.writeYear : etcMap['comprate1'].writeYear }" type="text" value="${etcMap['comprate2'].rate }" /></td>
 				</tr>
 				<tr>
 					<td>company rate3</td>
 					<td>comprate3</td>
-					<td><input class="comprate_input" data-title="comprate3" type="text" value="${etcMap['comprate3'].rate }" /></td>
+					<td><input class="comprate_input" data-title="comprate3" data-writeYear="${(etcMap['comprate1'].writeYear eq null) ? rate.writeYear : etcMap['comprate1'].writeYear }" type="text" value="${etcMap['comprate3'].rate }" /></td>
 				</tr>
 			</tbody>
 		</table>

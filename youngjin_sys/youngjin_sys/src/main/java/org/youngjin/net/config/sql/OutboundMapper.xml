@@ -38,9 +38,14 @@
 	<result column="cuft" property="cuft" />
 	<result column="truck_check" property="truckCheck"/>
 	<result column="booking_check" property="bookingCheck"/>
+	<result column="house_check" property="houseCheck"/>
 	<result column="remark_rdd" property="remarkRdd" />
 	<result column="remark_tac" property="remarkTac"/>
 	<result column="consignee" property="consignee"/>
+	<result column="house_vessel" property="houseVessel" />
+	<result column="house_voyage" property="houseVoyage"/>
+	<result column="house_company" property="houseCompany"/>
+	<result column="house_consignee" property="houseConsignee"/>
 </resultMap>
 
 <resultMap type="GBLStatus" id="StatusMap">
@@ -183,6 +188,14 @@
 			OR
 				no LIKE '%-sub%'
 		</if>
+		<if test="houseBlFlag == false">
+			AND
+				no NOT LIKE '%-house%'
+		</if>
+		<if test="houseBlFlag == true">
+			OR
+				no LIKE '%-house%'
+		</if>
 </select>
 
 <select id="getGblList" parameterType="OutboundFilter" resultMap="GblMap">
@@ -254,6 +267,14 @@
 					AND
 						no NOT LIKE '%-sub%'
 				</if>
+				<if test="houseBlFlag == false">
+					AND
+						no NOT LIKE '%-house%'
+				</if>
+				<if test="houseBlFlag == true">
+					OR
+						no LIKE '%-house%'
+				</if>
 			ORDER BY
 				g.seq desc
 		)u	
@@ -295,7 +316,8 @@
 		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
 		g.lbs,
 		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.net ELSE '' END AS net
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.net ELSE '' END AS net,
+		g.house_consignee
 	FROM
 		gbl g
 		LEFT OUTER JOIN
@@ -586,7 +608,11 @@
 		WHERE g.seq = w.gbl_seq
 		AND w.truck_check &lt;&gt; 1
 		<if test="truckManifastFlag == false">
-			AND gbl_no NOT LIKE '%-sub%'
+			AND g.no NOT LIKE '%-sub%'
+		</if>
+		<if test="houseBlFlag == false">
+			AND
+				g.no NOT LIKE '%-house%'
 		</if>
 		<if test="truckManifastFlag == true">
 			AND g.seperate_flag &lt;&gt; true
@@ -1201,7 +1227,8 @@
 		mil_svc = #{milSVC},
 		eta = #{eta},
 		etd = #{etd},
-		bl_no = #{blNo}
+		bl_no = #{blNo},
+		house_consignee = #{houseConsignee}
 	WHERE
 		seq = #{seq}
 </update>
@@ -1274,17 +1301,33 @@
     UPDATE
     	gbl
     SET
+    	seq = seq
     	<if test="lbs != null">
-    		lbs = #{lbs}
+    		,lbs = #{lbs}
     	</if>
     	<if test="truckSeq != null">
     		,truck_seq = #{truckSeq}
     	</if>
     	<if test="bookingSeq != null">
-    		booking_seq = #{bookingSeq}
+    		,booking_seq = #{bookingSeq}
+    	</if>
+    	<if test="houseSeq != null">
+    		,house_seq = #{houseSeq}
     	</if>
     	<if test="seperateFlag != null">
     		,seperate_flag = #{seperateFlag}
+    	</if>
+    	<if test="houseSeperateFlag != null">
+    		,house_seperate_flag = #{houseSeperateFlag}
+    	</if>
+    	<if test="houseVessel != null">
+    		,house_vessel = #{houseVessel}
+    	</if>
+    	<if test="houseVoyage != null">
+    		,house_voyage = #{houseVoyage}
+    	</if>
+    	<if test="houseCompany != null">
+    		,house_company = #{houseCompany}
     	</if>
     WHERE
     	seq = #{seq} 
@@ -1319,6 +1362,10 @@
     	<if test="bookingSeq != null">
     		booking_check = 1,
     		booking_seq = #{bookingSeq}
+    	</if>  	
+    	<if test="houseSeq != null">
+    		house_check = 1,
+    		house_seq = #{houseSeq}
     	</if>
     WHERE
     	gbl_seq = #{seq}    
@@ -1611,4 +1658,179 @@
 	WHERE
 		no like CONCAT(#{no}, '-sub%')
 </delete>
+
+<!-- House -->
+
+<select id="getHouseGblList" parameterType="OutboundFilter" resultMap="GblMap">
+	SELECT 
+		gt.*, cuft, pcs, house_check
+	FROM 
+		(SELECT
+			g.no, w.house_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
+		FROM gbl g, weight_certificate w
+		WHERE g.seq = w.gbl_seq
+		AND w.house_check &lt;&gt; 1
+		<if test="truckManifastFlag == false">
+			AND g.no NOT LIKE '%-sub%'
+		</if>
+		<if test="houseBlFlag == false">
+			AND
+				g.no NOT LIKE '%-house%'
+		</if>
+		<if test="houseBlFlag == true">
+			AND g.house_seperate_flag &lt;&gt; true
+		</if>
+		AND g.seq IN (
+			SELECT
+				seq
+			FROM
+				gbl g1, gbl_status g2
+			WHERE
+				g1.no = g2.gbl_no
+			AND
+				g2.gbl_preperation = TRUE
+			
+		)		
+		GROUP BY g.no, w.house_check
+		) a, gbl gt
+	WHERE
+		gt.no = a.no
+	ORDER BY
+		gt.seq
+</select>
+
+<update id="setHouseSeperatedFlag" parameterType="GBL">
+	UPDATE
+		gbl
+	SET
+		house_seperate_flag = false
+	WHERE
+		no = #{no}
+</update>
+
+<delete id="houseMergeGblWeightCertificate" parameterType="GBL">
+	DELETE FROM
+		weight_certificate
+	WHERE
+		gbl_seq in (select seq from gbl where no like CONCAT(#{no}, '-house%'))
+</delete>
+
+<delete id="houseMergeGblStatus" parameterType="GBL">
+	DELETE FROM
+		gbl_status
+	WHERE
+		gbl_no like CONCAT(#{no}, '-house%')		
+</delete>
+
+<delete id="houseMergeGbl" parameterType="GBL">
+	DELETE FROM
+		gbl
+	WHERE
+		no like CONCAT(#{no}, '-house%')
+</delete>
+
+<insert id="insertHouse" parameterType="House">
+	INSERT INTO
+		house
+		(
+			contNo, sealNo, carrierBookingNo
+		)
+	VALUES
+		(
+			#{contNo}, #{sealNo}, #{carrierBookingNo}
+		)
+	<selectKey resultType="Integer" keyProperty="seq">
+		SELECT LAST_INSERT_ID() 
+	</selectKey>
+</insert>
+
+<select id="getHouseList" parameterType="OutboundFilter" resultType="House">
+	SELECT
+		seq, contNo, sealNo, consignee, vessel, voyageNo
+	FROM
+		house
+</select>
+
+<update id="deleteUpdateHouseWeight" parameterType="Integer">
+	UPDATE
+		weight_certificate
+	SET
+		house_check = 0
+	WHERE
+		house_seq = #{value}
+</update>
+
+<delete id="deleteHouse" parameterType="Integer">
+	DELETE FROM
+		house
+	WHERE
+		seq = #{value}
+</delete>
+
+<select id="getGblListHouse" parameterType="Integer" resultMap="GblMap">	
+	SELECT
+		g.no, 
+		g.seq,
+		g.customer_name, 
+		g.rank, 
+		g.code, 
+		g.scac, 
+		g.origin_gblock, 
+		g.dest_gblock, 
+		g.pud, 
+		g.ssn, 
+		g.rdd, 
+		g.pod, 
+		g.poe, 
+		g.area, 
+		g.origin_address, 
+		g.us_no, 
+		g.dest_port, 
+		g.origin_port, 
+		g.vessel, 
+		g.consol_company,
+		g.hb_booking_no,  
+		g.container_no,
+		g.clp_no, 
+		g.seal_no, 
+		g.dest_state,
+		g.export,  
+		g.mil_svc,
+		g.etd,
+		g.eta,
+		g.bl_no,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+		g.lbs,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.net ELSE '' END AS net,
+		g.house_vessel,
+		g.house_voyage,
+		g.house_company,
+		g.house_consignee
+	FROM
+		gbl g
+		LEFT OUTER JOIN
+		(
+		SELECT
+			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft, SUM(wc.net) AS net
+		FROM
+			gbl gt
+		JOIN
+			weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		GROUP BY
+			gt.seq
+		) gwc
+		ON (gwc.seq = g.seq)
+	WHERE
+		g.house_seq = #{value}
+</select>
+
+<select id="getHouse" parameterType="Integer" resultType="House">
+	SELECT
+		seq, contNo, sealNo, consignee, vessel, voyageNo, carrierBookingNo
+	FROM
+		house
+	WHERE
+		seq = #{value}
+</select>
 </mapper>

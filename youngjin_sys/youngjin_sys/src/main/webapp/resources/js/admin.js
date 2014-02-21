@@ -91,6 +91,12 @@ youngjin.admin.sync = function(){
 		
 	});
 	
+	$('.rate_year_change').unbind('change');
+	$('.rate_year_change').bind('change', function(){
+		var form = document.forms[0];
+		form.submit();
+	});
+	
 	
 };
 

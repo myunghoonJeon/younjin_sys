@@ -305,4 +305,8 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public Invoice getInvoiceByInvoiceSeq(Integer seq) {
 		return getSqlSession().selectOne("invoiceMapper.getInvoice", seq);
 	}
+
+	public List<String> getYearList() {
+		return getSqlSession().selectList("invoiceMapper.getYearList");
+	}
 }

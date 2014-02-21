@@ -1,9 +1,15 @@
 package org.youngjin.net;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -953,15 +959,136 @@ public class OutboundController {
 	public void tcmdUpdate(@RequestBody Map<String, String> map) {
 		outboundService.updateTcmd(map);
 	}	
-	
+
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/house")
 	public String houseBl(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){			
 		model.addAttribute("user", user);
 		
 		user.setSubProcess("house");
 		
+		model.addAttribute("houseList", outboundService.getHouseList(outboundFilter));
+		
 		return process + "/delivery/house";
 	}
+
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@RequestMapping(value = "/{process}/delivery/house/gblSelect", method = RequestMethod.GET)
+	public String houseBlGblSelectGet(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){	
+		outboundFilter.setHouseBlFlag(true);
+		outboundFilter.getPagination().setNumItems(
+				outboundService.getGblListCount(outboundFilter, user));
+
+		model.addAttribute("filterMap", outboundService.getFilterMap());
+
+		model.addAttribute("gblList",
+				outboundService.getHouseGblList(outboundFilter));
+		model.addAttribute("user", user);		
+		
+		return process + "/delivery/houseSelect";
+	}
+
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@RequestMapping(value = "/{process}/delivery/house/gblSelect", method = RequestMethod.POST)
+	public String houseBlGblSelectPost(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){	
+		outboundFilter.setHouseBlFlag(true);
+		outboundFilter.getPagination().setNumItems(
+				outboundService.getGblListCount(outboundFilter, user));
+
+		model.addAttribute("filterMap", outboundService.getFilterMap());
+
+		model.addAttribute("gblList",
+				outboundService.getHouseGblList(outboundFilter));
+		model.addAttribute("user", user);		
+		
+		return process + "/delivery/houseSelect";
+	}
+
+
+	@RequestMapping(value = "/{process}/delivery/{seq}/houseSeperateSetting", method = RequestMethod.GET)
+	public String houseSeperateSetting(Model model, User user,
+			@ModelAttribute OutboundFilter outboundFilter,
+			@PathVariable String process, @PathVariable String seq) {
+
+		model.addAttribute("seq", seq);
+		model.addAttribute("weightCertificateList", outboundService.getWeightcertificateList(seq));
+		
+		return process + "/delivery/houseSeperate";
+	}	
+
+	@RequestMapping(value = "/{process}/delivery/house/seperate.json")
+	@ResponseBody
+	public void gblHouseSperateSubmit(@RequestBody Map<String, String> gblSeq) {
+		outboundService.houseSeperateGbl(gblSeq);
+	}		
+	
+
+	@RequestMapping(value = "/{process}/delivery/house/merge.json")
+	@ResponseBody
+	public void gblHouseMergeSubmit(@RequestBody Map<String, String> gblSeq) {
+		outboundService.houseMergeSubmit(gblSeq);
+	}	
+
+
+	@RequestMapping(value = "/{process}/delivery/house/add.json")
+	@ResponseBody
+	public void houseAdd(@RequestBody Map<String, String> gblSeq) {
+		outboundService.insertHouse(gblSeq);
+	}
+
+
+	@RequestMapping(value = "/{process}/delivery/house/delete.json")
+	@ResponseBody
+	public void houseDelete(@RequestBody Map<String, String> gblSeq) {
+		outboundService.deleteHouse(gblSeq);
+	}
+	
+	@RequestMapping(value = "/{process}/delivery/house/{seq}/housePop", method = RequestMethod.GET)
+	public String housePop(Model model, User user,
+			@ModelAttribute OutboundFilter outboundFilter,
+			@PathVariable String process, @PathVariable String seq) {
+
+		model.addAttribute("seq", seq);
+		
+		List<GBL> gblList = outboundService.getGblListHouse(seq);
+		
+		Map<String, Company> companyMap = basicService.getCompanyMap();
+		Map<String, Pod> podMap = basicService.getpodMap();
+		
+		model.addAttribute("gblList", gblList);
+		model.addAttribute("podMap", podMap);
+		model.addAttribute("companyMap", companyMap);
+		model.addAttribute("house", outboundService.getHouse(seq));
+		
+		return process + "/delivery/housePop";
+	}	
+	
+	@RequestMapping(value = "/{process}/delivery/house/{seq}/housePopPdf", method = RequestMethod.GET)
+	public String housePopPdf(Model model, User user, HttpServletResponse response, 
+			@ModelAttribute OutboundFilter outboundFilter,
+			@PathVariable String process, @PathVariable String seq) throws IOException {
+		
+		URL url = new URL("localhost:8080/youngjin_sys/outbound/delivery/house/" + seq + "/housePop");  
+		URLConnection urlc = url.openConnection();  
+		InputStream in = urlc.getInputStream();  
+		   
+		OutputStream out = response.getOutputStream();  
+		response.setContentType( "application/pdf" );   
+		response.setHeader("Content-Disposition","inline; filename=\"test.pdf\"");  
+		byte[] buf = new byte[8192];  
+		   
+		int c;  
+		while ((c = in.read(buf, 0, buf.length)) > 0) {  
+		  out.write(buf, 0, c);  
+		}  
+		out.flush();  
+		out.close();  
+		// return null from the action to tell struts   
+		// that we have already handled the response.  
+		return null;   
+	}	
+	
+	
 	
 	/**
 	 * DownLoadControl

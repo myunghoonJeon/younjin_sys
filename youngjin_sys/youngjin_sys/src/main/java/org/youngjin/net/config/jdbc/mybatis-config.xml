@@ -26,6 +26,7 @@
 		<typeAlias alias="DeliveryGbl" type="org.youngjin.net.outbound.DeliveryGbl"/>
 		<typeAlias alias="Container" type="org.youngjin.net.Container"/>
 		<typeAlias alias="Tcmd" type="org.youngjin.net.outbound.Tcmd"/>
+		<typeAlias alias="House" type="org.youngjin.net.outbound.House"/>
 		
 		
 		<typeAlias alias="Rate" type="org.youngjin.net.invoice.Rate"/>
