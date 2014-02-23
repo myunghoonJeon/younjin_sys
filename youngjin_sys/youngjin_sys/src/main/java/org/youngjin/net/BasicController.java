@@ -1,5 +1,7 @@
 package org.youngjin.net;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +17,7 @@ import org.youngjin.net.basic.BasicService;
 import org.youngjin.net.basic.Branch;
 import org.youngjin.net.basic.Carrier;
 import org.youngjin.net.basic.Company;
+import org.youngjin.net.basic.Mileage;
 import org.youngjin.net.basic.Pod;
 import org.youngjin.net.login.User;
 import org.youngjin.net.process.GBlock;
@@ -279,4 +282,34 @@ public class BasicController {
 		
 		return gblock;
 	}	
+	
+	@RequestMapping( value="/mileage", method = RequestMethod.GET)
+	public String mileage(Model model, User user){
+		
+		user.setSubProcess("mileage");
+		
+		model.addAttribute("user", user);
+		
+		List<Mileage> mileageList = basicService.getMileageList();
+		
+		model.addAttribute("mileageList", mileageList);
+		
+		return "basic/mileage";
+	}
+	
+	@RequestMapping( value = "/mileage/add.json", method = RequestMethod.POST)
+	@ResponseBody
+	public Mileage mileageAdd(){
+		Mileage mileage = new Mileage();
+		
+		basicService.mileageAdd(mileage);
+		
+		return mileage;
+	}
+	
+	@RequestMapping( value = "/mileage/update.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void mileageUpdate(@RequestBody Mileage mileage){
+		basicService.mileageUpdate(mileage);
+	}
 }

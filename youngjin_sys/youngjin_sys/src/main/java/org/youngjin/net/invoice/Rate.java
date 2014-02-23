@@ -5,7 +5,7 @@ public class Rate {
 	private String tsp;
 	private String title;
 	private String code;
-	private Double rate = 1.0;
+	private Double rate;
 	private String process;
 	private String obType;
 	private String containerStatus;
@@ -71,7 +71,10 @@ public class Rate {
 	}
 
 	public Double getRate() {
-		return rate;
+		if( this.rate == null || this.rate == 0.0)
+			return 1.0;
+		else 
+			return rate;
 	}
 
 	public void setRate(Double rate) {

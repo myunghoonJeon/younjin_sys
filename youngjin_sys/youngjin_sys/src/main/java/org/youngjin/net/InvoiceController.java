@@ -183,7 +183,7 @@ public class InvoiceController {
 		List<InvoiceGblContent> invoiceGblContentList = invoiceService
 				.getInvoiceGblContentList(seq, invoiceGblSeq, gblSeq, process);
 		
-		model.addAttribute("invoiceGblContentInfo", invoiceService.getInvoiceGblContentInfo(invoiceGblSeq));
+		model.addAttribute("invoiceGblContentInfo", invoiceService.getInvoiceGblContentInfo(invoiceGblSeq, process));
 		
 		model.addAttribute("invoiceGblContentList", invoiceGblContentList);
 
@@ -301,7 +301,7 @@ public class InvoiceController {
 		model.addAttribute("invoiceSeq", seq);
 		model.addAttribute("invoiceGblSeq", invoiceGblSeq);
 		
-		model.addAttribute("invoiceGblContentInfo", invoiceService.getInvoiceGblContentInfo(invoiceGblSeq));
+		model.addAttribute("invoiceGblContentInfo", invoiceService.getInvoiceGblContentInfo(invoiceGblSeq, process));
 		
 		model.addAttribute("invoiceGblContentList", invoiceGblContentList);
 
@@ -327,7 +327,7 @@ public class InvoiceController {
 		List<InvoiceGblContent> invoiceGblContentList = invoiceService
 				.getInvoiceGblContentList(seq, invoiceGblSeq, gblSeq, process);
 		
-		model.addAttribute("invoiceGblContentInfo", invoiceService.getInvoiceGblContentInfo(invoiceGblSeq));
+		model.addAttribute("invoiceGblContentInfo", invoiceService.getInvoiceGblContentInfo(invoiceGblSeq, process));
 		
 		model.addAttribute("invoiceGblContentList", invoiceGblContentList);
 		

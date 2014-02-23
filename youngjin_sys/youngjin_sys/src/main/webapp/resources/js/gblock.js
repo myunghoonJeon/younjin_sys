@@ -84,7 +84,7 @@ youngjin.gblock.sync = function(){
 };
 
 youngjin.gblock.addGBlock = function(){
-	var url = contextPath + '/gblock/gblock/add.json';
+	var url = contextPath + '/basic/gblock/gblock/add.json';
 	
 	var table = $('.yj_table');
 

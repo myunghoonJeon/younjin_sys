@@ -6,6 +6,7 @@
 		<typeAlias alias="Pod" type="org.youngjin.net.basic.Pod"/>
 		<typeAlias alias="Company" type="org.youngjin.net.basic.Company"/>
 		<typeAlias alias="Carrier" type="org.youngjin.net.basic.Carrier"/>
+		<typeAlias alias="Mileage" type="org.youngjin.net.basic.Mileage"/>
 	
 		<typeAlias alias="User" type="org.youngjin.net.login.User"/>
 		<typeAlias alias="UserFilter" type="org.youngjin.net.util.UserFilter"/>

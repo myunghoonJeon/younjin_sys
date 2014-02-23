@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.youngjin.net.GBL;
 
 @Service
 public class BasicService {
@@ -170,5 +171,28 @@ public class BasicService {
 		}
 		
 		return companyMap;
+	}
+
+	public void mileageAdd(Mileage mileage) {
+		basicDao.insertMileage(mileage);
+	}
+
+	public List<Mileage> getMileageList() {
+		return basicDao.getMileageList();
+	}
+
+	public void mileageUpdate(Mileage mileage) {
+		basicDao.updateMileage(mileage);
+	}
+
+	public boolean getComareMile(GBL gbl) {
+		
+		Mileage mileage = basicDao.getMileage(gbl);
+		
+		if(mileage != null){
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -786,6 +786,19 @@
 			ig.seq = #{value}
 	</select>
 	
+	<select id="getInvoiceGblContentInfoIb" parameterType="Integer" resultMap="InvoiceInfoMap">
+		SELECT
+			ig.invoice_list_seq, i.tsp, i.process, ig.gbl_no, ig.rank, ig.name, g.code, ig.remark
+		FROM
+			invoice_list i, invoice_gbl ig, gbl_ib g
+		WHERE
+			ig.invoice_list_seq = i.seq
+		AND
+			g.seq = ig.gbl_seq
+		AND
+			ig.seq = #{value}
+	</select>
+	
 	<select id="getCarrierList" parameterType="InvoiceFilter" resultType="Code">
 		SELECT DISTINCT
 			tsp AS subCode

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.youngjin.net.GBL;
 
 @Repository
 public class BasicDao extends SqlSessionDaoSupport {
@@ -54,5 +55,21 @@ public class BasicDao extends SqlSessionDaoSupport {
 
 	public void updateCompany(Company company) {
 		getSqlSession().update("basicMapper.updateCompany", company);
+	}
+
+	public void insertMileage(Mileage mileage) {
+		getSqlSession().insert("basicMapper.insertMileage", mileage);
+	}
+
+	public List<Mileage> getMileageList() {
+		return getSqlSession().selectList("basicMapper.getMileageList");
+	}
+
+	public void updateMileage(Mileage mileage) {
+		getSqlSession().update("basicMapper.updateMileage", mileage);
+	}
+
+	public Mileage getMileage(GBL gbl) {
+		return getSqlSession().selectOne("basicMapper.getMileage", gbl);
 	}
 }

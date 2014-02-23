@@ -14,6 +14,8 @@ youngjin.basic.sync = function(){
 	youngjin.basic.carrierSync();
 	
 	youngjin.basic.companySync();
+	
+	youngjin.basic.mileageSync();
 };
 
 youngjin.basic.branchSync = function(){
@@ -251,4 +253,66 @@ youngjin.basic.companyModifySubmit = function(){
 	form.method = 'post';
 	form.action = contextPath + '/basic/companyModifySubmit';
 	form.submit();			
+};
+
+youngjin.basic.mileageSync = function(){
+	$('.mileage_addButton').unbind('click');
+	$('.mileage_addButton').bind('click', function(){
+		youngjin.basic.mileageAdd();
+	});
+	
+	$('.mileage_table input').unbind('change');
+	$('.mileage_table input').bind('change', function(){
+		youngjin.basic.mileageUpdate($(this));
+	});
+};
+
+youngjin.basic.mileageAdd = function(){
+	var url = contextPath + '/basic/mileage/add.json';
+	
+	var table = $('.yj_table');
+
+	$.postJSON(url, {}, function(mileage){
+		return jQuery.ajax({
+			success : function(){	
+				var html = '<tr data-seq="' + mileage.seq + '">'
+						+		'<td class="mileage_storedAt"><input type="text" name="storedAt" /></td>'
+						+		'<td class="mileage_destination"><input type="text" name="destination" /></td>'
+						+		'<td class="mileage_miles"><input type="text" name="miles" /></td>'
+						+		'<td class="mileage_minWeight"><input type="text" name="minWeight" /></td>'
+						+		'<td class="mileage_minRate"><input type="text" name="minRate" /></td>'
+						+		'<td class="mileage_maxWeight"><input type="text" name="maxWeight" /></td>'
+						+		'<td class="mileage_maxRate"><input type="text" name="maxRate" /></td>';
+				table.children('tbody').prepend(html);
+				
+				youngjin.basic.mileageSync();
+			},
+			error : function(){
+				alert("에러 발생!");
+			}
+		});
+	});
+};
+
+youngjin.basic.mileageUpdate = function(target){
+	var seq = target.parents().parents().attr('data-seq');
+	var name = target.attr('name');
+	var value = target.val();
+	
+	var json = {};
+	
+	json[name] = value;
+	json['seq'] = seq;
+	
+	var url = contextPath + '/basic/mileage/update.json';
+	
+	$.postJSON(url, json, function(){		
+		return jQuery.ajax({
+			success : function(){
+			},
+			error : function(){
+				alert("에러발생!");
+			}
+		});
+	});
 };

@@ -131,15 +131,30 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	}
 
 	public Rate getBasicRate(Rate rate) {
-		return getSqlSession().selectOne("invoiceMapper.getBasicRate", rate);
+		Rate returnRate = getSqlSession().selectOne("invoiceMapper.getBasicRate", rate);
+		
+		if(returnRate == null)
+			return new Rate();
+		
+		return returnRate;
 	}
 
 	public Rate getContainerRate(Rate rate) {
-		return getSqlSession().selectOne("invoiceMapper.getContainerRate", rate);
+		Rate returnRate = getSqlSession().selectOne("invoiceMapper.getContainerRate", rate);
+		
+		if(returnRate == null)
+			return new Rate();
+		
+		return returnRate;
 	}
 
 	public Rate getOther(Rate rate) {
-		return getSqlSession().selectOne("invoiceMapper.getOther", rate);
+		Rate returnRate = getSqlSession().selectOne("invoiceMapper.getOther", rate);
+		
+		if(returnRate == null)
+			return new Rate();
+		
+		return returnRate;
 	}
 
 	public int getEtcCheck(Rate rate) {
@@ -158,8 +173,13 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("title", title);
 		param.put("pud", pud);
+
+		Rate returnRate = getSqlSession().selectOne("invoiceMapper.getEtc", param);
 		
-		return getSqlSession().selectOne("invoiceMapper.getEtc", param);
+		if(returnRate == null)
+			return new Rate();
+		
+		return returnRate;
 	}
 
 	public void etcUpdate(Rate rate) {
@@ -167,7 +187,12 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	}
 
 	public Rate getSit(Rate rate) {
-		return getSqlSession().selectOne("invoiceMapper.getSit", rate);
+		Rate returnRate = getSqlSession().selectOne("invoiceMapper.getSit", rate);
+		
+		if(returnRate == null)
+			return new Rate();
+		
+		return returnRate;
 	}
 
 	public Integer checkInvoiceContent(InvoiceGblContent invoiceGblContent) {
@@ -308,5 +333,9 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 
 	public List<String> getYearList() {
 		return getSqlSession().selectList("invoiceMapper.getYearList");
+	}
+
+	public InvoiceGbl getInvoiceGblcontentInfoIb(Integer invoiceGblSeq) {
+		return getSqlSession().selectOne("invoiceMapper.getInvoiceGblContentInfoIb", invoiceGblSeq);
 	}
 }

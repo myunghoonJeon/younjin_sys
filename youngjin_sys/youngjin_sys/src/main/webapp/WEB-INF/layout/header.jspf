@@ -102,7 +102,7 @@
 						BASIC	
 					</li>
 				</sec:authorize>
-				<li class="basic_item_list" style="${(user.subProcess eq 'pod' or user.subProcess eq 'branch' or user.subProcess eq 'company' or user.subProcess eq 'carrier' or user.subProcess eq 'gBlock') ? 'display:block;' : 'display:none;'}">				
+				<li class="basic_item_list" style="${(user.subProcess eq 'pod' or user.subProcess eq 'branch' or user.subProcess eq 'company' or user.subProcess eq 'carrier' or user.subProcess eq 'gBlock' or user.subProcess eq 'mileage') ? 'display:block;' : 'display:none;'}">				
 					<ul class="basic_item">
 						<sec:authorize access="hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
 							<li onclick="location.href='${cp }/basic/pod'" style="${(user.subProcess eq 'pod') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
@@ -116,11 +116,15 @@
 							</li>
 							<li onclick="location.href='${cp }/basic/carrier'" style="${(user.subProcess eq 'carrier') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
 								CARRIER BASIC
-							</li>		
+							</li>	
+							<li onclick="location.href='${cp }/basic/mileage'" style="${(user.subProcess eq 'mileage') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">
+								MILEAGE TABLE
+							</li>	
 						</sec:authorize>						
 						<sec:authorize access="hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
 							<li onclick="location.href='${cp }/basic/gblock/gblock/main'" style="${(user.subProcess eq 'gBlock') ? 'color: #F79646; border-left: 12px solid #F79646; width: 122px;' : ''}">GBLOCK</li>
-						</sec:authorize>		
+						</sec:authorize>
+								
 					</ul>	
 				</li>
 			

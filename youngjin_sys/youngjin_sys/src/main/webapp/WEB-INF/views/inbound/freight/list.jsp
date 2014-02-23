@@ -173,7 +173,7 @@
 							${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }
 						</td>
 						<c:if test="${inboundFilter.carrier eq '' or inboundFilter.carrier eq null }">
-							<td>${gbl.scac }</td>
+							<td>${gbl.tsp }</td>
 						</c:if>
 						<td>${gbl.gblNo }</td>
 						<td>${gbl.rank }</td>

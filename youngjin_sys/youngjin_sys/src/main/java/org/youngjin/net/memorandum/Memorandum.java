@@ -171,7 +171,10 @@ public class Memorandum {
 	}
 
 	public String getTermination() {
-		return termination;
+		if(this.termination != null)
+			return termination;
+		else 
+			return "0";
 	}
 
 	public void setTermination(String termination) {

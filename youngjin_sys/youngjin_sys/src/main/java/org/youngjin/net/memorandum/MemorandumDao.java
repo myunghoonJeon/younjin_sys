@@ -11,7 +11,12 @@ import org.springframework.stereotype.Repository;
 public class MemorandumDao extends SqlSessionDaoSupport {
 
 	public Memorandum getMemorandum(Memorandum paramMemorandum) {
-		return getSqlSession().selectOne("memorandumMapper.getMemorandum", paramMemorandum);
+		Memorandum memorandum = getSqlSession().selectOne("memorandumMapper.getMemorandum", paramMemorandum);
+		
+		if(memorandum != null)
+			return getSqlSession().selectOne("memorandumMapper.getMemorandum", paramMemorandum);
+		else 
+			return new Memorandum();
 	}
 
 	public void insertMemorandum(Memorandum memorandum) {

@@ -209,4 +209,66 @@
 			seq = #{seq}
 	</update>
 	
+	<insert id="insertMileage" parameterType="Mileage">
+		INSERT INTO
+			mileage
+			(
+				storedAt, destination, miles, minWeight, minRate, maxWeight, maxRate
+			)
+		VALUES
+			(
+				'','','','','','',''
+			)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID() 
+		</selectKey>
+	</insert>	
+	
+	<select id="getMileageList" resultType="Mileage">
+		SELECT
+			seq, storedAt, destination, miles, minWeight, minRate, maxWeight, maxRate
+		FROM
+			mileage
+	</select>
+	
+	<update id="updateMileage" parameterType="Mileage">
+		UPDATE
+			mileage
+		SET
+			seq = seq
+			<if test="storedAt != null">
+				, storedAt = #{storedAt}
+			</if>
+			<if test="destination != null">
+				, destination = #{destination}
+			</if>
+			<if test="miles != null">
+				, miles = #{miles}
+			</if>
+			<if test="minWeight != null">
+				, minWeight = #{minWeight}
+			</if>
+			<if test="minRate != null">
+				, minRate = #{minRate}
+			</if>
+			<if test="maxWeight != null">
+				, maxWeight = #{maxWeight}
+			</if>
+			<if test="maxRate != null">
+				, maxRate = #{maxRate}
+			</if>
+		WHERE
+			seq = #{seq}
+	</update>
+	
+	<select id="getMileage" parameterType="GBL" resultType="Mileage">
+		SELECT
+			seq, storedAt, destination, miles, minWeight, minRate, maxWeight, maxRate
+		FROM
+			mileage
+		WHERE
+			storedAt = #{storedAt}
+		AND
+			destination = #{destinationGbloc}	
+	</select>
 </mapper>

@@ -178,6 +178,11 @@ li.basic_item_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646;
 .admin_user_addButton_wrap{ width: 920px; margin: 10px auto;}
 .admin_user_addButton{ float: right; margin-bottom: 10px; }
 
+/* Mileage */
+.mileage_addButton_wrap{ width: 920px; margin: 20px auto; }
+.mileage_addButton{ float: right; margin-bottom: 10px; }
+.mileage_table input{ width: 110px; border: none;}
+
 /* container */
 .container_wrap{ width: 920px; marign: 20px auto; }
 
