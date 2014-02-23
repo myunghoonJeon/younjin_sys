@@ -495,7 +495,11 @@ public class InvoiceService {
 			Rate rate = new Rate();
 			Double totalGblWeight = 0.0;
 			Double gblWeight = 0.0;
+			Double typeIIWeight = 0.0;
+			Double overFlowWeight = 0.0;
 			Double packingCharge = 0.0;
+			Double typeIICharge = 0.0;
+			Double overFlowCharge = 0.0;
 
 			String codeStr = null;
 			if (gbl.getCode().equals("3") || gbl.getCode().equals("4")
@@ -530,47 +534,113 @@ public class InvoiceService {
 				rate.setWriteYear(gbl.getPud());
 
 				Rate gblRate = invoiceDao.getBasicRate(rate);
+			
 
-				packingCharge += gblWeight * gblRate.getRate();
-
+				if("HHG".equals(codeStr)){
+					if(rate.getObType().equals("typeII")){
+						typeIIWeight += gblWeight;
+						typeIICharge += gblWeight * gblRate.getRate();
+					} else if (rate.getObType().equals("O/F")){
+						overFlowWeight += gblWeight;
+						overFlowCharge += gblWeight * gblRate.getRate();						
+					}
+					
+					packingCharge = overFlowCharge + typeIICharge;
+				} else {
+					packingCharge += gblWeight * gblRate.getRate();
+				}
+				
 				totalGblWeight += gblWeight;
 			}
 
 			totalAmount += packingCharge;
 
-			packingChargeContent.setChargingItem("PACKING CHARGE");
-			packingChargeContent.setQuantity("LBS weight");
-			packingChargeContent.setAmount(packingCharge.toString());
-			packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
-
-			invoiceGblContentList.add(packingChargeContent);
-
-			Integer checkInvoiceContentGetSeq = invoiceDao
-					.checkInvoiceContent(packingChargeContent);
-
-			if (checkInvoiceContentGetSeq != null) {
-				packingChargeContent.setSeq(checkInvoiceContentGetSeq);
-				invoiceDao.updateInvoiceGblContent(packingChargeContent);
+			Integer checkInvoiceContentGetSeq;
+			
+			if("HHG".equals(codeStr)){
+				packingChargeContent.setChargingItem("PACKING CHARGE TYPEII");
+				packingChargeContent.setQuantity(typeIIWeight  + "LBS");
+				packingChargeContent.setAmount(typeIICharge.toString());
+				packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
+	
+				invoiceGblContentList.add(packingChargeContent);
+	
+				checkInvoiceContentGetSeq = invoiceDao
+						.checkInvoiceContent(packingChargeContent);
+	
+				if (checkInvoiceContentGetSeq != null) {
+					packingChargeContent.setSeq(checkInvoiceContentGetSeq);
+					invoiceDao.updateInvoiceGblContent(packingChargeContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(packingChargeContent);
+				}
+				
+				packingChargeContent = new InvoiceGblContent();
+	
+				packingChargeContent.setChargingItem("PACKING CHARGE O/F");
+				packingChargeContent.setQuantity(overFlowWeight + "LBS");
+				packingChargeContent.setAmount(overFlowCharge.toString());
+				packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
+	
+				invoiceGblContentList.add(packingChargeContent);
+	
+				Integer checkInvoiceContentGetSeq1 = invoiceDao
+						.checkInvoiceContent(packingChargeContent);
+	
+				if (checkInvoiceContentGetSeq1 != null) {
+					packingChargeContent.setSeq(checkInvoiceContentGetSeq1);
+					invoiceDao.updateInvoiceGblContent(packingChargeContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(packingChargeContent);
+				}
 			} else {
-				invoiceDao.insertInvoiceGblContent(packingChargeContent);
+				packingChargeContent.setChargingItem("PACKING CHARGE");
+				packingChargeContent.setQuantity(totalGblWeight + "LBS");
+				packingChargeContent.setAmount(packingCharge.toString());
+				packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
+	
+				invoiceGblContentList.add(packingChargeContent);
+	
+				checkInvoiceContentGetSeq = invoiceDao
+						.checkInvoiceContent(packingChargeContent);
+	
+				if (checkInvoiceContentGetSeq != null) {
+					packingChargeContent.setSeq(checkInvoiceContentGetSeq);
+					invoiceDao.updateInvoiceGblContent(packingChargeContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(packingChargeContent);
+				}				
 			}
 
 			// 2. CONTAINER
 			InvoiceGblContent containerInvoiceGblContent = new InvoiceGblContent();
 
-			int usedUnit = 0;
-			int newUnit = 0;
-			int repairedUnit = 0;
+			int usedUnitTypeII = 0;
+			int newUnitTypeII = 0;
+			int repairedUnitTypeII = 0;
+			int usedUnitOverflow = 0;
+			int newUnitOverflow = 0;
+			int repairedUnitOverflow = 0;
 			Integer containerCharge = 0;
 
 			for (Weightcertificate weightCertificate : weightcertificateList) {
-				if ("NEW".equals(weightCertificate.getStatus())) {
-					newUnit += 1;
-				} else if ("USED".equals(weightCertificate.getStatus())) {
-					usedUnit += 1;
-				} else if ("REPAIRED".equals(weightCertificate.getStatus())) {
-					repairedUnit += 1;
-				}
+					if(weightCertificate.getType().equals("typeII")){
+						if ("NEW".equals(weightCertificate.getStatus())) {
+							newUnitTypeII += 1;
+						} else if ("USED".equals(weightCertificate.getStatus())) {
+							usedUnitTypeII += 1;
+						} else if ("REPAIRED".equals(weightCertificate.getStatus())) {
+							repairedUnitTypeII += 1;
+						}
+					} else{
+						if ("NEW".equals(weightCertificate.getStatus())) {
+							newUnitOverflow += 1;
+						} else if ("USED".equals(weightCertificate.getStatus())) {
+							usedUnitOverflow += 1;
+						} else if ("REPAIRED".equals(weightCertificate.getStatus())) {
+							repairedUnitOverflow += 1;
+						}						
+					}
 			}
 
 			Rate containerRateParam = new Rate();
@@ -586,23 +656,57 @@ public class InvoiceService {
 			containerRateParam.setContainerStatus("repair");
 			Rate repairedRate = invoiceDao.getContainerRate(containerRateParam);
 
-			int newCharge = (int) (newUnit * Double.parseDouble(newRate
+			int newCharge = (int) (newUnitTypeII * Double.parseDouble(newRate
 					.getContainerRate()));
-			int usedCharge = (int) (usedUnit * Double.parseDouble(usedRate
+			int usedCharge = (int) (usedUnitTypeII * Double.parseDouble(usedRate
 					.getContainerRate()));
-			int repairedCharge = (int) (repairedUnit * Double
+			int repairedCharge = (int) (repairedUnitTypeII * Double
 					.parseDouble(repairedRate.getContainerRate()));
 
 			containerCharge += newCharge + usedCharge + repairedCharge;
 
 			totalAmount += containerCharge;
 
-			containerInvoiceGblContent.setChargingItem("CONTAINER");
-			containerInvoiceGblContent.setQuantity("Piece");
+			containerInvoiceGblContent.setChargingItem("CONTAINER TYPE II");
+			containerInvoiceGblContent.setQuantity((newUnitTypeII + usedUnitTypeII + repairedUnitTypeII) + "pcs");
 			containerInvoiceGblContent.setAmount(containerCharge.toString());
 			containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
 
-			invoiceGblContentList.add(containerInvoiceGblContent);
+			if(containerCharge > 0)
+				invoiceGblContentList.add(containerInvoiceGblContent);
+
+			checkInvoiceContentGetSeq = invoiceDao
+					.checkInvoiceContent(containerInvoiceGblContent);
+
+			if (checkInvoiceContentGetSeq != null) {
+				containerInvoiceGblContent.setSeq(checkInvoiceContentGetSeq);
+				invoiceDao.updateInvoiceGblContent(containerInvoiceGblContent);
+			} else {
+				invoiceDao.insertInvoiceGblContent(containerInvoiceGblContent);
+			}
+
+			containerInvoiceGblContent = new InvoiceGblContent();
+			
+			containerCharge = 0;
+
+			newCharge = (int) (newUnitOverflow * Double.parseDouble(newRate
+					.getContainerRate()));
+			usedCharge = (int) (usedUnitOverflow * Double.parseDouble(usedRate
+					.getContainerRate()));
+			repairedCharge = (int) (repairedUnitOverflow * Double
+					.parseDouble(repairedRate.getContainerRate()));
+
+			containerCharge += newCharge + usedCharge + repairedCharge;
+
+			totalAmount += containerCharge;
+
+			containerInvoiceGblContent.setChargingItem("CONTAINER O/F");
+			containerInvoiceGblContent.setQuantity(newUnitOverflow + usedUnitOverflow + repairedUnitOverflow + "pcs");
+			containerInvoiceGblContent.setAmount(containerCharge.toString());
+			containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
+
+			if(containerCharge > 0)
+				invoiceGblContentList.add(containerInvoiceGblContent);
 
 			checkInvoiceContentGetSeq = invoiceDao
 					.checkInvoiceContent(containerInvoiceGblContent);
@@ -733,7 +837,7 @@ public class InvoiceService {
 			Memorandum checkInvoiceSitFirstDay = memorandumDao
 					.getMemorandum(sitFirstDayMemoParam);
 
-			if (checkInvoiceSitFirstDay != null) {
+			if (checkInvoiceSitFirstDay.getSitStartDate() != null) {
 				if ("HHG".equals(codeStr)) {
 					sitRateParam.setTitle("SIT-FIRST DAY -IT13 item 518C");
 					sitRateParam.setCode("HHG");
@@ -779,7 +883,7 @@ public class InvoiceService {
 			Memorandum checkInvoiceEachDay = memorandumDao
 					.getMemorandum(sitEachDayMemoParam);
 
-			if (checkInvoiceEachDay != null) {
+			if (checkInvoiceEachDay.getSitEndDate() != null) {
 				if ("HHG".equals(codeStr)) {
 					sitRateParam
 							.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 518D");

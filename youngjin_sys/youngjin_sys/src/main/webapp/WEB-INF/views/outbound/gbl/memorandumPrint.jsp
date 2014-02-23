@@ -102,7 +102,7 @@
 	String taforto="JOHN F. CUTTER. GS-13,<BR>";
 %>
 </head>
-<body>
+<body onload="window.print();">
 	<table style="font-weight: bold;" align="center" cellspacing="0">
 		<tr>		
 			<td id='toptitletd' colspan="3">YOUNGJIN TRADE & TRANSPORTATION CO. LTD.</td>
@@ -150,7 +150,7 @@
 		<tr>			
 			<td id='name_td'>NAME : ${gbl.customerName }</td>
 			<td id='rank_td'>RANK : ${gbl.rank }</td>
-			<td id='ssn_td' colspan="2">SSN : XXXX-XX-${fn:substring(gbl.ssn, 6,10)}</td>
+			<td id='ssn_td' colspan="2">SSN : XXXX-XX-${fn:substring(gbl.ssn, 5,10)}</td>
 		</tr>
 		<tr>			
 			<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>

@@ -24,7 +24,7 @@
 	
 	<select id="getMemorandum" parameterType="Memorandum" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, termination, sit_start_date, sit_end_date, long_carry
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, termination, sit_start_date, sit_end_date, long_carry, write_date
 		FROM
 			memorandum
 		WHERE

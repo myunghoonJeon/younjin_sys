@@ -923,6 +923,18 @@
 	<if test="endPud != null and endPud != ''">
 		AND
 			pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+	</if>
+	<if test="truckManifastFlag == false">
+		AND
+			no NOT LIKE '%-sub%'
+	</if>
+	<if test="houseBlFlag == false">
+		AND
+			no NOT LIKE '%-house%'
+	</if>
+	<if test="houseBlFlag == true">
+		OR
+			no LIKE '%-house%'
 	</if>	
 </select>
 
@@ -1011,6 +1023,18 @@
 			<if test="endPud != null and endPud != ''">
 				AND
 					pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+			</if>
+			<if test="truckManifastFlag == false">
+				AND
+					no NOT LIKE '%-sub%'
+			</if>
+			<if test="houseBlFlag == false">
+				AND
+					no NOT LIKE '%-house%'
+			</if>
+			<if test="houseBlFlag == true">
+				OR
+					no LIKE '%-house%'
 			</if>
 			ORDER BY
 				g.seq

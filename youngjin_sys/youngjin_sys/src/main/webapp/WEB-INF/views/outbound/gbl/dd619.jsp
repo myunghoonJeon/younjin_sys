@@ -2,6 +2,9 @@
     pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%	pageContext.setAttribute("enter", "\r\n");%>
+<c:set var="lf" value='<%=pageContext.getAttribute("enter") %>' />
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
@@ -91,7 +94,7 @@
 <p style="position:absolute;top:259px;left:260px;white-space:nowrap" class="ft10">${gbl.rank }</p>
 <p style="position:absolute;top:295px;left:65px;white-space:nowrap" class="ft10">${dd619.originOfShipment }</p>
 <p style="position:absolute;top:295px;left:260px;white-space:nowrap" class="ft10">${dd619.destination }</p>
-<p style="position:absolute;top:343px;left:65px;white-space:nowrap" class="ft10">${dd619.orderingActivityName }</p>
+<p style="position:absolute;top:343px;left:65px;white-space:pre-line; width: 180px;" class="ft10">${dd619.orderingActivityName }</p>
 <p style="position:absolute;top:343px;left:260px;white-space:nowrap" class="ft10"></p>
 <p style="position:absolute;top:385px;left:65px;white-space:nowrap" class="ft10">${dd619.carrierName }</p>
 <p style="position:absolute;top:385px;left:260px;white-space:nowrap" class="ft10">${dd619.agentName }</p>
@@ -137,7 +140,7 @@
 <p style="position:absolute;top:842px;left:369px;white-space:nowrap" class="ft10"></p>
 <p style="position:absolute;top:858px;left:369px;white-space:nowrap" class="ft10"></p>
 
-<p style="position:absolute;top:891px;left:59px;white-space:nowrap" class="ft10">${dd619.remark }</p>
+<p style="position:absolute;top:891px;left:59px; white-space: pre-line; font-size: 14px; font-weight: bold;" class="ft10">${fn:replace(dd619.remark, lf, '<br/>') }</p>
 
 <p style="position:absolute;top:993px;left:56px;white-space:nowrap" class="ft10"><input name="18-a" type="checkbox" value="atorigin" checked="checked"></p>
 <p style="position:absolute;top:1010px;left:56px;white-space:nowrap" class="ft10"></p>
