@@ -803,7 +803,7 @@ public class OutboundService {
 
 	public void houseMergeSubmit(Map<String, String> gblMap) {
 		GBL gbl = new GBL();
-		gbl.setNo(gblMap.get("no").substring(0, gblMap.get("no").length() - 7));
+		gbl.setNo(gblMap.get("no"));
 
 		outboundDao.houseMergeGblWeight(gbl);
 

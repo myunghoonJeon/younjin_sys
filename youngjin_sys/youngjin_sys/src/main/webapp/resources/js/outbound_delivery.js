@@ -375,7 +375,7 @@ youngjin.outbound.delivery.houseSync = function(){
 };
 
 youngjin.outbound.delivery.getBookWeightCertificateList = function(target){
-	var seq = target.attr('data-seq');
+	var seq = target.val();
 	
 	var url = contextPath + '/outbound/delivery/' + seq + '/houseSeperateSetting';
 	

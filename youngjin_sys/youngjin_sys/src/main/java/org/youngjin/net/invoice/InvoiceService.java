@@ -1988,4 +1988,16 @@ public class InvoiceService {
 	public List<String> getYearList() {
 		return invoiceDao.getYearList();
 	}
+
+	public Map<Integer, List<InvoiceGblContent>> getInvoicePrintMap(
+			List<InvoiceGbl> invoiceGblList, String process) {
+		
+		Map<Integer, List<InvoiceGblContent>> returnMap = new HashMap<Integer, List<InvoiceGblContent>>();
+		
+		for(InvoiceGbl invoiceGbl : invoiceGblList){
+			returnMap.put(invoiceGbl.getSeq(), getInvoiceGblContentList(invoiceGbl.getInvoiceListSeq(), invoiceGbl.getSeq(), invoiceGbl.getGblSeq(), process));
+		}
+		
+		return returnMap;
+	}
 }

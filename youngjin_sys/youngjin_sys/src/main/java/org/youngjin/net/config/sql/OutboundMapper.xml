@@ -658,6 +658,8 @@
 		)		
 		AND
 			g.no NOT LIKE '%-sub%'
+		AND
+			g.no NOT LIKE '%-house%'
 		GROUP BY g.no, w.truck_check
 		) a, gbl gt
 	WHERE

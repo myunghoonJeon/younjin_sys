@@ -137,6 +137,8 @@ public class InvoiceController {
 		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq);
 		Invoice invoice = invoiceService.getInvoiceByInvoiceSeq(seq);
 		
+		Map<Integer, List<InvoiceGblContent>> map = invoiceService.getInvoicePrintMap(invoiceGblList, process);
+		
 		Carrier carrier = basicService.getCarrier(invoice.getTsp());
 
 		model.addAttribute("invoicSeq", seq);
@@ -148,6 +150,8 @@ public class InvoiceController {
 
 		model.addAttribute("invoiceListSeq", seq);
 		model.addAttribute("invoiceGblList", invoiceGblList);
+		
+		model.addAttribute("invoiceGblContentMap", map);
 
 		return process + "/invoice/invoicePrint";
 	}	
