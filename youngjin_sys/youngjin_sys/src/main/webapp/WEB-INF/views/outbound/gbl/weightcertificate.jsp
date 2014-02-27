@@ -21,17 +21,17 @@
 	var contextPath = '<c:out value="${cp}"/>';
 	var realPath = '<c:out value="${rp}"/>';
 	var containerList = new Array();
-	
+
 	'<c:forEach var="container" items="${containerList}"  varStatus = "i">';
 		var container = {
 			'status' : '<c:out value="${container.status}"/>',
 			'count' : '<c:out value="${container.count}" />',
 			'remark' : '<c:out value="${container.remark}" />'
 		};
-		
+
 		containerList.push(container);
 	'</c:forEach>';	
-	
+
 	var addError = false;
 	if (typeof youngjin == 'undefined') {
 		youngjin = {};
@@ -58,7 +58,7 @@
 				</li>
 			</ul>
 		</div>
-		
+
 		<div class="weightcertificate_head">
 			<h1>YOUNGJIN TRADE & TRAN. CO. LTD.</h1>
 		</div>
@@ -76,21 +76,21 @@
 						<li class="weightcertificate_column3">DATE</li>				
 						<li class="weightcertificate_column4"><input id="weightcertificate_date" type="text" value="${weightcertificateList[0].date }" /></li>
 					</ul>
-			
+
 					<ul>
 						<li class="weightcertificate_column1">ORIGIN</li>				
 						<li class="weightcertificate_column2"><input type="text" /></li>
 						<li class="weightcertificate_column3">GBL NO</li>				
 						<li class="weightcertificate_column4"><input type="text" value="${gbl.no }" /></li>
 					</ul>
-			
+
 					<ul>
 						<li class="weightcertificate_column1">DESTINATION</li>				
 						<li class="weightcertificate_column2"><input type="text" /></li>
 						<li class="weightcertificate_column3">CODE</li>				
 						<li class="weightcertificate_column4"><input type="text" value="${gbl.code }" /></li>
 					</ul>
-	
+
 					<ul>
 						<li class="weightcertificate_column1">CARRIER</li>				
 						<li class="weightcertificate_column2"><input type="text" value="${gbl.scac }" /></li>
@@ -129,14 +129,14 @@
 								</tr>
 							</thead>
 							<tbody>	
-					
+
 								<c:set var="totalPcs" value="0" />
 								<c:set var="totalGross" value="0" />
 								<c:set var="totalGrossKg" value="0" />
 								<c:set var="totalTare" value="0" />
 								<c:set var="totalNet" value="0" />
 								<c:set var="totalCuft" value="0" />
-								
+
 								<c:forEach var="weightcertificate" items="${weightcertificateList }" varStatus="i">
 									<c:set var="totalPcs" value="${totalPcs + 1 }" />
 									<c:set var="totalGross" value="${totalGross + weightcertificate.gross}" />
@@ -162,36 +162,36 @@
 										<td class="cuft_td"><input name="cuft" type="text" value="${weightcertificate.cuft }" /></td>
 										<td class="remark_td"><input name="remark" type="text" value="${weightcertificate.remark }"/></td>
 										<c:if test="${fn:length(weightcertificateList) ==  i.count}">
-											<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
+											<td class="gbl_plus_Box_td" style="border-top: thin; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
 										</c:if>
 									</tr>
 								</c:forEach>				
 							</tbody>
 							<tfoot>
 								<tr>
-									<td colspan="9">/x/x/x/x/x/xx/x/x/x/x/x/x/x/x/x/LAST ITEMx/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/</td>
+									<td colspan="9" style="font-size: 12px;">/x/x/x/x/x/x/x/x/x/x/xx/x/x/x/x/x/x/x/x/x/x/ LAST ITEM /x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/</td>
 									<c:if test="${weightcertificateList eq '[]' }">
 										<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
 									</c:if>
 								</tr>	
 								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>							
+									<td> </td>
+									<td> </td>
+									<td> </td>
+									<td> </td>
+									<td> </td>
+									<td> </td>
+									<td> </td>
+									<td> </td>
+									<td> </td>
 								</tr>
 								<tr>
 									<td></td>
 									<td></td>
 									<td></td>
-									<td id="weightcertificate_progear"><input type="text" ></td>
-									<td id="weightcertificate_seal_no"><input type="text" ></td>
-									<td id="weightcertificate_lbs"><input type="text" ></td>
+									<td id="weightcertificate_progear" style="font-size: 10px;">PROGEAR:</td>
+									<td id="weightcertificate_seal_no" style="font-size: 10px;"><input type="text" ></td>
+									<td id="weightcertificate_lbs" style="font-size: 10px;">LBS</td>
 									<td></td>
 									<td></td>	
 									<td></td>								
@@ -219,14 +219,14 @@
 									<td></td>							
 								</tr>
 								<tr>
-									<td>Total</td>
-									<td class="total_piece_td">${ fn:length(weightcertificateList) }</td>
+									<td style="font-size: 11px;">Total</td>
+									<td class="total_piece_td" style="font-size: 11px;">${ fn:length(weightcertificateList) }</td>
 									<td></td>
-									<td class="total_gross_td"><fmt:formatNumber value="${totalGross }" /></td>
-									<td class="total_grossKg_td"><fmt:formatNumber value="${totalGrossKg }" /></td>
-									<td class="total_tare_td"><fmt:formatNumber value="${totalTare }"  /></td>
-									<td class="total_net_td"><fmt:formatNumber value="${totalNet }"  /></td>
-									<td class="total_cuft_td"><fmt:formatNumber value="${totalCuft }" /></td>
+									<td class="total_gross_td" style="font-size: 11px;"><fmt:formatNumber value="${totalGross }" /></td>
+									<td class="total_grossKg_td" style="font-size: 11px;"><fmt:formatNumber value="${totalGrossKg }" /></td>
+									<td class="total_tare_td" style="font-size: 11px;"><fmt:formatNumber value="${totalTare }"  /></td>
+									<td class="total_net_td" style="font-size: 11px;"><fmt:formatNumber value="${totalNet }"  /></td>
+									<td class="total_cuft_td" style="font-size: 11px;"><fmt:formatNumber value="${totalCuft }" /></td>
 									<td></td>
 								</tr>
 							</tfoot>			
@@ -234,7 +234,7 @@
 					</form>
 				</div>
 				<div class="weightcertificate_foot">
-					
+
 				</div>
 			</div>
 		</div>
