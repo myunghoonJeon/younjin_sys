@@ -74,7 +74,7 @@
 					<tr class="inbound_invoice_tr" data-inboundInvoiceSeq="${inboundInvoice.seq }" data-gblSeq="${inboundInvoice.gblSeq }">
 						<td>${inboundInvoice.gblNo }</td>
 						<td>${inboundInvoice.name }</td>
-						<td>XXXX-XX-${fn:substring(inboundInvoice.ssn, 8,12)}</td>
+						<td>XXX-XX-${fn:substring(inboundInvoice.ssn, 5, 9)}</td>
 						<td>							
 							<c:choose>
 								<c:when test="${fn:length(inboundInvoice.inboundInvoiceNo) eq 1 }">

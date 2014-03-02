@@ -233,9 +233,6 @@
 						</table>
 					</form>
 				</div>
-				<div class="weightcertificate_foot">
-
-				</div>
 			</div>
 		</div>
 	</div>

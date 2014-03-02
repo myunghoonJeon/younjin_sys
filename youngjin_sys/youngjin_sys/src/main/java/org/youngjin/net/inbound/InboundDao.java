@@ -127,6 +127,10 @@ public class InboundDao extends SqlSessionDaoSupport {
 		return getSqlSession().selectOne("inboundMapper.getInboundInvoice", inboundInvoiceSeq);
 	}
 
+	public InboundInvoice getAddInboundInvoice(Integer inboundInvoiceSeq) {
+		return getSqlSession().selectOne("inboundMapper.getAddInboundInvoice", inboundInvoiceSeq);
+	}
+
 	public int checkInboundInvoiceWeight(InboundInvoice inboundInvoice) {
 		return getSqlSession().selectOne("inboundMapper.checkInboundInvoiceWeight", inboundInvoice);
 	}
