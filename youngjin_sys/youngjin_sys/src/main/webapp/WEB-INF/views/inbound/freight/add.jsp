@@ -31,7 +31,7 @@
 <body>
 	<div id="gbl_add_div">
 		<div class="pop_title_line">
-			<span>FREIGHT ADD</span>
+			<span>FREIGHT ${(gbl ne null or gbl ne '') ? 'UPDATE' : 'ADD' }</span>
 		</div>	
 		<form:form commandName="gbl">
 		<table class="gbl_add_table">
@@ -148,7 +148,7 @@
 			</tr>
 			<tfoot>
 				<tr>
-					<td colspan="4"><input class="freight_add_submit_button" type="button" value="add"/></td>
+					<td colspan="4"><input class="${(gbl ne null or gbl ne '') ? 'freight_update_submit_button' : 'freight_add_submit_button' }" type="button" value="${(gbl ne null or gbl ne '') ? 'update' : 'add' }"/></td>
 				</tr>
 			</tfoot>
 		</table>

@@ -279,7 +279,7 @@
     </head>
     <body onload="window.print();">
     	<c:forEach var="gbl" items="${gblList }">
-	    	<div style="width: 900px; height: 1000px; background-color: white;" class="house_pdf">
+	    	<div style="width: 900px; height: 1300px; background-color: white;" class="house_pdf">
 		        <div id="paper">
 		            <h1>BILL OF LADING</h1>
 		            <table>
@@ -488,7 +488,6 @@
 		            </table>
 		        </div>
 			</div>
-			<div class ="house_nbsp" style="margin-bottom: 300px;"></div>
 		</c:forEach>
     </body>
 </html>

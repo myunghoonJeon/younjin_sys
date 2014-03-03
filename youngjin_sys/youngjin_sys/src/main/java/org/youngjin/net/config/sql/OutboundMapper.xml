@@ -520,12 +520,13 @@
 
 <select id="getWeightcertificateList" parameterType="String" resultType="Weightcertificate">
         SELECT
-        	seq, piece, type, status, gross_kg AS grossKg, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq
+        	seq, piece, type, status, gross_kg AS grossKg, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq, proGear
         FROM
         	weight_certificate
         WHERE
         	gbl_seq = #{value}
 </select>
+
 
 <select id="getCheckWeightCertificateAndGetSeq" parameterType="WeightCertificate" resultType="Integer">
 	SELECT
@@ -540,7 +541,7 @@
 
 <select id="getWeightcertificateOne" parameterType="Integer" resultType="Weightcertificate">
         SELECT
-        	seq, piece, type, status, gross_kg AS grossKg, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq
+        	seq, piece, type, status, gross_kg AS grossKg, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq, proGear
         FROM
         	weight_certificate
         WHERE
@@ -1135,13 +1136,20 @@
      INSERT INTO
      	weight_certificate
      	(
-     		piece, type, status, gross_kg, gross, tare, net, cuft, remark, gbl_seq, date
+     		piece, type, status, gross_kg, gross, tare, net, cuft, remark, gbl_seq, date, progear
      	)   
      VALUES
     	(
-    		#{piece}, #{type}, #{status}, #{grossKg}, #{gross}, #{tare}, #{net}, #{cuft}, #{remark}, #{gblSeq}, #{date}
+    		#{piece}, #{type}, #{status}, #{grossKg}, #{gross}, #{tare}, #{net}, #{cuft}, #{remark}, #{gblSeq}, #{date}, #{proGear}
     	)
 </insert>
+
+<delete id="deleteWeightcertificate" parameterType="Weightcertificate">
+	DELETE FROM
+		weight_certificate
+	WHERE
+		seq = #{seq}
+</delete>
 
 <insert id="insertTruckManifast" parameterType="TruckManifast">
     INSERT INTO
@@ -1372,7 +1380,8 @@
     	net = #{net},
     	cuft = #{cuft},
     	remark = #{remark},
-    	date = #{date}
+    	date = #{date},
+    	progear = #{proGear}
     WHERE
     	seq = #{seq}    
 </update>

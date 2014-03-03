@@ -663,4 +663,8 @@ public class InboundService {
 		}
 		return weightIb;
 	}
+
+	public void updateFreight(GBL gbl) {
+		inboundDao.updateFreight(gbl);
+	}!!
 }

@@ -161,15 +161,18 @@
 										<td class="net_td"><input name="net" type="text" value="${weightcertificate.net }"/></td>
 										<td class="cuft_td"><input name="cuft" type="text" value="${weightcertificate.cuft }" /></td>
 										<td class="remark_td"><input name="remark" type="text" value="${weightcertificate.remark }"/></td>
+										<td class="gbl_delete_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_delete_Box"></div></td>
 										<c:if test="${fn:length(weightcertificateList) ==  i.count}">
-											<td class="gbl_plus_Box_td" style="border-top: thin; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
+											<td class="gbl_plus_Box_td" style="border-left: 0px; border-top: thin; border-bottom: 0; border-right: 0;" data-count="0">
+												<div class="gbl_weight_plus_Box"></div>
+											</td>
 										</c:if>
 									</tr>
 								</c:forEach>				
 							</tbody>
 							<tfoot>
 								<tr>
-									<td colspan="9" style="font-size: 12px;">/x/x/x/x/x/x/x/x/x/x/xx/x/x/x/x/x/x/x/x/x/x/ LAST ITEM /x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/</td>
+									<td colspan="9" style="font-size: 12px;">/x/x/x/x/x/x/x/x/x/xx/x/x/x/x/x/x/x/x/x/x/ LAST ITEM /x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/x/</td>
 									<c:if test="${weightcertificateList eq '[]' }">
 										<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
 									</c:if>
@@ -190,21 +193,10 @@
 									<td></td>
 									<td></td>
 									<td id="weightcertificate_progear" style="font-size: 10px;">PROGEAR:</td>
-									<td id="weightcertificate_seal_no" style="font-size: 10px;"><input type="text" ></td>
+									<td id="weightcertificate_seal_no" style="font-size: 10px;"><input type="text" name="progear" value="${(weightcertificateList ne '[]') ? weightcertificateList[0].proGear : '' }" ></td>
 									<td id="weightcertificate_lbs" style="font-size: 10px;">LBS</td>
 									<td></td>
 									<td></td>	
-									<td></td>								
-								</tr>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
 									<td></td>							
 								</tr>
 								<tr>
@@ -215,8 +207,19 @@
 									<td></td>
 									<td></td>
 									<td></td>
+									<td></td>				
+									<td> </td>						
+								</tr>
+								<tr>
 									<td></td>
-									<td></td>							
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>						
 								</tr>
 								<tr>
 									<td style="font-size: 11px;">Total</td>

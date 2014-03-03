@@ -22,6 +22,11 @@ youngjin.inbound.sync = function(){
 		youngjin.inbound.freightAddSubmit();
 	});
 	
+	$('.freight_update_submit_button').unbind('click');
+	$('.freight_update_submit_button').bind('click', function(){
+		youngjin.inbound.freightUpdateSubmit();
+	});
+	
 	$('.freight_list').unbind('click');
 	$('.freight_list').bind('click', function(){
 		youngjin.inbound.freightProcess($(this));
@@ -188,6 +193,19 @@ youngjin.inbound.sync = function(){
 };
 
 youngjin.inbound.weightSync = function(){
+	$('.inbound_gbl_process_input').unbind('click');
+	$('.inbound_gbl_process_input').bind('click', function(){
+		var seq = $('.inbound_gbl_process').attr('data-seq');
+		
+		var url = contextPath + '/inbound/freight/' + seq + '/update';
+		parent.$.smartPop.close();
+		parent.$.smartPop.open({
+			width : 900,
+			height : 500,
+			url : url
+		});		
+	});
+	
 	$('.inbound_gbl_process_weight').unbind('click');
 	$('.inbound_gbl_process_weight').bind('click', function(){
 		var url = contextPath + '/inbound/freight/' + $('.inbound_gbl_process').attr('data-seq') + '/weight';
@@ -580,6 +598,10 @@ youngjin.inbound.confirmSync = function(){
 youngjin.inbound.freightAddSubmit = function(){
 	var form = document.forms['gbl'];
 	form.submit();	
+};
+
+youngjin.inbound.freightUpdateSubmit = function(){
+	
 };
 
 youngjin.inbound.freightProcess = function(target){
