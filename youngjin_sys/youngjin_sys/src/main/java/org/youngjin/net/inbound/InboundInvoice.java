@@ -170,7 +170,8 @@ public class InboundInvoice {
 	}
 
 	public String getCuft() {
-		return CalcUtil.checkCommaString(cuft);
+		//return CalcUtil.checkCommaString(cuft);
+		return cuft;
 	}
 	
 	public String getCbm(){
@@ -182,7 +183,8 @@ public class InboundInvoice {
 	}
 
 	public String getGrossWt() {
-		return CalcUtil.checkCommaString(grossWt);
+		//return CalcUtil.checkCommaString(grossWt);
+		return grossWt;
 	}
 	
 	public String getGrossWtKg(){
@@ -194,7 +196,8 @@ public class InboundInvoice {
 	}
 
 	public String getNetWt() {
-		return CalcUtil.checkCommaString(netWt);
+		//return CalcUtil.checkCommaString(netWt);
+		return netWt;
 	}
 	
 	public String getNetWtKg(){

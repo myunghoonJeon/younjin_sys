@@ -437,7 +437,7 @@
 				FROM
 					gbl_ib g, (SELECT @rownum := 0) r
 				WHERE
-					gblNo IN (select gbl_no from gbl_status where gbl_weight = 1 and gbl_custom = 0 )
+					gblNo IN (select gbl_no from gbl_status where gbl_weight = 1 )
 				AND
 					g.seq IN (
 					SELECT
@@ -515,6 +515,15 @@
 			il.seq = #{value}
 		AND
 			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
+	</select>
+	
+	<select id="getAddInboundInvoice" parameterType="Integer" resultType="InboundInvoice">
+		SELECT
+			seq, gblNo, name, ssn, inboundInvoiceNo, gblSeq, invoiceDate
+		FROM
+			inbound_invoice_list
+		WHERE
+			seq = #{value}
 	</select>
 	
 	<select id="checkInboundInvoiceWeight" parameterType="InboundInvoice" resultType="Integer">

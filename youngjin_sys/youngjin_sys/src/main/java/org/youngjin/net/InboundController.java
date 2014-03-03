@@ -247,7 +247,7 @@ public class InboundController {
 			@PathVariable Integer inboundInvoiceSeq) {
 
 		InboundInvoice inboundInvoice = inboundService
-				.getInboundInvoiceBasicInfo(inboundInvoiceSeq);
+				.getInboundInvoiceAddBasicInfo(inboundInvoiceSeq);
 
 		model.addAttribute("inboundInvoiceSeq", inboundInvoiceSeq);
 

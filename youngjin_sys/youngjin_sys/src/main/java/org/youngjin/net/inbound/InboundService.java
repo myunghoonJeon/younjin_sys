@@ -270,6 +270,11 @@ public class InboundService {
 	public InboundInvoice getInboundInvoiceBasicInfo(Integer inboundInvoiceSeq) {
 		return inboundDao.getInboundInvoice(inboundInvoiceSeq);
 	}
+	
+	public InboundInvoice getInboundInvoiceAddBasicInfo(
+			Integer inboundInvoiceSeq) {
+		return inboundDao.getAddInboundInvoice(inboundInvoiceSeq);
+	}
 
 	public Boolean checkInboundInvoiceWeight(InboundInvoice inboundInvoice) {
 		int checkInboundInvoice = inboundDao.checkInboundInvoiceWeight(inboundInvoice);
