@@ -190,7 +190,7 @@
 									<td></td>
 									<td></td>
 									<td id="weightcertificate_progear" style="font-size: 10px;">PROGEAR:</td>
-									<td id="weightcertificate_seal_no" style="font-size: 10px;"><input type="text" ></td>
+									<td id="weightcertificate_seal_no" style="font-size: 10px;"><input name="progear" type="text"></td>
 									<td id="weightcertificate_lbs" style="font-size: 10px;">LBS</td>
 									<td></td>
 									<td></td>	

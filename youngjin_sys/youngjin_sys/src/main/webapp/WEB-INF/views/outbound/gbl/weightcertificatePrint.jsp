@@ -201,7 +201,7 @@
 		</tr>
 	</c:forEach>
 
-	<c:forEach var="k" begin="16" end="22">
+	<%-- <c:forEach var="k" begin="16" end="22">
 		<tr>
 				<td style="width:1cm;"></td>
 				<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${k }</td>
@@ -214,7 +214,7 @@
 				<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
 				<td style="width:1cm;"></td>
 			</tr>
-	</c:forEach>
+	</c:forEach> --%>
 	<tr>
 		<td style="width:0.7cm;"></td>
 		<td colspan="8" style="font-size: 9px;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; border-right: thin;border-right-style: solid;">X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/X/XX/X/X/X/X/X/X/X/X/X/X</td>
@@ -337,19 +337,19 @@
 		<td colspan="10" style="height: 300px;"></td>
 	</tr>
 	
-	<c:forEach  var="n" begin="20" end="23">
+	<c:forEach  var="n" begin="20" end="${checkRoofCase-1 }">
 		<c:choose>
 			<c:when test="${n==20 }">
 				<tr>
 					<td style="width:1cm; "></td>
 					<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid;">${n+1 }</td>
-					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[0].type}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; border-top:thin;border-top-style: solid;">${weightcertificateList[0].status}</td>
-					<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[0].gross}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[0].tare}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[0].net}</td>
-					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; border-top:thin;border-top-style: solid;">${weightcertificateList[0].cuft}</td>
-					<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[0].remark}</td>
+					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].type}</td>
+					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; border-top:thin;border-top-style: solid;">${weightcertificateList[n].status}</td>
+					<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].gross}</td>
+					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].tare}</td>
+					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].net}</td>
+					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; border-top:thin;border-top-style: solid;">${weightcertificateList[n0].cuft}</td>
+					<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].remark}</td>
 					<td style="width:1cm;"></td>
 				</tr>
 			</c:when>
@@ -357,13 +357,13 @@
 				<tr>
 					<td style="width:1cm;"></td>
 					<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${n+1 }</td>
-					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[0].type}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[0].status}</td>
-					<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[0].gross}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[0].tare}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[0].net}</td>
-					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[0].cuft}</td>
-					<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">${weightcertificateList[0].remark}</td>
+					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].type}</td>
+					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].status}</td>
+					<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].gross}</td>
+					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].tare}</td>
+					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].net}</td>
+					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].cuft}</td>
+					<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">${weightcertificateList[n].remark}</td>
 					<td style="width:1cm;"></td>
 				</tr>
 			</c:otherwise>
