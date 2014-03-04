@@ -101,7 +101,7 @@ public class InboundController {
 		model.addAttribute("user", user);
 
 		return process + "/freight/add";
-	}
+	}	
 
 	@RequestMapping(value = "/{process}/freight/add", method = RequestMethod.POST)
 	public String freightAddSubmit(Model model, User user,
@@ -139,6 +139,22 @@ public class InboundController {
 			return process + "/freight/list";
 		}
 	}
+
+	@RequestMapping(value = "/{process}/freight/{seq}/update", method = RequestMethod.GET)
+	public String freightUpdate(Model model, User user,
+			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process, @PathVariable Integer seq) {
+		model.addAttribute("user", user);
+		
+		model.addAttribute("gbl", inboundService.getGbl(seq));
+
+		return process + "/freight/add";
+	}	
+
+	@RequestMapping(value = "/{process}/freightSubmit.json")
+	@ResponseBody
+	public void freightUpdateSubmit(@RequestBody GBL gbl){
+		inboundService.updateFreight(gbl);
+	}	
 
 	@RequestMapping(value = "/{process}/freight/{seq}/weight", method = RequestMethod.GET)
 	public String weightAdd(Model model, User user,

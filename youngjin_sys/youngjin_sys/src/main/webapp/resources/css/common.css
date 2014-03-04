@@ -338,7 +338,7 @@ li.basic_item_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646;
 #dd619_table_2_1_td{ font-size: 5px; }
 
 /* Weight Certificate */
-#weightcertificate_form_wrap{ width: 1000px; height: 986px; background-color: white; }
+#weightcertificate_form_wrap{ width: 1000px; height: 986px; background-color: white; overflow: auto; }
 
 .weight_button_wrap{ width: 80%; margin: 0 auto;}
 .weight_button_list{ width :100%; padding:10px 0;}
@@ -406,6 +406,7 @@ li.basic_item_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646;
 
 .gbl_plus_Box{ width:16px; height: 16px; background: url("../images/gbl/gbl_plus_btn.png") no-repeat; margin-left: 2px; margin-top: 5px; cursor: pointer;}
 .gbl_weight_plus_Box{ width:16px; height: 16px; background: url("../images/gbl/gbl_plus_btn.png") no-repeat; margin-left: 2px; margin-top: 5px; cursor: pointer;}
+.gbl_weight_delete_Box{ width:16px; height: 16px; background: url("../images/xButton.ico") no-repeat; margin-left: 2px; margin-top: 5px; cursor: pointer; }
 
 .final_back_wrap{ width: 90%; }
 .final_back{ margin-left: 5px; }

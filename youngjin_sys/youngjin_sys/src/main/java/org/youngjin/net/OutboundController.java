@@ -568,6 +568,13 @@ public class OutboundController {
 			@PathVariable String seq) {
 		outboundService.insertWeightcertificate(weightcertificate);
 	}
+	
+	@RequestMapping(value = "/{process}/weightcertificate/delete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblWeightcertificateDelete(
+			@RequestBody Weightcertificate weightcertificate) {
+		outboundService.deleteWeightCertificate(weightcertificate);
+	}
 
 
 	@RequestMapping(value = "/{process}/{seq}/dd619/add.json", method = RequestMethod.POST)

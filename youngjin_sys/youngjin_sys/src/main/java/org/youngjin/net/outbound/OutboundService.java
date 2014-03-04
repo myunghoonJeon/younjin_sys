@@ -208,6 +208,8 @@ public class OutboundService {
 		String[] cuftList = weightcertificate.getCuft().split(",", count);
 		String[] remarkList = weightcertificate.getRemark().split(",", count);
 		String[] statusList = weightcertificate.getStatus().split(",", count);
+		
+		String progear = weightcertificate.getProGear();
 
 		for (int i = 0; i < count; i++) {
 			paramWeightcertificate.setPiece(pieceList[i]);
@@ -222,6 +224,8 @@ public class OutboundService {
 
 			paramWeightcertificate.setGblSeq(weightcertificate.getGblSeq());
 			paramWeightcertificate.setDate(weightcertificate.getDate());
+			
+			paramWeightcertificate.setProGear(progear);
 
 			Integer checkWeightcertificateAndGetSeq = outboundDao
 					.getCheckWeightCertificateAndGetSeq(paramWeightcertificate);
@@ -258,6 +262,10 @@ public class OutboundService {
 		 * param.put("seq", weightcertificate.getGblSeq()); param.put("status",
 		 * 1); outboundDao.updateGblStatus(param);
 		 */
+	}
+
+	public void deleteWeightCertificate(Weightcertificate weightcertificate) {
+		outboundDao.deleteWeightCertificate(weightcertificate);
 	}
 
 	public int getTruckListCount(OutboundFilter outboundFilter) {

@@ -102,6 +102,10 @@ public class OutboundDao extends SqlSessionDaoSupport {
 		getSqlSession().insert("outboundMapper.insertWeightcertificate", weightcertificate);
 	}
 
+	public void deleteWeightCertificate(Weightcertificate weightcertificate) {
+		getSqlSession().delete("outboundMapper.deleteWeightcertificate", weightcertificate);
+	}
+
 	public void updateGblStatus(Map<String, Integer> param) {
 		getSqlSession().update("outboundMapper.updateGblStatus", param);		
 	}

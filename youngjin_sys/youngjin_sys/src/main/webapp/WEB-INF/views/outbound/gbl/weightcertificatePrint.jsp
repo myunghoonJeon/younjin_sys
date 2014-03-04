@@ -46,7 +46,7 @@
 -->
 </style>
 </head>
-<body vlink="blue" link="blue" style="background-color: white;"><center>
+<body vlink="blue" link="blue" style="background-color: white;" onload="window.print();"><center>
 <!-- Page 1 -->
 <a name="1"></a>
 <%-- <div id="page1-div" style="position:relative;width:892px;height:1262px;">
@@ -248,7 +248,7 @@
 				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
 				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
 				<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">progear</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${ (weightcertificateList ne '[]') ? weightcertificateList[0].proGear : '' }</td>
 				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
 				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
 				<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>

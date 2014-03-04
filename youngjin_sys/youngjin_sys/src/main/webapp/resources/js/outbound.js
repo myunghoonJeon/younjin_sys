@@ -282,6 +282,11 @@ youngjin.outbound.weightCertificateSync = function(){
 		youngjin.outbound.weightCertificateColumnAdd($(this));
 	});
 	
+	$('.gbl_delete_Box_td').unbind('click');
+	$('.gbl_delete_Box_td').bind('click', function(){
+		youngjin.outbound.weightCertificateColumnDelete($(this));
+	});
+	
 /*	$('input[name=grossKg]').unbind('change');
 	$('input[name=grossKg]').bind('change', function(){
 		youngjin.outbound.weightFromKgToLbs($(this));
@@ -1632,7 +1637,11 @@ youngjin.outbound.weightCertificateColumnAdd = function(target){
 	var tbody = table.children('tbody');
 	
 	count = Number(count) + 1;
-	var piece = Number(table.find('[name=piece]').eq(count - 2).val()) + 1;
+	
+	var piece = 1; 
+	
+	if(table.find('[name=piece]').val() != undefined)
+		piece = Number(table.find('[name=piece]').eq(count - 2).val()) + 1;
 	
 	var html = '<tr>'+
 					'<td class="piece_td"><input name="piece" type="text" value="' + piece + '" /></td>'+
@@ -1654,15 +1663,54 @@ youngjin.outbound.weightCertificateColumnAdd = function(target){
 					'<td class="net_td"><input name="net" type="text" /></td>'+
 					'<td class="cuft_td"><input name="cuft" type="text" /></td>'+
 					'<td class="remark_td"><input name="remark" type="text" /></td>'+
-					'<td class="gbl_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>' + 
+					'<td class="gbl_delete_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_delete_Box"></div></td>' +
+					'<td class="gbl_plus_Box_td" style="border-left: 0; border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>' + 
 				'</tr>';
 	
 	tbody.append(html);
 	$('.weightcertificate_table_wrap').attr('data-count', count);
 	$('.total_piece_td').html(count);
-	target.css('display', 'none');
+	target.remove();
 	
 	youngjin.outbound.sync();
+};
+
+youngjin.outbound.weightCertificateColumnDelete = function(target){
+	var count = $('.weightcertificate_table_wrap').attr('data-count');
+	var weightCertificateTr = target.parents('tr');
+	var weightCertificateTbody = weightCertificateTr.parents('tbody');
+	var weightCertificateTable = weightCertificateTbody.parents('table');
+	var weightCertificateSeq = weightCertificateTr.attr('data-weightSeq');
+	
+	count = Number(count) - 1;
+	
+	var lastColumnCheck = (weightCertificateTr.find('input[name=piece]').val() == weightCertificateTbody.find('tr:last').find('input[name=piece]').val());
+	
+	var lastOneColumnCheck = (count == 0);
+	
+	if(weightCertificateSeq != undefined){
+		var url = contextPath + '/outbound/weightcertificate/delete.json';
+		
+		$.postJSON(url, {'seq' : weightCertificateSeq });
+	}
+	
+	weightCertificateTr.remove();
+	
+	$('.weightcertificate_table_wrap').attr('data-count', count);
+	
+	for( var i = 1 ; i <= count ; i ++ ){
+		weightCertificateTable.find('tbody tr').eq(i - 1).find('input[name=piece]').val(i);
+	}
+	
+	if(lastColumnCheck){
+		weightCertificateTbody.find('tr:last').append('<td class="gbl_plus_Box_td" style="border-left: 0; border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>');
+		youngjin.outbound.weightCertificateSync();
+	}	
+	
+	if(lastOneColumnCheck){
+		weightCertificateTable.find('tfoot tr:first').append('<td class="gbl_plus_Box_td" style="border-left: 0; border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>');
+		youngjin.outbound.weightCertificateSync();
+	}
 };
 
 /*youngjin.outbound.weightFromKgToLbs = function(target){
@@ -1689,6 +1737,8 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 	
 	var date = $('#weightcertificate_date').val();
 	
+	var progear = form.find('input[name=progear]').val();
+	
 	for( var i = 1 ; i < count ; i ++ ){	
 		piece += ',' + form.find('input[name="piece"]').eq(i).val();
 		type += ',' + form.find('input[name="type"]').eq(i).val();
@@ -1714,7 +1764,8 @@ youngjin.outbound.weightCertificateSubmit = function(target){
 		"remark" : remark,
 		"gblSeq" : seq,
 		"date" : date,
-		"count" : count
+		"count" : count,
+		"proGear" : progear
 	};
 	
 	$.postJSON(url, json, function(){

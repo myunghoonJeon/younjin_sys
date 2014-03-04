@@ -344,4 +344,8 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public void updateReweightCheck(Map<String, Integer> map) {
 		getSqlSession().update("inboundMapper.updateReweightCheck", map);
 	}
+
+	public void updateFreight(GBL gbl) {
+		getSqlSession().update("inboundMapper.updateFreight", gbl);
+	}
 }
