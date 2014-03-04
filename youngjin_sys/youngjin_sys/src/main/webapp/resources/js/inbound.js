@@ -601,6 +601,105 @@ youngjin.inbound.freightAddSubmit = function(){
 };
 
 youngjin.inbound.freightUpdateSubmit = function(){
+	var seq = $('.gbl_add_table').attr('data-seq');
+	
+	var form = document.forms['gbl'];
+	var gblNo = form.gblNo.value;
+	var shipperName = form.shipperName.value;
+	var rank = form.rank.value;
+	var code = form.code.value;
+	var tsp = form.tsp.value;
+	var destAddress = form.destAddress.value;
+	var pud = form.pud.value;
+	var rdd = form.rdd.value;
+	var arriveDate = form.arriveDate.value;
+	var awbNo = form.awbNo.value;
+	var ssn = form.ssn.value;
+	var pmjDate = form.pmjDate.value;
+	var areaLocal = form.areaLocal.value;
+	var fright = form.fright.value;
+	var eMailAddress = form.eMailAddress.value;
+	var oblNo = form.oblNo.value;
+	var vessle = form.vessle.value;
+	var blCompany = form.blCompany.value;
+	var remark = form.remark.value;
+	var eta = form.eta.value;
+	var rate = form.rate.value;
+	var sitIn = form.sitIn.value;
+	var sitOut = form.sitOut.value;
+	var sitNo = form.sitNo.value;
+	var yjNo = form.yjNo.value;
+	var totalPcs = form.totalPcs.value;
+	var phone = form.phone.value;
+	var address = form.address.value;
+	var onHandDate = form.onHandDate.value;
+	var gbloc = form.gbloc.value;
+	var destinationGbloc = form.destinationGbloc.value;
+	var itemsPieces = form.itemsPieces.value;
+	var grossWeight = form.grossWeight.value;
+	var netWeight = form.netWeight.value;
+	var cuft = form.cuft.value;
+	var storedAt = form.storedAt.value;
+	
+	var url = contextPath + '/inbound/freightSubmit.json';
+	var json = {
+		'seq' : seq,
+		'gblNo' : gblNo,
+		'shipperName' : shipperName,
+		'rank' : rank,
+		'code' : code,
+		'tsp' : tsp,
+		'destAddress' : destAddress,
+		'pud' : pud,
+		'rdd' : rdd,
+		'arriveDate' : arriveDate,
+		'awbNo' : awbNo,
+		'ssn' : ssn,
+		'pmjDate' : pmjDate,
+		'areaLocal' : areaLocal,
+		'fright' : fright,
+		'eMailAddress' : eMailAddress,
+		'oblNo' : oblNo,
+		'vessle' : vessle,
+		'blCompany' : blCompany,
+		'remark' : remark,
+		'eta' : eta,
+		'rate' : rate,
+		'sitIn' : sitIn,
+		'sitOut' : sitOut,
+		'sitNo' : sitNo,
+		'yjNo' : yjNo,
+		'totalPcs' : totalPcs,
+		'phone' : phone,
+		'address' : address,
+		'onHandDate' : onHandDate,
+		'gbloc' : gbloc,
+		'destinationGbloc' : destinationGbloc,
+		'itemsPieces' : itemsPieces,
+		'grossWeight' : grossWeight,
+		'netWeight' : netWeight,
+		'cuft' : cuft,
+		'storedAt' : storedAt
+	};
+	
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				parent.$.smartPop.close();
+				
+				var url = contextPath + '/inbound/freight/' + seq;
+				
+				parent.$.smartPop.open({
+					width : 1000,
+					height : 521,
+					url : url
+				});	
+			},
+			error : function(){
+				alert('에러발생');
+			}
+		});
+	});
 	
 };
 

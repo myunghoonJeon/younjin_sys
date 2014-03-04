@@ -666,5 +666,5 @@ public class InboundService {
 
 	public void updateFreight(GBL gbl) {
 		inboundDao.updateFreight(gbl);
-	}!!
+	}
 }
