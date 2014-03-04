@@ -1262,6 +1262,8 @@
 					on_hand_list_content_weight ohlcw, weight_ib wi
 				WHERE
 					ohlcw.weightSeq = wi.seq
+				GROUP BY 
+					onHandListcontentSeq
 			) ohlcw
 		WHERE
 			ohlc.seq NOT IN (SELECT onHandListContentSeq FROM truck_manifast_ib_onHand)
