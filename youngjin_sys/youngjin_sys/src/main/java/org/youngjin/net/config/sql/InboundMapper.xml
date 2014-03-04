@@ -738,6 +738,49 @@
 		)
 	</insert>
 	
+	<update id="updateFreight" parameterType="GBL">
+		UPDATE
+			gbl_ib
+		SET
+			gblNo = #{gblNo},
+			shipperName = #{shipperName},
+			rank = #{rank},
+			code = #{code},
+			tsp = #{tsp},
+			destAddress = #{destAddress},
+			pud = #{pud},
+			rdd = #{rdd},
+			arriveDate = #{arriveDate},
+			awbNo = #{awbNo},
+			ssn = #{ssn},
+			pmjDate = #{pmjDate},
+			area = #{areaLocal},
+			fright = #{fright},
+			eMailAddress = #{eMailAddress},
+			oblNo = #{oblNo},
+			vessle = #{vessle},
+			blCompany = #{blCompany},
+			remark = #{remark},
+			eta = #{eta},
+			sitIn = #{sitIn},
+			sitOut = #{sitOut},
+			sitNo = #{sitNo},
+			rate = #{rate},
+			yjNo = #{yjNo},
+			totalPcs = #{totalPcs},
+			phone = #{phone},
+			address = #{address},
+			onHandDate = #{onHandDate},
+			gbloc = #{gbloc},
+			destinationGbloc = #{destinationGbloc},
+			itemsPieces = #{itemsPieces},
+			grossWeight = #{grossWeight},
+			netWeight = #{netWeight},
+			storedAt = #{storedAt}
+		WHERE
+			seq = #{seq}			
+	</update>
+	
 	<insert id="insertFreightStatus" parameterType="GBL">
 	INSERT INTO
 		gbl_status

@@ -34,7 +34,7 @@
 			<span>FREIGHT ${(gbl ne null or gbl ne '') ? 'UPDATE' : 'ADD' }</span>
 		</div>	
 		<form:form commandName="gbl">
-		<table class="gbl_add_table">
+		<table class="gbl_add_table" data-seq="${gbl.seq}">
 			<tr>
 				<th>GBL NO</th>
 				<td><form:input path="gblNo" />
