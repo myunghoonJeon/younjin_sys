@@ -137,7 +137,7 @@ youngjin.gblock.updateGBlock_submit = function(target, column){
 	if(value == newValue){
 		parent.html(value);
 	} else {
-		var url = contextPath + "/gblock/gblock/updateGBlock.json";
+		var url = contextPath + "/basic/gblock/gblock/updateGBlock.json";
 		var json = {};
 		
 		if(column == 'dodaac'){		
