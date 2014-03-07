@@ -196,6 +196,22 @@
 			OR
 				no LIKE '%-house%'
 		</if>
+		<if test="searchContent != null and searchContent != ''">
+			<choose>
+				<when test="searchTitle == 'name'">
+					AND
+						customer_name = #{searchContent}
+				</when>
+				<when test="searchTitle == 'ssn'">
+					AND
+						ssn = #{searchContent}
+				</when>
+				<when test="searchTitle == 'gblNo'">
+					AND
+						no = #{searchContent}
+				</when>
+			</choose>				
+		</if>
 </select>
 
 <select id="getGblList" parameterType="OutboundFilter" resultMap="GblMap">
@@ -274,6 +290,22 @@
 				<if test="houseBlFlag == true">
 					OR
 						no LIKE '%-house%'
+				</if>
+				<if test="searchContent != null and searchContent != ''">
+					<choose>
+						<when test="searchTitle == 'name'">
+							AND
+								customer_name = #{searchContent}
+						</when>
+						<when test="searchTitle == 'ssn'">
+							AND
+								ssn = #{searchContent}
+						</when>
+						<when test="searchTitle == 'gblNo'">
+							AND
+								no = #{searchContent}
+						</when>
+					</choose>				
 				</if>
 			ORDER BY
 				g.seq desc

@@ -44,6 +44,12 @@ youngjin.inbound.sync = function(){
 		form.submit();
 	});
 	
+	$('.inbound_search').unbind('click');
+	$('.inbound_search').bind('click', function(){
+		var form = document.forms['inboundFilter'];
+		form.submit();		
+	});
+	
 	$('.freight_filter_wrap select#carrier').unbind('change');
 	$('.freight_filter_wrap select#carrier').bind('change', function(){
 		var form = document.forms['inboundFilter'];

@@ -67,6 +67,15 @@
 					<form:input path="startPud"/> ~ <form:input path="endPud"/>
 				</li>
 				<li>
+					<form:select path="searchTitle">
+						<form:option value="name">NAME</form:option>
+						<form:option value="ssn">SSN</form:option>
+						<form:option value="gblNo">GBL NO</form:option>
+					</form:select>
+					<form:input path="searchContent"/>
+					<span class="outbound_search yj_button" >search</span>
+				</li>
+				<li>
 					<form:hidden path="page" value="${pagination.currentPage}"/>
 				</li>
 				<li>	
