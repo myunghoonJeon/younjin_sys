@@ -73,6 +73,12 @@ youngjin.outbound.sync = function(){
 		form.submit();
 	});
 	
+	$('.outbound_search').unbind('click');
+	$('.outbound_search').bind('click', function(){
+		var form = document.forms['outboundFilter'];
+		form.method = 'post';
+		form.submit();		
+	});
 	$('.gbl_list').unbind('click');
 	$('.gbl_list').bind('click', function(){
 		youngjin.outbound.getGblProcess($(this));

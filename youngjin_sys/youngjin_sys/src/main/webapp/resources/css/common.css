@@ -41,6 +41,9 @@
 	color: white;
 }
 
+#startPud,#endPud{width: 80px;}
+#searchContent{ width: 130px; }
+
 /* home */
 
 .home_wrap{	float: left; width: 200px; height: 100%; margin-left: 5px; cursor: pointer; }

@@ -100,6 +100,22 @@
 				AND
 					pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 			</if>
+			<if test="searchContent != null and searchContent != ''">
+				<choose>
+					<when test="searchTitle == 'name'">
+						AND
+							shipperName = #{searchContent}
+					</when>
+					<when test="searchTitle == 'ssn'">
+						AND
+							ssn = #{searchContent}
+					</when>
+					<when test="searchTitle == 'gblNo'">
+						AND
+							gblNo = #{searchContent}
+					</when>
+				</choose>				
+			</if>
 	</select>
 	
 	<select id="getFreightList" parameterType="InboundFilter" resultType="GBL">
@@ -173,6 +189,22 @@
 						AND
 							pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 					</if>
+					<if test="searchContent != null and searchContent != ''">
+						<choose>
+							<when test="searchTitle == 'name'">
+								AND
+									shipperName = #{searchContent}
+							</when>
+							<when test="searchTitle == 'ssn'">
+								AND
+									ssn = #{searchContent}
+							</when>
+							<when test="searchTitle == 'gblNo'">
+								AND
+									gblNo = #{searchContent}
+							</when>
+						</choose>				
+					</if>
 				ORDER BY
 					g.seq
 			)u	
@@ -217,7 +249,23 @@
 						<if test="endPud != null and endPud != ''">
 							AND
 								pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
-						</if>			
+						</if>	
+						<if test="searchContent != null and searchContent != ''">
+							<choose>
+								<when test="searchTitle == 'name'">
+									AND
+										shipperName = #{searchContent}
+								</when>
+								<when test="searchTitle == 'ssn'">
+									AND
+										ssn = #{searchContent}
+								</when>
+								<when test="searchTitle == 'gblNo'">
+									AND
+										gblNo = #{searchContent}
+								</when>
+							</choose>				
+						</if>		
 			)
 	</select>
 	

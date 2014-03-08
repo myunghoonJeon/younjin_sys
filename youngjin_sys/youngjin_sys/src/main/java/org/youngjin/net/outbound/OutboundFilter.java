@@ -17,6 +17,10 @@ public class OutboundFilter extends AbstractListFilter {
 
 	private Boolean houseBlFlag = false;
 
+	private String searchTitle;
+
+	private String searchContent;
+
 	public String getArea() {
 		return area;
 	}
@@ -81,11 +85,29 @@ public class OutboundFilter extends AbstractListFilter {
 		this.houseBlFlag = houseBlFlag;
 	}
 
+	public String getSearchTitle() {
+		return searchTitle;
+	}
+
+	public void setSearchTitle(String searchTitle) {
+		this.searchTitle = searchTitle;
+	}
+
+	public String getSearchContent() {
+		return searchContent;
+	}
+
+	public void setSearchContent(String searchContent) {
+		this.searchContent = searchContent;
+	}
+
 	@Override
 	public String toString() {
 		return "OutboundFilter [branch=" + branch + ", carrier=" + carrier
 				+ ", code=" + code + ", startPud=" + startPud + ", endPud="
 				+ endPud + ", area=" + area + ", truckManifastFlag="
-				+ truckManifastFlag + "]";
+				+ truckManifastFlag + ", houseBlFlag=" + houseBlFlag
+				+ ", searchTitle=" + searchTitle + ", searchContent="
+				+ searchContent + "]";
 	}
 }

@@ -20,7 +20,7 @@ public class UserFilter extends AbstractListFilter {
 
 	private String firstName;
 
-	private Integer auth;
+	private Integer auth;	
 
 	public Integer getAuth() {
 		return auth;

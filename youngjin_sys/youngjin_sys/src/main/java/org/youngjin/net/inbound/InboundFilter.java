@@ -13,6 +13,10 @@ public class InboundFilter extends AbstractListFilter {
 
 	private String area;
 
+	private String searchTitle;
+
+	private String searchContent;
+
 	public String getArea() {
 		return area;
 	}
@@ -61,10 +65,27 @@ public class InboundFilter extends AbstractListFilter {
 		this.endPud = endPud;
 	}
 
+	public String getSearchTitle() {
+		return searchTitle;
+	}
+
+	public void setSearchTitle(String searchTitle) {
+		this.searchTitle = searchTitle;
+	}
+
+	public String getSearchContent() {
+		return searchContent;
+	}
+
+	public void setSearchContent(String searchContent) {
+		this.searchContent = searchContent;
+	}
+
 	@Override
 	public String toString() {
-		return "OutboundFilter [branch=" + branch + ", carrier=" + carrier
+		return "InboundFilter [branch=" + branch + ", carrier=" + carrier
 				+ ", code=" + code + ", startPud=" + startPud + ", endPud="
-				+ endPud + ", area=" + area + "]";
+				+ endPud + ", area=" + area + ", searchTitle=" + searchTitle
+				+ "]";
 	}
 }
