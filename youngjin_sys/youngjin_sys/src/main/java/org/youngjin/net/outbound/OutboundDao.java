@@ -369,4 +369,18 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public House getHouse(String seq) {
 		return getSqlSession().selectOne("outboundMapper.getHouse", Integer.parseInt(seq));
 	}
+
+	
+	//gbl delete
+	public void deleteGblStatus(Integer seq) {
+		getSqlSession().delete("outboundMapper.deleteGblStatus", seq);
+	}
+
+	public List<Integer> getTcmdContentGblListByGblSeq(Integer seq) {
+		return getSqlSession().selectList("outboundMapper.getTcmdContentGblListByGblSeq", seq);
+	}
+
+	public void deleteTcmd(Integer tcmdSeq) {
+		getSqlSession().delete("outboundMapper.deleteTcmd", tcmdSeq);		
+	}
 }

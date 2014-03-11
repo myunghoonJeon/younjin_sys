@@ -37,11 +37,14 @@
 	<result column="net" property="netWeight" />
 	<result column="cuft" property="cuft" />
 	<result column="truck_check" property="truckCheck"/>
+	<result column="truck_seq" property="truckSeq"/>
 	<result column="booking_check" property="bookingCheck"/>
+	<result column="booking_seq" property="bookingSeq"/>
 	<result column="house_check" property="houseCheck"/>
 	<result column="remark_rdd" property="remarkRdd" />
 	<result column="remark_tac" property="remarkTac"/>
 	<result column="consignee" property="consignee"/>
+	<result column="house_seq" property="houseSeq"/>
 	<result column="house_vessel" property="houseVessel" />
 	<result column="house_voyage" property="houseVoyage"/>
 	<result column="house_company" property="houseCompany"/>
@@ -345,6 +348,8 @@
 		g.etd,
 		g.eta,
 		g.bl_no,
+		g.truck_seq,
+		g.booking_seq,
 		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
 		g.lbs,
 		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft,
@@ -1900,4 +1905,27 @@
 	WHERE
 		seq = #{value}
 </select>
+
+<delete id="deleteGblStatus" parameterType="Integer">
+	DELETE FROM
+		gbl_status
+	WHERE
+		gbl_no in (select no from gbl where seq = #{value})
+</delete>
+
+<select id="getTcmdContentGblListByGblSeq" parameterType="Integer" resultType="Integer">
+	SELECT
+		DISTINCT tcmd_seq
+	FROM
+		tcmd_gbl_list
+	WHERE
+		gbl_seq = #{value}
+</select>
+
+<delete id="deleteTcmd" parameterType="Integer">
+	DELETE FROM
+		tcmd
+	WHERE
+		seq = #{value}
+</delete>
 </mapper>

@@ -338,4 +338,8 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public InvoiceGbl getInvoiceGblcontentInfoIb(Integer invoiceGblSeq) {
 		return getSqlSession().selectOne("invoiceMapper.getInvoiceGblContentInfoIb", invoiceGblSeq);
 	}
+
+	public List<Integer> getInvoiceSeqListByGblSeq(Integer seq) {
+		return getSqlSession().selectList("invoiceMapper.getInvoiceSeqListByGblSeq", seq);
+	}
 }
