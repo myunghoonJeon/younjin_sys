@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
@@ -76,12 +78,12 @@
 <P style="position:absolute;top:324px;left:79px;white-space:nowrap" class="ft115"><input type="text" name="q-1" class="q-text q-center" style="width:243px;height:20px;" value="${gbl.gblNo }"></input></P>
 <P style="position:absolute;top:324px;left:343px;white-space:nowrap" class="ft115"><input type="text" name="q-2" class="q-text q-center" style="width:268px;height:20px;" value="${gbl.pud }"></input></P>
 <P style="position:absolute;top:378px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-3a" class="q-text" style="width:533px;height:17px;" value="${gbl.shipperName }"></input></P>
-<P style="position:absolute;top:425px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-3b" class="q-text q-center" style="width:243px;height:20px;" value="${gbl.ssn }"></input></P>
+<P style="position:absolute;top:425px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-3b" class="q-text q-center" style="width:243px;height:20px;" value="XXX-XX-${fn:substring(gbl.ssn, 5, 9) }"></input></P>
 <P style="position:absolute;top:425px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-3c" class="q-text q-center" style="width:268px;height:20px;" value="${gbl.rank }"></input></P>
 <P style="position:absolute;top:473px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-4" class="q-text q-center" style="width:243px;height:20px;" value="${dd619.originOfShipment }"></input></P>
 <P style="position:absolute;top:473px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-5" class="q-text q-center" style="width:268px;height:20px;" value="${dd619.destination }"></input></P>
-<P style="position:absolute;top:541px;left:79px;white-space:nowrap" class="ft114"><input type="text" name="q-6a" class="q-text" style="width:243px;height:22px;" value="${dd619.orderingActivityName }"></input></P>
-<P style="position:absolute;top:521px;left:343px;white-space:nowrap" class="ft12"><textarea name="q-6b" class="q-text" style="width:276px;height:50px;" value="${ dd619.carrierName}"></textarea></P>
+<P style="position:absolute;top:541px;left:79px;white-space:nowrap" class="ft114"><input type="text" name="q-6a" class="q-text" style="width:243px;height:22px;" "></input></P>
+<P style="position:absolute;top:521px;left:343px;white-space:nowrap" class="ft12"><textarea name="q-6b" class="q-text" style="width:276px;height:50px;">${ dd619.carrierName}</textarea></P>
 <P style="position:absolute;top:593px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-7a" class="q-text" style="width:243px;height:18px;" ${dd619.agentName }></input></P>
 <P style="position:absolute;top:593px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-7b" class="q-text" style="width:268px;height:18px;" value="${dd619.signature }"></input></P>
 <P style="position:absolute;top:642px;left:79px;white-space:nowrap" class="ft12"><textarea name="q-8" class="q-text" rows="2" cols="50" style="width:385px;height:48px;"></textarea></P>
@@ -92,9 +94,14 @@
 <P style="position:absolute;top:333px;left:631px;white-space:nowrap" class="ft12"><input type="text" name="q-13a" class="q-text q-center" style="width:244px;height:42px;"></input></P>
 <P style="position:absolute;top:363px;left:894px;white-space:nowrap" class="ft12"><input type="checkbox" name="q-13b" class="q-radio" value="destination"></input></P>
 <P style="position:absolute;top:363px;left:1039px;white-space:nowrap" class="ft12"><input type="checkbox" name="q-13b" class="q-radio" value="other"></input></P>
-<P style="position:absolute;top:402px;left:631px;white-space:nowrap" class="ft115"><input type="text" name="q-13c" class="q-text q-center" style="width:136px;height:44px;"></input></P>
-<P style="position:absolute;top:402px;left:787px;white-space:nowrap" class="ft115"><input type="text" name="q-13d" class="q-text q-center" style="width:126px;height:44px;"></P>
-<P style="position:absolute;top:402px;left:931px;white-space:nowrap" class="ft115"><input type="text" name="q-13e" class="q-text q-center" style="width:90px;height:44px;"></P>
+<fmt:parseDate value="${memorandumMap['06'].sitStartDate }" var="sitStartDate" pattern="yyyyMMdd"/>
+<fmt:parseDate value="${memorandumMap['07'].sitEndDate }" var="sitEndDate" pattern="yyyyMMdd"/>
+<P style="position:absolute;top:402px;left:631px;white-space:nowrap" class="ft115"><input type="text" name="q-13c" class="q-text q-center" style="width:136px;height:44px;" value="${memorandumMap['06'].sitStartDate }"></input></P>
+<fmt:formatDate value="${sitStartDate }" pattern="D" var="julianStartDate" />
+<fmt:formatDate value="${sitEndDate }" pattern="D" var="julianEndDate" />
+<c:set var="number13" value="${julianStartDate - julianEndDate + 1 }" />
+<P style="position:absolute;top:402px;left:787px;white-space:nowrap" class="ft115"><input type="text" name="q-13d" class="q-text q-center" style="width:126px;height:44px;" value="${memorandumMap['07'].sitEndDate }" /> </P>
+<P style="position:absolute;top:402px;left:931px;white-space:nowrap" class="ft115"><input type="text" name="q-13e" class="q-text q-center" style="width:90px;height:44px;" value="${number13 }"></P>
 <P style="position:absolute;top:402px;left:1036px;white-space:nowrap" class="ft12"><input type="text" name="q-13f" class="q-text q-center" style="width:105px;height:44px;"></P>
 <P style="position:absolute;top:496px;left:658px;white-space:nowrap" class="ft12"><input type="text" name="q-13g1" class="q-text q-center" style="width:338px;height:24px;"></P>
 <P style="position:absolute;top:531px;left:1014px;white-space:nowrap" class="ft12"><input type="radio" name="q-13g2" class="q-radio" value="yes"></input></P>

@@ -30,7 +30,7 @@
 <body>
 	<div class="gbl_preparation_div">
 		<div class="pop_title_line">
-			<span>PREPARATION</span>
+			<span>DELIVERY</span>
 		</div>
 		<ul class="gbl_preparation_list inbound_preparation_list" data-seq="${seq }">
 			<li class="gbl_preparation_memorandum inbound_preparation_memorandum"><span>MEMORANDUM</span></li>

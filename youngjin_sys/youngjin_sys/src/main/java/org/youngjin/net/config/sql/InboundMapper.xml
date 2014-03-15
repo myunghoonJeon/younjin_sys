@@ -105,15 +105,15 @@
 				<choose>
 					<when test="searchTitle == 'name'">
 						AND
-							shipperName = #{searchContent}
+							shipperName like CONCAT(CONCAT('%' , #{searchContent} ), '%')
 					</when>
 					<when test="searchTitle == 'ssn'">
 						AND
-							ssn = #{searchContent}
+							ssn like CONCAT(CONCAT('%' , #{searchContent} ), '%')
 					</when>
 					<when test="searchTitle == 'gblNo'">
 						AND
-							gblNo = #{searchContent}
+							gblNo like CONCAT(CONCAT('%' , #{searchContent} ), '%')
 					</when>
 				</choose>				
 			</if>
@@ -194,15 +194,15 @@
 						<choose>
 							<when test="searchTitle == 'name'">
 								AND
-									shipperName = #{searchContent}
+									shipperName like CONCAT(CONCAT('%' , #{searchContent} ), '%')
 							</when>
 							<when test="searchTitle == 'ssn'">
 								AND
-									ssn = #{searchContent}
+									ssn like CONCAT(CONCAT('%' , #{searchContent} ), '%')
 							</when>
 							<when test="searchTitle == 'gblNo'">
 								AND
-									gblNo = #{searchContent}
+									gblNo like CONCAT(CONCAT('%' , #{searchContent} ), '%')
 							</when>
 						</choose>				
 					</if>
@@ -255,15 +255,15 @@
 							<choose>
 								<when test="searchTitle == 'name'">
 									AND
-										shipperName = #{searchContent}
+										shipperName like CONCAT(CONCAT('%' , #{searchContent} ), '%')
 								</when>
 								<when test="searchTitle == 'ssn'">
 									AND
-										ssn = #{searchContent}
+										ssn like CONCAT(CONCAT('%' , #{searchContent} ), '%')
 								</when>
 								<when test="searchTitle == 'gblNo'">
 									AND
-										gblNo = #{searchContent}
+										gblNo like CONCAT(CONCAT('%' , #{searchContent} ), '%')
 								</when>
 							</choose>				
 						</if>		
@@ -1436,8 +1436,8 @@
 			g.reweightCheck = 0
 		AND
 			g.seq = w.gblSeq
-		AND
-			w.reweight IS NOT NULL
+		AND 
+			LENGTH(w.reweight) = 0
 		GROUP BY
 			w.gblSeq
 	</select>

@@ -767,6 +767,8 @@ li.inbound_invoice_item_list ul li:HOVER{ color: #F79646; border-left: 12px soli
 .inbound_reweight_add{ float: right; margin-bottom : 10px; }
 .reweight_delete{ width: 16px; height: 16px;}
 
+input#reweight{ width: 350px;}
+
 /* House BL */
 
 .house_button{ float: right; margin-bottom : 10px;}

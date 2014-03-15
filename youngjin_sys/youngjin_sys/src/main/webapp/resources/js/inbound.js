@@ -1624,11 +1624,7 @@ youngjin.inbound.declarationListContent = function(target){
 	
 	var url = contextPath + '/inbound/custom/' + seq + '/declarationListContent';
 	
-	$.smartPop.open({
-		width: 930.7,
-		height: 1122.5,
-		url : url
-	});
+	window.open(url, 'declarationPop', 'width=930.7, height=1122.5, status=no, , scrollbars=no');
 };
 
 youngjin.inbound.onHandList = function(target){

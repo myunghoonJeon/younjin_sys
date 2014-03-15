@@ -590,7 +590,7 @@ public class InboundService {
 		for( GBL gbl : tempReweightGblList){
 			String [] reweightArray = gbl.getWeightIb().getReweight().split("/", 3);
 			
-			System.out.println(reweightArray[0] + " " + reweightArray[1]);
+			System.out.println(reweightArray[0]);
 			
 			ReweightContent reweightContent = new ReweightContent();
 			reweightContent.setDeliDate(gbl.getPud());

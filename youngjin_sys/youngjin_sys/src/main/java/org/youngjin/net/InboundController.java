@@ -879,8 +879,8 @@ public class InboundController {
 		model.addAttribute("weight", inboundService.getWeightTotal(seq));
 		model.addAttribute("dd619", dd619);
 		model.addAttribute(
-				"remarkList",
-				memorandumService.getMemorandumList(seq,
+				"memorandumMap",
+				memorandumService.getMemorandumMap(seq,
 						dd619.getMemorandumListSeq(), process));
 		model.addAttribute("seq", seq);
 
