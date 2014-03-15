@@ -59,6 +59,7 @@
 		<result column="shipperName" property="onHandListContent.gbl.shipperName" />
 		<result column="rank" property="onHandListContent.gbl.rank" />
 		<result column="ssn" property="onHandListContent.gbl.ssn" />
+		<result column="area" property="onHandListContent.gbl.areaLocal"/>
 		<result column="gblNo" property="onHandListContent.gbl.gblNo" />
 		<result column="code" property="onHandListContent.gbl.code" />
 		<result column="pud" property="onHandListContent.gbl.pud" />
@@ -608,6 +609,22 @@
 			
 	</select>
 	
+	<select id="getDeclarationSeq" parameterType="String" resultType="Integer">
+		SELECT
+			DISTINCT declarationListSeq
+		FROM
+			declaration
+		WHERE
+			inboundInvoiceSeq = #{value}
+	</select>
+
+	<delete id="deleteDeclarationListBySeq" parameterType="Integer">
+		DELETE FROM
+			declaration_list
+		WHERE
+			seq = #{value}
+	</delete>
+	
 	<select id="getInboundInvoiceDeclarationList" resultType="InboundInvoice">
 		SELECT 
 			il.seq, g.gblNo, g.shipperName AS name, g.ssn, g.rank, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck
@@ -1029,7 +1046,7 @@
 			</if>
 			<if test="onHandList != null">
 				AND
-					gbl_no IN (select gblNo from gbl_ib where seq = (select gblSeq from on_hand_list_content where onHandListSeq = #{seq}))
+					gbl_no IN (select gblNo from gbl_ib where seq IN (select gblSeq from on_hand_list_content where onHandListSeq = #{seq}))
 			</if>
 			<if test="delivery != null">
 				AND
@@ -1173,7 +1190,7 @@
 	
 	<select id="getOnHandListForm" parameterType="Integer" resultMap="onHandListFormMap">
 		SELECT
-			ohl.onHandDate, ohl.firstArrivalableDeliverDate, ohlc.seq AS onHandListContentSeq, ohlc.by, g.shipperName, g.rank, g.ssn, g.gblNo, g.code, g.pud, g.rdd, w.piece, w.gross, w.net, w.cuft
+			ohl.onHandDate, ohl.firstArrivalableDeliverDate, ohlc.seq AS onHandListContentSeq, ohlc.by, g.shipperName, g.rank, g.ssn, g.gblNo, g.code, g.pud, g.area, g.rdd, w.piece, w.gross, w.net, w.cuft
 		FROM
 			on_hand_list ohl, on_hand_list_content ohlc, gbl_ib g, 
 			(
@@ -1182,7 +1199,7 @@
 				FROM
 					weight_ib
 				WHERE
-					seq IN (SELECT weightSeq FROM on_hand_list_content_weight WHERE onHandListContentSeq = (SELECT seq FROM on_hand_list_content WHERE onHandListSeq = #{value}))
+					seq IN (SELECT weightSeq FROM on_hand_list_content_weight WHERE onHandListContentSeq IN (SELECT seq FROM on_hand_list_content WHERE onHandListSeq = #{value}))
 			)w
 		WHERE
 			ohl.seq = #{value}
@@ -1334,6 +1351,51 @@
 		WHERE
 			seq = #{truckSeq}
 	</delete>
+	
+	<select id="getTruckManifastOnHandContentListSeqList" parameterType="Integer" resultType="Integer">
+		SELECT
+			onHandListContentSeq
+		FROM
+			truck_manifast_ib_onhand
+		WHERE
+			truckSeq = #{value}
+	</select>
+	
+	<select id="getOnHandListContent" parameterType="Integer" resultType="GBL">
+		SELECT 	
+			g.seq, g.gblNo, g.shipperName, g.rank, g.code, g.tsp, g.destAddress, g.pud, g.rdd, g.arriveDate, g.awbNo,
+			g.ssn, g.pmjDate, g.area AS areaLocal, g.fright, g.eMailAddress, g.oblNo, g.vessle, g.blCompany,
+			g.remark, g.eta, g.sitIn, g.sitOut, g.sitNo, g.rate, g.yjNo, g.totalPcs, g.phone, g.address, g.onHandDate, g.gbloc,
+			g.destinationGbloc, g.itemsPieces, g.grossWeight, g.netWeight, g.storedAt, ohlcw.pcs, ohlcw.lbs, ohlcw.cuft,
+			ohlc.seq AS onHandContentSeq
+		FROM
+			gbl_ib g, on_hand_list_content ohlc,
+			(
+				SELECT
+					COUNT(piece) AS pcs, SUM(gross) AS lbs, SUM(cuft) AS cuft, ohlcw.onHandListContentSeq
+				FROM
+					on_hand_list_content_weight ohlcw, weight_ib wi
+				WHERE
+					ohlcw.weightSeq = wi.seq
+				GROUP BY 
+					onHandListcontentSeq
+			) ohlcw
+		WHERE
+			ohlc.seq = #{value}
+		AND
+			g.seq = ohlc.gblSeq
+		AND
+			ohlcw.onHandListContentSeq = ohlc.seq	
+	</select>
+	
+	<select id="getTruckBasicInfo" parameterType="Integer" resultType="TruckManifastIb">
+		SELECT
+			seq, truckManifastDate, area
+		FROM
+			truck_manifast_ib
+		WHERE
+			seq = #{value}
+	</select>
 	 
 	<!-- comfirm -->
 		

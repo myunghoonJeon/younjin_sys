@@ -148,16 +148,16 @@
 			<td colspan="5" id='inaccordance_td'></td>
 		</tr>
 		<tr>			
-			<td id='name_td'>NAME : ${gbl.customerName }</td>
+			<td id='name_td'>NAME : ${gbl.shipperName }</td>
 			<td id='rank_td'>RANK : ${gbl.rank }</td>
-			<td id='ssn_td' colspan="2">SSN : XXXX-XX-${fn:substring(gbl.ssn, 6,10)}</td>
+			<td id='ssn_td' colspan="2">SSN : XXX-XX-${fn:substring(gbl.ssn, 5,8)}</td>
 		</tr>
 		<tr>			
 			<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
 			<c:set var="pud" value="${parsePud }" />
 			<td id='pud_td'>P/U DATE : ${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }</td>
-			<td id='gblno_td'>GBL NO : ${gbl.no }</td>
-			<td id='carrier_td'>CARRIER : ${gbl.scac }</td>
+			<td id='gblno_td'>GBL NO : ${gbl.gblNo }</td>
+			<td id='carrier_td'>CARRIER : ${gbl.tsp }</td>
 			<td id='code_td'>CODE : ${gbl.code }</td>
 		</tr>
 		<tr>			

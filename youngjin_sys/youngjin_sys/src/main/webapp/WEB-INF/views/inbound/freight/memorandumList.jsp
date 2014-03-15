@@ -93,7 +93,7 @@
 									<c:if test="${checkMemorandumMap[memorandum.subCode] ne null}">
 										<li><img class="memorandum_icon inbound_memorandum_modify_subButton" src="${cp }/resources/images/gbl/memorandum_edit.png" /></li>
 									</c:if>
-									<c:if test="${checkMemorandumMap[memorandum.subCode] ne null}">
+									<c:if test="${checkMemorandumMap[memorandum.subCode] ne null and memorandum.subCode ne '04' and memorandum.subCode ne '05' and memorandum.subCode ne '06' and memorandum.subCode ne '07' and memorandum.subCode ne '08'}">
 										<li><img class="memorandum_icon inbound_memorandum_icon_print" src="${cp }/resources/images/print-icon.png" /></li>
 									</c:if>
 									<c:if test="${checkMemorandumMap[memorandum.subCode] ne null}">

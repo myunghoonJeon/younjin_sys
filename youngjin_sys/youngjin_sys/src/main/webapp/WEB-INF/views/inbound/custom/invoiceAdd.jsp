@@ -150,7 +150,7 @@
 						<tr class="inbound_invoice_gbl_list" data-seq="${gbl.seq }">
 							<td>${gbl.gblNo }</td>
 							<td>${gbl.shipperName }</td>
-							<td>XXXX-XX-${fn:substring(gbl.ssn, 8, 12) }
+							<td>XXX-XX-${fn:substring(gbl.ssn, 5, 9) }
 						</tr>
 					</c:forEach>
 				</tbody>

@@ -221,7 +221,7 @@
         <div id="paper">
             <h1>DPS-REQUEST FOR AUTHORIZATION OF SIT NUMBERS</h1>
             <div id="header">
-                <div id="to">TO : <input type="text"></div>
+                <div id="to">TO : CBO ${onHandListContentList[0].onHandListContent.gbl.areaLocal }</div>
                 <div id="dest_agent">DEST AGENT : YOUNGJIN TRADE &amp; TRANSPORTATION CO., LTD</div>
 	            <fmt:parseDate value="${onHandListContentList[0].onHandDate }" var="formDate" pattern="yyyy-MM-dd" />
                 <div id="date">DATE : <fmt:formatDate value="${formDate }" pattern="MM-dd-yy"/></div>
@@ -258,7 +258,7 @@
 	                    <tr class="on_hand_list_form_tr" data-onHandListContentSeq="${onHandListContent.onHandListContent.seq }">
 	                        <td>${onHandListContent.onHandListContent.gbl.shipperName }</td>
 	                        <td>${onHandListContent.onHandListContent.gbl.rank }</td>
-							<td>XXXX-XX-${fn:substring(onHandListContent.onHandListContent.gbl.ssn, 8, 12) }
+							<td>XXX-XX-${fn:substring(onHandListContent.onHandListContent.gbl.ssn, 5, 9) }
 	                        <td>${onHandListContent.onHandListContent.gbl.gblNo }</td>
 	                        <td>${onHandListContent.onHandListContent.gbl.code }</td>
 	                        <td>${onHandListContent.onHandListContent.weight.piece }</td>
@@ -274,12 +274,19 @@
 	                        <fmt:parseDate value="${onHandListContent.firstArrivalableDeliverDate }" var="firstDate" pattern="yyyy-MM-dd" />
 	                        <td><fmt:formatDate value="${firstDate }" pattern="MM-dd-yy"/></td>
 	                        <td>
-	                            <select name="arrival_by" >
-	                                <option value="blank"></option>
-	                                <option value="nextweek" ${onHandListContent.onHandListContent.by eq 'nextweek' ? 'selected=selected' : ''}>다음주예정</option>
-	                                <option value="email" ${onHandListContent.onHandListContent.by eq 'email' ? 'selected=selected' : ''}>EMALL</option>
-	                                <option value="call" ${onHandListContent.onHandListContent.by eq 'call' ? 'selected=selected' : ''}>CALL</option>
-	                            </select>
+	                        	<c:choose>
+	                        		<c:when test="${onHandListContent.onHandListContent.by eq 'nextweek' or onHandListContent.onHandListContent.by eq 'email' or onHandListContent.onHandListContent.by eq 'call' }">
+			                            <select name="arrival_by" >
+			                                <option value="nextweek" ${onHandListContent.onHandListContent.by eq 'nextweek' ? 'selected=selected' : ''}>다음주예정</option>
+			                                <option value="email" ${onHandListContent.onHandListContent.by eq 'email' ? 'selected=selected' : ''}>EMALL</option>
+			                                <option value="call" ${onHandListContent.onHandListContent.by eq 'call' ? 'selected=selected' : ''}>CALL</option>
+			                                <option value="blank">직접입력</option>
+			                            </select>
+			                        </c:when>
+			                       	<c:otherwise>
+			                       		<input type="text" name="arrival_by" value="${onHandListContent.onHandListContent.by }" />
+			                       	</c:otherwise>
+			                    </c:choose>
 	                        </td>
 	                        <td></td>
 	                    </tr>

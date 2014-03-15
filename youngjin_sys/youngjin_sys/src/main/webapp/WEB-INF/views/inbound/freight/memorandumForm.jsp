@@ -40,11 +40,6 @@
 							back
 						</span>
 					</li>
-					<c:if test="${checkMemorandum.seq ne null and checkMemorandum.seq ne '' }">
-						<li>
-							<span id="inbound_memorandum_print" class="yj_button memorandum_print" data-seq="${checkMemorandum.gblSeq }" data-article="${articleComa}" data-type="${type }" data-memorandumSeq="${memorandumSeq }">print</span>
-						</li>
-					</c:if>
 					<li>
 						<span id="${(checkMemorandum.seq ne null and checkMemorandum.seq ne '' ? 'inbound_memorandum_update' : 'inbound_memorandum_add')}" class="yj_button ${(checkMemorandum.seq ne null and checkMemorandum.seq ne '' ? 'memorandum_update' : 'memorandum_add')}">
 							${(checkMemorandum.seq ne null and checkMemorandum.seq ne '' ? 'update' : 'add')}
@@ -74,12 +69,12 @@
 					${responsibility }
 				</li>
 				<li>
-					<p>NAME: ${gbl.customerName }</p>
+					<p>NAME: ${gbl.shipperName }</p>
 					<p>RANK: ${gbl.rank }</p>
 					<p>SSN: XXXX-XX-${fn:substring(gbl.ssn, 6,10)}</p><br/>
 					<p>P/U DATE: ${gbl.pud }</p>
-					<p>GBL NO: ${gbl.no }</p>
-					<p>CARRIER: ${gbl.scac }</p>
+					<p>GBL NO: ${gbl.gblNo }</p>
+					<p>CARRIER: ${gbl.tsp }</p>
 					<p>CODE: ${gbl.code }</p>
 				</li>
 				<li>

@@ -202,7 +202,7 @@
             
             #paper #footer #singnature {
                 float: right;
-                margin-top: 6mm;
+                margin-top: 15mm;
                 padding-top: 0.6mm;
                 padding-left: 0;
                 text-indent: 68mm;
@@ -218,7 +218,7 @@
         <div id="paper">
             <h1>DPS-REQUEST FOR AUTHORIZATION OF SIT NUMBERS</h1>
             <div id="header">
-                <div id="to">TO : <input type="text"></div>
+                <div id="to">TO : CBO ${onHandListContentList[0].onHandListContent.gbl.areaLocal }</div>
                 <div id="dest_agent">DEST AGENT : YOUNGJIN TRADE &amp; TRANSPORTATION CO., LTD</div>
 	            <fmt:parseDate value="${onHandListContentList[0].onHandDate }" var="formDate" pattern="yyyy-MM-dd" />
                 <div id="date">DATE : <fmt:formatDate value="${formDate }" pattern="MM-dd-yy"/></div>
@@ -255,7 +255,7 @@
 	                    <tr class="on_hand_list_form_tr" data-onHandListContentSeq="${onHandListContent.onHandListContent.seq }">
 	                        <td>${onHandListContent.onHandListContent.gbl.shipperName }</td>
 	                        <td>${onHandListContent.onHandListContent.gbl.rank }</td>
-							<td>XXXX-XX-${fn:substring(onHandListContent.onHandListContent.gbl.ssn, 8, 12) }
+							<td>XXX-XX-${fn:substring(onHandListContent.onHandListContent.gbl.ssn, 5, 9) }
 	                        <td>${onHandListContent.onHandListContent.gbl.gblNo }</td>
 	                        <td>${onHandListContent.onHandListContent.gbl.code }</td>
 	                        <td>${onHandListContent.onHandListContent.weight.piece }</td>

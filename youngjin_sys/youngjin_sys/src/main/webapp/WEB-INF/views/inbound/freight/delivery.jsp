@@ -35,7 +35,6 @@
 		<ul class="gbl_preparation_list inbound_preparation_list" data-seq="${seq }">
 			<li class="gbl_preparation_memorandum inbound_preparation_memorandum"><span>MEMORANDUM</span></li>
 			<li class="gbl_preparation_dd619_write inbound_preparation_dd619_write"><span>DD-619-1 WRITE</span></li>
-			<li class="gbl_preparation_addtional_reweight inbound_preparation_reweight"><span>REWEIGHT</span></li>
 			<li class="gbl_preparation_addtional_decide inbound_preparation_additional_decide"><span>CONFIRMATION</span></li>
 			<li class="gbl_prearation_complete inbound_preparation_complete"><span>COMPLETE</span></li>
 		</ul>
