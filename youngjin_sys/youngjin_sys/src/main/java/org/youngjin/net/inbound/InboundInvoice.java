@@ -188,7 +188,7 @@ public class InboundInvoice {
 	}
 	
 	public String getGrossWtKg(){
-		return String.format("%.3f", (Integer.parseInt(grossWt) / 0.45359237));
+		return String.format("%.3f", (Integer.parseInt(grossWt) / 2.2046));
 	}
 
 	public void setGrossWt(String grossWt) {
@@ -201,7 +201,7 @@ public class InboundInvoice {
 	}
 	
 	public String getNetWtKg(){
-		return String.format("%.3f", (Integer.parseInt(netWt) / 0.45359237));
+		return String.format("%.3f", (Integer.parseInt(netWt) / 2.2046));
 	}
 
 	public void setNetWt(String netWt) {

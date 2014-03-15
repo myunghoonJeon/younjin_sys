@@ -373,9 +373,10 @@ youngjin.inbound.customSync = function(){
 	
 	$('.inbound_invoice_tr').unbind('click');
 	$('.inbound_invoice_tr').bind('click', function(){
-		if($(this).attr('data-click') != 'yes'){
-		} else {
+		if( $(this).attr('data-click') == undefined || $(this).attr('data-click') != 'yes'){
 			youngjin.inbound.inboundInvoicePop($(this));
+		} else {
+			$(this).attr('data-click', 'no');
 		}
 	});
 	
@@ -383,11 +384,6 @@ youngjin.inbound.customSync = function(){
 	$('.inbound_invoice_list_delete').bind('click', function(){
 		$(this).parents().parents('tr').attr('data-click', 'yes');
 		youngjin.inbound.inboundInvoiceDelete($(this));
-	});
-	
-	$('.inbound_invoice_tr').unbind('click');
-	$('.inbound_invoice_tr').bind('click', function(){
-		youngjin.inbound.inboundInvoiceAndPowerPop($(this));
 	});
 	
 	$('.declaration_list_add').unbind('click');
@@ -520,17 +516,47 @@ youngjin.inbound.onHandSync = function(){
 	
 	$('.on_hand_list_delete').unbind('click');
 	$('.on_hand_list_delete').bind('click', function(){
+		$(this).parents().parents('tr').attr('data-click', 'yes');
 		youngjin.inbound.onHandListDelete($(this));
 	});
 	
 	$('.on_hand_list_print_tr').unbind('click');
 	$('.on_hand_list_print_tr').bind('click', function(){
-		youngjin.inbound.onHandListPrint($(this));
+		if( $(this).attr('data-click') == undefined || $(this).attr('data-click') != 'yes'){
+			youngjin.inbound.onHandListPrint($(this));
+		} else {
+			$(this).attr('data-click', 'no');
+		}
 	});
 	
 	$('.on_hand_list_form_tr select[name=arrival_by]').unbind('change');
 	$('.on_hand_list_form_tr select[name=arrival_by]').bind('change', function(){
-		youngjin.inbound.onHandListByUpdate($(this));
+		if($(this).val() != 'blank'){
+			youngjin.inbound.onHandListByUpdate($(this));
+		} else {
+			var td = $(this).parents('td');
+			var html = '<input type="text" name="arrival_by" />';
+			td.html(html);
+			
+			youngjin.inbound.onHandSync();
+		}
+	});
+	
+	$('.on_hand_list_form_tr input[name=arrival_by]').focusout(function(){
+		if($(this).val() == ''){
+			var td = $(this).parents('td');
+			var html = '<select name="arrival_by" >' +
+	        				'<option value="nextweek"}>다음주예정</option>' + 
+	                        '<option value="email" >EMALL</option>' + 
+	                        '<option value="call">CALL</option>' + 
+	                        '<option value="blank">직접입력</option>' +
+	                        '</select>';
+			td.html(html);
+			
+			youngjin.inbound.onHandSync();
+		} else {
+			youngjin.inbound.onHandListByUpdate($(this));
+		}
 	});
 	
 	$('.on_hand_list_form_print').unbind('click');
@@ -550,7 +576,17 @@ youngjin.inbound.onHandSync = function(){
 	
 	$('.inbound_truck_manifast_deleteButton').unbind('click');
 	$('.inbound_truck_manifast_deleteButton').bind('click', function(){
+		$(this).parents('tr').attr('data-click', 'yes');
 		youngjin.inbound.truckManifastOnHandDelete($(this));
+	});
+	
+	$('.inbound_truck_manifast_form').unbind('click');
+	$('.inbound_truck_manifast_form').bind('click', function(){
+		if( $(this).attr('data-click') == undefined || $(this).attr('data-click') != 'yes'){
+			youngjin.inbound.truckManifastPrint($(this));
+		} else {
+			$(this).attr('data-click', 'no');
+		}
 	});
 };
 
@@ -590,7 +626,7 @@ youngjin.inbound.confirmSync = function(){
 
 		parent.$.smartPop.open({
 			width: 350,
-			height: 450,
+			height: 371,
 			url : url
 		});
 	});
@@ -792,7 +828,7 @@ youngjin.inbound.delivery = function(target){
 
 	parent.$.smartPop.open({
 		width: 350,
-		height: 450,
+		height: 371,
 		url : url
 	});
 	
@@ -853,7 +889,7 @@ youngjin.inbound.memorandumAllBack = function(target){
 
 	parent.$.smartPop.open({
 		width: 350,
-		height: 450,
+		height: 371,
 		url : url
 	});
 };
@@ -1478,7 +1514,7 @@ youngjin.inbound.inboundInvoicePop = function(target){
 						url : goUrl
 					});		
 				} else {
-					
+					youngjin.inbound.inboundInvoiceAndPowerPop(target);
 				}
 			}, 
 			error : function(){
@@ -1523,14 +1559,8 @@ youngjin.inbound.inboundInvoicePrint = function(target){
 	var seq = target.parents('ul').attr('data-seq');
 	
 	var url = contextPath + '/inbound/custom/invoice/' + seq + '/inboundInvoicePrint';
-	
-	parent.$.smartPop.close();
-	
-	parent.$.smartPop.open({
-		width: 930.7,
-		height: 1122.5,
-		url : url
-	});	
+
+	window.open(url, 'inboundInvoicePrint', 'width=930.7, height=1122.5 scrollbar=no');
 };
 
 youngjin.inbound.powerOfAttornyPrint = function(target){
@@ -1872,13 +1902,7 @@ youngjin.inbound.onHandListFormPrint = function(target){
 	
 	var url = contextPath + '/inbound/onHand/' + seq + '/onHandListFormPrint';
 	
-	parent.$.smartPop.close();
-	
-	parent.$.smartPop.open({
-		width: 1263,
-		height: 892,
-		url : url
-	});
+	window.open(url, 'onHandListFormPrint', 'width=1263, height=892, status=no, scrollbars=no');
 };
 
 youngjin.inbound.getTruckmainifastGblList = function(target){
@@ -1947,6 +1971,14 @@ youngjin.inbound.truckManifastOnHandDelete = function(target){
 	} 
 };
 
+youngjin.inbound.truckManifastPrint = function(target){
+	var seq = target.attr('data-seq');
+	
+	var url = contextPath + '/inbound/onHand/' + seq + '/truckManifastForm';
+	
+	window.open(url, 'truckManifastForm', 'width=1263, height=892, status=no, scrollbars=no');
+};
+
 youngjin.inbound.dd619Back = function(target){
 	var seq = target.parents('.inbound_dd619_list_wrap').attr('data-seq');
 	
@@ -1956,7 +1988,7 @@ youngjin.inbound.dd619Back = function(target){
 
 	parent.$.smartPop.open({
 		width: 350,
-		height: 450,
+		height: 371,
 		url : url
 	});
 };
@@ -2136,7 +2168,7 @@ youngjin.inbound.additionComplete = function(target){
 
 				parent.$.smartPop.open({
 					width: 350,
-					height: 450,
+					height: 371,
 					url : goUrl
 				});				
 			},

@@ -59,7 +59,7 @@
 			</ul>
 		</div>
 		<form:form commandName="weightIb">
-			<table class="weight_table" data-count="${ fn:length(weightList)}">
+			<table class="weight_table" data-count="${ (fn:length(weightList) eq 0 ) ? 1 : fn:length(weightList)}">
 				<colgroup>
 					<col width="10%">
 					<col width="10%">
@@ -89,7 +89,7 @@
 					<c:if test="${weightList eq '[]' }">
 						<tr>
 							<form:hidden path="gblSeq" value="${seq}"/>		
-							<td class="weight_piece_td"><form:input path="piece" /></td>
+							<td class="weight_piece_td"><form:input path="piece" />1</td>
 							<td><form:input path="type" /></td>
 							<td class="weight_gross_td"><form:input path="gross" /></td>
 							<td><form:input path="grossKg"/></td>

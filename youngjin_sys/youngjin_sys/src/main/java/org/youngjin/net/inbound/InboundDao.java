@@ -208,7 +208,7 @@ public class InboundDao extends SqlSessionDaoSupport {
 		return getSqlSession().selectList("inboundMapper.getInboundInvoiceListDeclaration", seq);
 	}
 
-	public void deleteInboundInvoice(Map<String, Integer> inboundInvoiceMap) {
+	public void deleteInboundInvoice(Map<String, String> inboundInvoiceMap) {
 		getSqlSession().delete("inboundMapper.deleteInboundInvoice", inboundInvoiceMap);
 	}
 
@@ -347,5 +347,26 @@ public class InboundDao extends SqlSessionDaoSupport {
 
 	public void updateFreight(GBL gbl) {
 		getSqlSession().update("inboundMapper.updateFreight", gbl);
+	}
+
+	public List<Integer> getTruckManifastOnHandContentListSeqList(Integer seq) {
+		return getSqlSession().selectList("inboundMapper.getTruckManifastOnHandContentListSeqList", seq);
+	}
+
+	public GBL getOnhandListContent(Integer onHandListContentSeq) {
+		return getSqlSession().selectOne("inboundMapper.getOnHandListContent", onHandListContentSeq);
+	}
+
+	public TruckManifast getTruckBasicInfo(Integer seq) {
+		return getSqlSession().selectOne("inboundMapper.getTruckBasicInfo", seq);
+	}
+
+	public Integer getDeclarationSeq(String seq) {
+		return getSqlSession().selectOne("inboundMapper.getDeclarationSeq", seq);
+	}
+
+	public void deleteDeclarationListBySeq(Integer declarationSeq) {
+		getSqlSession().delete("inboundMapper.deleteDeclarationListBySeq", declarationSeq);
+		
 	}
 }

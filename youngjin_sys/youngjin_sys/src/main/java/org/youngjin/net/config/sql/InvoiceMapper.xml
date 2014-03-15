@@ -1347,4 +1347,13 @@
 		WHERE
 			seq = #{value}
 	</delete>
+	
+	<select id="getInvoiceSeqListByGblSeq" parameterType="Integer" resultType="Integer">
+		SELECT
+			DISTINCT invoice_list_seq
+		FROM
+			invoice_gbl
+		WHERE
+			gbl_seq = #{value}
+	</select>
 </mapper>

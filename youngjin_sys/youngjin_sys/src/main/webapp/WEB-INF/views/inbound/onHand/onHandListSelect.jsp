@@ -29,7 +29,7 @@
 <body>
 	<div class="inbound_invoice_gbl_list_wrap">
 		<div class="pop_title_line">
-			<span>DECLARATION LIST ADD</span>
+			<span>ON HAND LIST ADD</span>
 		</div>		
 		
 		<div class="gbl_filter">	

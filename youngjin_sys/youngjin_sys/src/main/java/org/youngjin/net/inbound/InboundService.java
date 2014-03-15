@@ -392,7 +392,15 @@ public class InboundService {
 		return inboundDao.getInboundInvoiceListDeclaration(seq);
 	}
 
-	public void inboundInvoiceDelete(Map<String, Integer> inboundInvoiceMap) {
+	public void inboundInvoiceDelete(Map<String, String> inboundInvoiceMap) {		
+		String seq = inboundInvoiceMap.get("seq");
+		
+		updateStatusCustom(Integer.parseInt(seq), "delete");
+		
+		Integer declarationSeq = inboundDao.getDeclarationSeq(seq);
+		
+		inboundDao.deleteDeclarationListBySeq(declarationSeq);
+		
 		inboundDao.deleteInboundInvoice(inboundInvoiceMap);
 	}
 
@@ -480,6 +488,17 @@ public class InboundService {
 		Map<String, Integer> statusParam = new HashMap<String, Integer>();
 		statusParam.put("seq", seq);
 		statusParam.put("custom", 1);
+		
+		inboundDao.updateGblStatus(statusParam);
+	}
+	
+	public void updateStatusCustom(Integer seq, String delete) {
+		Map<String, Integer> statusParam = new HashMap<String, Integer>();
+		statusParam.put("seq", seq);
+		if(delete.equals("delete"))
+			statusParam.put("custom", 0);
+		else
+			statusParam.put("custom", 1);			
 		
 		inboundDao.updateGblStatus(statusParam);
 	}
@@ -666,5 +685,21 @@ public class InboundService {
 
 	public void updateFreight(GBL gbl) {
 		inboundDao.updateFreight(gbl);
+	}
+
+	public List<GBL> getTruckManifastContentList(Integer seq) {
+		List<Integer> onHandListContentSeqList = inboundDao.getTruckManifastOnHandContentListSeqList(seq);
+		
+		List<GBL> onHandListContent = new ArrayList<GBL>();
+		
+		for(Integer onHandListContentSeq : onHandListContentSeqList){
+			onHandListContent.add(inboundDao.getOnhandListContent(onHandListContentSeq));
+		}
+		
+		return onHandListContent;
+	}
+
+	public TruckManifast getTruckBasicInfo(Integer seq) {
+		return inboundDao.getTruckBasicInfo(seq);
 	}
 }

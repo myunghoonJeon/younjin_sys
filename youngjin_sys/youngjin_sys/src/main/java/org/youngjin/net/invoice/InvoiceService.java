@@ -2000,4 +2000,16 @@ public class InvoiceService {
 		
 		return returnMap;
 	}
+
+	public List<Integer> getInvoiceSeqListByGblSeq(Integer seq) {
+		return invoiceDao.getInvoiceSeqListByGblSeq(seq);
+	}
+
+	public void deleteInvoice(Integer invoiceSeq) {
+		Invoice invoice = new Invoice();
+		
+		invoice.setSeq(invoiceSeq);
+		
+		invoiceDao.deleteInvoice(invoice);
+	}
 }

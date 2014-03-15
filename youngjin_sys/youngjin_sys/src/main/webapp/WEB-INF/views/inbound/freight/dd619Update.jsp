@@ -31,7 +31,7 @@
 <body>
 	<div id="inbound_dd619_add_div">
 		<div class="pop_title_line">
-			<span>DD619 MODIFY</span>
+			<span>DD619-1 MODIFY</span>
 		</div>	
 		
 		<div class="yj_button_wrap">
@@ -56,9 +56,9 @@
 			</tr>	
 			<tr>
 				<th>NAME</th>
-				<td><form:input path="name"/></td>
+				<td><form:input path="name" value="${gbl.shipperName }"/></td>
 				<th>SSN</th>
-				<td>XXX - XX - <form:input path="ssn" style="width: 50px;"/></td>
+				<td>XXX - XX - <form:input path="ssn" style="width: 50px;" value="${fn:substring(dd619.ssn, 5, 9) }"/></td>
 			</tr>
 			<tr>
 				<th>RANK</th>
@@ -129,7 +129,7 @@
 				<th>MATERIALS WERE FURNISHED/ACCESSORIAL SERVICES WERE PERFORMED</th>
 				<td><form:input path="officerMaterial" value="ORIGIN"/></td>				
 				<th>SIGNATURE</th>
-				<td><form:input path="officerSignature" value="${gbl.rank } ${gbl.customerName }"/></td>				
+				<td><form:input path="officerSignature" value="${gbl.rank } ${gbl.shipperName }"/></td>				
 			</tr>
 			<tr>							
 				<th colspan="2">DATE SIGNED</th>
@@ -142,7 +142,7 @@
 			</tr>
 			<tr>
 				<th>SIGNATURE OF TRANSPORTATION OFFICER</th>
-				<td><form:input path="rankAndName" value="${gbl.rank } ${gbl.customerName }"/></td>
+				<td><form:input path="rankAndName" value="${gbl.rank } ${gbl.shipperName }"/></td>
 				<th>DATE SIGNED</th>
 				<td><form:input path="transportationDate" /></td>
 			</tr>		

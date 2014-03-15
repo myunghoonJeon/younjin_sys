@@ -17,6 +17,7 @@ import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeDao;
+import org.youngjin.net.invoice.InvoiceService;
 import org.youngjin.net.login.User;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.upload.UploadService;
@@ -28,6 +29,9 @@ public class OutboundService {
 	@Resource
 	private OutboundDao outboundDao;
 
+	@Resource
+	private InvoiceService invoiceService;
+	
 	@Resource
 	private UploadService uploadService;
 
@@ -724,6 +728,30 @@ public class OutboundService {
 	}
 
 	public void deleteGBL(GBL gbl) {
+		outboundDao.deleteGblStatus(gbl.getSeq());
+		
+		GBL gblTemp = outboundDao.getGbl(gbl.getSeq());
+				
+		outboundDao.deleteTruckManifast(gblTemp.getTruckSeq());
+		
+		Map<String, String> bookingSeq = new HashMap<String, String>();
+		bookingSeq.put("seq", gbl.getSeq().toString());
+		outboundDao.deleteBookingList(bookingSeq);
+		
+		List<Integer> tcmdSeqList = outboundDao.getTcmdContentGblListByGblSeq(gbl.getSeq());
+		
+		for(Integer tcmdSeq : tcmdSeqList){
+			outboundDao.deleteTcmd(tcmdSeq);
+		}
+		
+		outboundDao.deleteHouse(gbl.getHouseSeq());
+		
+		List<Integer> getInvoiceSeqList = invoiceService.getInvoiceSeqListByGblSeq(gbl.getSeq());
+		
+		for(Integer invoiceSeq : getInvoiceSeqList){
+			invoiceService.deleteInvoice(invoiceSeq);
+		}
+		
 		outboundDao.deleteGBL(gbl);
 	}
 

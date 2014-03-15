@@ -31,7 +31,7 @@
 <body>
 	<div id="dd619_add_div">
 		<div class="pop_title_line">
-			<span>DD619 INPUT</span>
+			<span>DD619-1 INPUT</span>
 		</div>	
 		
 		<div class="yj_button_wrap">

@@ -31,7 +31,7 @@
 <body>
 	<div class="inbound_dd619_list_wrap" data-seq="${seq}">
 		<div class="pop_title_line">
-			<span>DD619 LIST</span>
+			<span>DD619-1 LIST</span>
 		</div>	
 		<div id="inbound_dd619_addButton">
 			<ul id="inbound_dd619_button_list">

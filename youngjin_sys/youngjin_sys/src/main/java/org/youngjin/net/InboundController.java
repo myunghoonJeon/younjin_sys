@@ -246,7 +246,7 @@ public class InboundController {
 	@RequestMapping(value = "/{process}/custom/invoice/inboundInvoiceDelete.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void inboundInvoiceDelete(
-			@RequestBody Map<String, Integer> inboundInvoiceMap) {
+			@RequestBody Map<String, String> inboundInvoiceMap) {
 		inboundService.inboundInvoiceDelete(inboundInvoiceMap);
 	}
 
@@ -550,6 +550,20 @@ public class InboundController {
 
 		return process + "/onHand/truckManifastOnhandList";
 	}
+	
+	@RequestMapping(value = "/{process}/onHand/{seq}/truckManifastForm", method = RequestMethod.GET)
+	public String truckManifastFormInbound(Model model, User user,
+			@PathVariable String process,
+			@PathVariable Integer seq) {
+		
+		model.addAttribute("truckInfo", inboundService.getTruckBasicInfo(seq));
+
+		model.addAttribute("truckList", inboundService.getTruckManifastContentList(seq));
+
+		model.addAttribute("user", user);
+
+		return process + "/onHand/truckManifastForm";
+	}	
 
 	@RequestMapping(value = "/{process}/onHand/inputTruckManifast.json", method = RequestMethod.POST)
 	@ResponseBody
