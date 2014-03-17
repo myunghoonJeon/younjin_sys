@@ -25,4 +25,8 @@ public class ProcessService {
 		
 	}
 
+	public GBlock getGBlockByGbloc(String gbloc) {
+		return processDao.getGblocByGbloc(gbloc);
+	}
+
 }

@@ -325,6 +325,10 @@ public class InboundDao extends SqlSessionDaoSupport {
 		return getSqlSession().selectList("inboundMapper.getReweightList", inboundFilter);
 	}
 
+	public Reweight getReweight(Integer seq) {
+		return getSqlSession().selectOne("inboundMapper.getReweight", seq);
+	}
+
 	public List<GBL> getReweightGblList() {
 		return getSqlSession().selectList("inboundMapper.getReweightGblList");
 	}
@@ -368,5 +372,9 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public void deleteDeclarationListBySeq(Integer declarationSeq) {
 		getSqlSession().delete("inboundMapper.deleteDeclarationListBySeq", declarationSeq);
 		
+	}
+
+	public List<ReweightContent> getReweightContentList(Integer seq) {
+		return getSqlSession().selectList("inboundMapper.getReweightContentList", seq);
 	}
 }

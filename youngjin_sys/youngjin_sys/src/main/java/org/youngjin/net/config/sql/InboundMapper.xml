@@ -1416,8 +1416,28 @@
 			reweight
 	</select>
 	
+	<select id="getReweight" parameterType="Integer" resultType="Reweight">
+		SELECT
+			seq, reweightDate, reweightName
+		FROM
+			reweight
+		WHERE
+			seq = #{value}
+	</select>
+	
+	<select id="getReweightContentList" parameterType="Integer" resultType="ReweightContent">
+		SELECT
+			seq, reweightSeq, gblSeq
+		FROM
+			reweight_content
+		WHERE
+			reweightSeq = #{value}
+	</select>
+	
 	<resultMap type="GBL" id="GBLMap">
 		<result column="pud" property="pud"/>
+		<result column="code" property="code"/>
+		<result column="area" property="areaLocal"/>
 		<result column="gbloc" property="gbloc"/>
 		<result column="tsp" property="tsp"/>
 		<result column="gblNo" property="gblNo"/>
@@ -1429,7 +1449,7 @@
 	
 	<select id="getReweightGblList" resultMap="GBLMap">
 		SELECT 
-			g.pud, g.gbloc, g.tsp, g.gblNo, g.shipperName, SUM(w.gross) AS gross, reweight, g.seq
+			g.pud, g.code, g.area, g.gbloc, g.tsp, g.gblNo, g.shipperName, SUM(w.gross) AS gross, reweight, g.seq
 		FROM
 			gbl_ib g, weight_ib w
 		WHERE
@@ -1437,7 +1457,7 @@
 		AND
 			g.seq = w.gblSeq
 		AND 
-			LENGTH(w.reweight) = 0
+			LENGTH(w.reweight) != 0
 		GROUP BY
 			w.gblSeq
 	</select>

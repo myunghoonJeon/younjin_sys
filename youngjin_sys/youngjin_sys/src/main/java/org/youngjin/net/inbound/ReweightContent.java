@@ -1,9 +1,15 @@
 package org.youngjin.net.inbound;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class ReweightContent {
 	private Integer seq;
 	private String deliDate;
 	private String originGblock;
+	private String code;
 	private String scacCode;
 	private String gblNo;
 	private String fullName;
@@ -31,6 +37,22 @@ public class ReweightContent {
 	public void setDeliDate(String deliDate) {
 		this.deliDate = deliDate;
 	}
+	
+	public String getMonth(){
+		SimpleDateFormat format = new SimpleDateFormat("MMM", Locale.UK);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Integer.parseInt(deliDate.substring(0, 4)), Integer.parseInt(deliDate.substring(4, 6)) - 1, Integer.parseInt(deliDate.substring(6, 8)));
+		
+		return format.format(calendar.getTime());
+	}
+	
+	public String getCodeStr(){
+		if(code.equals("3") || code.equals("4") || code.equals("5") || code.equals("T"))
+			return "HHG";
+		else
+			return "UB";
+	}
 
 	public String getOriginGblock() {
 		return originGblock;
@@ -38,6 +60,14 @@ public class ReweightContent {
 
 	public void setOriginGblock(String originGblock) {
 		this.originGblock = originGblock;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getScacCode() {

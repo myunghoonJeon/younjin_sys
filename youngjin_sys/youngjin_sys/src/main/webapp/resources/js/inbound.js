@@ -2197,6 +2197,11 @@ youngjin.inbound.reweightSync = function(){
 	$('.reweight_delete').bind('click', function(){
 		youngjin.inbound.reweightDelete($(this));
 	});
+	
+	$('.reweight_report_tr').unbind('click');
+	$('.reweight_report_tr').bind('click', function(){
+		youngjin.inbound.reweightReport($(this));
+	});
 };
 
 youngjin.inbound.reweightAdd = function(target){
@@ -2246,4 +2251,12 @@ youngjin.inbound.reweightDelete = function(target){
 			}
 		});				
 	});
+};
+
+youngjin.inbound.reweightReport = function(target){
+	var seq = target.attr('data-seq');
+	
+	var url = contextPath + '/inbound/reweight/reweightReport/' + seq;
+	
+	window.open(url, 'reweightReportPop', 'width=930.7, height=1122.5 scrollbar=no');
 };

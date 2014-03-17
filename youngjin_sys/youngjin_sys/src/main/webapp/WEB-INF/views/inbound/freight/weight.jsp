@@ -146,7 +146,7 @@
 					<tr>
 						<td colspan="3">Reweight</td>
 						<td colspan="5">
-							<input type="text" name="reweight" id="reweight" placeholder="gross wt/tare wt/비율 순으로 입력해야 하며, '/'로 구분됩니다." value="${weightList[0].reweight }"/>
+							<input type="text" name="reweight" id="reweight" placeholder="gross/tare/gbl.31/20140317(delidate)" value="${weightList[0].reweight }"/>
 						</td>
 					</tr>
 				</tfoot>		

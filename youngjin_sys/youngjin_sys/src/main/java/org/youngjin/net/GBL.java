@@ -102,6 +102,11 @@ public class GBL {
 	private String storedAt;
 	private String onHandContentSeq;
 
+	// reweight
+	private String deliDate;
+	private String gblRate31;
+	private String reweightGross;
+
 	private WeightIb weightIb;
 
 	public Boolean getTruckCheck() {
@@ -616,6 +621,30 @@ public class GBL {
 
 	public void setWeightIb(WeightIb weightIb) {
 		this.weightIb = weightIb;
+	}
+
+	public String getDeliDate() {
+		return deliDate;
+	}
+
+	public void setDeliDate(String deliDate) {
+		this.deliDate = deliDate;
+	}
+
+	public String getGblRate31() {
+		return gblRate31;
+	}
+
+	public void setGblRate31(String gblRate31) {
+		this.gblRate31 = gblRate31;
+	}
+
+	public String getReweightGross() {
+		return reweightGross;
+	}
+
+	public void setReweightGross(String reweightGross) {
+		this.reweightGross = reweightGross;
 	}
 
 	public String getSitIn() {
