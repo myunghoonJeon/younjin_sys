@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<c:set var="cp" value="<%=request.getContextPath() %>"/>
+<c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
 <!DOCTYPE html>
 <HTML>
 <style>
@@ -100,51 +104,93 @@
 	String code="OUTBOUND #4";
 %>
 <HEAD>
+	<link rel="stylesheet" href="${cp }/resources/css/common.css">
 </HEAD>
-<BODY>
-	<table border="0" align="center" style="width: 17cm" cellspacing="0">
-		<tr>
-			<td id='title'colspan="4">YOUNJIN TRADE & TRANSPORTATION, Co., LTD</td>
-		</tr>
-		<tr>
-			<td id='title-side'>　</td>
-			<td colspan="2" id='address'><input style="width: 9cm; border: none; text-align: center; font-size: 11pt;font-weight: bold;" type="text" value="475 Sangdo-1-dong, Dongjak-gu, Seoul, Korea."></input></td>
-			<td id='title-side'>　</td>
-		</tr>
-		<tr>
-			<td id='title-side'>　</td>
-			<td id='tel'>TEL : <input style="width: 3cm; border: none; font-weight: bold;" type="text" value="<%out.println(tel);%>" ></input></td>
-			<td id='fax'>FAX : <input style="width: 3cm; border: none; font-weight: bold;" type="text" value="<%out.println(fax);%>"></input></td>
-			<td id='title-side'>　</td>
-		</tr>
-		<tr>
-			<td colspan="4" id='invoice'><font id='invoice_input'>I N V O I C E</font></td>
-		</tr>
-	</table>
-	<table border="0" align="center" style="width : 17cm;" cellspacing="0">
-		<tr>
-			<td id='totd' rowspan="3">TO: </td><td id='to' rowspan="3"><textarea style=" border: none; height:100%;width:100%; overflow:hidden;"><%out.println(to);%></textarea></td>
-			<td id='date' style="width:2.5cm;">DATE: </td > <td id='date'><%out.println(date); %></td>
-		</tr>
-		<tr>
-			<td id='invoiceno' style="width:2.5cm;">INVOICE NO: </td> <td id='invoiceno'><%out.println(invoiceno); %></td>
-		</tr>
-		<tr>
-			<td id='code'style="width:2.5cm;">CODE: </td> <td id='code'><%out.println(code); %></td>
-		</tr>		
-	</table>
-	<table id='test'border="0" align="center" style="width : 17cm;" cellspacing="0">
-		<tr style="font-size: 9pt; ">
-		<td id='no'>NO</td>
-		<td id='route'>ROUTE</td>
-		<td id='gblno'>GBL-NO</td>
-		<td id='rank'>RANK</td>
-		<td id='shipper'>SHIPPER</td>
-		<td id='weight'>WEIGHT</td>
-		<td id='ratecwt'>RATE/CWT</td>
-		<td id='amount'>AMOUNT</td>
-		</tr>
-	</table>
+<BODY onload="window.print();">
+	<div style="height: 1000px;">
+		<table border="0" align="center" style="width: 17cm" cellspacing="0">
+			<tr>
+				<td id='title'colspan="4">YOUNJIN TRADE & TRANSPORTATION, Co., LTD</td>
+			</tr>
+			<tr>
+				<td id='title-side'>　</td>
+				<td colspan="2" id='address'><input style="width: 9cm; border: none; text-align: center; font-size: 11pt;font-weight: bold;" type="text" value="475 Sangdo-1-dong, Dongjak-gu, Seoul, Korea."></input></td>
+				<td id='title-side'>　</td>
+			</tr>
+			<tr>
+				<td id='title-side'>　</td>
+				<td id='tel'>TEL : <input style="width: 3cm; border: none; font-weight: bold;" type="text" value="<%out.println(tel);%>" ></input></td>
+				<td id='fax'>FAX : <input style="width: 3cm; border: none; font-weight: bold;" type="text" value="<%out.println(fax);%>"></input></td>
+				<td id='title-side'>　</td>
+			</tr>
+			<tr>
+				<td colspan="4" id='invoice'><font id='invoice_input'>I N V O I C E</font></td>
+			</tr>
+		</table>
+		<table border="0" align="center" style="width : 17cm;" cellspacing="0">
+			<tr>
+				<td id='totd' rowspan="3">TO: </td><td id='to' rowspan="3">${scac.scacFullName }<br/>${scac.address }</td>
+				<td id='date' style="width:2.5cm;">DATE: </td > <td id='date'><%out.println(date); %></td>
+			</tr>
+			<tr>
+				<td id='invoiceno' style="width:2.5cm;">INVOICE NO: </td> <td id='invoiceno'><%out.println(invoiceno); %></td>
+			</tr>
+			<tr>
+				<td id='code'style="width:2.5cm;">CODE: </td> <td id='code'>${fn:toUpperCase(invoice.process) }#</td>
+			</tr>		
+		</table>
+		<table id='test'border="0" align="center" style="width : 17cm;" cellspacing="0">
+			<tr style="font-size: 9pt; ">
+				<td id='no'>NO</td>
+				<td id='route'>ROUTE</td>
+				<td id='gblno'>GBL-NO</td>
+				<td id='rank'>RANK</td>
+				<td id='shipper'>SHIPPER</td>
+				<td id='weight'>WEIGHT</td>
+				<td id='ratecwt'>RATE/CWT</td>
+				<td id='amount'>AMOUNT</td>
+			</tr>
+			<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
+				<tr>	
+					<td>${i.count }</td>
+					<td></td>
+					<td>${invoiceGbl.gblNo }</td>
+					<td>${invoiceGbl.rank }</td>
+					<td>${invoiceGbl.name }</td>
+					<td>${i.count }</td>
+					<td>${i.count }</td>
+					<td>${invoiceGbl.amount }</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+	
+	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
+		<div>			
+			<div>
+				<table class="invoice_gbl_content_table">
+					<tr>
+						<th colspan="5">
+							CHARGING ITEMS
+						</th>
+						<th>
+							QUANTITY
+						</th>
+						<th>
+							AMOUNTS
+						</th>
+					</tr> 
+					<c:forEach var="invoiceGblContent" items="${invoiceGblContentMap[invoiceGbl.seq] }">
+						<tr>
+							<td colspan="5">${invoiceGblContent.chargingItem }</td>
+							<td>${invoiceGblContent.quantity }</td>
+							<td>${invoiceGblContent.amount }</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</div>	
+	</c:forEach>
 </BODY>
 </HTML>
 

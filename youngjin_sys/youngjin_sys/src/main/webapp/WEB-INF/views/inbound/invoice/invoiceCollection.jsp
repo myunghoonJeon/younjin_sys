@@ -48,7 +48,7 @@
 	</div>
 		
 	<div>
-		<table class="yj_table invoice_collection_table">
+		<table class="yj_table inbound_invoice_collection_table">
 			<!-- <colgroup>
 				<col width="8%">
 				<col width="6%">

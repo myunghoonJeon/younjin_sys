@@ -37,7 +37,7 @@
 		<div class="yj_button_wrap invoice_gbl_list_button_wrap">
 			<ul class="yj_button_list invoice_gbl_list_button_list">
 				<li>
-					<span class="yj_button invoice_gbl_print">print</span>
+					<span class="yj_button inbound_invoice_gbl_print">print</span>
 				</li>
 			</ul>
 		</div>

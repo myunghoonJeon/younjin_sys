@@ -64,6 +64,11 @@ youngjin.invoice.invoiceListSync = function(){
 	$('.invoice_gbl_print').bind('click', function(){
 		youngjin.invoice.invoiceGblPrint($(this), 'outbound');
 	});
+	
+	$('.inbound_invoice_gbl_print').unbind('click');
+	$('.inbound_invoice_gbl_print').bind('click', function(){
+		youngjin.invoice.invoiceGblPrint($(this), 'inbound');
+	});
 };
 
 youngjin.invoice.rateSync = function(){
@@ -223,12 +228,21 @@ youngjin.invoice.invoiceCollectionSync = function(){
 		youngjin.invoice.collectionSave($(this));
 	});
 	
+	$('.inbound_invoice_collection_table tbody tr').unbind('click');
+	$('.inbound_invoice_collection_table tbody tr').bind('click', function(){
+		if($(this).attr('data-click') == 'yes'){
+			$(this).attr('data-click', 'no');
+		} else {
+			youngjin.invoice.invoiceCollectionGbl($(this), 'inbound');
+		}
+	});
+	
 	$('.invoice_collection_table tbody tr').unbind('click');
 	$('.invoice_collection_table tbody tr').bind('click', function(){
 		if($(this).attr('data-click') == 'yes'){
 			$(this).attr('data-click', 'no');
 		} else {
-			youngjin.invoice.invoiceCollectionGbl($(this));
+			youngjin.invoice.invoiceCollectionGbl($(this), 'outbound');
 		}
 	});
 	
@@ -273,7 +287,16 @@ youngjin.invoice.invoiceCollectionSync = function(){
 		if($(this).attr('data-click') == 'yes'){
 			$(this).attr('data-click', 'no');
 		}else {
-			youngjin.invoice.invoiceGblCollectionContent($(this));
+			youngjin.invoice.invoiceGblCollectionContent($(this), 'outbound');
+		}
+	});
+	
+	$('.inbound_invoice_gbl_collection_list_table tr').unbind('click');
+	$('.inbound_invoice_gbl_collection_list_table tr').bind('click', function(){
+		if($(this).attr('data-click') == 'yes'){
+			$(this).attr('data-click', 'no');
+		}else {
+			youngjin.invoice.invoiceGblCollectionContent($(this), 'inbound');
 		}
 	});
 	
@@ -283,7 +306,12 @@ youngjin.invoice.invoiceCollectionSync = function(){
 	
 	$('.invoice_gbl_content_list_pdf').unbind('click');
 	$('.invoice_gbl_content_list_pdf').bind('click',function(){
-		youngjin.invoice.gblCollectionPdf($(this));
+		youngjin.invoice.gblCollectionPdf($(this), 'outbound');
+	});
+	
+	$('.inbound_invoice_gbl_content_list_pdf').unbind('click');
+	$('.inbound_invoice_gbl_content_list_pdf').bind('click',function(){
+		youngjin.invoice.gblCollectionPdf($(this), 'inbound');
 	});
 };
 
@@ -554,6 +582,10 @@ youngjin.invoice.invoiceList = function(target, process){
 youngjin.invoice.invoiceGblPrint = function(target, process){
 	var invoiceSeq = $('.invoice_gbl_list_table').attr('data-seq');
 	
+	if(process == 'inbound'){
+		invoiceSeq = $('.inbound_invoice_gbl_list_table').attr('data-seq');
+	}
+	
 	var url = contextPath + '/' + process + '/invoice/' + invoiceSeq + '/invoicePrint';
 	
 	window.open(url, 'invoiceGblPrint', 'width=1263, height=892, status=no');
@@ -729,10 +761,10 @@ youngjin.invoice.collectionDelete = function(target){
 	});
 };
 
-youngjin.invoice.invoiceCollectionGbl = function(target){
+youngjin.invoice.invoiceCollectionGbl = function(target, process){
 	var seq = target.attr('data-seq');
 	
-	var url = contextPath + '/outbound/invoice/' + seq + '/invoiceCollectionGbl'; 
+	var url = contextPath + '/' + process + '/invoice/' + seq + '/invoiceCollectionGbl'; 
 	
 	parent.$.smartPop.close();
 	
@@ -868,12 +900,12 @@ youngjin.invoice.collectionGblDelete = function(target){
 	});
 };
 
-youngjin.invoice.invoiceGblCollectionContent = function(target){
+youngjin.invoice.invoiceGblCollectionContent = function(target, process){
 	var seq = $('.invoice_gbl_collection_list_table').attr('data-seq');
 	var invoiceGblSeq = target.attr('data-invoiceGblSeq');
 	var gblSeq = target.attr('data-gblSeq');
 	
-	var url = contextPath + '/outbound/invoice/' + seq + '/' + invoiceGblSeq + '/' + gblSeq + '/invoiceGblCollectionContent';
+	var url = contextPath + '/' + process + '/invoice/' + seq + '/' + invoiceGblSeq + '/' + gblSeq + '/invoiceGblCollectionContent';
 	
 	parent.$.smartPop.close();
 	
@@ -907,12 +939,12 @@ youngjin.invoice.inputGblCollectionRemark = function(target){
 	});
 };
 
-youngjin.invoice.gblCollectionPdf = function(target){
+youngjin.invoice.gblCollectionPdf = function(target, process){
 	var seq = target.attr('data-seq');
 	var invoiceGblSeq = target.attr('data-invoiceGblSeq');
 	var gblSeq = target.attr('data-gblSeq');	
 	
-	var url = contextPath + '/outbound/invoice/' + seq + '/' + invoiceGblSeq + '/' + gblSeq + '/invoiceContentPdfView';
+	var url = contextPath + '/' + process + '/invoice/' + seq + '/' + invoiceGblSeq + '/' + gblSeq + '/invoiceContentPdfView';
 	
 	parent.$.smartPop.close();
 	
