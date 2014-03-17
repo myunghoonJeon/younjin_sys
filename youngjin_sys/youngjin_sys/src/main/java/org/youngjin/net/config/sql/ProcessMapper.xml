@@ -57,4 +57,13 @@
 		WHERE
 			seq = #{seq}			
 	</update>
+	
+	<select id="getGblocByGbloc" parameterType="String" resultMap="GblockMap">
+		SELECT
+			seq, dodaac, gblock, us_no, remark
+		FROM
+			gblock
+		WHERE
+			gblock = #{value}
+	</select>
 </mapper>

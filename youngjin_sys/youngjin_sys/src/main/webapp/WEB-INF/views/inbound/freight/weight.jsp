@@ -146,7 +146,7 @@
 					<tr>
 						<td colspan="3">Reweight</td>
 						<td colspan="5">
-							<input type="text" name="reweight" id="reweight" value="${weightList[0].reweight }"/>
+							<input type="text" name="reweight" id="reweight" placeholder="gross/tare/gbl.31/20140317(delidate)" value="${weightList[0].reweight }"/>
 						</td>
 					</tr>
 				</tfoot>		

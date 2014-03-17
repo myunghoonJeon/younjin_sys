@@ -1624,11 +1624,7 @@ youngjin.inbound.declarationListContent = function(target){
 	
 	var url = contextPath + '/inbound/custom/' + seq + '/declarationListContent';
 	
-	$.smartPop.open({
-		width: 930.7,
-		height: 1122.5,
-		url : url
-	});
+	window.open(url, 'declarationPop', 'width=930.7, height=1122.5, status=no, , scrollbars=no');
 };
 
 youngjin.inbound.onHandList = function(target){
@@ -2201,6 +2197,11 @@ youngjin.inbound.reweightSync = function(){
 	$('.reweight_delete').bind('click', function(){
 		youngjin.inbound.reweightDelete($(this));
 	});
+	
+	$('.reweight_report_tr').unbind('click');
+	$('.reweight_report_tr').bind('click', function(){
+		youngjin.inbound.reweightReport($(this));
+	});
 };
 
 youngjin.inbound.reweightAdd = function(target){
@@ -2250,4 +2251,12 @@ youngjin.inbound.reweightDelete = function(target){
 			}
 		});				
 	});
+};
+
+youngjin.inbound.reweightReport = function(target){
+	var seq = target.attr('data-seq');
+	
+	var url = contextPath + '/inbound/reweight/reweightReport/' + seq;
+	
+	window.open(url, 'reweightReportPop', 'width=930.7, height=1122.5 scrollbar=no');
 };

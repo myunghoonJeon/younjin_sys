@@ -210,7 +210,27 @@ public class InboundService {
 	}
 	
 	public GBL getGbl(Integer seq) {
-		return inboundDao.getGbl(seq);
+		GBL gbl = inboundDao.getGbl(seq);
+		
+		List<WeightIb> weightList = inboundDao.getWeightList(seq);
+		
+		Integer totalGross = 0;
+		Integer totalNet = 0;
+		Integer totalCuft = 0;
+		Integer totalPcs = 0;
+		for(WeightIb weightIb : weightList){
+			totalGross += Integer.parseInt(weightIb.getGross());
+			totalNet += Integer.parseInt(weightIb.getNet());
+			totalCuft += Integer.parseInt(weightIb.getCuft());
+			totalPcs += 1;
+		}
+		
+		gbl.setGrossWeight(totalGross.toString());
+		gbl.setNetWeight(totalNet.toString());
+		gbl.setCuft(totalCuft.toString());
+		gbl.setPcs(totalPcs.toString());
+		
+		return gbl;
 	}
 
 	public List<Dd619> getDd619List(String seq) {
@@ -588,21 +608,20 @@ public class InboundService {
 		List<ReweightContent> reweightGblList = new ArrayList<ReweightContent>();
 		
 		for( GBL gbl : tempReweightGblList){
-			String [] reweightArray = gbl.getWeightIb().getReweight().split("/", 3);
-			
-			System.out.println(reweightArray[0] + " " + reweightArray[1]);
+			String [] reweightArray = gbl.getWeightIb().getReweight().split("/", 4);
 			
 			ReweightContent reweightContent = new ReweightContent();
-			reweightContent.setDeliDate(gbl.getPud());
+			reweightContent.setDeliDate(reweightArray[3]);
 			reweightContent.setOriginGblock(gbl.getGbloc());
+			reweightContent.setCode(gbl.getCode());
 			reweightContent.setScacCode(gbl.getTsp());
 			reweightContent.setGblNo(gbl.getGblNo());
 			reweightContent.setFullName(gbl.getShipperName());
 			reweightContent.setoWt(gbl.getWeightIb().getGross());
 			reweightContent.setrWt(reweightArray[0]);
-			reweightContent.setDentn(""); // 일단 빈칸
+			reweightContent.setDentn(gbl.getAreaLocal()); // 일단 빈칸
 			reweightContent.setGblSeq(gbl.getSeq());
-			if(reweightArray.length == 3){
+			if(reweightArray.length > 3){
 				reweightContent.setRateGbl31("$" + ((reweightArray[2].equals("")) ? "0" : reweightArray[2]));
 			} else {
 				reweightContent.setRateGbl31("");
@@ -701,5 +720,49 @@ public class InboundService {
 
 	public TruckManifast getTruckBasicInfo(Integer seq) {
 		return inboundDao.getTruckBasicInfo(seq);
+	}
+
+	public Reweight getReweight(Integer seq) {
+		return inboundDao.getReweight(seq);
+	}
+
+	public List<ReweightContent> getReweightListBySeq(Integer seq) {
+		List<ReweightContent> reweightList = new ArrayList<ReweightContent>();
+		
+		List<ReweightContent> reweightContentList = inboundDao.getReweightContentList(seq);
+		
+		for(ReweightContent reweightContent : reweightContentList){
+			GBL gbl = inboundDao.getGbl(reweightContent.getGblSeq());
+			
+			ReweightContent reweightContentPure = new ReweightContent();
+			
+			reweightContentPure.setDentn(gbl.getAreaLocal());
+			reweightContentPure.setFullName(gbl.getShipperName());
+			reweightContentPure.setGblNo(gbl.getGblNo());
+			reweightContentPure.setOriginGblock(gbl.getGbloc());
+			reweightContentPure.setCode(gbl.getCode());
+			reweightContentPure.setScacCode(gbl.getTsp());
+			
+			List<WeightIb> weightIbList = inboundDao.getWeightList(reweightContent.getGblSeq());
+			
+			Integer totalGross = 0;
+			for(WeightIb weight : weightIbList){
+				totalGross += Integer.parseInt(weight.getGross());
+			}
+			
+			String [] reweight = weightIbList.get(0).getReweight().split("/", 4);
+			
+			if(reweight.length > 3){
+				reweightContentPure.setDeliDate(reweight[3]);
+				reweightContentPure.setRateGbl31(reweight[2]);
+				reweightContentPure.setrWt(reweight[0]);
+			}
+			
+			reweightContentPure.setoWt(totalGross.toString());
+			
+			reweightList.add(reweightContentPure);
+		}
+		
+		return reweightList;
 	}
 }

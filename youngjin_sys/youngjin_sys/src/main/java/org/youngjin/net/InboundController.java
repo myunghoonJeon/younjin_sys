@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.basic.BasicService;
 import org.youngjin.net.basic.Branch;
+import org.youngjin.net.basic.Company;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.inbound.InboundFilter;
@@ -35,6 +36,8 @@ import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumList;
 import org.youngjin.net.memorandum.MemorandumService;
 import org.youngjin.net.outbound.Addition;
+import org.youngjin.net.process.GBlock;
+import org.youngjin.net.process.ProcessService;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') ")
@@ -51,6 +54,9 @@ public class InboundController {
 
 	@Resource
 	private BasicService basicService;
+	
+	@Resource
+	private ProcessService processService;
 
 	@RequestMapping(value = "/{process}/freightList", method = RequestMethod.GET)
 	public String freightList(Model model, User user,
@@ -845,10 +851,19 @@ public class InboundController {
 			@PathVariable String process, @PathVariable String seq,
 			@PathVariable Integer dd619Seq, @ModelAttribute Dd619 dd619) {
 
+		GBL gbl = inboundService.getGbl(Integer.parseInt(seq));
 		dd619 = inboundService.getDd619ListSelectOne(dd619Seq);
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
+		Company company = basicService.getCompanyByCode("YJ");
+		GBlock gblock = processService.getGBlockByGbloc(gbl.getGbloc());
+		
+		model.addAttribute("branch", branch);
+		model.addAttribute("company", company);
+		model.addAttribute("gblock", gblock);
 
 		model.addAttribute("user", user);
-		model.addAttribute("gbl", inboundService.getGbl(Integer.parseInt(seq)));
+		model.addAttribute("gbl", gbl);
 		model.addAttribute("dd619", dd619);
 		model.addAttribute(
 				"remarkList",
@@ -872,15 +887,25 @@ public class InboundController {
 			@PathVariable String seq, @PathVariable Integer listSeq,
 			@ModelAttribute Dd619 dd619) {
 
+		GBL gbl = inboundService.getGbl(Integer.parseInt(seq));
+		
 		dd619 = inboundService.getDd619ListSelectOne(listSeq);
+		
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
+		Company company = basicService.getCompanyByCode("YJ");
+		GBlock gblock = processService.getGBlockByGbloc(gbl.getGbloc());
+		
+		model.addAttribute("branch", branch);
+		model.addAttribute("company", company);
+		model.addAttribute("gblock", gblock);
 
 		model.addAttribute("user", user);
-		model.addAttribute("gbl", inboundService.getGbl(Integer.parseInt(seq)));
+		model.addAttribute("gbl", gbl);
 		model.addAttribute("weight", inboundService.getWeightTotal(seq));
 		model.addAttribute("dd619", dd619);
 		model.addAttribute(
-				"remarkList",
-				memorandumService.getMemorandumList(seq,
+				"memorandumMap",
+				memorandumService.getMemorandumMap(seq,
 						dd619.getMemorandumListSeq(), process));
 		model.addAttribute("seq", seq);
 
@@ -930,6 +955,20 @@ public class InboundController {
 		model.addAttribute("reweightList", reweightList);
 
 		return process + "/reweight/main";
+	}
+	
+	@RequestMapping(value = "{process}/reweight/reweightReport/{seq}", method=RequestMethod.GET)
+	public String reweightReportMain(Model model, User user, @PathVariable String process, @PathVariable Integer seq){
+		
+		Reweight reweight = inboundService.getReweight(seq);
+		
+		model.addAttribute("reweightBasicInfo", reweight);
+		
+		List<ReweightContent> reweightList = inboundService.getReweightListBySeq(seq);
+		
+		model.addAttribute("reweightReportingList", reweightList);
+		
+		return process + "/reweight/reweightReport";
 	}
 	
 	@RequestMapping(value = "{process}/reweight/gblSelect", method = RequestMethod.GET)

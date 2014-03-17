@@ -52,7 +52,7 @@
 				<th>GBL NO</th>
 				<td><form:input path="gblNo"/></td>
 				<th>DATE</th>
-				<td><form:input path="date"/></td>
+				<td><form:input path="date" value="${gbl.pud }"/></td>
 			</tr>	
 			<tr>
 				<th>NAME</th>
@@ -64,19 +64,19 @@
 				<th>RANK</th>
 				<td><form:input path="rank"/></td>
 				<th>ORIGIN OF SHIPMENT</th>
-				<td><form:input path="originOfShipment"/></td>
+				<td><form:input path="originOfShipment" value="${gbl.gbloc }"/></td>
 			</tr>		
 			<tr>
 				<th>DESTINATION</th>
-				<td><form:input path="destination"/></td>
+				<td><form:input path="destination" value="${gbl.areaLocal }"/></td>
 				<th>ORDERING ACTIVITY NAME</th>
-				<td><form:input path="orderingActivityName" /></td>
+				<td><form:input path="orderingActivityName" value="${branch.itoAddress }"/></td>
 			</tr>		
 			<tr>
 				<th>CARRIER NAME</th>
-				<td><form:input path="carrierName" /></td>
+				<td><form:input path="carrierName" value="${gbl.tsp }" /></td>
 				<th>AGENT NAME</th>
-				<td><form:input path="agentName" value="YOUNGJIN T&T CO.LTD"/></td>
+				<td><form:input path="agentName" value="${company.companyNameAcronym }"/></td>
 			</tr>		
 			<tr>
 				<th>SINGNATURE</th>

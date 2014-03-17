@@ -20,4 +20,8 @@ public class ProcessDao extends SqlSessionDaoSupport {
 		getSqlSession().update("processMapper.gblockUpdate", gblock);
 	}
 
+	public GBlock getGblocByGbloc(String gbloc) {
+		return getSqlSession().selectOne("processMapper.getGblocByGbloc", gbloc);
+	}
+
 }

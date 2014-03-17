@@ -1129,7 +1129,7 @@ public class InvoiceService {
 			}
 			
 			//5. REWEIGHT CHARGE
-			if(weightList.get(0).getReweight() != null){
+			if(weightList.get(0).getReweight() != null && !weightList.get(0).getReweight().equals("")){
 				InvoiceGblContent reweightContent = new InvoiceGblContent();		
 				
 				invoiceReturnMap = reweightCharge(weightList, comprate1.getRate(), codeStr);
@@ -1165,7 +1165,7 @@ public class InvoiceService {
 			terminationMemorandumParam.setType("05");
 
 			Memorandum terminationMemorandum = memorandumDao.getMemorandumIb(terminationMemorandumParam);
-			if (terminationMemorandum.getTermination().equals("0")) {
+			if (terminationMemorandum == null || terminationMemorandum.getTermination().equals("0")) {
 			} else {
 				Rate otherRateParam = new Rate();
 				if ("HHG".equals(codeStr)) {
@@ -1330,7 +1330,7 @@ public class InvoiceService {
 		
 		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
 		
-		if(weightList.get(0).getReweight() != null){
+		if(weightList.get(0).getReweight() != null && !weightList.get(0).getReweight().equals("")){
 			String [] reweightList = weightList.get(0).getReweight().split("/");
 			if(Double.parseDouble(reweightList[0]) < gbl_weight){
 				gbl_weight = Double.parseDouble(reweightList[0]);

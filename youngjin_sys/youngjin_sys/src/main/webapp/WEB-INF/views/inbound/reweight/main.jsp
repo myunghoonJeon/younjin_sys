@@ -101,7 +101,7 @@
 					</tr>
 				</c:if>
 				<c:forEach var="reweight" items="${reweightList }" varStatus="i"> 
-					<tr>
+					<tr class="reweight_report_tr" data-seq="${reweight.seq}">
 						<td>${i.count }</td>
 						<td>${reweight.reweightName }</td>
 						<td>${reweight.reweightDate }</td>
