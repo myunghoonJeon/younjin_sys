@@ -37,7 +37,7 @@
 		<div class="yj_button_wrap invoice_gbl_list_button_wrap">
 			<ul class="yj_button_list invoice_gbl_content_list_button_list">
 				<li>
-					<span class="yj_button invoice_gbl_content_list_pdf" data-gblSeq="${gblSeq }" data-invoiceGblSeq="${invoiceGblSeq }" data-seq="${invoiceGblContentInfo.invoiceListSeq }">pdf</span>
+					<span class="yj_button inbound_invoice_gbl_content_list_pdf" data-gblSeq="${gblSeq }" data-invoiceGblSeq="${invoiceGblSeq }" data-seq="${invoiceGblContentInfo.invoiceListSeq }">pdf</span>
 				</li>
 			</ul>
 		</div>
