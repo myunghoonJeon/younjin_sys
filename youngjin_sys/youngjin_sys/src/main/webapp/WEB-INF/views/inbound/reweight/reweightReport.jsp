@@ -8,7 +8,7 @@
 <html>
 <head>
 </head>
-<body>
+<body onload="window.print();">
 <center>
 	<table cellspacing="0" border="0">
 		<tr>
