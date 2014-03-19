@@ -31,7 +31,7 @@
 <body>
 	<div id="gbl_add_div">
 		<div class="pop_title_line">
-			<span>FREIGHT ${(gbl ne null or gbl ne '') ? 'UPDATE' : 'ADD' }</span>
+			<span>FREIGHT ${(gbl.seq ne null and gbl.seq ne '') ? 'UPDATE' : 'ADD' }</span>
 		</div>	
 		<form:form commandName="gbl">
 		<table class="gbl_add_table" data-seq="${gbl.seq}">
@@ -45,64 +45,97 @@
 			<tr>
 				<th>RANK</th>
 				<td><form:input path="rank" /> </td>
-				<th>GBL CODE</th>
+				<th>CODE</th>
 				<td><form:input path="code" /> </td>
 			</tr>
 			<tr>
-				<th>TSP</th>
+				<th>SCAC</th>
 				<td><form:input path="tsp" /> </td>
-				<th>DEST ADDRESS</th>
-				<td><form:input path="destAddress" /> </td>
+				<th>STORED AT</th>
+				<td><form:input path="storedAt" /> </td>
+			</tr>
+			<tr>
+				<th>SSN</th>
+				<td><form:input path="ssn" /> </td>
+				<th>BRANCH</th>
+				<td><form:input path="areaLocal" /> </td>
+			</tr>
+			<tr>
 			</tr>
 			<tr>
 				<th>PUD</th>
 				<td><form:input path="pud" /> </td>
 				<th>RDD</th>
 				<td><form:input path="rdd" /> </td>
+				
 			</tr>
 			<tr>
+				<th>TOTAL PCS</th>
+				<td><form:input path="totalPcs" /> </td>
+				<th>GROSS WEIGHT</th>
+				<td><form:input path="grossWeight" /> </td>
+				
+			</tr>
+			<tr>
+				<th>NET WEIGHT</th>
+				<td><form:input path="netWeight" /> </td>
+				<th>CUFT</th>
+				<td><form:input path="cuft" /> </td>
+				
+			</tr>
+			<tr>
+				<th>GBLOC</th>
+				<td><form:input path="gbloc" /> </td>
+				<th>DEST GBLOC</th>
+				<td><form:input path="destinationGbloc" /> </td>
+				
+				
+			</tr>
+			<tr>
+				<th>ITEMS</th>
+				<td><form:input path="itemsPieces" /> </td>
+				<th>GBL RATE</th>
+				<td><form:input path="rate" /> </td>
+				
 			</tr>
 			<tr>
 				<th>ARRIVE DATE</th>
 				<td><form:input path="arriveDate" /> </td>
 				<th>AWB NO</th>
 				<td><form:input path="awbNo" /> </td>
-			</tr>
-			<tr>
-				<th>SSN</th>
-				<td><form:input path="ssn" /> </td>
-				<th>PMJ DATE</th>
-				<td><form:input path="pmjDate" /> </td>
-			</tr>
-			<tr>
-				<th>AREA</th>
-				<td><form:input path="areaLocal" /> </td>
-				<th>FRIGHT</th>
-				<td><form:input path="fright" /> </td>
-			</tr>
-			<tr>
-				<th>E-MAIL ADDRESS</th>
-				<td><form:input path="eMailAddress" /> </td>
-				<th>OBL NO</th>
-				<td><form:input path="oblNo" /> </td>
+			
+				
 			</tr>
 			<tr>
 				<th>VESSEL</th>
 				<td><form:input path="vessle" /> </td>
 				<th>BL 분할 업체</th>
 				<td><form:input path="blCompany" /> </td>
+				
 			</tr>
 			<tr>
-				<th>REMARK</th>
-				<td><form:input path="remark" /> </td>
+				<th>PMJ DATE</th>
+				<td><form:input path="pmjDate" /> </td>
+				<th>OBL NO</th>
+				<td><form:input path="oblNo" /> </td>
+				
+			</tr>
+			<tr>
 				<th>ETA</th>
 				<td><form:input path="eta" /> </td>
+				<th>FRIGHT</th>
+				<td><form:input path="fright" /> </td>
+				
+				
+				
 			</tr>
 			<tr>
-				<th>GBL RATE</th>
-				<td><form:input path="rate" /> </td>
+				<th>ON HAND DATE</th>
+				<td><form:input path="onHandDate" /> </td>
 				<th>SIT IN</th>
 				<td><form:input path="sitIn" /> </td>
+				
+				
 			</tr>
 			<tr>
 				<th>SIT OUT</th>
@@ -111,44 +144,26 @@
 				<td><form:input path="sitNo" /> </td>
 			</tr>
 			<tr>
-				<th>YJ NO</th>
+				<th>YJ-NO</th>
 				<td><form:input path="yjNo" /> </td>
-				<th>TOTAL PCS</th>
-				<td><form:input path="totalPcs" /> </td>
+				<th>SHIP LOCATION</th>
+				<td><form:input path="destAddress" /> </td>
 			</tr>
 			<tr>
-				<th>PHONE</th>
+				<th>E-MAIL</th>
+				<td><form:input path="eMailAddress" /> </td>
+				<th>PHONE NO</th>
 				<td><form:input path="phone" /> </td>
-				<th>ADDRESS</th>
+			</tr>
+			<tr>
+				<th>SHIPPER ADDRESS</th>
 				<td><form:input path="address" /> </td>
-			</tr>
-			<tr>
-				<th>ON HAND DATE</th>
-				<td><form:input path="onHandDate" /> </td>
-				<th>GBLOC</th>
-				<td><form:input path="gbloc" /> </td>
-			</tr>
-			<tr>
-				<th>DESTINATION GBLOC</th>
-				<td><form:input path="destinationGbloc" /> </td>
-				<th>ITEMS PIECES</th>
-				<td><form:input path="itemsPieces" /> </td>
-			</tr>
-			<tr>
-				<th>GROSS WEIGHT</th>
-				<td><form:input path="grossWeight" /> </td>
-				<th>NET WEIGHT</th>
-				<td><form:input path="netWeight" /> </td>
-			</tr>
-			<tr>
-				<th>CUFT</th>
-				<td><form:input path="cuft" /> </td>
-				<th>STORED AT</th>
-				<td><form:input path="storedAt" /> </td>
+				<th>REMARK</th>
+				<td><form:input path="remark" /> </td>
 			</tr>
 			<tfoot>
 				<tr>
-					<td colspan="4"><input class="${(gbl ne null or gbl ne '') ? 'freight_update_submit_button' : 'freight_add_submit_button' }" type="button" value="${(gbl ne null or gbl ne '') ? 'update' : 'add' }"/></td>
+					<td colspan="4"><input class="${(gbl.seq ne null and gbl.seq ne '') ? 'freight_update_submit_button' : 'freight_add_submit_button' }" type="button" value="${(gbl.seq ne null and gbl.seq ne '') ? 'update' : 'add' }"/></td>
 				</tr>
 			</tfoot>
 		</table>

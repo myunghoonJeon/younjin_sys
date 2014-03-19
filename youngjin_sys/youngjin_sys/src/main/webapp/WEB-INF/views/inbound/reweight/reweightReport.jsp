@@ -70,10 +70,28 @@
 				<td style="width:1.5cm; font-size:11px; font-weight:bold;text-align:center;"name="dentn">X</td>
 				<td style="width:2cm; font-size:11px; font-weight:bold;text-align:center;"name="rate">X</td>			
 			</tr>
+			 <c:set var="checkSize" value="${23-fn:length(reweightReportingList) }"/>
+		<c:if test="${checkSize>0}">
+			<c:forEach var="reweightReport" begin="0" end="${checkSize }">
+				<tr>
+					<td style="width:1cm; height:0.4cm;font-size:11px; font-weight:bold;text-align:center;" name="delidate">　</td>
+					<td style="width:1cm; font-size:11px; font-weight:bold;text-align:center;"name="origingblock">　</td>
+					<td style="width:1.5cm; font-size:11px; font-weight:bold;text-align:center;"name="scaccode">　</td>
+					<td style="width:3cm; font-size:11px; font-weight:bold;text-align:center;"name="gblno">　</td>
+					<td style="width:6cm; font-size:11px; font-weight:bold;text-align:center;"name="fullname">　</td>
+					<td style="width:1cm; font-size:11px; font-weight:bold;text-align:center;"name="owt">　</td>
+					<td style="width:1cm; font-size:11px; font-weight:bold;text-align:center;"name="rwt">　</td>
+					<td style="width:1cm; font-size:11px; font-weight:bold;text-align:center;"name="swt">　</td>
+					<td style="width:1.5cm; font-size:11px; font-weight:bold;text-align:center;"name="dentn">　</td>
+					<td style="width:2cm; font-size:11px; font-weight:bold;text-align:center;"name="rate">　</td>
+				</tr>
+			</c:forEach>
+		</c:if>
+		
 	</table>
 	<table>
 		<tr>
-			<td style="padding-top:1cm;width:21cm;height:0.5cm; font-size:13px; font-weight:bold;text-align:left;">주식회사 영진상운(전화 : 795-7176)</td>
+			<td style="padding-top:2cm;width:21cm;height:0.5cm; font-size:13px; font-weight:bold;text-align:left;">주식회사 영진상운(전화 : 795-7176)</td>
 		</tr>
 		<tr>
 			<td style="width:21cm;height:0.5cm; font-size:13px; font-weight:bold;text-align:left;">담당: 엄혜정　　　　　서명:</td>
