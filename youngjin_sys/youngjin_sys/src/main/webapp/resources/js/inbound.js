@@ -2089,6 +2089,9 @@ youngjin.inbound.dd619Modify = function(target){
 		'invoiceMemorandumValue' : invoiceMemorandumValue,
 		'count' : count
 	};
+//////////////////////////////////////////////////////////////////////////////
+//	var remark2 = $('#remark2').val();
+//////////////////////////////////////////////////////////////////////////////	
 	
 	$.postJSON(url, json, function(){
 		return jQuery.ajax({

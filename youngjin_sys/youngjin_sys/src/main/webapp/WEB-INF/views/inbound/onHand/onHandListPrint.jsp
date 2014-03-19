@@ -202,7 +202,7 @@
             
             #paper #footer #singnature {
                 float: right;
-                margin-top: 15mm;
+                margin-top: 20mm;
                 padding-top: 0.6mm;
                 padding-left: 0;
                 text-indent: 68mm;

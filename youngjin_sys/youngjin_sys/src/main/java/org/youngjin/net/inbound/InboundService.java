@@ -364,7 +364,7 @@ public class InboundService {
 		paramAddition.setDd619Seq(dd619.getSeq());
 		paramAddition.setGblSeq(dd619.getGblSeq());
 		paramAddition.setMemorandumSeq(dd619.getMemorandumListSeq());
-
+		
 		Integer additionCheck = inboundDao.checkAddtionComplete(paramAddition);
 
 		String[] invoiceMemorandumType = dd619.getInvoiceMemorandumType()

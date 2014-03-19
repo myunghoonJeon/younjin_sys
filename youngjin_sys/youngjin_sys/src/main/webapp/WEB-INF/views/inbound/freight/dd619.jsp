@@ -39,9 +39,10 @@
 <STYLE type="text/css">
 <!--
 	p {margin: 0; padding:0; font-family: Helvetica;}
-	.q-text {font-family:±¼¸²Ã¼; font-size:13px; border:0px dashed gray;}
-	.q-multiline {font-family:±¼¸²Ã¼; font-size:13px; border:0px dashed gray;}
+	.q-text {font-family:±¼¸²Ã¼; font-weight:bold; font-size:16px; border:0px dashed gray;}
+	.q-multiline {font-family:±¼¸²Ã¼; font-weight:bold; font-size:16px; border:0px dashed gray;}
 	.q-center {text-align:center;}
+	textarea{resize:none; border: none; overflow-y: hidden;}
 	.q-right  {text-align:right;}
 /*
 	.ft10{font-size:18px;font-family:Helvetica;color:#000000;}
@@ -67,6 +68,7 @@
 	.ft120{font-size:13px;line-height:18px;font-family:Helvetica;color:#000000;}
 	.ft121{font-size:13px;line-height:20px;font-family:Helvetica;color:#000000;}
 	.ft122{font-size:10px;line-height:12px;font-family:Helvetica;color:#000000;} */
+	${dd619.orderingActivityName }</textarea><input type="text" name="q-6a" class="q-text" style="width:243px;height:22px; font-size: 13px;" value="${dd619.orderingActivityName }"
 -->
 </STYLE>
 </head>
@@ -82,15 +84,15 @@
 <P style="position:absolute;top:425px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-3c" class="q-text q-center" style="width:268px;height:20px;" value="${gbl.rank }"></input></P>
 <P style="position:absolute;top:473px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-4" class="q-text q-center" style="width:243px;height:20px;" value="${dd619.originOfShipment }"></input></P>
 <P style="position:absolute;top:473px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-5" class="q-text q-center" style="width:268px;height:20px;" value="${dd619.destination }"></input></P>
-<P style="position:absolute;top:541px;left:79px;white-space:nowrap" class="ft114"><input type="text" name="q-6a" class="q-text" style="width:243px;height:22px; font-size: 9px;" value="${dd619.orderingActivityName }"></input></P>
+<P style="position:absolute;top:537px;left:79px;white-space:nowrap" class="ft114"><textarea name="q-6a" style="width:243px; height:30px;font-weight:bold;">${dd619.orderingActivityName }</textarea></P>
 <P style="position:absolute;top:521px;left:343px;white-space:nowrap" class="ft12"><input name="q-6b" class="q-text" style="width:276px;height:50px;" value="${ dd619.carrierName}" /></P>
 <P style="position:absolute;top:593px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-7a" class="q-text" style="width:243px;height:18px;" value="${dd619.agentName }"></input></P>
 <P style="position:absolute;top:593px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-7b" class="q-text" style="width:268px;height:18px;" value="${dd619.signature }"></input></P>
-<P style="position:absolute;top:642px;left:79px;white-space:nowrap" class="ft12"></P>
+<P style="position:absolute;top:642px;left:79px;white-space:nowrap" class="ft12"><textarea name="q-8" class="q-text q-center" style="width:370px;height:40px;"></textarea></P>
 <P style="position:absolute;top:662px;left:475px;white-space:nowrap" class="ft115"><input type="text" name="q-9" class="q-text q-center" style="width:135px;height:28px;"></input></P>
 <P style="position:absolute;top:713px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-10" class="q-text q-center" style="width:293px;height:18px;" value="${gbl.tsp } # ${gbl.code}"></input></P>
 <P style="position:absolute;top:713px;left:391px;white-space:nowrap" class="ft12"><input type="text" name="q-11" class="q-text q-center" style="width:220px;height:18px;" value="${gbl.pcs }/${(gbl.code eq '3' or gbl.code eq'4' or gbl.code eq'5' or gbl.code eq 'T') ? gbl.netWeight : gbl.grossWeight}/${gbl.cuft}"></input></P>
-<P style="position:absolute;top:763px;left:79px;white-space:nowrap" class="ft15"></P>
+<P style="position:absolute;top:773px;left:79px;white-space:nowrap" class="ft15"><textarea name="q-12" class="q-text" style="width: 520px;height:200px; border: none;">${dd619.remark }</textarea></P>
 <P style="position:absolute;top:333px;left:631px;white-space:nowrap" class="ft12"><input type="text" name="q-13a" class="q-text q-center" style="width:244px;height:42px;" value="${gbl.storedAt }"></input></P>
 <P style="position:absolute;top:363px;left:894px;white-space:nowrap" class="ft12"><input type="checkbox" name="q-13b" class="q-radio" value="destination"></input></P>
 <P style="position:absolute;top:363px;left:1039px;white-space:nowrap" class="ft12"><input type="checkbox" name="q-13b" class="q-radio" value="other"></input></P>

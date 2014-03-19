@@ -147,7 +147,7 @@
 				<td><form:input path="transportationDate" /></td>
 			</tr>		
 			<tr>
-				<th colspan="4">REMARK</th>
+				<th colspan="4">INVOICE INFORMATION </th>
 			</tr>
 			<tr>
 				<td id="dd619_remark" colspan="4">
@@ -176,6 +176,14 @@
 							</c:when>
 						</c:choose>	
 					</c:forEach>
+				</td>
+			</tr>
+			<tr>
+				<th colspan="4">REMARK</th>
+			</tr>
+			<tr>
+				<td style="height: 80px;" colspan="4">
+					<form:textarea style="width:100%; height:100%;" path="remark" /></td>
 				</td>
 			</tr>	
 			<tfoot>

@@ -10,6 +10,7 @@
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         
         <style type="text/css">
+        	
             body {
                 margin: 0;
                 padding: 0;
@@ -177,6 +178,7 @@
                 width: 100%;
                 font-size: 3.3mm;
             }
+            
         </style>
     </head>
     <body onload="window.print();">
@@ -215,7 +217,7 @@
 	                    <td class="pcs">${truckContent.pcs }</td>
 	                    <td class="weight">${truckContent.lbs }</td>
 	                    <td class="cuft">${truckContent.cuft }</td>
-	                    <td class="yj_no"><input type="text" class="left_box"></td>
+	                    <td class="yj_no">${truckContent.yjNo }</td>
 	                    <td class="code">${truckContent.code }</td>
 	                    <td class="rdd">${truckContent.rdd }</td>
 	                </tr>                	
