@@ -866,7 +866,7 @@ youngjin.invoice.collectionGblSave = function(target){
 	var invoiceSeq = $('.invoice_gbl_collection_list_table').attr('data-seq');
 	
 	if( net != '' ){
-		if( net == invoiceAmount || flowState == 'ACCEPT' ){
+		if( net == Number(invoiceAmount) || flowState == 'ACCEPT' ){
 			state = 'COMPLETE';
 		} else if ( Number(net) < Number(invoiceAmount) ){
 			state = 'RESENT';			
