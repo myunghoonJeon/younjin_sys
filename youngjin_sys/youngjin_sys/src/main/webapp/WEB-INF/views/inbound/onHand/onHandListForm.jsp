@@ -288,7 +288,7 @@
 			                       	</c:otherwise>
 			                    </c:choose>
 	                        </td>
-	                        <td></td>
+	                        <td>test</td>
 	                    </tr>
                     </c:forEach>
                 </tbody>
