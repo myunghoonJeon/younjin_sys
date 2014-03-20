@@ -94,6 +94,11 @@
 		font-weight: bold;
 		width : 3.5cm;
 	}
+	
+	.invoice_gbl_content_print_table{ width: 80%; margin: 10px auto; text-align: center; }
+	.invoice_gbl_content_print_table tr th{ font-size: 12px; padding: 3px 5px; color: #000; border: 1px solid #000; }
+	.invoice_gbl_content_print_table tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle;}
+	.invoice_gbl_content_print_table tr{ background-color: white; cursor: pointer;  }
 </style>
 <%
 	String tel = "82-2-825-6345";
@@ -114,7 +119,7 @@
 			</tr>
 			<tr>
 				<td id='title-side'>¡¡</td>
-				<td colspan="2" id='address'><input style="width: 9cm; border: none; text-align: center; font-size: 11pt;font-weight: bold;" type="text" value="475 Sangdo-1-dong, Dongjak-gu, Seoul, Korea."></input></td>
+				<td colspan="2" id='address'><div style="width: 9cm; border: none; text-align: center; font-size: 11pt;font-weight: bold;" type="text">${company.address }</div></td>
 				<td id='title-side'>¡¡</td>
 			</tr>
 			<tr>
@@ -168,7 +173,7 @@
 	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
 		<div>			
 			<div>
-				<table class="invoice_gbl_content_table">
+				<table class="invoice_gbl_content_print_table">
 					<tr>
 						<th colspan="5">
 							CHARGING ITEMS

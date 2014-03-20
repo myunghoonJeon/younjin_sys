@@ -52,12 +52,20 @@ youngjin.invoice.invoiceListSync = function(){
 	
 	$('.invoice_table tr').unbind('click');
 	$('.invoice_table tr').bind('click', function(){
-		youngjin.invoice.invoiceList($(this), 'outbound');
+		if($(this).attr('data-click') == 'yes'){
+			$(this).attr('data-click', 'no');
+		} else {
+			youngjin.invoice.invoiceList($(this), 'outbound');
+		}
 	});
 	
 	$('.inbound_invoice_table tr').unbind('click');
 	$('.inbound_invoice_table tr').bind('click', function(){
-		youngjin.invoice.invoiceList($(this), 'inbound');
+		if($(this).attr('data-click') == 'yes'){
+			$(this).attr('data-click', 'no');
+		} else {
+			youngjin.invoice.invoiceList($(this), 'inbound');
+		}
 	});	
 	
 	$('.invoice_gbl_print').unbind('click');
@@ -68,6 +76,20 @@ youngjin.invoice.invoiceListSync = function(){
 	$('.inbound_invoice_gbl_print').unbind('click');
 	$('.inbound_invoice_gbl_print').bind('click', function(){
 		youngjin.invoice.invoiceGblPrint($(this), 'inbound');
+	});
+	
+	$('.invoice_all_delete').unbind('click');
+	$('.invoice_all_delete').bind('click', function(){
+		youngjin.invoice.inboundGbDelete($(this), 'outbound');
+		
+		$(this).parents('tr').attr('data-click', 'yes');
+	});
+	
+	$('.inbound_invoice_all_delete').unbind('click');
+	$('.inbound_invoice_all_delete').bind('click', function(){
+		youngjin.invoice.inboundGbDelete($(this), 'inbound');
+		
+		$(this).parents('tr').attr('data-click', 'yes');
 	});
 };
 
@@ -323,7 +345,12 @@ youngjin.invoice.backSync = function(){
 	
 	$('.invoice_gbl_content_list_back').unbind('click');
 	$('.invoice_gbl_content_list_back').bind('click', function(){
-		youngjin.invoice.invoiceGblContentBack($(this));
+		youngjin.invoice.invoiceGblContentBack($(this), 'outbound');
+	});
+	
+	$('.inbound_invoice_gbl_content_list_back').unbind('click');
+	$('.inbound_invoice_gbl_content_list_back').bind('click', function(){
+		youngjin.invoice.invoiceGblContentBack($(this), 'inbound');
 	});
 };
 
@@ -591,10 +618,10 @@ youngjin.invoice.invoiceGblPrint = function(target, process){
 	window.open(url, 'invoiceGblPrint', 'width=1263, height=892, status=no');
 };
 
-youngjin.invoice.invoiceGblContentBack = function(target){
+youngjin.invoice.invoiceGblContentBack = function(target, process){
 	var seq = target.attr('data-seq');
 	
-	var url = contextPath + '/outbound/invoice/' + seq + '/invoiceGblListCommon'; 
+	var url = contextPath + '/' + process + '/invoice/' + seq + '/invoiceGblListCommon'; 
 	
 	parent.$.smartPop.close();
 	
@@ -603,6 +630,14 @@ youngjin.invoice.invoiceGblContentBack = function(target){
 		height : 500,
 		url : url
 	});		
+};
+
+youngjin.invoice.inboundGbDelete = function(target, process){
+	var seq = target.parents('tr').attr('data-seq');
+	
+	var url = contextPath + '/' + process + '/invoice/' + seq + '/invoiceDelete';
+	
+	location.href = url;
 };
 
 youngjin.invoice.inputCollectionNet = function(target){

@@ -288,7 +288,7 @@
 			                       	</c:otherwise>
 			                    </c:choose>
 	                        </td>
-	                        <td></td>
+	                        <td>${ onHandListContent.onHandListContent.gbl.areaLocal}</td>
 	                    </tr>
                     </c:forEach>
                 </tbody>

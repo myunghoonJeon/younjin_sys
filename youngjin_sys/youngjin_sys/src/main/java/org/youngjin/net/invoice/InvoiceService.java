@@ -446,7 +446,11 @@ public class InvoiceService {
 				map.put("invoice", 1);
 				map.put("seq", invoiceGblTemp.getGblSeq());
 
-				outboundDao.updateGblStatus(map);
+				if(process.equals("outbound")){
+					outboundDao.updateGblStatus(map);
+				} else if (process.equals("inbound")){
+					inboundDao.updateGblStatus(map);
+				}
 			}
 		}
 
@@ -471,6 +475,28 @@ public class InvoiceService {
 				map.put("seq", invoiceGblTemp.getGblSeq());
 
 				outboundDao.updateGblStatus(map);
+			}
+		}
+
+		invoiceDao.deleteInvoice(invoice);
+	}
+	
+	public void invoiceDelete(Invoice invoice, String process) {
+		List<InvoiceGbl> invoiceGblList = invoiceDao
+				.getInvoiceGblListByInvoice(invoice);
+
+		if (invoiceGblList.size() > 0) {
+			for (InvoiceGbl invoiceGblTemp : invoiceGblList) {
+
+				Map<String, Integer> map = new HashMap<String, Integer>();
+				map.put("invoice", 0);
+				map.put("seq", invoiceGblTemp.getGblSeq());
+
+				if(process.equals("outbound")){
+					outboundDao.updateGblStatus(map);
+				} else if(process.equals("inbound")) {
+					inboundDao.updateGblStatus(map);
+				}
 			}
 		}
 
@@ -1048,7 +1074,6 @@ public class InvoiceService {
 				totalAmount += invoiceReturnMap.get("amount");
 				
 				sitFirstContent.setChargingItem("SIT-FIRST DAY AND WAREHOUSE HANDLING CHARGE");
-				sitFirstContent.setQuantity(invoiceReturnMap.get("quantity").toString());
 				sitFirstContent.setAmount(invoiceReturnMap.get("amount").toString());
 				sitFirstContent.setInvoiceGblSeq(invoiceGblSeq);
 				
@@ -1069,8 +1094,8 @@ public class InvoiceService {
 			InvoiceGblContent sitEachContent = new InvoiceGblContent();		
 			
 			Memorandum sitEachParam = new Memorandum();
-			sitFirstMemoParam.setType("06");
-			sitFirstMemoParam.setGblSeq(gbl.getSeq());			
+			sitEachParam.setType("07");
+			sitEachParam.setGblSeq(gbl.getSeq());			
 			Memorandum sitEachMemo = memorandumDao.getMemorandumIb(sitEachParam);
 
 			if(sitEachMemo != null){
@@ -1082,8 +1107,7 @@ public class InvoiceService {
 				
 				totalAmount += invoiceReturnMap.get("amount");
 				
-				sitEachContent.setChargingItem("SIT-FIRST DAY AND WAREHOUSE HANDLING CHARGE");
-				sitEachContent.setQuantity(invoiceReturnMap.get("quantity").toString());
+				sitEachContent.setChargingItem("SIT-EACH ADDITIONAL DAY");
 				sitEachContent.setAmount(invoiceReturnMap.get("amount").toString());
 				sitEachContent.setInvoiceGblSeq(invoiceGblSeq);
 				

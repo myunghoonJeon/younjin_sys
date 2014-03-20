@@ -85,10 +85,10 @@
 <P style="position:absolute;top:473px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-4" class="q-text q-center" style="width:243px;height:20px;" value="${dd619.originOfShipment }"></input></P>
 <P style="position:absolute;top:473px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-5" class="q-text q-center" style="width:268px;height:20px;" value="${dd619.destination }"></input></P>
 <P style="position:absolute;top:537px;left:79px;white-space:nowrap" class="ft114"><textarea name="q-6a" style="width:243px; height:30px;font-weight:bold;">${dd619.orderingActivityName }</textarea></P>
-<P style="position:absolute;top:521px;left:343px;white-space:nowrap" class="ft12"><input name="q-6b" class="q-text" style="width:276px;height:50px;" value="${ dd619.carrierName}" /></P>
-<P style="position:absolute;top:593px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-7a" class="q-text" style="width:243px;height:18px;" value="${dd619.agentName }"></input></P>
-<P style="position:absolute;top:593px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-7b" class="q-text" style="width:268px;height:18px;" value="${dd619.signature }"></input></P>
-<P style="position:absolute;top:642px;left:79px;white-space:nowrap" class="ft12"><textarea name="q-8" class="q-text q-center" style="width:370px;height:40px;"></textarea></P>
+<P style="position:absolute;top:521px;left:343px;white-space:nowrap" class="ft12"><input name="q-6b" class="q-text" style="width:276px;height:50px;" value="" /></P>
+<P style="position:absolute;top:593px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-7a" class="q-text" style="width:243px;height:18px;" value="${ dd619.carrierName}"></input></P>
+<P style="position:absolute;top:593px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-7b" class="q-text" style="width:268px;height:18px;" value="${dd619.agentName }"></input></P>
+<P style="position:absolute;top:642px;left:79px;white-space:nowrap" class="ft12"><textarea name="q-8" class="q-text q-center" style="width:370px;height:40px;">${dd619.signature }</textarea></P>
 <P style="position:absolute;top:662px;left:475px;white-space:nowrap" class="ft115"><input type="text" name="q-9" class="q-text q-center" style="width:135px;height:28px;"></input></P>
 <P style="position:absolute;top:713px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-10" class="q-text q-center" style="width:293px;height:18px;" value="${gbl.tsp } # ${gbl.code}"></input></P>
 <P style="position:absolute;top:713px;left:391px;white-space:nowrap" class="ft12"><input type="text" name="q-11" class="q-text q-center" style="width:220px;height:18px;" value="${gbl.pcs }/${(gbl.code eq '3' or gbl.code eq'4' or gbl.code eq'5' or gbl.code eq 'T') ? gbl.netWeight : gbl.grossWeight}/${gbl.cuft}"></input></P>
@@ -139,7 +139,7 @@
 <P style="position:absolute;top:1315px;left:475px;white-space:nowrap" class="ft12"></P>
 <P style="position:absolute;top:1315px;left:727px;white-space:nowrap" class="ft12"><input type="text" name="q-17b" class="q-text" style="width:410px;height:40px;"></input></P>
 <P style="position:absolute;top:1410px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-18a" class="q-text" style="width:375px;height:16px;" value="${company.companyNameAcronym }"></input></P>
-<P style="position:absolute;top:1410px;left:475px;white-space:nowrap" class="ft12"><input type="text" name="q-18b" class="q-text" style="width:365px;height:16px;" value="${gbl.destAddress }"></input></P>
+<P style="position:absolute;top:1410px;left:475px;white-space:nowrap" class="ft12"><input type="text" name="q-18b" class="q-text" style="width:365px;height:16px;" value="${gbl.areaLocal }"></input></P>
 <P style="position:absolute;top:1458px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-18c" class="q-text" style="width:760px;height:36px;"></input></P>
 <P style="position:absolute;top:1458px;left:859px;white-space:nowrap" class="ft12"><input type="text" name="q-18d" class="q-text q-center" style="width:280px;height:36px;"></input></P>
 </DIV>

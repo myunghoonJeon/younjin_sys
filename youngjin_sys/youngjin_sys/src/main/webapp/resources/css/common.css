@@ -534,6 +534,8 @@ td.seperate_merge{ border: none !important;}
 .invoice_gbl_content_list_button_list li {width : 80%; float: left; }
 .invoice_gbl_content_list_back{ float: left; margin-bottom : 10px; }
 
+.inbound_invoice_gbl_content_list_back{ float: left; margin-bottom : 10px; }
+
 /* Invoice Collection */
 .collection_flow_wrap{text-align: left!important; padding-left: 5px!important; }
 .collection_flow_wrap img { width: 20px; height: 20px; }

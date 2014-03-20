@@ -1,4 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
@@ -168,8 +170,8 @@
             
             <div class="spec">
                 <p><span class="weight_title">Name of Owner</span> : <c:out value="${inboundInvoiceBasicInfo.rank}" /> <c:out value="${inboundInvoiceBasicInfo.name}" /></p>
-                <p><span class="weight_title">Gross Weight</span> : <span class="weight"><c:out value="${inboundInvoiceBasicInfo.grossWt}" /></span>&nbsp;Lbs / <span class="weight"><c:out value="${inboundInvoiceBasicInfo.grossWtKg}" /></span>&nbsp;kg</p>
-                <p><span class="weight_title">Net Weight</span> : <span class="weight"><c:out value="${inboundInvoiceBasicInfo.netWt}" /></span>&nbsp;Lbs / <span class="weight"><c:out value="${inboundInvoiceBasicInfo.netWtKg}" /></span>&nbsp;kg</p>
+                <p><span class="weight_title">Gross Weight</span> : <span class="weight"><c:out value="${inboundInvoiceBasicInfo.grossWt}" /></span>&nbsp;Lbs / <span class="weight"><fmt:formatNumber value="${inboundInvoiceBasicInfo.grossWtKg}" type="number" pattern="#,###" /></span>&nbsp;kg</p>
+                <p><span class="weight_title">Net Weight</span> : <span class="weight"><c:out value="${inboundInvoiceBasicInfo.netWt}" /></span>&nbsp;Lbs / <span class="weight"><fmt:formatNumber value="${inboundInvoiceBasicInfo.netWtKg}" type="number" pattern="#,###" /></span>&nbsp;kg</p>
                 <p><span class="weight_title">Booked Vessel</span> : </p>
             </div>
             <div class="mail_context">

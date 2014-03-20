@@ -94,6 +94,11 @@
 		font-weight: bold;
 		width : 3.5cm;
 	}
+	
+	.invoice_gbl_content_table tr th{
+		background-color: white;
+		color: black;
+	}
 </style>
 <%
 	String tel = "82-2-825-6345";

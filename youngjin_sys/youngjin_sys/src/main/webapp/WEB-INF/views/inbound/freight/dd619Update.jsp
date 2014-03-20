@@ -94,7 +94,7 @@
 						<c:set var="signature" value="YI, CHIN HUN / BRANCH MANAGER" />
 					</c:when>								
 				</c:choose>
-				<td><form:input path="signature" value="${signature }" /></td>
+				<td><form:input path="signature" value="${branch.branchManager } / BRANCH MANAGER" /></td>
 				<th>CARRIER'S SHIPMENT REFER</th>
 				<td><form:input path="carrierShipmentReference"/></td>
 			</tr>		
