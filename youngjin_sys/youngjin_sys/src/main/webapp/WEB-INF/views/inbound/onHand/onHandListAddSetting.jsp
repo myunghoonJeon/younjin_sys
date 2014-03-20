@@ -50,8 +50,8 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td><input type="text" class="on_hand_list_add_onHandDate" value="ex) YYYY-MM-DD" style="color: gray;"/></td>
-					<td><input type="text" class="on_hand_list_add_firstDeliverDate" readonly="readonly"/></td>
+					<td><input type="text" class="on_hand_list_add_onHandDate" placeholder="ex) YYYY-MM-DD"/></td>
+					<td><input type="text" class="on_hand_list_add_firstDeliverDate" placeholder="ex) YYYY-MM-DD"/></td>
 				</tr>
 			</tbody>
 		</table>

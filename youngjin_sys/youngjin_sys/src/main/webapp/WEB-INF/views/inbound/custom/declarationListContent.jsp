@@ -1,4 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page session="false" pageEncoding="utf-8"%>
 <head>
 <script
@@ -77,14 +79,14 @@ p {
 		String date = formater.format(currentDate);
 	%>
 	<c:set var="values" value="<%=values%>" />
-	<c:set var="date" value="<%=date%>" />
+	<c:set var="date" value="${inboundInvoiceList[0].invoiceDate }" />
 	<table cellspacing="0">
 		<tr>
 			<td colspan="7"><p class="title">DECLEARATION LIST FOR IMPORT</p></td>
 		</tr>
 		<tr>
 			<td colspan="4">YOUNGJIN T & T CO., LTE.</td>
-			<td colspan="3">${date}</td>
+			<td colspan="3">${ fn:substring(date, 0, 4)}년 ${fn:substring(date, 4, 6)}월 ${fn:substring(date, 6, 8)}일</td>
 		</tr>
 		<tr>
 		<td class="tdHead">NO</td>
@@ -101,7 +103,7 @@ p {
 				<td>${inboundInvoice.rank }</td>
 				<td>${inboundInvoice.name }</td>
 				<td>${inboundInvoice.gblNo }</td>
-				<td>${inboundInvoice.ssn }</td>
+				<td>000-00-${fn:substring(inboundInvoice.ssn, 5, 9) }</td>
 				<td>${inboundInvoice.oblNo }</td>
 				<td>${inboundInvoice.vessle }</td>
 			</tr>

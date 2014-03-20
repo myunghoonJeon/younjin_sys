@@ -56,12 +56,13 @@
 					<th>START DATE</th>
 					<th>END DATE</th>
 					<th>AMOUNT</th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${invoiceList eq '[]' }">
 					<tr>
-						<td colspan="5">등록된 invoice가 없습니다.</td>
+						<td colspan="6">등록된 invoice가 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="invoice" items="${invoiceList }" varStatus="i">
@@ -71,6 +72,7 @@
 						<td>${invoice.startDate }</td>
 						<td>${invoice.endDate }</td>
 						<td>${invoice.amount }</td>
+						<td class="inbound_invoice_all_delete"><img class="memorandum_icon" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>
 			</tbody>

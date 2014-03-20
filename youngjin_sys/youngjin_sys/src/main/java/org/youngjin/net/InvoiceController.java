@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.basic.BasicService;
 import org.youngjin.net.basic.Carrier;
+import org.youngjin.net.basic.Company;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.invoice.Invoice;
 import org.youngjin.net.invoice.InvoiceCollection;
@@ -140,6 +141,8 @@ public class InvoiceController {
 		Map<Integer, List<InvoiceGblContent>> map = invoiceService.getInvoicePrintMap(invoiceGblList, process);
 		
 		Carrier carrier = basicService.getCarrier(invoice.getTsp());
+		
+		Company company = basicService.getCompanyByCode("YJ");
 
 		model.addAttribute("invoicSeq", seq);
 		
@@ -147,6 +150,8 @@ public class InvoiceController {
 		model.addAttribute("invoice", invoice);
 		
 		model.addAttribute("scac", carrier);
+		
+		model.addAttribute("company", company);
 
 		model.addAttribute("invoiceListSeq", seq);
 		model.addAttribute("invoiceGblList", invoiceGblList);
@@ -177,6 +182,33 @@ public class InvoiceController {
 	public void invoiceDelete(@RequestBody Invoice invoice) {
 		invoiceService.invoiceDelete(invoice);
 	}
+	
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@RequestMapping(value = "/{process}/invoice/{seq}/invoiceDelete", method = RequestMethod.GET)
+	public String invoiceDeleteAll(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq, @ModelAttribute InvoiceFilter invoiceFilter) {
+		Invoice invoice = new Invoice();
+		invoice.setSeq(seq);
+		
+		invoiceService.invoiceDelete(invoice, process);
+
+		user.setSubProcess("invoice");
+
+		invoiceFilter.setProcess(process);
+
+		invoiceFilter.getPagination().setNumItems(
+				invoiceService.getInvoiceListCount(invoiceFilter, process));
+		
+		List<Invoice> invoiceList = invoiceService
+				.getInvoiceList(invoiceFilter);
+
+		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
+
+		model.addAttribute("user", user);
+		model.addAttribute("invoiceList", invoiceList);
+
+		return process + "/invoice/main";
+	}	
 
 	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/invoice/{seq}/{invoiceGblSeq}/{gblSeq}/invoiceGblContent", method = RequestMethod.GET)

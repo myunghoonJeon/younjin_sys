@@ -714,7 +714,9 @@
 	
 	<select id="getInboundInvoiceListDeclaration" parameterType="Integer" resultType="InboundInvoice">
 		SELECT 
-			g.rank, il.name, il.gblNo, il.ssn, g.oblNo, g.vessle FROM inbound_invoice_list il, declaration d, gbl_ib g
+			g.rank, il.name, il.gblNo, il.ssn, il.invoiceDate, g.oblNo, g.vessle 
+		FROM 
+			inbound_invoice_list il, declaration d, gbl_ib g
 		WHERE
 			il.seq = d.inboundInvoiceSeq
 		AND
@@ -1033,6 +1035,9 @@
 			</if>
 			<if test="delivery != null">
 				, gbl_delivery = #{delivery}
+			</if>
+			<if test="invoice != null">
+				, gbl_invoice = #{invoice}
 			</if>
 		WHERE
 			1 = 1

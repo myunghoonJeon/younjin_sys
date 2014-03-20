@@ -34,7 +34,7 @@
 <p style="position:absolute;top:476px;left:261px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.grossWt }" type="number" /></p>
 <p style="position:absolute;top:527px;left:261px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.netWt }" type="number" /></p>
 
-<p style="position:absolute;top:618px;left:480px;white-space:nowrap" class="ft10">${inboundInsuranceRate }</p>
+<p style="position:absolute;top:618px;left:480px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${inboundInsuranceRate * 100 }" pattern="0" /></p>
 
 <p style="position:absolute;top:642px;left:225px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.netWt }" type="number" /></p>
 <p style="position:absolute;top:642px;left:390px;white-space:nowrap" class="ft10">${inboundInsuranceRate }</p>
@@ -43,12 +43,12 @@
 
 <p style="position:absolute;top:667px;left:285px;white-space:nowrap" class="ft10">${dollorPerCbm }</p>
 
-<p style="position:absolute;top:692px;left:225px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.cbm }" type="number" pattern="0" /></p>
+<p style="position:absolute;top:692px;left:225px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.cbm }" type="number" pattern=".###" /></p>
 <p style="position:absolute;top:692px;left:390px;white-space:nowrap" class="ft10">${dollorPerCbm }</p>
 <fmt:formatNumber var="cbmus" value="${inboundInvoiceBasicInfo.cbm * dollorPerCbm }" pattern="0"/>
-<p style="position:absolute;top:692px;left:556px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${cbmus }" type="number" pattern="0" /></p>
+<p style="position:absolute;top:692px;left:556px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${cbmus }" type="number" /></p>
 
-<p style="position:absolute;top:755px;left:575px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${cbmus + lbsus }" type="number" pattern="0" /></p>
+<p style="position:absolute;top:755px;left:575px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${cbmus + lbsus }" type="number" /></p>
 
 <p style="position:absolute;top:821px;left:280px;white-space:nowrap" class="ft10">
 	<c:choose>
@@ -92,10 +92,10 @@
 	</c:choose>
 </p>
 
-<p style="position:absolute;top:920px;left:480px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${inboundInvoiceBasicInfo.grossWtKg }" pattern="0" /></p>
-<p style="position:absolute;top:968px;left:480px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${inboundInvoiceBasicInfo.netWtKg }" pattern="0" /></p>
+<p style="position:absolute;top:920px;left:480px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${inboundInvoiceBasicInfo.grossWtKg }" type="number" pattern="#,###"/></p>
+<p style="position:absolute;top:968px;left:480px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${inboundInvoiceBasicInfo.netWtKg }" type="number" pattern="#,###"/></p>
 
-<p style="position:absolute;top:1020px;left:480px;white-space:nowrap" class="ft10">${inboundInvoiceBasicInfo.itemsPieces }</p>
+<p style="position:absolute;top:1020px;left:480px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${inboundInvoiceBasicInfo.itemsPieces }" type="number" pattern="#,###"/></p>
 <!------------------------------------------------------------------------------------------------------------------------------------------------> 
 
 
