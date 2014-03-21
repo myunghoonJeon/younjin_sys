@@ -46,7 +46,7 @@
 		</div> -->
 		
 		<div>
-			<table class="invoice_gbl_collection_list_table inbound_invoice_gbl_collection_list_table" data-seq="${invoicSeq }">
+			<table class="invoice_gbl_collection_list_table inbound_invoice_gbl_collection_list_table" data-seq="${invoicSeq }" data-process="inbound">
 				<colgroup>
 					<col width="8%">
 					<col width="7%">

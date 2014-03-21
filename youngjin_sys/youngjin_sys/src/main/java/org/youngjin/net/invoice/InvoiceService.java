@@ -1807,6 +1807,8 @@ public class InvoiceService {
 				.checkAndGetGblCollectionSeq(invoiceCollectionMap
 						.get("invoiceSeq"));
 		
+		int count = Integer.parseInt(invoiceCollectionMap.get("count"));
+		
 		if (collectionParam != null
 				&& !invoiceCollectionMap.get("flowState").equals("CLAIM")) {
 			Integer net = Integer.parseInt(collectionParam.getNet())
@@ -1830,19 +1832,27 @@ public class InvoiceService {
 			}
 
 			invoiceDao.updateGblCollectionNet(invoiceCollection);
-		} else { //if (invoiceCollectionMap.get("flowState").equals("DEPOSIT")) {
+		} else if ((invoiceCollectionMap.get("flowState").equals("DEPOSIT") && count == 0) || (invoiceCollectionMap.get("flowState").equals("ACCEPT") && count == 0 )) {
 			invoiceDao.inputGblCollectionNet(invoiceCollection);
-
-		} /*else if (invoiceCollectionMap.get("flowState").equals("CLAIM")) {
-		}*/
+		} else if (invoiceCollectionMap.get("flowState").equals("CLAIM")) {
+			if(count == 0){
+				invoiceDao.inputGblCollectionNet(invoiceCollection);
+			} else {
+				
+			}
+		}
 
 		InvoiceCollectionFlow invoiceCollectionFlow = new InvoiceCollectionFlow();
 		invoiceCollectionFlow.setAmount(invoiceCollectionMap.get("flowAmount"));
 		invoiceCollectionFlow.setState(invoiceCollectionMap.get("flowState"));
 		invoiceCollectionFlow.setRemark(invoiceCollectionMap.get("flowRemark"));
+		
 		if (invoiceCollection.getSeq() != null) {
 			invoiceCollectionFlow.setInvoiceCollectionSeq(invoiceCollection
 					.getSeq());
+		} else if ( collectionParam.getSeq() != null ){
+			invoiceCollectionFlow.setInvoiceCollectionSeq(collectionParam
+				.getSeq());			
 		} else {
 			invoiceCollectionFlow.setInvoiceCollectionSeq(Integer.parseInt(invoiceCollectionMap
 					.get("gblSeq")));

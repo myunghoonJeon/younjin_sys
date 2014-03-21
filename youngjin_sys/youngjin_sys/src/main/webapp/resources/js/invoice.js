@@ -810,9 +810,12 @@ youngjin.invoice.invoiceCollectionGbl = function(target, process){
 	});	
 };
 
-youngjin.invoice.inputGblCollectionFlowTable = function(target){
+youngjin.invoice.inputGblCollectionFlowTable = function(target){	
+	var ul = target.parents().parents('ul');
+	var table = ul.find('.collection_flow_table:last');
+	var count = table.attr('data-count');
 	var html = '<li>' + 
-					'<table class="collection_flow_table">' + 
+					'<table class="collection_flow_table" data-count="' + count + '">' + 
 						'<tr>' + 
 							'<td class="flow_state">' +
 								'<select name="flow_state">' + 
@@ -865,6 +868,13 @@ youngjin.invoice.collectionGblSave = function(target){
 	var invoiceGblSeq = target.parents().parents().parents().parents('tr').attr('data-invoiceGblSeq');
 	var invoiceSeq = $('.invoice_gbl_collection_list_table').attr('data-seq');
 	var gblSeq = target.parents().parents().parents().parents('tr').attr('data-gblSeq');
+	var process =$('.invoice_gbl_collection_list_table').attr('data-process');
+	
+	var count = table.attr('data-count');
+	
+	if(count == undefined){
+		count = '0';
+	}
 	
 	if( net != '' ){
 		if( net == Number(invoiceAmount) || flowState == 'ACCEPT' ){
@@ -878,6 +888,7 @@ youngjin.invoice.collectionGblSave = function(target){
 			'invoiceSeq' : invoiceGblSeq,
 			'net' : net,
 			'state' : state,
+			'count' : count,
 			'amount' : invoiceAmount,
 			'difference' : String(difference),
 			'flowAmount' : net,
@@ -890,7 +901,7 @@ youngjin.invoice.collectionGblSave = function(target){
 		$.postJSON(url, json, function(){
 			return jQuery.ajax({
 				success : function(){
-					location.href = contextPath + '/outbound/invoice/' + invoiceSeq + '/invoiceCollectionGbl';
+					location.href = contextPath + '/' + process +'/invoice/' + invoiceSeq + '/invoiceCollectionGbl';
 				},
 				error : function(){
 					alert('에러 발생');
@@ -912,6 +923,7 @@ youngjin.invoice.collectionGblDelete = function(target){
 	
 	var invoiceGblSeq = target.parents().parents().parents().parents('tr').attr('data-invoiceGblSeq');
 	var invoiceSeq = $('.invoice_gbl_collection_list_table').attr('data-seq');
+	var process =$('.invoice_gbl_collection_list_table').attr('data-process');
 	
 	var url = contextPath + '/outbound/invoiceGblCollectionFlowDelete.json';	
 	
@@ -928,7 +940,7 @@ youngjin.invoice.collectionGblDelete = function(target){
 	$.postJSON(url, json, function(){
 		return jQuery.ajax({
 			success : function(){
-				location.href = contextPath + '/outbound/invoice/' + invoiceSeq + '/invoiceCollectionGbl';
+				location.href = contextPath + '/' + process + '/invoice/' + invoiceSeq + '/invoiceCollectionGbl';
 			},
 			error : function(){
 				alert('에러 발생');
