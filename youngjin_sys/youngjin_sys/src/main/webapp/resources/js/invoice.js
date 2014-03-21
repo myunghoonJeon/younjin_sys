@@ -864,6 +864,7 @@ youngjin.invoice.collectionGblSave = function(target){
 	
 	var invoiceGblSeq = target.parents().parents().parents().parents('tr').attr('data-invoiceGblSeq');
 	var invoiceSeq = $('.invoice_gbl_collection_list_table').attr('data-seq');
+	var gblSeq = target.parents().parents().parents().parents('tr').attr('data-gblSeq');
 	
 	if( net != '' ){
 		if( net == Number(invoiceAmount) || flowState == 'ACCEPT' ){
@@ -882,7 +883,8 @@ youngjin.invoice.collectionGblSave = function(target){
 			'flowAmount' : net,
 			'flowState' : flowState,
 			'flowRemark' : flowRemark,
-			'invoiceNormalSeq' : invoiceSeq
+			'invoiceNormalSeq' : invoiceSeq,
+			'gblSeq' : gblSeq
 		};
 		
 		$.postJSON(url, json, function(){
@@ -956,6 +958,10 @@ youngjin.invoice.inputGblCollectionRemark = function(target){
 	var remark = target.val();
 	
 	var url = contextPath + '/outbound/invoice/collectionRemarkInput.json';
+	
+	if(invoiceGblSeq == undefined){
+		invoiceGblSeq = $('.inbound_invoice_gbl_content_list_pdf').attr('data-invoiceGblSeq');
+	}
 	
 	var json = {
 			'seq' : invoiceGblSeq,

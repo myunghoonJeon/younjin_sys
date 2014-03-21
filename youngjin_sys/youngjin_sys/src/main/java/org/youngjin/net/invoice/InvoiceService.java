@@ -1806,6 +1806,7 @@ public class InvoiceService {
 		InvoiceCollection collectionParam = invoiceDao
 				.checkAndGetGblCollectionSeq(invoiceCollectionMap
 						.get("invoiceSeq"));
+		
 		if (collectionParam != null
 				&& !invoiceCollectionMap.get("flowState").equals("CLAIM")) {
 			Integer net = Integer.parseInt(collectionParam.getNet())
@@ -1829,11 +1830,11 @@ public class InvoiceService {
 			}
 
 			invoiceDao.updateGblCollectionNet(invoiceCollection);
-		} else if (invoiceCollectionMap.get("flowState").equals("DEPOSIT")) {
+		} else { //if (invoiceCollectionMap.get("flowState").equals("DEPOSIT")) {
 			invoiceDao.inputGblCollectionNet(invoiceCollection);
 
-		} else if (invoiceCollectionMap.get("flowState").equals("CLAIM")) {
-		}
+		} /*else if (invoiceCollectionMap.get("flowState").equals("CLAIM")) {
+		}*/
 
 		InvoiceCollectionFlow invoiceCollectionFlow = new InvoiceCollectionFlow();
 		invoiceCollectionFlow.setAmount(invoiceCollectionMap.get("flowAmount"));
@@ -1843,8 +1844,8 @@ public class InvoiceService {
 			invoiceCollectionFlow.setInvoiceCollectionSeq(invoiceCollection
 					.getSeq());
 		} else {
-			invoiceCollectionFlow.setInvoiceCollectionSeq(collectionParam
-					.getSeq());
+			invoiceCollectionFlow.setInvoiceCollectionSeq(Integer.parseInt(invoiceCollectionMap
+					.get("gblSeq")));
 		}
 
 		invoiceDao.inputGblCollectionFlow(invoiceCollectionFlow);
@@ -1926,24 +1927,33 @@ public class InvoiceService {
 				invoiceDao.updateGblCollectionNet(collectionParam);
 			}
 		} else if (state.equals("ACCEPT")) {
-			invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
-			InvoiceCollection collection = invoiceDao
-					.checkAndGetGblCollectionSeq(invoiceSeq);
-			InvoiceCollection collectionParam = new InvoiceCollection();
-
-			Integer difference = Integer.parseInt(collection.getDifference())
-					- Integer.parseInt(amount);
-			collectionParam.setDifference(difference.toString());
-			collectionParam.setState("RESENT");
-
-			collectionParam.setNet(collection.getNet());
-
-			collectionParam.setSeq(Integer.parseInt(collectionSeq));
-
-			invoiceDao.updateGblCollectionNet(collectionParam);
+			
+			if (count == 1) {
+				invoiceDao.deleteGblInvoiceCollection(collectionSeq);
+			} else {
+				invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
+				InvoiceCollection collection = invoiceDao
+						.checkAndGetGblCollectionSeq(invoiceSeq);
+				InvoiceCollection collectionParam = new InvoiceCollection();
+	
+				Integer difference = Integer.parseInt(collection.getDifference())
+						- Integer.parseInt(amount);
+				collectionParam.setDifference(difference.toString());
+				collectionParam.setState("RESENT");
+	
+				collectionParam.setNet(collection.getNet());
+	
+				collectionParam.setSeq(Integer.parseInt(collectionSeq));
+	
+				invoiceDao.updateGblCollectionNet(collectionParam);
+			}
 
 		} else if (state.equals("CLAIM")) {
-			invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
+			if (count == 1) {
+				invoiceDao.deleteGblInvoiceCollection(collectionSeq);
+			} else {
+				invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
+			}
 		}
 
 		InvoiceCollection parentInvoiceCollection = new InvoiceCollection();
