@@ -59,7 +59,7 @@
 			<thead>
 				<tr>
 					<th>NO</th>
-					<th>WRITE DATE</th>
+					<th>INBOUND INVOICE DATE</th>
 					<th></th>
 				</tr>
 			</thead>
