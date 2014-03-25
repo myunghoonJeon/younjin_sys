@@ -100,6 +100,13 @@ public class InboundController {
 
 		return process + "/freight/list";
 	}
+	
+	@RequestMapping(value="/inbound/checkGblNo.json", method = RequestMethod.POST)
+	@ResponseBody
+	public GBL checkGblNo(@RequestBody GBL gbl){
+		
+		return inboundService.getGblInfoByNo(gbl);
+	}
 
 	@RequestMapping(value = "/{process}/freight/add", method = RequestMethod.GET)
 	public String freightAdd(Model model, User user,
@@ -337,7 +344,7 @@ public class InboundController {
 				inboundService.getDeclarationListCount(inboundFilter));
 
 		List<InboundInvoice> declarationList = inboundService
-				.getDeclarationList(inboundFilter);
+				.getDeclarationList(inboundFilter);		
 		model.addAttribute("declarationList", declarationList);
 		model.addAttribute("user", user);
 

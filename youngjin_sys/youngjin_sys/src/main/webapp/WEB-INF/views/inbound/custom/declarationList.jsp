@@ -59,7 +59,7 @@
 			<thead>
 				<tr>
 					<th>NO</th>
-					<th>WRITE DATE</th>
+					<th>INBOUND INVOICE DATE</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -72,7 +72,7 @@
 				<c:forEach var="declaration" items="${declarationList }" varStatus="i">
 					<tr data-seq="${declaration.seq }">
 						<td>${i.count }</td>
-						<td>${declaration.writeDate }</td>
+						<td>${declaration.invoiceDate }</td>
 						<td><img class="declaration_list_delete" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>

@@ -377,4 +377,16 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public List<ReweightContent> getReweightContentList(Integer seq) {
 		return getSqlSession().selectList("inboundMapper.getReweightContentList", seq);
 	}
+
+	public OnHandList getOnHandListOne(Integer onHandListContentSeq) {
+		return getSqlSession().selectOne("inboundMapper.getOnHandListOne", onHandListContentSeq);
+	}
+
+	public void updateGblEtc(GBL gbl) {
+		getSqlSession().update("inboundMapper.updateGblEtc", gbl);
+	}
+
+	public GBL getGblInfoByNo(GBL gbl) {
+		return getSqlSession().selectOne("inboundMapper.getGblInfoByNo", gbl);
+	}
 }

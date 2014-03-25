@@ -459,8 +459,11 @@ public class InvoiceService {
 		return returnInvoice;
 	}
 
-	public List<InvoiceGbl> getInvoiceGblList(Integer seq) {
-		return invoiceDao.getInvoiceGblList(seq);
+	public List<InvoiceGbl> getInvoiceGblList(Integer seq, String process) {
+		if(process.equals("outbound"))
+			return invoiceDao.getInvoiceGblList(seq);
+		else 
+			return invoiceDao.getInvoiceGblListIb(seq);
 	}
 
 	public void invoiceDelete(Invoice invoice) {

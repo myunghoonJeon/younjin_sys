@@ -17,6 +17,10 @@ youngjin.inbound.sync = function(){
 		});
 	});
 	
+	$('.gbl_add_table #gblNo').focusout(function(){
+		youngjin.inbound.addCheckAlreadySaveGblInfo($(this));
+	});
+	
 	$('.freight_add_submit_button').unbind('click');
 	$('.freight_add_submit_button').bind('click', function(){
 		youngjin.inbound.freightAddSubmit();
@@ -634,6 +638,56 @@ youngjin.inbound.confirmSync = function(){
 	$('.inbound_addition_complete_btn').unbind('click');
 	$('.inbound_addition_complete_btn').bind('click', function(){
 		youngjin.inbound.additionComplete($(this));
+	});
+};
+
+youngjin.inbound.addCheckAlreadySaveGblInfo = function(target){
+	var gblNo = target.val();
+	
+	var url = contextPath + '/inbound/checkGblNo.json';
+	
+	$.postJSON(url, {'gblNo' : gblNo}, function(gblInfo){
+		if(gblInfo != null){
+			
+			var form = document.forms['gbl'];
+			form.shipperName.value = gblInfo.shipperName;
+			form.rank.value = gblInfo.rank;
+			form.code.value = gblInfo.code;
+			form.tsp.value = gblInfo.tsp;
+			form.destAddress.value = gblInfo.destAddress;
+			form.pud.value = gblInfo.pud;
+			form.rdd.value = gblInfo.rdd;
+			form.arriveDate.value = gblInfo.arriveDate;
+			form.awbNo.value = gblInfo.awbNo;
+			form.ssn.value = gblInfo.ssn;
+			form.pmjDate.value = gblInfo.pmjDate;
+			form.areaLocal.value = gblInfo.areaLocal;
+			form.fright.value = gblInfo.fright;
+			form.eMailAddress.value = gblInfo.eMailAddress;
+			form.oblNo.value = gblInfo.oblNo;
+			form.vessle.value = gblInfo.vessle;
+			form.blCompany.value = gblInfo.blCompany;
+			form.remark.value = gblInfo.remark;
+			form.eta.value = gblInfo.eta;
+			form.rate.value = gblInfo.rate;
+			form.sitIn.value = gblInfo.sitIn;
+			form.sitOut.value = gblInfo.sitOut;
+			form.sitNo.value = gblInfo.sitNo;
+			form.yjNo.value = gblInfo.yjNo;
+			form.totalPcs.value = gblInfo.totalPcs;
+			form.phone.value = gblInfo.phone;
+			form.address.value = gblInfo.address;
+			form.onHandDate.value = gblInfo.onHandDate;
+			form.gbloc.value = gblInfo.gbloc;
+			form.destinationGbloc.value = gblInfo.destinationGbloc;
+			form.itemsPieces.value = gblInfo.itemsPieces;
+			form.grossWeight.value = gblInfo.grossWeight;
+			form.netWeight.value = gblInfo.netWeight;
+			form.cuft.value = gblInfo.cuft;
+			form.storedAt.value = gblInfo.storedAt;
+			
+			$('.freight_add_submit_button').remove();
+		}
 	});
 };
 
@@ -1738,7 +1792,7 @@ youngjin.inbound.onHandContentSelect = function(target){
 	
 	var url = contextPath +'/inbound/onHand/checkOnHandListContentWeight.json';
 	
-	if($('.on_hand_list_content_select_check').attr('checked') != 'checked'){
+	if(target.find('.on_hand_list_content_select_check').attr('checked') != 'checked'){
 		$.postJSON(url, {'seq' : onHandListContentSeq }, function(data){
 			return jQuery.ajax({
 				success : function(){
@@ -1754,7 +1808,7 @@ youngjin.inbound.onHandContentSelect = function(target){
 								url : goUrl
 							});								
 						} else {
-							$('.on_hand_list_content_select_check').attr('checked', 'checked');
+							target.find('.on_hand_list_content_select_check').attr('checked', 'checked'); 
 						}
 					} else if (data == false ){
 						var goUrl = contextPath + '/inbound/onHand/' + seq + '/' + gblSeq + '/getWeight';

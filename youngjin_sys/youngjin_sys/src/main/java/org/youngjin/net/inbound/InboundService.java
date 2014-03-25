@@ -134,6 +134,12 @@ public class InboundService {
 		String [] remark = weightIb.getRemark().split(",", count);
 		Integer gblSeq = weightIb.getGblSeq();
 		
+		Integer totalGross = 0;
+		Integer totalTare = 0;
+		Integer totalNet = 0;
+		Integer totalCuft = 0;
+		Integer totalPcs = 0;
+		
 		for( int i = 0 ; i < count ; i ++ ){
 			WeightIb weightParam = new WeightIb();
 			weightParam.setPiece(pcs[i]);
@@ -153,7 +159,20 @@ public class InboundService {
 			} else {			
 				inboundDao.insertWeightAdd(weightParam);
 			}
+			
+			totalGross += Integer.parseInt(gross[i]);
+			totalNet += Integer.parseInt(tare[i]);
+			totalCuft += Integer.parseInt(cuft[i]);
 		}
+		
+		GBL gbl = new GBL();
+		gbl.setSeq(gblSeq);
+		gbl.setGrossWeight(totalGross.toString());
+		gbl.setNetWeight(totalNet.toString());
+		gbl.setCuft(totalCuft.toString());
+		gbl.setTotalPcs(Integer.toString(count));
+		
+		inboundDao.updateGblEtc(gbl);
 		
 		Map<String, Integer> statusParam = new HashMap<String, Integer>();
 		statusParam.put("gblSeq", gblSeq);
@@ -472,6 +491,14 @@ public class InboundService {
 		OnHandListContent onHandListContent = new OnHandListContent();
 		onHandListContent.setGblSeq(Integer.parseInt(map.get("gblSeq")));
 		onHandListContent.setOnHandListSeq(Integer.parseInt(map.get("onHandListSeq")));
+		
+		OnHandList onHandList = inboundDao.getOnHandListOne(onHandListContent.getOnHandListSeq());
+		GBL gbl = new GBL();
+		gbl.setSeq(onHandListContent.getGblSeq());
+		gbl.setOnHandDate(onHandList.getOnHandDate());
+		
+		inboundDao.updateGblEtc(gbl);
+		
 		inboundDao.insertOnHandListContent(onHandListContent);
 		
 		for(String weightSeqComma : weightSeqCommaList){
@@ -764,5 +791,9 @@ public class InboundService {
 		}
 		
 		return reweightList;
+	}
+
+	public GBL getGblInfoByNo(GBL gbl) {
+		return inboundDao.getGblInfoByNo(gbl);
 	}
 }

@@ -141,7 +141,7 @@
 				<td id='invoiceno' style="width:2.5cm;">INVOICE NO: </td> <td id='invoiceno'><%out.println(invoiceno); %></td>
 			</tr>
 			<tr>
-				<td id='code'style="width:2.5cm;">CODE: </td> <td id='code'>${fn:toUpperCase(invoice.process) }#</td>
+				<td id='code'style="width:2.5cm;">CODE: </td> <td id='code'>${fn:toUpperCase(invoice.process) } #${invoiceGblList[0].code }</td>
 			</tr>		
 		</table>
 		<table id='test'border="0" align="center" style="width : 17cm;" cellspacing="0">

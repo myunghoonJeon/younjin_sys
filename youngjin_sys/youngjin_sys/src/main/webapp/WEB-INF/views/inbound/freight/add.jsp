@@ -123,7 +123,7 @@
 			<tr>
 				<th>ETA</th>
 				<td><form:input path="eta" /> </td>
-				<th>FRIGHT</th>
+				<th>DELIVERY AT</th>
 				<td><form:input path="fright" /> </td>
 				
 				

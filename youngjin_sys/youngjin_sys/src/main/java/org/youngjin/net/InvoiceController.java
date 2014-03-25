@@ -120,7 +120,7 @@ public class InvoiceController {
 	public String invoiceGblList(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
 
-		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq);
+		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq, process);
 
 		model.addAttribute("invoicSeq", seq);
 
@@ -135,7 +135,7 @@ public class InvoiceController {
 	public String invoicePrint(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
 
-		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq);
+		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq, process);
 		Invoice invoice = invoiceService.getInvoiceByInvoiceSeq(seq);
 		
 		Map<Integer, List<InvoiceGblContent>> map = invoiceService.getInvoicePrintMap(invoiceGblList, process);
@@ -166,7 +166,7 @@ public class InvoiceController {
 	public String invoiceGblListCommon(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
 
-		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq);
+		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq, process);
 
 		model.addAttribute("invoicSeq", seq);
 
@@ -297,7 +297,7 @@ public class InvoiceController {
 	public String invoiceCollectionGbl(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
 
-		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq);
+		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq, process);
 		
 		Map<Integer, InvoiceCollection> invoiceCollectionGblMap = invoiceService.getInvoiceCollectionGblMap(seq);
 
