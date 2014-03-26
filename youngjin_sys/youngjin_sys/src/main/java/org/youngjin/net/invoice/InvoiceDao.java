@@ -114,6 +114,10 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 		return getSqlSession().selectList("invoiceMapper.getInvoiceGblList", seq);
 	}
 
+	public List<InvoiceGbl> getInvoiceGblListIb(Integer seq) {
+		return getSqlSession().selectList("invoiceMapper.getInvoiceGblListIb", seq);
+	}
+
 	public void deleteInvoice(Invoice invoice) {
 		getSqlSession().delete("invoiceMapper.deleteInvoice", invoice);
 	}

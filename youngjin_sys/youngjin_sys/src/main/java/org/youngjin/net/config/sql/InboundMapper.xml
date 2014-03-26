@@ -314,6 +314,50 @@
 			g.seq = #{seq}
 	</select>	
 	
+	<select id="getGblInfoByNo" parameterType="GBL" resultType="GBL">
+		SELECT
+			g.seq,
+			g.gblNo,
+			g.shipperName,
+			g.rank,
+			g.code,
+			g.tsp,
+			g.destAddress,
+			g.pud,
+			g.rdd,
+			g.arriveDate,
+			g.awbNo,
+			g.ssn,
+			g.pmjDate,
+			g.area AS areaLocal,
+			g.fright,
+			g.eMailAddress,
+			g.oblNo,
+			g.vessle,
+			g.blCompany,
+			g.remark,
+			g.eta,
+			g.sitIn,
+			g.sitOut,
+			g.sitNo,
+			g.rate,
+			g.yjNo,
+			g.totalPcs,
+			g.phone,
+			g.address,
+			g.onHandDate,
+			g.gbloc,
+			g.destinationGbloc,
+			g.itemsPieces,
+			g.grossWeight,
+			g.netWeight,
+			g.storedAt
+		FROM
+			gbl_ib g
+		WHERE
+			g.gblNo = #{gblNo}		
+	</select>
+	
 	<select id="getCarrierList" resultType="Code">
 		SELECT DISTINCT
 			tsp AS subCode
@@ -598,10 +642,22 @@
 			(
 				SELECT
 					(@rownum := @rownum + 1) AS rownum,
-					d.seq, d.writeDate
+					d.writeDate, dc.*
 				FROM
-					declaration_list d, (SELECT @rownum := 0) r
-		
+					declaration_list d,
+					(
+						SELECT 
+							dl.seq, il.invoiceDate
+						FROM 
+							declaration_list dl, declaration dc, inbound_invoice_list il
+						WHERE
+							dc.declarationListSeq = dl.seq
+						AND
+							dc.inboundInvoiceSeq = il.seq
+					)dc,					
+					(SELECT @rownum := 0) r		
+				WHERE
+					d.seq = dc.seq
 				ORDER BY
 					d.seq
 			)u	
@@ -1309,6 +1365,33 @@
 		WHERE
 			seq = #{seq}
 	</delete>
+	
+	<select id="getOnHandListOne" parameterType="Integer" resultType="OnHandList">
+		SELECT
+			seq, onHandDate
+		FROM
+			on_hand_list
+		WHERE
+			seq = #{value}
+	</select>
+	
+	<update id="updateGblEtc" parameterType="GBL">
+		UPDATE
+			gbl_ib
+		SET
+			gblNo = gblNo
+			<if test="onHandDate != null">
+				,onHandDate = #{onHandDate}
+			</if>
+			<if test="grossWeight != null">
+				, grossWeight = #{grossWeight}
+				, netWeight = #{netWeight}
+				, cuft = #{cuft}
+				, totalPcs = #{totalPcs}
+			</if>
+		WHERE
+			seq = #{seq}
+	</update>
 	
 	<insert id="insertTruckManifast" parameterType="TruckManifastIb">
 		INSERT INTO

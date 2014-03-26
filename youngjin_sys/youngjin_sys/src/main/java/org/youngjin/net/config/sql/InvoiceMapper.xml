@@ -53,6 +53,7 @@
 		<result column="amount" property="amount" />
 		<result column="complete" property="complete" />
 		<result column="scac" property="tsp" />
+		<result column="code" property="code" />
 		<result column="pud" property="pud" />
 	</resultMap>
 	
@@ -715,11 +716,24 @@
 	
 	<select id="getInvoiceGblList" parameterType="Integer" resultMap="InvoiceGblMap">
 		SELECT
-			seq, invoice_list_seq, gbl_seq, gbl_no, rank, name, amount, complete
+			ig.seq, ig.invoice_list_seq, ig.gbl_seq, ig.gbl_no, ig.rank, ig.name, ig.amount, ig.complete, g.code
 		FROM
-			invoice_gbl
+			invoice_gbl ig, gbl g
 		WHERE
-			invoice_list_seq = #{value}
+			ig.invoice_list_seq = #{value}
+		AND
+			ig.gbl_seq = g.seq
+	</select>
+	
+	<select id="getInvoiceGblListIb" parameterType="Integer" resultMap="InvoiceGblMap">
+		SELECT
+			ig.seq, ig.invoice_list_seq, ig.gbl_seq, ig.gbl_no, ig.rank, ig.name, ig.amount, ig.complete, g.code
+		FROM
+			invoice_gbl ig, gbl_ib g
+		WHERE
+			ig.invoice_list_seq = #{value}
+		AND
+			ig.gbl_seq = g.seq
 	</select>
 	
 	<select id="getInvoiceGblListbyInvoice" parameterType="Invoice" resultMap="InvoiceGblMap">

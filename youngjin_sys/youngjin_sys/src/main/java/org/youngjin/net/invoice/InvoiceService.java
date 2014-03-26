@@ -459,8 +459,11 @@ public class InvoiceService {
 		return returnInvoice;
 	}
 
-	public List<InvoiceGbl> getInvoiceGblList(Integer seq) {
-		return invoiceDao.getInvoiceGblList(seq);
+	public List<InvoiceGbl> getInvoiceGblList(Integer seq, String process) {
+		if(process.equals("outbound"))
+			return invoiceDao.getInvoiceGblList(seq);
+		else 
+			return invoiceDao.getInvoiceGblListIb(seq);
 	}
 
 	public void invoiceDelete(Invoice invoice) {
@@ -1806,6 +1809,9 @@ public class InvoiceService {
 		InvoiceCollection collectionParam = invoiceDao
 				.checkAndGetGblCollectionSeq(invoiceCollectionMap
 						.get("invoiceSeq"));
+		
+		int count = Integer.parseInt(invoiceCollectionMap.get("count"));
+		
 		if (collectionParam != null
 				&& !invoiceCollectionMap.get("flowState").equals("CLAIM")) {
 			Integer net = Integer.parseInt(collectionParam.getNet())
@@ -1829,22 +1835,30 @@ public class InvoiceService {
 			}
 
 			invoiceDao.updateGblCollectionNet(invoiceCollection);
-		} else if (invoiceCollectionMap.get("flowState").equals("DEPOSIT")) {
+		} else if ((invoiceCollectionMap.get("flowState").equals("DEPOSIT") && count == 0) || (invoiceCollectionMap.get("flowState").equals("ACCEPT") && count == 0 )) {
 			invoiceDao.inputGblCollectionNet(invoiceCollection);
-
 		} else if (invoiceCollectionMap.get("flowState").equals("CLAIM")) {
+			if(count == 0){
+				invoiceDao.inputGblCollectionNet(invoiceCollection);
+			} else {
+				
+			}
 		}
 
 		InvoiceCollectionFlow invoiceCollectionFlow = new InvoiceCollectionFlow();
 		invoiceCollectionFlow.setAmount(invoiceCollectionMap.get("flowAmount"));
 		invoiceCollectionFlow.setState(invoiceCollectionMap.get("flowState"));
 		invoiceCollectionFlow.setRemark(invoiceCollectionMap.get("flowRemark"));
+		
 		if (invoiceCollection.getSeq() != null) {
 			invoiceCollectionFlow.setInvoiceCollectionSeq(invoiceCollection
 					.getSeq());
-		} else {
+		} else if ( collectionParam.getSeq() != null ){
 			invoiceCollectionFlow.setInvoiceCollectionSeq(collectionParam
-					.getSeq());
+				.getSeq());			
+		} else {
+			invoiceCollectionFlow.setInvoiceCollectionSeq(Integer.parseInt(invoiceCollectionMap
+					.get("gblSeq")));
 		}
 
 		invoiceDao.inputGblCollectionFlow(invoiceCollectionFlow);
@@ -1926,24 +1940,33 @@ public class InvoiceService {
 				invoiceDao.updateGblCollectionNet(collectionParam);
 			}
 		} else if (state.equals("ACCEPT")) {
-			invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
-			InvoiceCollection collection = invoiceDao
-					.checkAndGetGblCollectionSeq(invoiceSeq);
-			InvoiceCollection collectionParam = new InvoiceCollection();
-
-			Integer difference = Integer.parseInt(collection.getDifference())
-					- Integer.parseInt(amount);
-			collectionParam.setDifference(difference.toString());
-			collectionParam.setState("RESENT");
-
-			collectionParam.setNet(collection.getNet());
-
-			collectionParam.setSeq(Integer.parseInt(collectionSeq));
-
-			invoiceDao.updateGblCollectionNet(collectionParam);
+			
+			if (count == 1) {
+				invoiceDao.deleteGblInvoiceCollection(collectionSeq);
+			} else {
+				invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
+				InvoiceCollection collection = invoiceDao
+						.checkAndGetGblCollectionSeq(invoiceSeq);
+				InvoiceCollection collectionParam = new InvoiceCollection();
+	
+				Integer difference = Integer.parseInt(collection.getDifference())
+						- Integer.parseInt(amount);
+				collectionParam.setDifference(difference.toString());
+				collectionParam.setState("RESENT");
+	
+				collectionParam.setNet(collection.getNet());
+	
+				collectionParam.setSeq(Integer.parseInt(collectionSeq));
+	
+				invoiceDao.updateGblCollectionNet(collectionParam);
+			}
 
 		} else if (state.equals("CLAIM")) {
-			invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
+			if (count == 1) {
+				invoiceDao.deleteGblInvoiceCollection(collectionSeq);
+			} else {
+				invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
+			}
 		}
 
 		InvoiceCollection parentInvoiceCollection = new InvoiceCollection();
