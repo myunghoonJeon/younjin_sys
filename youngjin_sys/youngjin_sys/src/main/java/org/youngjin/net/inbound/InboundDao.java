@@ -389,4 +389,40 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public GBL getGblInfoByNo(GBL gbl) {
 		return getSqlSession().selectOne("inboundMapper.getGblInfoByNo", gbl);
 	}
+
+	public List<Integer> getDeclarationSeqList(Integer seq) {
+		return getSqlSession().selectList("inboundMapper.getDeclarationSeqList", seq);
+	}
+
+	public List<Integer> getOnHandListSeqList(Integer seq) {
+		return getSqlSession().selectList("inboundMapper.getOnHandListSeqList", seq);
+	}
+
+	public List<Integer> getReweightSeqList(Integer seq) {
+		return getSqlSession().selectList("inboundMapper.getReweightSeqList", seq);
+	}
+
+	public void deleteReweight(Reweight reweight) {
+		getSqlSession().delete("inboundMapper.deleteReweight", reweight);		
+	}
+
+	public List<Integer> getTruckManifastSeqList(Integer seq) {
+		return getSqlSession().selectList("inboundMapper.getTruckManifastSeqList", seq);
+	}
+
+	public void deleteGblStatus(Integer seq) {
+		getSqlSession().delete("inboundMapper.deleteGblStatus", seq);		
+	}
+
+	public void deleteGBL(Integer seq) {
+		getSqlSession().delete("inboundMapper.deleteGbl", seq);		
+	}
+
+	public void deleteTruckManifastEmptyTruck() {
+		getSqlSession().delete("inboundMapper.deleteTruckManifastEmptyTruck");		
+	}
+
+	public void deleteEmptyOnHandList() {
+		getSqlSession().delete("inboundMapper.deleteEmptyOnHandList");		
+	}
 }

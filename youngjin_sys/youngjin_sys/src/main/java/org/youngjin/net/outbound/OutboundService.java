@@ -201,7 +201,9 @@ public class OutboundService {
 
 		int count = weightcertificate.getCount();
 
-		Double grossSum = 0.0;
+		Integer grossSum = 0;
+		Integer netSum = 0;
+		Integer cuftSum = 0;
 
 		String[] pieceList = weightcertificate.getPiece().split(",", count);
 		String[] typeList = weightcertificate.getType().split(",", count);
@@ -252,12 +254,18 @@ public class OutboundService {
 				outboundDao.plusContainerByStatus(beforeStatus);
 			}
 
-			grossSum += Double.parseDouble(grossList[i]);
+			grossSum += Integer.parseInt(grossList[i]);
+			netSum += Integer.parseInt(netList[i]);
+			cuftSum += Integer.parseInt(cuftList[i]);
 		}
 
 		GBL gbl = new GBL();
 		gbl.setSeq(weightcertificate.getGblSeq());
 		gbl.setLbs(grossSum.toString());
+		gbl.setGrossWeight(grossSum.toString());
+		gbl.setNetWeight(netSum.toString());
+		gbl.setCuft(cuftSum.toString());
+		gbl.setTotalPcs(Integer.toString(count));
 
 		outboundDao.updateGbl(gbl);
 
@@ -749,7 +757,7 @@ public class OutboundService {
 		List<Integer> getInvoiceSeqList = invoiceService.getInvoiceSeqListByGblSeq(gbl.getSeq());
 		
 		for(Integer invoiceSeq : getInvoiceSeqList){
-			invoiceService.deleteInvoice(invoiceSeq);
+			invoiceService.deleteInvoice(invoiceSeq, "outbound");
 		}
 		
 		outboundDao.deleteGBL(gbl);
@@ -907,5 +915,9 @@ public class OutboundService {
 
 	public House getHouse(String seq) {
 		return outboundDao.getHouse(seq);
+	}
+
+	public GBL getGblInfoByNo(GBL gbl) {
+		return outboundDao.getGblInfoByNo(gbl);
 	}
 }

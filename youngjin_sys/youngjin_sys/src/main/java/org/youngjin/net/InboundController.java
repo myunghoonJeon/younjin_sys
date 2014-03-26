@@ -168,6 +168,13 @@ public class InboundController {
 	public void freightUpdateSubmit(@RequestBody GBL gbl){
 		inboundService.updateFreight(gbl);
 	}	
+	
+	@RequestMapping(value = "/{process}/freightDelete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblDelete(@RequestBody GBL gbl){
+		inboundService.deleteGBL(gbl);
+	}
+
 
 	@RequestMapping(value = "/{process}/freight/{seq}/weight", method = RequestMethod.GET)
 	public String weightAdd(Model model, User user,
@@ -400,6 +407,8 @@ public class InboundController {
 	public String onHandList(Model model, User user,
 			@PathVariable String process,
 			@ModelAttribute InboundFilter inboundFilter) {
+		
+		inboundService.deleteEmptyOnHandList();
 
 		user.setSubProcess("onHandList");
 		inboundFilter.getPagination().setNumItems(
@@ -539,6 +548,8 @@ public class InboundController {
 	public String truckManifastInbound(Model model, User user,
 			@PathVariable String process,
 			@ModelAttribute InboundFilter inboundFilter) {
+		
+		inboundService.deleteTruckManifastEmptyTruck();
 
 		user.setSubProcess("truck");
 

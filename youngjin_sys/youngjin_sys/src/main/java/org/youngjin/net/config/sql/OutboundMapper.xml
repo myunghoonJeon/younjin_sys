@@ -35,6 +35,7 @@
 	<result column="pcs" property="pcs" />
 	<result column="lbs" property="lbs" />
 	<result column="net" property="netWeight" />
+	<result column="grossWeight" property="grossWeight" />
 	<result column="cuft" property="cuft" />
 	<result column="truck_check" property="truckCheck"/>
 	<result column="truck_seq" property="truckSeq"/>
@@ -350,6 +351,10 @@
 		g.bl_no,
 		g.truck_seq,
 		g.booking_seq,
+		g.totalPcs AS pcs,
+		g.grossWeight,
+		g.netWeight AS net,
+		g.cuft,
 		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
 		g.lbs,
 		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft,
@@ -371,6 +376,67 @@
 		ON (gwc.seq = g.seq)
 	WHERE
 		g.seq = #{seq}
+</select>
+
+<select id="getGblInfoByNo" parameterType="GBL" resultMap="GblMap">
+	SELECT
+		g.no, 
+		g.seq,
+		g.customer_name, 
+		g.rank, 
+		g.code, 
+		g.scac, 
+		g.origin_gblock, 
+		g.dest_gblock, 
+		g.pud, 
+		g.ssn, 
+		g.rdd, 
+		g.pod, 
+		g.poe, 
+		g.area, 
+		g.origin_address, 
+		g.us_no, 
+		g.dest_port, 
+		g.origin_port, 
+		g.vessel, 
+		g.consol_company,
+		g.hb_booking_no,  
+		g.container_no,
+		g.clp_no, 
+		g.seal_no, 
+		g.dest_state,
+		g.export,  
+		g.mil_svc,
+		g.etd,
+		g.eta,
+		g.bl_no,
+		g.truck_seq,
+		g.booking_seq,
+		g.totalPcs AS pcs,
+		g.grossWeight,
+		g.netWeight AS net,
+		g.cuft,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+		g.lbs,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.net ELSE '' END AS net,
+		g.house_consignee
+	FROM
+		gbl g
+		LEFT OUTER JOIN
+		(
+		SELECT
+			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft, SUM(wc.net) AS net
+		FROM
+			gbl gt
+		JOIN
+			weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		GROUP BY
+			gt.seq
+		) gwc
+		ON (gwc.seq = g.seq)
+	WHERE
+		g.no = #{no}
 </select>
 
 <delete id="deleteGbl" parameterType="GBL">
@@ -1375,6 +1441,18 @@
     	seq = seq
     	<if test="lbs != null">
     		,lbs = #{lbs}
+    	</if>
+    	<if test="grossWeight != null">
+    		,grossWeight = #{grossWeight}
+    	</if>
+    	<if test="netWeight != null">
+    		,netWeight = #{netWeight}
+    	</if>
+    	<if test="cuft != null">
+    		,cuft = #{cuft}
+    	</if>
+    	<if test="totalPcs != null">
+    		,totalPcs = #{totalPcs}
     	</if>
     	<if test="truckSeq != null">
     		,truck_seq = #{truckSeq}
