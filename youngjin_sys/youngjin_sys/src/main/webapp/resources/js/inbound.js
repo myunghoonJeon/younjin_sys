@@ -1946,7 +1946,7 @@ youngjin.inbound.onHandListPrint = function(target){
 	
 	var url = contextPath + '/inbound/onHand/' + seq + '/onHandListForm';
 	
-	$.smartPop.open({
+	$.smartPop.open({//여기서 자동으로 감 (js)
 		width: 1263,
 		height: 892,
 		url : url

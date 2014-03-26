@@ -16,7 +16,7 @@ public class InvoiceFilter extends AbstractListFilter {
 	public String endDate;
 
 	public String gblNo;
-
+	
 	public String getGblNo() {
 		return gblNo;
 	}

@@ -221,7 +221,7 @@
         <div id="paper">
             <h1>DPS-REQUEST FOR AUTHORIZATION OF SIT NUMBERS</h1>
             <div id="header">
-                <div id="to">TO : CBO ${onHandListContentList[0].onHandListContent.gbl.areaLocal }</div>
+                <div id="to">TO : CBO YONGSAN</div>
                 <div id="dest_agent">DEST AGENT : YOUNGJIN TRADE &amp; TRANSPORTATION CO., LTD</div>
 	            <fmt:parseDate value="${onHandListContentList[0].onHandDate }" var="formDate" pattern="yyyy-MM-dd" />
                 <div id="date">DATE : <fmt:formatDate value="${formDate }" pattern="MM-dd-yy"/></div>

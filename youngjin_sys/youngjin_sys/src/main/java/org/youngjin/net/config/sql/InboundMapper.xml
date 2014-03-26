@@ -67,7 +67,7 @@
 		<result column="piece" property="onHandListContent.weight.piece" />
 		<result column="gross" property="onHandListContent.weight.gross" />
 		<result column="net" property="onHandListContent.weight.net" />
-		<result column="cuft" property="onHandListContent.weight.cuft" />
+		<result column="cuft" property="onHandListContent.weight.cuft"/>
 	</resultMap>
 
 	<select id="getFreightListCount" parameterType="InboundFilter" resultType="Integer">
@@ -1291,6 +1291,7 @@
 	</select>
 	
 	<select id="getOnHandListForm" parameterType="Integer" resultMap="onHandListFormMap">
+		<!-- 
 		SELECT
 			ohl.onHandDate, ohl.firstArrivalableDeliverDate, ohlc.seq AS onHandListContentSeq, ohlc.by, g.shipperName, g.rank, g.ssn, g.gblNo, g.code, g.pud, g.area, g.rdd, w.piece, w.gross, w.net, w.cuft
 		FROM
@@ -1308,7 +1309,27 @@
 		AND
 			ohl.seq = ohlc.onHandListSeq
 		AND
-			g.seq = ohlc.gblSeq			
+			g.seq = ohlc.gblSeq
+		 -->
+		SELECT
+			ohl.onHandDate, ohl.firstArrivalableDeliverDate, ohlc.seq AS onHandListContentSeq, ohlc.by, g.shipperName, g.rank, g.ssn, g.gblNo, g.code, g.pud, b.branch as area, g.rdd, w.piece, w.gross, w.net, w.cuft
+		FROM
+			on_hand_list ohl, on_hand_list_content ohlc, gbl_ib g,branch b, 
+			(
+				SELECT
+					COUNT(piece) AS piece, SUM(gross) AS gross, SUM(net) AS net, SUM(cuft) AS cuft
+				FROM
+					weight_ib
+				WHERE
+					seq IN (SELECT weightSeq FROM on_hand_list_content_weight WHERE onHandListContentSeq IN (SELECT seq FROM on_hand_list_content WHERE onHandListSeq = #{value}))
+			)w
+		WHERE
+			ohl.seq = #{value}
+		AND
+			ohl.seq = ohlc.onHandListSeq
+		AND
+			g.seq = ohlc.gblSeq
+		And b.branchAcronym = g.area			
 	</select>
 	
 	<update id="onHandListContentByUpdate" parameterType="OnHandListContent">

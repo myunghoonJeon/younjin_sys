@@ -32,7 +32,7 @@
 	#invoice_input{
 		font-weight:bold; 
 		text-decoration: underline;
-		font-size: 14pt;
+		font-size: 15pt;
 	}
 	#to{
 		width:9cm;
@@ -96,9 +96,13 @@
 	}
 	
 	.invoice_gbl_content_print_table{ width: 80%; margin: 10px auto; text-align: center; }
+	.invoice_gbl_title_print_table{ width: 80%; margin: 10px auto; text-align: center; }
+	.invoice_gbl_title_td_lfet{style="border-bottom: thin; border-left: thin; border-top: thin; border-style: solid;}
+	.invoice_gbl_title_td_right{style="border-bottom: thin; border-left: thin; border-top: thin; border-style: solid;}
 	.invoice_gbl_content_print_table tr th{ font-size: 12px; padding: 3px 5px; color: #000; border: 1px solid #000; }
 	.invoice_gbl_content_print_table tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle;}
 	.invoice_gbl_content_print_table tr{ background-color: white; cursor: pointer;  }
+	
 </style>
 <%
 	String tel = "82-2-825-6345";
@@ -119,7 +123,7 @@
 			</tr>
 			<tr>
 				<td id='title-side'>¡¡</td>
-				<td colspan="2" id='address'><div style="width: 9cm; border: none; text-align: center; font-size: 11pt;font-weight: bold;" type="text">${company.address }</div></td>
+				<td colspan="2" id='address'><div style="width: 9cm; border: none; text-align: center; font-size: 10pt;font-weight: bold;" type="text">${company.address }</div></td>
 				<td id='title-side'>¡¡</td>
 			</tr>
 			<tr>
@@ -134,17 +138,17 @@
 		</table>
 		<table border="0" align="center" style="width : 17cm;" cellspacing="0">
 			<tr>
-				<td id='totd' rowspan="3">TO: </td><td id='to' rowspan="3">${scac.scacFullName }<br/>${scac.address }</td>
+				<td id='totd' rowspan="3">TO:</td><td style="vertical-align:top; font-size: 9pt; width:9.5cm;" id='to' rowspan="3">${scac.scacFullName }<br/>${scac.address }</td>
 				<td id='date' style="width:2.5cm;">DATE: </td > <td id='date'><%out.println(date); %></td>
 			</tr>
 			<tr>
-				<td id='invoiceno' style="width:2.5cm;">INVOICE NO: </td> <td id='invoiceno'><%out.println(invoiceno); %></td>
+				<td id='invoiceno' style="width:2.5cm; font-weight: bold;">INVOICE NO: </td> <td id='invoiceno'><%out.println(invoiceno); %></td>
 			</tr>
 			<tr>
 				<td id='code'style="width:2.5cm;">CODE: </td> <td id='code'>${fn:toUpperCase(invoice.process) } #${invoiceGblList[0].code }</td>
 			</tr>		
 		</table>
-		<table id='test'border="0" align="center" style="width : 17cm;" cellspacing="0">
+		<table id='test' border="0" align="center" style="width : 17cm; " cellspacing="0">
 			<tr style="font-size: 9pt; ">
 				<td id='no'>NO</td>
 				<td id='route'>ROUTE</td>
@@ -157,14 +161,14 @@
 			</tr>
 			<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
 				<tr>	
-					<td>${i.count }</td>
-					<td></td>
-					<td>${invoiceGbl.gblNo }</td>
-					<td>${invoiceGbl.rank }</td>
-					<td>${invoiceGbl.name }</td>
-					<td>${i.count }</td>
-					<td>${i.count }</td>
-					<td>${invoiceGbl.amount }</td>
+					<td style="font-size: 9pt;">${i.count }</td>
+					<td style="font-size: 9pt;"></td>
+					<td style="font-size: 9pt;">${invoiceGbl.gblNo }</td>
+					<td style="font-size: 9pt;">${invoiceGbl.rank }</td>
+					<td style="font-size: 9pt;">${invoiceGbl.name }</td>
+					<td style="font-size: 9pt;">${i.count }</td>
+					<td style="font-size: 9pt;">${i.count }</td>
+					<td style="font-size: 9pt;">${invoiceGbl.amount }</td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -173,6 +177,18 @@
 	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
 		<div>			
 			<div>
+				<table class="invoice_gbl_title_print_table"border="1"><!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
+					<tr>
+						<td class="invoice_gbl_title_td_lfet">TSP</td><td>test</td>
+						<td>IN/OUT</td><td>test</td>
+						<td>CODE</td><td>test</td>
+					</tr>
+					<tr>
+						<td>GBL NO</td><td>test</td>
+						<td>RANK</td><td>test</td>
+						<td>NAME</td><td>test</td>
+					</tr>
+				</table>
 				<table class="invoice_gbl_content_print_table">
 					<tr>
 						<th colspan="5">

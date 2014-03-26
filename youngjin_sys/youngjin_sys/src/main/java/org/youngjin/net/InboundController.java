@@ -515,15 +515,13 @@ public class InboundController {
 		inboundService.onHandListDelete(map);
 	}
 
-	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListForm", method = RequestMethod.GET)
+	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListForm", method = RequestMethod.GET)//inbound.js 에서 왔음
 	public String getOnHandListForm(Model model, User user,
-			@PathVariable String process, @PathVariable Integer seq) {
-
+		@PathVariable String process, @PathVariable Integer seq) {
+		
 		model.addAttribute("onHandListSeq", seq);
-
 		model.addAttribute("onHandListContentList",
 				inboundService.getOnHandListContentListForm(seq));
-
 		return process + "/onHand/onHandListForm";
 	}
 
@@ -540,7 +538,8 @@ public class InboundController {
 
 		model.addAttribute("onHandListContentList",
 				inboundService.getOnHandListContentListForm(seq));
-
+		
+//		model.addAttribute("basicBranch", basicService.getBranch())
 		return process + "/onHand/onHandListPrint";
 	}
 

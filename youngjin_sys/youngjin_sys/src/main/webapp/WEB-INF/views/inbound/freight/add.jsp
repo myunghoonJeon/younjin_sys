@@ -56,7 +56,7 @@
 			</tr>
 			<tr>
 				<th>SSN</th>
-				<td><form:input path="ssn" /> </td>
+				<td><form:input path="ssn" placeholder="Ex : 000001234"/> </td>
 				<th>BRANCH</th>
 				<td><form:input path="areaLocal" /> </td>
 			</tr>
