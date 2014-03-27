@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:set var="cp" value="<%=request.getContextPath() %>"/>
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
@@ -139,10 +140,11 @@
 		<table border="0" align="center" style="width : 17cm;" cellspacing="0">
 			<tr>
 				<td id='totd' rowspan="3">TO:</td><td style="vertical-align:top; font-size: 9pt; width:9.5cm;" id='to' rowspan="3">${scac.scacFullName }<br/>${scac.address }</td>
-				<td id='date' style="width:2.5cm;">DATE: </td > <td id='date'><%out.println(date); %></td>
+				<fmt:parseDate value="${invoice.invoiceDate}" pattern="yyyyMMdd" var="invoiceDate"  />
+				<td id='date' style="width:2.5cm;">DATE: </td > <td id='date'><fmt:formatDate value="${invoiceDate }" pattern="dd-MM-yy" /></td>
 			</tr>
 			<tr>
-				<td id='invoiceno' style="width:2.5cm; font-weight: bold;">INVOICE NO: </td> <td id='invoiceno'><%out.println(invoiceno); %></td>
+				<td id='invoiceno' style="width:2.5cm; font-weight: bold;">INVOICE NO: </td> <td id='invoiceno'>${invoice.invoiceNo }</td>
 			</tr>
 			<tr>
 				<td id='code'style="width:2.5cm;">CODE: </td> <td id='code'>${fn:toUpperCase(invoice.process) } #${invoiceGblList[0].code }</td>

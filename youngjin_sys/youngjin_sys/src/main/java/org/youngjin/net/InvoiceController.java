@@ -100,7 +100,26 @@ public class InvoiceController {
 		
 		List<GBL> invoiceGblList = invoiceService.getInvoiceSettingGblList(invoiceGblFilter);
 
-		model.addAttribute("filterMap", invoiceService.getFilterMap());
+		model.addAttribute("filterMap", invoiceService.getFilterMap(invoiceGblFilter));
+		
+		model.addAttribute("gblList", invoiceGblList);
+
+		return process + "/invoice/invoiceAddSettingPop";
+	}
+
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@RequestMapping(value = "/{process}/invoice/invoiceAddSetting", method = RequestMethod.POST)
+	public String invoiceAddSettingPost(Model model, User user, @ModelAttribute InvoiceGblFilter invoiceGblFilter,
+			@PathVariable String process) {
+		
+		invoiceGblFilter.setProcess(process);
+		
+		invoiceGblFilter.getPagination().setNumItems(
+				invoiceService.getInvoiceSettingGblListCount(invoiceGblFilter));
+		
+		List<GBL> invoiceGblList = invoiceService.getInvoiceSettingGblList(invoiceGblFilter);
+
+		model.addAttribute("filterMap", invoiceService.getFilterMap(invoiceGblFilter));
 		
 		model.addAttribute("gblList", invoiceGblList);
 

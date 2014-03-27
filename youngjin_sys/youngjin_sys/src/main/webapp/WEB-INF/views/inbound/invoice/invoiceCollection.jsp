@@ -86,7 +86,7 @@
 										</c:when>
 										<c:when test="${collectionMap.state eq 'RESENT' }">
 											<font color="red">${collectionMap.state }</font><br />
-											<font color="red">${collectionMap.difference }$</font>
+											<font color="red"><fmt:formatNumber pattern=".##">${collectionMap.difference }</fmt:formatNumber>$</font>
 										</c:when>
 									</c:choose>								
 								</td>

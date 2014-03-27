@@ -425,7 +425,7 @@ public class InvoiceService {
 		invoice.setEndDate(settingGblList.get(settingGblList.size() - 1)
 				.getPud());
 
-		if (invoiceDao.checkTodayInvoiceNo() != null) {
+		/*if (invoiceDao.checkTodayInvoiceNo() != null) {
 			String invoiceNo = invoiceDao.checkTodayInvoiceNo();
 			String invoiceNoCount = invoiceNo.substring(7, invoiceNo.length());
 
@@ -433,7 +433,7 @@ public class InvoiceService {
 					+ Integer.toString(Integer.parseInt(invoiceNoCount) + 1));
 		} else {
 			invoice.setInvoiceNo(DateUtil.getToday("YYYYMMDD") + "1");
-		}
+		}*/
 
 		if (settingGblList.size() > 0) {
 			invoice.setProcess(process);
@@ -508,6 +508,7 @@ public class InvoiceService {
 		invoiceDao.deleteInvoice(invoice);
 	}
 
+	//계산하는부분
 	public List<InvoiceGblContent> getInvoiceGblContentList(Integer invoiceSeq,
 			Integer invoiceGblSeq, Integer gblSeq, String process) {
 
@@ -1639,15 +1640,24 @@ public class InvoiceService {
 		return filterMap;
 	}
 
-	public Map<String, List<Code>> getFilterMap() {
+	public Map<String, List<Code>> getFilterMap(InvoiceGblFilter invoiceGblFilter) {
 		Map<String, List<Code>> filterMap = new HashMap<String, List<Code>>();
+		
 		List<Code> branchList = codeDao.getAllAreaList();
 		filterMap.put("branchList", branchList);
 
-		List<Code> carrierList = outboundDao.getCarrierList();
+		List<Code> carrierList = new ArrayList<Code>();
+		List<Code> codeList = new ArrayList<Code>();
+		
+		if(invoiceGblFilter.getProcess().equals("outbound")){
+			carrierList = outboundDao.getCarrierList();
+			codeList = outboundDao.getCodeList();
+		} else {
+			carrierList = inboundDao.getCarrierList();
+			codeList = inboundDao.getCodeList();			
+		}
+		
 		filterMap.put("carrierList", carrierList);
-
-		List<Code> codeList = outboundDao.getCodeList();
 		filterMap.put("codeList", codeList);
 
 		return filterMap;
@@ -1816,10 +1826,10 @@ public class InvoiceService {
 		
 		if (collectionParam != null
 				&& !invoiceCollectionMap.get("flowState").equals("CLAIM")) {
-			Integer net = Integer.parseInt(collectionParam.getNet())
-					+ Integer.parseInt(invoiceCollection.getNet());
-			Integer difference = (int) (net - Double
-					.parseDouble(invoiceCollectionMap.get("amount")));
+			Double net = Double.parseDouble(collectionParam.getNet())
+					+ Double.parseDouble(invoiceCollection.getNet());
+			Double difference = net - Double
+					.parseDouble(invoiceCollectionMap.get("amount"));
 			invoiceCollection.setSeq(collectionParam.getSeq());
 			if (difference == 0
 					&& invoiceCollectionMap.get("flowState").equals("DEPOSIT")) {
@@ -1928,12 +1938,12 @@ public class InvoiceService {
 				InvoiceCollection collection = invoiceDao
 						.checkAndGetGblCollectionSeq(invoiceSeq);
 				InvoiceCollection collectionParam = new InvoiceCollection();
-				Integer net = Integer.parseInt(collection.getNet())
-						- Integer.parseInt(amount);
+				Double net = Double.parseDouble(collection.getNet())
+						- Double.parseDouble(amount);
 				collectionParam.setNet(net.toString());
 
-				Integer difference = Integer.parseInt(collection
-						.getDifference()) - Integer.parseInt(amount);
+				Double difference = Double.parseDouble(collection
+						.getDifference()) - Double.parseDouble(amount);
 				collectionParam.setDifference(difference.toString());
 				collectionParam.setState("RESENT");
 
@@ -1951,8 +1961,8 @@ public class InvoiceService {
 						.checkAndGetGblCollectionSeq(invoiceSeq);
 				InvoiceCollection collectionParam = new InvoiceCollection();
 	
-				Integer difference = Integer.parseInt(collection.getDifference())
-						- Integer.parseInt(amount);
+				Double difference = Double.parseDouble(collection.getDifference())
+						- Double.parseDouble(amount);
 				collectionParam.setDifference(difference.toString());
 				collectionParam.setState("RESENT");
 	

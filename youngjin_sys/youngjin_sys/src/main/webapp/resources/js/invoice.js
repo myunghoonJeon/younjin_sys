@@ -40,6 +40,29 @@ youngjin.invoice.invoiceListSync = function(){
 		youngjin.invoice.invoiceListAddSubmit($(this), 'inbound');
 	});
 	
+	$('select#invoice_carrier_filter').unbind('change');
+	$('select#invoice_carrier_filter').bind('change', function(){
+		var form = document.forms['invoiceGblFilter'];
+		form.method = 'post';
+		form.submit();		
+	});
+	
+	$('select#invoice_code_filter').unbind('change');
+	$('select#invoice_code_filter').bind('change', function(){
+		var form = document.forms['invoiceGblFilter'];
+		form.method = 'post';
+		form.submit();
+	});
+	
+	$('input#invoice_startPud_filter').datepicker();
+	
+	$('input#invoice_startPud_filter').unbind('change');
+	$('input#invoice_startPud_filter').bind('change', function(){
+		var form = document.forms['invoiceGblFilter'];
+		form.method = 'post';
+		form.submit();
+	});
+	
 	$('.invoice_gbl_list_table tbody tr').unbind('click');
 	$('.invoice_gbl_list_table tbody tr').bind('click', function(){
 		youngjin.invoice.invoiceGblContentPop($(this), 'outbound');
@@ -511,15 +534,22 @@ youngjin.invoice.invoiceListAddPop = function(target, process){
 };
 
 youngjin.invoice.invoiceListAddSubmit = function(target, process){
-	var gblSeq = '';
+	var gblSeq = '';;
 	
 	$(':checkbox:checked').each(function(){
 		gblSeq = gblSeq + $(this).val() + ",";
 	});
 	
+	gblSeq = gblSeq.substring(0, gblSeq.length - 1);
+	
 	var url = contextPath + '/' + process + '/invoice/invoiceListAdd.json';
+
+	var invoiceNo = $('#invoiceNo');
+	var invoiceDate = $('#invoiceDate');
 	
 	var json = {
+			'invoiceNo' : invoiceNo.val(),
+			'invoiceDate' : invoiceDate.val(),
 			'seqList' : gblSeq
 	};
 	
@@ -814,6 +844,10 @@ youngjin.invoice.inputGblCollectionFlowTable = function(target){
 	var ul = target.parents().parents('ul');
 	var table = ul.find('.collection_flow_table:last');
 	var count = table.attr('data-count');
+	
+	if(count == undefined)
+		count = 0;
+	
 	var html = '<li>' + 
 					'<table class="collection_flow_table" data-count="' + count + '">' + 
 						'<tr>' + 

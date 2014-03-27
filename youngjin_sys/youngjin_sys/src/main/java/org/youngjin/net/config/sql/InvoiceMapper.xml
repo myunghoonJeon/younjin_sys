@@ -10,6 +10,7 @@
 		<result column="write_date" property="writeDate"/>
 		<result column="complete" property="complete"/>
 		<result column="amount" property="amount"/>
+		<result column="invoice_date" property="invoiceDate"/>
 	</resultMap>
 
 	<resultMap type="GBL" id="GblMap">
@@ -160,7 +161,7 @@
 		</if>
 		<if test="carrier != null and carrier != ''">
 			AND
-				scac = #{carrier}
+				tsp = #{carrier}
 		</if>
 		<if test="code != null and code != ''">
 			AND
@@ -194,7 +195,7 @@
 			</if>
 			<if test="carrier != null and carrier != ''">
 				AND
-					g.scac = #{carrier}
+					g.tsp = #{carrier}
 			</if>
 			<if test="code != null and code != ''">
 				AND
@@ -237,7 +238,7 @@
 	
 	<select id="getInvoiceSettingGblList" parameterType="InvoiceGblFilter" resultMap="GblMap">				
 		SELECT 
-			gt.*, cuft, pcs
+			gt.*, a.cuft, pcs
 		FROM 
 			(SELECT
 				g.no, w.booking_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
@@ -707,7 +708,7 @@
 	
 	<select id="getInvoice" parameterType="Invoice" resultMap="InvoiceMap">
 		SELECT
-			seq, tsp, start_date, end_date, write_date, complete
+			seq, tsp, start_date, end_date, write_date, complete, invoice_date, invoice_no
 		FROM
 			invoice_list
 		WHERE
@@ -1087,11 +1088,11 @@
 		INSERT INTO
 			invoice_list
 			(
-				invoice_no, tsp, start_date, end_date, write_date, complete, process
+				invoice_no, tsp, start_date, end_date, write_date, complete, process, invoice_date
 			)
 		VALUES
 			(
-				#{invoiceNo}, #{tsp}, #{startDate}, #{endDate}, SYSDATE(), 0, #{process}
+				#{invoiceNo}, #{tsp}, #{startDate}, #{endDate}, SYSDATE(), 0, #{process}, #{invoiceDate}
 			)
 		<selectKey keyProperty="seq" resultType="Integer">
 			SELECT LAST_INSERT_ID()  

@@ -56,23 +56,19 @@
 		<c:set var="carrierList" value="${filterMap['carrierList'] }" />
 		<c:set var="codeList" value="${filterMap['codeList'] }" />
 		
-		<div class="gbl_filter">
+		<div class="invoice_filter">
 			<ul>	
 				<form:form commandName="invoiceGblFilter" method="get">
-					<sec:authorize access="hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2')">
 						<li>	
-							<form:select path="branch">
+							<form:select path="carrier" id="invoice_carrier_filter">
 								<form:option value="">All</form:option>
-								<c:forEach var="branch" items="${branchList }">
-									<c:if test="${branch.codeName ne 'None' }" >
-										<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
-									</c:if>
+								<c:forEach var="carrier" items="${carrierList }">
+									<form:option value="${carrier.subCode }">${carrier.subCode }</form:option>
 								</c:forEach>
 							</form:select>
 						</li>
-					</sec:authorize>
 						<li>
-							<form:select path="code">
+							<form:select path="code" id="invoice_code_filter">
 								<form:option value="">All</form:option>
 								<c:forEach var="code" items="${codeList }">
 									<form:option value="${code.subCode }">${code.subCode }</form:option>
@@ -80,13 +76,21 @@
 							</form:select>
 						</li>
 						<li>
-							<form:input path="startPud"/>
-						</li>
-						<li>
-							<span class="inbound_invoice_gbl_addButton yj_button" >add</span>
+							<form:input path="startPud" id="invoice_startPud_filter"/>
 						</li>
 					<form:hidden path="page" value="${pagination.currentPage}"/>
 				</form:form>
+			</ul>
+			<ul>
+				<li>
+					INVOICE NO : <input type="text" id="invoiceNo"/>
+				</li>
+				<li>
+					INVOICE DATE : <input type="text" id="invoiceDate" />
+				</li>
+				<li>
+					<span class="inbound_invoice_gbl_addButton yj_button" >add</span>
+				</li>
 			</ul>
 		</div>
 		
