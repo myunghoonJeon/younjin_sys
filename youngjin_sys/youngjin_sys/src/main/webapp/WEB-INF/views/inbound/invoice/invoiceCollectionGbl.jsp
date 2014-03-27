@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
@@ -77,7 +78,7 @@
 									</c:when>
 									<c:when test="${collectionGblMap.state eq 'RESENT' }">
 										<font color="red">${collectionGblMap.state }</font><br />
-										<font color="red">${collectionGblMap.difference }$</font>
+										<font color="red"><fmt:formatNumber pattern=".##">${collectionGblMap.difference }</fmt:formatNumber>$</font>
 									</c:when>
 								</c:choose>								
 							</td>
@@ -115,8 +116,7 @@
 											<div class="collection_gbl_delete"><img src="${cp }/resources/images/collection_delete.png" /></div>
 										</c:if>
 									</li>											
-								</ul>
-							
+								</ul>							
 							</td>
 						</tr>
 					</c:forEach>

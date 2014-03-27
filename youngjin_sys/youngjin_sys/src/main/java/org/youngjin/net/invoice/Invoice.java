@@ -4,6 +4,7 @@ public class Invoice {
 	private Integer seq;
 	private String invoiceNo;
 	private String tsp;
+	private String invoiceDate;
 	private String startDate;
 	private String endDate;
 	private String writeDate;
@@ -40,6 +41,14 @@ public class Invoice {
 
 	public String getStartDate() {
 		return startDate;
+	}
+
+	public String getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(String invoiceDate) {
+		this.invoiceDate = invoiceDate;
 	}
 
 	public void setStartDate(String startDate) {
