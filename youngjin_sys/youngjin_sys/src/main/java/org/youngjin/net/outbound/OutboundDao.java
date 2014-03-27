@@ -383,4 +383,8 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void deleteTcmd(Integer tcmdSeq) {
 		getSqlSession().delete("outboundMapper.deleteTcmd", tcmdSeq);		
 	}
+
+	public GBL getGblInfoByNo(GBL gbl) {
+		return getSqlSession().selectOne("outboundMapper.getGblInfoByNo", gbl);
+	}
 }

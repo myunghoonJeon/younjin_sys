@@ -503,6 +503,8 @@ public class InvoiceService {
 			}
 		}
 
+		invoice.setProcess(process);
+		
 		invoiceDao.deleteInvoice(invoice);
 	}
 
@@ -2052,10 +2054,11 @@ public class InvoiceService {
 		return invoiceDao.getInvoiceSeqListByGblSeq(seq);
 	}
 
-	public void deleteInvoice(Integer invoiceSeq) {
+	public void deleteInvoice(Integer invoiceSeq, String process) {
 		Invoice invoice = new Invoice();
 		
 		invoice.setSeq(invoiceSeq);
+		invoice.setProcess(process);
 		
 		invoiceDao.deleteInvoice(invoice);
 	}

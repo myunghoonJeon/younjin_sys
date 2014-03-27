@@ -17,13 +17,18 @@ youngjin.inbound.sync = function(){
 		});
 	});
 	
-	$('.gbl_add_table #gblNo').focusout(function(){
+	$('.inbound_gbl_add_table #gblNo').focusout(function(){
 		youngjin.inbound.addCheckAlreadySaveGblInfo($(this));
 	});
 	
 	$('.freight_add_submit_button').unbind('click');
 	$('.freight_add_submit_button').bind('click', function(){
 		youngjin.inbound.freightAddSubmit();
+	});
+	
+	$('.inbound_gbl_delete').unbind('click');
+	$('.inbound_gbl_delete').bind('click', function(){
+		youngjin.inbound.gblDelete();
 	});
 	
 	$('.freight_update_submit_button').unbind('click');
@@ -694,6 +699,30 @@ youngjin.inbound.addCheckAlreadySaveGblInfo = function(target){
 youngjin.inbound.freightAddSubmit = function(){
 	var form = document.forms['gbl'];
 	form.submit();	
+};
+
+youngjin.inbound.gblDelete = function(target){
+	var seq = $('#upload_tfoot').attr('data-seq');
+	
+	var url = contextPath + '/inbound/freightDelete.json';
+	
+	var json = {
+		'seq' : seq
+	};
+	
+	if(confirm('삭제하시겠습니까?')){
+		$.postJSON(url, json, function(){
+			return jQuery.ajax({
+				success : function(){
+					parent.location.href = contextPath + '/inbound/freightList';
+					parent.$.smartPop.close();
+				}, 
+				error : function(){
+					alert('에러발생');
+				}
+			});
+		});
+	}	
 };
 
 youngjin.inbound.freightUpdateSubmit = function(){

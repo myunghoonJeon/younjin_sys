@@ -179,14 +179,24 @@
 			<div>
 				<table class="invoice_gbl_title_print_table"border="1"><!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 					<tr>
-						<td class="invoice_gbl_title_td_lfet">TSP</td><td>test</td>
-						<td>IN/OUT</td><td>test</td>
-						<td>CODE</td><td>test</td>
+						<td class="invoice_gbl_title_td_lfet">TSP</td><td>${invoice.tsp }</td>
+						<td>IN/OUT</td>
+						<td>
+							<c:choose>
+								<c:when test="${invoice.process eq 'inbound' }">
+									TO KOREA
+								</c:when>
+								<c:otherwise>
+									FROM KOREA
+								</c:otherwise>
+							</c:choose>
+						</td>
+						<td>CODE</td><td>${invoiceGbl.code }</td>
 					</tr>
 					<tr>
-						<td>GBL NO</td><td>test</td>
-						<td>RANK</td><td>test</td>
-						<td>NAME</td><td>test</td>
+						<td>GBL NO</td><td>${invoiceGbl.gblNo }</td>
+						<td>RANK</td><td>${invoiceGbl.rank }</td>
+						<td>NAME</td><td>${invoiceGbl.name }</td>
 					</tr>
 				</table>
 				<table class="invoice_gbl_content_print_table">

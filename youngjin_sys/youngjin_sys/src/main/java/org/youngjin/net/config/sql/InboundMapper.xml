@@ -314,6 +314,13 @@
 			g.seq = #{seq}
 	</select>	
 	
+	<delete id="deleteGbl" parameterType="Integer">
+		DELETE FROM
+			gbl_ib
+		WHERE
+			seq = #{value}
+	</delete>
+	
 	<select id="getGblInfoByNo" parameterType="GBL" resultType="GBL">
 		SELECT
 			g.seq,
@@ -672,6 +679,17 @@
 			declaration
 		WHERE
 			inboundInvoiceSeq = #{value}
+	</select>
+	
+	<select id="getDeclarationSeqList" parameterType="Integer" resultType="Integer">
+		SELECT
+			d.declarationListSeq
+		FROM
+			declaration d, inbound_invoice_list il
+		WHERE
+			d.inboundInvoiceSeq = il.seq
+		AND
+			il.gblSeq = #{value}
 	</select>
 
 	<delete id="deleteDeclarationListBySeq" parameterType="Integer">
@@ -1115,6 +1133,13 @@
 			</if>
 	</update>
 	
+	<delete id="deleteGblStatus" parameterType="Integer">
+		DELETE FROM
+			gbl_status
+		WHERE
+			gbl_no = (select gblNo from gbl_ib where seq = #{value})
+	</delete>
+	
 	<update id="updateInboundInvoiceDeclaration" parameterType="Integer">
 		UPDATE
 			inbound_invoice_list
@@ -1180,6 +1205,22 @@
 					o.seq
 			)u	
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+	</select>
+	
+	<delete id="deleteEmptyOnHandList">
+		DELETE	FROM 
+			on_hand_list
+		WHERE
+			seq NOT IN (SELECT DISTINCT onHandListSeq FROM on_hand_list_content)				
+	</delete>
+	
+	<select id="getOnHandListSeqList" parameterType="Integer" resultType="Integer">
+		SELECT
+			DISTINCT onHandListSeq
+		FROM
+			on_hand_list_content
+		WHERE
+			gblSeq = #{value}
 	</select>
 	
 	<select id="checkSelectOnHandList" parameterType="Map" resultType="Integer">
@@ -1408,6 +1449,15 @@
 		</selectKey>
 	</insert>
 	
+	<select id="getTruckManifastSeqList" parameterType="Integer" resultType="Integer">
+		SELECT
+			DISTINCT truckSeq
+		FROM 
+			truck_manifast_ib_onhand
+		WHERE
+			onHandListContentSeq IN (SELECT DISTINCT seq FROM on_hand_list_content WHERE gblSeq = #{value})			
+	</select>
+	
 	<insert id="insertTruckManifastOnHand" parameterType="TruckManifastIb">
 		INSERT INTO
 			truck_manifast_ib_onHand
@@ -1459,6 +1509,13 @@
 			truck_manifast_ib
 		WHERE
 			seq = #{truckSeq}
+	</delete>
+	
+	<delete id="deleteTruckManifastEmptyTruck">
+		DELETE	FROM 
+			truck_manifast_ib
+		WHERE
+			seq NOT IN (SELECT DISTINCT truckSeq FROM truck_manifast_ib_onhand)			
 	</delete>
 	
 	<select id="getTruckManifastOnHandContentListSeqList" parameterType="Integer" resultType="Integer">
@@ -1541,6 +1598,15 @@
 			reweight_content
 		WHERE
 			reweightSeq = #{value}
+	</select>
+	
+	<select id="getReweightSeqList" parameterType="Integer" resultType="Integer">
+		SELECT
+			DISTINCT reweightSeq
+		FROM
+			reweight_content
+		WHERE
+			gblSeq = #{value}
 	</select>
 	
 	<resultMap type="GBL" id="GBLMap">

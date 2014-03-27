@@ -34,7 +34,8 @@
 			<span>GBL ADD</span>
 		</div>	
 		<form:form commandName="gbl">
-		<table class="gbl_add_table">
+		<form:hidden path="seq"/>
+		<table class="gbl_add_table outbound_gbl_add_table">
 			<tr>
 				<th>GBL NO</th>
 				<td><form:input path="no" />
@@ -87,13 +88,54 @@
 			<tr>
 				<th>ORIGIN PORT</th>
 				<td><form:input path="originPort" /> </td>
-				<th>ORIGIN CITY </th>
-				<td><form:input path="originCity" /> </td>
+				<th>DEST STATE </th>
+				<td><form:input path="destState" /> </td>
 			</tr>
 			<tr>
 				<th>MIL SVC</th>
 				<td><form:input path="milSVC" /></td>
-				<th colspan="2" style="background: none;"></th>
+				<th>ETD</th>
+				<td><form:input path="etd" /></td>
+			</tr>
+			<tr>
+				<th>VESSEL</th>
+				<td><form:input path="vessel" /></td>
+				<th>CONSOL COMPANY</th>
+				<td><form:input path="consoleCompany" /></td>
+			</tr>
+			<tr>
+				<th>H/B BOOKING NO</th>
+				<td><form:input path="hbBookingNo" /></td>
+				<th>CLP NO</th>
+				<td><form:input path="clpNo" /></td>
+			</tr>
+			<tr>
+				<th>ETA</th>
+				<td><form:input path="eta" /></td>
+				<th>BL NO</th>
+				<td><form:input path="blNo" /></td>
+			</tr>
+			<tr>
+				<th>CONTAINER NO</th>
+				<td><form:input path="containerNo" /></td>
+				<th>EXPORT</th>
+				<td><form:input path="export" /></td>
+			</tr>
+			<tr>
+				<th>TOTAL PCS</th>
+				<td><form:input path="totalPcs" /></td>
+				<th>CUFT</th>
+				<td><form:input path="cuft" /></td>
+			</tr>
+			<tr>
+				<th>GROSS WEIGHT</th>
+				<td><form:input path="grossWeight" /></td>
+				<th>NET WEIGHT</th>
+				<td><form:input path="netWeight" /></td>
+			</tr>
+			<tr>
+				<th colspan="2">HOUSE CONSIGNEE</th>
+				<td colspan="2"><form:textarea path="houseConsignee" /></td>
 			</tr>
 			<tfoot>
 				<tr>

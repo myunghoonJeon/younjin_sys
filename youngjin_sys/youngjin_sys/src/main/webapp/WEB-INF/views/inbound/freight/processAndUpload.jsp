@@ -159,6 +159,7 @@
 						<td id="upload_tfoot" class="inbound_upload_tfoot" colspan="4" data-seq="${seq }">
 						<!-- 	<span class="document_bl_button yj_button">BL 분할 신청서</span>
 							<span class="document_power_of_attorney_button yj_button">Power Of Attorney</span> -->
+							<span class="inbound_gbl_delete yj_button">DELETE</span>
 							<span class="document_upload_button yj_button">Document Upload</span>
 							<span class="document_view yj_button">Document Download</span>
 						</td>

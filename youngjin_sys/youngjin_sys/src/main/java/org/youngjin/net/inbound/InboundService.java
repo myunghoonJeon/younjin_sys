@@ -15,6 +15,7 @@ import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeDao;
+import org.youngjin.net.invoice.InvoiceService;
 import org.youngjin.net.login.User;
 import org.youngjin.net.outbound.Addition;
 import org.youngjin.net.upload.UploadService;
@@ -24,6 +25,9 @@ public class InboundService {
 	
 	@Resource
 	private InboundDao inboundDao;
+	
+	@Resource
+	private InvoiceService invoiceService;
 	
 	@Resource
 	private UploadService uploadService;
@@ -795,5 +799,54 @@ public class InboundService {
 
 	public GBL getGblInfoByNo(GBL gbl) {
 		return inboundDao.getGblInfoByNo(gbl);
+	}
+
+	public void deleteGBL(GBL gbl) {		
+		List<Integer> declarationListSeq = inboundDao.getDeclarationSeqList(gbl.getSeq());	
+		for(Integer seq : declarationListSeq){
+			inboundDao.deleteDeclarationListBySeq(seq);
+		}
+		
+		List<Integer> getInvoiceSeqList = invoiceService.getInvoiceSeqListByGblSeq(gbl.getSeq());
+		
+		for(Integer invoiceSeq : getInvoiceSeqList){
+			invoiceService.deleteInvoice(invoiceSeq, "inbound");
+		}
+		
+		List<Integer> truckManifastSeqList = inboundDao.getTruckManifastSeqList(gbl.getSeq());
+		
+		for(Integer seq : truckManifastSeqList){
+			Map<String, String> resultMap = new HashMap<String, String>();
+			resultMap.put("truckSeq", seq.toString());			
+			inboundDao.deleteTruckManifast(resultMap);
+		}
+		
+		List<Integer> getOnHandListSeqList = inboundDao.getOnHandListSeqList(gbl.getSeq());
+		
+		for(Integer seq : getOnHandListSeqList){
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("seq", seq.toString());
+			inboundDao.deleteOnHandList(map);
+		}
+		
+		List<Integer> reweightSeqList = inboundDao.getReweightSeqList(gbl.getSeq());
+		
+		for(Integer seq : reweightSeqList){
+			Reweight reweight = new Reweight();
+			reweight.setSeq(seq);
+			inboundDao.deleteReweight(reweight);
+		}
+		
+		inboundDao.deleteGblStatus(gbl.getSeq());
+		
+		inboundDao.deleteGBL(gbl.getSeq());
+	}
+
+	public void deleteTruckManifastEmptyTruck() {
+		inboundDao.deleteTruckManifastEmptyTruck();
+	}
+
+	public void deleteEmptyOnHandList() {
+		inboundDao.deleteEmptyOnHandList();		
 	}
 }

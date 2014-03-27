@@ -1332,6 +1332,8 @@
 			invoice_list
 		WHERE
 			seq = #{seq}
+		AND
+			process = #{process}
 	</delete>
 	
 	<delete id="deleteInvoiceCollection" parameterType="String">

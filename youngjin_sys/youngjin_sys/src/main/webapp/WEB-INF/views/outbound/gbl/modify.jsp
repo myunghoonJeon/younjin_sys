@@ -122,6 +122,18 @@
 				<td><form:input path="export" /></td>
 			</tr>
 			<tr>
+				<th>TOTAL PCS</th>
+				<td><form:input path="totalPcs" /></td>
+				<th>CUFT</th>
+				<td><form:input path="cuft" /></td>
+			</tr>
+			<tr>
+				<th>GROSS WEIGHT</th>
+				<td><form:input path="grossWeight" /></td>
+				<th>NET WEIGHT</th>
+				<td><form:input path="netWeight" /></td>
+			</tr>
+			<tr>
 				<th colspan="2">HOUSE CONSIGNEE</th>
 				<td colspan="2"><form:textarea path="houseConsignee" /></td>
 			</tr>

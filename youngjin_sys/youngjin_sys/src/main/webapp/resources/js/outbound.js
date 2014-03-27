@@ -18,6 +18,11 @@ youngjin.outbound.sync = function(){
 			url : url
 		});
 	});
+	
+	$('.outbound_gbl_add_table #no').focusout(function(){
+		youngjin.outbound.addCheckAlreadySaveGblInfo($(this));
+	});
+	
 	$('.gbl_deleteButton').unbind('click');
 	$('.gbl_deleteButton').bind('click', function(){
 		youngjin.outbound.gblDelete();
@@ -477,6 +482,53 @@ youngjin.outbound.backButtonSync = function(){
 	$('.dd619_back').unbind('click');
 	$('.dd619_back').bind('click', function(){
 		youngjin.outbound.dd619Back($(this));
+	});
+};
+
+youngjin.outbound.addCheckAlreadySaveGblInfo = function(target){
+	var gblNo = target.val();
+	
+	var url = contextPath + '/outbound/checkGblNo.json';
+	
+	$.postJSON(url, {'no' : gblNo}, function(gblInfo){
+		if(gblInfo != null){
+			var form = document.forms['gbl'];
+			
+			form.customerName.value = gblInfo.customerName;
+			form.rank.value = gblInfo.rank;
+			form.code.value = gblInfo.code;
+			form.scac.value = gblInfo.scac;
+			form.originGBlock.value = gblInfo.originGBlock;
+			form.destGBlock.value = gblInfo.destGBlock;
+			form.pud.value = gblInfo.pud;
+			form.ssn.value = gblInfo.ssn;
+			form.rdd.value = gblInfo.rdd;
+			form.pod.value = gblInfo.pod;
+			form.poe.value = gblInfo.poe;
+			form.areaLocal.value = gblInfo.areaLocal;
+			form.originAddress.value = gblInfo.originAddress;
+			form.usNo.value = gblInfo.usNo;
+			form.destPort.value = gblInfo.destPort;
+			form.originPort.value = gblInfo.originPort;
+			form.destState.value = gblInfo.destState;
+			form.vessel.value = gblInfo.vessel;
+			form.consoleCompany.value = gblInfo.consoleCompany;
+			form.hbBookingNo.value = gblInfo.hbBookingNo;
+			form.clpNo.value = gblInfo.clpNo;
+			form.containerNo.value = gblInfo.containerNo;
+			form.export.value = gblInfo.export;
+			form.milSVC.value = gblInfo.milSVC;
+			form.etd.value = gblInfo.etd;
+			form.eta.value = gblInfo.eta;
+			form.blNo.value = gblInfo.blNo;
+			form.houseConsignee.value = gblInfo.houseConsignee;
+			form.grossWeight.value = gblInfo.grossWeight;
+			form.netWeight.value = gblInfo.netWeight;
+			form.cuft.value = gblInfo.cuft;
+			form.totalPcs.value = gblInfo.totalPcs;
+			
+			$('.gbl_add_submit_button').remove();
+		}
 	});
 };
 

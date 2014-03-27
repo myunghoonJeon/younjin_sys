@@ -100,6 +100,13 @@ public class OutboundController {
 
 		return process + "/gbl/list";
 	}
+	
+	@RequestMapping(value="/outbound/checkGblNo.json", method = RequestMethod.POST)
+	@ResponseBody
+	public GBL checkGblNo(@RequestBody GBL gbl){
+		
+		return outboundService.getGblInfoByNo(gbl);
+	}
 
 	@RequestMapping(value = "/{process}/add", method = RequestMethod.GET)
 	public String gblAdd(Model model, User user,
