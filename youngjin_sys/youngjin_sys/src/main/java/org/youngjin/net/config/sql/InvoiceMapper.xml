@@ -964,7 +964,7 @@
 		WHERE
 			ic.invoice_gbl_seq = ig.seq
 		AND
-			ig.invoice_list_seq = #{value}		
+			ig.invoice_list_seq = #{value}
 	</select>
 	
 	<select id="getInvoiceCollectionGblFlow" resultType="InvoiceCollectionFlow">
@@ -1342,6 +1342,13 @@
 			invoice_collection
 		WHERE
 			seq = #{value}
+	</delete>
+	
+	<delete id="deleteInvoiceCollectionByInvoiceSeq" parameterType="Invoice">
+		DELETE FROM
+			invoice_collection
+		WHERE
+			seq in (SELECT DISTINCT seq FROM invoice_gbl WHERE invoice_list_seq = #{seq})
 	</delete>
 	
 	<delete id="deleteInvoiceCollectionFlow" parameterType="String">
