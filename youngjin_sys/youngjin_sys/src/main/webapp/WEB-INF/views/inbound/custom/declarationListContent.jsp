@@ -50,6 +50,9 @@ p {
 .tdTail{
 	border-bottom: 1px solid #000000;
 }
+td{
+	font-size: 7pt;
+}
 </style>
 </head>
 <body onload="window.print();">
@@ -99,13 +102,13 @@ p {
 		</tr>
 		<c:forEach var="inboundInvoice" items="${inboundInvoiceList}" varStatus="i">
 			<tr>
-				<td>${i.count }</td>
-				<td>${inboundInvoice.rank }</td>
-				<td>${inboundInvoice.name }</td>
-				<td>${inboundInvoice.gblNo }</td>
-				<td>000-00-${fn:substring(inboundInvoice.ssn, 5, 9) }</td>
-				<td>${inboundInvoice.oblNo }</td>
-				<td>${inboundInvoice.vessle }</td>
+				<td >${i.count }</td>
+				<td >${inboundInvoice.rank }</td>
+				<td >${inboundInvoice.name }</td>
+				<td >${inboundInvoice.gblNo }</td>
+				<td >XXX-XX-${fn:substring(inboundInvoice.ssn, 5, 9) }</td>
+				<td >${inboundInvoice.oblNo }</td>
+				<td >${inboundInvoice.vessle }</td>
 			</tr>
 		</c:forEach>
 	</table>

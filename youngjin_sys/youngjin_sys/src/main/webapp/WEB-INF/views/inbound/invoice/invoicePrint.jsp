@@ -147,30 +147,26 @@
 				<td id='invoiceno' style="width:2.5cm; font-weight: bold;">INVOICE NO: </td> <td id='invoiceno'>${invoice.invoiceNo }</td>
 			</tr>
 			<tr>
-				<td id='code'style="width:2.5cm;">CODE: </td> <td id='code'>${fn:toUpperCase(invoice.process) } #${invoiceGblList[0].code }</td>
+				<td id='code'style="width:2.5cm; font-weight: bold;">CODE: </td> <td id='code'>${fn:toUpperCase(invoice.process) } #${invoiceGblList[0].code }</td>
 			</tr>		
 		</table>
 		<table id='test' border="0" align="center" style="width : 17cm; " cellspacing="0">
-			<tr style="font-size: 9pt; ">
+			<tr style="font-size: 8pt; ">
 				<td id='no'>NO</td>
 				<td id='route'>ROUTE</td>
 				<td id='gblno'>GBL-NO</td>
 				<td id='rank'>RANK</td>
 				<td id='shipper'>SHIPPER</td>
-				<td id='weight'>WEIGHT</td>
-				<td id='ratecwt'>RATE/CWT</td>
 				<td id='amount'>AMOUNT</td>
 			</tr>
 			<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
 				<tr>	
-					<td style="font-size: 9pt;">${i.count }</td>
-					<td style="font-size: 9pt;"></td>
-					<td style="font-size: 9pt;">${invoiceGbl.gblNo }</td>
-					<td style="font-size: 9pt;">${invoiceGbl.rank }</td>
-					<td style="font-size: 9pt;">${invoiceGbl.name }</td>
-					<td style="font-size: 9pt;">${i.count }</td>
-					<td style="font-size: 9pt;">${i.count }</td>
-					<td style="font-size: 9pt;">${invoiceGbl.amount }</td>
+					<td style="font-size: 7pt;">${i.count }</td>
+					<td style="font-size: 7pt;"></td>
+					<td style="font-size: 7pt;">${invoiceGbl.gblNo }</td>
+					<td style="font-size: 7pt;">${invoiceGbl.rank }</td>
+					<td style="font-size: 7pt;">${invoiceGbl.name }</td>
+					<td style="font-size: 7pt;">${invoiceGbl.amount }</td>
 				</tr>
 			</c:forEach>
 		</table>
