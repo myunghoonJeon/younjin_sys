@@ -39,11 +39,12 @@
 <STYLE type="text/css">
 <!--
 	p {margin: 0; padding:0; font-family: Helvetica;}
-	.q-text {font-family:±¼¸²Ã¼; font-weight:bold; font-size:16px; border:0px dashed gray;}
-	.q-multiline {font-family:±¼¸²Ã¼; font-weight:bold; font-size:16px; border:0px dashed gray;}
+	.q-text {font-family:arial; font-size:19px; border:0px dashed gray; font-weight:bolder;}
+	.q-multiline {font-family:arial; font-weight:bold; font-size:16px; border:0px dashed gray;}
 	.q-center {text-align:center;}
 	textarea{resize:none; border: none; overflow-y: hidden;}
 	.q-right  {text-align:right;}
+	input{}
 /*
 	.ft10{font-size:18px;font-family:Helvetica;color:#000000;}
 	.ft11{font-size:12px;font-family:Times;color:#000000;}
@@ -72,6 +73,7 @@
 -->
 </STYLE>
 </head>
+<strong>
 <BODY bgcolor="#A0A0A0" vlink="blue" link="blue" style="margin:0px;">
 <!-- Page 1 -->
 <a name="1"></a>
@@ -79,12 +81,12 @@
 <IMG width="1224px" height="1584px" src="<c:url value='/resources/images/gbl/DDForm6191001.png' />" alt="background image"/>
 <P style="position:absolute;top:324px;left:79px;white-space:nowrap" class="ft115"><input type="text" name="q-1" class="q-text q-center" style="width:243px;height:20px;" value="${gbl.gblNo }"></input></P>
 <P style="position:absolute;top:324px;left:343px;white-space:nowrap" class="ft115"><input type="text" name="q-2" class="q-text q-center" style="width:268px;height:20px;" value="${gbl.pud }"></input></P>
-<P style="position:absolute;top:378px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-3a" class="q-text" style="width:533px;height:17px;" value="${gbl.shipperName }"></input></P>
+<P style="position:absolute;top:378px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-3a" class="q-text" style="width:533px;height:18px;" value="${gbl.shipperName }"></input></P>
 <P style="position:absolute;top:425px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-3b" class="q-text q-center" style="width:243px;height:20px;" value="XXX-XX-${fn:substring(gbl.ssn, 5, 9) }"></input></P>
 <P style="position:absolute;top:425px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-3c" class="q-text q-center" style="width:268px;height:20px;" value="${gbl.rank }"></input></P>
 <P style="position:absolute;top:473px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-4" class="q-text q-center" style="width:243px;height:20px;" value="${dd619.originOfShipment }"></input></P>
 <P style="position:absolute;top:473px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-5" class="q-text q-center" style="width:268px;height:20px;" value="${dd619.destination }"></input></P>
-<P style="position:absolute;top:537px;left:79px;white-space:nowrap" class="ft114"><textarea name="q-6a" style="width:243px; height:30px;font-weight:bold;">${dd619.orderingActivityName }</textarea></P>
+<P style="position:absolute;top:537px;left:79px;white-space:nowrap" class="ft114"><textarea name="q-6a" style="width:243px; font-size:11pt;height:32px;font-weight:bolder;font-family: arial">${dd619.orderingActivityName }</textarea></P>
 <P style="position:absolute;top:521px;left:343px;white-space:nowrap" class="ft12"><input name="q-6b" class="q-text" style="width:276px;height:50px;" value="" /></P>
 <P style="position:absolute;top:593px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-7a" class="q-text" style="width:243px;height:18px;" value="${ dd619.carrierName}"></input></P>
 <P style="position:absolute;top:593px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-7b" class="q-text" style="width:268px;height:18px;" value="${dd619.agentName }"></input></P>
@@ -98,6 +100,7 @@
 <P style="position:absolute;top:363px;left:1039px;white-space:nowrap" class="ft12"><input type="checkbox" name="q-13b" class="q-radio" value="other"></input></P>
 <fmt:parseDate value="${memorandumMap['06'].sitStartDate }" var="sitStartDate" pattern="yyyyMMdd"/>
 <fmt:parseDate value="${memorandumMap['07'].sitEndDate }" var="sitEndDate" pattern="yyyyMMdd"/>
+
 <c:if test="${sitEndDate ne null and sitStartDate ne '' }">
 	<P style="position:absolute;top:402px;left:631px;white-space:nowrap" class="ft115"><input type="text" name="q-13c" class="q-text q-center" style="width:136px;height:44px;" value="${fn:substring(sitStartDate, 8, 10) }-${ fn:substring(sitStartDate, 4, 7)}-${ fn:substring(sitStartDate, 26, 28) }"></input></P>
 </c:if>
@@ -138,10 +141,11 @@
 <P style="position:absolute;top:1248px;left:855px;white-space:nowrap" class="ft12"><input type="text" name="q-16b-4" class="q-text q-center" style="width:292px;height:42px;"></P>
 <P style="position:absolute;top:1315px;left:475px;white-space:nowrap" class="ft12"></P>
 <P style="position:absolute;top:1315px;left:727px;white-space:nowrap" class="ft12"><input type="text" name="q-17b" class="q-text" style="width:410px;height:40px;"></input></P>
-<P style="position:absolute;top:1410px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-18a" class="q-text" style="width:375px;height:16px;" value="${company.companyNameAcronym }"></input></P>
-<P style="position:absolute;top:1410px;left:475px;white-space:nowrap" class="ft12"><input type="text" name="q-18b" class="q-text" style="width:365px;height:16px;" value="${gbl.areaLocal }"></input></P>
+<P style="position:absolute;top:1410px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-18a" class="q-text" style="width:375px;height:18px;" value="${company.companyNameAcronym }"></input></P>
+<P style="position:absolute;top:1410px;left:475px;white-space:nowrap" class="ft12"><input type="text" name="q-18b" class="q-text" style="width:365px;height:18px;" value="${gbl.areaLocal }"></input></P>
 <P style="position:absolute;top:1458px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-18c" class="q-text" style="width:760px;height:36px;"></input></P>
 <P style="position:absolute;top:1458px;left:859px;white-space:nowrap" class="ft12"><input type="text" name="q-18d" class="q-text q-center" style="width:280px;height:36px;"></input></P>
 </DIV>
 </BODY>
+</strong>
 </html>
