@@ -187,7 +187,7 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	}
 
 	public void etcUpdate(Rate rate) {
-		getSqlSession().update("invoiceMapper.etcRateUpdate", rate);
+		getSqlSession().update("invoiceMapper.etcRateUpate", rate);
 	}
 
 	public Rate getSit(Rate rate) {

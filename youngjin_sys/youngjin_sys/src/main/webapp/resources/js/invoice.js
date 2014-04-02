@@ -419,7 +419,7 @@ youngjin.invoice.basicRateInput = function(target){
 
 youngjin.invoice.compRateInput = function(target){
 	var title = target.attr('data-title');
-	var writeYear = parent.attr('data-writeYear');
+	var writeYear = target.attr('data-writeYear');
 	var rate = target.val();
 	
 	var url = contextPath + '/admin/rate/etc/insert.json';
