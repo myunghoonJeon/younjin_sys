@@ -96,14 +96,15 @@
 		width : 3.5cm;
 	}
 	
-	.invoice_gbl_content_print_table{ width: 80%; margin: 10px auto; text-align: center; }
-	.invoice_gbl_title_print_table{ width: 80%; margin: 10px auto; text-align: center; }
-	.invoice_gbl_title_td_lfet{style="border-bottom: thin; border-left: thin; border-top: thin; border-style: solid;}
-	.invoice_gbl_title_td_right{style="border-bottom: thin; border-left: thin; border-top: thin; border-style: solid;}
-	.invoice_gbl_content_print_table tr th{ font-size: 12px; padding: 3px 5px; color: #000; border: 1px solid #000; }
-	.invoice_gbl_content_print_table tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle;}
+	.invoice_gbl_content_print_table{ width: 80%; text-align: center; }
+	.invoice_gbl_title_print_table{ width: 80%; text-align: center; font-weight: bolder;font-size: 10pt;}
+	.left{border-left:thin; border-right:none; border-top:thin; border-bottom:thin; font-size: 10pt; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle;}
+	.up{border-top:thin;border-bottom:none; border-left:none; border-right:none; font-size: 10pt; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle;}
+	.middle{border-top:thin;border-bottom:thin; border-left:none; border-right:none; font-size: 10pt; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle;}
+	.down{border-top:none;border-bottom:thin; border-left:none; border-right:none; font-size: 10pt; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle;}
+	.right{border-left:none; border-style: solid; border-right:none; border-top:thin; font-size: 10pt; color: #000; border: 1px solid #000; text-align: center; vertical-align: middle;}
 	.invoice_gbl_content_print_table tr{ background-color: white; cursor: pointer;  }
-	
+	.in_td{border:thin; border-style: solid; border-spacing: 0cm; font-size:11pt;}
 </style>
 <%
 	String tel = "82-2-825-6345";
@@ -137,18 +138,22 @@
 				<td colspan="4" id='invoice'><font id='invoice_input'>I N V O I C E</font></td>
 			</tr>
 		</table>
-		<table border="0" align="center" style="width : 17cm;" cellspacing="0">
+		<table border="0" style="width : 17cm;" >
 			<tr>
-				<td id='totd' rowspan="3">TO:</td><td style="vertical-align:top; font-size: 9pt; width:9.5cm;" id='to' rowspan="3">${scac.scacFullName }<br/>${scac.address }</td>
+				<td id='totd' rowspan="3">TO:</td>
+				<td style="vertical-align:top; font-size: 9pt; width:9.5cm;" id='to' rowspan="3">${scac.scacFullName }<br/>${scac.address }</td>
 				<fmt:parseDate value="${invoice.invoiceDate}" pattern="yyyyMMdd" var="invoiceDate"  />
-				<td id='date' style="width:2.5cm;">DATE: </td > <td id='date'><fmt:formatDate value="${invoiceDate }" pattern="dd-MM-yy" /></td>
+				<td id='date' style="width:2.5cm; height:0.8cm;">DATE: </td > 
+				<td id='date'><fmt:formatDate value="${invoiceDate }" pattern="dd-MM-yy" /></td>
 			</tr>
 			<tr>
-				<td id='invoiceno' style="width:2.5cm; font-weight: bold;">INVOICE NO: </td> <td id='invoiceno'>${invoice.invoiceNo }</td>
+				<td id='invoiceno' style="height:0.5cm;width:2.5cm; font-weight: bold;">INVOICE NO: </td>
+				<td id='invoiceno'>${invoice.invoiceNo }</td>
 			</tr>
 			<tr>
-				<td id='code'style="width:2.5cm; font-weight: bold;">CODE: </td> <td id='code'>${fn:toUpperCase(invoice.process) } #${invoiceGblList[0].code }</td>
-			</tr>		
+				<td id='code'style="width:2.5cm;height:0.5cm; font-weight: bold;">CODE: </td>
+				<td id='code'>${fn:toUpperCase(invoice.process) } #${invoiceGblList[0].code }</td>
+			</tr>
 		</table>
 		<table id='test' border="0" align="center" style="width : 17cm; " cellspacing="0">
 			<tr style="font-size: 8pt; ">
@@ -171,15 +176,14 @@
 			</c:forEach>
 		</table>
 	</div>
-	
+	<center>
 	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
-		<div>			
+		<div style="padding-top: 1cm;">			
 			<div>
-				<table class="invoice_gbl_title_print_table"border="1"><!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
+				<table class="invoice_gbl_title_print_table" border="0" style="border:thin; border-style: solid;"><!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 					<tr>
-						<td class="invoice_gbl_title_td_lfet">TSP</td><td>${invoice.tsp }</td>
-						<td>IN/OUT</td>
-						<td>
+						<td >TSP : ${invoice.tsp }</td>
+						<td >IN/OUT : 
 							<c:choose>
 								<c:when test="${invoice.process eq 'inbound' }">
 									TO KOREA
@@ -189,31 +193,31 @@
 								</c:otherwise>
 							</c:choose>
 						</td>
-						<td>CODE</td><td>${invoiceGbl.code }</td>
+						<td >CODE : ${invoiceGbl.code }</td>
 					</tr>
 					<tr>
-						<td>GBL NO</td><td>${invoiceGbl.gblNo }</td>
-						<td>RANK</td><td>${invoiceGbl.rank }</td>
-						<td>NAME</td><td>${invoiceGbl.name }</td>
+						<td >GBL NO : ${invoiceGbl.gblNo }</td>
+						<td >RANK : ${invoiceGbl.rank }</td>
+						<td >NAME : ${invoiceGbl.name }</td>
 					</tr>
 				</table>
-				<table class="invoice_gbl_content_print_table">
+				<table class="invoice_gbl_content_print_table" cellspacing="0">
 					<tr>
-						<th colspan="5">
-							CHARGING ITEMS
-						</th>
-						<th>
-							QUANTITY
-						</th>
-						<th>
-							AMOUNTS
-						</th>
+						<td class="in_td" style="font-weight: bolder;">
+							<strong>CHARGING ITEMS</strong>
+						</td>
+						<td class="in_td" style="font-weight: bolder;">
+							<strong>QUANTITY</strong>
+						</td>
+						<td class="in_td" style="font-weight: bolder;">
+							<strong>AMOUNTS</strong>
+						</td>
 					</tr> 
 					<c:forEach var="invoiceGblContent" items="${invoiceGblContentMap[invoiceGbl.seq] }">
 						<tr>
-							<td colspan="5">${invoiceGblContent.chargingItem }</td>
-							<td>${invoiceGblContent.quantity }</td>
-							<td>${invoiceGblContent.amount }</td>
+							<td class="in_td">${invoiceGblContent.chargingItem }</td>
+							<td class="in_td">${invoiceGblContent.quantity }</td>
+							<td class="in_td">${invoiceGblContent.amount }</td>
 						</tr>
 					</c:forEach>
 				</table>
