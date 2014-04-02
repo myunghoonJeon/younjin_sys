@@ -2,7 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+<!-- 
+	${gbl} : gbl 정보를 가져옴
+	${carrier} : carrier 정보를 가져옴
+	내부 정보는
+	
+	GBL 클래스와 Carrier클래스에 가면 볼수 있습니다.
+ -->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>

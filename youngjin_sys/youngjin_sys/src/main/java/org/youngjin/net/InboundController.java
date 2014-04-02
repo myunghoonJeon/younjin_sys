@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.basic.BasicService;
 import org.youngjin.net.basic.Branch;
+import org.youngjin.net.basic.Carrier;
 import org.youngjin.net.basic.Company;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
@@ -622,6 +623,21 @@ public class InboundController {
 		model.addAttribute("seq", seq);
 
 		return process + "/freight/delivery";
+	}
+
+	@RequestMapping(value = "/{process}/freight/{seq}/damage", method = RequestMethod.GET)
+	public String damage(Model model, User user,
+			@PathVariable String process, @PathVariable Integer seq) {
+
+		//model.addAttribute("seq", seq);
+		
+		GBL gbl = inboundService.getGbl(seq);
+		model.addAttribute("gbl", gbl);
+		
+		Carrier carrier = basicService.getCarrier(gbl.getTsp());
+		model.addAttribute("carrier", carrier);		
+
+		return process + "/freight/damage_at_delivery";
 	}
 
 	@RequestMapping(value = "/{process}/freight/{seq}/memorandumList", method = RequestMethod.GET)

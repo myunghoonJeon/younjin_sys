@@ -118,6 +118,11 @@ youngjin.inbound.sync = function(){
 		youngjin.inbound.dd619Pop($(this));
 	});
 	
+	$('.inbound_preparation_damage').unbind('click');
+	$('.inbound_preparation_damage').bind('click', function(){
+		youngjin.inbound.damage($(this));		
+	});
+	
 	$('.inbound_preparation_additional_decide').unbind('click');
 	$('.inbound_preparation_additional_decide').bind('click', function(){
 		youngjin.inbound.confirmPage($(this));		
@@ -2205,6 +2210,14 @@ youngjin.inbound.dd619Print = function(target){
 	var url = contextPath + '/inbound/freight/' + seq + '/dd619/' + dd619Seq + '/print';
 	
 	window.open(url, 'dd619Print', 'width=1224, height=1584, status=no, scrollbars=no');
+};
+
+youngjin.inbound.damage = function(target){
+	var seq = target.parents('.gbl_preparation_list').attr('data-seq');
+	
+	var url = contextPath + '/inbound/freight/' + seq + '/damage';
+	
+	window.open(url, 'damagePrint', 'width=1224, height=1584, status=no, scrollbars=no');
 };
 
 youngjin.inbound.confirmPage = function(target){
