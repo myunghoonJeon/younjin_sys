@@ -40,6 +40,7 @@ import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.outbound.PreMoveSurvey;
 import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.process.GBlock;
+import org.youngjin.net.process.ProcessService;
 import org.youngjin.net.upload.DownloadView;
 import org.youngjin.net.util.DateUtil;
 
@@ -58,6 +59,9 @@ public class OutboundController {
 	
 	@Resource
 	private BasicService basicService;
+	
+	@Resource
+	private ProcessService processService;
 
 	@RequestMapping(value = "/{process}/gblList", method = RequestMethod.GET)
 	public String gblList(Model model, User user,
@@ -516,9 +520,13 @@ public class OutboundController {
 		model.addAttribute("weightcertificateList",
 				outboundService.getWeightcertificateList(seq));
 		
+		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
+		
+		model.addAttribute("gblock", processService.getGBlockByGbloc(gbl.getDestinationGbloc()));
+		
 		model.addAttribute("containerList", outboundService.getContainerList());
 		
-		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
+		model.addAttribute("gbl", gbl);
 
 		return process + "/gbl/weightcertificate";
 	}

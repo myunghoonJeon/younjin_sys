@@ -79,14 +79,14 @@
 
 					<ul>
 						<li class="weightcertificate_column1">ORIGIN</li>				
-						<li class="weightcertificate_column2"><input type="text" /></li>
+						<li class="weightcertificate_column2"><input type="text" value="${gbl.areaLocal }"/></li>
 						<li class="weightcertificate_column3">GBL NO</li>				
 						<li class="weightcertificate_column4"><input type="text" value="${gbl.no }" /></li>
 					</ul>
 
 					<ul>
 						<li class="weightcertificate_column1">DESTINATION</li>				
-						<li class="weightcertificate_column2"><input type="text" /></li>
+						<li class="weightcertificate_column2"><input type="text" value="${gblock.remark }"/></li>
 						<li class="weightcertificate_column3">CODE</li>				
 						<li class="weightcertificate_column4"><input type="text" value="${gbl.code }" /></li>
 					</ul>
