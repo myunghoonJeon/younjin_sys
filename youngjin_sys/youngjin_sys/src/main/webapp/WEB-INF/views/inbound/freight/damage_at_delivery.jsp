@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!-- 
@@ -178,12 +178,12 @@
 
             #paper table td.input-1 div.bl_no
             {
-                width: 17mm;
+                width: 22mm;
             }
             
             #paper table td.input-1 div.bl_no input
             {
-                font-size: 7pt;
+                font-size: 9pt;
             }
             
             #paper table td.input-1 div.tsp_reference_no
@@ -291,7 +291,7 @@
             #paper table td.transportation_service_provider .date {
                 width: 24mm;
             }
-            
+            textarea{resize:none; border: none; overflow-y: hidden;}
             
             /* Footer */
             #footer {
@@ -333,7 +333,7 @@
                             <div class="left_stack">
                                 <div class="name_of_owner">
                                     <div>
-                                        <input id="name_of_owner" type="text" name="name_of_owner">
+                                        <input id="name_of_owner" type="text" name="name_of_owner" value="${gbl.shipperName }">
                                     </div>
                                     <div>
                                         Name of owner
@@ -342,7 +342,7 @@
                                 
                                 <div class="rank_grade">
                                     <div>
-                                        <input id="rank_grade" type="text" name="rank_grade">
+                                        <input id="rank_grade" type="text" name="rank_grade" value="${gbl.rank }">
                                     </div>
                                     <div>
                                         Rank/Grade
@@ -351,26 +351,34 @@
                                 
                                 <div class="branch_of_service">
                                     <div>
-                                        <input id="branch_of_service" type="text" name="branch_of_service">
+                                        <input id="branch_of_service" type="text" name="branch_of_service"  >
                                     </div>
                                     <div>
                                         Branch of service
                                     </div>
                                 </div>
-                                
                                 <div class="weight">
                                     <div>
-                                        <input id="weight" type="text" name="weight">
+                                    	<c:choose>
+                                    		<c:when test="${gbl.code eq '4' or gbl.code eq'3' or gbl.code eq '5' or gbl.code eq 'T' or gbl.code eq 't' }">
+                                    			<c:set var ="weight" value="${gbl.netWeight }"/>
+                                    		</c:when>
+                                    		<c:when test="${gbl.code eq'7' or gbl.code eq '8' or gbl.code eq 'J' or gbl.code eq 'j' }">
+                                    			<c:set var ="weight" value="${gbl.grossWeight }"/>
+                                    		</c:when>
+                                    	</c:choose>
+                                   		<input id="weight" type="text" name="weight" value="${weight }">
                                     </div>
                                     <div>
                                         Weight
                                     </div>
                                 </div>
                             </div>
+                           
                             <div class="new_stack left_stack">
                                 <div class="bl_no">
                                     <div>
-                                        <input id="bl_no" type="text" name="bl_no">
+                                        <input id="bl_no" type="text" name="bl_no" value="${gbl.gblNo }">
                                     </div>
                                     <div>
                                         BL NO.
@@ -480,7 +488,7 @@
                             <div class="new_stack left_stack">
                                 <div class="street_address">
                                     <div>
-                                        <input class="street_address" id="street_address" type="text" name="street_address">
+                                        <input class="street_address" id="street_address" type="text" name="street_address" value="${gbl.address }">
                                     </div>
                                     <div>
                                         Street Address
@@ -520,7 +528,7 @@
                             <div class="new_stack left_stack">
                                 <div class="telephone_number">
                                     <div>
-                                        <input class="telephone_number" id="telephone_number" type="text" name="telephone_number">
+                                        <input class="telephone_number" id="telephone_number" type="text" name="telephone_number" value="${gbl.phone }">
                                     </div>
                                     <div>
                                         Telephone Number
@@ -531,7 +539,7 @@
                             <div class="new_stack left_stack">
                                 <div class="customer_email">
                                     <div>
-                                        <input class="customer_email" id="customer_email" type="text" name="customer_email">
+                                        <input class="customer_email" id="customer_email" type="text" name="customer_email" value="${gbl.eMailAddress }">
                                     </div>
                                     <div>
                                         Customer &nbsp;Email
@@ -566,8 +574,12 @@
                   		</td>
                         
                   		<td class="transportation_service_provider">
-                  			<div class="left_stack" style="padding-bottom: 1.5cm;">
-                  				Name/Address of Transportation Service Provider(TSP) 
+                  			<div class="left_stack" >
+                  				Name/Address of Transportation Service Provider(TSP)
+                  			</div>
+                  			<div class="left_stack">
+                  				
+                  				<textarea rows="3" cols="45" style="border: none; font-size: 9pt;" id="nameaddressoftransportation" name="nameaddressoftransportation" >${carrier.scacFullName },&#13;&#10;${carrier.address },&#13;&#10;${carrier.trafficEmail }</textarea>
                   			</div>
                             
                   			<div>
@@ -577,7 +589,7 @@
                   			<div class="new_stack left_stack" style="margin-top: 1mm;">
                                 <div class="toll_free_telephone_number">
                                     <div>
-                                        <input class="toll_free_telephone_number" id="free_telephone_number" name="free_telephone_number">
+                                        <input class="toll_free_telephone_number" id="free_telephone_number" name="free_telephone_number" value="${carrier.telNo }">
                                     </div>
                                     <div>
                                         Toll-Free Telephone Number
@@ -585,7 +597,7 @@
                                 </div>
                                 <div class="fax_number">
                                     <div>
-                                        <input class="fax_number" style="width:2.3cm;" id="fax_number" name="fax_number">
+                                        <input class="fax_number" style="width:2.3cm;" id="fax_number" name="fax_number" value="${carrier.faxNo }">
                                     </div>
                                     <div>
                                         &nbsp;&nbsp;Fax Number
