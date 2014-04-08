@@ -164,6 +164,7 @@
 				<td id='shipper'>SHIPPER</td>
 				<td id='amount'>AMOUNT</td>
 			</tr>
+			<c:set var="totalAmount" value="0"/>
 			<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
 				<tr>	
 					<td style="font-size: 7pt;">${i.count }</td>
@@ -172,8 +173,17 @@
 					<td style="font-size: 7pt;">${invoiceGbl.rank }</td>
 					<td style="font-size: 7pt;">${invoiceGbl.name }</td>
 					<td style="font-size: 7pt;">${invoiceGbl.amount }</td>
+					<c:set var="totalAmount" value="${totalAmount+invoiceGbl.amount }"/>
 				</tr>
 			</c:forEach>
+			<tr>	
+				<td style="font-size: 7pt;border-bottom: none;">TOTAL</td>
+				<td style="font-size: 7pt;border-bottom: none;">　</td>
+				<td style="font-size: 7pt;border-bottom: none;">　</td>
+				<td style="font-size: 7pt;border-bottom: none;">　</td>
+				<td style="font-size: 7pt;border-bottom: none;">　</td>
+				<td style="font-size: 7pt;border-bottom: none;">${totalAmount }</td>
+			</tr>
 		</table>
 	</div>
 	<center>
