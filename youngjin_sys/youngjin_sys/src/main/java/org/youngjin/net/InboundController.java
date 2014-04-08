@@ -702,7 +702,7 @@ public class InboundController {
 
 		GBL gbl = inboundService.getGbl(Integer.parseInt(seq));
 
-		List<Code> memorandumList = codeService.getCodeList("03");
+		List<Code> memorandumList = codeService.getCodeList("06");
 		Map<String, Memorandum> checkMemorandumMap = memorandumService
 				.getMemorandumMap(seq, memorandumSeq, "inbound");
 

@@ -516,7 +516,7 @@ public class InvoiceService {
 
 		List<InvoiceGblContent> invoiceGblContentList = new ArrayList<InvoiceGblContent>();
 
-		if (process.equals("outbound")) {
+		if (process.equals("outbound")) {//===============================================================================================================BEGIN OUTBOUND
 			Double totalAmount = 0.0;
 
 			Integer checkInvoiceGblContentCount = invoiceDao
@@ -537,7 +537,7 @@ public class InvoiceService {
 
 			String codeStr = null;
 			if (gbl.getCode().equals("3") || gbl.getCode().equals("4")
-					|| gbl.getCode().equals("T")) {
+					|| gbl.getCode().equals("T")||gbl.getCode().equals("5")) {
 				codeStr = "HHG";
 			} else if (gbl.getCode().equals("J") || gbl.getCode().equals("8")
 					|| gbl.getCode().equals("7")) {
@@ -550,6 +550,7 @@ public class InvoiceService {
 			for (Weightcertificate weightcertificate : weightcertificateList) {
 				if ("HHG".equals(codeStr)) {
 					gblWeight = Double.parseDouble(weightcertificate.getNet());
+					System.out.println(" ================= [ HHG : "+gblWeight+" ] call =================");
 					rate.setObType(weightcertificate.getType());
 					if (gblWeight < 500) {
 						gblWeight = 500.0;
@@ -557,6 +558,7 @@ public class InvoiceService {
 				} else if ("UB".equals(codeStr)) {
 					gblWeight = Double
 							.parseDouble(weightcertificate.getGross());
+					System.out.println(" ================= [ UB : "+gblWeight+" ] call =================");
 					if (gblWeight < 300) {
 						gblWeight = 300.0;
 					}
@@ -1017,14 +1019,14 @@ public class InvoiceService {
 			invoiceDao.updateInvoiceGbl(invoiceGbl);
 
 			invoiceDao.checkAndUpdateInvoice(invoiceSeq);
-		} else {			
+		} else {//===============================================================================================================BEGIN INBOUND		
 			Double totalAmount = 0.0;
 			
 			GBL gbl = inboundDao.getGbl(gblSeq);
 
 			String codeStr = null;
 			if (gbl.getCode().equals("3") || gbl.getCode().equals("4")
-					|| gbl.getCode().equals("5") || gbl.getCode().equals("T")) {
+					|| gbl.getCode().equals("5") || gbl.getCode().equals("T")||gbl.getCode().equals("6")) {
 				codeStr = "HHG";
 			} else if (gbl.getCode().equals("J") || gbl.getCode().equals("8")
 					|| gbl.getCode().equals("7")) {
@@ -1032,7 +1034,7 @@ public class InvoiceService {
 			}
 			
 			List<WeightIb> weightList = inboundDao.getWeightList(gbl.getSeq());
-
+			
 			Rate comprate1 = invoiceDao.getEtc("comprate1", gbl.getPud());
 
 			// 1. Destination Service Charge
@@ -1287,9 +1289,9 @@ public class InvoiceService {
 		// UB인지 HHG인지 종류를 구분하는 정적 메소드.
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
 
-		if (value_UB_HHG.indexOf("UB") < 0)
+		if (value_UB_HHG.equals("UB"))
 			return 0;
-		else if (value_UB_HHG.indexOf("HHG") < 0)
+		else if (value_UB_HHG.equals("HHG"))
 			return 1;
 		else
 			return -1;
@@ -1306,30 +1308,46 @@ public class InvoiceService {
 		double gbl_weight = 0.0;
 
 		// 1-5번 과정
-		if (type == 0) // UB
+		if (type == 0){ // UB
 			gbl_weight = Double.parseDouble(weight.getGross());
-		else if (type == 1) // HHG
+		}
+		else if (type == 1){ // HHG
 			gbl_weight = Double.parseDouble(weight.getNet());
+		}
 
 		return gbl_weight;
 	}	
 	
-	private double getGBLWeight(double weight, int type, boolean checkLast) {
+	private double[] getGBLWeight(double weight, int type, boolean checkLast) {
 
 		// GBL weight를 사용할 때 필요한 1-5, 1-6번 과정을 수행하는 메소드
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
 
 		// ///////////////////////////////////////////////////////////////////
 
-		double gbl_weight = weight;
+		double[] gbl_weight = new double[2];
+		gbl_weight[0]= weight;
+		gbl_weight[1] = weight;
 		double minimum_weight[] = { 300.0, // UB
 				500.0 }; // HHG		
 
 		// 1-6번 과정
-		if (gbl_weight < minimum_weight[type])
-			gbl_weight = minimum_weight[type];
-
-		return gbl_weight;
+		if (gbl_weight[0] < minimum_weight[type]){//미니멈보다 작다면
+			gbl_weight[0] = minimum_weight[type];
+			gbl_weight[1] = minimum_weight[type];
+			if(type==0){//UB 100으로 나누고 3을 곱한다. UB경우 여기다가 추가적으로 Rate를 곱한다.
+				gbl_weight[0]/=100;
+				gbl_weight[0]*=3;
+			}
+			else if(type==1){//HHG 100으로 나누고 5를 곱한다 HHG 경우 여기다가 추가적으로 Rate를 곱한다.
+				gbl_weight[0]/=100;
+				gbl_weight[0]*=5;
+			}
+		}
+		else{//정상이라면 그냥 나누기 100을 한다.
+			gbl_weight[0] /= 100;
+		}
+		return gbl_weight;//0에다가 진짜 계산할돈 1에다가 디스플레이할 돈
 	}
 
 	private Map<String, Double> getDestinationServiceCharge(double rate, List<WeightIb> weightList,
@@ -1344,9 +1362,9 @@ public class InvoiceService {
 		
 		// 계산에 필요한 변수들
 		double weight_temp = 0.0;
-		double gbl_weight = 0.0;
+		double[] gbl_weight = new double[2];
 		double gbl_rate = 0.0;
-
+		
 		// UB냐 HHG냐 구분하는 변수. (0: UB, 1: HHG)
 		int ub_hhg_type = getUBHHGType(value_UB_HHG);
 
@@ -1359,18 +1377,26 @@ public class InvoiceService {
 		for( WeightIb weight : weightList ){
 			weight_temp += getGBLWeight(weight, ub_hhg_type);
 		}
-		
-		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
-		
+		gbl_weight[0] = weight_temp;
+		gbl_weight[1] = weight_temp;
 		if(weightList.get(0).getReweight() != null && !weightList.get(0).getReweight().equals("")){
 			String [] reweightList = weightList.get(0).getReweight().split("/");
-			if(Double.parseDouble(reweightList[0]) < gbl_weight){
-				gbl_weight = Double.parseDouble(reweightList[0]);
+			double tare = Double.parseDouble(reweightList[0]) - Double.parseDouble(reweightList[1]);
+			if(ub_hhg_type == 0){//UB
+				if(Double.parseDouble(reweightList[0]) < weight_temp){//gross 비교
+					gbl_weight[1] = Double.parseDouble(reweightList[0]);
+				}
+			}
+			else if(ub_hhg_type==1){//HHG
+				if(tare < weight_temp){//tare 비교
+					gbl_weight[1] = tare;
+				}
 			}
 		}
 		
-		returnMap.put("quantity", gbl_weight);
-		returnMap.put("amount", gbl_weight * gbl_rate);
+		gbl_weight = getGBLWeight(gbl_weight[1], ub_hhg_type, true); //최저값 계산헀고 100을 나누기 까지했다. 최저일경우 타입에 맞는 곱하기를 해줬다.
+		returnMap.put("quantity", gbl_weight[1]);
+		returnMap.put("amount", gbl_weight[0] * gbl_rate);
 
 		// 최종 결과 값 반환
 		return returnMap;
@@ -1389,7 +1415,7 @@ public class InvoiceService {
 
 		// 계산에 필요한 변수들
 		double weight_temp = 0.0;
-		double gbl_weight = 0.0;
+		double[] gbl_weight = new double[2];
 		double sit_first_day = 0.0;
 
 		// UB냐 HHG냐 구분하는 변수. (0: UB, 1: HHG)
@@ -1410,17 +1436,16 @@ public class InvoiceService {
 		
 		if (ub_hhg_type == 0) {			// 4번 (UB)
 			Rate rate = new Rate();
-			rate.setTitle("SIT-FIRST DAY -IT13 item 518C");
+			rate.setTitle("SIT-FIRST DAY - IT13 item 519A");
 			rate.setCode(value_UB_HHG);
 			sit_first_day = invoiceDao.getSit(rate).getRate();
 		} else if (ub_hhg_type == 1) {	// 3번 (HHG)
 			Rate rate = new Rate();
-			rate.setTitle("SIT-FIRST DAY - IT13 item 519A");
+			rate.setTitle("SIT-FIRST DAY - IT13 item 518C");
 			rate.setCode(value_UB_HHG);
 			sit_first_day = invoiceDao.getSit(rate).getRate();
 		}
-
-		returnMap.put("amount", gbl_weight * sit_first_day * comprate1);
+		returnMap.put("amount", gbl_weight[0] * sit_first_day * comprate1);
 		
 		// 최종 결과 값 반환
 		return returnMap;
@@ -1439,7 +1464,7 @@ public class InvoiceService {
 
 		// 계산에 필요한 변수들
 		double weight_temp = 0.0;
-		double gbl_weight = 0.0;
+		double[] gbl_weight = new double[2];
 		double addition_day = 0.0;
 
 		// UB냐 HHG냐 구분하는 변수. (0: UB, 1: HHG)
@@ -1469,8 +1494,8 @@ public class InvoiceService {
 			rate.setCode(value_UB_HHG);
 			addition_day = invoiceDao.getSit(rate).getRate();
 		}
-
-		returnMap.put("amount", gbl_weight * addition_day * sit_day * comprate1);
+		
+		returnMap.put("amount", (gbl_weight[0] * addition_day * sit_day * comprate1));
 		// 최종 결과 값 반환
 		
 		return returnMap;
@@ -1481,7 +1506,7 @@ public class InvoiceService {
 		Map<String, Double> returnMap = new HashMap<String, Double>();
 
 		double weight_temp = 0.0;
-		double gbl_weight = 0.0;
+		double[] gbl_weight = new double[2];
 		double delivery = 0.0;
 		
 		int ub_hhg_type = getUBHHGType("UB");
@@ -1503,7 +1528,7 @@ public class InvoiceService {
 			otherParam.setCode("UB");
 			Rate otherRate = invoiceDao.getOther(otherParam);
 			
-			double origin = otherRate.getRate() * gbl_weight;
+			double origin = otherRate.getRate() * gbl_weight[0];
 			
 
 			otherParam
@@ -1528,7 +1553,6 @@ public class InvoiceService {
 		Map<String, Double> returnMap = new HashMap<String, Double>();
 
 		double weight_temp = 0.0;
-		double gbl_weight = 0.0;
 		double gbl_reweight = 0.0;
 		double reweight_charge = 0.0;
 
@@ -1538,35 +1562,35 @@ public class InvoiceService {
 			weight_temp += getGBLWeight(weight, ub_hhg_type);
 		}
 		
-		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
+//		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
 		
 		String [] reweightList = weightList.get(0).getReweight().split("/");
 		gbl_reweight = Double.parseDouble(reweightList[0]);
 
-		double subtraction = gbl_weight - gbl_reweight;
-		
-		if(ub_hhg_type == 1){
+		double subtraction = weight_temp - gbl_reweight;
+		if(subtraction<0){
+			subtraction*=-1;//일단 양수로 변환
+		}
+		if(ub_hhg_type == 1){//HHG
 			Rate otherParam = new Rate();
 			otherParam
 					.setTitle("REWEIGHT CHARGE - IT13 item 505A");
 			otherParam.setCode("HHG");
 			Rate otherRate = invoiceDao.getOther(otherParam);
-						
-			if(gbl_weight <= 5000.0){
+			if(weight_temp <= 5000.0){
 				
-				if(subtraction <= 100 && subtraction > 0){
-					reweight_charge = otherRate.getRate() * subtraction;
-					
+				if(subtraction < 100 && subtraction >= 0){//해당된다면 적용한다.
+					reweight_charge = otherRate.getRate()*comprate1;
 					returnMap.put("reweight", 1.0);
-				} else {					
+				}
+				else {					
 					returnMap.put("reweight", 0.0);
 				}
-			} else {
-				if(subtraction <= (gbl_weight * 0.02) && subtraction > 0){
-					reweight_charge = otherRate.getRate() * subtraction;
-					
+			} else {//5000 보다 클경우
+				if(subtraction <= (weight_temp * 0.02)){//이내일경우
+					reweight_charge = otherRate.getRate()*comprate1;
 					returnMap.put("reweight", 1.0);
-				} else {					
+				} else {
 					returnMap.put("reweight", 0.0);					
 				}
 			}
@@ -1576,9 +1600,9 @@ public class InvoiceService {
 					.setTitle("REWEIGHT CHARGE - IT13 item 505B");
 			otherParam.setCode("UB");
 			Rate otherRate = invoiceDao.getOther(otherParam);
-			if(subtraction <= 25.0 && subtraction > 0){
-				reweight_charge = otherRate.getRate() * subtraction;
-				
+			
+			if(subtraction <= 25.0 && subtraction >= 0){
+				reweight_charge = otherRate.getRate()*comprate1;
 				returnMap.put("reweight", 1.0);
 			} else {				
 				returnMap.put("reweight", 0.0);

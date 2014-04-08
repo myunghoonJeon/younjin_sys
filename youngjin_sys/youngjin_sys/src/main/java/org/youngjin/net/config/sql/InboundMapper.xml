@@ -117,6 +117,7 @@
 					</when>
 				</choose>				
 			</if>
+		
 	</select>
 	
 	<select id="getFreightList" parameterType="InboundFilter" resultType="GBL">
@@ -207,7 +208,7 @@
 						</choose>				
 					</if>
 				ORDER BY
-					g.seq
+					g.seq desc
 			)u	
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}		
 	</select>

@@ -24,7 +24,9 @@
 		youngjin = {};
 	}
 </script>
-
+<style>
+	textarea{resize:none; overflow-y: hidden;}
+</style>
 <%@ include file="../../../layout/include_script.jspf" %>
 
 </head>
@@ -134,8 +136,8 @@
 				<td><form:input path="netWeight" /></td>
 			</tr>
 			<tr>
-				<th colspan="2">HOUSE CONSIGNEE</th>
-				<td colspan="2"><form:textarea path="houseConsignee" /></td>
+				<th colspan="2" style="text-align: center; vertical-align: middle; height: 50px;">HOUSE CONSIGNEE</th>
+				<td colspan="2"><form:textarea path="houseConsignee" style="width:280px;"/></td>
 			</tr>
 			<tfoot>
 				<tr>

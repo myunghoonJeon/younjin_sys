@@ -155,8 +155,8 @@
 						<c:choose>
 							<c:when test="${remark.type eq '01' }">
 								<input type="hidden" id="dd619Count" value="1"/>
-								<form:input path="invoiceMemorandumType" value="LOWERING EQIPMENT"/> : 
-								<form:input path="invoiceMemorandumValue" value="${remarkValue['LOWERING EQIPMENT'] }" />
+								<form:input path="invoiceMemorandumType" value="HOSTING EQIPMENT"/> : 
+								<form:input path="invoiceMemorandumValue" value="${remarkValue['HOSTING EQIPMENT'] }" />
 							</c:when>
 							<c:when test="${remark.type eq '02' }">
 								<c:forEach var="article" items="${remark.articleList }"> 	

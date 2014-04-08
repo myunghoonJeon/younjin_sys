@@ -16,7 +16,9 @@
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">
 <link rel="stylesheet" href="${cp }/resources/jquery/jquery-ui-1.10.3.custom.min.css">
-
+<style>
+	textarea{resize:none; overflow-y: hidden;}
+</style>
 <script>
 	var contextPath = '<c:out value="${cp}"/>';
 	var realPath = '<c:out value="${rp}"/>';
@@ -162,7 +164,7 @@
 			</tr>	
 			<tr>
 				<td colspan="4">
-					<form:textarea path="remark"></form:textarea>
+					<form:textarea path="remark" cols="80" rows="4"></form:textarea>
 				</td>
 			</tr>
 			<tfoot>

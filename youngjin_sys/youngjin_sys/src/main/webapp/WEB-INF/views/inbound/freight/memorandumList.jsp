@@ -62,12 +62,11 @@
 								</c:choose>
 							</td>
 							<td class="memorandum_name">
-								${memorandum.codeName } 
+								${memorandum.codeName }
 								<c:choose>
 									<c:when test="${memorandum.subCode eq '02' }">
 										<input type="text" value="${articles ne null ? articles : '' }"/>
 									</c:when>
-									
 									<c:when test="${memorandum.subCode eq '04' }">
 										 : <input type="text" value="${checkMemorandumMap['04'].extraPickUpCharge }"/>
 									</c:when>

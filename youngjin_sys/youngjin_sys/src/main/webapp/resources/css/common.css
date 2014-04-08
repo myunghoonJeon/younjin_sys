@@ -200,8 +200,8 @@ li.basic_item_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646;
 
 #gbl_add_div{background-color: white; width: 100%; height: 100%;}
 .gbl_add_table { margin: 0 auto; width: 80%; margin-top: 20px; }
-.gbl_add_table tr th{ font-size: 13px; padding: 3px 5px; background-color: #1F497D; color: white; border: 1px solid #000; }
-.gbl_add_table tr td{ padding: 10px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; cursor: pointer; }
+.gbl_add_table tr th{ font-size: 13px; padding: 1px 2px; background-color: #1F497D; color: white; border: 1px solid #000; }
+.gbl_add_table tr td{ padding: 5px 0; font-size: 10px; color: #000; border: 1px solid #000; text-align: center; cursor: pointer; }
 .gbl_add_table tfoot tr td{ border: none; text-align: right;}
 
 /* GBL Pop */
@@ -297,10 +297,10 @@ li.basic_item_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79646;
 
 /* DD-619 */
 .dd619_list_wrap{ width: 1000px; height: 400px; background-color: white;}
-#dd619_add_div{background-color: white; width: 100%; height: 100%;}
+#dd619_add_div{background-color: white; width: 90%; height: 90%;}
 .dd619_add_table { margin: 0 auto; width: 80%; margin-top: 10px; }
-.dd619_add_table tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; vertical-align: middle; padding: 2px 3px; }
-.dd619_add_table tr td{ padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; vertical-align: middle; text-align: center;  }
+.dd619_add_table tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; vertical-align: middle; padding: 1px 2px; }
+.dd619_add_table tr td{ padding : 2px 2px; font-size: 7pt; color: #000; border: 1px solid #000; vertical-align: middle; text-align: center;  }
 .dd619_add_table tfoot tr td{ border: none; text-align: right;}
 
 #invoiceMemorandumType{ width: 45%; }
@@ -737,7 +737,7 @@ li.inbound_onHand_list ul li:HOVER{ color: #F79646; border-left: 12px solid #F79
 #inbound_dd619_add_div{background-color: white; width: 100%; height: 100%;}
 .inbound_dd619_add_table { margin: 0 auto; width: 80%; margin-top: 10px; }
 .inbound_dd619_add_table tr th{ font-size: 8pt; background-color: #B7B9CC; color: #000; border: 1px solid #000; vertical-align: middle; padding: 2px 3px; }
-.inbound_dd619_add_table tr td{ padding : 10px 10px; font-size: 7pt; color: #000; border: 1px solid #000; vertical-align: middle; text-align: center;  }
+.inbound_dd619_add_table tr td{ padding : 5px 5px; font-size: 7pt; color: #000; border: 1px solid #000; vertical-align: middle; text-align: center;  }
 .inbound_dd619_add_table tfoot tr td{ border: none; text-align: right;}
 
 /* MEMORANDUM */
