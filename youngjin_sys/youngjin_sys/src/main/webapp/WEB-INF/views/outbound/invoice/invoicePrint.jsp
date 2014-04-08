@@ -169,9 +169,55 @@
 					<td>${invoiceGbl.amount }</td>
 				</tr>
 			</c:forEach>
+			<tr>	
+				<td style="font-size: 7pt;border-bottom: none;">TOTAL</td>
+				<td style="font-size: 7pt;border-bottom: none;">　</td>
+				<td style="font-size: 7pt;border-bottom: none;">　</td>
+				<td style="font-size: 7pt;border-bottom: none;">　</td>
+				<td style="font-size: 7pt;border-bottom: none;">　</td>
+				<td style="font-size: 7pt;border-bottom: none;">${totalAmount }</td>
+			</tr>
 		</table>
 	</div>
-	
+	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
+		<div style="padding-top: 1cm;">			
+			<div>
+				<table class="invoice_gbl_title_print_table" border="0" style="border:thin; border-style: solid;"><!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
+					<tr>
+						<td >TSP : ${invoice.tsp }</td>
+						<td >IN/OUT : FROM KOREA</td>
+						<td >CODE : ${invoiceGbl.code }</td>
+					</tr>
+					<tr>
+						<td >GBL NO : ${invoiceGbl.gblNo }</td>
+						<td >RANK : ${invoiceGbl.rank }</td>
+						<td >NAME : ${invoiceGbl.name }</td>
+					</tr>
+				</table>
+				<table class="invoice_gbl_content_print_table" cellspacing="0">
+					<tr>
+						<td class="in_td" style="font-weight: bolder;">
+							<strong>CHARGING ITEMS</strong>
+						</td>
+						<td class="in_td" style="font-weight: bolder;">
+							<strong>QUANTITY</strong>
+						</td>
+						<td class="in_td" style="font-weight: bolder;">
+							<strong>AMOUNTS</strong>
+						</td>
+					</tr> 
+					<c:forEach var="invoiceGblContent" items="${invoiceGblContentMap[invoiceGbl.seq] }">
+						<tr>
+							<td class="in_td">${invoiceGblContent.chargingItem }</td>
+							<td class="in_td">${invoiceGblContent.quantity }</td>
+							<td class="in_td">${invoiceGblContent.amount }</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</div>	
+	</c:forEach>
+	<!-- 
 	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
 		<div>			
 			<div>
@@ -198,6 +244,7 @@
 			</div>
 		</div>	
 	</c:forEach>
+	 -->
 </BODY>
 </HTML>
 

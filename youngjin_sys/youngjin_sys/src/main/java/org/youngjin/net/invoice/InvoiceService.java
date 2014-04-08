@@ -1053,7 +1053,9 @@ public class InvoiceService {
 			totalAmount += invoiceReturnMap.get("amount");
 			
 			destinationServiceChargeContent.setChargingItem("DESTINATION SERVICE CHARGE");
-			destinationServiceChargeContent.setQuantity(invoiceReturnMap.get("quantity").toString());
+			double lbsDoubleTemp = Double.parseDouble(invoiceReturnMap.get("quantity").toString());
+			int lbsTemp = (int)lbsDoubleTemp;
+			destinationServiceChargeContent.setQuantity(lbsTemp+" LBS");
 			destinationServiceChargeContent.setAmount(invoiceReturnMap.get("amount").toString());
 			destinationServiceChargeContent.setInvoiceGblSeq(invoiceGblSeq);
 			
@@ -1135,7 +1137,7 @@ public class InvoiceService {
 			}
 			
 			//4. SIT-DELIVERY CHARGE & ADM FEE
-			if ("UB".equals(codeStr)) {
+			if ("UB".equals(codeStr) && sitFirstMemo !=null) { //코드가 UB이고 SIT가 있을경우만
 				InvoiceGblContent sitDeliveryContent = new InvoiceGblContent();		
 				
 				boolean thirtyMile = basicService.getComareMile(gbl);
@@ -1199,8 +1201,9 @@ public class InvoiceService {
 			terminationMemorandumParam.setType("05");
 
 			Memorandum terminationMemorandum = memorandumDao.getMemorandumIb(terminationMemorandumParam);
-			if (terminationMemorandum == null || terminationMemorandum.getTermination().equals("0")) {
-			} else {
+			if (terminationMemorandum == null || terminationMemorandum.getTermination().equals("0")) {//터미네이션이 없으면
+			} 
+			else {//터미네이션이 있으면
 				Rate otherRateParam = new Rate();
 				if ("HHG".equals(codeStr)) {
 					otherRateParam
@@ -1322,7 +1325,7 @@ public class InvoiceService {
 
 		// GBL weight를 사용할 때 필요한 1-5, 1-6번 과정을 수행하는 메소드
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
-
+		// 1.1 -- (2014-04-09) 전명훈 : gbl_weight[2] 로 변경 getGBLweight 메소드 ( 최소값 계산과 100분율 및 곱하기 과정 추가 후 계산값 [0] 디스플레이 값[1] 로 리턴 )
 		// ///////////////////////////////////////////////////////////////////
 
 		double[] gbl_weight = new double[2];
@@ -1355,7 +1358,7 @@ public class InvoiceService {
 
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
 		// 1.1 -- (2014-02-23) 박광열 : Map으로 return type change, 단일 weight 계산을 weight List로 변경
-
+		// 1.2 -- (2014-04-09) 전명훈 : gbl_weight[2] 로 변경 getGBLweight 메소드 ( 최소값 계산과 100분율 및 곱하기 과정 추가 후 계산값 [0] 디스플레이 값[1] 로 리턴 )
 		// ///////////////////////////////////////////////////////////////////
 
 		Map<String, Double> returnMap = new HashMap<String, Double>();
@@ -1408,7 +1411,7 @@ public class InvoiceService {
 
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
 		// 1.1 -- (2014-02-23) 박광열 : Map으로 return type change, 단일 weight 계산을 weight List로 변경
-
+		// 1.2 -- (2014-04-09) 전명훈 : gbl_weight[2] 로 변경 getGBLweight 메소드 ( 최소값 계산과 100분율 및 곱하기 과정 추가 후 계산값 [0] 디스플레이 값[1] 로 리턴 )
 		// ///////////////////////////////////////////////////////////////////
 
 		Map<String, Double> returnMap = new HashMap<String, Double>();
@@ -1446,7 +1449,6 @@ public class InvoiceService {
 			sit_first_day = invoiceDao.getSit(rate).getRate();
 		}
 		returnMap.put("amount", gbl_weight[0] * sit_first_day * comprate1);
-		
 		// 최종 결과 값 반환
 		return returnMap;
 	}
@@ -1457,7 +1459,7 @@ public class InvoiceService {
 
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
 		// 1.1 -- (2014-02-23) 박광열 : Map으로 return type change, 단일 weight 계산을 weight List로 변경
-
+		// 1.2 -- (2014-04-09) 전명훈 : gbl_weight[2] 로 변경 getGBLweight 메소드 ( 최소값 계산과 100분율 및 곱하기 과정 추가 후 계산값 [0] 디스플레이 값[1] 로 리턴 )
 		// ///////////////////////////////////////////////////////////////////
 
 		Map<String, Double> returnMap = new HashMap<String, Double>();
@@ -1473,8 +1475,9 @@ public class InvoiceService {
 		// ///////////////////////////////////////////////////////////////////
 
 		// 1 & 2번 (sit_no, additionSitDay 유무 확인)
-		if (sit_no.isEmpty() == true && sit_day > 0)
+		if (sit_no.isEmpty() == true && sit_day > 0){
 			return returnMap;
+		}
 
 		// 5 & 6번. 사용할 Weight 종류 확인
 		for( WeightIb weight : weightList ){
@@ -1502,15 +1505,15 @@ public class InvoiceService {
 	}
 	
 	private Map<String, Double> getSitDeliveryChargeAddFee(boolean thirtyMile, List<WeightIb> weightList, double comprate1, GBL gbl) {
-
+		
 		Map<String, Double> returnMap = new HashMap<String, Double>();
-
+		
 		double weight_temp = 0.0;
 		double[] gbl_weight = new double[2];
 		double delivery = 0.0;
 		
 		int ub_hhg_type = getUBHHGType("UB");
-
+		
 		// 5 & 6번. 사용할 Weight 종류 확인
 		for( WeightIb weight : weightList ){
 			weight_temp += getGBLWeight(weight, ub_hhg_type);
@@ -1519,9 +1522,28 @@ public class InvoiceService {
 		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
 		
 		//thirtyMile = true 이상 . false 이하
-		if(thirtyMile){
-			
-		} else {
+		if(thirtyMile){//이상
+			Rate otherParam = new Rate();
+			otherParam
+					.setTitle("30mile 이하 - IT13 item 521I");
+			otherParam.setCode("UB");
+			Rate otherRate = invoiceDao.getOther(otherParam);
+			double origin = otherRate.getRate() * gbl_weight[0];
+			otherParam
+			.setTitle("30mile 이상  - IT13 item 521J (minimum per shipment)");
+			otherRate = invoiceDao.getOther(otherParam);
+			double minimum = otherRate.getRate();
+			otherParam.setTitle("ADM FEE - IT13 item 521L");
+			Rate admFeeRate = invoiceDao.getOther(otherParam);
+			double admFee = admFeeRate.getRate()*comprate1;
+			if(origin>minimum){
+				delivery = origin * comprate1 + admFee;
+			}
+			else{
+				delivery = minimum * comprate1 + admFee;
+			}
+		} 
+		else {//이하
 			Rate otherParam = new Rate();
 			otherParam
 					.setTitle("30mile 이하 - IT13 item 521I");
