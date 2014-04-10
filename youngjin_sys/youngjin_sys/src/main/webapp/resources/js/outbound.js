@@ -625,21 +625,11 @@ youngjin.outbound.uploadPage = function(target){
 
 youngjin.outbound.uploadSubmit = function(){
 	var form = $('form#gbl');
-	var seq = $('#uploadBtn').attr('data-seq');		
+	var seq = $('#uploadBtn').attr('data-seq');
+	
+	var url = contextPath + '/outbound/' + seq;
 	
 	form.submit();	
-
-	url = contextPath + '/outbound/' + seq;
-	
-	//window.close();
-	/*
-	parent.parent.$.smartPop.close();
-	
-	parent.parent.$.smartPop.open({
-		width : 1000,
-		height : 521,
-		url : url
-	});*/
 };
 
 youngjin.outbound.powerOfAttorney = function(target){

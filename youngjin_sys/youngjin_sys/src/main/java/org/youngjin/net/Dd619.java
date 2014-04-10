@@ -30,7 +30,7 @@ public class Dd619 {
 	private Integer memorandumListSeq;
 
 	private String invoiceMemorandumType;
-	private String invoiceMemorandumValue;
+	private String invoiceMemorandumValue = "0";
 
 	private int count = 0;
 

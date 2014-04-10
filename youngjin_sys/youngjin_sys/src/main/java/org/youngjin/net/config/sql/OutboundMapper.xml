@@ -704,7 +704,7 @@
 
 <select id="getTruckGblList" parameterType="OutboundFilter" resultMap="GblMap">
 	SELECT 
-		gt.*, cuft, pcs, truck_check
+		gt.*, a.cuft, pcs, truck_check
 	FROM 
 		(SELECT
 			g.no, w.truck_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
@@ -742,7 +742,7 @@
 
 <select id="getBookingGblList" parameterType="OutboundFilter" resultMap="GblMap">
 	SELECT 
-		gt.*, cuft, pcs, booking_check
+		gt.*, a.cuft, pcs, booking_check
 	FROM 
 		(SELECT
 			g.no, w.booking_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
@@ -1505,17 +1505,18 @@
     UPDATE
     	weight_certificate
     SET
+    	seq = seq
     	<if test="truckSeq != null">
-    		truck_check = 1,
-    		truck_seq = #{truckSeq}
+    		,truck_check = 1
+    		,truck_seq = #{truckSeq}
     	</if>    	
     	<if test="bookingSeq != null">
-    		booking_check = 1,
-    		booking_seq = #{bookingSeq}
+    		,booking_check = 1
+    		,booking_seq = #{bookingSeq}
     	</if>  	
     	<if test="houseSeq != null">
-    		house_check = 1,
-    		house_seq = #{houseSeq}
+    		,house_check = 1
+    		,house_seq = #{houseSeq}
     	</if>
     WHERE
     	gbl_seq = #{seq}    
@@ -1813,7 +1814,7 @@
 
 <select id="getHouseGblList" parameterType="OutboundFilter" resultMap="GblMap">
 	SELECT 
-		gt.*, cuft, pcs, house_check
+		gt.*, a.cuft, pcs, house_check
 	FROM 
 		(SELECT
 			g.no, w.house_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 

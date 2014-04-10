@@ -28,6 +28,10 @@
 		</script>
 	</c:if>
 	
+	<form:form commandName="inboundFilter" method="get">
+		<form:hidden path="page" value="${pagination.currentPage}"/>
+	</form:form>
+	
 	<div class="gbl_filter">	
 		<ul class="freight_filter_wrap">
 			<li>	

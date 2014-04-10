@@ -27,6 +27,17 @@
 
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
+
+<c:if test="${check ne null }">
+	<script>
+		var seq = '<c:out value="${seq}" />';
+		
+		parent.location.href= contextPath + '/inbound/freight/' + seq; 
+	
+		window.close();
+	</script>
+</c:if>
+
 <body>
 	<form:form commandName="gbl" enctype="multipart/form-data" method="post">
 		<table>

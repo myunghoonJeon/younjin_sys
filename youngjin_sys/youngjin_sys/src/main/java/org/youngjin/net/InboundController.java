@@ -213,7 +213,7 @@ public class InboundController {
 		return inboundService.checkWeight(param);
 	}
 
-	@RequestMapping(value = "/{process}/custom/invoice", method = RequestMethod.GET)
+	@RequestMapping(value = "/{process}/custom/invoice")
 	public String customInboundInvoice(Model model, User user,
 			@PathVariable String process,
 			@ModelAttribute InboundFilter inboundFilter) {
@@ -662,13 +662,27 @@ public class InboundController {
 		return process + "/freight/upload";
 	}
 
+	@RequestMapping(value = "/{process}/freight/{seq}/upload/{check}", method = RequestMethod.GET)
+	public String checkSelectUplaod(Model model, User user,
+			@PathVariable String process, @PathVariable String seq, @PathVariable String check,
+			@ModelAttribute(value = "gbl") GBL gbl) {
+		
+		model.addAttribute("check", check);
+		
+		model.addAttribute("seq", seq);
+		
+		return process + "/freight/upload";
+	}
+
 	@RequestMapping(value = "/{process}/freight/{seq}/upload", method = RequestMethod.POST)
-	public void gblSelectUplaodPost(Model model, User user,
+	public String gblSelectUplaodPost(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
 			@ModelAttribute(value = "gbl") GBL gbl) {
 
 		model.addAttribute("seq", seq);
 		inboundService.insertGblFile(gbl);
+		
+		return "redirect:/" + process + "/freight/" + seq + "/upload/check";
 	}
 
 	@RequestMapping(value = "/{process}/freight/{seq}/bl", method = RequestMethod.GET)

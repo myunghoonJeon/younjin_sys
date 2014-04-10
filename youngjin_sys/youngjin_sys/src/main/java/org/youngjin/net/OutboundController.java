@@ -221,14 +221,27 @@ public class OutboundController {
 		return process + "/gbl/upload";
 	}
 
+	@RequestMapping(value = "/{process}/{seq}/upload/{check}", method = RequestMethod.GET)
+	public String checkGblSelectUplaod(Model model, User user,
+			@PathVariable String process, @PathVariable String seq, @PathVariable String check,
+			@ModelAttribute(value = "gbl") GBL gbl) {
+
+		model.addAttribute("check", check);
+		
+		model.addAttribute("seq", seq);
+		return process + "/gbl/upload";
+	}
+
 
 	@RequestMapping(value = "/{process}/{seq}/upload", method = RequestMethod.POST)
-	public void gblSelectUplaodPost(Model model, User user,
+	public String gblSelectUplaodPost(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
 			@ModelAttribute(value = "gbl") GBL gbl) {
 
 		model.addAttribute("seq", seq);
 		outboundService.insertGblFile(gbl);
+		
+		return "redirect:/" + process + "/" + seq + "/upload/check";
 	}
 
 
@@ -522,7 +535,7 @@ public class OutboundController {
 		
 		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
 		
-		model.addAttribute("gblock", processService.getGBlockByGbloc(gbl.getDestinationGbloc()));
+		model.addAttribute("gblock", processService.getGBlockByGbloc(gbl.getDestGBlock()));
 		
 		model.addAttribute("containerList", outboundService.getContainerList());
 		

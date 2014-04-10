@@ -457,7 +457,7 @@
 		FROM
 			gbl_ib g
 		WHERE
-			gblNo IN (select gbl_no from gbl_status where gbl_weight = 1 and gbl_custom = 0 )
+			gblNo IN (select gbl_no from gbl_status where gbl_weight = 1 )
 		AND
 			g.seq IN (
 				SELECT
@@ -1261,34 +1261,32 @@
 	
 	<select id="getInboundInvoiceOnHandList" resultType="InboundInvoice">
 		SELECT 
-			il.seq, g.gblNo, g.shipperName AS name, g.ssn, g.rank, g.code, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck, il.gblSeq
+			il.seq, g.gblNo, g.shipperName AS NAME, g.ssn, g.rank, g.code, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck, il.gblSeq
 		FROM
 			inbound_invoice_list il, gbl_ib g
 		WHERE
 			il.gblSeq = g.seq
 		AND
-			g.seq NOT IN (SELECT gblSeq FROM on_hand_list_content)
+			g.seq IN (SELECT gblSeq FROM weight_ib w WHERE w.seq NOT IN (SELECT weightSeq FROM on_hand_list_content_weight))
 		AND
-			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
-		AND
-			il.declarationCheck = 1		
-	</select>
-	
-	<select id="getOnHandInvoiceListAlreadyInsert" parameterType="Integer" resultType="InboundInvoice">
-		SELECT 
-			o.seq AS onHandListContentSeq, il.seq, g.gblNo, g.shipperName AS NAME, g.ssn, g.rank, g.code, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck, il.gblSeq
-		FROM
-			inbound_invoice_list il, gbl_ib g, on_hand_list_content o
-		WHERE
-			il.gblSeq = g.seq
-		AND
-			o.gblSeq = g.seq
-		AND
-			g.seq IN (SELECT gblSeq FROM on_hand_list_content WHERE onHandListSeq = #{value})
+			il.seq NOT IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight iiw WHERE iiw.weightSeq IN (SELECT DISTINCT weightSeq FROM on_hand_list_content_weight))
 		AND
 			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
 		AND
 			il.declarationCheck = 1	
+	</select>
+	
+	<select id="getOnHandInvoiceListAlreadyInsert" parameterType="Integer" resultType="InboundInvoice">
+		SELECT 
+			o.seq AS onHandListContentSeq, g.gblNo, g.shipperName AS NAME, g.ssn, g.rank, g.code, g.eta, g.seq AS gblSeq
+		FROM
+			gbl_ib g, on_hand_list_content o
+		WHERE
+			o.gblSeq = g.seq
+		AND
+			g.seq IN (SELECT gblSeq FROM on_hand_list_content WHERE onHandListSeq = #{value})		
+		AND
+			g.seq IN (SELECT DISTINCT gblSeq FROM inbound_invoice_list WHERE check_up = 0 AND declarationCheck = 1)
 	</select>
 	
 	<select id="getOnHandListForm" parameterType="Integer" resultMap="onHandListFormMap">

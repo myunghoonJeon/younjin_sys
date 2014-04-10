@@ -876,8 +876,7 @@ youngjin.inbound.uploadPage = function(target){
 	var seq = parent.attr('data-seq');
 	var url = contextPath + '/inbound/freight/' + seq + '/upload';
 	
-	window.open(url, 'uploadPop', 'width=350, height=180, status=no, scrollbars=no');
-	
+	window.open(url, 'uploadPop', 'width=350, height=180, status=no, scrollbars=no');	
 };
 
 youngjin.inbound.bl = function(target){
@@ -891,20 +890,10 @@ youngjin.inbound.bl = function(target){
 youngjin.inbound.uploadSubmit = function(){
 	var form = $('form#gbl');
 	var seq = $('#uploadBtn').attr('data-seq');		
+
+	var url = contextPath + '/inbound/' + seq;
 	
 	form.submit();	
-
-	url = contextPath + '/inbound/' + seq;
-	
-	//window.close();
-	/*
-	parent.parent.$.smartPop.close();
-	
-	parent.parent.$.smartPop.open({
-		width : 1000,
-		height : 521,
-		url : url
-	});		*/
 };
 
 youngjin.inbound.delivery = function(target){

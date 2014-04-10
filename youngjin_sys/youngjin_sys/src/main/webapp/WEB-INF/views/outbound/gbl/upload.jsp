@@ -27,13 +27,24 @@
 
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
+
+<c:if test="${check ne null }">
+	<script>
+		var seq = '<c:out value="${seq}" />';
+		
+		parent.location.href=contextPath + '/outbound/' + seq;
+	
+		window.close();
+	</script>
+</c:if>
+
 <body>
 	<form:form commandName="gbl" enctype="multipart/form-data" method="post">
 		<table>
 			<tr>
 				<td>
 					<form:select path="gblFileNo">
-						<form:option value="1">GBL 관련 전체문서</form:option>
+						<form:option value="1">GBL 관련 전체문서${check }</form:option>
 						<form:option value="2">GBL 관련 추가문서</form:option>
 					</form:select>
 				</td>

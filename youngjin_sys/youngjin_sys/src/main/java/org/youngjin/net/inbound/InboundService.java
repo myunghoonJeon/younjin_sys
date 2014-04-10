@@ -390,10 +390,10 @@ public class InboundService {
 		
 		Integer additionCheck = inboundDao.checkAddtionComplete(paramAddition);
 
-		String[] invoiceMemorandumType = dd619.getInvoiceMemorandumType()
-				.split(",", dd619.getCount());
-		String[] invoiceMemorandumValue = dd619.getInvoiceMemorandumValue()
-				.split(",", dd619.getCount());
+		String[] invoiceMemorandumType = (dd619.getCount() != 0) ? dd619.getInvoiceMemorandumType()
+				.split(",", dd619.getCount()) : null;
+		String[] invoiceMemorandumValue = (dd619.getCount() != 0) ? dd619.getInvoiceMemorandumValue()
+				.split(",", dd619.getCount()) : null;
 
 		for (int i = 0; i < dd619.getCount(); i++) {
 			paramAddition.setTitle(invoiceMemorandumType[i]);
