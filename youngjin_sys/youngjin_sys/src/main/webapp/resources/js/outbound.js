@@ -1027,7 +1027,6 @@ youngjin.outbound.memorandumPop = function(target){
 					'type' : type,
 					'invoiceValue' : inputValue.val()
 			};
-			alert("yoru input : "+inputValue.val());
 			url = contextPath + '/outbound/memorandum/invoice/' + inputValue.val() + '/insert.json';
 
 			$.postJSON(url, json, function(){
