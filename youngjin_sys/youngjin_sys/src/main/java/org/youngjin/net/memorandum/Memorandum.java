@@ -15,9 +15,18 @@ public class Memorandum {
 	private Integer gblSeq;
 
 	private String writeDate;
-
+	
 	private String extraPickUpCharge;
 	private String termination;
+	private String sitNo;
+	public String getSitNo() {
+		return sitNo;
+	}
+
+	public void setSitNo(String sitNo) {
+		this.sitNo = sitNo;
+	}
+
 	private String sitStartDate;
 	private String sitEndDate;
 	private String longCarry;
@@ -205,8 +214,8 @@ public class Memorandum {
 				+ ", extraPickUpCharge=" + extraPickUpCharge + ", termination="
 				+ termination + ", sitStartDate=" + sitStartDate
 				+ ", sitEndDate=" + sitEndDate + ", longCarry=" + longCarry
-				+ ", invoiceValue=" + invoiceValue + ", memorandumSeq="
-				+ memorandumSeq + "]";
+				+ ", invoiceValue=" + invoiceValue + ", memorandumSeq=" + memorandumSeq
+				+ ",sitNo="+sitNo+ "]";
 	}
 
 }

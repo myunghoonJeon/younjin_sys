@@ -111,7 +111,7 @@
 	<P style="position:absolute;top:402px;left:787px;white-space:nowrap" class="ft115"><input type="text" name="q-13d" class="q-text q-center" style="width:126px;height:44px;" value="${fn:substring(sitEndDate, 8, 10) }-${ fn:substring(sitEndDate, 4, 7)}-${ fn:substring(sitEndDate, 26, 28) }" /> </P>
 </c:if>
 <P style="position:absolute;top:402px;left:931px;white-space:nowrap" class="ft115"><input type="text" name="q-13e" class="q-text q-center" style="width:90px;height:44px;" value="${number13 }"></P>
-<P style="position:absolute;top:402px;left:1036px;white-space:nowrap" class="ft12"><input type="text" name="q-13f" class="q-text q-center" style="width:105px;height:44px;"></P>
+<P style="position:absolute;top:402px;left:1036px;white-space:nowrap" class="ft12"><input type="text" name="q-13f" class="q-text q-center" style="width:105px;height:44px;" value="${weight.net}"></P>
 <P style="position:absolute;top:496px;left:658px;white-space:nowrap" class="ft12"><input type="text" name="q-13g1" class="q-text q-center" style="width:338px;height:24px;" value="${gbl.sitNo }"></P>
 <P style="position:absolute;top:531px;left:1014px;white-space:nowrap" class="ft12"><input type="radio" name="q-13g2" class="q-radio" value="yes"></input></P>
 <P style="position:absolute;top:531px;left:1087px;white-space:nowrap" class="ft12"><input type="radio" name="q-13g2" class="q-radio" value="no"></input></P>

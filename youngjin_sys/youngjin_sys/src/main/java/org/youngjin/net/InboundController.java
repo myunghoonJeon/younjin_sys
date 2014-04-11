@@ -728,11 +728,10 @@ public class InboundController {
 		model.addAttribute("branch", branch);
 		model.addAttribute("memorandumList", memorandumList);
 
-		if (checkMemorandumMap.get("02") != null
-				&& checkMemorandumMap.get("02").getArticles() != null)
-			model.addAttribute("articles", checkMemorandumMap.get("02")
-					.getArticles());
-
+		if (checkMemorandumMap.get("02") != null&& checkMemorandumMap.get("02").getArticles() != null){
+				model.addAttribute("articles", checkMemorandumMap.get("02").getArticles());
+		}
+		System.out.println("JMH TEST : "+checkMemorandumMap.size()+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		model.addAttribute("checkMemorandumMap", checkMemorandumMap);
 
 		return process + "/freight/memorandumList";

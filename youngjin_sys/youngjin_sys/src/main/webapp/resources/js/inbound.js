@@ -1078,7 +1078,7 @@ youngjin.inbound.memorandumPop = function(target){
 				height: 900,
 				url : url
 			});	
-		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' ){
+		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' || type=='09' ){
 			var inputValue = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
 			
 			if(inputValue.val() == '' || inputValue.val() == null){
@@ -1197,7 +1197,7 @@ youngjin.inbound.memorandumModify = function(target){
 				height: 900,
 				url : url
 			});	
-		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' ){
+		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08'|| type=='09' ){
 			var inputValue = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
 			
 			var json = {
@@ -1206,7 +1206,7 @@ youngjin.inbound.memorandumModify = function(target){
 					'type' : type,
 					'invoiceValue' : inputValue.val()
 			};
-			
+			alert('your input : '+inputValue.val());//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			url = contextPath + '/inbound/freight/memorandum/invoice/' + inputValue.val() + '/modify.json';
 			
 			if(inputValue != target.attr('data-value')){

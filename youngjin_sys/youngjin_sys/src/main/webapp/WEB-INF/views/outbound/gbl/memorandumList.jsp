@@ -72,7 +72,7 @@
 										 : <input type="text" value="${checkMemorandumMap['04'].extraPickUpCharge }"/>
 									</c:when>
 									<c:when test="${memorandum.subCode eq '05' }">
-										 : <input type="text" value="${checkMemorandumMap['05'].termination }"/>
+										 : <input type="text" value="${checkMemorandumMap['05'].sitNo }"/>
 									</c:when>
 									<c:when test="${memorandum.subCode eq '06' }">
 										 : <input type="text" value="${checkMemorandumMap['06'].sitStartDate }"/>
@@ -82,6 +82,9 @@
 									</c:when>
 									<c:when test="${memorandum.subCode eq '08' }">
 										 : <input type="text" value="${checkMemorandumMap['08'].longCarry }"/>
+									</c:when>
+									<c:when test="${memorandum.subCode eq '09' }">
+										 : <input type="text" value="${checkMemorandumMap['09'].termination }"/>
 									</c:when>
 								</c:choose>
 							</td>

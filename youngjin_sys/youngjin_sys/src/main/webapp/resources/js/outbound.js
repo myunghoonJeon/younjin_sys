@@ -1012,7 +1012,7 @@ youngjin.outbound.memorandumPop = function(target){
 				height: 900,
 				url : url
 			});	
-		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' ){
+		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08'|| type=='09' ){
 			var inputValue = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
 			
 			if(inputValue.val() == '' || inputValue.val() == null){
@@ -1027,7 +1027,7 @@ youngjin.outbound.memorandumPop = function(target){
 					'type' : type,
 					'invoiceValue' : inputValue.val()
 			};
-			
+			alert("yoru input : "+inputValue.val());
 			url = contextPath + '/outbound/memorandum/invoice/' + inputValue.val() + '/insert.json';
 
 			$.postJSON(url, json, function(){
@@ -1130,7 +1130,7 @@ youngjin.outbound.memorandumModify = function(target){
 				height: 900,
 				url : url
 			});	
-		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' ){
+		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' || type == '09' ){
 			var inputValue = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
 			
 			var json = {
@@ -1139,7 +1139,6 @@ youngjin.outbound.memorandumModify = function(target){
 					'type' : type,
 					'invoiceValue' : inputValue.val()
 			};
-			
 			url = contextPath + '/outbound/memorandum/invoice/' + inputValue.val() + '/modify.json';
 			
 			if(inputValue != target.attr('data-value')){

@@ -19,12 +19,13 @@
 		<result property="termination" column="termination" />
 		<result property="sitStartDate" column="sit_start_date" />
 		<result property="sitEndDate" column="sit_end_date" />
+		<result property="sitNo" column="sit_no" />
 		<result property="longCarry" column="long_carry" />
 	</resultMap>
 	
 	<select id="getMemorandum" parameterType="Memorandum" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, termination, sit_start_date, sit_end_date, long_carry, write_date
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, termination, sit_start_date, sit_end_date, long_carry, write_date,sit_no
 		FROM
 			memorandum
 		WHERE
@@ -39,7 +40,7 @@
 	
 	<select id="getMemorandumIb" parameterType="Memorandum" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, write_date, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, write_date, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry,sit_no
 		FROM
 			memorandum_ib
 		WHERE
@@ -54,7 +55,7 @@
 	
 	<select id="getMemorandumList" parameterType="Map" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry,sit_no
 		FROM
 			memorandum
 		WHERE
@@ -67,7 +68,7 @@
 	
 	<select id="getMemorandumListIb" parameterType="Map" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry, sit_no 
 		FROM
 			memorandum_ib
 		WHERE
@@ -178,7 +179,7 @@
 						, extra_pick_up_charge
 					</when>
 					<when test="type == '05'">
-						, termination
+						, sit_no
 					</when>
 					<when test="type == '06'">
 						, sit_start_date
@@ -188,6 +189,9 @@
 					</when>
 					<when test="type == '08'">
 						, long_carry
+					</when>
+					<when test="type == '09'">
+						, termination
 					</when>					
 				</choose>
 			)
@@ -211,7 +215,7 @@
 						, extra_pick_up_charge
 					</when>
 					<when test="type == '05'">
-						, termination
+						, sit_no
 					</when>
 					<when test="type == '06'">
 						, sit_start_date
@@ -221,7 +225,10 @@
 					</when>
 					<when test="type == '08'">
 						, long_carry
-					</when>					
+					</when>		
+					<when test="type == '09'">
+						, termination
+					</when>			
 				</choose>
 			)
 			VALUES
@@ -243,7 +250,7 @@
 					extra_pick_up_charge = #{invoiceValue}
 				</when>
 				<when test="type == '05'">
-					termination = #{invoiceValue}
+					sit_no = #{invoiceValue}
 				</when>
 				<when test="type == '06'">
 					sit_start_date = #{invoiceValue} 
@@ -253,6 +260,9 @@
 				</when>
 				<when test="type == '08'">
 					long_carry = #{invoiceValue}
+				</when>
+				<when test="type == '09'">
+					termination = #{invoiceValue}
 				</when>					
 			</choose>
 		WHERE
@@ -272,7 +282,7 @@
 					extra_pick_up_charge = #{invoiceValue}
 				</when>
 				<when test="type == '05'">
-					termination = #{invoiceValue}
+					sit_no = #{invoiceValue}
 				</when>
 				<when test="type == '06'">
 					sit_start_date = #{invoiceValue} 
@@ -282,7 +292,10 @@
 				</when>
 				<when test="type == '08'">
 					long_carry = #{invoiceValue}
-				</when>					
+				</when>
+				<when test="type == '09'">
+					termination = #{invoiceValue}
+				</when>								
 			</choose>
 		WHERE
 			gbl_seq = #{gblSeq}

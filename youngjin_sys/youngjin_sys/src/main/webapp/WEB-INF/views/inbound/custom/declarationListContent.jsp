@@ -88,7 +88,7 @@ td{
 			<td colspan="7"><p class="title">DECLEARATION LIST FOR IMPORT</p></td>
 		</tr>
 		<tr>
-			<td colspan="4">YOUNGJIN T & T CO., LTE.</td>
+			<td colspan="4">YOUNGJIN T & T CO., LTD.</td>
 			<td colspan="3">${ fn:substring(date, 0, 4)}년 ${fn:substring(date, 4, 6)}월 ${fn:substring(date, 6, 8)}일</td>
 		</tr>
 		<tr>

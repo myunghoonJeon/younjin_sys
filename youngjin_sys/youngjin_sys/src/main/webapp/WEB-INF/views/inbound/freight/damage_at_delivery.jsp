@@ -579,11 +579,11 @@
                   			</div>
                   			<div class="left_stack">
                   				
-                  				<textarea rows="3" cols="45" style="border: none; font-size: 9pt;" id="nameaddressoftransportation" name="nameaddressoftransportation" >${carrier.scacFullName },&#13;&#10;${carrier.address },&#13;&#10;${carrier.trafficEmail }</textarea>
+                  				<textarea rows="3" cols="45" style="border: none; font-size: 9pt;" id="nameaddressoftransportation" name="nameaddressoftransportation" >${carrier.scacFullName },&#13;&#10;${carrier.address };</textarea>
                   			</div>
                             
                   			<div>
-                  				TSP Email: <input style="width:5.4cm;" id="tsp_email" name="tsp_email">
+                  				TSP Email: <input style="width:5.4cm;" id="tsp_email" name="tsp_email" value="${carrier.trafficEmail }">
                   			</div>
                             
                   			<div class="new_stack left_stack" style="margin-top: 1mm;">
