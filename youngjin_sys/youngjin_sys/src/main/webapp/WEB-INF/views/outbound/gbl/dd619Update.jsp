@@ -72,7 +72,7 @@
 				<th>DESTINATION OF SHIPMENT</th>
 				<td><form:input path="destination" value="${pod.destAddress }"/></td>
 				<th>ORDERING ACTIVITY NAME</th>
-				<td><form:input path="orderingActivityName" /></td>
+				<td><form:input path="orderingActivityName" value="${branch.itoAddress }"/></td>
 			</tr>		
 			<tr>
 				<th>CARRIER NAME</th>
@@ -117,7 +117,7 @@
 				<th>MATERIALS WERE FURNISHED/ACCESSORIAL SERVICES WERE PERFORMED</th>
 				<td><form:input path="officerMaterial" value="ORIGIN"/></td>				
 				<th>SIGNATURE</th>
-				<td><form:input path="officerSignature" value="${gbl.rank } / ${gbl.customerName }"/></td>				
+				<td><form:input path="officerSignature" value="${gbl.rank } / ${gbl.customerName }"/></td>
 			</tr>
 			<tr>							
 				<th colspan="2">DATE SIGNED</th>
@@ -138,7 +138,7 @@
 				<th colspan="4">REMARK</th>
 			</tr>
 			<tr>
-				<td id="dd619_remark" colspan="4">
+				<td id="dd619_remark" colspan="4"> 
 					<c:forEach var="remark" items="${remarkList }">
 						<c:choose>
 							<c:when test="${remark.type eq '01' }">
@@ -161,7 +161,7 @@
 						</c:choose>	
 					</c:forEach>
 				</td>
-			</tr>	
+			</tr>
 			<tr>
 				<td colspan="4">
 					<form:textarea path="remark" cols="80" rows="4"></form:textarea>
@@ -169,7 +169,7 @@
 			</tr>
 			<tfoot>
 				<tr>
-					<td colspan="4">
+					<td colspan="4" style="height:30px;">
 						<div>
 							<span class="dd619_modify_submit_button yj_button">modify</span>
 						</div>

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.youngjin.net.basic.BasicService;
 import org.youngjin.net.basic.Branch;
+import org.youngjin.net.basic.Carrier;
 import org.youngjin.net.basic.Company;
 import org.youngjin.net.basic.Pod;
 import org.youngjin.net.code.Code;
@@ -511,9 +512,14 @@ public class OutboundController {
 			@PathVariable String seq, @PathVariable Integer listSeq, @ModelAttribute Dd619 dd619) {
 		
 		System.out.println("test");
-
+		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
 		dd619 = outboundService.getDd619ListSelectOne(listSeq);
+		Branch branch = basicService.getBranch(gbl.getAreaLocal());
+		Pod pod = basicService.getPod(gbl.getPod());
+		Carrier carrier = basicService.getCarrier(gbl.getTsp());
 		
+		model.addAttribute("carrier",carrier);
+		model.addAttribute("branch",branch);
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
 		model.addAttribute("dd619", dd619);
