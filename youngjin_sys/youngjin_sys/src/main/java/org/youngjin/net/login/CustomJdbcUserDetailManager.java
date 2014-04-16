@@ -181,14 +181,14 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 		user.setPassword(encodedPassword);
 	}
 
-	public void changePassword(Integer seq) {		
-		User user = new User();
-		user.setSeq(seq);
+	public void changePassword(User user) {		
+		User changeUser = new User();
+		changeUser.setSeq(user.getSeq());
 				
-		setEncodedPassword(user, user.getNewPassword());
+		setEncodedPassword(changeUser, user.getNewPassword());
 		user.setLastUpdateBy("admin");
 		
-		loginDao.updatePassword(user);		
+		loginDao.updatePassword(changeUser);		
 	}
 	
 	public boolean confirmPassword(User user) {

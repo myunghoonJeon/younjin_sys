@@ -62,11 +62,12 @@ youngjin.admin.sync = function(){
 	
 	$('.admin_user_list_password').unbind('click');
 	$('.admin_user_list_password').bind('click', function(){
-		if(confirm('비밀번호를 초기화 하시겠습니까?')){
-			youngjin.admin.user_password_clear($(this));
-		} else {
-			alert("취소 되었습니다.");
-		}
+		youngjin.admin.userPasswordChangePop($(this));
+	});
+	
+	$('#changePasswordBtn').unbind('click');
+	$('#changePasswordBtn').bind('click', function(){
+		youngjin.admin.user_password_clear($(this));		
 	});
 	
 	$('.admin_user_auth_list_select').unbind('change');
@@ -255,21 +256,34 @@ youngjin.admin.user_family_name_input_submit = function(target){
 	}		
 };
 
-youngjin.admin.user_password_clear = function(target){
-	var parent = target.parents();
-	var seq = target.parents().attr('data-seq');
+youngjin.admin.userPasswordChangePop = function(target){
+	var url = contextPath + '/admin/' + target.parents().attr('data-seq') + '/changePasswordPop';
+	
+	$.smartPop.open({
+		width: 300,
+		height: 100,
+		url : url
+	});	
+};
+
+youngjin.admin.user_password_clear = function(target){	
+	var seq = target.attr('data-seq');
+	var password = $('#changePassword').val();
 	
 	var url = contextPath + '/admin/clearPassword.json';
 	var json = {
-			"seq" : seq
+			"seq" : seq,
+			"newPassword":  password
 	};
 	
 	$.postJSON(url, json, function(user){
 		return jQuery.ajax({
 			success : function(){
-				target.html((user.password).substring(0, 10) + '...');
-				parent.parents().children('.admin_user_list_lastUpdate').html(user.lastUpdate);
-				parent.parents().children('.admin_user_list_lastUpdateBy').html(user.lastUpdateBy);
+				parent.$('#admin_user_list_password').html((user.password).substring(0, 10) + '...');
+				parent.$('.admin_user_list_lastUpdate').html(user.lastUpdate);
+				parent.$('.admin_user_list_lastUpdateBy').html(user.lastUpdateBy);
+				
+				parent.$.smartPop.close();
 			},
 			error : function(){
 				alert("에러 발생!");
@@ -277,6 +291,7 @@ youngjin.admin.user_password_clear = function(target){
 		});
 	});
 };
+
 /*
 youngjin.admin.user_auth_select_insert = function(target){
 	var url = contextPath + "/admin/authList.json";
