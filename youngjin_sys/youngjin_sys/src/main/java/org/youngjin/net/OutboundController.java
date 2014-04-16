@@ -492,7 +492,8 @@ public class OutboundController {
 		
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 		Pod pod = basicService.getPod(gbl.getPod());
-		
+		Carrier carrier = basicService.getCarrier(gbl.getTsp());
+		model.addAttribute("carrier", carrier);
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", gbl);
 		model.addAttribute("dd619", dd619);
@@ -517,7 +518,7 @@ public class OutboundController {
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 		Pod pod = basicService.getPod(gbl.getPod());
 		Carrier carrier = basicService.getCarrier(gbl.getTsp());
-		
+		System.out.println("===============gbl.getTsp : "+gbl.getTsp()+"===============================");
 		model.addAttribute("carrier",carrier);
 		model.addAttribute("branch",branch);
 		model.addAttribute("user", user);
