@@ -76,14 +76,13 @@
 			</tr>		
 			<tr>
 				<th>CARRIER NAME</th>
-				<td><form:input path="carrierName" /></td>
+				<td><form:input path="carrierName"  value="${carrier.scacFullName }" /></td>
 				<th>AGENT NAME</th>
 				<td><form:input path="agentName" value="YOUNGJIN T&T CO.LTD"/></td>
 			</tr>		
 			<tr>
 				<th>SINGNATURE</th>
-				<td><form:input path="signature" value="${branch.branchManager }" /></td>
-				<th>CARRIER'S SHIPMENT REFER</th>
+				<td><form:input path="signature" value="${branch.branchManager }" /></td>  
 				<td><form:input path="carrierShipmentReference"/></td>
 			</tr>		
 			<tr>
