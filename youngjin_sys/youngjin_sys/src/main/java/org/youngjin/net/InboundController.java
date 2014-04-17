@@ -940,11 +940,11 @@ public class InboundController {
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 		Company company = basicService.getCompanyByCode("YJ");
 		GBlock gblock = processService.getGBlockByGbloc(gbl.getGbloc());
-		
+				
 		model.addAttribute("branch", branch);
 		model.addAttribute("company", company);
 		model.addAttribute("gblock", gblock);
-
+		
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", gbl);
 		model.addAttribute("weight", inboundService.getWeightTotal(seq));
