@@ -207,7 +207,15 @@
                 <c:set var="totalPcs" value="0" />
                 <c:forEach var="truckContent" items="${truckList }" varStatus="i">
                 	<c:set var="totalPcs" value="${ totalPcs + truckContent.pcs }" />
-                	<c:set var="totalGross" value="${ totalGross + truckContent.lbs }" />
+                	<c:choose>
+                		<c:when test="${truckContent.code == '4'||truckContent.code == '5'||truckContent.code == '6'||truckContent.code == 'T' }">
+                			<c:set var="totalGross" value="${ totalGross + truckContent.netWeight }" />
+                		</c:when>
+                		<c:otherwise>
+                			<c:set var="totalGross" value="${ totalGross + truckContent.lbs }" />
+                		</c:otherwise>
+                	</c:choose>
+                	
                 	<c:set var="totalCuft" value="${ totalCuft + truckContent.cuft }" />
 	                <tr>
 	                    <td class="no">${ i.count }</td>
@@ -215,7 +223,15 @@
 	                    <td class="name">${truckContent.shipperName }</td>
 	                    <td class="gbl_no">${truckContent.gblNo }</td>
 	                    <td class="pcs">${truckContent.pcs }</td>
-	                    <td class="weight">${truckContent.lbs }</td>
+	                    <td class="weight">
+	                    <c:choose>
+	                		<c:when test="${truckContent.code == '4'||truckContent.code == '5'||truckContent.code == '6'||truckContent.code == 'T' }">
+	                			${ truckContent.netWeight }
+	                		</c:when>
+	                		<c:otherwise>
+	                			${ truckContent.lbs }
+	                		</c:otherwise>
+                		</c:choose></td>
 	                    <td class="cuft">${truckContent.cuft }</td>
 	                    <td class="yj_no">${truckContent.yjNo }</td>
 	                    <td class="code">${truckContent.code }</td>
