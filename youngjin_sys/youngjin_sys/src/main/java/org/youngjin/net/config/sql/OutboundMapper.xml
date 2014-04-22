@@ -664,7 +664,7 @@
 		</if>
 		<if test="startPud != null and startPud != ''">
 			AND
-				date &gt;= str_to_date(#{startDae}, '%Y%m%d')
+				date &gt;= str_to_date(#{startPud}, '%Y%m%d')
 		</if>
 		<if test="endPud != null and endPud != ''">
 			AND
@@ -685,7 +685,7 @@
 		</if>
 		<if test="startPud != null and startPud != ''">
 			AND
-				date &gt;= str_to_date(#{startDae}, '%Y%m%d')
+				date &gt;= str_to_date(#{startPud}, '%Y%m%d')
 		</if>
 		<if test="endPud != null and endPud != ''">
 			AND
