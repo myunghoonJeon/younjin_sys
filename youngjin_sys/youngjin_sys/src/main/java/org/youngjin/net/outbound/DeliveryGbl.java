@@ -22,6 +22,7 @@ public class DeliveryGbl {
 	private String destPort;
 	private String destState;
 	private String memo;
+	private String usNo;
 
 	private List<Weightcertificate> containerList;
 
@@ -186,6 +187,14 @@ public class DeliveryGbl {
 
 	public void setPod(String pod) {
 		this.pod = pod;
+	}
+
+	public String getUsNo() {
+		return usNo;
+	}
+
+	public void setUsNo(String usNo) {
+		this.usNo = usNo;
 	}
 
 	@Override

@@ -282,7 +282,7 @@
 					</c:choose>
 				</c:forEach> --%>
 				<td id="input">${gbl.destPort }</td>
-				<td id="input">${gbl.destState }</td>
+				<td id="input">${gbl.usNo }</td>
 				<td id="input"></td>
 			</tr>
 		</c:forEach>

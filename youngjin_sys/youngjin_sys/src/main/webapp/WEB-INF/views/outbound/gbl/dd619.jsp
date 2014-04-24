@@ -58,6 +58,7 @@
 	}
 	input{heigt:5px;font-family:arial; font-size:13px; border:0px dashed gray; font-weight:bolder;}
 	.q-text {font-family:arial; font-size:13px; border:0px dashed gray; font-weight:bolder;}
+	.q-text input{height:12px; font-size: 5px;}
 	p {margin: 0; padding: 0;}	.ft10{font-size:7px;font-family:Times;color:#000000;}
 	.ft11{font-size:7px;font-family:Times;color:#000000;}
 	.ft12{font-size:13px;font-family:Times;color:#000000;}
@@ -91,8 +92,8 @@
 <p style="position:absolute;top:223px;left:65px;white-space:nowrap" class="q-text"><input value="${dd619.name }"/></p>
 <p style="position:absolute;top:259px;left:65px;white-space:nowrap" class="q-text"><input value="XXX-XX-${dd619.ssn }"/></p>
 <p style="position:absolute;top:259px;left:260px;white-space:nowrap" class="q-text"><input value="${gbl.rank }"/></p>
-<p style="position:absolute;top:295px;left:65px;white-space:nowrap" class="q-text"><input value="${dd619.originOfShipment }"/></p>
-<p style="position:absolute;top:295px;left:260px;white-space:nowrap" class="q-text"><input value="${dd619.destination }"/></p>
+<p style="position:absolute;top:295px;left:65px;white-space:nowrap" class="q-text"><input value="${gbl.originAddress }" style="width: "/></p>
+<p style="position:absolute;top:295px;left:260px;white-space:nowrap" class="q-text"><input value="${gblock.remark }"/></p>
 <p style="position:absolute;top:343px;left:65px;white-space:pre-line; width: 180px; font-size: 8pt; font-weight: bold; font-family: arial;">${dd619.orderingActivityName }</p>
 <p style="position:absolute;top:343px;left:260px;white-space:nowrap" class="q-text"></p>
 <p style="position:absolute;top:385px;left:65px;white-space:nowrap" class="q-text"><input value="${dd619.carrierName }"/></p>

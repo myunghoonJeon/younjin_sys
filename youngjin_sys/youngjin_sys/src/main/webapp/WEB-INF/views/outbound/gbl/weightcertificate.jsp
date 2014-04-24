@@ -74,12 +74,12 @@
 						<li class="weightcertificate_column1">RANK / NAME OF OWNER</li>				
 						<li class="weightcertificate_column2"><input type="text" value="${gbl.rank } ${gbl.customerName}" /></li>
 						<li class="weightcertificate_column3">DATE</li>				
-						<li class="weightcertificate_column4"><input id="weightcertificate_date" type="text" value="${weightcertificateList[0].date }" /></li>
+						<li class="weightcertificate_column4"><input id="weightcertificate_date" type="text" value="${gbl.pud }" /></li>
 					</ul>
 
 					<ul>
 						<li class="weightcertificate_column1">ORIGIN</li>				
-						<li class="weightcertificate_column2"><input type="text" value="${gbl.areaLocal }"/></li>
+						<li class="weightcertificate_column2"><input type="text" value="${branch.branch }"/></li>
 						<li class="weightcertificate_column3">GBL NO</li>				
 						<li class="weightcertificate_column4"><input type="text" value="${gbl.no }" /></li>
 					</ul>

@@ -144,13 +144,13 @@
 			<tr style="text-align: center;">
 				<td id="inputstart">${gbl.no }</td>
 				<td id="inputstart">${gbl.shipper }</td>
-				<td id="inputstart">${gbl.area }</td>
+				<td id="inputstart">${gbl.area }/${gbl.usNo }/${gbl.scac }</td>
 				<td id="inputstart">${gbl.pod } / ${podMap[gbl.pod].podAgentName})</td>
 				<c:forEach var="weightCertificate" items="${gbl.containerList }" varStatus="i">
 					<c:choose>
 						<c:when test="${i.index eq 0 }">
 							<td id="inputstart">
-								${weightCertificate.gross }-${weightCertificate.tare }-${weightCertificate.cuft } ${weightCertificate.piece }
+								${weightCertificate.gross }-${weightCertificate.tare }-${weightCertificate.net }-${weightCertificate.cuft } ${weightCertificate.piece }
 							</td>
 							<td id="inputstart">
 								${weightCertificate.remark }
@@ -163,7 +163,7 @@
 								<td></td>
 								<td></td>
 								<td id="inputstart">
-									${weightCertificate.gross }-${weightCertificate.tare }-${weightCertificate.cuft } ${weightCertificate.piece }
+									${weightCertificate.gross }-${weightCertificate.tare }-${weightCertificate.net }-${weightCertificate.cuft } ${weightCertificate.piece }
 								</td>
 								<td id="inputstart">
 									${weightCertificate.remark }

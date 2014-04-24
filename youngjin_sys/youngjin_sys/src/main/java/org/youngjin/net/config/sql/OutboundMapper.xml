@@ -140,6 +140,7 @@
 	<result column="dest_port" property="destPort" />
 	<result column="dest_state" property="destState" />
 	<result column="memo" property="memo" />
+	<result column="us_no" property="usNo"/>
 	<collection property="containerList" column="seq" javaType="ArrayList" ofType="WeightCertificate" select="getContainerList" /> 
 </resultMap>
 
@@ -150,6 +151,8 @@
 	<result column="area" property="area" />
 	<result column="pod" property="pod" />
 	<result column="pcs" property="pcs" />
+	<result column="us_no" property="usNo" />
+	<result column="scac" property="scac"/>
 	<collection property="containerList" column="seq" javaType="ArrayList" ofType="WeightCertificate" select="getContainerList" />
 </resultMap>
 
@@ -351,7 +354,7 @@
 		g.bl_no,
 		g.truck_seq,
 		g.booking_seq,
-		g.totalPcs AS pcs,
+		g.totalPcs,
 		g.grossWeight,
 		g.netWeight AS net,
 		g.cuft,
@@ -412,7 +415,7 @@
 		g.bl_no,
 		g.truck_seq,
 		g.booking_seq,
-		g.totalPcs AS pcs,
+		g.totalPcs,
 		g.grossWeight,
 		g.netWeight AS net,
 		g.cuft,
@@ -721,6 +724,18 @@
 		<if test="truckManifastFlag == true">
 			AND g.seperate_flag &lt;&gt; true
 		</if>
+		<if test="branch != null and branch != ''">
+			AND		
+				g.area = #{branch}			
+		</if>
+		<if test="code != null and code != ''">
+			AND
+				g.code = #{code}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+				g.pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
 		AND g.seq IN (
 			SELECT
 				seq
@@ -764,6 +779,20 @@
 			g.no NOT LIKE '%-sub%'
 		AND
 			g.no NOT LIKE '%-house%'
+			
+		<if test="branch != null and branch != ''">
+			AND		
+				g.area = #{branch}			
+		</if>
+		<if test="code != null and code != ''">
+			AND
+				g.code = #{code}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+				g.pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
+		
 		GROUP BY g.no, w.truck_check
 		) a, gbl gt
 	WHERE
@@ -808,7 +837,7 @@
 			g.pud, g.scac, g.code, g.customer_name, g.rank, g.ssn,
 			g.no, g.mil_svc, g.origin_gblock, w.booking_check, 
 			SUM(w.cuft) AS cuft, SUM(w.gross) AS gross, SUM(w.net) AS net, COUNT(w.piece) AS pcs, 
-			g.dest_port, g.dest_state
+			g.dest_port, g.dest_state, g.us_no
 		FROM
 			gbl g, weight_certificate w
 		WHERE
@@ -839,7 +868,7 @@
 
 <select id="getTruckManifastPrint" parameterType="Integer" resultMap="TruckManifastGblMap">
 		SELECT
-			g.seq, g.no, g.customer_name, g.area, g.pod, COUNT(w.piece) AS pcs
+			g.seq, g.no, g.customer_name, g.area, g.pod, COUNT(w.piece) AS pcs, g.us_no, g.scac
 		FROM
 			gbl g, weight_certificate w
 		WHERE
