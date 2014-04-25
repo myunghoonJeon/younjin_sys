@@ -73,8 +73,7 @@
 									<option value="call">CALL</option>
 								</select>
 							</td>
-							<td><input class="on_hand_list_content_select_check" type="checkbox" value="${inboundInvoice.seq }" disabled="disabled"/></td>
-						</tr>
+							<td><input class="on_hand_list_content_select_check" type="checkbox" value="${inboundInvoice.seq }" disabled="disabled"/></td>						</tr>
 					</c:forEach>
 				</tbody>
 			</table>

@@ -1627,7 +1627,7 @@ youngjin.outbound.dd619Write = function(target){
 
 	parent.$.smartPop.open({
 		width: 1060,
-		height: 1760,
+		height: 1560,
 		url : url
 	});
 };
@@ -1646,7 +1646,7 @@ youngjin.outbound.dd619Print = function(target){
 		url : url
 	});	*/
 	
-	window.open(url, 'dd619Print', 'width=930.7, height: 1000, status=no');
+	window.open(url, 'dd619Print', 'width=1224, height: 1584, status=no');
 };
 
 youngjin.outbound.weightCertificate = function(target){

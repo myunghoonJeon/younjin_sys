@@ -80,8 +80,8 @@
 	.ft119{font-size:12px;line-height:22px;font-family:Times;color:#000000;}
 	.ft120{font-size:13px;line-height:22px;font-family:Times;color:#000000;}
 </style>
-<div id="page1-div" style="position:relative;width:918px;height:1188px;">
-<img width="918" height="1188" src="<c:url value='/resources/images/gbl/dd619Form2.jpg'/>" alt="background image"/>
+<div id="page1-div" style="position:relative;width:1224px;height:1584px;">
+<img width="1224px" height="1584px" src="<c:url value='/resources/images/gbl/DD-619test8.jpg'/>" alt="background image"/>
 
 
 <!-- ///////////////////////////////////////////input no ga da////////////////////////////////////////////////////////////////////// -->
