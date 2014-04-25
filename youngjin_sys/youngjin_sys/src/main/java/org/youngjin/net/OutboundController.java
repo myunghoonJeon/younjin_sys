@@ -518,9 +518,10 @@ public class OutboundController {
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 		Pod pod = basicService.getPod(gbl.getPod());
 		Carrier carrier = basicService.getCarrier(gbl.getTsp());
-		System.out.println("===============gbl.getTsp : "+gbl.getTsp()+"===============================");
+		GBlock gblock = processService.getGBlockByGbloc(gbl.getDestGBlock());
 		model.addAttribute("carrier",carrier);
 		model.addAttribute("branch",branch);
+		model.addAttribute("gblock", gblock);
 		model.addAttribute("user", user);
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
 		model.addAttribute("dd619", dd619);
@@ -543,6 +544,8 @@ public class OutboundController {
 		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
 		
 		model.addAttribute("gblock", processService.getGBlockByGbloc(gbl.getDestGBlock()));
+		
+		model.addAttribute("branch", basicService.getBranch(gbl.getAreaLocal()));
 		
 		model.addAttribute("containerList", outboundService.getContainerList());
 		
@@ -762,6 +765,24 @@ public class OutboundController {
 
 		return process + "/delivery/gblList";
 	}
+	
+	@RequestMapping(value = "/{process}/delivery/truckManifastGblList", method = RequestMethod.POST)
+	public String truckManifastGblListPost(Model model, User user,
+			@ModelAttribute OutboundFilter outboundFilter,
+			@PathVariable String process) {
+
+		outboundFilter.setTruckManifastFlag(true);
+		outboundFilter.getPagination().setNumItems(
+				outboundService.getGblListCount(outboundFilter, user));
+
+		model.addAttribute("filterMap", outboundService.getFilterMap());
+
+		model.addAttribute("gblList",
+				outboundService.getTruckGblList(outboundFilter));
+		model.addAttribute("user", user);
+
+		return process + "/delivery/gblList";
+	}
 
 
 	@RequestMapping(value = "/{process}/delivery/{seq}/truckSeperateSetting", method = RequestMethod.GET)
@@ -879,6 +900,24 @@ public class OutboundController {
 
 		return process + "/delivery/bookGblList";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@RequestMapping(value = "/{process}/delivery/bookingGblList", method = RequestMethod.POST)
+	public String bookingListGblListPost(Model model, User user,
+			@ModelAttribute OutboundFilter outboundFilter,
+			@PathVariable String process) {
+
+		outboundFilter.getPagination().setNumItems(
+				outboundService.getGblListCount(outboundFilter, user));
+
+		model.addAttribute("filterMap", outboundService.getFilterMap());
+
+		model.addAttribute("gblList",
+				outboundService.getBookingGblList(outboundFilter));
+		model.addAttribute("user", user);
+
+		return process + "/delivery/bookGblList";
+	}
 
 	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/{seq}/bookingListPrint", method = RequestMethod.GET)
@@ -938,6 +977,22 @@ public class OutboundController {
 	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/mil/tcmdGblSetting", method=RequestMethod.GET)
 	public String tcmdGblSetting(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
+
+		outboundFilter.getPagination().setNumItems(
+				outboundService.getTcmdGblListCount(outboundFilter));
+
+		model.addAttribute("filterMap", outboundService.getFilterMap());
+
+		model.addAttribute("gblList",
+				outboundService.getTcmdGblList(outboundFilter));
+		model.addAttribute("user", user);
+		
+		return process + "/delivery/tcmdGblList";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@RequestMapping(value = "/{process}/delivery/mil/tcmdGblSetting", method=RequestMethod.POST)
+	public String tcmdGblSettingPost(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
 
 		outboundFilter.getPagination().setNumItems(
 				outboundService.getTcmdGblListCount(outboundFilter));
