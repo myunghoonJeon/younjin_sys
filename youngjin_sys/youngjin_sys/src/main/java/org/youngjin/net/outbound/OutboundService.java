@@ -15,6 +15,8 @@ import org.youngjin.net.Dd619;
 import org.youngjin.net.GBL;
 import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
+import org.youngjin.net.basic.BasicService;
+import org.youngjin.net.basic.Company;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeDao;
 import org.youngjin.net.invoice.InvoiceService;
@@ -34,7 +36,7 @@ public class OutboundService {
 	
 	@Resource
 	private UploadService uploadService;
-
+	private BasicService basicService;
 	@Resource
 	private CodeDao codeDao;
 
@@ -414,7 +416,23 @@ public class OutboundService {
 
 		return bookingGblList;
 	}
-
+	
+	public List<PowerOfAttornyList> getPowerOfAttornyList(List<DeliveryGbl> list){
+		List<PowerOfAttornyList> poalist = new ArrayList<PowerOfAttornyList>();
+		PowerOfAttornyList poal;
+		for(int i=0;i<list.size();i++){
+			poal = new PowerOfAttornyList();
+			int tempSeq = Integer.parseInt(list.get(i).getSeq());
+			GBL gbl = getGbl(tempSeq);
+			Company company = basicService.getCompanyByCode("YJ");
+			poal.setGbl(gbl);
+			poal.setCompany(company);
+			poalist.add(poal);
+			
+		}
+		return poalist;
+	}
+	
 	public BookingList getBookingListOne(Integer seq) {
 		return outboundDao.getBookingListOne(seq);
 	}

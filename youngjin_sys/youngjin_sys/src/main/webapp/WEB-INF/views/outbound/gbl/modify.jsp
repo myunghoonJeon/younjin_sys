@@ -74,7 +74,7 @@
 				<td><form:input path="poe" /> </td>
 			</tr>
 			<tr>
-				<th>AREA</th>
+				<th>BRANCH</th>
 				<td><form:input path="areaLocal" /> </td>
 				<th>ADDRESS</th>
 				<td><form:input path="originAddress" /> </td>
@@ -82,7 +82,7 @@
 			<tr>
 				<th>US NO</th>
 				<td><form:input path="usNo" /> </td>
-				<th>DEST PORT</th>
+				<th>DEST ADDRESS</th>
 				<td><form:input path="destPort" /> </td>
 			</tr>
 			<tr>
@@ -135,7 +135,7 @@
 			</tr>
 			<tr>
 				<th colspan="2">HOUSE CONSIGNEE</th>
-				<td colspan="2"><form:textarea path="houseConsignee" /></td>
+				<td colspan="2"><form:textarea path="houseConsignee" rows="4" cols="45"/></td>
 			</tr>
 			<tfoot>
 				<tr>

@@ -70,6 +70,11 @@ youngjin.outbound.delivery.sync = function(){
 		youngjin.outbound.delivery.bookingPrint($(this));
 	});
 	
+	$('.powerofattorny_list_content').unbind('click');
+	$('.powerofattorny_list_content').bind('click', function(){
+		youngjin.outbound.delivery.powerofattornyPrint($(this));
+	});
+	
 	$('.declaration_list_content').unbind('click');
 	$('.declaration_list_content').bind('click', function(){
 		youngjin.outbound.delivery.declarationList($(this));
@@ -267,6 +272,12 @@ youngjin.outbound.delivery.bookingPrint = function(target){
 	var url = contextPath + '/outbound/delivery/' + seq + '/bookingListPrint';
 	
 	window.open(url ,'bookingListPrintPop', 'width=1263, height=892, status=no');
+};
+
+youngjin.outbound.delivery.powerofattornyPrint = function(target){
+	var seq = target.attr('data-bookSeq');
+	var url = contextPath + '/outbound/delivery/' + seq + '/powerOfAttornyPrint';
+	window.open(url ,'powerOfAttornyPop', 'width=1263, height=892, status=no');
 };
 
 youngjin.outbound.delivery.declarationList = function(target){

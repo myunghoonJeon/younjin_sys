@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ import org.youngjin.net.outbound.Addition;
 import org.youngjin.net.outbound.DeliveryGbl;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
+import org.youngjin.net.outbound.PowerOfAttornyList;
 import org.youngjin.net.outbound.PreMoveSurvey;
 import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.process.GBlock;
@@ -936,7 +938,28 @@ public class OutboundController {
 
 		return process + "/delivery/bookingListPrint";
 	}
+	
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@RequestMapping(value = "/{process}/delivery/{seq}/powerOfAttornyPrint", method = RequestMethod.GET)
+	public String powerOfAttornyPrint(Model model, User user,
+			@ModelAttribute OutboundFilter outboundFilter,
+			@PathVariable String process, @PathVariable Integer seq) {
+		
+		List<DeliveryGbl> list = outboundService.getBookingListPrint(seq);
+		List<PowerOfAttornyList> poalist = outboundService.getPowerOfAttornyList(list);
+		
+		model.addAttribute("powerOfAttornyList", poalist);
+		
+//		model.addAttribute("gblList", list);
+//		
+//		model.addAttribute("bookingList", outboundService.getBookingListOne(seq));
+//		
+//		model.addAttribute("user", user);
 
+		return process + "/delivery/powerOfAttornyListPrint";
+	}
+	
+	
 	@PreAuthorize("hasRole('ROLE_LEVEL4')")	
 	@RequestMapping(value = "/{process}/delivery/{seq}/declarationList", method = RequestMethod.GET)
 	public String declarationList(Model model, User user, @PathVariable String process, @PathVariable Integer seq) {
