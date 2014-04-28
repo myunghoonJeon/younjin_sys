@@ -1,6 +1,7 @@
 package org.youngjin.net.outbound;
 
 import java.awt.Container;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,20 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public GBL getGbl(Integer seq) {
 		return getSqlSession().selectOne("outboundMapper.getGbl", seq);
 	}
-
+	
+	public String getGblTruckDate(Integer seq){
+		List<String> list = getSqlSession().selectList("outboundMapper.getGblTruckDate",seq);
+		System.out.println("size:"+list.size());
+		String str="";
+		for(int i=0;i<list.size();i++){
+			str+=list.get(i)+" ,";
+		}
+		System.out.println(str);
+		return str;
+//		System.out.println(map.get("date").toString());
+//		return map.get("date").toString();
+	}
+	
 	public void insertAttachment(GBLAttachment gblAttachment) {
 		getSqlSession().insert("outboundMapper.insertAttachment", gblAttachment);		
 	}
@@ -218,7 +232,10 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void deleteTruckGbl(Integer seq) {
 		getSqlSession().update("outboundMapper.deleteTruckGbl", seq);
 	}
-
+	public void deleteBookingListGbl(Integer seq) {
+		getSqlSession().update("outboundMapper.deleteBookingListGbl", seq);
+	}
+	
 	public void deleteTruckManifast(Integer seq) {
 		getSqlSession().delete("outboundMapper.deleteTruckManifast", seq);
 	}
@@ -226,10 +243,18 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void deleteGblStatusByTruckManifast(Integer seq) {
 		getSqlSession().update("outboundMapper.deleteGblStatusByTruckManifast", seq);
 	}
+	
+	public void deleteGblStatusByBookingList(Integer seq) {
+		getSqlSession().update("outboundMapper.deleteGblStatusByBookingList", seq);
+	}	
 
 	public void deleteWeightCertificateByTruckManiafast(Integer seq) {
 		getSqlSession().update("outboundMapper.deleteWeightCertificateByTruckManifast", seq);
 	}
+	
+	public void deleteWeightCertificateByBookingList(Integer seq) {
+		getSqlSession().update("outboundMapper.deleteWeightCertificateByBookingList", seq);
+	}	
 
 	public void mergeGblWeight(GBL gbl) {
 		getSqlSession().delete("outboundMapper.mergeGblWeightCertificate", gbl);

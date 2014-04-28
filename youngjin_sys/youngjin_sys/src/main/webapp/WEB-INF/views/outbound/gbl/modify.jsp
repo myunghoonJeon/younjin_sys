@@ -134,6 +134,10 @@
 				<td><form:input path="netWeight" /></td>
 			</tr>
 			<tr>
+				<th colspan="2">TRUCK DATE</th>
+				<td colspan="2">${gbl.truckmanifastDate }</td>
+			</tr>
+			<tr>
 				<th colspan="2">HOUSE CONSIGNEE</th>
 				<td colspan="2"><form:textarea path="houseConsignee" rows="4" cols="45"/></td>
 			</tr>

@@ -23,8 +23,69 @@ public class DeliveryGbl {
 	private String destState;
 	private String memo;
 	private String usNo;
-
+	private Integer type11=0;
+	private Integer type125=0;
+	private Integer type91=0;
+	private Integer type49=0;
+	private Integer typeOf1=0;
+	private Integer typeOf2=0;
+	private Integer typeSp=0;
 	private List<Weightcertificate> containerList;
+	public Integer getType11() {
+		return type11;
+	}
+
+	public void setType11() {
+		this.type11++;
+	}
+
+	public Integer getType125() {
+		return type125;
+	}
+
+	public void setType125() {
+		this.type125++;
+	}
+
+	public Integer getType91() {
+		return type91;
+	}
+
+	public void setType91() {
+		this.type91++;
+	}
+
+	public Integer getType49() {
+		return type49;
+	}
+
+	public void setType49() {
+		this.type49++;
+	}
+
+	public Integer getTypeOf1() {
+		return typeOf1;
+	}
+
+	public void setTypeOf1() {
+		this.typeOf1++;
+	}
+
+	public Integer getTypeOf2() {
+		return typeOf2++;
+	}
+
+	public void setTypeOf2() {
+		this.typeOf2++;
+	}
+
+	public Integer getTypeSp() {
+		return typeSp;
+	}
+
+	public void setTypeSp() {
+		this.typeSp++;
+	}
 
 	public String getPud() {
 		return pud;

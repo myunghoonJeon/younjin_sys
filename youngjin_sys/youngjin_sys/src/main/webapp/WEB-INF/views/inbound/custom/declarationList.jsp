@@ -28,6 +28,10 @@
 		</script>
 	</c:if>
 	
+	<form:form commandName="inboundFilter" method="get">
+		<form:hidden path="page" value="${pagination.currentPage}"/>
+	</form:form>
+	
 	<div class="gbl_filter">	
 		<ul class="freight_filter_wrap">
 			<li>	
@@ -41,6 +45,20 @@
 			<tfoot>
 				<tr>
 					<td colspan="13">
+					<!-- 
+						<a href="javascript:void(goToPage(1))">FIRST</a>
+						<a href="javascript:void(goToPreviousPages())">PREV</a>
+						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
+							<c:if test="${i == pagination.currentPage}">
+								<a class="page_now">${i}</a>
+							</c:if>
+							<c:if test="${i != pagination.currentPage}">
+								<a href="javascript:void(goToPage(${i}))">${i}</a>
+							</c:if>
+						</c:forEach>
+						<a href="javascript:void(goToNextPages())">NEXT</a>
+						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
+						 -->
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">

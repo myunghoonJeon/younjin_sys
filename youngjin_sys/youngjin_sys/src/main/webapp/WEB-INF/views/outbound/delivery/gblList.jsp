@@ -84,6 +84,12 @@
 							<form:input path="startPud"/>
 						</li>
 						<li>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRUCK MANIFAST DATE : 
+						</li>
+						<li>
+							<input type="text" id="truckdate" />
+						</li>
+						<li>
 							<span class="truck_gbl_addButton yj_button" >add</span>
 						</li>
 					<form:hidden path="page" value="${pagination.currentPage}"/>

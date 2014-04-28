@@ -171,7 +171,10 @@ public class OutboundController {
 			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process, @PathVariable Integer seq) {
 		
 		GBL modifyGbl =  outboundService.getGbl(seq);
+		String td= outboundService.getGblTruckDate(modifyGbl.getSeq()); 
+		modifyGbl.setTruckmanifastDate(td);
 		
+		System.out.println("[[[[[[[[[[[[[[[[[ truck date : "+modifyGbl.getTruckmanifastDate()+"]]]]]]]]]]]]]]]]]]]]]]]]]");
 		model.addAttribute("user", user);		
 		model.addAttribute("gbl", modifyGbl);
 		
@@ -560,10 +563,15 @@ public class OutboundController {
 	@RequestMapping(value = "/{process}/{seq}/weightcertificate/print", method = RequestMethod.GET)
 	public String weightcertificatePrint(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
-
+		
 		model.addAttribute("seq", seq);
 		model.addAttribute("weightcertificateList",
 				outboundService.getWeightcertificateList(seq));
+		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
+		
+		model.addAttribute("gblock", processService.getGBlockByGbloc(gbl.getDestGBlock()));
+		
+		model.addAttribute("branch", basicService.getBranch(gbl.getAreaLocal()));
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
 
 		return process + "/gbl/weightcertificatePrint";
@@ -928,14 +936,22 @@ public class OutboundController {
 			@PathVariable String process, @PathVariable Integer seq) {
 
 		List<DeliveryGbl> list = outboundService.getBookingListPrint(seq);
-		
-
+		List<Weightcertificate> c;
+		for(int i=0;i<list.size();i++){
+			 c = list.get(i).getContainerList();
+			 for(int k=0;k<c.size();k++){
+				 int cuft = Integer.parseInt(c.get(k).getCuft());
+				 if(cuft>=0 && cuft<180){
+					 list.get(i).setTypeOf1();
+				 }
+				 else if(cuft>=180 && cuft<208){
+					 list.get(i).setType11();
+				 }
+			 }
+		}
 		model.addAttribute("gblList", list);
-		
 		model.addAttribute("bookingList", outboundService.getBookingListOne(seq));
-		
 		model.addAttribute("user", user);
-
 		return process + "/delivery/bookingListPrint";
 	}
 	
@@ -947,7 +963,6 @@ public class OutboundController {
 		
 		List<DeliveryGbl> list = outboundService.getBookingListPrint(seq);
 		List<PowerOfAttornyList> poalist = outboundService.getPowerOfAttornyList(list);
-		
 		model.addAttribute("powerOfAttornyList", poalist);
 		
 //		model.addAttribute("gblList", list);

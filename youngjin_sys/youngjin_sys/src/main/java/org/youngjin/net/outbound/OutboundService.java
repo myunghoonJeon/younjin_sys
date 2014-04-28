@@ -36,7 +36,10 @@ public class OutboundService {
 	
 	@Resource
 	private UploadService uploadService;
+	
+	@Resource
 	private BasicService basicService;
+	
 	@Resource
 	private CodeDao codeDao;
 
@@ -47,7 +50,8 @@ public class OutboundService {
 
 		return outboundDao.getGblListCount(outboundFilter);
 	}
-
+	
+	
 	public List<GBL> getGblList(OutboundFilter outboundFilter, User user) {
 		if(!"LEVEL4".equals(user.getAuthStr()) && !"LEVEL3".equals(user.getAuthStr()) && !"LEVEL2".equals(user.getAuthStr())){
 			outboundFilter.setArea("0" + user.getArea().toString());
@@ -144,7 +148,11 @@ public class OutboundService {
 	public GBL getGbl(Integer seq) {
 		return outboundDao.getGbl(seq);
 	}
-
+	
+	public String getGblTruckDate(Integer seq){
+		return outboundDao.getGblTruckDate(seq);
+	}
+	
 	public List<GBLAttachment> getGblFileList(Integer seq) {
 		return outboundDao.getGblFileList(seq);
 	}
@@ -303,11 +311,12 @@ public class OutboundService {
 		String[] gblSeqList = gblSeq.get("gblSeq").split(",");
 
 		GBL gbl = getGbl(Integer.parseInt(gblSeqList[0]));
-
+		
 		TruckManifast truckManifast = new TruckManifast();
 		truckManifast.setBranch(gbl.getAreaLocal());
 		truckManifast.setCode(gbl.getCode());
-
+		truckManifast.setDate(gblSeq.get("truckdate"));
+		
 		outboundDao.insertTurckManifast(truckManifast);
 
 		for (int i = 0; i < gblSeqList.length; i++) {
@@ -408,27 +417,38 @@ public class OutboundService {
 	}
 
 	public void deleteBookingList(Map<String, String> bookingSeq) {
+		// TODO:
+		Integer seq = Integer.valueOf(bookingSeq.get("seq"));
+		System.out.println("SEQ:"+seq);
+		
+		outboundDao.deleteGblStatusByBookingList(seq);
+		System.out.println("[[[[[[[[[[[[[1]]]]]]]]]]]");
+		outboundDao.deleteWeightCertificateByBookingList(seq);
+		System.out.println("[[[[[[[[[[[[[2]]]]]]]]]]]");
+		outboundDao.deleteBookingListGbl(seq);
+		System.out.println("[[[[[[[[[[[[[3]]]]]]]]]]]");
 		outboundDao.deleteBookingList(bookingSeq);
+		System.out.println("[[[[[[[[[[[[[4]]]]]]]]]]]");
 	}
 
 	public List<DeliveryGbl> getBookingListPrint(Integer seq) {
 		List<DeliveryGbl> bookingGblList = outboundDao.getBookingListPrint(seq);
-
 		return bookingGblList;
 	}
 	
 	public List<PowerOfAttornyList> getPowerOfAttornyList(List<DeliveryGbl> list){
 		List<PowerOfAttornyList> poalist = new ArrayList<PowerOfAttornyList>();
 		PowerOfAttornyList poal;
+		Company company;
 		for(int i=0;i<list.size();i++){
 			poal = new PowerOfAttornyList();
 			int tempSeq = Integer.parseInt(list.get(i).getSeq());
 			GBL gbl = getGbl(tempSeq);
-			Company company = basicService.getCompanyByCode("YJ");
+			
+			company = basicService.getCompanyByCode("YJ");
 			poal.setGbl(gbl);
 			poal.setCompany(company);
 			poalist.add(poal);
-			
 		}
 		return poalist;
 	}
@@ -576,12 +596,13 @@ public class OutboundService {
 
 	public void deletManifast(Integer seq) {
 		outboundDao.deleteGblStatusByTruckManifast(seq);
-
+		System.out.println("[[[[[[[[[[[[[1]]]]]]]]]]]");
 		outboundDao.deleteWeightCertificateByTruckManiafast(seq);
-
+		System.out.println("[[[[[[[[[[[[[2]]]]]]]]]]]");
 		outboundDao.deleteTruckGbl(seq);
-
+		System.out.println("[[[[[[[[[[[[[3]]]]]]]]]]]");
 		outboundDao.deleteTruckManifast(seq);
+		System.out.println("[[[[[[[[[[[[[4]]]]]]]]]]]");
 	}
 
 	public void mergeSubmit(Map<String, String> gblMap) {
@@ -615,21 +636,20 @@ public class OutboundService {
 
 	public void insertTcmdList(Map<String, String> gblSeq) {
 		String[] gblSeqList = gblSeq.get("seqList").split(",");
-		
 		List<GBL> gblArmyList = new ArrayList<GBL>();
 		List<GBL> gblForceList = new ArrayList<GBL>();
+		
 		for( String seq : gblSeqList){
 			GBL gblArmy = outboundDao.getMilSvcGbl(seq, "A");
 			if(gblArmy != null)
 				gblArmyList.add(gblArmy);
 		}
 
-		for( String seq : gblSeqList){			
+		for( String seq : gblSeqList){
 			GBL gblForce = outboundDao.getMilSvcGbl(seq, "F");
 			if(gblForce != null)
 				gblForceList.add(gblForce);
 		}
-		
 		String oneTcmdFlag = "";
 		if(gblArmyList.size() > 0){
 			oneTcmdFlag = gblArmyList.get(0).getNo();
@@ -639,20 +659,30 @@ public class OutboundService {
 		
 		if(gblArmyList.size() > 0){			
 			GBL gbl = gblArmyList.get(0);
-	
 			Tcmd tcmd = setTcmd(gbl);
 			tcmd.setOneTcmdFlag(oneTcmdFlag);
+			int gross=0;
+			int cuft=0;
+			int piece=0;
+			for( GBL gblTemp : gblArmyList){
+				gross += Integer.parseInt(gblTemp.getLbs());
+				cuft += Integer.parseInt(gblTemp.getCuft());
+				piece += Integer.parseInt(gblTemp.getPcs());
+			}
 			
+			tcmd.setWeight(gross+"");
+			tcmd.setPieces(piece+"");
+			tcmd.setCube(cuft+"");
 			outboundDao.insertTcmd(tcmd);
 			
 			for( GBL gblTemp : gblArmyList){
 				Map<String, Integer> seqMap = new HashMap<String, Integer>();
 				seqMap.put("gblSeq", gblTemp.getSeq());
 				seqMap.put("tcmdSeq", tcmd.getSeq());
-							
 				outboundDao.insertTcmdGblList(seqMap);
 			}
-		}
+			
+		}//gblArmyList case
 		
 		if(gblForceList.size() > 0){		
 			GBL gbl = gblForceList.get(0);
@@ -666,7 +696,6 @@ public class OutboundService {
 				Map<String, Integer> seqMap = new HashMap<String, Integer>();
 				seqMap.put("gblSeq", gblTemp.getSeq());
 				seqMap.put("tcmdSeq", tcmd.getSeq());
-							
 				outboundDao.insertTcmdGblList(seqMap);
 			}			
 		}
@@ -679,14 +708,15 @@ public class OutboundService {
 	public List<GBL> getTcmdContentGblList(Integer seq) {
 		return outboundDao.getTcmdContentGblList(seq);
 	}
-
+	
 	private Tcmd setTcmd(GBL gbl) {
 		Tcmd tcmd = new Tcmd();
-
+		
 		if (gbl.getCode().equals("J")) {
 			tcmd.setDocId("TFD");
 		} else if (gbl.getCode().equals("T")) {
 			tcmd.setDocId("TH1");
+			tcmd.setTrAcct("F48D");
 		}
 
 		// 용산,동두천, 대구,평택,부산,의정부

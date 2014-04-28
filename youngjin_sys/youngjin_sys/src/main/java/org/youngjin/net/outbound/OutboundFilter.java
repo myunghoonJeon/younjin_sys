@@ -14,13 +14,13 @@ public class OutboundFilter extends AbstractListFilter {
 	private String area;
 
 	private Boolean truckManifastFlag = false;
-
+	
 	private Boolean houseBlFlag = false;
 
 	private String searchTitle;
 
 	private String searchContent;
-
+	
 	public String getArea() {
 		return area;
 	}

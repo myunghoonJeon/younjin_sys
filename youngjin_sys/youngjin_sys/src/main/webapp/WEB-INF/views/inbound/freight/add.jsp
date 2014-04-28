@@ -161,6 +161,10 @@
 				<th>REMARK</th>
 				<td><form:input path="remark" /> </td>
 			</tr>
+			<tr>
+				<th colspan="2">TRUCK DATE</th>
+				<td colspan="2"> ${gbl.truckDate }</td>
+			</tr>
 			<tfoot>
 				<tr>
 					<td colspan="4"><input class="${(gbl.seq ne null and gbl.seq ne '') ? 'freight_update_submit_button' : 'freight_add_submit_button' }" type="button" value="${(gbl.seq ne null and gbl.seq ne '') ? 'update' : 'add' }"/></td>

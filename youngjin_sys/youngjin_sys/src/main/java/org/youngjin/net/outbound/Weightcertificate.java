@@ -13,7 +13,7 @@ public class Weightcertificate {
 	private String remark;
 	private Integer gblSeq;
 	private String date;
-
+	
 	private Boolean truckCheck;
 	private Integer truckSeq;
 
@@ -25,6 +25,8 @@ public class Weightcertificate {
 
 	private Integer weightListSeq;
 
+	
+	
 	public Integer getBaseWeightSeq() {
 		return baseWeightSeq;
 	}

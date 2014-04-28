@@ -585,6 +585,7 @@ youngjin.inbound.onHandSync = function(){
 	
 	$('.truck_gbl_onHand_addbutton').unbind('click');
 	$('.truck_gbl_onHand_addbutton').bind('click', function(){
+//		$(this).parents('tr').attr('data-delete', 'delete');
 		youngjin.inbound.truckGblOnHandInsert($(this));
 	});
 	
@@ -1978,7 +1979,7 @@ youngjin.inbound.onHandListFormPrint = function(target){
 	window.open(url, 'onHandListFormPrint', 'width=1263, height=892, status=no, scrollbars=no');
 };
 
-youngjin.inbound.getTruckmainifastGblList = function(target){
+youngjin.inbound.getTruckmainifastGblList = function(target){//check
 	var url = contextPath + '/inbound/onHand/truckManifastOnhandList';
 	
 	$.smartPop.open({
@@ -1990,8 +1991,10 @@ youngjin.inbound.getTruckmainifastGblList = function(target){
 
 youngjin.inbound.truckGblOnHandInsert = function(target){
 	var onHandSeq = '';
+	var gblSeq='';
 	$(':checkbox:checked').each(function(){
 		onHandSeq = onHandSeq + $(this).val() + ",";
+		gblSeq=gblSeq+$(this).parents('tr').attr('data-seq')+",";
 	});		
 	
 	
@@ -2003,7 +2006,8 @@ youngjin.inbound.truckGblOnHandInsert = function(target){
 	var json = {
 		'truckManifastDate' : truckManifastDate,
 		'area' : area,
-		'onHandSeq' : onHandSeq
+		'onHandSeq' : onHandSeq,
+		'gblSeqList':gblSeq
 	};
 	
 	$.postJSON(url, json, function(){

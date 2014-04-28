@@ -105,7 +105,7 @@
 	    <input name="remark"    type="text" class="q-row-3" style="left:402px; width:358px;"value="${tcmd.remark}" />
 	    <input name="pieces"    type="text" class="q-row-3" style="left:767px; width:55px;"  value="${tcmd.pieces}"/>
 	    <input name="weight"    type="text" class="q-row-3" style="left:829px; width:44px;"  value="${tcmd.weight}"/>
-	    <input name="cube"    type="text" class="q-row-3" style="left:880px; width:81px;"  value="${tcmd.cube}"/>
+	    <input name="cube"    type="text" class="q-row-3" style="left:880px; width:81px;"  value="${tcmd.cube}tttt"/>
 	    
 	    <input name="q-27a-1" type="text" class="q-row-4" style="left:56px;  width:139px;" />
 	    <input name="q-27b-1" type="text" class="q-row-4" style="left:202px; width:50px;"  />
@@ -191,7 +191,7 @@
 		</c:forEach>
 	</div>
 
-    <input name="q-32-2"  type="text" class="q-row-B" style="left:56px;  width:21px;"  />
+    
     <input name="q-33-2"  type="text" class="q-row-B" style="left:85px;  width:39px;"  />
     <input name="q-34-2"  type="text" class="q-row-B" style="left:131px; width:52px;"  />
     <input name="q-35-2"  type="text" class="q-row-B" style="left:190px; width:61px;"  />

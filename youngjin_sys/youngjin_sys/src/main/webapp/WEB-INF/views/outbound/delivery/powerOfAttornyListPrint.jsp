@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
@@ -153,8 +154,13 @@
         </style>
     </head>
     <body style="background-color: white;" onload="window.print();">
+    	
+    	<c:forEach var="powerOfAttorny" items="${powerOfAttornyList }" varStatus="status">
+    		<c:if test="${not status.first }">
+			<div style='page-break-after:always'></div>
+			</c:if>
+    	<c:set var="gbl" value="${powerOfAttorny.gbl }"/>
         <h1>POWER OF ATTORNEY</h1>
-        
         <div id="mail">
             <div class="to_subject">
                 <label for="textarea">To :</label>
@@ -167,7 +173,7 @@
             </div>
             
             <div class="spec">
-                <p><span class="weight_title">Name of Owner</span> : <c:out value="${gbl.rank}" /> <c:out value="${gbl.customerName}" /></p>
+                <p><span class="weight_title">Name of Owner</span> : <c:out value="${gbl.rank}" /> <c:out value="${gbl.customerName}" />&nbsp;&nbsp;&nbsp;000 - 00 - <c:out value="${fn:substring(gbl.ssn, 5, 9)}"/></p>
                 <p><span class="weight_title">Gross Weight</span> : <span class="weight"><c:out value="${gbl.lbs}" /></span>&nbsp;Lbs
                 <p><span class="weight_title">Net Weight</span> : <span class="weight"><c:out value="${gbl.netWeight}" /></span>&nbsp;Lbs
                 <p><span class="weight_title">Booked Vessel</span> : </p>
@@ -190,5 +196,7 @@
             
             <div style="clear: both; text-align: left; margin-left: -2em;">Youngjin Form</div>
         </div>
+        </c:forEach>
+        
     </body>
 </html>

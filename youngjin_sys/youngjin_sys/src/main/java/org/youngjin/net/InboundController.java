@@ -347,10 +347,24 @@ public class InboundController {
 			@PathVariable String process,
 			@ModelAttribute InboundFilter inboundFilter) {
 
+//		user.setSubProcess("inboundInvoice");
+//
+//		inboundFilter.getPagination().setNumItems(
+//				inboundService.getInboundInvoiceListCount(inboundFilter));
+//
+//		model.addAttribute("inboundInvoiceList",
+//				inboundService.getInboundInvoiceList(inboundFilter));
+//
+//		model.addAttribute("user", user);
+//
+//		return process + "/custom/inboundInvoice";
+		
 		user.setSubProcess("declare");
+		System.out.println("count:"+inboundService.getDeclarationListCount(inboundFilter));
 		inboundFilter.getPagination().setNumItems(
 				inboundService.getDeclarationListCount(inboundFilter));
-
+		System.out.println("currentpage:"+inboundFilter.getPagination().getCurrentPage());
+		
 		List<InboundInvoice> declarationList = inboundService
 				.getDeclarationList(inboundFilter);		
 		model.addAttribute("declarationList", declarationList);

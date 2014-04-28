@@ -879,7 +879,6 @@ youngjin.outbound.preMoveSurveyEditSubmit = function(target){
 					url : beforeUrl
 				});				
 			},
-			
 			error : function(){
 				alert("error!");
 			}

@@ -31,7 +31,7 @@
 <body>
 	<div class="on_hand_list_add_setting_wrap">
 		<div class="pop_title_line">
-			<span>TRUCKMANIFAST DATE INPUT</span>
+			<span>ON HAND LIST ADD SETTING</span>
 		</div>
 		<div class="yj_button_wrap">
 			<ul class="yj_button_list on_hand_list_add_button_list">

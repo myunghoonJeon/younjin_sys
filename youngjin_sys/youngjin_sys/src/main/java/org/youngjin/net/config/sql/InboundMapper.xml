@@ -308,7 +308,8 @@
 			g.itemsPieces,
 			g.grossWeight,
 			g.netWeight,
-			g.storedAt
+			g.storedAt,
+			g.truckDate
 		FROM
 			gbl_ib g
 		WHERE
@@ -1447,7 +1448,31 @@
 			SELECT LAST_INSERT_ID() 			
 		</selectKey>
 	</insert>
-	
+	<update id="insertGblTruckDate" parameterType="Map">
+		UPDATE
+			gbl_ib
+		SET
+			truckDate = #{truckDate}
+		WHERE
+			seq = #{gblSeq}
+	</update>
+	<!-- 
+	<update id="updateReweightCheck" parameterType="Map">
+		UPDATE
+			gbl_ib
+		SET
+			reweightCheck = #{check}
+		WHERE
+			<choose>
+				<when test="seq != null">
+					seq = #{seq}
+				</when>
+				<when test="reweightSeq != null">
+					seq in (select gblSeq from reweight_Content where reweightSeq = #{reweightSeq})
+				</when>
+			</choose>
+	</update>
+	 -->
 	<select id="getTruckManifastSeqList" parameterType="Integer" resultType="Integer">
 		SELECT
 			DISTINCT truckSeq

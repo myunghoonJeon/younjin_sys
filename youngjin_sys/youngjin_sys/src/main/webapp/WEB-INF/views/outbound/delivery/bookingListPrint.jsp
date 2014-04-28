@@ -253,9 +253,13 @@
 				<td id="input">${gbl.cuft }</td>
 				<td id="input">${gbl.gross }</td>
 				<td id="input">${gbl.net }</td>
-				<c:forEach begin="1" end="7">
-					<td id="input"></td>
-				</c:forEach>
+				<td id="input">${gbl.type11 }</td>
+				<td id="input">${gbl.type125 }</td>
+				<td id="input">${gbl.type91 }</td>
+				<td id="input">${gbl.type49 }</td>
+				<td id="input">${gbl.typeOf1 }</td>
+				<td id="input">${gbl.typeOf2 }</td>
+				<td id="input">${gbl.typeSp }</td>
 			<%-- 	<c:forEach var="container" items="${gbl.containerList}" >
 					<c:choose>
 						<c:when test="${container.type eq '11'}">
@@ -283,7 +287,7 @@
 				</c:forEach> --%>
 				<td id="input">${gbl.destPort }</td>
 				<td id="input">${gbl.usNo }</td>
-				<td id="input"></td>
+				<td id="input"><input style="border:none;"></td>
 			</tr>
 		</c:forEach>
 		<%-- <%for(int i=0;i<arr.size();i++){//여기서 부킹리스트 들어간만큼 포문돌면서 채워너야하는데 총 21개의 td가 존재 각각의 갑응ㄹ 끌어와야하는데 끌어오는 형태를 몰라서 더이상 진행 X

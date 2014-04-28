@@ -4,7 +4,7 @@ public class TruckManifast {
 	private Integer seq;
 	private String truckManifastDate;
 	private String area;
-
+	
 	private Integer onHandListContentSeq;
 
 	public Integer getSeq() {

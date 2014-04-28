@@ -236,7 +236,6 @@ public class InboundService {
 		GBL gbl = inboundDao.getGbl(seq);
 		
 		List<WeightIb> weightList = inboundDao.getWeightList(seq);
-		
 		Integer totalGross = 0;
 		Integer totalNet = 0;
 		Integer totalCuft = 0;
@@ -608,6 +607,7 @@ public class InboundService {
 		String truckManifastDate = resultMap.get("truckManifastDate");
 		String area = resultMap.get("area");
 		String [] onHandListSeqList = resultMap.get("onHandSeq").split(",");
+		String [] gblSeqList = resultMap.get("gblSeqList").split(",");
 		
 		TruckManifast truckManifast = new TruckManifast();
 		truckManifast.setTruckManifastDate(truckManifastDate);
@@ -615,9 +615,16 @@ public class InboundService {
 		
 		inboundDao.insertTruckManifast(truckManifast);
 		
+		for(String gblSeq : gblSeqList){
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("gblSeq", gblSeq);
+			map.put("truckDate", truckManifastDate);
+			System.out.println("gblSeq : "+gblSeq);
+			inboundDao.insertGblTruckdate(map);
+		}
+		
 		for(String onHandSeq : onHandListSeqList){
 			truckManifast.setOnHandListContentSeq(Integer.parseInt(onHandSeq));
-			
 			inboundDao.insertTruckManifastOnHand(truckManifast);
 		}
 	}

@@ -40,7 +40,7 @@ public class GBL {
 	private String export;
 	private String originGBlock;
 	private String destGBlock;
-
+	private String truckmanifastDate;
 	private String originCity;
 
 	private String milSVC;
@@ -101,6 +101,23 @@ public class GBL {
 	private String netWeight;
 	private String storedAt;
 	private String onHandContentSeq;
+	private String truckDate;
+	
+	public String getTruckmanifastDate() {
+		return truckmanifastDate;
+	}
+
+	public void setTruckmanifastDate(String truckmanifastDate) {
+		this.truckmanifastDate = truckmanifastDate;
+	}
+
+	public String getTruckDate() {
+		return truckDate;
+	}
+
+	public void setTruckDate(String k) {
+		this.truckDate = k;
+	}
 
 	// reweight
 	private String deliDate;

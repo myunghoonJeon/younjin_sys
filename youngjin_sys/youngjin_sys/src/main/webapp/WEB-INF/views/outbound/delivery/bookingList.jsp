@@ -35,11 +35,12 @@
 	<div>
 		<table class="yj_table">
 			<colgroup>
+				<col width="10%">
 				<col width="20%">
 				<col width="20%">
 				<col width="20%">
 				<col width="20%">
-				<col width="20%">
+				<col width="10%">
 			</colgroup>		
 			<thead>
 				<tr>
@@ -48,8 +49,27 @@
 					<th>POWER OF ATTORNY</th>
 					<th>BOOKINGLIST</th>
 					<th>DECLARATION</th>
+					<th></th>
 				</tr>
 			</thead>
+					
+			<tbody>
+				<c:if test="${bookingList eq '[]' or bookingList eq null }">
+					<tr>
+						<td colspan="5">등록된 정보가 없습니다.</td>
+					</tr>
+				</c:if>
+				<c:forEach var="book" items="${bookingList }" varStatus="i">
+					<tr data-bookSeq="${book.seq }">
+						<td>${i.count }</td>
+						<td>${book.writeDate }</td>
+						<td><button  class="powerofattorny_list_content yj_button">print</button></td>
+						<td><button  class="booking_list_content yj_button">print</button></td>
+						<td><button  class="declaration_list_content yj_button">print</button></td>
+						<td class="booking_deleteButton"><img src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
+					</tr>
+				</c:forEach>
+			</tbody>
 			<tfoot>
 				<tr>
 					<td colspan="5">
@@ -67,23 +87,7 @@
 						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
 					</td>
 				</tr>
-			</tfoot>			
-			<tbody>
-				<c:if test="${bookingList eq '[]' or bookingList eq null }">
-					<tr>
-						<td colspan="5">등록된 정보가 없습니다.</td>
-					</tr>
-				</c:if>
-				<c:forEach var="book" items="${bookingList }" varStatus="i">
-					<tr>
-						<td>${i.count }</td>
-						<td>${book.writeDate }</td>
-						<td><button data-bookSeq="${book.seq }" class="powerofattorny_list_content yj_button">print</button></td>
-						<td><button data-bookSeq="${book.seq }" class="booking_list_content yj_button">print</button></td>
-						<td><button data-bookSeq="${book.seq }" class="declaration_list_content yj_button">print</button></td>
-					</tr>
-				</c:forEach>
-			</tbody>
+			</tfoot>	
 		</table>
 	</div>	
 	

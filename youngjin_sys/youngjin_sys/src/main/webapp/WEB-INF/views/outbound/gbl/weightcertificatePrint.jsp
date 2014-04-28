@@ -38,9 +38,9 @@
 
 <style type="text/css">
 <!--
-	p {margin: 0; padding: 0;}	.ft10{font-size:12px;font-family:Times;color:#000000;}
+	p {margin: 0; padding: 0;}	.ft10{font-size: 14px;font-family:Times;color:#000000;}
 	.ft11{font-size:14px;font-family:Times;color:#000000;}
-	.ft12{font-size:12px;font-family:Times;color:#ff0000;}
+	.ft12{font-size: 14px;font-family:Times;color:#ff0000;}
 	.ft13{font-size:34px;font-family:Times;color:#000000;}
 	.ft14{font-size:28px;font-family:Times;color:#000000;}
 -->
@@ -114,7 +114,7 @@
  	</tr>
  	<tr>
  		<td style="width: 7cm; ">　</td>
- 		<td style="width: 7cm; font-size: 15px; font-weight: bold">CERTIFIED WEIGHT TICKET</td>
+ 		<td style="width: 7cm; font-size: 15px; font-weight: bold"> WEIGHT TICKET</td>
  		<td style="width: 7cm; ">　</td>
  	</tr>
  	<tr>
@@ -124,38 +124,38 @@
 <table border="0" cellspacing="0">
  	<tr>
  		<td style="width: 1cm;"></td>
- 		<td style="width: 5cm; font-size: 12px;">RANK/NAME OF OWNER</td>
- 		<td style="width: 5cm; font-size: 12px;border-bottom: solid; border-width: thin;">${gbl.rank}　${gbl.customerName }</td>
+ 		<td style="width: 7cm; font-size: 14px;">RANK/NAME OF OWNER</td>
+ 		<td style="width: 5cm; font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.rank}　${gbl.customerName }</td>
  		<td style="width: 1.5cm"></td>
- 		<td style="width: 2cm;font-size: 12px">DATE</td>
- 		<td style="width: 5cm;font-size: 12px;border-bottom: solid; border-width: thin;">${weightcertificateList[0].date }</td>
+ 		<td style="width: 2cm;font-size: 14px">DATE</td>
+ 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${weightcertificateList[0].date }</td>
  		<td style="width: 1cm;"></td>
  	</tr>
  	<tr>
  		<td style="width: 1cm;"></td>
- 		<td style="width: 5cm;font-size: 12px">ORIGIN</td>
- 		<td style="width: 5cm;font-size: 12px;border-bottom: solid; border-width: thin;"></td>
+ 		<td style="width: 5cm;font-size: 14px">ORIGIN</td>
+ 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${branch.branch }</td>
  		<td style="width: 1.5cm"></td>
- 		<td style="width: 2cm;font-size: 12px">GBL NO</td>
- 		<td style="width: 5cm;font-size: 12px;border-bottom: solid; border-width: thin;">${gbl.no }</td>
+ 		<td style="width: 2cm;font-size: 14px">GBL NO</td>
+ 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.no }</td>
  		<td style="width: 1cm;"></td>
  	</tr>
  	<tr>
  		<td style="width: 1cm;"></td>
- 		<td style="width: 5cm;font-size: 12px">DESTINATION</td>
- 		<td style="width: 5cm;font-size: 12px;border-bottom: solid; border-width: thin;"></td>
+ 		<td style="width: 5cm;font-size: 14px">DESTINATION</td>
+ 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;"></td>
  		<td style="width: 1.5cm"></td>
- 		<td style="width: 2cm;font-size: 12px">CODE</td>
- 		<td style="width: 5cm;font-size: 12px;border-bottom: solid; border-width: thin;">${gbl.code }</td>
+ 		<td style="width: 2cm;font-size: 14px">CODE</td>
+ 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.code }</td>
  		<td style="width: 1cm;"></td>
  	</tr>
  	<tr>
  		<td style="width: 1cm;"></td>
- 		<td style="width: 5cm;font-size: 12px">CARRIER</td>
- 		<td style="width: 5cm;font-size: 12px;border-bottom: solid; border-width: thin;">${gbl.scac }</td>
+ 		<td style="width: 5cm;font-size: 14px">CARRIER</td>
+ 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.scac }</td>
  		<td style="width: 1.5cm"></td>
- 		<td style="width: 2cm;font-size: 12px">RDD</td>
- 		<td style="width: 5cm;font-size: 12px;border-bottom: solid; border-width: thin;">${gbl.rdd }</td>
+ 		<td style="width: 2cm;font-size: 14px">RDD</td>
+ 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.rdd }</td>
  		<td style="width: 1cm;"></td>
  	</tr>
  	<tr>
@@ -165,14 +165,14 @@
 <table cellspacing="0">
 	<tr>
 		<td style="width:0.7cm;"></td>
-		<td style="width:1cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 12px; text-align: center;">PIECE</td>
-		<td style="width:1.5cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 12px; text-align: center;">TYPE</td>
-		<td style="width:2cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 12px; text-align: center;">STATUS</td>
-		<td style="width:2cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 12px; text-align: center;">GROSS</td>
-		<td style="width:2cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 12px; text-align: center;">TARE</td>
-		<td style="width:2cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 12px; text-align: center;">NET</td>
-		<td style="width:1.5cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 12px; text-align: center;">CUFT</td>
-		<td style="width:5.5cm; border-left: thin;border-top:thin;border-bottom: thin;border-right:thin;border-right-style:solid;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 12px; text-align: center;">REMARKS</td>
+		<td style="width:1cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 14px; font-weight:bold;font-text-align: center;font-family: arial;">PIECE</td>
+		<td style="width:1.5cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 14px; font-weight:bold;text-align: center;font-family: arial;">TYPE</td>
+		<td style="width:2cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 14px;font-weight:bold; text-align: center;font-family: arial;">STATUS</td>
+		<td style="width:2cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 14px; font-weight:bold;text-align: center;font-family: arial;">GROSS</td>
+		<td style="width:2cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 14px; font-weight:bold;text-align: center;font-family: arial;">TARE</td>
+		<td style="width:2cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 14px; font-weight:bold;text-align: center;font-family: arial;">NET</td>
+		<td style="width:1.5cm; border-left: thin;border-top:thin;border-bottom: thin;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-size: 14px; font-weight:bold;text-align: center;font-family: arial;">CUFT</td>
+		<td style="width:5.5cm; border-left: thin;border-top:thin;border-bottom: thin;border-right:thin;border-right-style:solid;border-left-style: solid;border-bottom-style: solid;border-top-style:solid;font-weight:bold;font-size: 14px; text-align: center;font-family: arial;">REMARKS</td>
 		<td style="width:1cm;"></td>
 	</tr>
 	
@@ -189,14 +189,14 @@
 		<c:set var="top" value="${ 513 + i.index * 26 }" />
 		<tr>
 			<td style="width:0.7cm;"></td>
-			<td style="width:1cm; border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; font-size:12px; text-align: center;">${i.count }</td>
-			<td style="width:1.5cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 12px; text-align: center;">${weightcertificate.type }</td>
-			<td style="width:2cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 12px; text-align: center;">${weightcertificate.status }</td>
-			<td style="width:2cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 12px; text-align: center;">${weightcertificate.gross }</td>
-			<td style="width:2cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 12px; text-align: center;">${weightcertificate.tare }</td>
-			<td style="width:2cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 12px; text-align: center;">${weightcertificate.net }</td>
-			<td style="width:1.5cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 12px; text-align: center;">${weightcertificate.cuft }</td>
-			<td style="width:5.5cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;border-right:thin;border-right-style:solid;font-size: 12px; text-align: center;">${weightcertificate.remark }</td>
+			<td style="width:1cm; border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; font-size: 14px; text-align: center;">${i.count }</td>
+			<td style="width:1.5cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 14px; text-align: center;">${weightcertificate.type }</td>
+			<td style="width:2cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 14px; text-align: center;">${weightcertificate.status }</td>
+			<td style="width:2cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 14px; text-align: center;">${weightcertificate.gross }</td>
+			<td style="width:2cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 14px; text-align: center;">${weightcertificate.tare }</td>
+			<td style="width:2cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 14px; text-align: center;">${weightcertificate.net }</td>
+			<td style="width:1.5cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;font-size: 14px; text-align: center;">${weightcertificate.cuft }</td>
+			<td style="width:5.5cm; border-left: thin;border-bottom:thin; border-left-style: solid;border-bottom-style:solid;border-right:thin;border-right-style:solid;font-size: 14px; text-align: center;">${weightcertificate.remark }</td>
 			<td style="width:1cm;"></td>
 		</tr>
 	</c:forEach>
@@ -204,14 +204,14 @@
 	<%-- <c:forEach var="k" begin="16" end="22">
 		<tr>
 				<td style="width:1cm;"></td>
-				<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${k }</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
-				<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${k }</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
+				<td style="width:2cm; font-size: 14px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:5.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
 				<td style="width:1cm;"></td>
 			</tr>
 	</c:forEach> --%>
@@ -230,60 +230,60 @@
 		<c:if test="${num!=2 and num!=4 }">
 			<tr>
 				<td style="width:1cm;"></td>
-				<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
-				<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
+				<td style="width:2cm; font-size: 14px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:5.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
 				<td style="width:1cm;"></td>
 			</tr>
 		</c:if>
 		<c:if test="${num == 2 }">
 			<tr>
 				<td style="width:1cm;"></td>
-				<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">　</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
-				<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">progear</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${ (weightcertificateList ne '[]') ? weightcertificateList[0].proGear : '' }</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">　</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
+				<td style="width:2cm; font-size: 14px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">progear</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${ (weightcertificateList ne '[]') ? weightcertificateList[0].proGear : '' }</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:5.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
 				<td style="width:1cm;"></td>
 			</tr>
 		</c:if>
 		<c:if test="${num ==4 }">
 			<tr>
-				<td style="width:1cm; font-size: 12px;"></td>
-				<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">TOTAL</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${ fn:length(weightcertificateList) }</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">　</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalGross }</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalTare }</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalNet }</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalCuft }</td>
-				<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid;"></td>
+				<td style="width:1cm; font-size: 14px;"></td>
+				<td style="width:1cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">TOTAL</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${ fn:length(weightcertificateList) }</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">　</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalGross }</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalTare }</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalNet }</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalCuft }</td>
+				<td style="width:5.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid;"></td>
 				<td style="width:1cm;"></td>
 			</tr>
 			<tr>
 				<td style="width:0.7cm; padding-top: 1cm;"></td>
-				<td style="width:1cm; font-size:12px; text-align: center;">　</td>
-				<td style="width:1.5cm;font-size: 12px; text-align: center;">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;">　</td>
+				<td style="width:1.5cm;font-size: 14px; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:1.5cm; text-align: center;">　</td>
-				<td style="width:5.5cm; font-size: 12px; text-align: center;">　</td>
+				<td style="width:5.5cm; font-size: 14px; text-align: center;">　</td>
 				<td style="width:1cm;"></td>
 			</tr>
 			<tr>
 				<td style="width:0.7cm; padding-top: 1cm;"></td>
-				<td style="width:1cm; font-size:12px; text-align: center;">　</td>
-				<td style="width:1.5cm;font-size: 12px; text-align: center;">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;">　</td>
+				<td style="width:1.5cm;font-size: 14px; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td colspan="4"style="font-size: 11px; text-align: center; font-weight: bold;">I CERTIFY THE ABOVE ENTIRIES ARE TRUE AND CORRECT</td>
@@ -291,8 +291,8 @@
 			</tr>
 			<tr>
 				<td style="width:0.7cm;padding-top: 1.5cm"></td>
-				<td style="width:1cm; font-size:12px; text-align: center;">　</td>
-				<td style="width:1.5cm;font-size: 12px; text-align: center;">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;">　</td>
+				<td style="width:1.5cm;font-size: 14px; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td colspan="4"style="font-size: 11px; text-align: center; font-weight: bold; border-bottom: thin;border-bottom-style: solid;">　　</td>
@@ -300,8 +300,8 @@
 			</tr>
 			<tr>
 				<td style="width:0.7cm;"></td>
-				<td style="width:1cm; font-size:12px; text-align: center;">　</td>
-				<td style="width:1.5cm;font-size: 12px; text-align: center;">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;">　</td>
+				<td style="width:1.5cm;font-size: 14px; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td colspan="4"style="font-size: 11px; text-align: center; font-weight: bold;">(WEIGHTED WITNESSED BY)　</td>
@@ -322,14 +322,14 @@
 		<c:set var="top" value="${ 513 + i.index * 26 }" />
 		<tr>
 			<td style="width:1cm;"></td>
-				<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${t+1 }</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].type}</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].status}</td>
-				<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].gross}</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].tare}</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].net}</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].cuft}</td>
-				<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">${weightcertificateList[t].remark}　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${t+1 }</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].type}</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].status}</td>
+				<td style="width:2cm; font-size: 14px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].gross}</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].tare}</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].net}</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[t].cuft}</td>
+				<td style="width:5.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">${weightcertificateList[t].remark}　</td>
 				<td style="width:1cm;"></td>
 		</tr>
 	</c:forEach>
@@ -342,28 +342,28 @@
 			<c:when test="${n==20 }">
 				<tr>
 					<td style="width:1cm; "></td>
-					<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid;">${n+1 }</td>
-					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].type}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; border-top:thin;border-top-style: solid;">${weightcertificateList[n].status}</td>
-					<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].gross}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].tare}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].net}</td>
-					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; border-top:thin;border-top-style: solid;">${weightcertificateList[n0].cuft}</td>
-					<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].remark}</td>
+					<td style="width:1cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid;">${n+1 }</td>
+					<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].type}</td>
+					<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; border-top:thin;border-top-style: solid;">${weightcertificateList[n].status}</td>
+					<td style="width:2cm; font-size: 14px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].gross}</td>
+					<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].tare}</td>
+					<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].net}</td>
+					<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; border-top:thin;border-top-style: solid;">${weightcertificateList[n0].cuft}</td>
+					<td style="width:5.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid;border-top:thin;border-top-style: solid; ">${weightcertificateList[n].remark}</td>
 					<td style="width:1cm;"></td>
 				</tr>
 			</c:when>
 			<c:otherwise>
 				<tr>
 					<td style="width:1cm;"></td>
-					<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${n+1 }</td>
-					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].type}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].status}</td>
-					<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].gross}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].tare}</td>
-					<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].net}</td>
-					<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].cuft}</td>
-					<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">${weightcertificateList[n].remark}</td>
+					<td style="width:1cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${n+1 }</td>
+					<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].type}</td>
+					<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].status}</td>
+					<td style="width:2cm; font-size: 14px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].gross}</td>
+					<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].tare}</td>
+					<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].net}</td>
+					<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">${weightcertificateList[n].cuft}</td>
+					<td style="width:5.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">${weightcertificateList[n].remark}</td>
 					<td style="width:1cm;"></td>
 				</tr>
 			</c:otherwise>
@@ -385,60 +385,60 @@
 		<c:if test="${num!=2 and num!=4 }">
 			<tr>
 				<td style="width:1cm;"></td>
-				<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
-				<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
+				<td style="width:2cm; font-size: 14px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:5.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
 				<td style="width:1cm;"></td>
 			</tr>
 		</c:if>
 		<c:if test="${num == 2 }">
 			<tr>
 				<td style="width:1cm;"></td>
-				<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">　</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
-				<td style="width:2cm; font-size: 12px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">progear</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
-				<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">　</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">　</td>
+				<td style="width:2cm; font-size: 14px; text-align: right;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; ">progear</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid; "></td>
+				<td style="width:5.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid; ">　</td>
 				<td style="width:1cm;"></td>
 			</tr>
 		</c:if>
 		<c:if test="${num ==4 }">
 			<tr>
-				<td style="width:1cm; font-size: 12px;"></td>
-				<td style="width:1cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">TOTAL</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${ fn:length(weightcertificateList) }</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">　</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalGross }</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalTare }</td>
-				<td style="width:2cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalNet }</td>
-				<td style="width:1.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalCuft }</td>
-				<td style="width:5.5cm; font-size: 12px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid;"></td>
+				<td style="width:1cm; font-size: 14px;"></td>
+				<td style="width:1cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">TOTAL</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${ fn:length(weightcertificateList) }</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">　</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalGross }</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalTare }</td>
+				<td style="width:2cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalNet }</td>
+				<td style="width:1.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;">${totalCuft }</td>
+				<td style="width:5.5cm; font-size: 14px; text-align: center;border-left: thin;border-bottom:thin; border-left-style: solid; border-bottom-style:solid;border-right: thin;border-right-style: solid;"></td>
 				<td style="width:1cm;"></td>
 			</tr>
 			<tr>
 				<td style="width:0.7cm; padding-top: 1cm;"></td>
-				<td style="width:1cm; font-size:12px; text-align: center;">　</td>
-				<td style="width:1.5cm;font-size: 12px; text-align: center;">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;">　</td>
+				<td style="width:1.5cm;font-size: 14px; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:1.5cm; text-align: center;">　</td>
-				<td style="width:5.5cm; font-size: 12px; text-align: center;">　</td>
+				<td style="width:5.5cm; font-size: 14px; text-align: center;">　</td>
 				<td style="width:1cm;"></td>
 			</tr>
 			<tr>
 				<td style="width:0.7cm; padding-top: 1cm;"></td>
-				<td style="width:1cm; font-size:12px; text-align: center;">　</td>
-				<td style="width:1.5cm;font-size: 12px; text-align: center;">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;">　</td>
+				<td style="width:1.5cm;font-size: 14px; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td colspan="4"style="font-size: 11px; text-align: center; font-weight: bold;">I CERTIFY THE ABOVE ENTIRIES ARE TRUE AND CORRECT</td>
@@ -446,8 +446,8 @@
 			</tr>
 			<tr>
 				<td style="width:0.7cm;padding-top: 1.5cm"></td>
-				<td style="width:1cm; font-size:12px; text-align: center;">　</td>
-				<td style="width:1.5cm;font-size: 12px; text-align: center;">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;">　</td>
+				<td style="width:1.5cm;font-size: 14px; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td colspan="4"style="font-size: 11px; text-align: center; font-weight: bold; border-bottom: thin;border-bottom-style: solid;">　　</td>
@@ -455,8 +455,8 @@
 			</tr>
 			<tr>
 				<td style="width:0.7cm;"></td>
-				<td style="width:1cm; font-size:12px; text-align: center;">　</td>
-				<td style="width:1.5cm;font-size: 12px; text-align: center;">　</td>
+				<td style="width:1cm; font-size: 14px; text-align: center;">　</td>
+				<td style="width:1.5cm;font-size: 14px; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td style="width:2cm; text-align: center;">　</td>
 				<td colspan="4"style="font-size: 11px; text-align: center; font-weight: bold;">(WEIGHTED WITNESSED BY)　</td>

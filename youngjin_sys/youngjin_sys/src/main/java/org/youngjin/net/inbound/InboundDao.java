@@ -299,8 +299,11 @@ public class InboundDao extends SqlSessionDaoSupport {
 
 	public void insertTruckManifast(TruckManifast truckManifast) {
 		getSqlSession().insert("inboundMapper.insertTruckManifast", truckManifast);
+//		getSqlSession().insert("inboundMapper.insertGblTruckdate",truckManifast);
 	}
-
+	public void insertGblTruckdate(Map<String,String> map){
+		getSqlSession().insert("inboundMapper.insertGblTruckDate", map);
+	}
 	public void insertTruckManifastOnHand(TruckManifast truckManifast) {
 		getSqlSession().insert("inboundMapper.insertTruckManifastOnHand", truckManifast);
 	}

@@ -46,6 +46,7 @@ youngjin.outbound.delivery.sync = function(){
 		$(this).parents('tr').attr('data-delete', 'delete');
 		youngjin.outbound.deleteManifast($(this));
 	});
+	
 
 	$('.booking_addButton').unbind('click');
 	$('.booking_addButton').bind('click',function(){
@@ -82,7 +83,10 @@ youngjin.outbound.delivery.sync = function(){
 	
 	$('.booking_deleteButton img').unbind('click');
 	$('.booking_deleteButton img').bind('click', function(){
-		youngjin.outbound.delivery.deleteBookingList($(this));
+//		alert(confirm('삭제 하시겠습니까?'));
+		if(confirm('삭제 하시겠습니까?')==true){
+			youngjin.outbound.delivery.deleteBookingList($(this));
+		}		
 	});
 	
 	$('.truck_manifast_form').unbind('click');
@@ -122,6 +126,8 @@ youngjin.outbound.delivery.getWeightCertificateList = function(target){
 };
 
 youngjin.outbound.delivery.addTruckMenu = function(target){
+	
+	var truckdate = document.getElementById("truckdate").value;
 	var gblSeq = '';
 	$(':checkbox:checked').each(function(){
 		gblSeq = gblSeq + $(this).val() + ",";
@@ -129,7 +135,8 @@ youngjin.outbound.delivery.addTruckMenu = function(target){
 	
 	var url = contextPath + '/outbound/delivery/truckAdd.json';
 	var json = {
-			'gblSeq' : gblSeq
+			'gblSeq' : gblSeq,
+			'truckdate' : truckdate
 	};
 	
 	$.postJSON(url, json, function(){
@@ -268,27 +275,26 @@ youngjin.outbound.delivery.addBookingMenu = function(target){
 };
 
 youngjin.outbound.delivery.bookingPrint = function(target){
-	var seq = target.attr('data-bookSeq');
+	var seq = target.parents('tr').attr('data-bookSeq');
 	var url = contextPath + '/outbound/delivery/' + seq + '/bookingListPrint';
-	
 	window.open(url ,'bookingListPrintPop', 'width=1263, height=892, status=no');
 };
 
 youngjin.outbound.delivery.powerofattornyPrint = function(target){
-	var seq = target.attr('data-bookSeq');
+	var seq = target.parents('tr').attr('data-bookSeq');
 	var url = contextPath + '/outbound/delivery/' + seq + '/powerOfAttornyPrint';
 	window.open(url ,'powerOfAttornyPop', 'width=1263, height=892, status=no');
 };
 
 youngjin.outbound.delivery.declarationList = function(target){
-	var seq = target.attr('data-bookSeq');
+	var seq = target.parents('tr').attr('data-bookSeq');
 	var url = contextPath + '/outbound/delivery/' + seq + '/declarationList';
 	
 	window.open(url ,'bookingListPrintPop', 'width=1263, height=892, status=no');	
 };
 
 youngjin.outbound.delivery.deleteBookingList = function(target){
-	var seq = target.parents('.booking_deleteButton').attr('data-bookSeq');
+	var seq = target.parents('tr').attr('data-bookSeq');
 	
 	var json = {
 		'seq' : seq	

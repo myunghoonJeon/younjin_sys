@@ -2,9 +2,17 @@ package org.youngjin.net.outbound;
 
 public class TruckManifast {
 	private Integer seq;
-	private String date;
+	private String sysdate;
 	private String branch;
 	private String code;
+	private String date;
+	public String getSysdate() {
+		return sysdate;
+	}
+
+	public void setSysdate(String sysdate) {
+		this.sysdate = sysdate;
+	}
 
 	public Integer getSeq() {
 		return seq;

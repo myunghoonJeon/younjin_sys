@@ -51,6 +51,10 @@
 	<result column="house_company" property="houseCompany"/>
 	<result column="house_consignee" property="houseConsignee"/>
 </resultMap>
+<resultMap type="HashMap" id="trcukdate">
+	<result column="date" property="date"/>
+</resultMap>
+
 
 <resultMap type="GBLStatus" id="StatusMap">
 	<result column="gbl_no" property="no"/>
@@ -319,7 +323,14 @@
 		)u	
 	WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
 </select>
-
+<select id="getGblTruckDate" parameterType="Integer" resultType="String">
+	SELECT
+		date
+	FROM
+		truck_manifast
+	WHERE
+		seq = (select truck_seq from weight_certificate where gbl_seq= #{seq} group by truck_seq)
+</select>
 <select id="getGbl" parameterType="Integer" resultMap="GblMap">
 	SELECT
 		g.no, 
@@ -677,7 +688,7 @@
 
 <select id="getTruckList" parameterType="OutboundFilter" resultType="TruckManifast">
     SELECT
-    	seq, date, branch, code
+    	seq, date, branch, code, sysdate
     FROM
     	truck_manifast
     WHERE
@@ -834,7 +845,7 @@
 
 <select id="getBookingListPrint" parameterType="Integer" resultMap="BookingGblMap">
 		SELECT
-			g.pud, g.scac, g.code, g.customer_name, g.rank, g.ssn,
+			g.seq, g.pud, g.scac, g.code, g.customer_name, g.rank, g.ssn,
 			g.no, g.mil_svc, g.origin_gblock, w.booking_check, 
 			SUM(w.cuft) AS cuft, SUM(w.gross) AS gross, SUM(w.net) AS net, COUNT(w.piece) AS pcs, 
 			g.dest_port, g.dest_state, g.us_no
@@ -1287,11 +1298,11 @@
     INSERT INTO
     	truck_manifast
     	(
-    		date, branch, code
+    		sysdate, date, branch, code
     	)    
     VALUES
     	(
-    		SYSDATE(), #{branch}, #{code}
+    		SYSDATE(), #{date}, #{branch}, #{code}
     	)
     <selectKey keyProperty="seq" resultType="Integer">     
 		SELECT LAST_INSERT_ID()        
@@ -1329,11 +1340,11 @@
 	INSERT INTO
 		tcmd
 		(
-			docId, consignor, commSpecHdig, airDim, poe, pod, mode, pack, transControlNo1, transControlNo2, transControlNo3, transControlNo4, transControlNo5, consignee, pri, carrier, remark, writeDate, oneTcmdFlag
+			docId, consignor, commSpecHdig, airDim, poe, pod, mode, pack, transControlNo1, transControlNo2, transControlNo3, transControlNo4, transControlNo5, consignee, pri, carrier, remark, writeDate, oneTcmdFlag, pieces, weight, cube, trAcct
 		)
 	VALUES
 		(
-			#{docId}, #{consignor}, #{commSpecHdig}, #{airDim}, #{poe}, #{pod}, #{mode}, #{pack}, #{transControlNo1}, #{transControlNo2}, #{transControlNo3}, #{transControlNo4}, #{transControlNo5}, #{consignee}, #{pri}, #{carrier}, #{remark}, SYSDATE(), #{oneTcmdFlag}
+			#{docId}, #{consignor}, #{commSpecHdig}, #{airDim}, #{poe}, #{pod}, #{mode}, #{pack}, #{transControlNo1}, #{transControlNo2}, #{transControlNo3}, #{transControlNo4}, #{transControlNo5}, #{consignee}, #{pri}, #{carrier}, #{remark}, SYSDATE(), #{oneTcmdFlag},#{pieces},#{weight},#{cube},#{trAcct}
 		)		
 	<selectKey keyProperty="seq" resultType="Integer">
 		SELECT LAST_INSERT_ID() 
@@ -1591,6 +1602,15 @@
 		truck_seq = #{value}
 </update>
 
+<update id="deleteBookingListGbl" parameterType="Integer">
+	UPDATE
+		gbl
+	SET
+		booking_seq = null
+	WHERE
+		booking_seq = #{value}
+</update>
+
 <update id="deleteGblStatusByTruckManifast" parameterType="Integer">
 	UPDATE
 		gbl_status
@@ -1598,6 +1618,15 @@
 		gbl_truckmanifast = false
 	WHERE
 		gbl_no IN (select gbl_no from gbl where truck_seq = #{seq})
+</update>
+
+<update id="deleteGblStatusByBookingList" parameterType="Integer">
+	UPDATE
+		gbl_status
+	SET
+		gbl_bookinglist = false
+	WHERE
+		gbl_no IN (select gbl_no from gbl where booking_seq = #{seq})
 </update>
 
 <update id="setSeperatedFlag" parameterType="GBL">
@@ -1801,6 +1830,18 @@
 	WHERE
 		truck_seq = #{seq}
 </delete>
+
+<delete id="deleteWeightCertificateByBookingList" parameterType="Integer">
+	<!--  SET SQL_SAFE_UPDATES=0;-->
+	UPDATE
+		weight_certificate
+	SET
+		booking_seq = null,
+		booking_check = false
+	WHERE
+		booking_seq = #{seq}
+</delete>
+
 
 <delete id="deleteDd619" parameterType="Dd619">
 	DELETE FROM

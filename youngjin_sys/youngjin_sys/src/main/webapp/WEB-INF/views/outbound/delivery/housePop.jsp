@@ -302,7 +302,7 @@
 		                </tr>
 		                <tr>
 		                    <td colspan="4" rowspan="2" class="shipper">
-		                        <div>${gbl.customerName }<br/>${companyMap[gbl.houseCompany].companyName }<br/> ${companyMap[gbl.houseCompany].address }</div>
+		                        <div>${gbl.customerName }<br/>${companyMap[gbl.consoleCompany].companyFullName }<br/> ${companyMap[gbl.consoleCompany].address }</div>
 		                    </td>
 		                    <td colspan="2" class="booking_no">
 		                        <div>${(fn:contains(gbl.no, "-house")) ? fn:substring(gbl.no, 0, fn:length(gbl.no) - 7) : gbl.no }</div>
