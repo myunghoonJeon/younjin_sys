@@ -20,47 +20,31 @@
 	function goToPreviousPages() {
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
+	
 </script>	
 	<c:set var="branchList" value="${filterMap['branchList'] }" />
 	
+	<c:if test="${end eq true }">
+		<script type="text/javascript">
+			parent.location.href=contextPath + '/inbound/freightList/';
+			parent.$.smartPop.close();
+		</script>
+	</c:if>
+	
+	<form:form commandName="inboundFilter" method="get">
+		<form:hidden path="page" value="${pagination.currentPage}"/>
+	</form:form>	
+	
 	<div class="gbl_filter">	
-		<ul>
-			<form:form commandName="inboundFilter" method="get"><%-- 
-				<sec:authorize access="hasRole('ROLE_LEVEL4')">
-					<li>	
-						<form:select path="branch">
-							<form:option value="">All</form:option>
-							<c:forEach var="branch" items="${branchList }">
-								<c:if test="${branch.codeName ne 'None' }" >
-									<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
-								</c:if>
-							</c:forEach>
-						</form:select>
-					</li>
-				</sec:authorize>
-					<li>
-						<form:input path="startPud"/> ~ <form:input path="endPud"/>
-					</li>
-					<li>
-						<form:hidden path="page" value="${pagination.currentPage}"/>
-					</li> --%>
-					<li>
-						<span class="truck_addButton inbound_truck_addButton yj_button" >add</span>
-					</li>
-			</form:form>
+		<ul class="freight_filter_wrap">
+			<li>
+				<span class="truck_addButton inbound_truck_addButton yj_button" >add</span>
+			</li>
 		</ul>
 	</div>
 	
 	<div>
-		<table class="yj_table">		
-			<thead>
-				<tr>
-					<th>NO</th>
-					<th>TRUCKMANIFAST DATE</th>
-					<th>AREA</th>
-					<th></th>
-				</tr>
-			</thead><%-- 
+		<table class="yj_table">
 			<tfoot>
 				<tr>
 					<td colspan="4">
@@ -78,7 +62,17 @@
 						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
 					</td>
 				</tr>
-			</tfoot> --%>			
+			</tfoot>
+			<thead>
+				<tr>
+					<th>NO</th>
+					<th>TRUCKMANIFAST DATE</th>
+					<th>AREA</th>
+					<th></th>
+				</tr>
+			</thead> 
+			
+						
 			<tbody>
 				<c:if test="${truckList eq '[]' or truckList eq null }">
 					<tr>

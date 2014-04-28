@@ -124,6 +124,7 @@
 	<result column="memo" property="memo" />
 	<result column="write_date" property="writeDate" />
 	<result column="write_user" property="writeUser" />
+	<result column="yjCount" property="yjCount"/>
 </resultMap>
 
 <resultMap type="DeliveryGbl" id="BookingGblMap">
@@ -318,10 +319,9 @@
 						</when>
 					</choose>				
 				</if>
-			ORDER BY
-				g.seq desc
-		)u	
-	WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+			)u	
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+		
 </select>
 <select id="getGblTruckDate" parameterType="Integer" resultType="String">
 	SELECT
@@ -836,7 +836,8 @@
 		seq,
 		memo,
 		remark,
-		write_date
+		write_date,
+		yjCount
 	FROM
 		booking_list 
 	WHERE
@@ -867,7 +868,7 @@
 	WHERE
 		seq = #{seq}
 </delete>
-	
+
 <select id="getContainerList" resultType="WeightCertificate">
 	SELECT
 		seq, piece, type, status, gross, tare, net, cuft, remark
@@ -1308,16 +1309,21 @@
 		SELECT LAST_INSERT_ID()        
     </selectKey>
 </insert>
-
+<select id="getBookingListYjCount" resultType="Integer">
+	SELECT
+		COUNT(write_date)
+	FROM
+		booking_list
+</select>
 <insert id="insertBookingList" parameterType="BookingList">
     INSERT INTO
     	booking_list
     	(
-    		memo, remark, write_date
+    		memo, remark, write_date,yjCount
     	)    
     VALUES
     	(
-    		'', '', SYSDATE()
+    		'', '', SYSDATE(),#{yjCount}
     	)
     <selectKey keyProperty="seq" resultType="Integer">     
 		SELECT LAST_INSERT_ID()        
@@ -1611,6 +1617,16 @@
 		booking_seq = #{value}
 </update>
 
+<update id="passBookingListGbl" parameterType="Integer">
+	UPDATE
+		gbl
+	SET
+		booking_seq = -1,
+		truck_seq = -1
+	WHERE
+		seq = #{value}
+</update>
+
 <update id="deleteGblStatusByTruckManifast" parameterType="Integer">
 	UPDATE
 		gbl_status
@@ -1627,6 +1643,17 @@
 		gbl_bookinglist = false
 	WHERE
 		gbl_no IN (select gbl_no from gbl where booking_seq = #{seq})
+</update>
+
+<update id="passBookinglist" parameterType="Integer">
+	UPDATE
+		gbl_status
+	SET
+		gbl_bookinglist = 1,
+		gbl_truckmanifast = 1,
+		gbl_invoice = 0		
+	where
+		gbl_no = #{seq}
 </update>
 
 <update id="setSeperatedFlag" parameterType="GBL">
@@ -1842,6 +1869,16 @@
 		booking_seq = #{seq}
 </delete>
 
+<update id="passWeightCertificateByBookingList" parameterType="Integer">
+	<!--  SET SQL_SAFE_UPDATES=0;-->
+	UPDATE
+		weight_certificate
+	SET
+		booking_seq = -1,
+		booking_check = true
+	WHERE
+		gbl_seq = #{seq}
+</update>
 
 <delete id="deleteDd619" parameterType="Dd619">
 	DELETE FROM

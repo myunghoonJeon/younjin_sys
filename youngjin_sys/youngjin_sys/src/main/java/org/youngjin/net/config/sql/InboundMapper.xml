@@ -447,7 +447,7 @@
 				FROM
 					inbound_invoice_list iil, (SELECT @rownum := 0) r
 				ORDER BY
-					iil.seq
+					iil.seq desc
 			)u	
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}	
 	</select>
@@ -574,7 +574,7 @@
 							pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 					</if>
 				ORDER BY
-					g.seq
+					g.seq desc
 			)u	
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}	
 	</select>
@@ -663,12 +663,12 @@
 							dc.declarationListSeq = dl.seq
 						AND
 							dc.inboundInvoiceSeq = il.seq
+						ORDER BY
+							il.invoiceDate desc
 					)dc,					
 					(SELECT @rownum := 0) r		
 				WHERE
 					d.seq = dc.seq
-				ORDER BY
-					d.seq
 			)u	
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}	
 			
@@ -1021,7 +1021,18 @@
 			#{weightSeq}, #{inboundInvoiceSeq}, (select gblSeq from inbound_invoice_list where seq = #{inboundInvoiceSeq})
 		)
 	</insert>
-
+	<insert id="passInboundInvoiceWeightAdd" parameterType="Map">
+		INSERT INTO
+			inbound_invoice_weight
+			(
+				weightSeq, inboundInvoiceSeq, gblSeq
+			)
+		VALUES
+		(
+			#{weightSeq}, ${basic}, ${gblSeq}
+		)
+	</insert>
+	
 	<insert id="addtionComplete" parameterType="Addition">
 		INSERT INTO
 			decide_ib
@@ -1190,7 +1201,12 @@
 		FROM
 			on_hand_list
 	</select>
-	
+	<select id="getTruckGblListCount" resultType="Integer">
+		SELECT
+			count(*)
+		FROM
+			truck_manifast_ib
+	</select>
 	<select id="getOnHandList" parameterType="InboundFilter" resultType="OnHandList">		
 		SELECT 
 			*
@@ -1204,7 +1220,7 @@
 					on_hand_list o, (SELECT @rownum := 0) r
 		
 				ORDER BY
-					o.seq
+					o.seq desc
 			)u	
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
 	</select>
@@ -1526,6 +1542,8 @@
 			seq, truckManifastDate, area
 		FROM
 			truck_manifast_ib
+		ORDER BY
+			truckManifastDate desc
 	</select>
 	
 	<delete id="deleteTruckManifast" parameterType="Map">

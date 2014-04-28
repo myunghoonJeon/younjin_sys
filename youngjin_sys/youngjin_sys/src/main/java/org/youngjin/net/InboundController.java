@@ -79,7 +79,7 @@ public class InboundController {
 
 		return process + "/freight/list";
 	}
-
+	
 	@RequestMapping(value = "/{process}/freightList", method = RequestMethod.POST)
 	public String freightListPost(Model model, User user,
 			@PathVariable String process,
@@ -566,7 +566,10 @@ public class InboundController {
 		inboundService.deleteTruckManifastEmptyTruck();
 
 		user.setSubProcess("truck");
-
+		
+		inboundFilter.getPagination().setNumItems(
+				inboundService.getTruckManifastListCount(inboundFilter));
+		
 		List<TruckManifast> truckManifastList = inboundService
 				.getTruckManifastList(inboundFilter);
 

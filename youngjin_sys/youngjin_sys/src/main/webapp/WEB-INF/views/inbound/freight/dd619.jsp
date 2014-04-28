@@ -77,6 +77,8 @@
 <BODY bgcolor="#A0A0A0" vlink="blue" link="blue" style="margin:0px;">
 <!-- Page 1 -->
 <a name="1"></a>
+<fmt:parseDate value="${memorandumMap['06'].sitStartDate }" var="sitStartDate" pattern="yyyyMMdd"/>
+<fmt:parseDate value="${memorandumMap['07'].sitEndDate }" var="sitEndDate" pattern="yyyyMMdd"/>
 <DIV id="page1-div" style="position:relative;width:1224px;height:1584px;"> 
 <IMG width="1224px" height="1584px" src="<c:url value='/resources/images/gbl/DDForm6191001.png' />" alt="background image"/>
 <P style="position:absolute;top:324px;left:79px;white-space:nowrap" class="ft115"><input type="text" name="q-1" class="q-text q-center" style="width:243px;height:20px;" value="${gbl.gblNo }"></input></P>
@@ -84,22 +86,21 @@
 <P style="position:absolute;top:378px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-3a" class="q-text" style="width:533px;height:18px;" value="${gbl.shipperName }"></input></P>
 <P style="position:absolute;top:425px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-3b" class="q-text q-center" style="width:243px;height:20px;" value="XXX-XX-${fn:substring(gbl.ssn, 5, 9) }"></input></P>
 <P style="position:absolute;top:425px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-3c" class="q-text q-center" style="width:268px;height:20px;" value="${gbl.rank }"></input></P>
-<P style="position:absolute;top:473px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-4" class="q-text q-center" style="width:243px;height:20px;" value="${dd619.originOfShipment }"></input></P>
-<P style="position:absolute;top:473px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-5" class="q-text q-center" style="width:268px;height:20px;" value="${dd619.destination }"></input></P>
+<P style="position:absolute;top:473px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-4" class="q-text q-center" style="width:243px;height:20px;" value="${gblock.remark }"></input></P>
+<P style="position:absolute;top:473px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-5" class="q-text q-center" style="width:268px;height:20px;" value="${gbl.fright }"></input></P>
 <P style="position:absolute;top:537px;left:79px;white-space:nowrap" class="ft114"><textarea name="q-6a" style="width:243px; font-size:11pt;height:32px;font-weight:bolder;font-family: arial">${dd619.orderingActivityName }</textarea></P>
 <P style="position:absolute;top:521px;left:343px;white-space:nowrap" class="ft12"><input name="q-6b" class="q-text" style="width:276px;height:50px;" value="" /></P>
 <P style="position:absolute;top:593px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-7a" class="q-text" style="width:243px;height:18px;" value="${ dd619.carrierName}"></input></P>
 <P style="position:absolute;top:593px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-7b" class="q-text" style="width:268px;height:18px;" value="${dd619.agentName }"></input></P>
 <P style="position:absolute;top:642px;left:79px;white-space:nowrap" class="ft12"><textarea name="q-8" class="q-text q-center" style="width:370px;height:40px;">${dd619.signature }</textarea></P>
-<P style="position:absolute;top:662px;left:475px;white-space:nowrap" class="ft115"><input type="text" name="q-9" class="q-text q-center" style="width:135px;height:28px;"></input></P>
+<P style="position:absolute;top:662px;left:475px;white-space:nowrap" class="ft115"><input type="text" name="q-9" class="q-text q-center" style="width:135px;height:28px;" value="${fn:substring(sitEndDate, 8, 10) }-${ fn:substring(sitEndDate, 4, 7)}-${ fn:substring(sitEndDate, 26, 28) }"></input></P>
 <P style="position:absolute;top:713px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-10" class="q-text q-center" style="width:293px;height:18px;" value="${gbl.tsp } # ${gbl.code}"></input></P>
 <P style="position:absolute;top:713px;left:391px;white-space:nowrap" class="ft12"><input type="text" name="q-11" class="q-text q-center" style="width:220px;height:18px;" value="${gbl.pcs }/${(gbl.code eq '3' or gbl.code eq'4' or gbl.code eq'5' or gbl.code eq 'T') ? gbl.netWeight : gbl.grossWeight}/${gbl.cuft}"></input></P>
 <P style="position:absolute;top:773px;left:79px;white-space:nowrap" class="ft15"><textarea name="q-12" class="q-text" style="width: 520px;height:200px; border: none;">${dd619.remark }</textarea></P>
 <P style="position:absolute;top:333px;left:631px;white-space:nowrap" class="ft12"><input type="text" name="q-13a" class="q-text q-center" style="width:244px;height:42px;" value="${gbl.storedAt }"></input></P>
 <P style="position:absolute;top:363px;left:894px;white-space:nowrap" class="ft12"><input type="checkbox" name="q-13b" class="q-radio" value="destination"></input></P>
 <P style="position:absolute;top:363px;left:1039px;white-space:nowrap" class="ft12"><input type="checkbox" name="q-13b" class="q-radio" value="other"></input></P>
-<fmt:parseDate value="${memorandumMap['06'].sitStartDate }" var="sitStartDate" pattern="yyyyMMdd"/>
-<fmt:parseDate value="${memorandumMap['07'].sitEndDate }" var="sitEndDate" pattern="yyyyMMdd"/>
+
 
 <c:if test="${sitEndDate ne null and sitStartDate ne '' }">
 	<P style="position:absolute;top:402px;left:631px;white-space:nowrap" class="ft115"><input type="text" name="q-13c" class="q-text q-center" style="width:136px;height:44px;" value="${fn:substring(sitStartDate, 8, 10) }-${ fn:substring(sitStartDate, 4, 7)}-${ fn:substring(sitStartDate, 26, 28) }"></input></P>
@@ -142,7 +143,7 @@
 <P style="position:absolute;top:1315px;left:475px;white-space:nowrap" class="ft12"></P>
 <P style="position:absolute;top:1315px;left:727px;white-space:nowrap" class="ft12"><input type="text" name="q-17b" class="q-text" style="width:410px;height:40px;"></input></P>
 <P style="position:absolute;top:1410px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-18a" class="q-text" style="width:375px;height:18px;" value="${company.companyNameAcronym }"></input></P>
-<P style="position:absolute;top:1410px;left:475px;white-space:nowrap" class="ft12"><input type="text" name="q-18b" class="q-text" style="width:365px;height:18px;" value="${gbl.areaLocal }"></input></P>
+<P style="position:absolute;top:1410px;left:475px;white-space:nowrap" class="ft12"><input type="text" name="q-18b" class="q-text" style="width:365px;height:18px; font-size:12pt;" value="${gbl.address }"></input></P>
 <P style="position:absolute;top:1458px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-18c" class="q-text" style="width:760px;height:36px;"></input></P>
 <P style="position:absolute;top:1458px;left:859px;white-space:nowrap" class="ft12"><input type="text" name="q-18d" class="q-text q-center" style="width:280px;height:36px;"></input></P>
 </DIV>

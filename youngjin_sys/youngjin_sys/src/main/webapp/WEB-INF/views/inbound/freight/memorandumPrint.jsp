@@ -96,7 +96,7 @@
 	String code="4";
 	String adress="BUNDANG-GU BAKHYUNDONG 542 PRUGIO GURANGBULL 111-701";
 	String nameofarticle="USING FOR THE LOWERING EQUIPMENT";
-	String estimatedwt="4000LBS";
+	String estimatedwt="";
 	String localmanager="SHIN, DOO SIK<BR>YONG SAN BRANCH MANAGER<BR>YOUNGJIN TRAED & CO.LTD";
 	String locality="ASKO-LRC-YON-LGT<BR>Unit #15802, APO AP 96205-5802<BR>FOR YOUNGJIN T&T CO.,LTD.";
 	String taforto="JOHN F. CUTTER. GS-13,<BR>";
@@ -150,7 +150,7 @@
 		<tr>			
 			<td id='name_td'>NAME : ${gbl.shipperName }</td>
 			<td id='rank_td'>RANK : ${gbl.rank }</td>
-			<td id='ssn_td' colspan="2">SSN : XXX-XX-${fn:substring(gbl.ssn, 5,8)}</td>
+			<td id='ssn_td' colspan="2">SSN : XXX-XX-${fn:substring(gbl.ssn, 5,9)}</td>
 		</tr>
 		<tr>			
 			<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
@@ -186,7 +186,13 @@
 		</tr>
 		<c:if test="${type eq '01' }">
 			<tr>			
-				<td id='estimatedwt_td' colspan="4">ESTIMATED WT : <%out.print(estimatedwt);%></td>
+				<td id='estimatedwt_td' colspan="4">ESTIMATED WT :
+				<c:choose>
+					<c:when test="${gbl.code eq '3' or gbl.code eq '4' or gbl.code eq 'T' or gbl.code eq '5'  }">${gbl.netWeight }</c:when>
+					<c:otherwise>${gbl.grossWeight }</c:otherwise>
+				</c:choose> 
+				
+				</td>
 			</tr>
 		</c:if>
 	</table>

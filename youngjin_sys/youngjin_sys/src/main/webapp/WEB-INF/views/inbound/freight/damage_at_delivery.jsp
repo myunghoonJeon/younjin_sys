@@ -194,7 +194,7 @@
             
             #paper table td.input-1 div.scac
             {
-                margin-left: 2.5mm;
+                margin-left: 3mm;
                 width: 9mm;
             }
             
@@ -396,16 +396,16 @@
                                 
                                 <div class="scac">
                                     <div>
-                                        <input id="scac" type="text" name="scac">
+                                        <input id="scac" type="text" name="scac" value="${gbl.tsp }" style="width:45px; text-align: center;">
                                     </div>
                                     <div>
-                                        SCAC
+                                        　							SCAC
                                     </div>
                                 </div>
                                 
                                 <div class="pick_up_date">
                                     <div>
-                                        <input id="pick_up_date" type="text" name="pick_up_date">
+                                        <input id="pick_up_date" type="text" name="pick_up_date"  value="${gbl.pud }">
                                     </div>
                                     <div>
                                         Pick up date

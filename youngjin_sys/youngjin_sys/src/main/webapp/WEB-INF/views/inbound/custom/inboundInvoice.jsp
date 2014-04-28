@@ -2,6 +2,7 @@
 <%@ include file="../../../layout/head.jspf"%>
 <%-- Page 처리 Script --%>
 <c:set var="pagination" value="${inboundFilter.pagination }"/>
+
 <script type="text/javascript">
 	var numPagesPerScreen = <c:out value='${pagination.numPagesPerScreen}'/>;
 	var page = <c:out value='${pagination.currentPage}'/>;

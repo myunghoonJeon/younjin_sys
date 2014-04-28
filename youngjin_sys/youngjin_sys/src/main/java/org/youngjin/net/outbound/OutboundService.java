@@ -384,20 +384,37 @@ public class OutboundService {
 				outboundDao.additionCompleteUpdate(paramAddition);
 			}
 		}
-
+		int gblSeq = addition.getGblSeq();
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("preparation", 1);
-		map.put("seq", addition.getGblSeq());
+		map.put("seq", gblSeq);
 		outboundDao.updateGblStatus(map);
+		//여기다가 코드 T랑 J변하게 하자
+		GBL gbl = outboundDao.getGbl(gblSeq);
+		String code = gbl.getCode();
+		if(code.equals("T") || code.equals("J")){//만약 코드 T랑 J일경우 truck 이랑 booking 안하고 invoice 되도록 넘겨보자
+			System.out.println("gblSeq : "+gblSeq);
+			outboundDao.passBookingList(gbl.getNo());
+			System.out.println("[[[[[[[[[[[[[GBL NO : "+gbl.getNo()+" ]]] [[[ booking list pass]]]]]]]]]]]");
+			outboundDao.passWeightCertificateByBookingList(gblSeq);
+			System.out.println("[[[[[[[[[[[[[WeightCertificate Booking Pass]]]]]]]]]]]");
+			outboundDao.passBookingListGbl(gblSeq);
+			System.out.println("[[[[[[[[[[[[[Bookinglist GBL Pass]]]]]]]]]]]");
+//			outboundDao.deleteBookingList(bookingSeq);
+//			System.out.println("[[[[[[[[[[[[[4]]]]]]]]]]]");
+
+		}
 	}
 
 	public void insertBookingList(Map<String, String> gblSeq) {
 		String[] gblSeqList = gblSeq.get("gblSeq").split(",");
-
+		
 		GBL gbl = getGbl(Integer.parseInt(gblSeqList[0]));
-
+		
 		BookingList bookingList = new BookingList();
-
+		int yjCount = outboundDao.getBookingListYjCount()+1;
+		bookingList.setYjCount(yjCount);
+		
 		outboundDao.insertBookingList(bookingList);
 		gbl.setBookingSeq(bookingList.getSeq());
 

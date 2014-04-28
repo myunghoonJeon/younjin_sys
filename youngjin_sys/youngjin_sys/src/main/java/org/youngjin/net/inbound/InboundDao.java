@@ -134,7 +134,9 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public int checkInboundInvoiceWeight(InboundInvoice inboundInvoice) {
 		return getSqlSession().selectOne("inboundMapper.checkInboundInvoiceWeight", inboundInvoice);
 	}
-
+	public void passInboundInvoiceWeightAdd(Map<String,String> map){
+		getSqlSession().insert("inboundMapper.passInboundInvoiceWeightAdd", map);
+	}
 	public void inboundInvoiceWeightAdd(Map<String, Integer> weightMap) {
 		getSqlSession().insert("inboundMapper.inboundInvoiceWeightAdd", weightMap);
 	}
@@ -294,7 +296,7 @@ public class InboundDao extends SqlSessionDaoSupport {
 	}
 
 	public int getTruckGblListCount(InboundFilter inboundFilter) {
-		return getSqlSession().selectOne("inboundMapper.getTruckGblListCount", inboundFilter);
+		return getSqlSession().selectOne("inboundMapper.getTruckGblListCount");
 	}
 
 	public void insertTruckManifast(TruckManifast truckManifast) {

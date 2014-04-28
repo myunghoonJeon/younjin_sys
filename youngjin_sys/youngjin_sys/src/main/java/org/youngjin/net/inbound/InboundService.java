@@ -102,7 +102,7 @@ public class InboundService {
 		
 		return filterMap;
 	}
-
+	
 	public Boolean checkWeight(Map<String, Integer> param) {
 		return inboundDao.checkWeight(param);
 	}
@@ -327,7 +327,9 @@ public class InboundService {
 		
 		return false;
 	}
-
+	public void passInboundInvoiceWeightAdd(Map<String,String> map){
+		inboundDao.passInboundInvoiceWeightAdd(map);
+	}
 	public void inboundInvoiceWeightAdd(
 			Map<String, String> inboundInvoiceWeightMap) {
 		String [] weightSeqList = inboundInvoiceWeightMap.get("weightSeqCommaList").split(",");
@@ -466,6 +468,9 @@ public class InboundService {
 
 	public int getOnHandListCount(InboundFilter inboundFilter) {
 		return inboundDao.getOnHandListCount(inboundFilter);
+	}
+	public int getTruckManifastListCount(InboundFilter inboundFilter){
+		return inboundDao.getTruckGblListCount(inboundFilter);
 	}
 	
 	public List<OnHandList> getOnHandList(InboundFilter inboundFilter) {

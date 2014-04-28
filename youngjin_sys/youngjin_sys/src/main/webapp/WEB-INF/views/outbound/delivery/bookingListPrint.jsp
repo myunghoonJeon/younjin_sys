@@ -14,110 +14,141 @@
 	#topletter{
 		text-align : center;
 		font-size : 13px;
-		font-weight: bold;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#pudtd{
 		width : 50px;
-		font-size: 11px;
+		font-size: 13px;
+		font-family:arial;
+		font-weight:bold;
 		border: solid;
 	}
 	#carriertd{
 		width : 40px;
-		font-size: 10px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#codetd{
 		width : 35px;
-		font-size: 10px;
+		font-size: 13px;
 		border-width: 1px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#shippertd{
 		width : 180px;
-		font-size: 12px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#gblnotd{
 		width : 80px;
-		font-size: 12px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#milsvctd{
 		width : 30px;
-		font-size: 12px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#origngbloctd{
 		width : 50px;
-		font-size: 12px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#pcstd{
 		width : 30px;
-		font-size: 12px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 		}
 	#cufttd{
 		width : 45px;
-		font-size: 12px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#gwttd{
 		width : 45px;
-		font-size: 12px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#nwttd{
 		width : 45px;
-		font-size: 12px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#containertd{
 		width : 210px;
-		font-size: 12px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	.subtd{
 		width : 25px;
-		font-size: 12px;
+		font-size: 13px;
 		border-bottom: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#destporttd{
 		width : 30px;
-		font-size: 10px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#deststatetd{
 		width : 30px;
-		font-size: 10px;
+		font-size: 13px;
 		border-bottom:solid;
 		border-top: solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#bigotd{
 		width : 150px;
@@ -127,11 +158,13 @@
 		border-right: solid;
 	}
 	#remarktop{
-		font-size: 15px;
+		font-size: 13px;
 		font-weight: bold;
 		border-left : solid;		
 		border-right: solid;
 		text-align: left;
+		font-family:arial;
+		font-weight:bold;
 		
 	}
 	#remarkbottom{
@@ -144,17 +177,24 @@
 		border-bottom:solid;
 		border-right: solid;
 		border-left : solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#input{
 		font-size:13px;
 		border-bottom:solid;
 		border-right: solid;
+		font-family:arial;
+		font-weight:bold;
 	}
 	#sign{
 		text-align: right;
 		font-weight: bold;
-		font-size: 15px;
+		font-size: 13px;
+		font-family:arial;
+		font-weight:bold;
 	}
+	
 	<%-- <%
 		//setting parameter <TD> 21th
 		//declare parameter
@@ -205,7 +245,7 @@
 			<td id='topletter'colspan="1">CFS</td>
 			<td colspan="1"> </td>
 			<td colspan="1"> </td>
-			<td id='topletter' colspan="4">YJ　-　#4,#7　-　15</td>
+			<td id='topletter' colspan="4">YJ　-　#4,#7　- ${bookingList.yjCount } </td>
 			<td colspan="1"> </td>
 			<td colspan="7"> </td>
 			<td > </td>

@@ -156,14 +156,16 @@
 				<td><form:input path="phone" /> </td>
 			</tr>
 			<tr>
-				<th>SHIPPER ADDRESS</th>
-				<td><form:input path="address" /> </td>
-				<th>REMARK</th>
-				<td><form:input path="remark" /> </td>
+				<th colspan="2">SHIPPER ADDRESS</th>
+				<td colspan="2"><form:input path="address" style="width:350px;"/> </td>
+			</tr>
+			<tr>
+				<th colspan="2">REMARK</th>
+				<td colspan="2"><form:input path="remark" style="width:350px;"/> </td>
 			</tr>
 			<tr>
 				<th colspan="2">TRUCK DATE</th>
-				<td colspan="2"> ${gbl.truckDate }</td>
+				<td colspan="2"> <input value="${gbl.truckDate }"style="width:350px;"/></td>
 			</tr>
 			<tfoot>
 				<tr>

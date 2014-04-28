@@ -36,6 +36,7 @@ import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumList;
 import org.youngjin.net.memorandum.MemorandumService;
 import org.youngjin.net.outbound.Addition;
+import org.youngjin.net.outbound.BookingList;
 import org.youngjin.net.outbound.DeliveryGbl;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
@@ -70,16 +71,25 @@ public class OutboundController {
 	public String gblList(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
 			@PathVariable String process) {
-
-		outboundFilter.getPagination().setNumItems(
-				outboundService.getGblListCount(outboundFilter, user));
-
+		
+		int count = outboundService.getGblListCount(outboundFilter, user);
+		
+		outboundFilter.getPagination().setNumItems(count);
+		
+		System.out.println("[[[[[[[[[[[[[[[[[ GBL Counting "+count+"]]]]]]]]]]]]]]]]]");
 		user.setSubProcess("gblList");
-
+		
 		model.addAttribute("filterMap", outboundService.getFilterMap());
-
-		model.addAttribute("gblList",
-				outboundService.getGblList(outboundFilter, user));
+		
+		List<GBL> gblList = outboundService.getGblList(outboundFilter, user);
+		
+		for(int i=0;i<gblList.size();i++){
+			System.out.println("test");
+//			System.out.println("["+(i+1)+"]["+gblList.get(i).getSeq().toString()+"]["+gblList.get(i).getShipperName().toString()+"]");
+		}
+		
+		model.addAttribute("gblList",gblList);
+		
 		model.addAttribute("gblStatus",
 				outboundService.getGblStatus(outboundFilter));
 		model.addAttribute("user", user);
@@ -91,10 +101,10 @@ public class OutboundController {
 	public String gblListPost(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
 			@PathVariable String process) {
-
+		
 		outboundFilter.getPagination().setNumItems(
 				outboundService.getGblListCount(outboundFilter, user));
-
+		
 		user.setSubProcess("gblList");
 
 		model.addAttribute("filterMap", outboundService.getFilterMap());
@@ -594,7 +604,7 @@ public class OutboundController {
 		}
 		
 		List<Addition> additionList = outboundService.getAddtionList(seq);
-
+		
 		model.addAttribute("checkMemorandumMap", checkMemorandumMap);
 		model.addAttribute("additionList", additionList);
 
@@ -949,8 +959,9 @@ public class OutboundController {
 				 }
 			 }
 		}
+		BookingList bookingList = outboundService.getBookingListOne(seq);
 		model.addAttribute("gblList", list);
-		model.addAttribute("bookingList", outboundService.getBookingListOne(seq));
+		model.addAttribute("bookingList", bookingList);
 		model.addAttribute("user", user);
 		return process + "/delivery/bookingListPrint";
 	}

@@ -45,7 +45,7 @@
 	</div>
 	<div id="weight_add_wrap">
 		<div class="weight_add_button_wrap">
-			<ul class="weight_add_button_list">
+			<ul class="weight_add_button_list" data-seq="${gbl.seq }">
 				<li>
 					<c:choose>
 						<c:when test="${weightList eq '[]' }">

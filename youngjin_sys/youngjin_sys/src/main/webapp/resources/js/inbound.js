@@ -654,7 +654,6 @@ youngjin.inbound.confirmSync = function(){
 
 youngjin.inbound.addCheckAlreadySaveGblInfo = function(target){
 	var gblNo = target.val();
-	
 	var url = contextPath + '/inbound/checkGblNo.json';
 	
 	$.postJSON(url, {'gblNo' : gblNo}, function(gblInfo){
@@ -1481,7 +1480,7 @@ youngjin.inbound.weightColumnAdd = function(target){
 
 youngjin.inbound.weightAddSubmit = function(target){
 	 var form = document.forms['weightIb'];
-
+	 
 	 form.submit();	 
 };
 

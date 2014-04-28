@@ -4,9 +4,9 @@ public class Addition {
 	private Integer seq;
 	
 	private String title;
-	private String price;
+	private String price="0";
 
-	private Double cost;
+	private Double cost=0.0;
 
 	private Integer gblSeq;
 	

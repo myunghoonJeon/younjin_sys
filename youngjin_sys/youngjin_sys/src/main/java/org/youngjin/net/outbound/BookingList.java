@@ -10,6 +10,15 @@ public class BookingList {
 	private String remark;
 	private String writeUser;
 	private String writeDate;
+	private Integer yjCount;
+	
+	public Integer getYjCount() {
+		return yjCount;
+	}
+
+	public void setYjCount(Integer yjCount) {
+		this.yjCount = yjCount;
+	}
 
 	private List<Weightcertificate> weightcertificateList;
 

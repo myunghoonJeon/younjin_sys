@@ -20,6 +20,7 @@
 	function goToPreviousPages() {
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
+	
 </script>	
 	<c:if test="${end eq true }">
 		<script type="text/javascript">
@@ -27,6 +28,10 @@
 			parent.$.smartPop.close();
 		</script>
 	</c:if>
+	
+	<form:form commandName="inboundFilter" method="get">
+		<form:hidden path="page" value="${pagination.currentPage}"/>
+	</form:form>
 	
 	<div class="gbl_filter">	
 		<ul class="freight_filter_wrap">

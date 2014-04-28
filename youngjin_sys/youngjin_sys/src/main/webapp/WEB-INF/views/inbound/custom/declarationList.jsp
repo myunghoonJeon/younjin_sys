@@ -44,7 +44,7 @@
 		<table class="yj_table declarationList_table">
 			<tfoot>
 				<tr>
-					<td colspan="13">
+					<td colspan="3">
 					<!-- 
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>

@@ -92,7 +92,7 @@
  	</tr>
  	<tr>
  		<td style="width: 1cm;"></td>
- 		<td style="width: 19cm; font-weight: bold; text-align: center; font-size: 20px; border-bottom: solid;">YOUNGJIN TRADE & TRANS. CO.,LTD.</td>
+ 		<td style="width: 19cm; font-weight: bold; text-align: center; font-size: 20px; border-bottom: solid; font-family:arial;">YOUNGJIN TRADE & TRANS. CO.,LTD.</td>
  		<td style="width: 1cm;"></td>
  	</tr>
  </table>
@@ -114,7 +114,7 @@
  	</tr>
  	<tr>
  		<td style="width: 7cm; ">　</td>
- 		<td style="width: 7cm; font-size: 15px; font-weight: bold"> WEIGHT TICKET</td>
+ 		<td style="width: 7cm; font-size: 20px; font-weight: bold;font-family:arial;text-align: center;">WEIGHT TICKET</td>
  		<td style="width: 7cm; ">　</td>
  	</tr>
  	<tr>

@@ -14,7 +14,7 @@
 	function goToPage(page) {	
 		//location.href =  contextPath + '/member/leading/archives/page/'+page;
 		$("input#page").val(page);
-		$("form#outboundFilter").submit();
+		$("form#invoiceFilter").submit();
 	}
 	
 	function goToPreviousPages() {
@@ -76,6 +76,38 @@
 					</tr>
 				</c:forEach>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6">
+					<!-- 
+						<a href="javascript:void(goToPage(1))">FIRST</a>
+						<a href="javascript:void(goToPreviousPages())">PREV</a>
+						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
+							<c:if test="${i == pagination.currentPage}">
+								<a class="page_now">${i}</a>
+							</c:if>
+							<c:if test="${i != pagination.currentPage}">
+								<a href="javascript:void(goToPage(${i}))">${i}</a>
+							</c:if>
+						</c:forEach>
+						<a href="javascript:void(goToNextPages())">NEXT</a>
+						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
+						 -->
+						<a href="javascript:void(goToPage(1))">FIRST</a>
+						<a href="javascript:void(goToPreviousPages())">PREV</a>
+						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
+							<c:if test="${i == pagination.currentPage}">
+								<a class="page_now">${i}</a>
+							</c:if>
+							<c:if test="${i != pagination.currentPage}">
+								<a href="javascript:void(goToPage(${i}))">${i}</a>
+							</c:if>
+						</c:forEach>
+						<a href="javascript:void(goToNextPages())">NEXT</a>
+						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 	</div>
 <%@ include file="../../../layout/foot.jspf"%>

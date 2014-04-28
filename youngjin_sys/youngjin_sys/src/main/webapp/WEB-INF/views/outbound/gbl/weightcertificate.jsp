@@ -67,7 +67,7 @@
 			<p>E-mail : youngjin@yttc.co.kr								 (82-2) 825-6344</p>
 		</div>
 		<div id="weightcertificate_wrap">
-			<h1 id="weightcertificate_title">CERTIFIED WEIGHT TICKET</h1>
+		<h1 id="weightcertificate_title">　　　WEIGHT TICKET</h1>
 			<div class="weightcertificate_content">
 				<div class="weightcertificate_base_info">
 					<ul>

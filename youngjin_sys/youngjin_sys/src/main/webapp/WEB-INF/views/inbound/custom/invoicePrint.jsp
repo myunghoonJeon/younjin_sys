@@ -13,8 +13,8 @@
 <style type="text/css"> 
 <!--
 	p {margin: 0; padding: 0;}	
-	.ft10{font-size:15px; font-weight: bold; font-family:gothic;color:#000000;}
-	.ft11{font-size:14px; font-weight:bold; font-family:gothic;color:#000000;}
+	.ft10{font-size:18px; font-weight: bold; font-family:arial;color:#000000; }
+	.ft11{font-size:18px; font-weight:bold; font-family:arial;color:#000000;}
 	.ft12{font-size:21px;font-family:Times;color:#000000;}
 -->
 </style>
@@ -22,17 +22,17 @@
 
 <body bgcolor="#A0A0A0" vlink="blue" link="blue" onload="window.print();" >
 <div id="page1-div" style="position:relative;width:892px;height:1262px;">
-<img width="892" height="1262" src="<c:url value='/resources/images/freight/inboundinvoice.jpg'/>" alt="background image"/>
+<img width="892" height="1262" src="<c:url value='/resources/images/freight/inboundinvoice2.jpg'/>" alt="background image"/>
 
 
 <!------------------------------------------------------------------------------------------------------------------------------------------------> 
-<p style="position:absolute;top:209px;left:647px;white-space:nowrap" class="ft11">${ fn:substring(inboundInvoiceBasicInfo.eta, 0, 4)}-${fn:substring(inboundInvoiceBasicInfo.eta, 4, 6)}-${fn:substring(inboundInvoiceBasicInfo.eta, 6, 8)}</p>
-<p style="position:absolute;top:272px;left:261px;white-space:nowrap" class="ft10">${ inboundInvoiceBasicInfo.name }</p>
-<p style="position:absolute;top:323px;left:261px;white-space:nowrap" class="ft10">${ inboundInvoiceBasicInfo.gblNo }</p>
-<p style="position:absolute;top:374px;left:261px;white-space:nowrap" class="ft10">${ inboundInvoiceBasicInfo.piece }</p>
-<p style="position:absolute;top:425px;left:261px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.cuft }" type="number" /></p>
-<p style="position:absolute;top:476px;left:261px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.grossWt }" type="number" /></p>
-<p style="position:absolute;top:527px;left:261px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.netWt }" type="number" /></p>
+<p style="position:absolute;top:209px;left:665px;white-space:nowrap" class="ft11">${ fn:substring(inboundInvoiceBasicInfo.invoiceDate, 0, 4)}-${fn:substring(inboundInvoiceBasicInfo.invoiceDate, 4, 6)}-${fn:substring(inboundInvoiceBasicInfo.invoiceDate, 6, 8)}</p>
+<p style="position:absolute;top:272px;left:281px;white-space:nowrap" class="ft10">${ inboundInvoiceBasicInfo.name }</p>
+<p style="position:absolute;top:323px;left:281px;white-space:nowrap" class="ft10">${ inboundInvoiceBasicInfo.gblNo }</p>
+<p style="position:absolute;top:374px;left:281px;white-space:nowrap" class="ft10">${ inboundInvoiceBasicInfo.piece }</p>
+<p style="position:absolute;top:425px;left:281px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.cuft }" type="number" /></p>
+<p style="position:absolute;top:476px;left:281px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.grossWt }" type="number" /></p>
+<p style="position:absolute;top:527px;left:281px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${ inboundInvoiceBasicInfo.netWt }" type="number" /></p>
 
 <p style="position:absolute;top:618px;left:480px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${inboundInsuranceRate * 100 }" pattern="0" /></p>
 
@@ -50,7 +50,7 @@
 
 <p style="position:absolute;top:755px;left:575px;white-space:nowrap" class="ft10"><fmt:formatNumber value="${cbmus + lbsus }" type="number" /></p>
 
-<p style="position:absolute;top:821px;left:280px;white-space:nowrap" class="ft10">
+<p style="position:absolute;top:821px;left:270px;white-space:nowrap" class="ft10">
 	<c:choose>
 		<c:when test="${inboundInvoiceBasicInfo.code eq '8' }">
 			FRIGHT

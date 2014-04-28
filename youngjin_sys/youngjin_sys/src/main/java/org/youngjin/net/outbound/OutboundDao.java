@@ -163,7 +163,10 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void additionComplete(Addition paramAddition) {
 		getSqlSession().insert("outboundMapper.addtionComplete", paramAddition);
 	}
-
+	public Integer getBookingListYjCount(){
+		int k =  getSqlSession().selectOne("outboundMapper.getBookingListYjCount");
+		return k;
+	}
 	public void insertBookingList(BookingList bookingList) {
 		getSqlSession().insert("outboundMapper.insertBookingList", bookingList);
 	}
@@ -235,7 +238,9 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void deleteBookingListGbl(Integer seq) {
 		getSqlSession().update("outboundMapper.deleteBookingListGbl", seq);
 	}
-	
+	public void passBookingListGbl(Integer seq) {
+		getSqlSession().update("outboundMapper.passBookingListGbl", seq);
+	}
 	public void deleteTruckManifast(Integer seq) {
 		getSqlSession().delete("outboundMapper.deleteTruckManifast", seq);
 	}
@@ -247,15 +252,23 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void deleteGblStatusByBookingList(Integer seq) {
 		getSqlSession().update("outboundMapper.deleteGblStatusByBookingList", seq);
 	}	
-
+	
+	public void passBookingList(String seq){
+		getSqlSession().update("outboundMapper.passBookinglist",seq);
+	}
+	
 	public void deleteWeightCertificateByTruckManiafast(Integer seq) {
 		getSqlSession().update("outboundMapper.deleteWeightCertificateByTruckManifast", seq);
 	}
 	
 	public void deleteWeightCertificateByBookingList(Integer seq) {
 		getSqlSession().update("outboundMapper.deleteWeightCertificateByBookingList", seq);
-	}	
-
+	}
+	
+	public void passWeightCertificateByBookingList(Integer seq){
+		getSqlSession().update("outboundMapper.passWeightCertificateByBookingList",seq);
+	}
+	
 	public void mergeGblWeight(GBL gbl) {
 		getSqlSession().delete("outboundMapper.mergeGblWeightCertificate", gbl);
 	}
@@ -349,7 +362,11 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void deleteBookingList(Map<String, String> bookingSeq) {
 		getSqlSession().delete("outboundMapper.deleteBookingList", bookingSeq);
 	}
-
+	
+//	public void deleteBookingList(Map<String, String> bookingSeq) {
+//		getSqlSession().delete("outboundMapper.deleteBookingList", bookingSeq);
+//	}
+	
 	public List<GBL> getHouseGblList(OutboundFilter outboundFilter) {
 		return getSqlSession().selectList("outboundMapper.getHouseGblList", outboundFilter);
 	}
