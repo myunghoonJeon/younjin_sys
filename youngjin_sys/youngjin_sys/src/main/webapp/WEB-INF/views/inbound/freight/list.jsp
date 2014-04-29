@@ -155,13 +155,12 @@
 					<th>NAME</th>
 					<th>PCS</th>
 					<th>GROSS</th>
-					<th>TARE</th>
-					<th>NET</th>
+					<th>ETA</th>
 					<th>CUFT</th>
 					<c:if test="${inboundFilter.branch eq '' or inboundFilter.branch eq null }">
 						<th>BRANCH</th>
 					</c:if>
-					<th>ARD</th>
+					<th>ON HAND</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -188,14 +187,20 @@
 						<td>${gbl.rank }</td>
 						<td>${gbl.shipperName }</td>
 						<td>${gbl.totalPcs }</td>
-						<td>${gbl.grossWeight }</td>
-						<td>${gbl.weightIb.tare }</td>
-						<td>${gbl.netWeight }</td>
+						<c:choose>
+							<c:when test="${gbl.code eq '3' or gbl.code eq '4' or gbl.code eq '5' or gbl.code eq 'T'}">
+								<td>${gbl.netWeight }</td>
+							</c:when>
+							<c:otherwise>
+								<td>${gbl.grossWeight }</td>
+							</c:otherwise>
+						</c:choose>
+						<td>${gbl.eta }</td>
 						<td>${gbl.cuft }</td>
 						<c:if test="${inboundFilter.branch eq '' or inboundFilter.branch eq null }">
 							<td>${gbl.areaLocal }</td>
 						</c:if>
-						<td>${gbl.arriveDate }</td>
+						<td>${gbl.onHandDate }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

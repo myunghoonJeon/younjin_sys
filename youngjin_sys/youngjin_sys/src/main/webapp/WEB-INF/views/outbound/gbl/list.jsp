@@ -101,30 +101,27 @@
 	
 	<div>
 		<table class="yj_table">
-			<colgroup>
-				<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null }">
-					<col width="5%" />
-				</c:if>
+		<colgroup>
+				<col width="2%"/>
+				<col width="5%"/>
+				<col width="3%"/>
+				<col width="3%"/>
 				<col width="10%"/>
-				<col width="8%" />
-				<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
-					<col width="5%" />
-				</c:if>
-				<col width="12%" />
-				<col width="5%" />
-				<col width="25%" />
-				<col width="5%" />
-				<col width="5%" />
-				<col width="5%" />
-				<col width="10%" />
-				<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
-					<col width="5%" />
-				</c:if>
-				<col width="10%" />
+				<col width="2%"/>
+				<col width="10%"/>
+				<col width="2%"/>
+				<col width="3%"/>
+				<col width="3%"/>
+				<col width="3%"/>
+				<col width="10%"/>
+				<col width="3%"/>
+				<col width="3%"/>
+				<col width="10%"/>
+				<col width=""/>
 			</colgroup>
 			<tfoot>
 				<tr>
-					<td colspan="17">
+					<td colspan="16">
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
@@ -140,16 +137,13 @@
 					</td>
 				</tr>
 			</tfoot>
+			
 			<thead>
 				<tr>
-					<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null}">
-						<th>CODE</th>
-					</c:if>
+					<th>CODE</th>
 					<th>STATUS</th>
 					<th>PUD</th>
-					<c:if test="${outboundFilter.carrier eq '' or outboundFilter.carrier eq null }">
-						<th>SCAC</th>
-					</c:if>
+					<th>SCAC</th>
 					<th>GBL NO</th>
 					<th>RANK</th>
 					<th>NAME</th>
@@ -157,20 +151,17 @@
 					<th>LBS</th>
 					<th>CUFT</th>
 					<th>US_NO</th>
-					<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
-						<th>BRANCH</th>
-					</c:if>
-					<th>DEST_PORT</th>
+					<th>BRANCH</th>
 					<th>ETD</th>
 					<th>ETA</th>
-					<th>BL NO</th>
+					<th>BL NO1</th>
 					<th>POD</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${gblList eq '[]' or gblList eq null or gblList eq '' }">
 					<tr>
-						<td colspan="17">GBL이 없습니다.</td>
+						<td colspan="16">GBL이 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="gbl" items="${gblList }">
@@ -191,13 +182,20 @@
 						<td>${gbl.rank }</td>
 						<td>${gbl.customerName }</td>
 						<td>${gbl.pcs }</td>
-						<td>${gbl.lbs }</td>
+						<c:choose>
+							<c:when test="${gbl.code eq '3' or gbl.code eq '4' or gbl.code eq '5' or gbl.code eq 'T'}">
+								<td>${gbl.netWeight }</td>
+							</c:when>
+							<c:otherwise>
+								<td>${gbl.lbs }</td>
+							</c:otherwise>
+						</c:choose>
+						
 						<td>${gbl.cuft }</td>
 						<td>${gbl.usNo }</td>
 						<c:if test="${outboundFilter.branch eq '' or outboundFilter.branch eq null }">
 							<td>${gbl.areaLocal }</td>
 						</c:if>
-						<td>${gbl.destPort }</td>
 						<td>${gbl.etd }</td>
 						<td>${gbl.eta }</td>
 						<td>${gbl.blNo }</td>

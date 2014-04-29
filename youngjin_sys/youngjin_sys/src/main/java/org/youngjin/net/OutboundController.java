@@ -76,18 +76,11 @@ public class OutboundController {
 		
 		outboundFilter.getPagination().setNumItems(count);
 		
-		System.out.println("[[[[[[[[[[[[[[[[[ GBL Counting "+count+"]]]]]]]]]]]]]]]]]");
 		user.setSubProcess("gblList");
 		
 		model.addAttribute("filterMap", outboundService.getFilterMap());
 		
 		List<GBL> gblList = outboundService.getGblList(outboundFilter, user);
-		
-		for(int i=0;i<gblList.size();i++){
-			System.out.println("test");
-//			System.out.println("["+(i+1)+"]["+gblList.get(i).getSeq().toString()+"]["+gblList.get(i).getShipperName().toString()+"]");
-		}
-		
 		model.addAttribute("gblList",gblList);
 		
 		model.addAttribute("gblStatus",

@@ -162,7 +162,8 @@
 					g.itemsPieces,
 					g.grossWeight,
 					g.netWeight,
-					g.storedAt
+					g.storedAt,
+					g.cuft
 				FROM
 					gbl_ib g, (SELECT @rownum := 0) r
 				WHERE

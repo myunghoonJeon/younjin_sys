@@ -247,6 +247,7 @@
 				g.eta,
 				g.bl_no,
 				g.pod,
+				g.netWeight,
 				CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
 				g.lbs,
 				CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
@@ -329,7 +330,7 @@
 	FROM
 		truck_manifast
 	WHERE
-		seq = (select truck_seq from weight_certificate where gbl_seq= #{seq} group by truck_seq)
+		seq = any(select truck_seq from weight_certificate where gbl_seq= #{seq} group by truck_seq)
 </select>
 <select id="getGbl" parameterType="Integer" resultMap="GblMap">
 	SELECT

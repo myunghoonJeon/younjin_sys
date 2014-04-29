@@ -165,7 +165,7 @@ public class InboundService {
 			}
 			
 			totalGross += Integer.parseInt(gross[i]);
-			totalNet += Integer.parseInt(tare[i]);
+			totalNet += Integer.parseInt(net[i]);
 			totalCuft += Integer.parseInt(cuft[i]);
 		}
 		

@@ -69,9 +69,11 @@ public class InboundController {
 		user.setSubProcess("freightList");
 
 		model.addAttribute("filterMap", inboundService.getFilterMap());
-
-		model.addAttribute("gblList",
-				inboundService.getFreightList(inboundFilter, user));
+		List<GBL> gblList = inboundService.getFreightList(inboundFilter, user);
+		model.addAttribute("gblList",gblList);
+		for(int i=0;i<gblList.size();i++){
+			System.out.print(" [ shipper : "+gblList.get(i).getShipperName()+"==== NetWeight : "+gblList.get(i).getNetWeight()+"]");
+		}
 		model.addAttribute("gblStatus",
 				inboundService.getGblStatus(inboundFilter));
 
