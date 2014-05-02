@@ -128,6 +128,7 @@ youngjin.outbound.delivery.getWeightCertificateList = function(target){
 youngjin.outbound.delivery.addTruckMenu = function(target){
 	
 	var truckdate = document.getElementById("truckdate").value;
+	
 	var gblSeq = '';
 	$(':checkbox:checked').each(function(){
 		gblSeq = gblSeq + $(this).val() + ",";

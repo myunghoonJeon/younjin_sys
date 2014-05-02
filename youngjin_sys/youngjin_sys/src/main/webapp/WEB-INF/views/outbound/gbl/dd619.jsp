@@ -39,7 +39,7 @@
 -->
 </style>
 </head>
-<body bgcolor="#A0A0A0" vlink="blue" link="blue" onload="window.print();">
+<body bgcolor="#A0A0A0" vlink="blue" link="blue">
 <!-- Page 1 -->
 <a name="1"></a>
 <style type="text/css"> 
@@ -58,7 +58,7 @@
 	}
 	input{heigt:5px;font-family:arial; font-size:13px; border:0px dashed gray; font-weight:bolder;}
 	.q-text {font-family:arial; font-size:13px; border:0px dashed gray; font-weight:bolder;}
-	.q-text input{height:12px; font-size: 5px;}
+	.q-text input{height:20px; font-size: 12pt; font-family:arial;}
 	p {margin: 0; padding: 0;}	.ft10{font-size:7px;font-family:Times;color:#000000;}
 	.ft11{font-size:7px;font-family:Times;color:#000000;}
 	.ft12{font-size:13px;font-family:Times;color:#000000;}
@@ -82,47 +82,53 @@
 	.ft120{font-size:13px;line-height:22px;font-family:Times;color:#000000;}
 </style>
 <div id="page1-div" style="position:relative;width:1224px;height:1584px;">
-<img width="1224px" height="1584px" src="<c:url value='/resources/images/gbl/DD-619test8.jpg'/>" alt="background image"/>
+<img width="1224px" height="1584px" src="<c:url value='/resources/images/gbl/DD619.jpg'/>" alt="background image"/>
 
 
 <!-- ///////////////////////////////////////////input no ga da////////////////////////////////////////////////////////////////////// -->
 
-<p style="position:absolute;top:187px;left:65px;white-space:nowrap" class="q-text"><input value="${dd619.gblNo }"/></p>
-<p style="position:absolute;top:187px;left:348px;white-space:nowrap" class="q-text"><input style="width: 70px;" value="${gbl.pud}"/></p>
-<p style="position:absolute;top:223px;left:65px;white-space:nowrap" class="q-text"><input value="${dd619.name }"/></p>
-<p style="position:absolute;top:259px;left:65px;white-space:nowrap" class="q-text"><input value="XXX-XX-${dd619.ssn }"/></p>
-<p style="position:absolute;top:259px;left:260px;white-space:nowrap" class="q-text"><input value="${gbl.rank }"/></p>
-<p style="position:absolute;top:295px;left:65px;white-space:nowrap" class="q-text"><input value="${gbl.originAddress }" style="width: "/></p>
-<p style="position:absolute;top:295px;left:260px;white-space:nowrap" class="q-text"><input value="${gblock.remark }"/></p>
-<p style="position:absolute;top:343px;left:65px;white-space:pre-line; width: 180px; font-size: 8pt; font-weight: bold; font-family: arial;">${dd619.orderingActivityName }</p>
-<p style="position:absolute;top:343px;left:260px;white-space:nowrap" class="q-text"></p>
-<p style="position:absolute;top:385px;left:65px;white-space:nowrap" class="q-text"><input value="${dd619.carrierName }"/></p>
-<p style="position:absolute;top:385px;left:260px;white-space:nowrap" class="q-text"><input value="${dd619.agentName }"/></p>
-<p style="position:absolute;top:425px;left:65px;white-space:nowrap" class="q-text"><input value="${dd619.signature }"/></p>
-<p style="position:absolute;top:435px;left:373px;white-space:nowrap" class="q-text"></p>
-<p style="position:absolute;top:475px;left:65px;white-space:nowrap" class="q-text"><input value="${dd619.carrierShipmentReference }"/></p>
-<p style="position:absolute;top:475px;left:313px;white-space:nowrap" class="q-text"><input value="${dd619.code }"/></p>
-<p style="position:absolute;top:511px;left:373px;white-space:nowrap" class="q-text"><input name='lbs' style="width: 70px; height: 10px; font-size: 7pt;"></p>
-<p style="position:absolute;top:565px;left:65px;white-space:nowrap" class="q-text"><input name='13-a' style="width: 125px; height: 10px; font-size: 7pt;"></p>
-<p style="position:absolute;top:565px;left:202px;white-space:nowrap" class="q-text"><input name='13-2' style="width: 40px; height: 10px; font-size: 7pt;"></p>
-<p style="position:absolute;top:568px;left:248px;white-space:nowrap" class="q-text"><input type="checkbox" name="13-b" value="ORIGIN"></p>
-<p style="position:absolute;top:568px;left:309px;white-space:nowrap" class="q-text"><input type="checkbox" name="13-b" value="DESTINATION"></p>
-<p style="position:absolute;top:568px;left:395px;white-space:nowrap" class="ft14"><input type="checkbox" name="13-b" value="OTHER"></p>
-<p style="position:absolute;top:619px;left:65px;white-space:nowrap" class="q-text"><input name='13-c' style="width: 50px; height: 10px; font-size: 7pt;"></p>
-<p style="position:absolute;top:619px;left:135px;white-space:nowrap" class="q-text"><input name='13-d' style="width: 70px; height: 10px; font-size: 7pt;"></p>
-<p style="position:absolute;top:619px;left:221px;white-space:nowrap" class="q-text"><input name='13-e' style="width: 80px; height: 10px; font-size: 7pt;"></p>
-<p style="position:absolute;top:619px;left:313px;white-space:nowrap" class="q-text"><input name='13-f' style="width: 45px; height: 10px; font-size: 7pt;"></p>
-<p style="position:absolute;top:619px;left:373px;white-space:nowrap" class="q-text"><input name='13-g' style="width: 65px; height: 10px; font-size: 7pt;"></p>
-<p style="position:absolute;top:659px;left:65px;white-space:nowrap" class="q-text"><input name='13-h' style="width: 100px; height: 9px; font-size: 7pt;"></p>
-<p style="position:absolute;top:659px;left:191px;white-space:nowrap" class="q-text"><input name='13-i' style="width: 250px; height: 9px; font-size: 7pt;"></p>
-<p style="position:absolute;top:675px;left:347px;white-space:nowrap" class="q-text"><input name="13-j" type="checkbox" value="yes"></p>
-<p style="position:absolute;top:675px;left:396px;white-space:nowrap" class="q-text"><input name="13-j" type="checkbox" value="no"></p>
-<p style="position:absolute;top:694px;left:316px;white-space:nowrap" class="q-text"><input name='14-a' style="width: 120px; height: 10px; font-size: 7pt;"></p>
-<p style="position:absolute;top:712px;left:160px;white-space:nowrap" class="q-text"><input name='14-b' style="width: 84px; height: 9px; font-size: 7pt;"></p>
-<p style="position:absolute;top:730px;left:160px;white-space:nowrap" class="q-text"><input name='14-d' style="width: 84px; height: 9px; font-size: 7pt;"></p>
-<p style="position:absolute;top:748px;left:160px;white-space:nowrap" class="q-text"><input name='14-f' style="width: 84px; height: 9px; font-size: 7pt;"></p>
-<p style="position:absolute;top:712px;left:360px;white-space:nowrap" class="q-text"><input name='14-c' style="width: 84px; height: 9px; font-size: 7pt;"></p>
-<p style="position:absolute;top:730px;left:360px;white-space:nowrap" class="q-text"><input name='14-e' style="width: 84px; height: 9px; font-size: 7pt;"></p>
+<p style="position:absolute;top:247px;left:85px;white-space:nowrap" class="q-text"><input id="q-1" value="${dd619.gblNo  }"/></p>
+<p style="position:absolute;top:247px;left:470px;white-space:nowrap" class="q-text"><input id="q-2" style="width: 110px;" value="${gbl.pud}"/></p>
+<p style="position:absolute;top:293px;left:85px;white-space:nowrap" class="q-text"><input id="q-3a" value="${dd619.name }"/></p>
+<p style="position:absolute;top:345px;left:85px;white-space:nowrap" class="q-text"><input id="q-3b" value="XXX-XX-${dd619.ssn }"/></p>
+<p style="position:absolute;top:345px;left:350px;white-space:nowrap" class="q-text"><input id="q-3c" value="${gbl.rank }" style="width:100px;text-align: center;"/></p>
+<p style="position:absolute;top:395px;left:85px;white-space:nowrap" class="q-text"><input id="q-4" value="${gbl.originAddress }" style="width: "/></p>
+<p style="position:absolute;top:395px;left:350px;white-space:nowrap" class="q-text"><input id="q-5" value="${gblock.remark }"/></p>
+<p style="position:absolute;top:453px;left:80px;white-space:nowrap"><textarea id="q-6a" cols="37" rows="2" style="font-size: 10pt; font-weight: bold; font-family: arial; border: hidden; resize:none; overflow: hidden;">${dd619.orderingActivityName }</textarea></p>
+<p style="position:absolute;top:453px;left:350px;white-space:nowrap" class="q-text"><input id="q-6b" style="width:200px;height:30px;" value=""/></p>
+<p style="position:absolute;top:515px;left:85px;white-space:nowrap" class="q-text"><input id="q-7a" style="width:240px; "value="${dd619.carrierName }"/></p>
+<p style="position:absolute;top:515px;left:350px;white-space:nowrap" class="q-text"><input id="q-7b" value="${dd619.agentName }"/></p>
+<p style="position:absolute;top:565px;left:85px;white-space:nowrap" class="q-text"><input id="q-8" style="width:250px;"value="${dd619.signature }"/></p>
+<p style="position:absolute;top:580px;left:495px;white-space:nowrap" class="q-text"><input id="q-9" style="width:80px;"value=""></p>
+<p style="position:absolute;top:630px;left:85px;white-space:nowrap" class="q-text"><input id="q-10" value="${dd619.carrierShipmentReference }"/></p>
+<p style="position:absolute;top:630px;left:460px;white-space:nowrap" class="q-text"><input id="q-11" value="${dd619.code }" style="width:100px;text-align: center;"/></p>
+<!-- 
+<p style="position:absolute;top:750px;left:495px;white-space:nowrap" class="q-text"><input name='lbs' style="width: 70px; height: 10px; font-size: 7pt;"></p>
+<p style="position:absolute;top:795px;left:85px;white-space:nowrap" class="q-text"><input name='13-a' style="width: 125px; height: 10px; font-size: 7pt;"></p>
+<p style="position:absolute;top:795px;left:202px;white-space:nowrap" class="q-text"><input name='13-2' style="width: 40px; height: 10px; font-size: 7pt;"></p>
+ 
+<p style="position:absolute;top:758px;left:335px;white-space:nowrap" class="q-text"><input type="checkbox" name="13-b" value="ORIGIN" checked="checked"></p>
+<p style="position:absolute;top:758px;left:309px;white-space:nowrap" class="q-text"><input type="checkbox" name="13-b" value="DESTINATION"checked="checked"></p>
+<p style="position:absolute;top:758px;left:395px;white-space:nowrap" class="ft14"><input type="checkbox" name="13-b" value="OTHER"checked="checked"></p>
+ 
+<p style="position:absolute;top:649px;left:85px;white-space:nowrap" class="q-text"><input name='13-c' style="width: 50px; height: 10px; font-size: 7pt;"></p>
+<p style="position:absolute;top:649px;left:135px;white-space:nowrap" class="q-text"><input name='13-d' style="width: 70px; height: 10px; font-size: 7pt;"></p>
+<p style="position:absolute;top:649px;left:221px;white-space:nowrap" class="q-text"><input name='13-e' style="width: 80px; height: 10px; font-size: 7pt;"></p>
+<p style="position:absolute;top:649px;left:313px;white-space:nowrap" class="q-text"><input name='13-f' style="width: 45px; height: 10px; font-size: 7pt;"></p>
+<p style="position:absolute;top:649px;left:373px;white-space:nowrap" class="q-text"><input name='13-g' style="width: 65px; height: 10px; font-size: 7pt;"></p>
+<p style="position:absolute;top:689px;left:85px;white-space:nowrap" class="q-text"><input name='13-h' style="width: 100px; height: 9px; font-size: 7pt;"></p>
+<p style="position:absolute;top:689px;left:191px;white-space:nowrap" class="q-text"><input name='13-i' style="width: 250px; height: 9px; font-size: 7pt;"></p>
+
+
+<p style="position:absolute;top:705px;left:347px;white-space:nowrap" class="q-text"><input name="13-j" type="checkbox" value="yes"></p>
+<p style="position:absolute;top:705px;left:396px;white-space:nowrap" class="q-text"><input name="13-j" type="checkbox" value="no"></p>
+  
+<p style="position:absolute;top:724px;left:316px;white-space:nowrap" class="q-text"><input name='14-a' style="width: 120px; height: 10px; font-size: 7pt;"></p>
+<p style="position:absolute;top:742px;left:160px;white-space:nowrap" class="q-text"><input name='14-b' style="width: 84px; height: 9px; font-size: 7pt;"></p>
+<p style="position:absolute;top:770px;left:160px;white-space:nowrap" class="q-text"><input name='14-d' style="width: 84px; height: 9px; font-size: 7pt;"></p>
+<p style="position:absolute;top:778px;left:160px;white-space:nowrap" class="q-text"><input name='14-f' style="width: 84px; height: 9px; font-size: 7pt;"></p>
+<p style="position:absolute;top:742px;left:360px;white-space:nowrap" class="q-text"><input name='14-c' style="width: 84px; height: 9px; font-size: 7pt;"></p>
+<p style="position:absolute;top:770px;left:360px;white-space:nowrap" class="q-text"><input name='14-e' style="width: 84px; height: 9px; font-size: 7pt;"></p>
 <p style="position:absolute;top:748px;left:360px;white-space:nowrap" class="q-text"><input name='14-g' style="width: 84px; height: 9px; font-size: 7pt;"></p>
 
 <p style="position:absolute;top:810px;left:56px;white-space:nowrap" class="q-text"><input name='15-a-1' style="width: 121px; height: 9px; font-size: 7pt;"></p>
@@ -139,17 +145,17 @@
 <p style="position:absolute;top:826px;left:369px;white-space:nowrap" class="q-text"></p>
 <p style="position:absolute;top:842px;left:369px;white-space:nowrap" class="q-text"></p>
 <p style="position:absolute;top:858px;left:369px;white-space:nowrap" class="q-text"></p>
-
-<p style="position:absolute;top:891px;left:59px; white-space: pre-line; font-size: 14px; font-weight: bold;" class="q-text"><input value="${fn:replace(dd619.remark, lf, '<br/>') }"/></p>
-
+-->
+<p style="position:absolute;top:1180px;left:75px; white-space: pre-line; font-size: 14px; font-weight: bold;" class="q-text"><textarea cols="145" rows="5" style="font-size: 15px; font-weight:bold;font-family: arial; overflow: hidden; resize:none;">${fn:replace(dd619.remark, lf, '<br/>') }</textarea></p>
+<!-- 
 <p style="position:absolute;top:993px;left:56px;white-space:nowrap" class="q-text"><input name="18-a" type="checkbox" value="atorigin" checked="checked"></p>
 <p style="position:absolute;top:1010px;left:56px;white-space:nowrap" class="q-text"></p>
 <p style="position:absolute;top:993px;left:164px;white-space:nowrap" class="q-text"></p>
-
-<p style="position:absolute;top:1011px;left:164px;white-space:nowrap" class="q-text"><input name='18-a' style="width: 235px; height: 9px; font-size: 7pt;"></p>
-<p style="position:absolute;top:995px;left:421px;white-space:nowrap" class="q-text"><input value="${dd619.officerSignature }"/></p>
-<p style="position:absolute;top:1005px;left:729px;white-space:nowrap" class="ft111"><input value="${dd619.officerDate }"/></p>
-
+ -->
+<p style="position:absolute;top:1340px;left:300px;white-space:nowrap" class="q-text"><input name='18-a' style="width: 235px; height: 20px; "></p>
+<p style="position:absolute;top:1330px;left:561px;white-space:nowrap" class="q-text"><input name="18-b" style="width: 350px;" value="${dd619.officerSignature }"/></p>
+<p style="position:absolute;top:1340px;left:980px;white-space:nowrap" class="ft111"><input name="18-c" style="width:150px;height:20px;"value="${dd619.officerDate }"/></p>
+<!-- 
 <p style="position:absolute;top:1056px;left:55px;white-space:nowrap" class="q-text"><input name="19-1" type="checkbox" value="accessorialservice" checked="checked"></p>
 <p style="position:absolute;top:1072px;left:55px;white-space:nowrap" class="q-text"><input name="19-2" type="checkbox" value="storageintransit" checked="checked"></p>
 <p style="position:absolute;top:1042px;left:293px;white-space:nowrap" class="q-text"><input name="19-3" type="checkbox" value="reweighcertification" checked="checked"></p>
@@ -159,15 +165,16 @@
 <p style="position:absolute;top:1058px;left:455px;white-space:nowrap" class="q-text"><input name="19-7" type="checkbox" value="unpackingservice" checked="checked"></p>
 <p style="position:absolute;top:1073px;left:455px;white-space:nowrap" class="q-text"><input name="19-8" type="checkbox" value="overtimeloading" checked="checked"></p>
 <p style="position:absolute;top:1043px;left:681px;white-space:nowrap" class="q-text"><input name="19-9" type="checkbox" value="other" checked="checked"></p>
-<p style="position:absolute;top:1115px;left:150px;white-space:nowrap" class="q-text"><input value="${gbl.rank } ${gbl.customerName }"/></p>
-<p style="position:absolute;top:1105px;left:65px;white-space:nowrap" class="q-text"></p>
+ -->
+<p style="position:absolute;top:1470px;left:100px;white-space:nowrap" class="q-text"><input name="19-b"style="width  :400px;height:30px;" value="${gbl.rank } ${gbl.customerName }"/></p>
+<p style="position:absolute;top:1105px;left:85px;white-space:nowrap" class="q-text"></p>
 <p style="position:absolute;top:1105px;left:421px;white-space:nowrap" class="q-text"></p>
-<p style="position:absolute;top:1115px;left:740px;white-space:nowrap" class="q-text"><input value="${dd619.transportationDate }"/></p>
+<p style="position:absolute;top:1485px;left:990px;white-space:nowrap" class="q-text"><input name="19-d"style="width:150px;height:20px;" value="${dd619.transportationDate }"/></p>
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 
 <!-- //////////////////////////////////////////////////RIGHT SIDE!!!! no ga da//////////////////////////////////////////////////////////////////// -->
-
+<!-- 
 <p style="position:absolute;top:225px;left:681px;white-space:nowrap" class="q-text"><input name='16-a-2' style="width: 36px; height: 9px; font-size: 8pt;"></p>
 <p style="position:absolute;top:225px;left:724px;white-space:nowrap" class="q-text"><input name='16-a-3' style="width: 65px; height: 10px; font-size: 8pt;"></p>
 <p style="position:absolute;top:225px;left:794px;white-space:nowrap" class="q-text"><input name='16-a-4' style="width: 65px; height: 10px; font-size: 8pt;"></p>
@@ -292,16 +299,16 @@
 <p style="position:absolute;top:808px;left:681px;white-space:nowrap" class="q-text"><input name='16-cc-2' style="width: 38px; height: 10px; font-size: 8pt;"></p>
 <p style="position:absolute;top:808px;left:724px;white-space:nowrap" class="q-text"><input name='16-cc-3' style="width: 65px; height: 10px; font-size: 8pt;"></p>
 <p style="position:absolute;top:808px;left:794px;white-space:nowrap" class="q-text"><input name='16-cc-4' style="width: 65px; height: 10px; font-size: 8pt;"></p>
-
+ -->
 <c:set var="otherList" value="${fn:split(dd619.other, ',') }" />
-<p style="position:absolute;top:827px;left:681px;white-space:nowrap" class="q-text"><input value="${otherList[0] }"/></p>
-<p style="position:absolute;top:827px;left:724px;white-space:nowrap" class="q-text"><input value="${otherList[1] }"/></p>
-<p style="position:absolute;top:827px;left:794px;white-space:nowrap" class="q-text"><input value="${otherList[2] }"/></p>
+<p style="position:absolute;top:1102px;left:910px;white-space:nowrap;"><input style="height:10px; width:50px;font-size:8pt; font-weight:bold; font-family:arial; text-align: center" value="${otherList[0] }"/></p>
+<p style="position:absolute;top:1102px;left:980px;white-space:nowrap;"><input style="height:10px; width:70px;font-size:8pt; font-weight:bold; font-family:arial; text-align: center" value="${otherList[1] }"/></p>
+<p style="position:absolute;top:1102px;left:1075px;white-space:nowrap;"><input style="height:10px; width:70px;font-size:8pt; font-weight:bold; font-family:arial; text-align: center;" value="${otherList[2] }"/></p>
 
 <c:set var="totalList" value="${fn:split(dd619.total, ',') }" />
-<p style="position:absolute;top:850px;left:681px;white-space:nowrap" class="q-text"><input value="${totalList[0] }"/></p>
-<p style="position:absolute;top:850px;left:724px;white-space:nowrap" class="q-text"><input value="${totalList[1] }"/></p>
-<p style="position:absolute;top:850px;left:794px;white-space:nowrap" class="q-text"><input value="${totalList[2] }"/></p>
+<p style="position:absolute;top:1130px;left:910px;;white-space:nowrap" class="q-text"><input style="height:20px; width:50px;font-size:8pt; font-weight:bold; font-family:arial; text-align: center;"value="${totalList[0] }"/></p>
+<p style="position:absolute;top:1130px;left:980px;white-space:nowrap" class="q-text"><input style="height:20px; width:70px;font-size:8pt; font-weight:bold; font-family:arial; text-align: center;"value="${totalList[1] }"/></p>
+<p style="position:absolute;top:1130px;left:1075px;white-space:nowrap" class="q-text"><input style="height:20px; width:70px;font-size:8pt; font-weight:bold; font-family:arial; text-align: center;"value="${totalList[2] }"/></p>
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 </div>

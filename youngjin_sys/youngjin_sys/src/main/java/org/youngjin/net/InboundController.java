@@ -1,5 +1,6 @@
 package org.youngjin.net;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -535,10 +536,21 @@ public class InboundController {
 	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListForm", method = RequestMethod.GET)//inbound.js 에서 왔음
 	public String getOnHandListForm(Model model, User user,
 		@PathVariable String process, @PathVariable Integer seq) {
-		
-		model.addAttribute("onHandListSeq", seq);
-		model.addAttribute("onHandListContentList",
-				inboundService.getOnHandListContentListForm(seq));
+		List<OnHandList> ohlList = new ArrayList<OnHandList>();
+		OnhandSum os = new OnhandSum();
+		System.out.println("input Seq : "+seq);
+		ohlList = inboundService.getOnHandListContentListForm(seq);
+		for(OnHandList ohl : ohlList){
+			int tempSeq = ohl.getOnHandListContent().getSeq();
+			System.out.println("seq : " +tempSeq);
+			os = inboundService.getOnhandListSum(tempSeq);
+			System.out.println("gross : "+os.getSumGross());
+			System.out.println("net   : "+os.getSumNet());
+			System.out.println("cuft  : "+os.getSumCuft());
+		}
+//		model.addAttribute("onHandListSeq", seq);
+//		model.addAttribute("onHandListContentList",
+//				inboundService.getOnHandListContentListForm(seq));
 		return process + "/onHand/onHandListForm";
 	}
 
@@ -552,11 +564,10 @@ public class InboundController {
 	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListFormPrint", method = RequestMethod.GET)
 	public String getOnHandListFormPrint(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
-
-		model.addAttribute("onHandListContentList",
-				inboundService.getOnHandListContentListForm(seq));
-		
-//		model.addAttribute("basicBranch", basicService.getBranch())
+		List<OnHandList> ohlList = new ArrayList<OnHandList>();
+		ohlList = inboundService.getOnHandListContentListForm(seq);
+		model.addAttribute("onHandListContentList",ohlList);
+//		model.addAttribute("basicBranch", basicService.getBranch());
 		return process + "/onHand/onHandListPrint";
 	}
 

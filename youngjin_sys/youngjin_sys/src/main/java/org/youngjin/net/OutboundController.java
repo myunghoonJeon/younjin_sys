@@ -42,6 +42,7 @@ import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.outbound.PowerOfAttornyList;
 import org.youngjin.net.outbound.PreMoveSurvey;
+import org.youngjin.net.outbound.TruckManifast;
 import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.process.ProcessService;
@@ -520,7 +521,6 @@ public class OutboundController {
 	public String dd619(Model model, User user, @PathVariable String process,
 			@PathVariable String seq, @PathVariable Integer listSeq, @ModelAttribute Dd619 dd619) {
 		
-		System.out.println("test");
 		GBL gbl = outboundService.getGbl(Integer.parseInt(seq));
 		dd619 = outboundService.getDd619ListSelectOne(listSeq);
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
@@ -864,14 +864,17 @@ public class OutboundController {
 		
 		Map<String, Pod> podMap = basicService.getpodMap();
 
+		TruckManifast tm = outboundService.getTruckManifastOne(seq);
+		System.out.println("[[[[[[[[[test truckmanifast : "+tm.getDate()+" ]]]]]]]]]]]]");
+		String truckDate = tm.getDate();
 		model.addAttribute("gblList", list);
-		
+		model.addAttribute("truckDate",truckDate);
 		model.addAttribute("podMap", podMap);
 		
-		model.addAttribute("truckManisfast", outboundService.getTruckManifastOne(seq));
+		model.addAttribute("truckManisfast", tm);
 		
 		model.addAttribute("user", user);
-
+		System.out.println("[[[[[[[[[test truckmanifast : CALL PAPER ]]]]]]]]]]]]");
 		return process + "/delivery/truckManifastPrint";
 	}
 

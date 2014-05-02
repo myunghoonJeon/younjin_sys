@@ -69,7 +69,7 @@
 		<result column="net" property="onHandListContent.weight.net" />
 		<result column="cuft" property="onHandListContent.weight.cuft"/>
 	</resultMap>
-
+	
 	<select id="getFreightListCount" parameterType="InboundFilter" resultType="Integer">
 		SELECT
 			count(*)
@@ -1216,7 +1216,6 @@
 				SELECT
 					(@rownum := @rownum + 1) AS rownum,
 					o.seq, o.onHandDate, o.firstArrivalableDeliverDate, o.writeDate
-				
 				FROM
 					on_hand_list o, (SELECT @rownum := 0) r
 		
@@ -1306,7 +1305,15 @@
 		AND
 			g.seq IN (SELECT DISTINCT gblSeq FROM inbound_invoice_list WHERE check_up = 0 AND declarationCheck = 1)
 	</select>
-	
+	<select id="getOnhandSum" parameterType="Integer" resultType="OnhandSum">
+		SELECT sum(gross) as sumGross, sum(net) as sumNet, sum(cuft) as sumCuft
+		FROM weight_ib
+		WHERE seq IN
+		(
+			select weightSeq from on_hand_list_content_weight
+			where onHandListContentSeq = #{seq}
+		)
+	</select>
 	<select id="getOnHandListForm" parameterType="Integer" resultMap="onHandListFormMap">
 		<!-- 
 		SELECT

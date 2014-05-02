@@ -5,7 +5,6 @@ public class OnHandList {
 	private String onHandDate;
 	private String firstArrivalableDeliverDate;
 	private String writeDate;
-
 	private OnHandListContent onHandListContent;
 
 	public Integer getSeq() {

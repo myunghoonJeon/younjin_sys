@@ -120,7 +120,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Truck Manifast</title>
 </head>
-<body onload="window.print();">
+<body>
 	
 	<div>
 		<table align="center" width="90%" cellspacing="0">
@@ -128,9 +128,7 @@
 		<td id='topcodetd' colspan="6">CODE #${truckManisfast.code }</td>
 		</tr>
 		<tr>
-			<fmt:parseDate var="parsePud" value="${fn:substring(truckManisfast.date, 0, 10)}" pattern="yyyy-MM-dd"/>
-			<c:set var="pud" value="${parsePud }" />
-			<td colspan="6" id="topdatetd">${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }</td><%-- <% out.println("<td colspan=\"6\" id='topdatetd'>"+date+"</td>"); %> --%>
+			 <td colspan="6" style="text-align: right; font-family: arial;font-weight: bold;">${truckDate }</td>
 		</tr>
 		<tr>
 		<td id='gblnotd'>GBL-NO</td>
@@ -145,7 +143,7 @@
 				<td id="inputstart">${gbl.no }</td>
 				<td id="inputstart">${gbl.shipper }</td>
 				<td id="inputstart">${gbl.area }/${gbl.usNo }/${gbl.scac }</td>
-				<td id="inputstart">${gbl.pod } / ${podMap[gbl.pod].podAgentName})</td>
+				<td id="inputstart" style="width:17%;">${gbl.pod } / ${podMap[gbl.pod].podAgentName}</td>
 				<c:forEach var="weightCertificate" items="${gbl.containerList }" varStatus="i">
 					<c:choose>
 						<c:when test="${i.index eq 0 }">

@@ -10,6 +10,7 @@ import org.youngjin.net.Dd619;
 import org.youngjin.net.GBL;
 import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
+import org.youngjin.net.OnhandSum;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.outbound.Addition;
 
@@ -290,7 +291,9 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public List<OnHandList> getOnHandListContentForm(Integer seq){ 
 		return getSqlSession().selectList("inboundMapper.getOnHandListForm", seq);
 	}
-
+	public OnhandSum getOnhandListSum(Integer seq){
+		return getSqlSession().selectOne("inboundMapper.getOnhandSum",seq);
+	}
 	public void onHandListContentByUpdate(OnHandListContent onHandListContent) {
 		getSqlSession().update("inboundMapper.onHandListContentByUpdate", onHandListContent);
 	}

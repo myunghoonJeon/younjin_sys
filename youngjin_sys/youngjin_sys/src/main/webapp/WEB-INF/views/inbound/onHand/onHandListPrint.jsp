@@ -214,7 +214,7 @@
             
         </style>
     </head>
-    <body onload="window.print();">
+    <body>
         <div id="paper">
             <h1>DPS-REQUEST FOR AUTHORIZATION OF SIT NUMBERS</h1>
             <div id="header">

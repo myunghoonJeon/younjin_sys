@@ -87,7 +87,7 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRUCK MANIFAST DATE : 
 						</li>
 						<li>
-							<input type="text" id="truckdate" />
+							<input class="input_truckdate" type="text" id="truckdate" />
 						</li>
 						<li>
 							<span class="truck_gbl_addButton yj_button" >add</span>

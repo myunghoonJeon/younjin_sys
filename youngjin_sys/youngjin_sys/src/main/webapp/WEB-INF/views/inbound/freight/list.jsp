@@ -154,7 +154,7 @@
 					<th>RANK</th>
 					<th>NAME</th>
 					<th>PCS</th>
-					<th>GROSS</th>
+					<th>LBS</th>
 					<th>ETA</th>
 					<th>CUFT</th>
 					<c:if test="${inboundFilter.branch eq '' or inboundFilter.branch eq null }">

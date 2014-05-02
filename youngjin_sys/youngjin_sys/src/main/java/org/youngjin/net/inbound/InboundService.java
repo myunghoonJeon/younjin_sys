@@ -13,6 +13,7 @@ import org.youngjin.net.Dd619;
 import org.youngjin.net.GBL;
 import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
+import org.youngjin.net.OnhandSum;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeDao;
 import org.youngjin.net.invoice.InvoiceService;
@@ -603,7 +604,10 @@ public class InboundService {
 	public List<OnHandList> getOnHandListContentListForm(Integer seq) {
 		return inboundDao.getOnHandListContentForm(seq);
 	}
-
+	
+	public OnhandSum getOnhandListSum(Integer seq){
+		return inboundDao.getOnhandListSum(seq);
+	}
 	public void onHandListContentByUpdate(OnHandListContent onHandListContent) {
 		inboundDao.onHandListContentByUpdate(onHandListContent);
 	}

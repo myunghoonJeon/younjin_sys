@@ -59,25 +59,25 @@
 			</tr>
 			<tr>
 				<th>DEST GBLOCK</th>
-				<td><form:input path="destGBlock" /> </td>
+				<td><form:input path="destGBlock" placeholder="약자넣으세요"/> </td>
 				<th>PUD</th>
 				<td><form:input path="pud" /> </td>
 			</tr>
 			<tr>
 				<th>SSN</th>
-				<td><form:input path="ssn" /> </td>
+				<td><form:input path="ssn" placeholder=" ' - '  넣지마세요"/> </td>
 				<th>RDD</th>
 				<td><form:input path="rdd" /> </td>
 			</tr>
 			<tr>
 				<th>POD</th>
-				<td><form:input path="pod" /> </td>
+				<td><form:input path="pod" placeholder="약자넣으세요"/> </td>
 				<th>POE</th>
 				<td><form:input path="poe" /> </td>
 			</tr>
 			<tr>
 				<th>BRANCH</th>
-				<td><form:input path="areaLocal" /> </td>
+				<td><form:input path="areaLocal" placeholder="약자넣으세요"/> </td>
 				<th>ADDRESS</th>
 				<td><form:input path="originAddress" /> </td>
 			</tr>

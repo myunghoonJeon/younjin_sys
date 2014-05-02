@@ -11,7 +11,7 @@ public class OnHandListContent {
 	private Integer gblSeq;
 	private Integer onHandListSeq;
 	private String by;
-
+	
 	private OnHandListContentWeight onHandListContentWeight;
 
 	private WeightIb weight;
