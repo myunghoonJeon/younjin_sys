@@ -10,7 +10,6 @@ import org.youngjin.net.Dd619;
 import org.youngjin.net.GBL;
 import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
-import org.youngjin.net.OnhandSum;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.outbound.Addition;
 

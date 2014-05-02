@@ -29,6 +29,7 @@ import org.youngjin.net.inbound.InboundInvoice;
 import org.youngjin.net.inbound.InboundService;
 import org.youngjin.net.inbound.OnHandList;
 import org.youngjin.net.inbound.OnHandListContent;
+import org.youngjin.net.inbound.OnhandSum;
 import org.youngjin.net.inbound.Reweight;
 import org.youngjin.net.inbound.ReweightContent;
 import org.youngjin.net.inbound.TruckManifast;

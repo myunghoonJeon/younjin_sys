@@ -1,4 +1,4 @@
-package org.youngjin.net;
+package org.youngjin.net.inbound;
 
 public class OnhandSum {
 	private int sumGross;
