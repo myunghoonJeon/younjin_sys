@@ -543,15 +543,17 @@ public class InboundController {
 		ohlList = inboundService.getOnHandListContentListForm(seq);
 		for(OnHandList ohl : ohlList){
 			int tempSeq = ohl.getOnHandListContent().getSeq();
-			System.out.println("seq : " +tempSeq);
+			System.out.println("ONHAND LIST SEQ : " +tempSeq);
 			os = inboundService.getOnhandListSum(tempSeq);
+			System.out.println("piece : "+os.getPiece());
 			System.out.println("gross : "+os.getSumGross());
 			System.out.println("net   : "+os.getSumNet());
 			System.out.println("cuft  : "+os.getSumCuft());
+			ohl.getOnHandListContent().setOs(os);
 		}
-//		model.addAttribute("onHandListSeq", seq);
-//		model.addAttribute("onHandListContentList",
-//				inboundService.getOnHandListContentListForm(seq));
+		
+		model.addAttribute("onHandListSeq", seq);
+		model.addAttribute("onHandListContentList",ohlList);
 		return process + "/onHand/onHandListForm";
 	}
 
@@ -566,7 +568,19 @@ public class InboundController {
 	public String getOnHandListFormPrint(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
 		List<OnHandList> ohlList = new ArrayList<OnHandList>();
+		OnhandSum os = new OnhandSum();
+		System.out.println("input Seq : "+seq);
 		ohlList = inboundService.getOnHandListContentListForm(seq);
+		for(OnHandList ohl : ohlList){
+			int tempSeq = ohl.getOnHandListContent().getSeq();
+			System.out.println("ONHAND LIST SEQ : " +tempSeq);
+			os = inboundService.getOnhandListSum(tempSeq);
+			System.out.println("piece : "+os.getPiece());
+			System.out.println("gross : "+os.getSumGross());
+			System.out.println("net   : "+os.getSumNet());
+			System.out.println("cuft  : "+os.getSumCuft());
+			ohl.getOnHandListContent().setOs(os);
+		}
 		model.addAttribute("onHandListContentList",ohlList);
 //		model.addAttribute("basicBranch", basicService.getBranch());
 		return process + "/onHand/onHandListPrint";

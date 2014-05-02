@@ -214,7 +214,7 @@
             
         </style>
     </head>
-    <body>
+    <body onload="window.print();">
         <div id="paper">
             <h1>DPS-REQUEST FOR AUTHORIZATION OF SIT NUMBERS</h1>
             <div id="header">
@@ -258,10 +258,10 @@
 							<td>XXX-XX-${fn:substring(onHandListContent.onHandListContent.gbl.ssn, 5, 9) }
 	                        <td>${onHandListContent.onHandListContent.gbl.gblNo }</td>
 	                        <td>${onHandListContent.onHandListContent.gbl.code }</td>
-	                        <td>${onHandListContent.onHandListContent.weight.piece }</td>
-	                        <td>${onHandListContent.onHandListContent.weight.gross }</td>
-	                        <td>${onHandListContent.onHandListContent.weight.net }</td>
-	                        <td>${onHandListContent.onHandListContent.weight.cuft }</td>
+	                        <td>${onHandListContent.onHandListContent.os.piece }</td>
+	                        <td>${onHandListContent.onHandListContent.os.sumGross }</td>
+	                        <td>${onHandListContent.onHandListContent.os.sumNet }</td>
+	                        <td>${onHandListContent.onHandListContent.os.sumCuft }</td>
 	                        <fmt:parseDate value="${onHandListContent.onHandListContent.gbl.pud }" var="pud" pattern="yyyyMMdd" />
 	                        <td><fmt:formatDate value="${pud }" pattern="MM-dd-yy"/></td>
 	                        <fmt:parseDate value="${onHandListContent.onHandListContent.gbl.rdd }" var="rdd" pattern="yyyyMMdd" />

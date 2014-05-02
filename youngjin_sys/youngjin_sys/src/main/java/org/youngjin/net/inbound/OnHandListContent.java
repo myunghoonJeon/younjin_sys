@@ -11,8 +11,16 @@ public class OnHandListContent {
 	private Integer gblSeq;
 	private Integer onHandListSeq;
 	private String by;
-	
+	private OnhandSum os;
 	private OnHandListContentWeight onHandListContentWeight;
+
+	public OnhandSum getOs() {
+		return os;
+	}
+
+	public void setOs(OnhandSum os) {
+		this.os = os;
+	}
 
 	private WeightIb weight;
 

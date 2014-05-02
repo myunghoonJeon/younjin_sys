@@ -1972,7 +1972,7 @@ youngjin.inbound.onHandListByUpdate = function(target){
 
 youngjin.inbound.onHandListFormPrint = function(target){
 	var seq = target.parent('div').attr('data-seq');
-	
+	alert("you insert input seq : "+seq);
 	var url = contextPath + '/inbound/onHand/' + seq + '/onHandListFormPrint';
 	
 	window.open(url, 'onHandListFormPrint', 'width=1263, height=892, status=no, scrollbars=no');

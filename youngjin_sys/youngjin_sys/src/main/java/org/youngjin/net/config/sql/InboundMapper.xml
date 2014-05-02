@@ -1306,7 +1306,7 @@
 			g.seq IN (SELECT DISTINCT gblSeq FROM inbound_invoice_list WHERE check_up = 0 AND declarationCheck = 1)
 	</select>
 	<select id="getOnhandSum" parameterType="Integer" resultType="OnhandSum">
-		SELECT sum(gross) as sumGross, sum(net) as sumNet, sum(cuft) as sumCuft
+		SELECT count(seq) as piece, sum(gross) as sumGross, sum(net) as sumNet, sum(cuft) as sumCuft
 		FROM weight_ib
 		WHERE seq IN
 		(

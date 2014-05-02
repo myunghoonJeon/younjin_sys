@@ -4,6 +4,13 @@ public class OnhandSum {
 	private int sumGross;
 	private int sumNet;
 	private int sumCuft;
+	private int piece;
+	public int getPiece() {
+		return piece;
+	}
+	public void setPiece(int piece) {
+		this.piece = piece;
+	}
 	public int getSumGross() {
 		return sumGross;
 	}
