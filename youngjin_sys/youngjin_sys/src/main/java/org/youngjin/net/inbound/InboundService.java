@@ -170,6 +170,7 @@ public class InboundService {
 		}
 		
 		GBL gbl = new GBL();
+		gbl = inboundDao.getGbl(gblSeq);
 		gbl.setSeq(gblSeq);
 		gbl.setGrossWeight(totalGross.toString());
 		gbl.setNetWeight(totalNet.toString());
@@ -179,9 +180,28 @@ public class InboundService {
 		inboundDao.updateGblEtc(gbl);
 		
 		Map<String, Integer> statusParam = new HashMap<String, Integer>();
+		Map<String, Integer> weightMap = new HashMap<String, Integer>();
 		statusParam.put("gblSeq", gblSeq);
 		statusParam.put("weight", 1);
 		inboundDao.updateGblStatus(statusParam);
+		if(gbl.getCode().equals("J") || gbl.getCode().equals("T")){//custom 넘기는 부분
+			statusParam.put("custom", 1);
+			inboundDao.updateCustomStatus(statusParam);
+			InboundInvoice ii = new InboundInvoice();
+			ii.setGblNo(gbl.getNo());
+			ii.setGblSeq(gblSeq);
+			ii.setInboundInvoiceNo("-1");
+			ii.setInvoiceDate("-1");
+			int iiSeq = inboundDao.inputCustomInboundInvoiceAddSettingCodeTJ(ii);
+			List<WeightIb> weightList = inboundDao.getWeightList(gblSeq);
+			
+			for(WeightIb weight:weightList){
+				weightMap.put("weightSeq", weight.getSeq());
+				weightMap.put("inboundInvoiceSeq", iiSeq);
+				weightMap.put("gblSeq", gblSeq);
+				inboundDao.inboundInvoiceWeightAdd(weightMap);
+			}
+		}
 	}	
 
 	public int getCustomInvoiceGblListCount(InboundFilter inboundFilter) {
@@ -301,11 +321,9 @@ public class InboundService {
 		return settingMap;
 	}
 
-	public Integer inputCustomInboundInvoiceAddSetting(
-			InboundInvoice inboundInvoice) {
+	public Integer inputCustomInboundInvoiceAddSetting(InboundInvoice inboundInvoice) {
 		String inboundInvoiceNo = inboundInvoice.getInboundInvoiceNo().substring(3, 8);
 		inboundInvoice.setInboundInvoiceNo(inboundInvoiceNo);
-		
 		return inboundDao.inputCustomInboundInvoiceAddSetting(inboundInvoice);
 	}
 
@@ -348,7 +366,7 @@ public class InboundService {
 		return inboundDao.getDeclarationListCount(inboundFilter);
 	}
 
-	public List<InboundInvoice> getDeclarationList(InboundFilter inboundFilter) {
+	public List<DeclarationList> getDeclarationList(InboundFilter inboundFilter) {
 		
 		return inboundDao.getDeclarationList(inboundFilter);
 	}
@@ -416,11 +434,12 @@ public class InboundService {
 		
 		for(String inboundInvoiceSeq : inboundInvoiceSeqList){
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("declarationListSeq", declarationInbound.getSeq().toString());
+			String declarationListSeq = declarationInbound.getSeq().toString();
+			System.out.println("[[[[[[[[[[[[ declarationListSeq : "+declarationListSeq+"]]]]]]]]]]]]]");
+			System.out.println("[[[[[[[[[[[[ inboundInvoiceSeq : "+inboundInvoiceSeq+"]]]]]]]]]]]]]");
+			map.put("declarationListSeq", declarationListSeq);
 			map.put("inboundInvoiceSeq", inboundInvoiceSeq);
-			
 			inboundDao.insertDeclarationListContent(map);
-			
 			inboundDao.updateInboundInvoiceDeclaration(inboundInvoiceSeq);
 		}
 		

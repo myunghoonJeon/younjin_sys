@@ -216,7 +216,6 @@ youngjin.inbound.weightSync = function(){
 	$('.inbound_gbl_process_input').unbind('click');
 	$('.inbound_gbl_process_input').bind('click', function(){
 		var seq = $('.inbound_gbl_process').attr('data-seq');
-		
 		var url = contextPath + '/inbound/freight/' + seq + '/update';
 		parent.$.smartPop.close();
 		parent.$.smartPop.open({
@@ -229,7 +228,6 @@ youngjin.inbound.weightSync = function(){
 	$('.inbound_gbl_process_weight').unbind('click');
 	$('.inbound_gbl_process_weight').bind('click', function(){
 		var url = contextPath + '/inbound/freight/' + $('.inbound_gbl_process').attr('data-seq') + '/weight';
-		
 		parent.$.smartPop.close();
 		parent.$.smartPop.open({
 			width : 700,
@@ -1480,7 +1478,6 @@ youngjin.inbound.weightColumnAdd = function(target){
 
 youngjin.inbound.weightAddSubmit = function(target){
 	 var form = document.forms['weightIb'];
-	 
 	 form.submit();	 
 };
 
@@ -1651,12 +1648,13 @@ youngjin.inbound.powerOfAttornyPrint = function(target){
 youngjin.inbound.declarationListSelectAdd = function(target){
 	var inboundInvoicelList = $('input:checked');
 	var count = inboundInvoicelList.length;
+//	alert("Cehcked Count : "+count);
 	var inboundInvoiceCommaList = inboundInvoicelList.eq(0).val();
-	
+//	alert("eq(0) : "+inboundInvoiceCommaList);
 	for( var i = 1 ; i < count ; i ++ ){
 		inboundInvoiceCommaList += ',' + inboundInvoicelList.eq(i).val();
 	}
-	
+//	alert("eq final : "+inboundInvoiceCommaList);
 	var url = contextPath + '/inbound/custom/invoice/declarationListSelectAdd.json';
 	
 	var json = {
@@ -1680,8 +1678,10 @@ youngjin.inbound.declarationListSelectAdd = function(target){
 
 youngjin.inbound.declarationListDelete = function(target){
 	var seq = target.parents().parents('tr').attr('data-seq');
-	
+	alert("selected declarationListSeq : "+seq);
 	var url = contextPath + '/inbound/custom/declarationListDelete.json';
+	
+	
 	
 	$.postJSON(url, {'seq' : seq }, function(){
 		return jQuery.ajax({
@@ -1972,7 +1972,6 @@ youngjin.inbound.onHandListByUpdate = function(target){
 
 youngjin.inbound.onHandListFormPrint = function(target){
 	var seq = target.parent('div').attr('data-seq');
-	alert("you insert input seq : "+seq);
 	var url = contextPath + '/inbound/onHand/' + seq + '/onHandListFormPrint';
 	
 	window.open(url, 'onHandListFormPrint', 'width=1263, height=892, status=no, scrollbars=no');

@@ -121,7 +121,7 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	}
 
 	public void updateGblStatus(Map<String, Integer> param) {
-		getSqlSession().update("outboundMapper.updateGblStatus", param);		
+		getSqlSession().update("outboundMapper.updateGblStatus", param);
 	}
 
 	public int getTruckListCount(OutboundFilter outboundFilter) {

@@ -31,8 +31,8 @@ public class InvoiceGbl {
 		return invoiceListSeq;
 	}
 
-	public void setInvoiceListSeq(Integer invoiceListSeq) {
-		this.invoiceListSeq = invoiceListSeq;
+	public void setInvoiceListSeq(Integer k) {
+		this.invoiceListSeq = k;
 	}
 
 	public Integer getGblSeq() {

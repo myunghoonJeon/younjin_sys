@@ -44,7 +44,7 @@
 		<table class="yj_table declarationList_table">
 			<tfoot>
 				<tr>
-					<td colspan="3">
+					<td colspan="4">
 					<!-- 
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
@@ -78,19 +78,21 @@
 				<tr>
 					<th>NO</th>
 					<th>INBOUND INVOICE DATE</th>
+					<th>GBL COUNT</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${declarationList eq '[]' or declarationList eq null or declarationList eq '' }">
 					<tr>
-						<td colspan="3">DECLARATION LIST 가 없습니다.</td>
+						<td colspan="4">DECLARATION LIST 가 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="declaration" items="${declarationList }" varStatus="i">
 					<tr data-seq="${declaration.seq }">
 						<td>${i.count }</td>
 						<td>${declaration.invoiceDate }</td>
+						<td>${declaration.gblCount }</td>
 						<td><img class="declaration_list_delete" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>

@@ -65,7 +65,7 @@
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="4">
+					<td colspan="6">
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
@@ -84,7 +84,7 @@
 			<tbody>
 				<c:if test="${truckList eq '[]' or truckList eq null }">
 					<tr>
-						<td colspan="5">등록된 정보가 없습니다.</td>
+						<td colspan="6">등록된 정보가 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="truck" items="${truckList }" varStatus="i">

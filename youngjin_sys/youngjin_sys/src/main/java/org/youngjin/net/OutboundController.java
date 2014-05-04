@@ -563,7 +563,7 @@ public class OutboundController {
 	}
 	
 
-	@RequestMapping(value = "/{process}/{seq}/weightcertificate/print", method = RequestMethod.GET)
+	@RequestMapping(value = "/{process}/{seq}/weightcertificate/print", method = RequestMethod.GET)//웨이서티피 프린트
 	public String weightcertificatePrint(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
 		
@@ -575,8 +575,9 @@ public class OutboundController {
 		model.addAttribute("gblock", processService.getGBlockByGbloc(gbl.getDestGBlock()));
 		
 		model.addAttribute("branch", basicService.getBranch(gbl.getAreaLocal()));
+		
 		model.addAttribute("gbl", outboundService.getGbl(Integer.parseInt(seq)));
-
+		System.out.println("[[[[[[[[[ branch test : "+basicService.getBranch(gbl.getAreaLocal()).getBranch()+" ]]]]]]");
 		return process + "/gbl/weightcertificatePrint";
 	}
 

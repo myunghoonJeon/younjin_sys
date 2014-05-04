@@ -67,7 +67,7 @@
 						<th>NAME</th>
 						<th>SSN</th>
 						<th>RANK</th>
-						<th>INBOUND INVOICE / DATE </th>
+						<th>INBOUND INVOICE / ETA DATE </th>
 						<th></th>
 					</tr>
 				</thead>

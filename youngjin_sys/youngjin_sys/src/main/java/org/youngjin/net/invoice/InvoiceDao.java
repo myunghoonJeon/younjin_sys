@@ -236,8 +236,7 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 		return getSqlSession().selectList("invoiceMapper.getInvoiceSettingGblList", invoiceGblFilter);
 	}
 
-	public List<GBL> getInvoiceSettingGblListIb(
-			InvoiceGblFilter invoiceGblFilter) {
+	public List<GBL> getInvoiceSettingGblListIb(InvoiceGblFilter invoiceGblFilter) {
 		return getSqlSession().selectList("invoiceMapper.getInvoiceSettingGblListIb", invoiceGblFilter);
 	}	
 

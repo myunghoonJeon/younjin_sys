@@ -540,7 +540,7 @@
 				FROM
 					gbl_ib g, (SELECT @rownum := 0) r
 				WHERE
-					gblNo IN (select gbl_no from gbl_status where gbl_weight = 1 )
+					gblNo IN (select gbl_no from gbl_status where gbl_weight = 1 and gbl_custom != 1)
 				AND
 					g.seq IN (
 					SELECT
@@ -645,7 +645,7 @@
 			declaration_list d
 	</select>
 	
-	<select id="getDeclarationList" parameterType="InboundFilter" resultType="InboundInvoice">
+	<select id="getDeclarationList" parameterType="InboundFilter" resultType="DeclarationList">
 		SELECT 
 			*
 		FROM	
@@ -657,21 +657,25 @@
 					declaration_list d,
 					(
 						SELECT 
-							dl.seq, il.invoiceDate
+							dl.seq, il.invoiceDate, 
+							(select count(declarationListSeq) from declaration dd where declarationListSeq = dl.seq) as gblCount
 						FROM 
 							declaration_list dl, declaration dc, inbound_invoice_list il
 						WHERE
 							dc.declarationListSeq = dl.seq
 						AND
 							dc.inboundInvoiceSeq = il.seq
-						ORDER BY
-							il.invoiceDate desc
+						group by
+							dl.seq
 					)dc,					
 					(SELECT @rownum := 0) r		
 				WHERE
 					d.seq = dc.seq
 			)u	
-		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}	
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+		order by
+			u.seq desc
+			
 			
 	</select>
 	
@@ -963,7 +967,20 @@
 			SELECT LAST_INSERT_ID() 			
 		</selectKey>
 	</insert>
-	
+	<insert id="inputCustomInboundInvoiceAddSettingCodeTJ" parameterType="InboundInvoice">
+		INSERT INTO
+			inbound_invoice_list
+			(
+				gblNo, name, ssn, inboundInvoiceNo, invoiceDate, gblSeq , declarationCheck
+			)
+		VALUES
+			(
+				#{gblNo}, (select shipperName from gbl_ib where seq = #{gblSeq}), (select ssn from gbl_ib where seq = #{gblSeq}), #{inboundInvoiceNo}, #{invoiceDate}, #{gblSeq}, 1
+			)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID() 			
+		</selectKey>
+	</insert>
 	<insert id="inserDeclarationList" parameterType="InboundInvoice">
 		INSERT INTO
 			declaration_list
@@ -1020,6 +1037,17 @@
 		VALUES
 		(
 			#{weightSeq}, #{inboundInvoiceSeq}, (select gblSeq from inbound_invoice_list where seq = #{inboundInvoiceSeq})
+		)
+	</insert>
+	<insert id="inboundInvoiceWeightAddCodeTJ" parameterType="Map">
+		INSERT INTO
+			inbound_invoice_weight
+			(
+				weightSeq, inboundInvoiceSeq, gblSeq
+			)
+		VALUES
+		(
+			#{weightSeq}, #{inboundInvoiceSeq}, #{gblSeq}
 		)
 	</insert>
 	<insert id="passInboundInvoiceWeightAdd" parameterType="Map">
@@ -1146,7 +1174,14 @@
 					gbl_no = (select gblNo from gbl_ib where seq = #{seq})
 			</if>
 	</update>
-	
+	<update id="updateCustomStatus" parameterType="Map">
+		UPDATE
+			gbl_status
+		SET
+			gbl_custom = #{custom}
+		WHERE
+			gbl_no = (select gblNo from gbl_ib where seq = #{gblSeq})
+	</update>
 	<delete id="deleteGblStatus" parameterType="Integer">
 		DELETE FROM
 			gbl_status
@@ -1546,12 +1581,27 @@
 	</select>
 	
 	<select id="getTruckManifastList" parameterType="InboundFilter" resultType="TruckManifastIb">
+		<!-- 
 		SELECT
 			seq, truckManifastDate, area
 		FROM
 			truck_manifast_ib
 		ORDER BY
 			truckManifastDate desc
+		-->
+		SELECT
+			*
+			FROM
+			(
+				SELECT
+					(@rownum := @rownum +1) as rownum, seq, truckManifastDate, area
+				FROM
+					truck_manifast_ib i, (SELECT @rownum :=0)r
+				ORDER BY
+					i.seq desc
+			)u
+			WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+		
 	</select>
 	
 	<delete id="deleteTruckManifast" parameterType="Map">

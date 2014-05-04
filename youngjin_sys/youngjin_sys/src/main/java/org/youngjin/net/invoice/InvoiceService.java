@@ -18,7 +18,6 @@ import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumDao;
 import org.youngjin.net.outbound.Addition;
 import org.youngjin.net.outbound.OutboundDao;
-import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.util.DateUtil;
 
@@ -441,11 +440,11 @@ public class InvoiceService {
 			for (InvoiceGbl invoiceGblTemp : settingGblList) {
 				invoiceGblTemp.setInvoiceListSeq(invoice.getSeq());
 				invoiceDao.insertInvoiceGbl(invoiceGblTemp);
-
 				Map<String, Integer> map = new HashMap<String, Integer>();
 				map.put("invoice", 1);
 				map.put("seq", invoiceGblTemp.getGblSeq());
-
+				System.out.println("[[[[[SELECTED GBL SEQ : "+invoiceGblTemp.getGblSeq());
+				System.out.println("[[[[[SELECTED GBL NO : "+invoiceGblTemp.getGblNo());
 				if(process.equals("outbound")){
 					outboundDao.updateGblStatus(map);
 				} else if (process.equals("inbound")){
@@ -516,7 +515,7 @@ public class InvoiceService {
 
 		List<InvoiceGblContent> invoiceGblContentList = new ArrayList<InvoiceGblContent>();
 
-		if (process.equals("outbound")) {//===============================================================================================================BEGIN OUTBOUND
+		if (process.equals("outbound")) {//====outbound==================================================================================================BEGIN OUTBOUND
 			Double totalAmount = 0.0;
 
 			Integer checkInvoiceGblContentCount = invoiceDao
@@ -543,35 +542,33 @@ public class InvoiceService {
 					|| gbl.getCode().equals("7")) {
 				codeStr = "UB";
 			}
-
+			System.out.println("[ gbl SEQ : "+gbl.getSeq()+" ]");
 			List<Weightcertificate> weightcertificateList = outboundDao
 					.getWeightcertificateList(gbl.getSeq().toString());
 
 			for (Weightcertificate weightcertificate : weightcertificateList) {
 				if ("HHG".equals(codeStr)) {
 					gblWeight = Double.parseDouble(weightcertificate.getNet());
-					System.out.println(" ================= [ HHG : "+gblWeight+" ] call =================");
+					
 					rate.setObType(weightcertificate.getType());
-					if (gblWeight < 500) {
-						gblWeight = 500.0;
-					}
+					System.out.println(" =================[ HHG : "+gblWeight+" ] [ TYPE : "+weightcertificate.getType()+" ] =================");
+//					if (gblWeight < 500) {
+//						gblWeight = 500.0;
+//					}
 				} else if ("UB".equals(codeStr)) {
 					gblWeight = Double
 							.parseDouble(weightcertificate.getGross());
-					System.out.println(" ================= [ UB : "+gblWeight+" ] call =================");
-					if (gblWeight < 300) {
-						gblWeight = 300.0;
-					}
+					System.out.println(" =================[ UB : "+gblWeight+" ] [ TYPE : "+weightcertificate.getType()+" ] =================");
+//					if (gblWeight < 300) {
+//						gblWeight = 300.0;
+//					}
 				}
-
 				rate.setCode(gbl.getCode());
 				rate.setTsp(gbl.getScac());
 				rate.setProcess(process.toUpperCase());
 				rate.setWriteYear(gbl.getPud());
-
 				Rate gblRate = invoiceDao.getBasicRate(rate);
 			
-
 				if("HHG".equals(codeStr)){
 					if(rate.getObType().equals("typeII")){
 						typeIIWeight += gblWeight;
@@ -580,17 +577,17 @@ public class InvoiceService {
 						overFlowWeight += gblWeight;
 						overFlowCharge += gblWeight * gblRate.getRate();						
 					}
-					
 					packingCharge = overFlowCharge + typeIICharge;
+					System.out.println("==================[ CALCURATE HHG PACKING CHARGE : "+packingCharge+" ]============");
 				} else {
 					packingCharge += gblWeight * gblRate.getRate();
+					System.out.println("==================[ CALCURATE UB PACKING CHARGE : "+packingCharge+" ]============");
 				}
-				
 				totalGblWeight += gblWeight;
 			}
-
 			totalAmount += packingCharge;
-
+			totalAmount = getRoundResult(totalAmount);
+			System.out.println("==================[ TOTAL PACKING CHARGE : "+totalAmount+" ]============");
 			Integer checkInvoiceContentGetSeq;
 			
 			if("HHG".equals(codeStr)){
@@ -598,7 +595,7 @@ public class InvoiceService {
 				packingChargeContent.setQuantity(typeIIWeight  + "LBS");
 				packingChargeContent.setAmount(typeIICharge.toString());
 				packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
-	
+				System.out.println("==================[ Type II weight : "+typeIIWeight+" ]============");
 				invoiceGblContentList.add(packingChargeContent);
 	
 				checkInvoiceContentGetSeq = invoiceDao
@@ -617,7 +614,7 @@ public class InvoiceService {
 				packingChargeContent.setQuantity(overFlowWeight + "LBS");
 				packingChargeContent.setAmount(overFlowCharge.toString());
 				packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
-	
+				System.out.println("==================[ O/F weight : "+overFlowWeight+" ]============");
 				invoiceGblContentList.add(packingChargeContent);
 	
 				Integer checkInvoiceContentGetSeq1 = invoiceDao
@@ -983,24 +980,26 @@ public class InvoiceService {
 					.getSeq().toString());
 			for (Addition addition : additionList) {
 				InvoiceGblContent additionContent = new InvoiceGblContent();
-				additionContent.setChargingItem(addition.getTitle());
-				additionContent.setQuantity("");
-				additionContent.setAmount(addition.getCost().toString());
-				additionContent.setInvoiceGblSeq(invoiceGblSeq);
-
-				invoiceGblContentList.add(additionContent);
-
-				checkInvoiceContentGetSeq = invoiceDao
-						.checkInvoiceContent(additionContent);
-
-				if (checkInvoiceContentGetSeq != null) {
-					additionContent.setSeq(checkInvoiceContentGetSeq);
-					invoiceDao.updateInvoiceGblContent(additionContent);
-				} else {
-					invoiceDao.insertInvoiceGblContent(additionContent);
+				if(addition.getCost()>0){
+					additionContent.setChargingItem(addition.getTitle());
+					additionContent.setQuantity("");
+					additionContent.setAmount(addition.getCost().toString());
+					additionContent.setInvoiceGblSeq(invoiceGblSeq);
+	
+					invoiceGblContentList.add(additionContent);
+	
+					checkInvoiceContentGetSeq = invoiceDao
+							.checkInvoiceContent(additionContent);
+	
+					if (checkInvoiceContentGetSeq != null) {
+						additionContent.setSeq(checkInvoiceContentGetSeq);
+						invoiceDao.updateInvoiceGblContent(additionContent);
+					} else {
+						invoiceDao.insertInvoiceGblContent(additionContent);
+					}
+	
+					totalAmount += addition.getCost();
 				}
-
-				totalAmount += addition.getCost();
 			}
 
 			// Total Amount
@@ -1242,28 +1241,34 @@ public class InvoiceService {
 			}			
 
 			//11. Accessorial Service Charge
-			List<Addition> additionList = inboundDao.getAddtionList(gbl
-					.getSeq().toString());
+			List<Addition> additionList = inboundDao.getAddtionList(gbl.getSeq().toString());
 			for (Addition addition : additionList) {
-				InvoiceGblContent additionContent = new InvoiceGblContent();
-				additionContent.setChargingItem(addition.getTitle());
-				additionContent.setQuantity("");
-				additionContent.setAmount(addition.getCost().toString());
-				additionContent.setInvoiceGblSeq(invoiceGblSeq);
-
-				invoiceGblContentList.add(additionContent);
-
-				checkInvoiceContentGetSeq = invoiceDao
-						.checkInvoiceContent(additionContent);
-
-				if (checkInvoiceContentGetSeq != null) {
-					additionContent.setSeq(checkInvoiceContentGetSeq);
-					invoiceDao.updateInvoiceGblContent(additionContent);
-				} else {
-					invoiceDao.insertInvoiceGblContent(additionContent);
+				String itemTitle = addition.getTitle();
+				Double itemCost = addition.getCost();
+				if(itemCost>0){
+					System.out.println("[[[ CHECK ADDITIONAL SERVICE CHARGE ]]]");
+					System.out.println("[ TITLE : "+itemTitle+" ]");
+					System.out.println("[ COST : "+itemCost+" ]");
+					InvoiceGblContent additionContent = new InvoiceGblContent();
+					additionContent.setChargingItem(addition.getTitle());
+					additionContent.setQuantity("");
+					additionContent.setAmount(addition.getCost().toString());
+					additionContent.setInvoiceGblSeq(invoiceGblSeq);
+					
+					invoiceGblContentList.add(additionContent);
+	
+					checkInvoiceContentGetSeq = invoiceDao
+							.checkInvoiceContent(additionContent);
+	
+					if (checkInvoiceContentGetSeq != null) {
+						additionContent.setSeq(checkInvoiceContentGetSeq);
+						invoiceDao.updateInvoiceGblContent(additionContent);
+					} else {
+						invoiceDao.insertInvoiceGblContent(additionContent);
+					}
+	
+					totalAmount += addition.getCost();
 				}
-
-				totalAmount += addition.getCost();
 			}
 			
 			// Total Amount
@@ -1399,8 +1404,8 @@ public class InvoiceService {
 		
 		gbl_weight = getGBLWeight(gbl_weight[1], ub_hhg_type, true); //최저값 계산헀고 100을 나누기 까지했다. 최저일경우 타입에 맞는 곱하기를 해줬다.
 		returnMap.put("quantity", gbl_weight[1]);
-		returnMap.put("amount", gbl_weight[0] * gbl_rate);
-
+		returnMap.put("amount", getRoundResult(gbl_weight[0] * gbl_rate));
+		
 		// 최종 결과 값 반환
 		return returnMap;
 	}
@@ -1448,7 +1453,7 @@ public class InvoiceService {
 			rate.setCode(value_UB_HHG);
 			sit_first_day = invoiceDao.getSit(rate).getRate();
 		}
-		returnMap.put("amount", gbl_weight[0] * sit_first_day * comprate1);
+		returnMap.put("amount", getRoundResult(gbl_weight[0] * sit_first_day * comprate1));
 		// 최종 결과 값 반환
 		return returnMap;
 	}
@@ -1497,11 +1502,19 @@ public class InvoiceService {
 			rate.setCode(value_UB_HHG);
 			addition_day = invoiceDao.getSit(rate).getRate();
 		}
-		
-		returnMap.put("amount", (gbl_weight[0] * addition_day * sit_day * comprate1));
+		Double origin = (gbl_weight[0] * addition_day * sit_day * comprate1);
+		System.out.println("[[ origin acc amount : "+origin+" ]] ");
+		Double after = getRoundResult(origin);
+		System.out.println("[[ ROWN ACC AMOUNT : "+after+" ]]");
+		returnMap.put("amount", after);
 		// 최종 결과 값 반환
 		
 		return returnMap;
+	}
+	
+	public Double getRoundResult(Double input){
+		Double returnValue = Math.round(input*100d)/100d;
+		return returnValue;
 	}
 	
 	private Map<String, Double> getSitDeliveryChargeAddFee(boolean thirtyMile, List<WeightIb> weightList, double comprate1, GBL gbl) {
@@ -1671,8 +1684,10 @@ public class InvoiceService {
 
 	public List<GBL> getInvoiceSettingGblList(InvoiceGblFilter invoiceGblFilter) {
 		if (invoiceGblFilter.getProcess().equals("outbound")) {
+			System.out.println("[[[[[[ outbound invoice CALL ]]]]]]");
 			return invoiceDao.getInvoiceSettingGblList(invoiceGblFilter);
 		} else if (invoiceGblFilter.getProcess().equals("inbound")) {
+			System.out.println("[[[[[[ inbound invoice CALL ]]]]]]");
 			return invoiceDao.getInvoiceSettingGblListIb(invoiceGblFilter);
 		}
 

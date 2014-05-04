@@ -309,7 +309,7 @@ public class OutboundService {
 	public void insertTruckManifast(Map<String, String> gblSeq) {
 
 		String[] gblSeqList = gblSeq.get("gblSeq").split(",");
-
+		System.out.println("[[[[[[[[[[[[ gblSeqList size : "+gblSeqList.length+" ]]]]]]]]]]]]");
 		GBL gbl = getGbl(Integer.parseInt(gblSeqList[0]));
 		
 		TruckManifast truckManifast = new TruckManifast();
@@ -324,10 +324,10 @@ public class OutboundService {
 			gblTemp.setTruckSeq(truckManifast.getSeq());
 			outboundDao.updateGbl(gblTemp);
 			outboundDao.updateWeightcertificate(gblTemp);
-
+			System.out.println("[[[[[[[[[ gbl no : "+gblTemp.getGblNo()+" ]]]]]]]]");
 			Map<String, Integer> paramMap = new HashMap<String, Integer>();
 			paramMap.put("truckmanifast", 1);
-			paramMap.put("seq", gbl.getSeq());
+			paramMap.put("seq", gblTemp.getSeq());
 			outboundDao.updateGblStatus(paramMap);
 			if (gblTemp.getNo().contains("-sub")) {
 				String gblNo = gblTemp.getNo().substring(0,
@@ -428,7 +428,7 @@ public class OutboundService {
 
 			Map<String, Integer> paramMap = new HashMap<String, Integer>();
 			paramMap.put("booking", 1);
-			paramMap.put("seq", gbl.getSeq());
+			paramMap.put("seq", gblTemp.getSeq());
 			outboundDao.updateGblStatus(paramMap);
 		}
 	}

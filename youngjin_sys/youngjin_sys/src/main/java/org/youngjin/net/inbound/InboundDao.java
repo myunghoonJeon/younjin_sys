@@ -119,10 +119,14 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public Integer inputCustomInboundInvoiceAddSetting(
 			InboundInvoice inboundInvoice) {
 		getSqlSession().insert("inboundMapper.inputCustomInboundInvoiceAddSetting", inboundInvoice);
-		
 		return inboundInvoice.getSeq();
 	}
-
+	
+	public Integer inputCustomInboundInvoiceAddSettingCodeTJ(InboundInvoice inboundInvoice){
+		getSqlSession().insert("inboundMapper.inputCustomInboundInvoiceAddSettingCodeTJ", inboundInvoice);
+		return inboundInvoice.getSeq();
+	}
+	
 	public InboundInvoice getInboundInvoice(Integer inboundInvoiceSeq) {
 		return getSqlSession().selectOne("inboundMapper.getInboundInvoice", inboundInvoiceSeq);
 	}
@@ -140,13 +144,17 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public void inboundInvoiceWeightAdd(Map<String, Integer> weightMap) {
 		getSqlSession().insert("inboundMapper.inboundInvoiceWeightAdd", weightMap);
 	}
-
+	
+	public void inboundInvoiceWeightAddCodeTJ(Map<String, Integer> weightMap) {
+		getSqlSession().insert("inboundMapper.inboundInvoiceWeightAddCodeTJ", weightMap);
+	}
 	public int getDeclarationListCount(InboundFilter inboundFilter) {
 		return getSqlSession().selectOne("inboundMapper.getDeclarationListCount", inboundFilter);
 	}
 
-	public List<InboundInvoice> getDeclarationList(InboundFilter inboundFilter) {
-		return  getSqlSession().selectList("inboundMapper.getDeclarationList", inboundFilter);
+	public List<DeclarationList> getDeclarationList(InboundFilter inboundFilter) {
+		List<DeclarationList> dl = getSqlSession().selectList("inboundMapper.getDeclarationList", inboundFilter);
+		return  dl;
 	}
 
 	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {
@@ -182,9 +190,13 @@ public class InboundDao extends SqlSessionDaoSupport {
 	}
 
 	public void updateGblStatus(Map<String, Integer> statusParam) {
+		System.out.println("[[[[[[[[[[[change WEIGHT STATE : GBL SEQ ["+statusParam.get("gblSeq")+"]]]]]]]]]]]]]");
 		getSqlSession().update("inboundMapper.updateGblStatus", statusParam);
 	}
-
+	public void updateCustomStatus(Map<String, Integer> statusParam){
+		System.out.println("[[[[[[[[[[[change CUSTOM STATE : GBL SEQ ["+statusParam.get("custom")+"]]]]]]]]]]]]]");
+		getSqlSession().update("inboundMapper.updateCustomStatus", statusParam);
+	}
 	public void insertDeclarationList(InboundInvoice declarationInbound) {
 		getSqlSession().insert("inboundMapper.inserDeclarationList", declarationInbound);
 	}
@@ -236,7 +248,6 @@ public class InboundDao extends SqlSessionDaoSupport {
 
 	public boolean checkSelectOnHandList(Map<String, Integer> map) {
 		int checkCount = getSqlSession().selectOne("inboundMapper.checkSelectOnHandList", map);
-		
 		if(checkCount > 0){
 			return true; 
 		} else {

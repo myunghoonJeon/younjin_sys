@@ -688,10 +688,23 @@
 </select>
 
 <select id="getTruckList" parameterType="OutboundFilter" resultType="TruckManifast">
+   <!-- 
     SELECT
     	seq, date, branch, code, sysdate
     FROM
     	truck_manifast
+    	 -->
+    SELECT
+	*
+	FROM
+	(
+	SELECT
+    	(@rownum := @rownum + 1) AS rownum, seq, date, branch, code, sysdate
+    FROM
+    	truck_manifast t, (SELECT @rownum := 0) r
+	ORDER BY
+		t.seq desc
+	)u
     WHERE
     	1 = 1
 		<if test="branch != null and branch != ''">
@@ -705,7 +718,8 @@
 		<if test="endPud != null and endPud != ''">
 			AND
 				date &lt;= str_to_date(#{endPud}, '%Y%m%d')
-		</if>               	    
+		</if>   
+		AND rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}             	    
 </select>
 
 <select id="getTruckManifastOne" parameterType="Integer" resultType="TruckManifast" >
@@ -1376,7 +1390,7 @@
 	SET
 		gbl_truckmanifast = 1
 	WHERE
-		gbl_no = #{no}
+		gbl_no = #{seq}
 </update>
 
 <update id="modifyGbl" parameterType="GBL">

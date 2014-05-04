@@ -29,7 +29,7 @@
 		<typeAlias alias="Tcmd" type="org.youngjin.net.outbound.Tcmd"/>
 		<typeAlias alias="House" type="org.youngjin.net.outbound.House"/>
 		
-		
+		<typeAlias alias="DeclarationList" type="org.youngjin.net.inbound.DeclarationList"/>
 		<typeAlias alias="Rate" type="org.youngjin.net.invoice.Rate"/>
 		<typeAlias alias="Invoice" type="org.youngjin.net.invoice.Invoice"/>
 		<typeAlias alias="InvoiceCollection" type="org.youngjin.net.invoice.InvoiceCollection"/>

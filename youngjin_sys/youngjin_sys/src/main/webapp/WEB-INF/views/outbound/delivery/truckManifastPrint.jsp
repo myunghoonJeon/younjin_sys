@@ -120,7 +120,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Truck Manifast</title>
 </head>
-<body>
+<body onload="window.print()">
 	
 	<div>
 		<table align="center" width="90%" cellspacing="0">

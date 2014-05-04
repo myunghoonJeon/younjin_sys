@@ -128,34 +128,34 @@
  		<td style="width: 5cm; font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.rank}　${gbl.customerName }</td>
  		<td style="width: 1.5cm"></td>
  		<td style="width: 2cm;font-size: 14px">DATE</td>
- 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${weightcertificateList[0].date }</td>
+ 		<td style="width: 6cm;font-size: 14px;border-bottom: solid; border-width: thin;">${weightcertificateList[0].date }</td>
  		<td style="width: 1cm;"></td>
  	</tr>
  	<tr>
  		<td style="width: 1cm;"></td>
  		<td style="width: 5cm;font-size: 14px">ORIGIN</td>
- 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${branch.branch }</td>
+ 		<td style="width: 6cm;font-size: 14px;border-bottom: solid; border-width: thin;">${branch.branch }</td>
  		<td style="width: 1.5cm"></td>
  		<td style="width: 2cm;font-size: 14px">GBL NO</td>
- 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.no }</td>
+ 		<td style="width: 6cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.no }</td>
  		<td style="width: 1cm;"></td>
  	</tr>
  	<tr>
  		<td style="width: 1cm;"></td>
  		<td style="width: 5cm;font-size: 14px">DESTINATION</td>
- 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;"></td>
+ 		<td style="width: 6cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gblock.remark }</td>
  		<td style="width: 1.5cm"></td>
  		<td style="width: 2cm;font-size: 14px">CODE</td>
- 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.code }</td>
+ 		<td style="width: 6cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.code }</td>
  		<td style="width: 1cm;"></td>
  	</tr>
  	<tr>
  		<td style="width: 1cm;"></td>
  		<td style="width: 5cm;font-size: 14px">CARRIER</td>
- 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.scac }</td>
+ 		<td style="width: 6cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.scac }</td>
  		<td style="width: 1.5cm"></td>
  		<td style="width: 2cm;font-size: 14px">RDD</td>
- 		<td style="width: 5cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.rdd }</td>
+ 		<td style="width: 6cm;font-size: 14px;border-bottom: solid; border-width: thin;">${gbl.rdd }</td>
  		<td style="width: 1cm;"></td>
  	</tr>
  	<tr>

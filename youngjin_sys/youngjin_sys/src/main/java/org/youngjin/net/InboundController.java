@@ -24,6 +24,7 @@ import org.youngjin.net.basic.Carrier;
 import org.youngjin.net.basic.Company;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
+import org.youngjin.net.inbound.DeclarationList;
 import org.youngjin.net.inbound.InboundFilter;
 import org.youngjin.net.inbound.InboundInvoice;
 import org.youngjin.net.inbound.InboundService;
@@ -200,9 +201,8 @@ public class InboundController {
 			@ModelAttribute WeightIb weightIb) {
 		inboundService.insertWeightAdd(weightIb);
 		model.addAttribute("user", user);
-
-		model.addAttribute("process",
-				inboundService.getGblProcessAndUpload(seq));
+		System.out.println("[[[[[[[[[[[[[[[[[[[[[[[[ ADD WEIGHT CERTIFICATE ]]]]]]]]]]]]]]]]]]]]]");
+		model.addAttribute("process", inboundService.getGblProcessAndUpload(seq));
 		model.addAttribute("seq", seq);
 		model.addAttribute("fileList", inboundService.getGblFileList(seq));
 
@@ -364,13 +364,10 @@ public class InboundController {
 //		return process + "/custom/inboundInvoice";
 		
 		user.setSubProcess("declare");
-		System.out.println("count:"+inboundService.getDeclarationListCount(inboundFilter));
-		inboundFilter.getPagination().setNumItems(
-				inboundService.getDeclarationListCount(inboundFilter));
-		System.out.println("currentpage:"+inboundFilter.getPagination().getCurrentPage());
-		
-		List<InboundInvoice> declarationList = inboundService
-				.getDeclarationList(inboundFilter);		
+		System.out.println("[[[[[[[[ declaration count:"+inboundService.getDeclarationListCount(inboundFilter)+" ]]]]]]]]]");
+		inboundFilter.getPagination().setNumItems(inboundService.getDeclarationListCount(inboundFilter));
+		List<DeclarationList> declarationList = inboundService.getDeclarationList(inboundFilter);
+		System.out.println("[[[[[[[[ Check declaration size : "+declarationList.size()+" ]]]]]]]]]]]]]]]]]]]]");
 		model.addAttribute("declarationList", declarationList);
 		model.addAttribute("user", user);
 
@@ -384,8 +381,7 @@ public class InboundController {
 
 		user.setSubProcess("declare");
 
-		List<InboundInvoice> inboundInvoiceList = inboundService
-				.getInboundInvoiceDeclarationList();
+		List<InboundInvoice> inboundInvoiceList = inboundService.getInboundInvoiceDeclarationList();
 		model.addAttribute("inboundInvoiceList", inboundInvoiceList);
 		model.addAttribute("user", user);
 
@@ -396,6 +392,10 @@ public class InboundController {
 	@ResponseBody
 	public void declarationListSelectAdd(
 			@RequestBody Map<String, String> inboundInvoiceMap) {
+		System.out.println();
+		System.out.println("[[[[[[[[[[[[[[[[[[ check Map size : "+inboundInvoiceMap.size()+" ]]]]]]]]]]]]]");
+//		System.out.println("[[[[[[[[[[[[[[[[[[ check Cound : "+inboundInvoiceMap.get("count")+" ]]]]]]]]]]]]]");
+		System.out.println("[[[[[[[[[[[[[[[[[[ check comma final : "+inboundInvoiceMap.get("inboundInvoiceCommaList")+" ]]]]]]]]]]]]]");
 		inboundService.declarationListSelectAdd(inboundInvoiceMap);
 	}
 
@@ -403,6 +403,7 @@ public class InboundController {
 	@ResponseBody
 	public void declarationListDelete(
 			@RequestBody Map<String, Integer> inboundInvoiceMap) {
+		System.out.println("[[[[[[[[[[[[[[[[ Declaration SEQ : "+inboundInvoiceMap.get("seq")+" ]]]]]]]]]]]]]]]]");
 		inboundService.declarationListDelete(inboundInvoiceMap);
 	}
 
