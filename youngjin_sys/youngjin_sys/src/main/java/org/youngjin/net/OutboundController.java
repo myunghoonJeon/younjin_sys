@@ -42,6 +42,7 @@ import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.outbound.PowerOfAttornyList;
 import org.youngjin.net.outbound.PreMoveSurvey;
+import org.youngjin.net.outbound.Tcmd;
 import org.youngjin.net.outbound.TruckManifast;
 import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.process.GBlock;
@@ -733,9 +734,25 @@ public class OutboundController {
 		model.addAttribute("filterMap", outboundService.getFilterMap());
 
 		user.setSubProcess("truckManifast");
-
-		model.addAttribute("truckList",
-				outboundService.getTruckList(outboundFilter));
+		List<TruckManifast> truckList = outboundService.getTruckList(outboundFilter);
+		for(TruckManifast tl : truckList){
+			int truckSeq = tl.getSeq();
+			System.out.println("TRUCK SEQ : "+truckSeq);
+			List<String> gblNoList = outboundService.getTruckGblNo(truckSeq);
+			String str = "[";
+			for(int i=0;i<gblNoList.size();i++){
+				str+=gblNoList.get(i);
+				if(i!=(gblNoList.size()-1)){
+					str+="][ ";
+				}
+				else{
+					str+="]";
+				}
+			}
+			tl.setGblList(str);
+		}
+		
+		model.addAttribute("truckList", truckList);
 		model.addAttribute("user", user);
 
 		return process + "/delivery/truckManifast";
@@ -889,14 +906,28 @@ public class OutboundController {
 				outboundService.getBookingListCount(outboundFilter));
 
 		model.addAttribute("filterMap", outboundService.getFilterMap());
-
-		model.addAttribute("bookingList",
-				outboundService.getBookingList(outboundFilter));
-
+		List<BookingList> bookingList = outboundService.getBookingList(outboundFilter);
+		model.addAttribute("bookingList",bookingList);
+		
+		for(BookingList bl:bookingList){
+			int seq = bl.getSeq();
+			System.out.println("BOOKINGLIST SEQ : "+seq);
+			List<String> gblNoList = outboundService.getBookingListGblNo(seq);
+			String str = "[";
+			for(int i=0;i<gblNoList.size();i++){
+				str+=gblNoList.get(i);
+				if(i!=(gblNoList.size()-1)){
+					str+="][ ";
+				}
+				else{
+					str+="]";
+				}
+			}
+			bl.setGblList(str);
+		}
+		
 		user.setSubProcess("bookingList");
-
 		model.addAttribute("user", user);
-
 		return process + "/delivery/bookingList";
 	}
 
@@ -1009,12 +1040,38 @@ public class OutboundController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@RequestMapping(value = "/{process}/delivery/mil/tcmdListDelete.json")
+	@ResponseBody
+	public void tcmdListDelete(@RequestBody Map<String, String> tcmdSeq) {
+		outboundService.deleteTcmdList(tcmdSeq);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/mil/tcmd")
 	public String tcmdMain(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
 
 		user.setSubProcess("tcmd");
+		outboundFilter.getPagination().setNumItems(
+				outboundService.getTcmdGblListCount(outboundFilter));
+		List<Tcmd> tcmdList = outboundService.getTcmdList();
+		for(Tcmd tl:tcmdList){
+			int tcmdSeq = tl.getSeq();
+			List<String> shipperList = outboundService.getTcmdShipperList(tcmdSeq);
+			String str="[";
+			for(int i=0;i<shipperList.size();i++){
+				if(i!=(shipperList.size()-1)){
+					str+=shipperList.get(i)+"] [";
+				}
+				else{
+					str+=shipperList.get(i)+"]";
+				}
+			}
+			System.out.println("[[[[ CALL TCMD SEQ : "+tcmdSeq+" ]]]]");
+			System.out.println("[[[[ SHIPPER LIST : "+str+" ]]]]");
+			tl.setShipperList(str);
+		}
 		
-		model.addAttribute("tcmdList", outboundService.getTcmdList());		
+		model.addAttribute("tcmdList", tcmdList);
 		model.addAttribute("user", user);
 		
 		return process + "/delivery/tcmd";

@@ -27,11 +27,13 @@
 	</div>	
 	
 	<div>
-		<table class="yj_table tcmd_table">
+		<table class="yj_table ">
 			<thead>
 				<tr>
-					<th>NO</th>
-					<th>WRITE DATE</th>
+					<th style="width:5%;">NO</th>
+					<th style="width:25%;">WRITE DATE</th>
+					<th style="width:65%">CUSTOMER LIST</th>
+					<th style="width:5%;">DELETE</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -43,34 +45,11 @@
 				<c:set var="index" value="1" />
 				<c:set var="length" value="${fn:length(tcmdList)}" />
 				<c:forEach var="tcmd" items="${tcmdList }" varStatus="i">
-					<c:choose>
-						<c:when test="${length ne i.count and tcmdList[i.index + 1].oneTcmdFlag eq tcmd.oneTcmdFlag}">
-							<c:set var="nextCheck" value="R" />
-						</c:when>
-						<c:when test="${length eq 1 }">
-							<c:set var="nextCheck" value="O" />
-						</c:when>
-						<c:when test="${length ne i.count and tcmdList[i.index + 1].oneTcmdFlag ne tcmd.oneTcmdFlag and nextCheck ne 'N'}">
-							<c:set var="nextCheck" value="O" />
-						</c:when>
-						<c:when test="${length eq i.count and nextCheck ne 'N'}">
-							<c:set var="nextCheck" value="O" />
-						</c:when>
-					</c:choose>
-					<tr data-seq="${tcmd.seq }">
-						<c:if test="${nextCheck eq'N' }">
-							<c:set var="nextCheck" value="T" />
-						</c:if>
-						<c:if test="${nextCheck eq 'R' }" >
-							<td rowspan="2">${index }</td>
-							<c:set var="index" value="${index + 1 }" />
-							<c:set var="nextCheck" value="N"/>
-						</c:if>	
-						<c:if test="${nextCheck eq 'O' }">
-							<td>${index }</td>
-							<c:set var="index" value="${index + 1 }" />
-						</c:if>						
+					<tr class="tcmd_table" data-seq="${tcmd.seq }">
+						<td>${i.count }</td>
 						<td>${tcmd.writeDate }</td>
+						<td>${tcmd.shipperList }</td>
+						<td class="tcmd_deleteButton"><img src="${cp }/resources/images/gbl/memorandum_delete.png" style="width:15px;"/></td>
 					</tr>
 				</c:forEach>
 			</tbody>

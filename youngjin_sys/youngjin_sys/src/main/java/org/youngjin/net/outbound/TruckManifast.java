@@ -6,6 +6,16 @@ public class TruckManifast {
 	private String branch;
 	private String code;
 	private String date;
+	private String gblList;
+	
+	public String getGblList() {
+		return gblList;
+	}
+
+	public void setGblList(String gblList) {
+		this.gblList = gblList;
+	}
+
 	public String getSysdate() {
 		return sysdate;
 	}

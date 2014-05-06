@@ -11,7 +11,15 @@ public class BookingList {
 	private String writeUser;
 	private String writeDate;
 	private Integer yjCount;
-	
+	private String gblList;
+	public String getGblList() {
+		return gblList;
+	}
+
+	public void setGblList(String gblList) {
+		this.gblList = gblList;
+	}
+
 	public Integer getYjCount() {
 		return yjCount;
 	}

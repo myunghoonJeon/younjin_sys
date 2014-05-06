@@ -423,14 +423,27 @@ youngjin.outbound.tcmdSync = function(){
 			$(this).find('input').removeAttr('checked');	
 	});
 	
+	$('.tcmd_deleteButton').unbind('click');
+	$('.tcmd_deleteButton').bind('click', function(){
+		$(this).parents('tr').attr('data-delete', 'delete');
+		if(confirm('삭제 하시겠습니까?')==true){
+			youngjin.outbound.tcmdListDeleteButton($(this));
+		}
+		
+	});
+	
 	$('.tcmd_gbl_addButton').unbind('click');
 	$('.tcmd_gbl_addButton').bind('click', function(){
 		youngjin.outbound.tcmdListAddButton($(this));
 	});
 	
-	$('.tcmd_table tr').unbind('click');
-	$('.tcmd_table tr').bind('click', function(){
-		youngjin.outbound.tcmdModify($(this));
+	$('.tcmd_table').unbind('click');
+	$('.tcmd_table').bind('click', function(){
+		if($(this).attr('data-delete') != 'delete'){
+			youngjin.outbound.tcmdModify($(this));
+		} else {
+			$(this).removeAttr('data-delete');
+		}
 	});
 	
 	$('#page1-div input').unbind('click');
@@ -1963,6 +1976,26 @@ youngjin.outbound.tcmdAddButton = function(target){
 		url : url
 	});		
 };
+
+youngjin.outbound.tcmdListDeleteButton = function(target){
+	var tcmdSeq = target.parent('tr').attr('data-seq');
+	
+	var json={
+		'seq':tcmdSeq
+	};
+	
+	var url = contextPath + '/outbound/delivery/mil/tcmdListDelete.json';
+	$.postJSON(url, json, function(){
+		return jQuery.ajax({
+			success : function(){
+				location.href = contextPath + '/outbound/delivery/mil/tcmd';
+			},
+			error : function(){
+				alert("에러 발생!");
+			}
+		});		
+	});
+}
 
 youngjin.outbound.tcmdListAddButton = function(target){
 	var gblSeq = '';

@@ -131,7 +131,14 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public List<TruckManifast> getTruckList(OutboundFilter outboundFilter) {
 		return getSqlSession().selectList("outboundMapper.getTruckList", outboundFilter);
 	}
-
+	
+	public List<String> getTruckGblNo(Integer seq) {
+		return getSqlSession().selectList("outboundMapper.getTruckGblNo", seq);
+	}
+	public List<String> getBookingListGblNo(Integer seq) {
+		return getSqlSession().selectList("outboundMapper.getBookingListGblNo", seq);
+	}
+	
 	public List<GBL> getTruckGblList(OutboundFilter outboundFilter) {
 		return getSqlSession().selectList("outboundMapper.getTruckGblList", outboundFilter);
 	}
@@ -311,10 +318,15 @@ public class OutboundDao extends SqlSessionDaoSupport {
 		
 	}
 
+	public List<String> getTcmdShipperList(int seq) {
+		return getSqlSession().selectList("outboundMapper.getTcmdShipperList",seq);
+	}
+	
+	
+	
 	public List<Tcmd> getTcmdList() {
 		return getSqlSession().selectList("outboundMapper.getTcmdList");
 	}
-
 	public List<GBL> getTcmdGblList(OutboundFilter outboundFilter) {
 		return getSqlSession().selectList("outboundMapper.getTcmdGblList", outboundFilter);
 	}
@@ -358,7 +370,14 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void deleteGBL(GBL gbl) {
 		getSqlSession().delete("outboundMapper.deleteGbl", gbl);
 	}
-
+	
+	public void deleteTcmdList(Integer seq){
+		getSqlSession().delete("outboundMapper.deleteTcmdList", seq);
+	}
+	public void deleteTcmdGblList(Integer seq){
+		getSqlSession().delete("outboundMapper.deleteTcmdGblList", seq);
+	}
+	
 	public void deleteBookingList(Map<String, String> bookingSeq) {
 		getSqlSession().delete("outboundMapper.deleteBookingList", bookingSeq);
 	}

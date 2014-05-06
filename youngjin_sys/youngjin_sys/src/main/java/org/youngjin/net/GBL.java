@@ -42,6 +42,14 @@ public class GBL {
 	private String destGBlock;
 	private String truckmanifastDate;
 	private String originCity;
+	private String tac;
+	public String getTac() {
+		return tac;
+	}
+
+	public void setTac(String tac) {
+		this.tac = tac;
+	}
 
 	private String milSVC;
 

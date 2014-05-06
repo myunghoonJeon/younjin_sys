@@ -297,7 +297,14 @@ public class OutboundService {
 	public List<TruckManifast> getTruckList(OutboundFilter outboundFilter) {
 		return outboundDao.getTruckList(outboundFilter);
 	}
-
+	
+	public List<String> getTruckGblNo(Integer seq) {
+		return outboundDao.getTruckGblNo(seq);
+	}
+	public List<String> getBookingListGblNo(Integer seq) {
+		return outboundDao.getBookingListGblNo(seq);
+	}
+	
 	public List<GBL> getTruckGblList(OutboundFilter outboundFilter) {
 		return outboundDao.getTruckGblList(outboundFilter);
 	}
@@ -348,7 +355,8 @@ public class OutboundService {
 	public List<BookingList> getBookingList(OutboundFilter outboundFilter) {
 		return outboundDao.getBookingList(outboundFilter);
 	}
-
+	
+	
 	public List<GBL> getBookingGblList(OutboundFilter outboundFilter) {
 		return outboundDao.getBookingGblList(outboundFilter);
 	}
@@ -436,7 +444,6 @@ public class OutboundService {
 	public void deleteBookingList(Map<String, String> bookingSeq) {
 		// TODO:
 		Integer seq = Integer.valueOf(bookingSeq.get("seq"));
-		System.out.println("SEQ:"+seq);
 		
 		outboundDao.deleteGblStatusByBookingList(seq);
 		System.out.println("[[[[[[[[[[[[[1]]]]]]]]]]]");
@@ -447,7 +454,14 @@ public class OutboundService {
 		outboundDao.deleteBookingList(bookingSeq);
 		System.out.println("[[[[[[[[[[[[[4]]]]]]]]]]]");
 	}
-
+	public void deleteTcmdList(Map<String,String> tcmdSeq){
+		Integer seq = Integer.valueOf(tcmdSeq.get("seq"));
+		System.out.println("[[[[[[[[ DELETE TCMD SEQ : "+seq+" ]]]]]]]]]]");
+		outboundDao.deleteTcmdList(seq);
+		System.out.println("[[[[[[[[ DELETE TCMD LIST ]]]]]]]]]]");
+		outboundDao.deleteTcmdGblList(seq);
+		System.out.println("[[[[[[[[ DELETE TCMD GBL LIST ]]]]]]]]]]");
+	}
 	public List<DeliveryGbl> getBookingListPrint(Integer seq) {
 		List<DeliveryGbl> bookingGblList = outboundDao.getBookingListPrint(seq);
 		return bookingGblList;
@@ -642,7 +656,11 @@ public class OutboundService {
 	public List<Tcmd> getTcmdList() {
 		return outboundDao.getTcmdList();
 	}
-
+	
+	public List<String> getTcmdShipperList(int seq){
+		return outboundDao.getTcmdShipperList(seq);
+	}
+	
 	public int getTcmdGblListCount(OutboundFilter outboundFilter) {
 		return outboundDao.getTcmdGblListCount(outboundFilter);
 	}
@@ -667,6 +685,7 @@ public class OutboundService {
 			if(gblForce != null)
 				gblForceList.add(gblForce);
 		}
+		
 		String oneTcmdFlag = "";
 		if(gblArmyList.size() > 0){
 			oneTcmdFlag = gblArmyList.get(0).getNo();
@@ -674,7 +693,7 @@ public class OutboundService {
 			oneTcmdFlag = gblForceList.get(0).getNo();
 		}
 		
-		if(gblArmyList.size() > 0){			
+		if(gblArmyList.size() > 0){
 			GBL gbl = gblArmyList.get(0);
 			Tcmd tcmd = setTcmd(gbl);
 			tcmd.setOneTcmdFlag(oneTcmdFlag);
@@ -703,10 +722,19 @@ public class OutboundService {
 		
 		if(gblForceList.size() > 0){		
 			GBL gbl = gblForceList.get(0);
-	
-			Tcmd tcmd = setTcmd(gbl);
+				Tcmd tcmd = setTcmd(gbl);
 			tcmd.setOneTcmdFlag(oneTcmdFlag);
-			
+			int gross=0;
+			int cuft=0;
+			int piece=0;
+			for( GBL gblTemp : gblForceList){
+				gross += Integer.parseInt(gblTemp.getLbs());
+				cuft += Integer.parseInt(gblTemp.getCuft());
+				piece += Integer.parseInt(gblTemp.getPcs());
+			}
+			tcmd.setWeight(gross+"");
+			tcmd.setPieces(piece+"");
+			tcmd.setCube(cuft+"");
 			outboundDao.insertTcmd(tcmd);
 			
 			for( GBL gblTemp : gblForceList){
@@ -761,7 +789,7 @@ public class OutboundService {
 		String year = Integer.toString(DateUtil.getYear());
 		String getJulianDate = year.substring(3, 4) + DateUtil.getDaysBetween(year + "0101", DateUtil.getToday("YYYYMMDD"));
 		tcmd.setTransControlNo3(getJulianDate);		
-		tcmd.setTransControlNo4(gbl.getPcs());
+		tcmd.setTransControlNo4("L00"+gbl.getPcs());
 		tcmd.setTransControlNo5("LSG");
 		
 		String pod = gbl.getPod();
@@ -786,8 +814,10 @@ public class OutboundService {
 		} else {
 			tcmd.setRemark(gbl.getScac() + " / YOUNGJIN T&t CO.,LTD");
 		}
-		
-		tcmd.setTransportationCa(gbl.getMilSVC() + getJulianDate + gbl.getSsn() + gbl.getCode() + "XX");
+		///jmh addtion
+		tcmd.setConsignee2(gbl.getGbloc());
+		//////////////////////////////////////
+		tcmd.setTransportationCa(gbl.getMilSVC() + getJulianDate + gbl.getSsn()+" "+ gbl.getCode() + "XX");
 		
 		return tcmd;
 	}

@@ -1,5 +1,7 @@
 package org.youngjin.net.outbound;
 
+import java.util.List;
+
 public class Tcmd {
 	private Integer seq;
 	private String docId;
@@ -43,6 +45,15 @@ public class Tcmd {
 	private String pri2;
 	private String remark2;
 	private String addtionalRemark;
+	private String tac;
+	
+	public String getTac() {
+		return tac;
+	}
+
+	public void setTac(String tac) {
+		this.tac = tac;
+	}
 
 	private String writeDate;
 	private String pageNo;
@@ -53,6 +64,16 @@ public class Tcmd {
 	private String army;
 	private String dodsponsred;
 	private String turnInDate;
+	
+	private String shipperList;
+	
+	public String getShipperList() {
+		return shipperList;
+	}
+
+	public void setShipperList(String shipperList) {
+		this.shipperList = shipperList;
+	}
 
 	public Integer getSeq() {
 		return seq;

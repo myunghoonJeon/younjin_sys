@@ -55,12 +55,12 @@
 		<table class="yj_table">		
 			<thead>
 				<tr>
-					<th>NO</th>
-					<th>BRANCH</th>
-					<th>CODE</th>
-					<th>DATE</th>
-					<th>실제입력시간</th>
-					<th></th>
+					<th style="width:5%;">NO</th>
+					<th style="width:55%;">GBL LIST</th>
+					<th style="width:5%;">CODE</th>
+					<th style="width:10%;">DATE</th>
+					<th style="width:20%;">실제입력시간</th>
+					<th style="width:5%;"></th>
 				</tr>
 			</thead>
 			<tfoot>
@@ -90,7 +90,7 @@
 				<c:forEach var="truck" items="${truckList }" varStatus="i">
 					<tr class="truck_manifast_form" data-seq="${truck.seq }">
 						<td>${i.count }</td>
-						<td>${truck.branch }</td>
+						<td>${truck.gblList }</td>
 						<td>${truck.code }</td>
 						<td>${truck.date }</td>
 						<td>${truck.sysdate }</td>

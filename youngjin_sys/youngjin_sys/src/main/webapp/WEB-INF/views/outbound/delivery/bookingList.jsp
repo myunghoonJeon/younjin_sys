@@ -35,17 +35,19 @@
 	<div>
 		<table class="yj_table">
 			<colgroup>
+				<col width="5%">
 				<col width="10%">
-				<col width="20%">
-				<col width="20%">
-				<col width="20%">
-				<col width="20%">
+				<col width="40%">
 				<col width="10%">
+				<col width="10%">
+				<col width="10%">
+				<col width="5%">
 			</colgroup>		
 			<thead>
 				<tr>
 					<th>NO</th>
 					<th>WRITE DATE</th>
+					<th>GBL LIST</th>
 					<th>POWER OF ATTORNY</th>
 					<th>BOOKINGLIST</th>
 					<th>DECLARATION</th>
@@ -63,6 +65,7 @@
 					<tr data-bookSeq="${book.seq }">
 						<td>${i.count }</td>
 						<td>${book.writeDate }</td>
+						<td style="font-size: 5pt;">${book.gblList }</td>
 						<td><button  class="powerofattorny_list_content yj_button">print</button></td>
 						<td><button  class="booking_list_content yj_button">print</button></td>
 						<td><button  class="declaration_list_content yj_button">print</button></td>

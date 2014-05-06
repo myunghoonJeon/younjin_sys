@@ -731,6 +731,20 @@
 		seq = #{seq}
 </select>
 
+<select id="getTruckGblNo" parameterType="Integer" resultType="String">
+	select
+	g.no as gblNo
+	from gbl g
+	where g.truck_seq = #{seq}
+</select>
+
+<select id="getBookingListGblNo" parameterType="Integer" resultType="String">
+	select
+	g.no as gblNo
+	from gbl g
+	where g.booking_seq = #{seq}
+</select>
+
 <select id="getTruckGblList" parameterType="OutboundFilter" resultMap="GblMap">
 	SELECT 
 		gt.*, a.cuft, pcs, truck_check
@@ -962,7 +976,16 @@
 	FROM
 		tcmd
 	ORDER BY
-		seq, oneTcmdFlag
+		seq desc, oneTcmdFlag
+</select>
+
+<select id="getTcmdShipperList" parameterType="Integer" resultType="String">
+	SELECT
+		customer_name
+	FROM
+		gbl
+	WHERE
+		seq IN (select gbl_seq from tcmd_gbl_list where tcmd_seq = #{seq})
 </select>
 
 <select id="getTcmdContent" parameterType="Integer" resultType="Tcmd" >
@@ -1309,6 +1332,23 @@
 	WHERE
 		seq = #{seq}
 </delete>
+
+<delete id="deleteTcmdList" parameterType="Integer">
+	DELETE 
+		FROM
+			tcmd
+		WHERE
+			seq = #{seq}
+</delete>
+
+<delete id="deleteTcmdGblList" parameterType="Integer">
+	DELETE 
+		FROM
+			tcmd_gbl_list
+		WHERE
+			tcmd_seq = #{seq}
+</delete>
+
 
 <insert id="insertTruckManifast" parameterType="TruckManifast">
     INSERT INTO
