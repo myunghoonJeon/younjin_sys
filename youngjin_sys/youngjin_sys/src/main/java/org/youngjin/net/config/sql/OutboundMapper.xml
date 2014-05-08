@@ -162,6 +162,7 @@
 </resultMap>
 
 <select id="getGblListCount" parameterType="OutboundFilter" resultType="Integer">
+	
 	SELECT
 		count(*)
 	FROM
@@ -224,6 +225,8 @@
 				</when>
 			</choose>				
 		</if>
+		
+	
 </select>
 
 <select id="getGblList" parameterType="OutboundFilter" resultMap="GblMap">
@@ -665,7 +668,13 @@
         WHERE
         	seq = #{value}
 </select>
-
+<select id="getHouseListCount" parameterType="OutboundFilter" resultType="Integer">
+    SELECT
+    	count(*)
+    FROM
+    	house
+    
+    </select>
 <select id="getTruckCount" parameterType="OutboundFilter" resultType="Integer">
     SELECT
     	count(*)
@@ -792,7 +801,7 @@
 	WHERE
 		gt.no = a.no
 	ORDER BY
-		gt.seq
+		gt.seq desc
 </select>
 
 <select id="getBookingGblList" parameterType="OutboundFilter" resultMap="GblMap">
@@ -851,13 +860,35 @@
 </select>
 
 <select id="getBookingList" parameterType="OutboundFilter" resultMap="BookingListMap">
+	<!-- 
 	SELECT
 		seq,
 		memo,
 		remark,
 		write_date
 	FROM
-		booking_list 
+		booking_list
+		-->
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+			(@rownum := @rownum +1) AS rownum,
+			seq,
+			memo,
+			remark,
+			write_date
+		FROM
+			booking_list, (SELECT @rownum := 0) r
+		ORDER BY
+			seq desc
+		)u
+		WHERE 
+			1=1
+			AND rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}   
+		
+		 
 </select>
 
 <select id="getBookingListOne" parameterType="Integer" resultMap="BookingListMap">
@@ -878,7 +909,7 @@
 			g.seq, g.pud, g.scac, g.code, g.customer_name, g.rank, g.ssn,
 			g.no, g.mil_svc, g.origin_gblock, w.booking_check, 
 			SUM(w.cuft) AS cuft, SUM(w.gross) AS gross, SUM(w.net) AS net, COUNT(w.piece) AS pcs, 
-			g.dest_port, g.dest_state, g.us_no
+			g.dest_port, g.dest_state, g.us_no, g.pod
 		FROM
 			gbl g, weight_certificate w
 		WHERE
@@ -979,9 +1010,9 @@
 		seq desc, oneTcmdFlag
 </select>
 
-<select id="getTcmdShipperList" parameterType="Integer" resultType="String">
+<select id="getTcmdGblSeqList" parameterType="Integer" resultType="String">
 	SELECT
-		customer_name
+		no
 	FROM
 		gbl
 	WHERE
@@ -1056,7 +1087,12 @@
 		
 		
 </select>
-
+<select id="getTcmdListCount" parameterType="OutboundFilter" resultType="Integer">
+	select
+		count(*)
+	from
+		tcmd
+</select>
 <select id="getTcmdGblListCount" parameterType="OutboundFilter" resultType="Integer">
 	SELECT
 		count(*)
@@ -1897,6 +1933,9 @@
 			</when>
 			<when test="column == 'dodsponsred'">
 				,dodsponsred = #{value}
+			</when>
+			<when test="column == 'yjn'">
+				,yjn = #{value}
 			</when>			
 		</choose>
 		WHERE
@@ -2059,9 +2098,17 @@
 
 <select id="getHouseList" parameterType="OutboundFilter" resultType="House">
 	SELECT
-		seq, contNo, sealNo, consignee, vessel, voyageNo
-	FROM
-		house
+	*
+	from
+	(
+		SELECT
+		(@rownum := @rownum + 1) AS rownum, seq, contNo, sealNo, consignee, vessel, voyageNo
+		FROM
+			house,(SELECT @rownum := 0) r
+		order by
+			house.seq desc
+	)u
+	WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
 </select>
 
 <update id="deleteUpdateHouseWeight" parameterType="Integer">

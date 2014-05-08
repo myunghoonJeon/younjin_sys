@@ -133,7 +133,7 @@ youngjin.outbound.delivery.addTruckMenu = function(target){
 	$(':checkbox:checked').each(function(){
 		gblSeq = gblSeq + $(this).val() + ",";
 	});	
-	alert("check : "+gblSeq);
+	
 	var url = contextPath + '/outbound/delivery/truckAdd.json';
 	var json = {
 			'gblSeq' : gblSeq,

@@ -325,9 +325,9 @@
 						</c:otherwise>
 					</c:choose>
 				</c:forEach> --%>
-				<td id="input">${gbl.destPort }</td>
+				<td id="input">${gbl.pod }</td>
 				<td id="input">${gbl.usNo }</td>
-				<td id="input"><input style="border:none;"></td>
+				<td id="input"><input style="border:none;  font-family: arial; font-weight: bold;" value="${gbl.destState }"></td>
 			</tr>
 		</c:forEach>
 		<%-- <%for(int i=0;i<arr.size();i++){//여기서 부킹리스트 들어간만큼 포문돌면서 채워너야하는데 총 21개의 td가 존재 각각의 갑응ㄹ 끌어와야하는데 끌어오는 형태를 몰라서 더이상 진행 X
@@ -345,10 +345,10 @@
 		}
 		 %> --%>
 		 <tr>
-		 	<td colspan="21" id="remarktop">REMARK</td>
+		 	<td colspan="21" id="remarktop">REMARK　　　　<input style="border: none;width:1000px;"> </input></td>
 		 </tr>
 		 <tr>
-		 	<td colspan="21" id="remarkbottom">${bookingList.remark }</td>
+		 	<td colspan="21" id="remarkbottom"></td>
 		 </tr>
 		 <tr>
 		 <td colspan="21" id ="sign">BOOKING AGENT : YOUNGJIN</td>

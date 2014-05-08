@@ -73,7 +73,7 @@
 					</c:forEach>
 					<th>new</th>
 					<th>used</th>
-					<th>repair</th>			
+					<th>repair</th>
 				</tr>
 			</thead>
 			<tbody>

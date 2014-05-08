@@ -529,7 +529,9 @@ youngjin.inbound.onHandSync = function(){
 	$('.on_hand_list_delete').unbind('click');
 	$('.on_hand_list_delete').bind('click', function(){
 		$(this).parents().parents('tr').attr('data-click', 'yes');
-		youngjin.inbound.onHandListDelete($(this));
+		if(confirm('삭제 하시겠습니까?')==true){
+			youngjin.inbound.onHandListDelete($(this));
+		}
 	});
 	
 	$('.on_hand_list_print_tr').unbind('click');

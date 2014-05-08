@@ -157,7 +157,7 @@
     	
     	<c:forEach var="powerOfAttorny" items="${powerOfAttornyList }" varStatus="status">
     		<c:if test="${not status.first }">
-			<div style='page-break-after:always'></div>
+				<div style='page-break-after:always'></div>
 			</c:if>
     	<c:set var="gbl" value="${powerOfAttorny.gbl }"/>
         <h1>POWER OF ATTORNEY</h1>

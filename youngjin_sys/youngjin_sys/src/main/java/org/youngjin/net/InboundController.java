@@ -79,7 +79,7 @@ public class InboundController {
 		}
 		model.addAttribute("gblStatus",
 				inboundService.getGblStatus(inboundFilter));
-
+		
 		model.addAttribute("user", user);
 
 		return process + "/freight/list";
@@ -657,7 +657,8 @@ public class InboundController {
 				inboundService.getGblProcessAndUpload(seq));
 		model.addAttribute("seq", seq);
 		model.addAttribute("fileList", inboundService.getGblFileList(seq));
-
+		GBL gbl = inboundService.getGbl(seq);
+		model.addAttribute("gblInform",gbl);
 		return process + "/freight/processAndUpload";
 	}
 

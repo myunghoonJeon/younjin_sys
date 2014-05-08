@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -203,7 +202,9 @@ public class OutboundController {
 		model.addAttribute("seq", seq);
 		model.addAttribute("fileList",
 				outboundService.getGblFileList(Integer.parseInt(seq)));
-
+		int tempSeq = Integer.parseInt(seq);
+		GBL gbl = outboundService.getGbl(tempSeq);
+		model.addAttribute("gblInform",gbl);
 		return process + "/gbl/processAndUpload";
 	}
 	
@@ -785,13 +786,12 @@ public class OutboundController {
 			@PathVariable String process) {
 
 		outboundFilter.setTruckManifastFlag(true);
-		outboundFilter.getPagination().setNumItems(
-				outboundService.getGblListCount(outboundFilter, user));
-
+		List<GBL> gblList = outboundService.getTruckGblList(outboundFilter);
+		outboundFilter.getPagination().setNumItems(gblList.size());
+		System.out.println("[[[[[[[[[[[[ TRUCK GBL COUNT : "+outboundService.getGblListCount(outboundFilter, user)+" ]]]]]]]]]");
+		System.out.println("[[[[[[[[[[[[ GBL LIST COUNT : "+gblList.size()+" ]]]]]]");
 		model.addAttribute("filterMap", outboundService.getFilterMap());
-
-		model.addAttribute("gblList",
-				outboundService.getTruckGblList(outboundFilter));
+		model.addAttribute("gblList",gblList);
 		model.addAttribute("user", user);
 
 		return process + "/delivery/gblList";
@@ -853,15 +853,27 @@ public class OutboundController {
 
 		outboundFilter.getPagination().setNumItems(
 				outboundService.getTruckListCount(outboundFilter));
-
+		List<TruckManifast> truckList = outboundService.getTruckList(outboundFilter);
+		for(TruckManifast tl : truckList){
+			int truckSeq = tl.getSeq();
+			System.out.println("TRUCK SEQ : "+truckSeq);
+			List<String> gblNoList = outboundService.getTruckGblNo(truckSeq);
+			String str = "[";
+			for(int i=0;i<gblNoList.size();i++){
+				str+=gblNoList.get(i);
+				if(i!=(gblNoList.size()-1)){
+					str+="][ ";
+				}
+				else{
+					str+="]";
+				}
+			}
+			tl.setGblList(str);
+		}
 		model.addAttribute("filterMap", outboundService.getFilterMap());
-
 		user.setSubProcess("truckManifast");
-
-		model.addAttribute("truckList",
-				outboundService.getTruckList(outboundFilter));
+		model.addAttribute("truckList",truckList);
 		model.addAttribute("user", user);
-
 		return process + "/delivery/truckManifast";
 	}	
 
@@ -1049,14 +1061,16 @@ public class OutboundController {
 	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/mil/tcmd")
 	public String tcmdMain(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
-
+		
 		user.setSubProcess("tcmd");
+		
 		outboundFilter.getPagination().setNumItems(
-				outboundService.getTcmdGblListCount(outboundFilter));
+				outboundService.getTcmdListCount(outboundFilter));
+		
 		List<Tcmd> tcmdList = outboundService.getTcmdList();
 		for(Tcmd tl:tcmdList){
 			int tcmdSeq = tl.getSeq();
-			List<String> shipperList = outboundService.getTcmdShipperList(tcmdSeq);
+			List<String> shipperList = outboundService.getTcmdGblSeqList(tcmdSeq);
 			String str="[";
 			for(int i=0;i<shipperList.size();i++){
 				if(i!=(shipperList.size()-1)){
@@ -1116,11 +1130,25 @@ public class OutboundController {
 		
 		String year = Integer.toString(DateUtil.getYear());
 		String getJulianDate = year.substring(3, 4) + DateUtil.getDaysBetween(year + "0101", DateUtil.getToday("YYYYMMDD"));
+		System.out.println("[[[[ JULIAN TEST YEAR : "+year +" substring 3,4 "+ year.substring(3,4)+" ]]]]");
+		List<GBL> gblList = outboundService.getTcmdContentGblList(seq);
+		for(GBL g:gblList){
+			String rddJulian="";
+			rddJulian = g.getRdd().substring(3, 4) + DateUtil.getDaysBetween(g.getRdd().substring(0,4) + "0101", g.getRdd());
+			System.out.println("[[[[[[[[[ GBL : "+g.getNo()+"   RDD : "+g.getRdd().substring(0,4)+"yesr "+g.getRdd()+"   JULIAN : "+rddJulian+" ]]]]]]]]]");
+			g.setTcmdRddJulianDate(rddJulian);
+			if(g.getCode().equals("T")){
+				g.setJk("KXX");
+			}
+			else if(g.getCode().equals("J")){
+				g.setJk("JXX");
+			}
+		}
 		
+		Tcmd tcmd = outboundService.getTcmdContent(seq);
 		model.addAttribute("julianDate", getJulianDate);
-		model.addAttribute("tcmd", outboundService.getTcmdContent(seq));
-		model.addAttribute("gblList", outboundService.getTcmdContentGblList(seq));
-		
+		model.addAttribute("tcmd", tcmd);
+		model.addAttribute("gblList", gblList);
 		return process + "/delivery/tcmdModify";
 	}
 	
@@ -1163,6 +1191,9 @@ public class OutboundController {
 	@PreAuthorize("hasRole('ROLE_LEVEL4')")
 	@RequestMapping(value = "/{process}/delivery/house")
 	public String houseBl(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){			
+		
+		outboundFilter.getPagination().setNumItems(outboundService.getHouseListCount(outboundFilter));
+		
 		model.addAttribute("user", user);
 		
 		user.setSubProcess("house");

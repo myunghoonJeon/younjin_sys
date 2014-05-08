@@ -427,7 +427,7 @@ public class OutboundService {
 		gbl.setBookingSeq(bookingList.getSeq());
 
 		for (int i = 0; i < gblSeqList.length; i++) {
-			GBL gblTemp = getGbl(Integer.parseInt(gblSeqList[0]));
+			GBL gblTemp = getGbl(Integer.parseInt(gblSeqList[i]));
 			gblTemp.setSeq(Integer.parseInt(gblSeqList[i]));
 			gblTemp.setBookingSeq(bookingList.getSeq());
 			gblTemp.setLbs(null);
@@ -657,14 +657,19 @@ public class OutboundService {
 		return outboundDao.getTcmdList();
 	}
 	
-	public List<String> getTcmdShipperList(int seq){
-		return outboundDao.getTcmdShipperList(seq);
+	public List<String> getTcmdGblSeqList(int seq){
+		return outboundDao.getTcmdGblSeqList(seq);
 	}
 	
 	public int getTcmdGblListCount(OutboundFilter outboundFilter) {
 		return outboundDao.getTcmdGblListCount(outboundFilter);
 	}
-
+	public int getTcmdListCount(OutboundFilter outboundFilter) {
+		return outboundDao.getTcmdListCount(outboundFilter);
+	}
+	public int getHouseListCount(OutboundFilter outboundFilter) {
+		return outboundDao.getHouseListCount(outboundFilter);
+	}
 	public List<GBL> getTcmdGblList(OutboundFilter outboundFilter) {
 		return outboundDao.getTcmdGblList(outboundFilter);
 	}
@@ -817,7 +822,9 @@ public class OutboundService {
 		///jmh addtion
 		tcmd.setConsignee2(gbl.getGbloc());
 		//////////////////////////////////////
-		tcmd.setTransportationCa(gbl.getMilSVC() + getJulianDate + gbl.getSsn()+" "+ gbl.getCode() + "XX");
+		
+		
+		tcmd.setTransportationCa(gbl.getMilSVC() + getJulianDate + gbl.getSsn()+""+ gbl.getCode());
 		
 		return tcmd;
 	}

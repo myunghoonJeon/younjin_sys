@@ -46,7 +46,17 @@ public class Tcmd {
 	private String remark2;
 	private String addtionalRemark;
 	private String tac;
-	
+	private String yjn;
+
+
+	public String getYjn() {
+		return yjn;
+	}
+
+	public void setYjn(String yjn) {
+		this.yjn = yjn;
+	}
+
 	public String getTac() {
 		return tac;
 	}

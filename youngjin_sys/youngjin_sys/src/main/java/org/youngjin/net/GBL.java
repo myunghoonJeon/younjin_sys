@@ -43,6 +43,24 @@ public class GBL {
 	private String truckmanifastDate;
 	private String originCity;
 	private String tac;
+	private String tcmdRddJulianDate;
+	private String jk;
+	
+	public String getJk() {
+		return jk;
+	}
+
+	public void setJk(String jk) {
+		this.jk = jk;
+	}
+	public String getTcmdRddJulianDate() {
+		return tcmdRddJulianDate;
+	}
+
+	public void setTcmdRddJulianDate(String tcmdRddJulianDate) {
+		this.tcmdRddJulianDate = tcmdRddJulianDate;
+	}
+
 	public String getTac() {
 		return tac;
 	}

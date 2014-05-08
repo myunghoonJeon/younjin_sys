@@ -27,7 +27,13 @@
 			parent.$.smartPop.close();
 		</script>
 	</c:if>
-	
+	<form:form commandName="outboundFilter" method="get">
+		<sec:authorize access="hasRole('ROLE_LEVEL4')">
+			<li>
+				<form:hidden path="page" value="${pagination.currentPage}"/>
+			</li>
+		</sec:authorize>
+	</form:form>
 	<div class="house_addButton_wrap">
 		<span class="house_button yj_button" >add</span>
 	</div>	
@@ -57,7 +63,26 @@
 					</tr>
 				</c:forEach>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4">
+						<a href="javascript:void(goToPage(1))">FIRST</a>
+						<a href="javascript:void(goToPreviousPages())">PREV</a>
+						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
+							<c:if test="${i == pagination.currentPage}">
+								<a class="page_now">${i}</a>
+							</c:if>
+							<c:if test="${i != pagination.currentPage}">
+								<a href="javascript:void(goToPage(${i}))">${i}</a>
+							</c:if>
+						</c:forEach>
+						<a href="javascript:void(goToNextPages())">NEXT</a>
+						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 	</div>	
+		
 	
 <%@ include file="../../../layout/foot.jspf"%>

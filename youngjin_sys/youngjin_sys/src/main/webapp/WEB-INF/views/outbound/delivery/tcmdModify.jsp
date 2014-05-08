@@ -73,9 +73,10 @@
 	    <input name="dodsponsred" style="top:35px; left:385px; width:100px; height:12px;" value="DOD-SPONSORED"/>
 	    <input name="turnInDate" style="top:35px; left:545px; width:100px; height:12px;" value="TURN IN DATE : "/>
 	    <input name="date" style="top:35px; left:630px; width:100px; height:12px;" value="26-AUG-13"/>
-	
-	    <IMG width="1010" height="714" src="<c:url value='/resources/images/DPM_TCMD-1.jpg'/>" alt="background image"/>
+		
+	    <IMG width="1010" height="714" src="<c:url value='/resources/images/DPM_TCMD-5.jpg'/>" alt="background image"/>
 	    
+	    <input type="text" name="yjn" style="top:56px; left:56px; width:150px; height:20px; font-size: 10pt; font-family: arial;" value="${tcmd.yjn }"/>
 	    <input type="text" name="pageNo" style="top:63px; left:869px; width:92px; height:12px;" value="${tcmd.pageNo }" />
 	    
 	    
@@ -174,17 +175,18 @@
 			    <input name="q-37-1"  type="text" class="q-row-A${2 * i.count - 1  }" style="left:332px; width:24px;" value="${gbl.pod }" readonly="readonly" />
 			    <input name="q-38-1"  type="text" class="q-row-A${2 * i.count - 1  }" style="left:363px; width:32px;" value="${tcmd.mode }" readonly="readonly" />
 			    <input name="q-39-1"  type="text" class="q-row-A${2 * i.count - 1  }" style="left:403px; width:21px;" value="${tcmd.pack }" readonly="readonly" />
-			    <input name="q-40-1"  type="text" class="q-row-A${2 * i.count - 1  }" style="left:433px; width:160px;" value="${gbl.milSVC }${julianDate }${gbl.ssn }${gblcode }XX" readonly="readonly" />
+			    
+			    <input name="q-40-1"  type="text" class="q-row-A${2 * i.count - 1  }" style="left:433px; width:160px;" value="${gbl.milSVC }${julianDate }${gbl.ssn }${gbl.jk}" readonly="readonly" />
 			    <input name="consignee3"  type="text" class="q-row-A${2 * i.count - 1  }" style="left:601px; width:46px;" value="${gbl.consignee }" readonly="readonly" />
 			    <input name="pri2"  type="text" class="q-row-A${2 * i.count - 1  }" style="left:655px; width:15px;" value="2" />
-			    <input name="remark_rdd" type="text" class="q-row-A${2 * i.count - 1  }" style="left:678px; width:23px;" value="${gbl.remarkRdd }"/>
+			    <input name="remark_rdd" type="text" class="q-row-A${2 * i.count - 1  }" style="left:678px; width:30px;" value="${gbl.tcmdRddJulianDate }"/>
 			    <input name="remark_proj" type="text" class="q-row-A${2 * i.count - 1  }" style="left:709px; width:51px;"  />
 			    <input name="remark_shpd" type="text" class="q-row-A${2 * i.count - 1  }" style="left:767px; width:25px;"  />
 			    <input name="remark_eta" type="text" class="q-row-A${2 * i.count - 1  }" style="left:800px; width:21px;"  />
-			    <input name="remark_tac" type="text" class="q-row-A${2 * i.count - 1  }" style="left:829px; width:12px;" value="${gbl.remarkTac }"  />
-			    <input name="q-44a-1" type="text" class="q-row-A${2 * i.count - 1  }" style="left:848px; width:25px;" value="${gbl.pcs }" readonly="readonly" />
-			    <input name="q-44b-1" type="text" class="q-row-A${2 * i.count - 1  }" style="left:880px; width:40px;" value="${gbl.lbs }" readonly="readonly"  />
-			    <input name="q-44c-1" type="text" class="q-row-A${2 * i.count - 1  }" style="left:928px; width:32px;" value="${gbl.cuft }" readonly="readonly"/>	 
+			    <input name="remark_tac" type="text" class="q-row-A${2 * i.count - 1  }" style="left:815px; width:30px;" value="${gbl.remarkTac }"  />
+			    <input name="q-44a-1" type="text" class="q-row-A${2 * i.count - 1  }" style="left:860px; width:15px;" value="${gbl.pcs }" readonly="readonly" />
+			    <input name="q-44b-1" type="text" class="q-row-A${2 * i.count - 1  }" style="left:885px; width:37px;" value="${gbl.lbs }" readonly="readonly"  />
+			    <input name="q-44c-1" type="text" class="q-row-A${2 * i.count - 1  }" style="left:933px; width:29px;" value="${gbl.cuft }" readonly="readonly"/>	 
 			    
 			    <input name="q-40-1"  type="text" class="q-row-A${2 * i.count}" style="left:433px; width:160px; background-color: transparent;" value="${gbl.no }  ${gbl.scac}" readonly="readonly" />
 			    <input name="q-41-1"  type="text" class="q-row-A${2 * i.count}" style="left:601px; width:46px; background-color: transparent;" value="${gbl.areaLocal }" readonly="readonly" />

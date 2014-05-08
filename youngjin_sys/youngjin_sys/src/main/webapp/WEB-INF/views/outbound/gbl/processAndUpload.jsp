@@ -30,7 +30,7 @@
 <body>
 	<div class="gbl_process_and_upload_div">
 		<div class="pop_title_line">
-			<span>GBL</span>
+			<span style="font-size: 12pt; text-align: center; vertical-align: middle;">GBL NO : <font color="yellow">${gblInform.no }</font>　　Customer : <font color="yellow">${gblInform.customerName }</font></span>
 		</div>
 		<div class="gbl_process" data-seq="${seq}">
 			<ul >
@@ -130,7 +130,7 @@
 				<tfoot>
 					<tr>
 						<td id="upload_tfoot" colspan="4" data-seq="${seq }">
-							<span class="gbl_deleteButton yj_button">Delete</span>
+							<span class="gbl_deleteButton yj_button"><font color="yellow">GBL [ ${gblInform.no } ]  Delete</font></span>
 							<span class="document_power_of_attorney_button yj_button">Power Of Attorney</span>
 							<span class="document_upload_button yj_button">Document Upload</span>
 							<span class="document_view yj_button">Document Download</span>

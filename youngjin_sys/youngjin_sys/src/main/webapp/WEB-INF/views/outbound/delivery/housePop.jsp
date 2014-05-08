@@ -278,8 +278,11 @@
         </script>
     </head>
     <body onload="window.print();">
-    	<c:forEach var="gbl" items="${gblList }">
-	    	<div style="width: 900px; height: 1300px; background-color: white;" class="house_pdf">
+    	<c:forEach var="gbl" items="${gblList }" varStatus="status">
+    		<c:if test="${not status.first }">
+			<div style='page-break-after:always'></div>
+			</c:if>
+	    	<div style="width: 700px; height: 1000px; background-color: white;" class="house_pdf">
 		        <div id="paper">
 		            <h1>BILL OF LADING</h1>
 		            <table>
@@ -402,7 +405,7 @@
 		                </tr>
 		                <tr>
 		                    <td class="marks_and_numbers grid">
-		                        <div>${fn:substring(gbl.no, 0, fn:length(gbl.no) - 7) }<br/>${gbl.customerName }</div>
+		                        <div>${gbl.no }<br/><br/>${gbl.customerName }</div>
 		                    </td>
 		                    <td class="no_of_pkgs_or_containers grid">
 		                       	<div>${gbl.pcs }L/VAN(s)</div>
@@ -482,7 +485,7 @@
 		                    <td colspan="2" style="border-right: 0;"></td>
 		                    <th class="bl_no">BL NO.</th>
 		                    <td colspan="2" class="bl_no">
-		                        <div>${fn:substring(gbl.no, 0, fn:length(gbl.no) - 7) }</div>
+		                        <div>${gbl.no }</div>
 		                    </td>
 		                </tr>
 		            </table>

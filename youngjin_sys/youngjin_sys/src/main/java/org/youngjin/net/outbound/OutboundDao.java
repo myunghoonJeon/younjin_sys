@@ -318,8 +318,8 @@ public class OutboundDao extends SqlSessionDaoSupport {
 		
 	}
 
-	public List<String> getTcmdShipperList(int seq) {
-		return getSqlSession().selectList("outboundMapper.getTcmdShipperList",seq);
+	public List<String> getTcmdGblSeqList(int seq) {
+		return getSqlSession().selectList("outboundMapper.getTcmdGblSeqList",seq);
 	}
 	
 	
@@ -334,7 +334,12 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public int getTcmdGblListCount(OutboundFilter outboundFilter) {
 		return getSqlSession().selectOne("outboundMapper.getTcmdGblListCount", outboundFilter);
 	}
-
+	public int getTcmdListCount(OutboundFilter outboundFilter) {
+		return getSqlSession().selectOne("outboundMapper.getTcmdListCount", outboundFilter);
+	}
+	public int getHouseListCount(OutboundFilter outboundFilter){
+		return getSqlSession().selectOne("outboundMapper.getHouseListCount", outboundFilter);
+	}
 	public void insertTcmd(Tcmd tcmd) {
 		getSqlSession().insert("outboundMapper.insertTcmd", tcmd);
 	}

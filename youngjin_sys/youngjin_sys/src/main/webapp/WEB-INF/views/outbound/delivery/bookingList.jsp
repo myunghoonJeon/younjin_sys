@@ -27,7 +27,13 @@
 			parent.$.smartPop.close();
 		</script>
 	</c:if>
-	
+	<form:form commandName="outboundFilter" method="get">
+		<sec:authorize access="hasRole('ROLE_LEVEL4')">
+			<li>
+				<form:hidden path="page" value="${pagination.currentPage}"/>
+			</li>
+		</sec:authorize>
+	</form:form>
 	<div class="booking_addButton_wrap">
 		<span class="booking_addButton yj_button" >add</span>
 	</div>	
@@ -58,7 +64,7 @@
 			<tbody>
 				<c:if test="${bookingList eq '[]' or bookingList eq null }">
 					<tr>
-						<td colspan="5">등록된 정보가 없습니다.</td>
+						<td colspan="7">등록된 정보가 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="book" items="${bookingList }" varStatus="i">
@@ -75,7 +81,7 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="5">
+					<td colspan="7">
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">

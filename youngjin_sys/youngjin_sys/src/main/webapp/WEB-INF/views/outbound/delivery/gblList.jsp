@@ -84,15 +84,15 @@
 							<form:input path="startPud"/>
 						</li>
 						<li>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRUCK MANIFAST DATE : 
+							<form:hidden path="page" value="${pagination.currentPage}"/>
 						</li>
 						<li>
-							<input class="input_truckdate" type="text" id="truckdate" />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRUCK MANIFAST DATE <input class="input_truckdate" type="text" id="truckdate" />
 						</li>
 						<li>
 							<span class="truck_gbl_addButton yj_button" >add</span>
 						</li>
-					<form:hidden path="page" value="${pagination.currentPage}"/>
+						
 				</form:form>
 			</ul>
 		</div>

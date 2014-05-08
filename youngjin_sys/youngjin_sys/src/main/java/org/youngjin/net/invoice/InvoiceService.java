@@ -758,7 +758,7 @@ public class InvoiceService {
 			Rate otherRateParam = new Rate();
 			otherRateParam.setProcess(process);
 			otherRateParam.setWriteYear(gbl.getPud());
-
+			System.out.println("[[[[[[gbl get pud : "+gbl.getPud()+" ]]]]]]");
 			Rate comprate = invoiceDao.getEtc("comprate1", gbl.getPud());
 
 			Memorandum paramMemorandum = new Memorandum();

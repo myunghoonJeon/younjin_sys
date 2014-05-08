@@ -76,8 +76,8 @@
 					<span class="outbound_search yj_button" >search</span>
 				</li>
 				<li>
-					<form:hidden path="page" value="${pagination.currentPage}"/>
-				</li>
+						<form:hidden path="page" value="${pagination.currentPage}"/>
+					</li>
 				<li>	
 					<span class="gbl_addButton yj_button" >add</span>
 				</li>
@@ -136,7 +136,7 @@
 						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
 					</td>
 				</tr>
-			</tfoot>
+			</tfoot>	
 			
 			<thead>
 				<tr>

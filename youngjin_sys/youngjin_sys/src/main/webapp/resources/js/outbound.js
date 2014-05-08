@@ -25,7 +25,7 @@ youngjin.outbound.sync = function(){
 	
 	$('.gbl_deleteButton').unbind('click');
 	$('.gbl_deleteButton').bind('click', function(){
-		youngjin.outbound.gblDelete();
+			youngjin.outbound.gblDelete();
 	});
 	
 	$('input#destGBlock').unbind('change');
