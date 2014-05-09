@@ -45,7 +45,16 @@ public class GBL {
 	private String tac;
 	private String tcmdRddJulianDate;
 	private String jk;
+	private String tcmdConsignee3;
 	
+	public String getTcmdConsignee3() {
+		return tcmdConsignee3;
+	}
+
+	public void setTcmdConsignee3(String tcmdConsignee3) {
+		this.tcmdConsignee3 = tcmdConsignee3;
+	}
+
 	public String getJk() {
 		return jk;
 	}

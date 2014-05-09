@@ -19,6 +19,7 @@
 <script>
 	var contextPath = '<c:out value="${cp}"/>';
 	var realPath = '<c:out value="${rp}"/>';
+
 	var addError = false;
 	if (typeof youngjin == 'undefined') {
 		youngjin = {};
@@ -35,7 +36,7 @@
 	function goToPage(page) {	
 		//location.href =  contextPath + '/member/leading/archives/page/'+page;
 		$("input#page").val(page);
-		$("form#outboundFilter").submit();
+		$("form#inboundFilter").submit();
 	}
 	
 	function goToPreviousPages() {
@@ -50,11 +51,12 @@
 		<div class="pop_title_line">
 			<span>INBOUND INVOICE ADD</span>
 		</div>		
-			
+		
 		<c:set var="branchList" value="${filterMap['branchList'] }" />
 		<c:set var="carrierList" value="${filterMap['carrierList'] }" />
 		<c:set var="codeList" value="${filterMap['codeList'] }" />
 		
+
 		<div class="gbl_filter">	
 			<ul class="freight_filter_wrap">
 				<form:form commandName="inboundFilter" method="get">
@@ -117,7 +119,7 @@
 			<table class="yj_table">
 				<tfoot>
 					<tr>
-						<td colspan="13">
+						<td colspan="3">
 							<a href="javascript:void(goToPage(1))">FIRST</a>
 							<a href="javascript:void(goToPreviousPages())">PREV</a>
 							<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">

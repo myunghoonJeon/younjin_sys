@@ -73,7 +73,7 @@
 	    <input name="turnInDate" style="top:35px; left:545px; width:100px; height:12px;" value="TURN IN DATE : "/>
 	    <input name="date" style="top:35px; left:630px; width:100px; height:12px;" value="26-AUG-13"/>
 	
-	    <IMG width="1010" height="714" src="<c:url value='/resources/images/DPM_TCMD-5.jpg'/>" alt="background image"/>
+	    <IMG width="1010" height="714" src="<c:url value='/resources/images/DPM_TCMD-6.jpg'/>" alt="background image"/>
 	    <input type="text" name="yjn" style="top:56px; left:56px; width:92px; height:20px; font-size: 10pt; font-family: arial;" value="${tcmd.yjn }"/>
 	    <input type="text" name="pageNo" style="top:63px; left:869px; width:92px; height:12px;" value="${tcmd.pageNo }" />
 	    

@@ -242,8 +242,7 @@ public class InboundController {
 		inboundFilter.getPagination().setNumItems(
 				inboundService.getCustomInvoiceGblListCount(inboundFilter));
 
-		model.addAttribute("gblList",
-				inboundService.getCustomInvoiceGblList(inboundFilter));
+		model.addAttribute("gblList", inboundService.getCustomInvoiceGblList(inboundFilter));
 
 		return process + "/custom/invoiceAdd";
 	}

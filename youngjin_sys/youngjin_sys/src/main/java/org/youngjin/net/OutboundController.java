@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -1143,12 +1144,19 @@ public class OutboundController {
 			else if(g.getCode().equals("J")){
 				g.setJk("JXX");
 			}
+			g.setTcmdConsignee3(processService.getGBlockByGbloc(g.getDestGBlock()).getDodaac());
+		}
+		Tcmd tcmd = outboundService.getTcmdContent(seq);
+		int size = gblList.size();
+		int pageNum = size/3;
+		if(size%7 != 0){
+			pageNum++;
 		}
 		
-		Tcmd tcmd = outboundService.getTcmdContent(seq);
 		model.addAttribute("julianDate", getJulianDate);
 		model.addAttribute("tcmd", tcmd);
 		model.addAttribute("gblList", gblList);
+		model.addAttribute("pageNum",pageNum);
 		return process + "/delivery/tcmdModify";
 	}
 	
@@ -1159,11 +1167,46 @@ public class OutboundController {
 		
 		String year = Integer.toString(DateUtil.getYear());
 		String getJulianDate = year.substring(3, 4) + DateUtil.getDaysBetween(year + "0101", DateUtil.getToday("YYYYMMDD"));
-		
+		List<GBL> gblList = outboundService.getTcmdContentGblList(seq);
+		for(GBL g:gblList){
+			String rddJulian="";
+			rddJulian = g.getRdd().substring(3, 4) + DateUtil.getDaysBetween(g.getRdd().substring(0,4) + "0101", g.getRdd());
+			System.out.println("[[[[[[[[[ GBL : "+g.getNo()+"   RDD : "+g.getRdd().substring(0,4)+"yesr "+g.getRdd()+"   JULIAN : "+rddJulian+" ]]]]]]]]]");
+			g.setTcmdRddJulianDate(rddJulian);
+			if(g.getCode().equals("T")){
+				g.setJk("KXX");
+			}
+			else if(g.getCode().equals("J")){
+				g.setJk("JXX");
+			}
+		}
+		Tcmd tcmd = outboundService.getTcmdContent(seq);
 		model.addAttribute("julianDate", getJulianDate);
-		model.addAttribute("tcmd", outboundService.getTcmdContent(seq));
-		model.addAttribute("gblList", outboundService.getTcmdContentGblList(seq));
+		model.addAttribute("tcmd", tcmd);
+		model.addAttribute("gblList", gblList);
+		/*
+		 * String year = Integer.toString(DateUtil.getYear());
+		String getJulianDate = year.substring(3, 4) + DateUtil.getDaysBetween(year + "0101", DateUtil.getToday("YYYYMMDD"));
+		System.out.println("[[[[ JULIAN TEST YEAR : "+year +" substring 3,4 "+ year.substring(3,4)+" ]]]]");
+		List<GBL> gblList = outboundService.getTcmdContentGblList(seq);
+		for(GBL g:gblList){
+			String rddJulian="";
+			rddJulian = g.getRdd().substring(3, 4) + DateUtil.getDaysBetween(g.getRdd().substring(0,4) + "0101", g.getRdd());
+			System.out.println("[[[[[[[[[ GBL : "+g.getNo()+"   RDD : "+g.getRdd().substring(0,4)+"yesr "+g.getRdd()+"   JULIAN : "+rddJulian+" ]]]]]]]]]");
+			g.setTcmdRddJulianDate(rddJulian);
+			if(g.getCode().equals("T")){
+				g.setJk("KXX");
+			}
+			else if(g.getCode().equals("J")){
+				g.setJk("JXX");
+			}
+		}
 		
+		Tcmd tcmd = outboundService.getTcmdContent(seq);
+		model.addAttribute("julianDate", getJulianDate);
+		model.addAttribute("tcmd", tcmd);
+		model.addAttribute("gblList", gblList);
+		 * */
 		return process + "/delivery/tcmdPrint";
 	}
 
