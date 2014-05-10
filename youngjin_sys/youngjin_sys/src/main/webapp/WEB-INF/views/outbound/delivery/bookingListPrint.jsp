@@ -5,9 +5,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>    
+	prefix="sec"%>   
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<c:set var="cp" value="<%=request.getContextPath() %>"/>
+<c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
 <html>
+
 <style>
 	#booking_table_id tr td{ border-width: 1px; }
 
@@ -194,42 +197,66 @@
 		font-family:arial;
 		font-weight:bold;
 	}
-	
-	<%-- <%
-		//setting parameter <TD> 21th
-		//declare parameter
-		//all of String type;
-		//case 1 이건 변수 마다 각각 데이터를 넣어서 세팅하는경우
-		String pud="";
-		String carrier="";
-		String code="";
-		String shipper="";
-		String gblno="";
-		String milsvc="";
-		String origngbloc="";
-		String pcs="";
-		String cuft="";
-		String gwt="";
-		String nwt="";
-		String c1,c2,c3,c4,c5,c6,c7="";
-		String destport,deststate,bigo="";
-		String remark_context="remark context test";
-		////////////////////////
-		//만약 어레이 리스트로 데이터를 넘길경우 21가지 순서대로
-		ArrayList<ArrayList<String>> arr=new ArrayList<ArrayList<String>>();//순서대로 데이터 집어넣기
-		ArrayList<String> test=new ArrayList<String>();
-		ArrayList<String> test2=new ArrayList<String>();
-		for(int i=0;i<21;i++){
-			test.add(""+i);
-			test2.add(""+i+1);
-		}
-		arr.add(test);
-		arr.add(test2);
-	%> --%>
 </style>
+
+
+<script type="text/javascript" language="Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" language="Javascript" src="${cp }/resources/jquery/jquery.json.js"></script>
+<script type="text/javascript" language="Javascript" >
+	var contextPath = '<c:out value="${cp}"/>';
+	var realPath = '<c:out value="${rp}"/>';
+    $(document).ready(function () {
+        $("#yjnInput").focusout(function (event) {
+            	var bookSeq = $("#bookSeq").attr('data-seq');
+            	var column = $("#yjnInput").attr('name');
+            	var value = $("#yjnInput").val();
+            	var json = {
+                		'bookSeq' : bookSeq,
+                		'column' : column,
+                		'value' : value
+                	};
+                	var url = contextPath + '/outbound/bookinglistUpdate.json';
+              	
+                	$.postJSON(url, json, function(){
+                		return jQuery.ajax({
+                			success : function(){
+                			},
+                			error : function(){
+                				alert('에러 발생');
+                			}
+                		});
+                	});
+            }
+        );
+        
+        $("#remark").focusout(function (event) {
+        	var bookSeq = $("#bookSeq").attr('data-seq');
+        	var column = 'remark';
+        	var value = $("#remark").val();
+
+        	var json = {
+            		'bookSeq' : bookSeq,
+            		'column' : column,
+            		'value' : value
+            	};
+            	var url = contextPath + '/outbound/bookinglistUpdate.json';
+            	$.postJSON(url, json, function(){
+            		return jQuery.ajax({
+            			success : function(){
+            			},
+            			error : function(){
+            				alert('에러 발생');
+            			}
+            		});
+            	});
+        }
+    );
+    });
+</script>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Booking List</title>
+<title>Booking List1</title>
 <LINK REL=StyleSheet HREF="" TYPE="text/css">
 </head>
 <body>
@@ -240,6 +267,9 @@
 	</div>
 	<div>
 		<table id="booking_table_id" border = "0" cellspacing="0" width="90%" align="center">
+		<tr id="bookSeq" class="bookinglistInfo_wrap" data-seq="${bookingList.seq }">
+			<td colspan="10"><input type="text" class="po" name="yjn" id="yjnInput" style="top:40px;border:none; left:56px; width:450px; height:20px; font-size: 13pt;font-weight:bold; font-family: arial;" value="${bookingList.yjnInput }"/></td>
+		</tr>
 		<tr style=" align="center">
 			<td id='topletter' colspan="3">OF</td>
 			<td id='topletter'colspan="1">CFS</td>
@@ -345,7 +375,7 @@
 		}
 		 %> --%>
 		 <tr>
-		 	<td colspan="21" id="remarktop">REMARK　　　　<input style="border: none;width:1000px;"> </input></td>
+		 	<td colspan="21" id="remarktop">REMARK　　　　<input id="remark" name="remark" value="${bookingList.remark }" style="font-weight:bold; font-family:arial; font-size:10pt;border: none;width:1000px;"> </input></td>
 		 </tr>
 		 <tr>
 		 	<td colspan="21" id="remarkbottom"></td>

@@ -763,6 +763,9 @@
 		FROM gbl g, weight_certificate w
 		WHERE g.seq = w.gbl_seq
 		AND w.truck_check &lt;&gt; 1
+		AND g.code != 'J' 
+		AND g.code != 'T'
+		AND g.code != '8'
 		<if test="truckManifastFlag == false">
 			AND g.no NOT LIKE '%-sub%'
 		</if>
@@ -812,6 +815,9 @@
 			g.no, w.booking_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
 		FROM gbl g, weight_certificate w
 		WHERE g.seq = w.gbl_seq
+		AND g.code != 'T'
+		AND g.code != 'J'
+		AND g.code != '8'
 		AND w.booking_check &lt;&gt; 1
 		AND g.seq IN (
 			SELECT
@@ -897,7 +903,8 @@
 		memo,
 		remark,
 		write_date,
-		yjCount
+		yjCount,
+		yjnInput
 	FROM
 		booking_list 
 	WHERE
@@ -1267,11 +1274,11 @@
 	INSERT INTO
 		gbl
 		(
-			no, customer_name, rank, code, scac, origin_gblock, dest_gblock, pud, ssn, rdd, pod, poe, lbs, area, origin_address, us_no, dest_port, origin_port, origin_city, mil_svc
+			no, customer_name, rank, code, scac, origin_gblock, dest_gblock, pud, ssn, rdd, pod, poe, lbs, area, origin_address, us_no, dest_port, origin_port, origin_city, mil_svc, house_consignee
 		)
 	VALUES
 		(
-			#{no}, #{customerName}, #{rank}, #{code}, #{scac}, #{originGBlock}, #{destGBlock}, #{pud}, #{ssn}, #{rdd}, #{pod}, #{poe}, #{lbs}, #{areaLocal}, #{originAddress}, #{usNo}, #{destPort}, #{originPort}, #{originCity}, #{milSVC}		
+			#{no}, #{customerName}, #{rank}, #{code}, #{scac}, #{originGBlock}, #{destGBlock}, #{pud}, #{ssn}, #{rdd}, #{pod}, #{poe}, #{lbs}, #{areaLocal}, #{originAddress}, #{usNo}, #{destPort}, #{originPort}, #{originCity}, #{milSVC}, #{houseConsignee}
 		)
 	<selectKey keyProperty="seq" resultType="Integer">
 		SELECT LAST_INSERT_ID() 
@@ -1550,7 +1557,19 @@
     WHERE
     	seq = #{seq}
 </update>
-
+<update id="updateBookingListUpdate" parameterType="Map">
+	UPDATE
+		booking_list
+	SET
+		<if test="column == 'yjn'">
+			yjnInput = #{value}
+		</if>
+		<if test = "column == 'remark'">
+			remark = #{value}
+		</if>
+	WHERE
+		seq = #{bookSeq} 
+</update>
 <update id="updateGblStatus" parameterType="Map">
     UPDATE
     	gbl_status
@@ -1724,16 +1743,17 @@
 	SET
 		gbl_truckmanifast = false
 	WHERE
-		gbl_no IN (select gbl_no from gbl where truck_seq = #{seq})
+		gbl_no IN (select no from gbl where truck_seq = #{seq})
 </update>
 
 <update id="deleteGblStatusByBookingList" parameterType="Integer">
+	
 	UPDATE
 		gbl_status
 	SET
 		gbl_bookinglist = false
 	WHERE
-		gbl_no IN (select gbl_no from gbl where booking_seq = #{seq})
+		gbl_no IN (select no from gbl where booking_seq = #{seq})
 </update>
 
 <update id="passBookinglist" parameterType="Integer">

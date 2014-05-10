@@ -20,7 +20,7 @@
 				gblock = #{gblock}
 		</if>	
 		ORDER BY
-			seq	
+			us_no desc	
 	</select>
 
 	<insert id="gblockAdd" parameterType="GBlock">

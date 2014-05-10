@@ -19,6 +19,8 @@ youngjin.outbound.sync = function(){
 		});
 	});
 	
+
+	
 	$('.outbound_gbl_add_table #no').focusout(function(){
 		youngjin.outbound.addCheckAlreadySaveGblInfo($(this));
 	});
@@ -153,6 +155,7 @@ youngjin.outbound.sync = function(){
 	youngjin.outbound.backButtonSync();
 	
 	youngjin.outbound.tcmdSync();
+
 };
 
 youngjin.outbound.preMoveSurveySync = function(){
@@ -407,6 +410,10 @@ youngjin.outbound.additionDecideSync = function(){
 	$('.addition_complete_btn').bind('click', function(){
 		youngjin.outbound.additionComplete($(this));
 	});
+};
+
+youngjin.outbound.bookSync = function(){
+	
 };
 
 youngjin.outbound.tcmdSync = function(){
@@ -2063,6 +2070,9 @@ youngjin.outbound.tcmdGblModify = function(target){
 		});
 	});
 };
+
+
+
 
 youngjin.outbound.tcmdInfoModify = function(target){
 	var tcmdSeq = $('#page1-div').attr('data-tcmdSeq');

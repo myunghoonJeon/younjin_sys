@@ -66,7 +66,6 @@ public class OutboundService {
 
 	public void insertGbl(GBL gbl) {
 		outboundDao.insertGbl(gbl);
-
 		outboundDao.insertGblStatus(gbl);
 	}
 
@@ -400,7 +399,7 @@ public class OutboundService {
 		//여기다가 코드 T랑 J변하게 하자
 		GBL gbl = outboundDao.getGbl(gblSeq);
 		String code = gbl.getCode();
-		if(code.equals("T") || code.equals("J")){//만약 코드 T랑 J일경우 truck 이랑 booking 안하고 invoice 되도록 넘겨보자
+		if(code.equals("T") || code.equals("J")|| code.equals("8")){//만약 코드 T랑 J일경우 truck 이랑 booking 안하고 invoice 되도록 넘겨보자
 			System.out.println("gblSeq : "+gblSeq);
 			outboundDao.passBookingList(gbl.getNo());
 			System.out.println("[[[[[[[[[[[[[GBL NO : "+gbl.getNo()+" ]]] [[[ booking list pass]]]]]]]]]]]");
@@ -454,6 +453,7 @@ public class OutboundService {
 		outboundDao.deleteBookingList(bookingSeq);
 		System.out.println("[[[[[[[[[[[[[4]]]]]]]]]]]");
 	}
+	
 	public void deleteTcmdList(Map<String,String> tcmdSeq){
 		Integer seq = Integer.valueOf(tcmdSeq.get("seq"));
 		System.out.println("[[[[[[[[ DELETE TCMD SEQ : "+seq+" ]]]]]]]]]]");
@@ -499,7 +499,9 @@ public class OutboundService {
 	public void modifyGbl(GBL gbl) {
 		outboundDao.modifyGbl(gbl);
 	}
-
+	public void updateBookingListUpdate(Map map){
+		outboundDao.updateBookingListUpdate(map);
+	}
 	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {
 		return outboundDao.getDd619ListSelectOne(dd619Seq);
 	}

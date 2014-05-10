@@ -62,18 +62,22 @@
 
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
-<body  bgcolor="#A0A0A0" vlink="blue" link="blue"> 
+
+<body  bgcolor="#A0A0A0" vlink="blue" link="blue">
+
 <div style="background-color: white;">
 	<span class="yj_button" onclick="location.href='${cp}/outbound/delivery/mil/${tcmd.seq }/tcmdPrint'">print</span> 
 </div>
 <a name="1"></a>
+<c:set var = "start" value="0"/>
+<c:set var = "end" value="0"/> 
 <c:forEach var="page" begin="1" end="${pageNum }">
-		<c:if test="${ page gt 0}">
+		<c:if test="${ page > 0}">
 			<div style='page-break-after: always'></div>
 		</c:if>
 		<c:set var="start" value="${(page-1)*3}"></c:set>
 		<c:set var="end" value="${page*3 }"></c:set>
-		<div><br/>start = ${start } end = ${end }</div>
+		
 		<!-- TO DO UNDER HERE -->
 		<DIV id="page1-div" style="position:relative; width:1010px; height:714px;" data-tcmdSeq="${tcmd.seq }">
 		<div class="tcmdInfo_wrap">
@@ -82,7 +86,7 @@
 	    <input name="turnInDate" style="top:35px; left:545px; width:100px; height:12px;" value="TURN IN DATE : "/>
 	    <input name="date" style="top:35px; left:630px; width:100px; height:12px;" value="26-AUG-13"/>
 		
-	    <IMG width="1010" height="714" src="<c:url value='/resources/images/DPM_TCMD-6.jpg'/>" alt="background image"/>
+	    <IMG width="1010" height="714" src="<c:url value='/resources/images/TCMD14.jpg'/>" alt="background image"/>
 	    
 	    <input type="text" name="yjn" style="top:56px; left:56px; width:150px; height:20px; font-size: 10pt; font-family: arial;" value="${tcmd.yjn }"/>
 	    <input type="text" name="pageNo" style="top:63px; left:869px; width:92px; height:12px;" value="${tcmd.pageNo }" />
@@ -162,52 +166,66 @@
     <input name="remarks"    type="text" class="q-row-7" style="left:512px; width:448px;" value="${tcmd.remarks}"/>
 
 	<div class="tcmdGbl_wrap">
+		<div>start = ${start } end = ${end }</div>
 		<c:forEach var="gbl" items="${gblList }" varStatus="i">
-		<if test="${i.count gt start and i.count le end} ">
-			<if test="${i.count*2-1 gt 6 }">
-				<c:set var="roofFlag" value="${(i.count*2)-1-((page-1)*6) }"/>
-			</if>
+		<div>start : ${start } end : ${end } icount : ${i.count }</div>
+		<c:choose>
+		<c:when test="${i.count > start and i.count <= end }">
+			<c:choose>
+				<c:when test="${(i.count*2-1) > 5 }">
+					<c:set var="up" value="${(i.count*2)-1-((page-1)*6) }"/>
+					<c:set var="down" value="${up+1 }"/>
+				</c:when>
+				<c:otherwise>
+					<c:set var="up" value="${(i.count*2)-1}"/>
+					<c:set var="down" value="${up+1 }"/>
+				</c:otherwise>
+			</c:choose>
 			<div data-seq="${gbl.seq }">
-		    	<input name="q-32-1"  type="text" class="q-row-A${roofFlag }" style="left:56px;  width:21px;" value="${gbl.code eq 'J' ? 'TFD' : 'TH1' }" readonly="readonly" />
-		   		<input name="q-33-1"  type="text" class="q-row-A${roofFlag  }" style="left:85px;  width:39px;" readonly="readonly" value="${i.count  }" />
+		    	<input name="q-32-1"  type="text" class="q-row-A${up }" style="left:56px;  width:21px;" value="${gbl.code eq 'J' ? 'TFD' : 'TH1' }" readonly="readonly" />
+		    	
+		   		<input name="q-33-1"  type="text" class="q-row-A${up  }" style="left:85px;  width:39px;" readonly="readonly" value="${up }" />
 		   		<c:choose>
 		   			<c:when test="${gbl.areaLocal eq 'OS' }">
-			    		<input name="q-34-1"  type="text" class="q-row-A${roofFlag  }" style="left:131px; width:52px;" value="FB5294" readonly="readonly"/>
+			    		<input name="q-34-1"  type="text" class="q-row-A${up  }" style="left:131px; width:52px;" value="FB5294" readonly="readonly"/>
 			    	</c:when>
 		   			<c:when test="${gbl.areaLocal eq 'KS' }">
-			    		<input name="q-34-1"  type="text" class="q-row-A${roofFlag  }" style="left:131px; width:52px;" value="FB5284" readonly="readonly"/>
+			    		<input name="q-34-1"  type="text" class="q-row-A${up  }" style="left:131px; width:52px;" value="FB5284" readonly="readonly"/>
 			    	</c:when>
 			    	<c:otherwise>
-			    		<input name="q-34-1"  type="text" class="q-row-A${roofFlag  }" style="left:131px; width:52px;" value="W81LYE" readonly="readonly"/>
+			    		<input name="q-34-1"  type="text" class="q-row-A${up  }" style="left:131px; width:52px;" value="W81LYE" readonly="readonly"/>
 			    	</c:otherwise>
 			    </c:choose>
 			    
-			    <input name="q-35-1"  type="text" class="q-row-A${roofFlag}" style="left:190px; width:61px;" value="${tcmd.commSpecHdig }" readonly="readonly" />
-			    <input name="q-36a-1" type="text" class="q-row-A${roofFlag  }" style="left:259px; width:33px;" value="${tcmd.airDim }" readonly="readonly" />
-			    <input name="q-36b-1" type="text" class="q-row-A${roofFlag  }" style="left:300px; width:25px;" value="${gbl.poe }" readonly="readonly" />
-			    <input name="q-37-1"  type="text" class="q-row-A${roofFlag  }" style="left:332px; width:24px;" value="${gbl.pod }" readonly="readonly" />
-			    <input name="q-38-1"  type="text" class="q-row-A${roofFlag  }" style="left:363px; width:32px;" value="${tcmd.mode }" readonly="readonly" />
-			    <input name="q-39-1"  type="text" class="q-row-A${roofFlag  }" style="left:403px; width:21px;" value="${tcmd.pack }" readonly="readonly" />
+			    <input name="q-35-1"  type="text" class="q-row-A${up}" style="left:190px; width:61px;" value="${tcmd.commSpecHdig }" readonly="readonly" />
+			    <input name="q-36a-1" type="text" class="q-row-A${up  }" style="left:259px; width:33px;" value="${tcmd.airDim }" readonly="readonly" />
+			    <input name="q-36b-1" type="text" class="q-row-A${up  }" style="left:300px; width:25px;" value="${gbl.poe }" readonly="readonly" />
+			    <input name="q-37-1"  type="text" class="q-row-A${up  }" style="left:332px; width:24px;" value="${gbl.pod }" readonly="readonly" />
+			    <input name="q-38-1"  type="text" class="q-row-A${up  }" style="left:363px; width:32px;" value="${tcmd.mode }" readonly="readonly" />
+			    <input name="q-39-1"  type="text" class="q-row-A${up  }" style="left:403px; width:21px;" value="${tcmd.pack }" readonly="readonly" />
 			    
-			    <input name="q-40-1"  type="text" class="q-row-A${roofFlag  }" style="left:433px; width:160px;" value="${gbl.milSVC }${julianDate }${gbl.ssn }${gbl.jk}" readonly="readonly" />
-			    <input name="consignee3"  type="text" class="q-row-A${roofFlag  }" style="left:601px; width:46px;" value="${gbl.tcmdConsignee3 }" readonly="readonly" />
-			    <input name="pri2"  type="text" class="q-row-A${roofFlag  }" style="left:655px; width:15px;" value="2" />
-			    <input name="remark_rdd" type="text" class="q-row-A${roofFlag  }" style="left:678px; width:30px;" value="${gbl.tcmdRddJulianDate }"/>
-			    <input name="remark_proj" type="text" class="q-row-A${roofFlag  }" style="left:709px; width:51px;"  />
-			    <input name="remark_shpd" type="text" class="q-row-A${roofFlag  }" style="left:767px; width:25px;"  />
-			    <input name="remark_eta" type="text" class="q-row-A${roofFlag  }" style="left:800px; width:21px;"  />
-			    <input name="remark_tac" type="text" class="q-row-A${roofFlag  }" style="left:813px; width:30px;" value="${gbl.remarkTac }"  />
-			    <input name="q-44a-1" type="text" class="q-row-A${roofFlag  }" style="left:860px; width:15px;" value="${gbl.pcs }" readonly="readonly" />
-			    <input name="q-44b-1" type="text" class="q-row-A${roofFlag  }" style="left:885px; width:37px;" value="${gbl.lbs }" readonly="readonly"  />
-			    <input name="q-44c-1" type="text" class="q-row-A${roofFlag  }" style="left:933px; width:29px;" value="${gbl.cuft }" readonly="readonly"/>	
+			    <input name="q-40-1"  type="text" class="q-row-A${up  }" style="left:433px; width:160px;" value="${gbl.milSVC }${julianDate }${gbl.ssn }${gbl.jk}" readonly="readonly" />
+			    <input name="consignee3"  type="text" class="q-row-A${up  }" style="font-size:8pt;left:601px; width:46px;" value="${gbl.tcmdConsignee3 }" readonly="readonly" />
+			    <input name="pri2"  type="text" class="q-row-A${up  }" style="left:655px; width:15px;" value="2" />
+			    <input name="remark_rdd" type="text" class="q-row-A${up  }" style="left:678px; width:30px;" value="${gbl.tcmdRddJulianDate }"/>
+			    <input name="remark_proj" type="text" class="q-row-A${up  }" style="left:709px; width:51px;"  />
+			    <input name="remark_shpd" type="text" class="q-row-A${up  }" style="left:767px; width:25px;"  />
+			    <input name="remark_eta" type="text" class="q-row-A${up  }" style="left:800px; width:21px;"  />
+			    <input name="remark_tac" type="text" class="q-row-A${up  }" style="left:805px; width:35px; font-size:7pt;" value="${gbl.remarkTac }"  />
+			    <input name="q-44a-1" type="text" class="q-row-A${up  }" style="left:860px; width:15px;" value="${gbl.pcs }" readonly="readonly" />
+			    <input name="q-44b-1" type="text" class="q-row-A${up  }" style="left:885px; width:37px;" value="${gbl.lbs }" readonly="readonly"  />
+			    <input name="q-44c-1" type="text" class="q-row-A${up  }" style="left:933px; width:29px;" value="${gbl.cuft }" readonly="readonly"/>	
 			     
-			    <input name="q-32b-1" type="text" class="q-row-A${roofFlag*2}" style="left:56px;  width:21px;" value="${roofFlag*2 }"/>
-			    <input name="q-40-1"  type="text" class="q-row-A${roofFlag*2}" style="left:433px; width:160px; background-color: transparent;" value="${gbl.no }  ${gbl.scac}" readonly="readonly" />
-			    <input name="q-41-1"  type="text" class="q-row-A${roofFlag*2}" style="left:601px; width:46px; background-color: transparent;" value="${gbl.areaLocal }" readonly="readonly" />
-			    <input name="q-43a-1" type="text" class="q-row-A${roofFlag*2}" style="left:678px; width:132px; background-color: transparent;text-align:left;" value="${gbl.customerName }   ${gbl.rank}" readonly="readonly"/>
-			    <input name="q-44a-1" type="text" class="q-row-A${roofFlag*2}" style="left:854px; width:97px; background-color: transparent;text-align:left;" value="${fn:substring(gbl.ssn, 0, 3)}-${fn:substring(gbl.ssn, 3, 5)}-${fn:substring(gbl.ssn, 5, 9)}" readonly="readonly" />
+			    <input name="q-32b-1" type="text" class="q-row-A${down}" style="left:56px;  width:21px;" value="TFH"/>
+		   		<input name="q-33-1"  type="text" class="q-row-A${down  }" style="left:85px;  width:39px;" readonly="readonly" value="${down }" />
+			    <input name="q-40-1"  type="text" class="q-row-A${down}" style="left:433px; width:160px; background-color: transparent;" value="${gbl.no }  ${gbl.scac}" readonly="readonly" />
+			    <input name="q-41-1"  type="text" class="q-row-A${down}" style="left:601px; width:46px; background-color: transparent;" value="${gbl.areaLocal }" readonly="readonly" />
+			    <input name="q-43a-1" type="text" class="q-row-A${down}" style="left:678px; width:132px; background-color: transparent;text-align:left;" value="${gbl.customerName }   ${gbl.rank}" readonly="readonly"/>
+			    <input name="q-44a-1" type="text" class="q-row-A${down}" style="left:854px; width:97px; background-color: transparent;text-align:left;" value="${fn:substring(gbl.ssn, 0, 3)}-${fn:substring(gbl.ssn, 3, 5)}-${fn:substring(gbl.ssn, 5, 9)}" readonly="readonly" />
 			</div>
-			</if>
+			</c:when>
+			<c:otherwise>${start} under ${end} ==  ${i.count }</c:otherwise>
+			</c:choose>
 			
 		</c:forEach>
 	</div>

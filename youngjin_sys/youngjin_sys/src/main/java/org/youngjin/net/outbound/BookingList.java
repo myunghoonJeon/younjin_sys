@@ -12,6 +12,16 @@ public class BookingList {
 	private String writeDate;
 	private Integer yjCount;
 	private String gblList;
+	private String yjnInput;
+	
+	public String getYjnInput() {
+		return yjnInput;
+	}
+
+	public void setYjnInput(String yjnInput) {
+		this.yjnInput = yjnInput;
+	}
+
 	public String getGblList() {
 		return gblList;
 	}

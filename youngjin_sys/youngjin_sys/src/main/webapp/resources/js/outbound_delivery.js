@@ -13,6 +13,8 @@ youngjin.outbound.delivery.sync = function(){
 		youngjin.outbound.delivery.getTruckmainifastGblList($(this));
 	});
 	
+	
+	
 	$('.truck_gbl_list_tr').unbind('click');
 	$('.truck_gbl_list_tr').bind('click', function(){
 		if($(this).attr('data-merge') != 'merge'){
@@ -70,6 +72,8 @@ youngjin.outbound.delivery.sync = function(){
 	$('.booking_list_content').bind('click', function(){
 		youngjin.outbound.delivery.bookingPrint($(this));
 	});
+	
+	
 	
 	$('.powerofattorny_list_content').unbind('click');
 	$('.powerofattorny_list_content').bind('click', function(){
@@ -547,4 +551,16 @@ youngjin.outbound.delivery.housePop = function(target){
 		height: 1000,
 		url : url
 	});
+};
+
+youngjin.outbound.bookinglistFirstline = function(target){
+	var bookSeq = $(this).parents('tr').attr('data-seq');
+	var column = target.attr('name');
+	var value = target.val();
+	alert("seq : "+bookSeq +" column : "+column+" value : "+value);
+	var json = {
+		'bookSeq' : bookSeq,
+		'column' : column,
+		'value' : value
+	};
 };

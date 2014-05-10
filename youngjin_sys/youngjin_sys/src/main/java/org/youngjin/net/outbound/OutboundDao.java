@@ -33,7 +33,9 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void insertGbl(GBL gbl) {
 		getSqlSession().insert("outboundMapper.insertGbl", gbl);		
 	}
-
+	public void updateBookingListUpdate(Map map){
+		getSqlSession().update("outboundMapper.updateBookingListUpdate",map);
+	}
 	public List<Code> getCarrierList() {
 		return getSqlSession().selectList("outboundMapper.getCarrierList");
 	}

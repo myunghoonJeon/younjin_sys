@@ -38,6 +38,7 @@ import org.youngjin.net.memorandum.MemorandumService;
 import org.youngjin.net.outbound.Addition;
 import org.youngjin.net.outbound.BookingList;
 import org.youngjin.net.outbound.DeliveryGbl;
+import org.youngjin.net.outbound.OutboundDao;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.outbound.PowerOfAttornyList;
@@ -192,8 +193,15 @@ public class OutboundController {
 	public void gblModifySubmit(@RequestBody GBL gbl){
 		outboundService.modifyGbl(gbl);
 	}	
-
-
+	@RequestMapping(value= "/{process}/bookinglistUpdate.json")
+	@ResponseBody
+	public void bookinglistUpdate(@RequestBody Map map){
+		System.out.println("***************BOOK SEQ : "+map.get("bookSeq"));
+		System.out.println("***************COLUMN : "+map.get("column"));
+		System.out.println("***************VALUE : "+map.get("value"));
+		outboundService.updateBookingListUpdate(map);
+	}
+	
 	@RequestMapping(value = "/{process}/{seq}", method = RequestMethod.GET)
 	public String gblSelect(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
@@ -1000,6 +1008,7 @@ public class OutboundController {
 				 }
 			 }
 		}
+		
 		BookingList bookingList = outboundService.getBookingListOne(seq);
 		model.addAttribute("gblList", list);
 		model.addAttribute("bookingList", bookingList);
@@ -1149,10 +1158,11 @@ public class OutboundController {
 		Tcmd tcmd = outboundService.getTcmdContent(seq);
 		int size = gblList.size();
 		int pageNum = size/3;
-		if(size%7 != 0){
+		
+		if(size%3 != 0){
 			pageNum++;
 		}
-		
+		System.out.println("pageNum : "+pageNum);
 		model.addAttribute("julianDate", getJulianDate);
 		model.addAttribute("tcmd", tcmd);
 		model.addAttribute("gblList", gblList);
