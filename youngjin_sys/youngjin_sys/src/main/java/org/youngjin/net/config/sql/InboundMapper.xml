@@ -579,7 +579,13 @@
 			)u	
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}	
 	</select>
-	
+	<select id="getOnhandListCustomerList" parameterType="Integer" resultType="String">
+		select  
+			gblNo
+		from gbl_ib
+		where  
+			seq IN (select gblSeq from on_hand_list_content where onHandListSeq = #{seq})
+	</select>
 	<select id="getLastInboundInvoiceNo" parameterType="Integer" resultType="InboundInvoice">
 		SELECT 
 			MAX(inboundInvoiceNo) + 1 AS inboundInvoiceNo, DATE_FORMAT(SYSDATE(), '%y') AS invoiceDate

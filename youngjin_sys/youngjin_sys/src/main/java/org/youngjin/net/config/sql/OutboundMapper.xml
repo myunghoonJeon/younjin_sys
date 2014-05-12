@@ -2,562 +2,585 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="outboundMapper">
 
-<resultMap type="GBL" id="GblMap">
-	<result column="seq" property="seq" />
-	<result column="no" property="no" />
-	<result column="pud" property="pud" />
-	<result column="rank" property="rank" />
-	<result column="code" property="code" />
-	<result column="scac" property="scac" />
-	<result column="ssn" property="ssn" />
-	<result column="customer_name" property="customerName" />
-	<result column="area" property="areaLocal" />
-	<result column="us_no" property="usNo" />
-	<result column="dest_port" property="destPort"/>
-	<result column="origin_gblock" property="originGBlock"/>
-	<result column="dest_gblock" property="destGBlock"/>
-	<result column="rdd" property="rdd"/>
-	<result column="pod" property="pod"/>
-	<result column="poe" property="poe"/>
-	<result column="origin_address" property="originAddress"/>
-	<result column="origin_port" property="originPort"/>
-	<result column="dest_state" property="destState"/>
-	<result column="clp_no" property="clpNo"/>
-	<result column="seal_no" property="sealNo"/>
-	<result column="consol_company" property="consoleCompany"/>
-	<result column="container_no" property="containerNo"/>
-	<result column="hb_booking_no" property="hbBookingNo"/>
-	<result column="export" property="export"/>
-	<result column="mil_svc" property="milSVC"/>
-	<result column="etd" property="etd"/>
-	<result column="eta" property="eta"/>
-	<result column="bl_no" property="blNo"/>
-	<result column="pcs" property="pcs" />
-	<result column="lbs" property="lbs" />
-	<result column="net" property="netWeight" />
-	<result column="grossWeight" property="grossWeight" />
-	<result column="cuft" property="cuft" />
-	<result column="truck_check" property="truckCheck"/>
-	<result column="truck_seq" property="truckSeq"/>
-	<result column="booking_check" property="bookingCheck"/>
-	<result column="booking_seq" property="bookingSeq"/>
-	<result column="house_check" property="houseCheck"/>
-	<result column="remark_rdd" property="remarkRdd" />
-	<result column="remark_tac" property="remarkTac"/>
-	<result column="consignee" property="consignee"/>
-	<result column="house_seq" property="houseSeq"/>
-	<result column="house_vessel" property="houseVessel" />
-	<result column="house_voyage" property="houseVoyage"/>
-	<result column="house_company" property="houseCompany"/>
-	<result column="house_consignee" property="houseConsignee"/>
-</resultMap>
-<resultMap type="HashMap" id="trcukdate">
-	<result column="date" property="date"/>
-</resultMap>
+	<resultMap type="GBL" id="GblMap">
+		<result column="seq" property="seq" />
+		<result column="no" property="no" />
+		<result column="pud" property="pud" />
+		<result column="rank" property="rank" />
+		<result column="code" property="code" />
+		<result column="scac" property="scac" />
+		<result column="ssn" property="ssn" />
+		<result column="customer_name" property="customerName" />
+		<result column="area" property="areaLocal" />
+		<result column="us_no" property="usNo" />
+		<result column="dest_port" property="destPort" />
+		<result column="origin_gblock" property="originGBlock" />
+		<result column="dest_gblock" property="destGBlock" />
+		<result column="rdd" property="rdd" />
+		<result column="pod" property="pod" />
+		<result column="poe" property="poe" />
+		<result column="origin_address" property="originAddress" />
+		<result column="origin_port" property="originPort" />
+		<result column="dest_state" property="destState" />
+		<result column="clp_no" property="clpNo" />
+		<result column="seal_no" property="sealNo" />
+		<result column="consol_company" property="consoleCompany" />
+		<result column="container_no" property="containerNo" />
+		<result column="hb_booking_no" property="hbBookingNo" />
+		<result column="export" property="export" />
+		<result column="mil_svc" property="milSVC" />
+		<result column="etd" property="etd" />
+		<result column="eta" property="eta" />
+		<result column="bl_no" property="blNo" />
+		<result column="pcs" property="pcs" />
+		<result column="lbs" property="lbs" />
+		<result column="net" property="netWeight" />
+		<result column="grossWeight" property="grossWeight" />
+		<result column="cuft" property="cuft" />
+		<result column="truck_check" property="truckCheck" />
+		<result column="truck_seq" property="truckSeq" />
+		<result column="booking_check" property="bookingCheck" />
+		<result column="booking_seq" property="bookingSeq" />
+		<result column="house_check" property="houseCheck" />
+		<result column="remark_rdd" property="remarkRdd" />
+		<result column="remark_tac" property="remarkTac" />
+		<result column="consignee" property="consignee" />
+		<result column="house_seq" property="houseSeq" />
+		<result column="house_vessel" property="houseVessel" />
+		<result column="house_voyage" property="houseVoyage" />
+		<result column="house_company" property="houseCompany" />
+		<result column="house_consignee" property="houseConsignee" />
+	</resultMap>
+	<resultMap type="HashMap" id="trcukdate">
+		<result column="date" property="date" />
+	</resultMap>
 
 
-<resultMap type="GBLStatus" id="StatusMap">
-	<result column="gbl_no" property="no"/>
-	<result column="gbl_input" property="input" />
-	<result column="gbl_preperation" property="preperation" />
-	<result column="gbl_delivery" property="delivery" />
-	<result column="gbl_truckManifast" property="truckManifast"/>
-	<result column="gbl_bookingList" property="bookingList"/>
-	<result column="gbl_invoice" property="invoice" />
-	<result column="gbl_arrival" property="arrival" />
-	<result column="gbl_process" property="process" />
-</resultMap>
+	<resultMap type="GBLStatus" id="StatusMap">
+		<result column="gbl_no" property="no" />
+		<result column="gbl_input" property="input" />
+		<result column="gbl_preperation" property="preperation" />
+		<result column="gbl_delivery" property="delivery" />
+		<result column="gbl_truckManifast" property="truckManifast" />
+		<result column="gbl_bookingList" property="bookingList" />
+		<result column="gbl_invoice" property="invoice" />
+		<result column="gbl_arrival" property="arrival" />
+		<result column="gbl_process" property="process" />
+	</resultMap>
 
-<resultMap type="GBLAttachment" id="GBLAttachmentMap">
-	<result column="seq" property="seq"/>
-	<result column="gbl_no" property="gblNo"/>
-	<result column="file_name" property="fileName"/>
-	<result column="file_path" property="filePath"/>
-	<result column="file_extension" property="fileExtension"/>
-	<result column="file_size" property="fileSize"/>
-	<result column="gbl_file_no" property="gblFileNo"/>
-	<result column="gbl_update_date" property="gblUpdateDate"/>
-</resultMap>
+	<resultMap type="GBLAttachment" id="GBLAttachmentMap">
+		<result column="seq" property="seq" />
+		<result column="gbl_no" property="gblNo" />
+		<result column="file_name" property="fileName" />
+		<result column="file_path" property="filePath" />
+		<result column="file_extension" property="fileExtension" />
+		<result column="file_size" property="fileSize" />
+		<result column="gbl_file_no" property="gblFileNo" />
+		<result column="gbl_update_date" property="gblUpdateDate" />
+	</resultMap>
 
-<resultMap type="PreMoveSurvey" id="PreMoveSurveyMap">
-	<result column="seq" property="seq"/>
-	<result column="estimate_weight" property="estimateWeight"/>
-	<result column="special_item" property="specialItem"/>
-	<result column="es_container" property="esContainer"/>
-	<result column="third_party" property="thirdParty"/>
-	<result column="fire_arms" property="fireArms"/>
-	<result column="remark" property="remark"/>
-	<result column="gbl_seq" property="gblSeq"/>
-</resultMap> 
+	<resultMap type="PreMoveSurvey" id="PreMoveSurveyMap">
+		<result column="seq" property="seq" />
+		<result column="estimate_weight" property="estimateWeight" />
+		<result column="special_item" property="specialItem" />
+		<result column="es_container" property="esContainer" />
+		<result column="third_party" property="thirdParty" />
+		<result column="fire_arms" property="fireArms" />
+		<result column="remark" property="remark" />
+		<result column="gbl_seq" property="gblSeq" />
+	</resultMap>
 
-<resultMap type="Dd619" id="Dd619Map">
-	<result column="seq" property="seq"/>
-	<result column="gbl_no" property="gblNo"/>
-	<result column="date" property="date"/>
-	<result column="name" property="name"/>
-	<result column="ssn" property="ssn"/>
-	<result column="rank" property="rank"/>
-	<result column="origin_of_shipment" property="originOfShipment"/>
-	<result column="destination" property="destination"/>
-	<result column="ordering_activity_name" property="orderingActivityName"/>
-	<result column="carrier_name" property="carrierName"/>
-	<result column="agent_name" property="agentName"/>
-	<result column="signature" property="signature"/>
-	<result column="carrier_shipment_reference" property="carrierShipmentReference"/>
-	<result column="code" property="code"/>
-	<result column="other" property="other"/>
-	<result column="total" property="total"/>
-	<result column="remark" property="remark"/>
-	<result column="officer_material" property="officerMaterial"/>
-	<result column="officer_signature" property="officerSignature"/>
-	<result column="officer_date" property="officerDate"/>
-	<result column="rank_and_name" property="rankAndName"/>
-	<result column="transportation_date" property="transportationDate"/>
-	<result column="gbl_seq" property="gblSeq"/>
-	<result column="write_date" property="writeDate"/>
-	<result column="write_user" property="writeUser"/>
-	<result column="memorandum_list_seq" property="memorandumListSeq"/>
-</resultMap>
+	<resultMap type="Dd619" id="Dd619Map">
+		<result column="seq" property="seq" />
+		<result column="gbl_no" property="gblNo" />
+		<result column="date" property="date" />
+		<result column="name" property="name" />
+		<result column="ssn" property="ssn" />
+		<result column="rank" property="rank" />
+		<result column="origin_of_shipment" property="originOfShipment" />
+		<result column="destination" property="destination" />
+		<result column="ordering_activity_name" property="orderingActivityName" />
+		<result column="carrier_name" property="carrierName" />
+		<result column="agent_name" property="agentName" />
+		<result column="signature" property="signature" />
+		<result column="carrier_shipment_reference" property="carrierShipmentReference" />
+		<result column="code" property="code" />
+		<result column="other" property="other" />
+		<result column="total" property="total" />
+		<result column="remark" property="remark" />
+		<result column="officer_material" property="officerMaterial" />
+		<result column="officer_signature" property="officerSignature" />
+		<result column="officer_date" property="officerDate" />
+		<result column="rank_and_name" property="rankAndName" />
+		<result column="transportation_date" property="transportationDate" />
+		<result column="gbl_seq" property="gblSeq" />
+		<result column="write_date" property="writeDate" />
+		<result column="write_user" property="writeUser" />
+		<result column="memorandum_list_seq" property="memorandumListSeq" />
+	</resultMap>
 
-<resultMap type="BookingList" id="BookingListMap">
-	<result column="seq" property="seq"/>
-	<result column="memo" property="memo" />
-	<result column="write_date" property="writeDate" />
-	<result column="write_user" property="writeUser" />
-	<result column="yjCount" property="yjCount"/>
-</resultMap>
+	<resultMap type="BookingList" id="BookingListMap">
+		<result column="seq" property="seq" />
+		<result column="memo" property="memo" />
+		<result column="write_date" property="writeDate" />
+		<result column="write_user" property="writeUser" />
+		<result column="yjCount" property="yjCount" />
+	</resultMap>
 
-<resultMap type="DeliveryGbl" id="BookingGblMap">
-	<result column="seq" property="seq" />
-	<result column="no" property="no" />
-	<result column="pud" property="pud" />
-	<result column="code" property="code" />
-	<result column="scac" property="scac" />
-	<result column="customer_name" property="shipper" />
-	<result column="rank" property="rank" />
-	<result column="ssn" property="ssn" />
-	<result column="mil_svc" property="milSvc"/>
-	<result column="origin_gblock" property="originGblock" />
-	<result column="pcs" property="pcs"/>
-	<result column="cuft" property="cuft" />
-	<result column="gross" property="gross" />
-	<result column="net" property="net" />
-	<result column="dest_port" property="destPort" />
-	<result column="dest_state" property="destState" />
-	<result column="memo" property="memo" />
-	<result column="us_no" property="usNo"/>
-	<collection property="containerList" column="seq" javaType="ArrayList" ofType="WeightCertificate" select="getContainerList" /> 
-</resultMap>
+	<resultMap type="DeliveryGbl" id="BookingGblMap">
+		<result column="seq" property="seq" />
+		<result column="no" property="no" />
+		<result column="pud" property="pud" />
+		<result column="code" property="code" />
+		<result column="scac" property="scac" />
+		<result column="customer_name" property="shipper" />
+		<result column="rank" property="rank" />
+		<result column="ssn" property="ssn" />
+		<result column="mil_svc" property="milSvc" />
+		<result column="origin_gblock" property="originGblock" />
+		<result column="pcs" property="pcs" />
+		<result column="cuft" property="cuft" />
+		<result column="gross" property="gross" />
+		<result column="net" property="net" />
+		<result column="dest_port" property="destPort" />
+		<result column="dest_state" property="destState" />
+		<result column="memo" property="memo" />
+		<result column="us_no" property="usNo" />
+		<collection property="containerList" column="seq" javaType="ArrayList"
+			ofType="WeightCertificate" select="getContainerList" />
+	</resultMap>
 
-<resultMap type="DeliveryGbl" id="TruckManifastGblMap">
-	<result column="seq" property="seq" />
-	<result column="no" property="no" />
-	<result column="customer_name" property="shipper" />
-	<result column="area" property="area" />
-	<result column="pod" property="pod" />
-	<result column="pcs" property="pcs" />
-	<result column="us_no" property="usNo" />
-	<result column="scac" property="scac"/>
-	<collection property="containerList" column="seq" javaType="ArrayList" ofType="WeightCertificate" select="getContainerList" />
-</resultMap>
+	<resultMap type="DeliveryGbl" id="TruckManifastGblMap">
+		<result column="seq" property="seq" />
+		<result column="no" property="no" />
+		<result column="customer_name" property="shipper" />
+		<result column="area" property="area" />
+		<result column="pod" property="pod" />
+		<result column="pcs" property="pcs" />
+		<result column="us_no" property="usNo" />
+		<result column="scac" property="scac" />
+		<collection property="containerList" column="seq" javaType="ArrayList"
+			ofType="WeightCertificate" select="getContainerList" />
+	</resultMap>
 
-<select id="getGblListCount" parameterType="OutboundFilter" resultType="Integer">
-	
-	SELECT
+	<select id="getGblListCount" parameterType="OutboundFilter"
+		resultType="Integer">
+
+		SELECT
 		count(*)
-	FROM
+		FROM
 		gbl
-	WHERE
+		WHERE
 		1 = 1
 		<if test="area != null and area != ''">
 			AND
-				area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+			area = (select code_etc from symbol where main_code = '01' and sub_code =
+			#{area})
 		</if>
 		<if test="branch != null and branch != ''">
-			AND		
-				area = #{branch}			
+			AND
+			area = #{branch}
 		</if>
 		<if test="carrier != null and carrier != ''">
 			AND
-				scac = #{carrier}
+			scac = #{carrier}
 		</if>
 		<if test="code != null and code != ''">
 			AND
-				code = #{code}
+			code = #{code}
 		</if>
 		<if test="startPud != null and startPud != ''">
 			AND
-				pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+			pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
 		</if>
 		<if test="endPud != null and endPud != ''">
 			AND
-				pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+			pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 		</if>
 		<if test="truckManifastFlag == false">
 			AND
-				no NOT LIKE '%-sub%'
+			no NOT LIKE '%-sub%'
 		</if>
 		<if test="truckManifastFlag == true">
 			OR
-				no LIKE '%-sub%'
+			no LIKE '%-sub%'
 		</if>
 		<if test="houseBlFlag == false">
 			AND
-				no NOT LIKE '%-house%'
+			no NOT LIKE '%-house%'
 		</if>
 		<if test="houseBlFlag == true">
 			OR
-				no LIKE '%-house%'
+			no LIKE '%-house%'
 		</if>
 		<if test="searchContent != null and searchContent != ''">
 			<choose>
 				<when test="searchTitle == 'name'">
 					AND
-						customer_name like CONCAT(CONCAT('%', #{searchContent} ), '%')
+					customer_name like CONCAT(CONCAT('%', #{searchContent} ), '%')
 				</when>
 				<when test="searchTitle == 'ssn'">
 					AND
-						ssn like CONCAT(CONCAT('%', #{searchContent} ), '%')
+					ssn like CONCAT(CONCAT('%', #{searchContent} ), '%')
 				</when>
 				<when test="searchTitle == 'gblNo'">
 					AND
-						no like CONCAT(CONCAT('%', #{searchContent} ), '%')
+					no like CONCAT(CONCAT('%', #{searchContent} ), '%')
 				</when>
-			</choose>				
+			</choose>
 		</if>
-		
-	
-</select>
 
-<select id="getGblList" parameterType="OutboundFilter" resultMap="GblMap">
-	SELECT 
+
+	</select>
+
+	<select id="getGblList" parameterType="OutboundFilter"
+		resultMap="GblMap">
+		SELECT
 		*
-	FROM	
-		(
-			SELECT
-				(@rownum := @rownum + 1) AS rownum,
-				g.seq,
-				g.no,
-				g.pud,
-				g.rank,
-				g.code,
-				g.scac,
-				g.customer_name,
-				g.area,
-				g.us_no,
-				g.dest_port,
-				g.etd,
-				g.eta,
-				g.bl_no,
-				g.pod,
-				g.netWeight,
-				CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
-				g.lbs,
-				CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
-			FROM
-				gbl g
-				LEFT OUTER JOIN
-				(
-				SELECT
-					gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
-				FROM
-					gbl gt
-				JOIN
-					weight_certificate wc ON (wc.gbl_seq = gt.seq)
-				GROUP BY
-					gt.seq
-				) gwc
-				ON (gwc.seq = g.seq),
-				(SELECT @rownum := 0) r
-			WHERE
-				1 = 1
-				<if test="area != null and area != ''">
-					AND
-						area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
-				</if>
-				<if test="branch != null and branch != ''">
-					AND		
-						area = #{branch}			
-				</if>
-				<if test="carrier != null and carrier != ''">
-					AND
-						scac = #{carrier}
-				</if>
-				<if test="code != null and code != ''">
-					AND
-						code = #{code}
-				</if>
-				<if test="startPud != null and startPud != ''">
-					AND
-						pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
-				</if>
-				<if test="endPud != null and endPud != ''">
-					AND
-						pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
-				</if>
-				<if test="truckManifastFlag == false">
-					AND
-						no NOT LIKE '%-sub%'
-				</if>
-				<if test="houseBlFlag == false">
-					AND
-						no NOT LIKE '%-house%'
-				</if>
-				<if test="houseBlFlag == true">
-					OR
-						no LIKE '%-house%'
-				</if>
-				<if test="searchContent != null and searchContent != ''">
-					<choose>
-						<when test="searchTitle == 'name'">
-							AND
-								customer_name like CONCAT(CONCAT('%', #{searchContent} ), '%')
-						</when>
-						<when test="searchTitle == 'ssn'">
-							AND
-								ssn like CONCAT(CONCAT('%', #{searchContent} ), '%')
-						</when>
-						<when test="searchTitle == 'gblNo'">
-							AND
-								no like CONCAT(CONCAT('%', #{searchContent} ), '%')
-						</when>
-					</choose>				
-				</if>
-			)u	
-		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
-		
-</select>
-<select id="getGblTruckDate" parameterType="Integer" resultType="String">
-	SELECT
-		date
-	FROM
-		truck_manifast
-	WHERE
-		seq = any(select truck_seq from weight_certificate where gbl_seq= #{seq} group by truck_seq)
-</select>
-<select id="getGbl" parameterType="Integer" resultMap="GblMap">
-	SELECT
-		g.no, 
-		g.seq,
-		g.customer_name, 
-		g.rank, 
-		g.code, 
-		g.scac, 
-		g.origin_gblock, 
-		g.dest_gblock, 
-		g.pud, 
-		g.ssn, 
-		g.rdd, 
-		g.pod, 
-		g.poe, 
-		g.area, 
-		g.origin_address, 
-		g.us_no, 
-		g.dest_port, 
-		g.origin_port, 
-		g.vessel, 
-		g.consol_company,
-		g.hb_booking_no,  
-		g.container_no,
-		g.clp_no, 
-		g.seal_no, 
-		g.dest_state,
-		g.export,  
-		g.mil_svc,
-		g.etd,
-		g.eta,
-		g.bl_no,
-		g.truck_seq,
-		g.booking_seq,
-		g.totalPcs,
-		g.grossWeight,
-		g.netWeight AS net,
-		g.cuft,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
-		g.lbs,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.net ELSE '' END AS net,
-		g.house_consignee
-	FROM
-		gbl g
-		LEFT OUTER JOIN
+		FROM
 		(
 		SELECT
-			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft, SUM(wc.net) AS net
-		FROM
-			gbl gt
-		JOIN
-			weight_certificate wc ON (wc.gbl_seq = gt.seq)
-		GROUP BY
-			gt.seq
-		) gwc
-		ON (gwc.seq = g.seq)
-	WHERE
-		g.seq = #{seq}
-</select>
-
-<select id="getGblInfoByNo" parameterType="GBL" resultMap="GblMap">
-	SELECT
-		g.no, 
+		(@rownum := @rownum + 1) AS rownum,
 		g.seq,
-		g.customer_name, 
-		g.rank, 
-		g.code, 
-		g.scac, 
-		g.origin_gblock, 
-		g.dest_gblock, 
-		g.pud, 
-		g.ssn, 
-		g.rdd, 
-		g.pod, 
-		g.poe, 
-		g.area, 
-		g.origin_address, 
-		g.us_no, 
-		g.dest_port, 
-		g.origin_port, 
-		g.vessel, 
-		g.consol_company,
-		g.hb_booking_no,  
-		g.container_no,
-		g.clp_no, 
-		g.seal_no, 
-		g.dest_state,
-		g.export,  
-		g.mil_svc,
+		g.no,
+		g.pud,
+		g.rank,
+		g.code,
+		g.scac,
+		g.customer_name,
+		g.area,
+		g.us_no,
+		g.dest_port,
 		g.etd,
 		g.eta,
 		g.bl_no,
-		g.truck_seq,
-		g.booking_seq,
-		g.totalPcs,
-		g.grossWeight,
-		g.netWeight AS net,
-		g.cuft,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
-		g.lbs,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.net ELSE '' END AS net,
-		g.house_consignee
-	FROM
-		gbl g
-		LEFT OUTER JOIN
-		(
-		SELECT
-			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft, SUM(wc.net) AS net
-		FROM
-			gbl gt
-		JOIN
-			weight_certificate wc ON (wc.gbl_seq = gt.seq)
-		GROUP BY
-			gt.seq
-		) gwc
-		ON (gwc.seq = g.seq)
-	WHERE
-		g.no = #{no}
-</select>
-
-<delete id="deleteGbl" parameterType="GBL">
-	DELETE FROM
-		gbl
-	WHERE
-		seq = #{seq}
-</delete>
-
-<select id="getMilSvcGbl" parameterType="Map" resultMap="GblMap">
-	SELECT
-		g.no, 
-		g.seq,
-		g.customer_name, 
-		g.rank, 
-		g.code, 
-		g.scac, 
-		g.origin_gblock, 
-		g.dest_gblock, 
-		g.pud, 
-		g.ssn, 
-		g.rdd, 
-		g.pod, 
-		g.poe, 
-		g.area, 
-		g.origin_address, 
-		g.us_no, 
-		g.dest_port, 
-		g.origin_port, 
-		g.origin_city, 
-		g.mil_svc,
-		g.etd,
-		g.eta,
-		g.bl_no,
+		g.pod,
+		g.netWeight,
 		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
 		g.lbs,
 		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
-	FROM
+		FROM
 		gbl g
 		LEFT OUTER JOIN
 		(
 		SELECT
-			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+		gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
 		FROM
-			gbl gt
+		gbl gt
 		JOIN
-			weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		weight_certificate wc ON (wc.gbl_seq = gt.seq)
 		GROUP BY
-			gt.seq
+		gt.seq
+		) gwc
+		ON (gwc.seq = g.seq),
+		(SELECT @rownum := 0) r
+		WHERE
+		1 = 1
+		<if test="area != null and area != ''">
+			AND
+			area = (select code_etc from symbol where main_code = '01' and sub_code =
+			#{area})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND
+			area = #{branch}
+		</if>
+		<if test="carrier != null and carrier != ''">
+			AND
+			scac = #{carrier}
+		</if>
+		<if test="code != null and code != ''">
+			AND
+			code = #{code}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+			pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+			pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+		</if>
+		<if test="truckManifastFlag == false">
+			AND
+			no NOT LIKE '%-sub%'
+		</if>
+		<if test="houseBlFlag == false">
+			AND
+			no NOT LIKE '%-house%'
+		</if>
+		<if test="houseBlFlag == true">
+			OR
+			no LIKE '%-house%'
+		</if>
+		<if test="searchContent != null and searchContent != ''">
+			<choose>
+				<when test="searchTitle == 'name'">
+					AND
+					customer_name like CONCAT(CONCAT('%', #{searchContent} ), '%')
+				</when>
+				<when test="searchTitle == 'ssn'">
+					AND
+					ssn like CONCAT(CONCAT('%', #{searchContent} ), '%')
+				</when>
+				<when test="searchTitle == 'gblNo'">
+					AND
+					no like CONCAT(CONCAT('%', #{searchContent} ), '%')
+				</when>
+			</choose>
+		</if>
+		)u
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND
+		#{pagination.itemSeqEnd}
+
+	</select>
+	<select id="getGblTruckDate" parameterType="Integer" resultType="String">
+		SELECT
+		date
+		FROM
+		truck_manifast
+		WHERE
+		seq = any(select truck_seq from weight_certificate where gbl_seq=
+		#{seq} group by truck_seq)
+	</select>
+	<select id="getGbl" parameterType="Integer" resultMap="GblMap">
+		SELECT
+		g.no,
+		g.seq,
+		g.customer_name,
+		g.rank,
+		g.code,
+		g.scac,
+		g.origin_gblock,
+		g.dest_gblock,
+		g.pud,
+		g.ssn,
+		g.rdd,
+		g.pod,
+		g.poe,
+		g.area,
+		g.origin_address,
+		g.us_no,
+		g.dest_port,
+		g.origin_port,
+		g.vessel,
+		g.consol_company,
+		g.hb_booking_no,
+		g.container_no,
+		g.clp_no,
+		g.seal_no,
+		g.dest_state,
+		g.export,
+		g.mil_svc,
+		g.etd,
+		g.eta,
+		g.bl_no,
+		g.truck_seq,
+		g.booking_seq,
+		g.totalPcs,
+		g.grossWeight,
+		g.netWeight AS net,
+		g.cuft,
+		CASE WHEN(gwc.seq = g.seq)
+		THEN gwc.pcs ELSE '' END AS pcs,
+		g.lbs,
+		CASE WHEN(gwc.seq = g.seq) THEN
+		gwc.cuft ELSE '' END AS cuft,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.net
+		ELSE '' END AS net,
+		g.house_consignee
+		FROM
+		gbl g
+		LEFT OUTER JOIN
+		(
+		SELECT
+		gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft,
+		SUM(wc.net) AS net
+		FROM
+		gbl gt
+		JOIN
+		weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		GROUP BY
+		gt.seq
 		) gwc
 		ON (gwc.seq = g.seq)
-	WHERE
+		WHERE
 		g.seq = #{seq}
-	AND
-		g.mil_svc = #{milSvc}
-	
-</select>
+	</select>
 
-<select id="getCarrierList" resultType="Code">
-	SELECT DISTINCT
-		scac AS subCode
-	FROM
-		gbl	
-</select>
+	<select id="getGblInfoByNo" parameterType="GBL" resultMap="GblMap">
+		SELECT
+		g.no,
+		g.seq,
+		g.customer_name,
+		g.rank,
+		g.code,
+		g.scac,
+		g.origin_gblock,
+		g.dest_gblock,
+		g.pud,
+		g.ssn,
+		g.rdd,
+		g.pod,
+		g.poe,
+		g.area,
+		g.origin_address,
+		g.us_no,
+		g.dest_port,
+		g.origin_port,
+		g.vessel,
+		g.consol_company,
+		g.hb_booking_no,
+		g.container_no,
+		g.clp_no,
+		g.seal_no,
+		g.dest_state,
+		g.export,
+		g.mil_svc,
+		g.etd,
+		g.eta,
+		g.bl_no,
+		g.truck_seq,
+		g.booking_seq,
+		g.totalPcs,
+		g.grossWeight,
+		g.netWeight AS net,
+		g.cuft,
+		CASE WHEN(gwc.seq = g.seq)
+		THEN gwc.pcs ELSE '' END AS pcs,
+		g.lbs,
+		CASE WHEN(gwc.seq = g.seq) THEN
+		gwc.cuft ELSE '' END AS cuft,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.net
+		ELSE '' END AS net,
+		g.house_consignee
+		FROM
+		gbl g
+		LEFT OUTER JOIN
+		(
+		SELECT
+		gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft,
+		SUM(wc.net) AS net
+		FROM
+		gbl gt
+		JOIN
+		weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		GROUP BY
+		gt.seq
+		) gwc
+		ON (gwc.seq = g.seq)
+		WHERE
+		g.no = #{no}
+	</select>
 
-<select id="getCodeList" resultType="Code">
-	SELECT DISTINCT
-		code AS subCode
-	FROM
-		gbl	
-</select>
-
-<select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">
-	SELECT
-		gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast, gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
-	FROM
-		gbl_status
-	WHERE
-		gbl_no = (select no from gbl where seq = #{value})
-</select>
-
-<select id="getGblFileList" parameterType="Integer" resultMap="GBLAttachmentMap">
-	SELECT
-		seq, gbl_no, file_name, file_path, file_extension, file_size, gbl_file_no, gbl_update_date
-	FROM
-		gbl_attachments
-	WHERE
-		gbl_no = (select no from gbl where seq = ${value})
-</select>
-
-<select id="getFileInfo" parameterType="Map" resultMap="GBLAttachmentMap">
-	SELECT
-		seq, gbl_no, file_name, file_path, file_extension, file_size, gbl_file_no, gbl_update_date
-	FROM
-		gbl_attachments
-	WHERE
+	<delete id="deleteGbl" parameterType="GBL">
+		DELETE FROM
+		gbl
+		WHERE
 		seq = #{seq}
-	AND
-		gbl_file_no = #{flag}
-</select>
+	</delete>
 
-<select id="getGblStatus" parameterType="OutboundFilter" resultMap="StatusMap">
-	SELECT
+	<select id="getMilSvcGbl" parameterType="Map" resultMap="GblMap">
+		SELECT
+		g.no,
+		g.seq,
+		g.customer_name,
+		g.rank,
+		g.code,
+		g.scac,
+		g.origin_gblock,
+		g.dest_gblock,
+		g.pud,
+		g.ssn,
+		g.rdd,
+		g.pod,
+		g.poe,
+		g.area,
+		g.origin_address,
+		g.us_no,
+		g.dest_port,
+		g.origin_port,
+		g.origin_city,
+		g.mil_svc,
+		g.etd,
+		g.eta,
+		g.bl_no,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE ''
+		END AS pcs,
+		g.lbs,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END
+		AS cuft
+		FROM
+		gbl g
+		LEFT OUTER JOIN
+		(
+		SELECT
+		gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+		FROM
+		gbl gt
+		JOIN
+		weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		GROUP BY
+		gt.seq
+		) gwc
+		ON (gwc.seq = g.seq)
+		WHERE
+		g.seq = #{seq}
+		AND
+		g.mil_svc = #{milSvc}
+
+	</select>
+
+	<select id="getCarrierList" resultType="Code">
+		SELECT DISTINCT
+		scac AS subCode
+		FROM
+		gbl
+	</select>
+
+	<select id="getCodeList" resultType="Code">
+		SELECT DISTINCT
+		code AS subCode
+		FROM
+		gbl
+	</select>
+
+	<select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">
+		SELECT
+		gbl_no, gbl_input, gbl_preperation, gbl_delivery,
+		gbl_truckmanifast, gbl_bookinglist, gbl_invoice, gbl_arrival,
+		gbl_process
+		FROM
+		gbl_status
+		WHERE
+		gbl_no = (select no from gbl where seq = #{value})
+	</select>
+
+	<select id="getGblFileList" parameterType="Integer" resultMap="GBLAttachmentMap">
+		SELECT
+		seq, gbl_no, file_name, file_path, file_extension, file_size,
+		gbl_file_no, gbl_update_date
+		FROM
+		gbl_attachments
+		WHERE
+		gbl_no = (select no from gbl where seq = ${value})
+	</select>
+
+	<select id="getFileInfo" parameterType="Map" resultMap="GBLAttachmentMap">
+		SELECT
+		seq, gbl_no, file_name, file_path, file_extension, file_size,
+		gbl_file_no, gbl_update_date
+		FROM
+		gbl_attachments
+		WHERE
+		seq = #{seq}
+		AND
+		gbl_file_no = #{flag}
+	</select>
+
+	<select id="getGblStatus" parameterType="OutboundFilter"
+		resultMap="StatusMap">
+		SELECT
 		gbl_no,
 		gbl_input,
 		gbl_preperation,
@@ -567,203 +590,225 @@
 		gbl_process,
 		gbl_bookinglist,
 		gbl_invoice
-	FROM
+		FROM
 		gbl_status
-	WHERE
+		WHERE
 		gbl_no IN (
-			SELECT
-					no
-				FROM
-					gbl
-				WHERE
-					1 = 1
-					<if test="branch != null and branch != ''">
-						AND		
-							area = #{branch}			
-					</if>
-					<if test="carrier != null and carrier != ''">
-						AND
-							scac = #{carrier}
-					</if>
-					<if test="code != null and code != ''">
-						AND
-							code = #{code}
-					</if>
-					<if test="startPud != null and startPud != ''">
-						AND
-							pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
-					</if>
-					<if test="endPud != null and endPud != ''">
-						AND
-							pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
-					</if>			
+		SELECT
+		no
+		FROM
+		gbl
+		WHERE
+		1 = 1
+		<if test="branch != null and branch != ''">
+			AND
+			area = #{branch}
+		</if>
+		<if test="carrier != null and carrier != ''">
+			AND
+			scac = #{carrier}
+		</if>
+		<if test="code != null and code != ''">
+			AND
+			code = #{code}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+			pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+			pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+		</if>
 		)
-	
-</select>
 
-<select id="getPreMoveSurvey" parameterType="Integer" resultMap="PreMoveSurveyMap">
-	SELECT
-		seq, estimate_weight, special_item, es_container, third_party, fire_arms, remark, gbl_seq
-	FROM
+	</select>
+
+	<select id="getPreMoveSurvey" parameterType="Integer" resultMap="PreMoveSurveyMap">
+		SELECT
+		seq, estimate_weight, special_item, es_container, third_party,
+		fire_arms, remark, gbl_seq
+		FROM
 		pre_move_survey
-	WHERE
+		WHERE
 		gbl_seq = #{seq}
-</select>
+	</select>
 
-<select id="getDd619List" parameterType="String" resultMap="Dd619Map">
-	SELECT
-		seq, gbl_no, date, name, ssn, rank, origin_of_shipment, destination, ordering_activity_name, carrier_name, agent_name, signature, carrier_shipment_reference, code, other, total, remark, officer_material, officer_signature, officer_date, rank_and_name, transportation_date, gbl_seq, write_date, write_user
-	FROM
+	<select id="getDd619List" parameterType="String" resultMap="Dd619Map">
+		SELECT
+		seq, gbl_no, date, name, ssn, rank, origin_of_shipment,
+		destination, ordering_activity_name, carrier_name, agent_name,
+		signature, carrier_shipment_reference, code, other, total, remark,
+		officer_material, officer_signature, officer_date, rank_and_name,
+		transportation_date, gbl_seq, write_date, write_user
+		FROM
 		dd619
-	WHERE
+		WHERE
 		gbl_seq = #{seq}
-</select>
+	</select>
 
-<select id="getDd619ListSelectOne" parameterType="Integer" resultMap="Dd619Map">
-	SELECT
-		seq, gbl_no, date, name, ssn, rank, origin_of_shipment, destination, ordering_activity_name, carrier_name, agent_name, signature, carrier_shipment_reference, code, other, total, remark, officer_material, officer_signature, officer_date, rank_and_name, transportation_date, gbl_seq, write_date, write_user, memorandum_list_seq
-	FROM
+	<select id="getDd619ListSelectOne" parameterType="Integer"
+		resultMap="Dd619Map">
+		SELECT
+		seq, gbl_no, date, name, ssn, rank, origin_of_shipment, destination,
+		ordering_activity_name, carrier_name, agent_name, signature,
+		carrier_shipment_reference, code, other, total, remark,
+		officer_material, officer_signature, officer_date, rank_and_name,
+		transportation_date, gbl_seq, write_date, write_user,
+		memorandum_list_seq
+		FROM
 		dd619
-	WHERE
+		WHERE
 		seq = #{value}
-</select>
+	</select>
 
-<select id="getRemarkValueList" parameterType="Map" resultType="Addition">
-	SELECT
-		seq, title, cost, price, gbl_seq AS gblSeq, dd619_seq AS dd619Seq, memorandum_list_seq AS memorandumListSeq
-	FROM
+	<select id="getRemarkValueList" parameterType="Map" resultType="Addition">
+		SELECT
+		seq, title, cost, price, gbl_seq AS gblSeq, dd619_seq AS
+		dd619Seq, memorandum_list_seq AS memorandumListSeq
+		FROM
 		decide
-	WHERE
+		WHERE
 		gbl_seq = #{gblSeq}
-	AND
+		AND
 		memorandum_list_seq = #{memorandumSeq}
-</select>
+	</select>
 
-<select id="getWeightcertificateList" parameterType="String" resultType="Weightcertificate">
-        SELECT
-        	seq, piece, type, status, gross_kg AS grossKg, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq, proGear
-        FROM
-        	weight_certificate
-        WHERE
-        	gbl_seq = #{value}
-</select>
-
-
-<select id="getCheckWeightCertificateAndGetSeq" parameterType="WeightCertificate" resultType="Integer">
-	SELECT
-		seq
-	FROM
+	<select id="getWeightcertificateList" parameterType="String"
+		resultType="Weightcertificate">
+		SELECT
+		seq, piece, type, status, gross_kg AS grossKg, gross, tare, net, cuft,
+		remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck,
+		truck_seq AS truckSeq, proGear
+		FROM
 		weight_certificate
-	WHERE
+		WHERE
+		gbl_seq = #{value}
+	</select>
+
+
+	<select id="getCheckWeightCertificateAndGetSeq" parameterType="WeightCertificate"
+		resultType="Integer">
+		SELECT
+		seq
+		FROM
+		weight_certificate
+		WHERE
 		gbl_seq = #{gblSeq}
-	AND
+		AND
 		piece = #{piece}
-</select>
+	</select>
 
-<select id="getWeightcertificateOne" parameterType="Integer" resultType="Weightcertificate">
-        SELECT
-        	seq, piece, type, status, gross_kg AS grossKg, gross, tare, net, cuft, remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck, truck_seq AS truckSeq, proGear
-        FROM
-        	weight_certificate
-        WHERE
-        	seq = #{value}
-</select>
-<select id="getHouseListCount" parameterType="OutboundFilter" resultType="Integer">
-    SELECT
-    	count(*)
-    FROM
-    	house
-    
-    </select>
-<select id="getTruckCount" parameterType="OutboundFilter" resultType="Integer">
-    SELECT
-    	count(*)
-    FROM
-    	truck_manifast
-    WHERE
-    	1 = 1
-		<if test="branch != null and branch != ''">
-			AND		
-				branch = #{branch}			
-		</if>
-		<if test="startPud != null and startPud != ''">
-			AND
-				date &gt;= str_to_date(#{startPud}, '%Y%m%d')
-		</if>
-		<if test="endPud != null and endPud != ''">
-			AND
-				date &lt;= str_to_date(#{endPud}, '%Y%m%d')
-		</if>            
-</select>
+	<select id="getWeightcertificateOne" parameterType="Integer"
+		resultType="Weightcertificate">
+		SELECT
+		seq, piece, type, status, gross_kg AS grossKg, gross, tare, net, cuft,
+		remark, gbl_seq AS gblSeq, date AS date, truck_check AS truckCheck,
+		truck_seq AS truckSeq, proGear
+		FROM
+		weight_certificate
+		WHERE
+		seq = #{value}
+	</select>
+	<select id="getHouseListCount" parameterType="OutboundFilter"
+		resultType="Integer">
+		SELECT
+		count(*)
+		FROM
+		house
 
-<select id="getTruckList" parameterType="OutboundFilter" resultType="TruckManifast">
-   <!-- 
-    SELECT
-    	seq, date, branch, code, sysdate
-    FROM
-    	truck_manifast
-    	 -->
-    SELECT
-	*
-	FROM
-	(
-	SELECT
-    	(@rownum := @rownum + 1) AS rownum, seq, date, branch, code, sysdate
-    FROM
-    	truck_manifast t, (SELECT @rownum := 0) r
-	ORDER BY
-		t.seq desc
-	)u
-    WHERE
-    	1 = 1
-		<if test="branch != null and branch != ''">
-			AND		
-				branch = #{branch}			
-		</if>
-		<if test="startPud != null and startPud != ''">
-			AND
-				date &gt;= str_to_date(#{startPud}, '%Y%m%d')
-		</if>
-		<if test="endPud != null and endPud != ''">
-			AND
-				date &lt;= str_to_date(#{endPud}, '%Y%m%d')
-		</if>   
-		AND rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}             	    
-</select>
-
-<select id="getTruckManifastOne" parameterType="Integer" resultType="TruckManifast" >
-	SELECT
-		seq, date, branch, code
-	FROM
+	</select>
+	<select id="getTruckCount" parameterType="OutboundFilter"
+		resultType="Integer">
+		SELECT
+		count(*)
+		FROM
 		truck_manifast
-	WHERE
+		WHERE
+		1 = 1
+		<if test="branch != null and branch != ''">
+			AND
+			branch = #{branch}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+			date &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+			date &lt;= str_to_date(#{endPud}, '%Y%m%d')
+		</if>
+	</select>
+
+	<select id="getTruckList" parameterType="OutboundFilter"
+		resultType="TruckManifast">
+		<!-- SELECT seq, date, branch, code, sysdate FROM truck_manifast -->
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		(@rownum := @rownum + 1) AS rownum, seq, date, branch, code, sysdate
+		FROM
+		truck_manifast t, (SELECT @rownum := 0) r
+		ORDER BY
+		t.seq desc
+		)u
+		WHERE
+		1 = 1
+		<if test="branch != null and branch != ''">
+			AND
+			branch = #{branch}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+			date &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+			date &lt;= str_to_date(#{endPud}, '%Y%m%d')
+		</if>
+		AND rownum BETWEEN #{pagination.itemSeqBegin} AND
+		#{pagination.itemSeqEnd}
+	</select>
+
+	<select id="getTruckManifastOne" parameterType="Integer"
+		resultType="TruckManifast">
+		SELECT
+		seq, date, branch, code
+		FROM
+		truck_manifast
+		WHERE
 		seq = #{seq}
-</select>
+	</select>
 
-<select id="getTruckGblNo" parameterType="Integer" resultType="String">
-	select
-	g.no as gblNo
-	from gbl g
-	where g.truck_seq = #{seq}
-</select>
+	<select id="getTruckGblNo" parameterType="Integer" resultType="String">
+		select
+		g.no as gblNo
+		from gbl g
+		where g.truck_seq = #{seq}
+	</select>
 
-<select id="getBookingListGblNo" parameterType="Integer" resultType="String">
-	select
-	g.no as gblNo
-	from gbl g
-	where g.booking_seq = #{seq}
-</select>
+	<select id="getBookingListGblNo" parameterType="Integer"
+		resultType="String">
+		select
+		g.no as gblNo
+		from gbl g
+		where g.booking_seq = #{seq}
+	</select>
 
-<select id="getTruckGblList" parameterType="OutboundFilter" resultMap="GblMap">
-	SELECT 
+	<select id="getTruckGblList" parameterType="OutboundFilter"
+		resultMap="GblMap">
+		SELECT
 		gt.*, a.cuft, pcs, truck_check
-	FROM 
+		FROM
 		(SELECT
-			g.no, w.truck_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
+		g.no, w.truck_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs
 		FROM gbl g, weight_certificate w
 		WHERE g.seq = w.gbl_seq
-		AND w.truck_check &lt;&gt; 1
-		AND g.code != 'J' 
+		AND w.truck_check
+		&lt;&gt; 1
+		AND g.code != 'J'
 		AND g.code != 'T'
 		AND g.code != '8'
 		<if test="truckManifastFlag == false">
@@ -771,291 +816,297 @@
 		</if>
 		<if test="houseBlFlag == false">
 			AND
-				g.no NOT LIKE '%-house%'
+			g.no NOT LIKE '%-house%'
 		</if>
 		<if test="truckManifastFlag == true">
 			AND g.seperate_flag &lt;&gt; true
 		</if>
 		<if test="branch != null and branch != ''">
-			AND		
-				g.area = #{branch}			
+			AND
+			g.area = #{branch}
 		</if>
 		<if test="code != null and code != ''">
 			AND
-				g.code = #{code}
+			g.code = #{code}
 		</if>
 		<if test="startPud != null and startPud != ''">
 			AND
-				g.pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+			g.pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
 		</if>
 		AND g.seq IN (
-			SELECT
-				seq
-			FROM
-				gbl g1, gbl_status g2
-			WHERE
-				g1.no = g2.gbl_no
-			AND
-				g2.gbl_preperation = TRUE
-			
-		)		
+		SELECT
+		seq
+		FROM
+		gbl g1, gbl_status g2
+		WHERE
+		g1.no = g2.gbl_no
+		AND
+		g2.gbl_preperation = TRUE
+
+		)
 		GROUP BY g.no, w.truck_check
 		) a, gbl gt
-	WHERE
+		WHERE
 		gt.no = a.no
-	ORDER BY
+		ORDER BY
 		gt.seq desc
-</select>
+	</select>
 
-<select id="getBookingGblList" parameterType="OutboundFilter" resultMap="GblMap">
-	SELECT 
+	<select id="getBookingGblList" parameterType="OutboundFilter"
+		resultMap="GblMap">
+		SELECT
 		gt.*, a.cuft, pcs, booking_check
-	FROM 
+		FROM
 		(SELECT
-			g.no, w.booking_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
+		g.no, w.booking_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs
 		FROM gbl g, weight_certificate w
 		WHERE g.seq = w.gbl_seq
 		AND g.code != 'T'
 		AND g.code != 'J'
 		AND g.code != '8'
 		AND w.booking_check &lt;&gt; 1
-		AND g.seq IN (
-			SELECT
-				seq
-			FROM
-				gbl g1, gbl_status g2
-			WHERE
-				g1.no = g2.gbl_no
-			AND
-				g2.gbl_preperation = TRUE
-			
-		)		
 		AND
-			g.no NOT LIKE '%-sub%'
+		g.seq IN (
+		SELECT
+		seq
+		FROM
+		gbl g1, gbl_status g2
+		WHERE
+		g1.no = g2.gbl_no
 		AND
-			g.no NOT LIKE '%-house%'
-			
+		g2.gbl_preperation = TRUE
+
+		)
+		AND
+		g.no NOT LIKE '%-sub%'
+		AND
+		g.no NOT LIKE '%-house%'
+
 		<if test="branch != null and branch != ''">
-			AND		
-				g.area = #{branch}			
+			AND
+			g.area = #{branch}
 		</if>
 		<if test="code != null and code != ''">
 			AND
-				g.code = #{code}
+			g.code = #{code}
 		</if>
 		<if test="startPud != null and startPud != ''">
 			AND
-				g.pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+			g.pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
 		</if>
-		
+
 		GROUP BY g.no, w.truck_check
 		) a, gbl gt
-	WHERE
+		WHERE
 		gt.no = a.no
-	ORDER BY
+		ORDER BY
 		gt.seq
-</select>
+	</select>
 
 
 
-<select id="getBookingListCount" parameterType="OutboundFilter" resultType="Integer">
-	SELECT
+	<select id="getBookingListCount" parameterType="OutboundFilter"
+		resultType="Integer">
+		SELECT
 		count(*)
-	FROM
+		FROM
 		booking_list
-</select>
+	</select>
 
-<select id="getBookingList" parameterType="OutboundFilter" resultMap="BookingListMap">
-	<!-- 
-	SELECT
-		seq,
-		memo,
-		remark,
-		write_date
-	FROM
-		booking_list
-		-->
+	<select id="getBookingList" parameterType="OutboundFilter"
+		resultMap="BookingListMap">
+		<!-- SELECT seq, memo, remark, write_date FROM booking_list -->
 		SELECT
 		*
 		FROM
 		(
 		SELECT
-			(@rownum := @rownum +1) AS rownum,
-			seq,
-			memo,
-			remark,
-			write_date
+		(@rownum := @rownum +1) AS rownum,
+		seq,
+		memo,
+		remark,
+		write_date
 		FROM
-			booking_list, (SELECT @rownum := 0) r
+		booking_list, (SELECT @rownum := 0) r
 		ORDER BY
-			seq desc
+		seq desc
 		)u
-		WHERE 
-			1=1
-			AND rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}   
-		
-		 
-</select>
+		WHERE
+		1=1
+		AND rownum BETWEEN #{pagination.itemSeqBegin} AND
+		#{pagination.itemSeqEnd}
 
-<select id="getBookingListOne" parameterType="Integer" resultMap="BookingListMap">
-	SELECT
+
+	</select>
+
+	<select id="getBookingListOne" parameterType="Integer"
+		resultMap="BookingListMap">
+		SELECT
 		seq,
 		memo,
 		remark,
 		write_date,
 		yjCount,
 		yjnInput
-	FROM
-		booking_list 
-	WHERE
-		seq = #{seq}	
-</select>
-
-<select id="getBookingListPrint" parameterType="Integer" resultMap="BookingGblMap">
-		SELECT
-			g.seq, g.pud, g.scac, g.code, g.customer_name, g.rank, g.ssn,
-			g.no, g.mil_svc, g.origin_gblock, w.booking_check, 
-			SUM(w.cuft) AS cuft, SUM(w.gross) AS gross, SUM(w.net) AS net, COUNT(w.piece) AS pcs, 
-			g.dest_port, g.dest_state, g.us_no, g.pod
 		FROM
-			gbl g, weight_certificate w
-		WHERE
-			g.seq = w.gbl_seq
-		AND
-			g.booking_seq = #{seq}	
-		GROUP BY
-			g.no, w.truck_check	
-		ORDER BY
-			g.no
-</select>
-
-<delete id="deleteBookingList" parameterType="Map">
-	DELETE FROM
 		booking_list
-	WHERE
-		seq = #{seq}
-</delete>
-
-<select id="getContainerList" resultType="WeightCertificate">
-	SELECT
-		seq, piece, type, status, gross, tare, net, cuft, remark
-	FROM
-		weight_certificate
-	WHERE
-		gbl_seq = #{seq}
-</select>
-
-<select id="getTruckManifastPrint" parameterType="Integer" resultMap="TruckManifastGblMap">
-		SELECT
-			g.seq, g.no, g.customer_name, g.area, g.pod, COUNT(w.piece) AS pcs, g.us_no, g.scac
-		FROM
-			gbl g, weight_certificate w
 		WHERE
-			g.seq = w.gbl_seq
+		seq = #{seq}
+	</select>
+
+	<select id="getBookingListPrint" parameterType="Integer"
+		resultMap="BookingGblMap">
+		SELECT
+		g.seq, g.pud, g.scac, g.code, g.customer_name, g.rank, g.ssn,
+		g.no, g.mil_svc, g.origin_gblock, w.booking_check,
+		SUM(w.cuft) AS cuft, SUM(w.gross) AS gross, SUM(w.net) AS net, COUNT(w.piece) AS
+		pcs,
+		g.dest_port, g.dest_state, g.us_no, g.pod
+		FROM
+		gbl g, weight_certificate w
+		WHERE
+		g.seq = w.gbl_seq
 		AND
-			g.truck_seq = #{seq}		
+		g.booking_seq = #{seq}
 		GROUP BY
-			g.no, w.truck_check	
+		g.no, w.truck_check
 		ORDER BY
-			g.no
-</select>
+		g.no
+	</select>
 
-<select id="checkAddtionComplete" parameterType="Addition" resultType="Integer">
-	SELECT
+	<delete id="deleteBookingList" parameterType="Map">
+		DELETE FROM
+		booking_list
+		WHERE
+		seq = #{seq}
+	</delete>
+
+	<select id="getContainerList" resultType="WeightCertificate">
+		SELECT
+		seq, piece, type, status, gross, tare, net, cuft, remark
+		FROM
+		weight_certificate
+		WHERE
+		gbl_seq = #{seq}
+	</select>
+
+	<select id="getTruckManifastPrint" parameterType="Integer"
+		resultMap="TruckManifastGblMap">
+		SELECT
+		g.seq, g.no, g.customer_name, g.area, g.pod, COUNT(w.piece) AS pcs, g.us_no,
+		g.scac
+		FROM
+		gbl g, weight_certificate w
+		WHERE
+		g.seq = w.gbl_seq
+		AND
+		g.truck_seq = #{seq}
+		GROUP BY
+		g.no, w.truck_check
+		ORDER BY
+		g.no
+	</select>
+
+	<select id="checkAddtionComplete" parameterType="Addition"
+		resultType="Integer">
+		SELECT
 		count(*)
-	FROM
+		FROM
 		decide
-	WHERE
+		WHERE
 		gbl_seq = #{gblSeq}
-	<if test="dd619Seq != null">
-		AND
+		<if test="dd619Seq != null">
+			AND
 			dd619_seq = #{dd619Seq}
-	</if>
-	<if test="memorandumSeq != null">		
-		AND
+		</if>
+		<if test="memorandumSeq != null">
+			AND
 			memorandum_list_seq = #{memorandumSeq}
-	</if>
-	<if test="title != null">		
-		AND
+		</if>
+		<if test="title != null">
+			AND
 			title = #{title}
-	</if>		
-</select>
+		</if>
+	</select>
 
-<select id="getAdditionList" parameterType="Integer" resultType="Addition">
-	SELECT
+	<select id="getAdditionList" parameterType="Integer" resultType="Addition">
+		SELECT
 		seq, title, cost, price, gbl_seq AS gblSeq
-	FROM
+		FROM
 		decide
-	WHERE
+		WHERE
 		gbl_seq = #{value}
-</select>
+	</select>
 
-<select id="checkSeperateComplete" parameterType="String" resultType="Integer">
-	SELECT
+	<select id="checkSeperateComplete" parameterType="String"
+		resultType="Integer">
+		SELECT
 		count(*)
-	FROM
+		FROM
 		gbl
-	WHERE
+		WHERE
 		no like CONCAT(#{value}, '-sub%')
-	AND
+		AND
 		truck_seq is null
-</select>
+	</select>
 
-<select id="getContainerManageList" resultType="Container">
-	SELECT
-		seq, status, count, remark
-	FROM
-		container
-</select>
+	<select id="getContainerManageList" resultType="Container">
+		SELECT
+			seq, status, count, remark
+		FROM
+			container
+	</select>
 
-<select id="getTcmdList" resultType="Tcmd">
-	SELECT
+	<select id="getTcmdList" resultType="Tcmd">
+		SELECT
 		*
-	FROM
+		FROM
 		tcmd
-	ORDER BY
+		ORDER BY
 		seq desc, oneTcmdFlag
-</select>
+	</select>
 
-<select id="getTcmdGblSeqList" parameterType="Integer" resultType="String">
-	SELECT
+	<select id="getTcmdGblSeqList" parameterType="Integer"
+		resultType="String">
+		SELECT
 		no
-	FROM
+		FROM
 		gbl
-	WHERE
+		WHERE
 		seq IN (select gbl_seq from tcmd_gbl_list where tcmd_seq = #{seq})
-</select>
+	</select>
 
-<select id="getTcmdContent" parameterType="Integer" resultType="Tcmd" >
-	SELECT
+	<select id="getTcmdContent" parameterType="Integer" resultType="Tcmd">
+		SELECT
 		*
-	FROM
+		FROM
 		tcmd
-	WHERE
+		WHERE
 		seq = #{value}
-</select>
+	</select>
 
-<select id="getTcmdContentGblList" parameterType="Integer" resultMap="GblMap">
-	SELECT
-		g.no, 
+	<select id="getTcmdContentGblList" parameterType="Integer"
+		resultMap="GblMap">
+		SELECT
+		g.no,
 		g.seq,
-		g.customer_name, 
-		g.rank, 
-		g.code, 
-		g.scac, 
-		g.origin_gblock, 
-		g.dest_gblock, 
-		g.pud, 
-		g.ssn, 
-		g.rdd, 
-		g.pod, 
-		g.poe, 
-		g.area, 
-		g.origin_address, 
-		g.us_no, 
-		g.dest_port, 
-		g.origin_port, 
-		g.origin_city, 
+		g.customer_name,
+		g.rank,
+		g.code,
+		g.scac,
+		g.origin_gblock,
+		g.dest_gblock,
+		g.pud,
+		g.ssn,
+		g.rdd,
+		g.pod,
+		g.poe,
+		g.area,
+		g.origin_address,
+		g.us_no,
+		g.dest_port,
+		g.origin_port,
+		g.origin_city,
 		g.mil_svc,
 		g.etd,
 		g.eta,
@@ -1063,625 +1114,663 @@
 		tgl.remark_rdd,
 		tgl.remark_tac,
 		tgl.consignee,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+		CASE
+		WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
 		g.lbs,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
-	FROM
+		CASE
+		WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
+		FROM
 		gbl g
 		LEFT OUTER JOIN
 		(
 		SELECT
-			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+		gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
 		FROM
-			gbl gt
+		gbl gt
 		JOIN
-			weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		weight_certificate wc ON (wc.gbl_seq = gt.seq)
 		GROUP BY
-			gt.seq
+		gt.seq
 		) gwc
 		ON (gwc.seq = g.seq), tcmd_gbl_list tgl
-	WHERE
+		WHERE
 		tgl.gbl_seq = g.seq
-	AND
+		AND
 		g.seq IN (
-			SELECT
-				gbl_seq
-			FROM
-				tcmd_gbl_list
-			WHERE
-				tcmd_seq = #{seq}
+		SELECT
+		gbl_seq
+		FROM
+		tcmd_gbl_list
+		WHERE
+		tcmd_seq = #{seq}
 		)
-		
-		
-</select>
-<select id="getTcmdListCount" parameterType="OutboundFilter" resultType="Integer">
-	select
+
+
+	</select>
+	<select id="getTcmdListCount" parameterType="OutboundFilter"
+		resultType="Integer">
+		select
 		count(*)
-	from
+		from
 		tcmd
-</select>
-<select id="getTcmdGblListCount" parameterType="OutboundFilter" resultType="Integer">
-	SELECT
+	</select>
+	<select id="getTcmdGblListCount" parameterType="OutboundFilter"
+		resultType="Integer">
+		SELECT
 		count(*)
-	FROM
+		FROM
 		gbl
-	WHERE
+		WHERE
 		code in ('J', 'T')
-	AND
-		no NOT LIKE '%-sub%'		
-	
-	AND seq IN (
-			SELECT
-				seq
-			FROM
-				gbl g1, gbl_status g2
-			WHERE
-				g1.no = g2.gbl_no
-			AND
-				g2.gbl_preperation = TRUE
-			
-		)	
-	AND
-		seq NOT IN (
-			SELECT
-				gbl_seq
-			FROM
-				tcmd_gbl_list
+		AND
+		no NOT LIKE '%-sub%'
+
+		AND seq IN (
+		SELECT
+		seq
+		FROM
+		gbl g1, gbl_status g2
+		WHERE
+		g1.no = g2.gbl_no
+		AND
+		g2.gbl_preperation = TRUE
+
 		)
-	<if test="area != null and area != ''">
 		AND
-			area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
-	</if>
-	<if test="branch != null and branch != ''">
-		AND		
-			area = #{branch}			
-	</if>
-	<if test="carrier != null and carrier != ''">
-		AND
+		seq NOT IN (
+		SELECT
+		gbl_seq
+		FROM
+		tcmd_gbl_list
+		)
+		<if test="area != null and area != ''">
+			AND
+			area = (select code_etc from symbol where main_code = '01' and
+			sub_code = #{area})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND
+			area = #{branch}
+		</if>
+		<if test="carrier != null and carrier != ''">
+			AND
 			scac = #{carrier}
-	</if>
-	<if test="code != null and code != ''">
-		AND
+		</if>
+		<if test="code != null and code != ''">
+			AND
 			code = #{code}
-	</if>
-	<if test="startPud != null and startPud != ''">
-		AND
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
 			pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
-	</if>
-	<if test="endPud != null and endPud != ''">
-		AND
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
 			pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
-	</if>
-	<if test="truckManifastFlag == false">
-		AND
+		</if>
+		<if test="truckManifastFlag == false">
+			AND
 			no NOT LIKE '%-sub%'
-	</if>
-	<if test="houseBlFlag == false">
-		AND
+		</if>
+		<if test="houseBlFlag == false">
+			AND
 			no NOT LIKE '%-house%'
-	</if>
-	<if test="houseBlFlag == true">
-		OR
+		</if>
+		<if test="houseBlFlag == true">
+			OR
 			no LIKE '%-house%'
-	</if>	
-</select>
+		</if>
+	</select>
 
-<select id="getTcmdGblList" parameterType="OutboundFilter" resultMap="GblMap">
-	SELECT 
+	<select id="getTcmdGblList" parameterType="OutboundFilter"
+		resultMap="GblMap">
+		SELECT
 		*
-	FROM	
+		FROM
 		(
-			SELECT
-				(@rownum := @rownum + 1) AS rownum,
-				g.seq,
-				g.no,
-				g.pud,
-				g.rank,
-				g.code,
-				g.scac,
-				g.customer_name,
-				g.area,
-				g.us_no,
-				g.dest_port,
-				g.etd,
-				g.eta,
-				g.bl_no,
-				g.pod,
-				CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
-				g.lbs,
-				CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
-			FROM
-				gbl g
-				LEFT OUTER JOIN
-				(
-				SELECT
-					gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
-				FROM
-					gbl gt
-				JOIN
-					weight_certificate wc ON (wc.gbl_seq = gt.seq)
-				GROUP BY
-					gt.seq
-				) gwc
-				ON (gwc.seq = g.seq),
-				(SELECT @rownum := 0) r
-			WHERE
-				code in ('J', 'T')		
-			
-			AND g.seq IN (
-				SELECT
-					seq
-				FROM
-					gbl g1, gbl_status g2
-				WHERE
-					g1.no = g2.gbl_no
-				AND
-					g2.gbl_preperation = TRUE
-				
-			)	
-			AND
-				g.seq NOT IN (
-					SELECT
-						gbl_seq
-					FROM
-						tcmd_gbl_list
-				)
-			AND
-				no NOT LIKE '%-sub%'
-			<if test="area != null and area != ''">
-				AND
-					area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
-			</if>
-			<if test="branch != null and branch != ''">
-				AND		
-					area = #{branch}			
-			</if>
-			<if test="carrier != null and carrier != ''">
-				AND
-					scac = #{carrier}
-			</if>
-			<if test="code != null and code != ''">
-				AND
-					code = #{code}
-			</if>
-			<if test="startPud != null and startPud != ''">
-				AND
-					pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
-			</if>
-			<if test="endPud != null and endPud != ''">
-				AND
-					pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
-			</if>
-			<if test="truckManifastFlag == false">
-				AND
-					no NOT LIKE '%-sub%'
-			</if>
-			<if test="houseBlFlag == false">
-				AND
-					no NOT LIKE '%-house%'
-			</if>
-			<if test="houseBlFlag == true">
-				OR
-					no LIKE '%-house%'
-			</if>
-			ORDER BY
-				g.seq
-		)u	
-	WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
-</select>
+		SELECT
+		(@rownum := @rownum + 1) AS rownum,
+		g.seq,
+		g.no,
+		g.pud,
+		g.rank,
+		g.code,
+		g.scac,
+		g.customer_name,
+		g.area,
+		g.us_no,
+		g.dest_port,
+		g.etd,
+		g.eta,
+		g.bl_no,
+		g.pod,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+		g.lbs,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
+		FROM
+		gbl g
+		LEFT OUTER JOIN
+		(
+		SELECT
+		gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+		FROM
+		gbl gt
+		JOIN
+		weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		GROUP BY
+		gt.seq
+		) gwc
+		ON (gwc.seq = g.seq),
+		(SELECT @rownum := 0) r
+		WHERE
+		code in ('J', 'T')
 
-<insert id="insertGbl" parameterType="GBL">
-	INSERT INTO
+		AND g.seq IN (
+		SELECT
+		seq
+		FROM
+		gbl g1, gbl_status g2
+		WHERE
+		g1.no = g2.gbl_no
+		AND
+		g2.gbl_preperation = TRUE
+
+		)
+		AND
+		g.seq NOT IN (
+		SELECT
+		gbl_seq
+		FROM
+		tcmd_gbl_list
+		)
+		AND
+		no NOT LIKE '%-sub%'
+		<if test="area != null and area != ''">
+			AND
+			area = (select code_etc from symbol where main_code = '01' and sub_code =
+			#{area})
+		</if>
+		<if test="branch != null and branch != ''">
+			AND
+			area = #{branch}
+		</if>
+		<if test="carrier != null and carrier != ''">
+			AND
+			scac = #{carrier}
+		</if>
+		<if test="code != null and code != ''">
+			AND
+			code = #{code}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+			pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+			pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+		</if>
+		<if test="truckManifastFlag == false">
+			AND
+			no NOT LIKE '%-sub%'
+		</if>
+		<if test="houseBlFlag == false">
+			AND
+			no NOT LIKE '%-house%'
+		</if>
+		<if test="houseBlFlag == true">
+			OR
+			no LIKE '%-house%'
+		</if>
+		ORDER BY
+		g.seq
+		)u
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND
+		#{pagination.itemSeqEnd}
+	</select>
+
+	<insert id="insertGbl" parameterType="GBL">
+		INSERT INTO
 		gbl
 		(
-			no, customer_name, rank, code, scac, origin_gblock, dest_gblock, pud, ssn, rdd, pod, poe, lbs, area, origin_address, us_no, dest_port, origin_port, origin_city, mil_svc, house_consignee
+		no, customer_name, rank, code, scac, origin_gblock, dest_gblock, pud,
+		ssn, rdd, pod, poe, lbs, area, origin_address, us_no, dest_port,
+		origin_port, origin_city, mil_svc, house_consignee
 		)
-	VALUES
+		VALUES
 		(
-			#{no}, #{customerName}, #{rank}, #{code}, #{scac}, #{originGBlock}, #{destGBlock}, #{pud}, #{ssn}, #{rdd}, #{pod}, #{poe}, #{lbs}, #{areaLocal}, #{originAddress}, #{usNo}, #{destPort}, #{originPort}, #{originCity}, #{milSVC}, #{houseConsignee}
+		#{no}, #{customerName}, #{rank}, #{code}, #{scac}, #{originGBlock},
+		#{destGBlock}, #{pud}, #{ssn}, #{rdd}, #{pod}, #{poe}, #{lbs},
+		#{areaLocal}, #{originAddress}, #{usNo}, #{destPort}, #{originPort},
+		#{originCity}, #{milSVC}, #{houseConsignee}
 		)
-	<selectKey keyProperty="seq" resultType="Integer">
-		SELECT LAST_INSERT_ID() 
-	</selectKey>
-</insert>
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
 
-<insert id="insertGblStatusCopied" parameterType="GBLStatus">
-	INSERT INTO
+	<insert id="insertGblStatusCopied" parameterType="GBLStatus">
+		INSERT INTO
 		gbl_status
 		(
-			gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast, gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
+		gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast,
+		gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
 		)
-	VALUES
+		VALUES
 		(
-			#{no}, #{input}, #{preperation}, 0, 0, 0, 0, 0, 0
-		)	
-</insert>
+		#{no}, #{input}, #{preperation}, 0, 0, 0, 0, 0, 0
+		)
+	</insert>
 
-<insert id="insertGblStatus" parameterType="GBL">
-	INSERT INTO
+	<insert id="insertGblStatus" parameterType="GBL">
+		INSERT INTO
 		gbl_status
 		(
-			gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast, gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
+		gbl_no, gbl_input, gbl_preperation, gbl_delivery, gbl_truckmanifast,
+		gbl_bookinglist, gbl_invoice, gbl_arrival, gbl_process
 		)
-	VALUES
+		VALUES
 		(
-			#{no}, 1, 0, 0, 0, 0, 0, 0, 0
+		#{no}, 1, 0, 0, 0, 0, 0, 0, 0
 		)
-</insert>
+	</insert>
 
-<insert id="insertAttachment" parameterType="GBLAttachment">
-	INSERT INTO
+	<insert id="insertAttachment" parameterType="GBLAttachment">
+		INSERT INTO
 		gbl_attachments
 		(
-			gbl_no, file_name, file_path, file_extension, file_size, gbl_file_no, gbl_update_date
+		gbl_no, file_name, file_path, file_extension, file_size, gbl_file_no,
+		gbl_update_date
 		)
-	VALUES
+		VALUES
 		(
-			#{gblNo}, #{fileName}, #{filePath}, #{fileExtension}, #{fileSize}, #{gblFileNo}, SYSDATE()
+		#{gblNo}, #{fileName}, #{filePath}, #{fileExtension}, #{fileSize},
+		#{gblFileNo}, SYSDATE()
 		)
-</insert>
+	</insert>
 
-<insert id="insertPreMoveSurvey" parameterType="PreMoveSurvey">
-	INSERT INTO
+	<insert id="insertPreMoveSurvey" parameterType="PreMoveSurvey">
+		INSERT INTO
 		pre_move_survey
 		(
-			estimate_weight,
-			special_item,
-			es_container,
-			third_party,
-			fire_arms,
-			remark,
-			gbl_seq
+		estimate_weight,
+		special_item,
+		es_container,
+		third_party,
+		fire_arms,
+		remark,
+		gbl_seq
 		)
-	VALUES
+		VALUES
 		(
-			#{estimateWeight},
-			#{specialItem},
-			#{esContainer},
-			#{thirdParty},
-			#{fireArms},
-			#{remark},
-			#{gblSeq}
+		#{estimateWeight},
+		#{specialItem},
+		#{esContainer},
+		#{thirdParty},
+		#{fireArms},
+		#{remark},
+		#{gblSeq}
 		)
-</insert>
+	</insert>
 
-<insert id="insertDd619" parameterType="Dd619">
-	INSERT INTO
+	<insert id="insertDd619" parameterType="Dd619">
+		INSERT INTO
 		dd619
 		(
-			gbl_seq, gbl_no, name, rank, ssn, code, carrier_shipment_reference, write_date, memorandum_list_seq
+		gbl_seq, gbl_no, name, rank, ssn, code, carrier_shipment_reference,
+		write_date, memorandum_list_seq
 		)
-	VALUES
-	(
-		#{gblSeq}, #{gblNo}, #{name}, #{rank}, #{ssn}, #{code}, #{carrierShipmentReference}, SYSDATE(), #{memorandumListSeq}
-	)
-</insert>
+		VALUES
+		(
+		#{gblSeq}, #{gblNo}, #{name}, #{rank}, #{ssn}, #{code},
+		#{carrierShipmentReference}, SYSDATE(), #{memorandumListSeq}
+		)
+	</insert>
 
-<insert id="insertWeightcertificate" parameterType="Weightcertificate">
-     INSERT INTO
-     	weight_certificate
-     	(
-     		piece, type, status, gross_kg, gross, tare, net, cuft, remark, gbl_seq, date, progear
-     	)   
-     VALUES
-    	(
-    		#{piece}, #{type}, #{status}, #{grossKg}, #{gross}, #{tare}, #{net}, #{cuft}, #{remark}, #{gblSeq}, #{date}, #{proGear}
-    	)
-</insert>
-
-<delete id="deleteWeightcertificate" parameterType="Weightcertificate">
-	DELETE FROM
+	<insert id="insertWeightcertificate" parameterType="Weightcertificate">
+		INSERT INTO
 		weight_certificate
-	WHERE
+		(
+		piece, type, status, gross_kg, gross, tare, net, cuft, remark, gbl_seq,
+		date, progear
+		)
+		VALUES
+		(
+		#{piece}, #{type}, #{status}, #{grossKg}, #{gross}, #{tare}, #{net}, #{cuft},
+		#{remark}, #{gblSeq}, #{date}, #{proGear}
+		)
+	</insert>
+
+	<delete id="deleteWeightcertificate" parameterType="Weightcertificate">
+		DELETE FROM
+		weight_certificate
+		WHERE
 		seq = #{seq}
-</delete>
+	</delete>
 
-<delete id="deleteTcmdList" parameterType="Integer">
-	DELETE 
+	<delete id="deleteTcmdList" parameterType="Integer">
+		DELETE
 		FROM
-			tcmd
+		tcmd
 		WHERE
-			seq = #{seq}
-</delete>
+		seq = #{seq}
+	</delete>
 
-<delete id="deleteTcmdGblList" parameterType="Integer">
-	DELETE 
+	<delete id="deleteTcmdGblList" parameterType="Integer">
+		DELETE
 		FROM
-			tcmd_gbl_list
+		tcmd_gbl_list
 		WHERE
-			tcmd_seq = #{seq}
-</delete>
+		tcmd_seq = #{seq}
+	</delete>
 
 
-<insert id="insertTruckManifast" parameterType="TruckManifast">
-    INSERT INTO
-    	truck_manifast
-    	(
-    		sysdate, date, branch, code
-    	)    
-    VALUES
-    	(
-    		SYSDATE(), #{date}, #{branch}, #{code}
-    	)
-    <selectKey keyProperty="seq" resultType="Integer">     
-		SELECT LAST_INSERT_ID()        
-    </selectKey>
-</insert>
-<select id="getBookingListYjCount" resultType="Integer">
-	SELECT
+	<insert id="insertTruckManifast" parameterType="TruckManifast">
+		INSERT INTO
+		truck_manifast
+		(
+		sysdate, date, branch, code
+		)
+		VALUES
+		(
+		SYSDATE(), #{date}, #{branch}, #{code}
+		)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<select id="getBookingListYjCount" resultType="Integer">
+		SELECT
 		COUNT(write_date)
-	FROM
+		FROM
 		booking_list
-</select>
-<insert id="insertBookingList" parameterType="BookingList">
-    INSERT INTO
-    	booking_list
-    	(
-    		memo, remark, write_date,yjCount
-    	)    
-    VALUES
-    	(
-    		'', '', SYSDATE(),#{yjCount}
-    	)
-    <selectKey keyProperty="seq" resultType="Integer">     
-		SELECT LAST_INSERT_ID()        
-    </selectKey>
-</insert>
+	</select>
+	<insert id="insertBookingList" parameterType="BookingList">
+		INSERT INTO
+		booking_list
+		(
+		memo, remark, write_date,yjCount
+		)
+		VALUES
+		(
+		'', '', SYSDATE(),#{yjCount}
+		)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
 
-<insert id="addtionComplete" parameterType="Addition">
-	INSERT INTO
+	<insert id="addtionComplete" parameterType="Addition">
+		INSERT INTO
 		decide
 		(
-			title, cost, gbl_seq, dd619_seq, price, memorandum_list_seq
+		title, cost, gbl_seq, dd619_seq, price, memorandum_list_seq
 		)
-	VALUES
+		VALUES
 		(
-			#{title}, #{cost}, #{gblSeq}, #{dd619Seq}, #{price}, #{memorandumSeq}
+		#{title}, #{cost}, #{gblSeq}, #{dd619Seq}, #{price}, #{memorandumSeq}
 		)
-</insert>
+	</insert>
 
-<insert id="insertTcmd" parameterType="Tcmd">
-	INSERT INTO
+	<insert id="insertTcmd" parameterType="Tcmd">
+		INSERT INTO
 		tcmd
 		(
-			docId, consignor, commSpecHdig, airDim, poe, pod, mode, pack, transControlNo1, transControlNo2, transControlNo3, transControlNo4, transControlNo5, consignee, pri, carrier, remark, writeDate, oneTcmdFlag, pieces, weight, cube, trAcct
+		docId, consignor, commSpecHdig, airDim, poe, pod, mode, pack,
+		transControlNo1, transControlNo2, transControlNo3, transControlNo4,
+		transControlNo5, consignee, pri, carrier, remark, writeDate,
+		oneTcmdFlag, pieces, weight, cube, trAcct
 		)
-	VALUES
+		VALUES
 		(
-			#{docId}, #{consignor}, #{commSpecHdig}, #{airDim}, #{poe}, #{pod}, #{mode}, #{pack}, #{transControlNo1}, #{transControlNo2}, #{transControlNo3}, #{transControlNo4}, #{transControlNo5}, #{consignee}, #{pri}, #{carrier}, #{remark}, SYSDATE(), #{oneTcmdFlag},#{pieces},#{weight},#{cube},#{trAcct}
-		)		
-	<selectKey keyProperty="seq" resultType="Integer">
-		SELECT LAST_INSERT_ID() 
-	</selectKey>
-</insert>
+		#{docId}, #{consignor}, #{commSpecHdig}, #{airDim}, #{poe}, #{pod}, #{mode},
+		#{pack}, #{transControlNo1}, #{transControlNo2}, #{transControlNo3},
+		#{transControlNo4}, #{transControlNo5}, #{consignee}, #{pri},
+		#{carrier}, #{remark}, SYSDATE(),
+		#{oneTcmdFlag},#{pieces},#{weight},#{cube},#{trAcct}
+		)
+		<selectKey keyProperty="seq" resultType="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
 
-<insert id="insertTcmdGblList" parameterType="Map">
-	INSERT INTO
+	<insert id="insertTcmdGblList" parameterType="Map">
+		INSERT INTO
 		tcmd_gbl_list
 		(
-			gbl_seq, tcmd_seq
+		gbl_seq, tcmd_seq
 		)
-	VALUES
+		VALUES
 		(
-			#{gblSeq}, #{tcmdSeq}
+		#{gblSeq}, #{tcmdSeq}
 		)
-</insert>
+	</insert>
 
-<update id="updateGblStatusByGblNo" parameterType="String">
-	UPDATE
+	<update id="updateGblStatusByGblNo" parameterType="String">
+		UPDATE
 		gbl_status
-	SET
+		SET
 		gbl_truckmanifast = 1
-	WHERE
+		WHERE
 		gbl_no = #{seq}
-</update>
+	</update>
 
-<update id="modifyGbl" parameterType="GBL">
-	UPDATE
+	<update id="modifyGbl" parameterType="GBL">
+		UPDATE
 		gbl
-	SET
+		SET
 		no = #{no},
 		customer_name = #{customerName},
 		rank = #{rank},
-		code = #{code},
+		code =
+		#{code},
 		scac = #{scac},
 		origin_gblock = #{originGBlock},
-		dest_gblock = #{destGBlock},
+		dest_gblock =
+		#{destGBlock},
 		pud = #{pud},
 		ssn = #{ssn},
 		rdd = #{rdd},
 		pod = #{pod},
-		poe = #{poe},
+		poe
+		= #{poe},
 		area = #{areaLocal},
 		origin_address = #{originAddress},
-		us_no = #{usNo},
+		us_no =
+		#{usNo},
 		dest_port = #{destPort},
 		origin_port = #{originPort},
-		vessel = #{vessel},
+		vessel =
+		#{vessel},
 		consol_company = #{consoleCompany},
-		hb_booking_no = #{hbBookingNo},
+		hb_booking_no =
+		#{hbBookingNo},
 		clp_no = #{clpNo},
 		seal_no = #{sealNo},
-		container_no = #{containerNo},
+		container_no =
+		#{containerNo},
 		dest_state = #{destState},
 		export = #{export},
-		mil_svc = #{milSVC},
+		mil_svc =
+		#{milSVC},
 		eta = #{eta},
 		etd = #{etd},
 		bl_no = #{blNo},
-		house_consignee = #{houseConsignee}
-	WHERE
+		house_consignee =
+		#{houseConsignee}
+		WHERE
 		seq = #{seq}
-</update>
+	</update>
 
-<update id="updatePreMoveSurvey" parameterType="PreMoveSurvey">
-	UPDATE
+	<update id="updatePreMoveSurvey" parameterType="PreMoveSurvey">
+		UPDATE
 		pre_move_survey
-	SET
+		SET
 		estimate_weight = #{estimateWeight},
 		special_item = #{specialItem},
 		es_container = #{esContainer},
 		third_party = #{thirdParty},
-		fire_arms = #{fireArms},
+		fire_arms =
+		#{fireArms},
 		remark = #{remark}
-	WHERE
+		WHERE
 		gbl_seq = #{gblSeq}
-</update>
+	</update>
 
-<update id="updateDd619" parameterType="Dd619">
-    UPDATE
-    	dd619
-    SET
-    	date = #{date},
-    	name = #{name},
-    	ssn = #{ssn},
-    	rank = #{rank},
-    	origin_of_shipment = #{originOfShipment},
-    	destination = #{destination},
-    	ordering_activity_name = #{orderingActivityName},
-    	carrier_name = #{carrierName},
-    	agent_name = #{agentName},
-    	signature = #{signature},
-    	carrier_shipment_reference = #{carrierShipmentReference},
-    	code = #{code},
-    	other = #{other},
-    	total = #{total},
-    	remark = #{remark},
-    	officer_material = #{officerMaterial},
-    	officer_signature = #{officerSignature},
-    	officer_date = #{officerDate},
-    	rank_and_name = #{rankAndName},
-    	transportation_date = #{transportationDate},
-    	update_date = SYSDATE(),
-    	update_user = #{writeUser}
-    WHERE
-    	seq = #{seq}
-</update>
-<update id="updateBookingListUpdate" parameterType="Map">
-	UPDATE
+	<update id="updateDd619" parameterType="Dd619">
+		UPDATE
+		dd619
+		SET
+		date = #{date},
+		name = #{name},
+		ssn = #{ssn},
+		rank = #{rank},
+		origin_of_shipment = #{originOfShipment},
+		destination = #{destination},
+		ordering_activity_name = #{orderingActivityName},
+		carrier_name = #{carrierName},
+		agent_name = #{agentName},
+		signature = #{signature},
+		carrier_shipment_reference = #{carrierShipmentReference},
+		code = #{code},
+		other = #{other},
+		total = #{total},
+		remark = #{remark},
+		officer_material = #{officerMaterial},
+		officer_signature = #{officerSignature},
+		officer_date = #{officerDate},
+		rank_and_name = #{rankAndName},
+		transportation_date = #{transportationDate},
+		update_date = SYSDATE(),
+		update_user = #{writeUser}
+		WHERE
+		seq = #{seq}
+	</update>
+	<update id="updateBookingListUpdate" parameterType="Map">
+		UPDATE
 		booking_list
-	SET
+		SET
 		<if test="column == 'yjn'">
 			yjnInput = #{value}
 		</if>
-		<if test = "column == 'remark'">
+		<if test="column == 'remark'">
 			remark = #{value}
 		</if>
-	WHERE
-		seq = #{bookSeq} 
-</update>
-<update id="updateGblStatus" parameterType="Map">
-    UPDATE
-    	gbl_status
-    SET
-    	<if test="preparation == 1">
-    		gbl_preperation = 1
-    	</if> 
-    	<if test="booking == 1">
-    		gbl_bookinglist = 1
-    	</if>
-    	<if test="truckmanifast == 1">
-    		gbl_truckmanifast = 1
-    	</if>   
-    	<if test="invoice != null">
-    		gbl_invoice = #{invoice}
-    	</if>
-    WHERE
-    	gbl_no = (select no from gbl where seq = #{seq});
-</update>
+		WHERE
+		seq = #{bookSeq}
+	</update>
+	<update id="updateGblStatus" parameterType="Map">
+		UPDATE
+		gbl_status
+		SET
+		<if test="preparation == 1">
+			gbl_preperation = 1
+		</if>
+		<if test="booking == 1">
+			gbl_bookinglist = 1
+		</if>
+		<if test="truckmanifast == 1">
+			gbl_truckmanifast = 1
+		</if>
+		<if test="invoice != null">
+			gbl_invoice = #{invoice}
+		</if>
+		WHERE
+		gbl_no = (select no from gbl where seq = #{seq});
+	</update>
 
-<update id="updateGbl" parameterType="GBL">
-    UPDATE
-    	gbl
-    SET
-    	seq = seq
-    	<if test="lbs != null">
-    		,lbs = #{lbs}
-    	</if>
-    	<if test="grossWeight != null">
-    		,grossWeight = #{grossWeight}
-    	</if>
-    	<if test="netWeight != null">
-    		,netWeight = #{netWeight}
-    	</if>
-    	<if test="cuft != null">
-    		,cuft = #{cuft}
-    	</if>
-    	<if test="totalPcs != null">
-    		,totalPcs = #{totalPcs}
-    	</if>
-    	<if test="truckSeq != null">
-    		,truck_seq = #{truckSeq}
-    	</if>
-    	<if test="bookingSeq != null">
-    		,booking_seq = #{bookingSeq}
-    	</if>
-    	<if test="houseSeq != null">
-    		,house_seq = #{houseSeq}
-    	</if>
-    	<if test="seperateFlag != null">
-    		,seperate_flag = #{seperateFlag}
-    	</if>
-    	<if test="houseSeperateFlag != null">
-    		,house_seperate_flag = #{houseSeperateFlag}
-    	</if>
-    	<if test="houseVessel != null">
-    		,house_vessel = #{houseVessel}
-    	</if>
-    	<if test="houseVoyage != null">
-    		,house_voyage = #{houseVoyage}
-    	</if>
-    	<if test="houseCompany != null">
-    		,house_company = #{houseCompany}
-    	</if>
-    WHERE
-    	seq = #{seq} 
-</update>
+	<update id="updateGbl" parameterType="GBL">
+		UPDATE
+		gbl
+		SET
+		seq = seq
+		<if test="lbs != null">
+			,lbs = #{lbs}
+		</if>
+		<if test="grossWeight != null">
+			,grossWeight = #{grossWeight}
+		</if>
+		<if test="netWeight != null">
+			,netWeight = #{netWeight}
+		</if>
+		<if test="cuft != null">
+			,cuft = #{cuft}
+		</if>
+		<if test="totalPcs != null">
+			,totalPcs = #{totalPcs}
+		</if>
+		<if test="truckSeq != null">
+			,truck_seq = #{truckSeq}
+		</if>
+		<if test="bookingSeq != null">
+			,booking_seq = #{bookingSeq}
+		</if>
+		<if test="houseSeq != null">
+			,house_seq = #{houseSeq}
+		</if>
+		<if test="seperateFlag != null">
+			,seperate_flag = #{seperateFlag}
+		</if>
+		<if test="houseSeperateFlag != null">
+			,house_seperate_flag = #{houseSeperateFlag}
+		</if>
+		<if test="houseVessel != null">
+			,house_vessel = #{houseVessel}
+		</if>
+		<if test="houseVoyage != null">
+			,house_voyage = #{houseVoyage}
+		</if>
+		<if test="houseCompany != null">
+			,house_company = #{houseCompany}
+		</if>
+		WHERE
+		seq = #{seq}
+	</update>
 
-<update id="updateWeightCertificate" parameterType="WeightCertificate">
-    UPDATE
-    	weight_certificate
-    SET
-    	piece = #{piece},
-    	type = #{type},
-    	status = #{status},
-    	gross_kg = #{grossKg},
-    	gross = #{gross},
-    	tare = #{tare},
-    	net = #{net},
-    	cuft = #{cuft},
-    	remark = #{remark},
-    	date = #{date},
-    	progear = #{proGear}
-    WHERE
-    	seq = #{seq}    
-</update>
+	<update id="updateWeightCertificate" parameterType="WeightCertificate">
+		UPDATE
+		weight_certificate
+		SET
+		piece = #{piece},
+		type = #{type},
+		status = #{status},
+		gross_kg = #{grossKg},
+		gross = #{gross},
+		tare = #{tare},
+		net = #{net},
+		cuft = #{cuft},
+		remark = #{remark},
+		date = #{date},
+		progear = #{proGear}
+		WHERE
+		seq = #{seq}
+	</update>
 
-<update id="updateWeightCertificateTruck" parameterType="GBL">
-    UPDATE
-    	weight_certificate
-    SET
-    	seq = seq
-    	<if test="truckSeq != null">
-    		,truck_check = 1
-    		,truck_seq = #{truckSeq}
-    	</if>    	
-    	<if test="bookingSeq != null">
-    		,booking_check = 1
-    		,booking_seq = #{bookingSeq}
-    	</if>  	
-    	<if test="houseSeq != null">
-    		,house_check = 1
-    		,house_seq = #{houseSeq}
-    	</if>
-    WHERE
-    	gbl_seq = #{seq}    
-</update>
+	<update id="updateWeightCertificateTruck" parameterType="GBL">
+		UPDATE
+		weight_certificate
+		SET
+		seq = seq
+		<if test="truckSeq != null">
+			,truck_check = 1
+			,truck_seq = #{truckSeq}
+		</if>
+		<if test="bookingSeq != null">
+			,booking_check = 1
+			,booking_seq = #{bookingSeq}
+		</if>
+		<if test="houseSeq != null">
+			,house_check = 1
+			,house_seq = #{houseSeq}
+		</if>
+		WHERE
+		gbl_seq = #{seq}
+	</update>
 
-<update id="additionCompleteUpdate" parameterType="Addition">
-	UPDATE
+	<update id="additionCompleteUpdate" parameterType="Addition">
+		UPDATE
 		decide
-	SET
+		SET
 		<if test="title != null">
 			title = #{title},
 		</if>
@@ -1693,133 +1782,133 @@
 				price = #{price}
 			</otherwise>
 		</choose>
-	WHERE
+		WHERE
 		gbl_seq = #{gblSeq}
-	<if test="dd619Seq != null">
-		AND
+		<if test="dd619Seq != null">
+			AND
 			dd619_seq = #{dd619Seq}
-	</if>
-	<if test="memorandumSeq != null">		
-		AND
+		</if>
+		<if test="memorandumSeq != null">
+			AND
 			memorandum_list_seq = #{memorandumSeq}
-	</if>
-	<if test="title != null">		
-		AND
+		</if>
+		<if test="title != null">
+			AND
 			title = #{title}
-	</if>
-</update>
+		</if>
+	</update>
 
-<update id="deleteTruckGbl" parameterType="Integer">
-	UPDATE
+	<update id="deleteTruckGbl" parameterType="Integer">
+		UPDATE
 		gbl
-	SET
+		SET
 		truck_seq = null
-	WHERE
+		WHERE
 		truck_seq = #{value}
-</update>
+	</update>
 
-<update id="deleteBookingListGbl" parameterType="Integer">
-	UPDATE
+	<update id="deleteBookingListGbl" parameterType="Integer">
+		UPDATE
 		gbl
-	SET
+		SET
 		booking_seq = null
-	WHERE
+		WHERE
 		booking_seq = #{value}
-</update>
+	</update>
 
-<update id="passBookingListGbl" parameterType="Integer">
-	UPDATE
+	<update id="passBookingListGbl" parameterType="Integer">
+		UPDATE
 		gbl
-	SET
+		SET
 		booking_seq = -1,
 		truck_seq = -1
-	WHERE
+		WHERE
 		seq = #{value}
-</update>
+	</update>
 
-<update id="deleteGblStatusByTruckManifast" parameterType="Integer">
-	UPDATE
+	<update id="deleteGblStatusByTruckManifast" parameterType="Integer">
+		UPDATE
 		gbl_status
-	SET
+		SET
 		gbl_truckmanifast = false
-	WHERE
+		WHERE
 		gbl_no IN (select no from gbl where truck_seq = #{seq})
-</update>
+	</update>
 
-<update id="deleteGblStatusByBookingList" parameterType="Integer">
-	
-	UPDATE
+	<update id="deleteGblStatusByBookingList" parameterType="Integer">
+
+		UPDATE
 		gbl_status
-	SET
+		SET
 		gbl_bookinglist = false
-	WHERE
+		WHERE
 		gbl_no IN (select no from gbl where booking_seq = #{seq})
-</update>
+	</update>
 
-<update id="passBookinglist" parameterType="Integer">
-	UPDATE
+	<update id="passBookinglist" parameterType="Integer">
+		UPDATE
 		gbl_status
-	SET
+		SET
 		gbl_bookinglist = 1,
 		gbl_truckmanifast = 1,
-		gbl_invoice = 0		
-	where
+		gbl_invoice = 0
+		where
 		gbl_no = #{seq}
-</update>
+	</update>
 
-<update id="setSeperatedFlag" parameterType="GBL">
-	UPDATE
+	<update id="setSeperatedFlag" parameterType="GBL">
+		UPDATE
 		gbl
-	SET
+		SET
 		seperate_flag = false
-	WHERE
+		WHERE
 		no = #{no}
-</update>
+	</update>
 
-<update id="minusContainerByStatus" parameterType="String">
-	UPDATE
+	<update id="minusContainerByStatus" parameterType="String">
+		UPDATE
 		container
-	SET
+		SET
 		count = count - 1
-	WHERE
+		WHERE
 		status = #{value}
-</update>
+	</update>
 
-<update id="plusContainerByStatus" parameterType="String">
-	UPDATE
+	<update id="plusContainerByStatus" parameterType="String">
+		UPDATE
 		container
-	SET
+		SET
 		count = count + 1
-	WHERE
+		WHERE
 		status = #{value}
-</update>
+	</update>
 
-<update id="updateTcmdGbl" parameterType="Map">
-	UPDATE
+	<update id="updateTcmdGbl" parameterType="Map">
+		UPDATE
 		tcmd_gbl_list
-	SET
+		SET
 		gbl_seq = gbl_seq
 		<choose>
-			<when test="column == 'remark_rdd'">	
+			<when test="column == 'remark_rdd'">
 				,remark_rdd = #{value}
 			</when>
-			<when test="column == 'remark_tac'">	
+			<when test="column == 'remark_tac'">
 				,remark_tac = #{value}
 			</when>
-			<when test="column == 'consignee'">	
+			<when test="column == 'consignee'">
 				,consignee = #{value}
 			</when>
 		</choose>
-	WHERE
+		WHERE
 		gbl_seq = #{gblSeq}
-	AND
+		AND
 		tcmd_seq = #{tcmdSeq}
-</update>
+	</update>
 
-<update id="updateTcmd" parameterType="Map">
-	UPDATE
+	<update id="updateTcmd" parameterType="Map">
+		UPDATE
 		tcmd
-	SET
+		SET
 		seq = seq
 		<choose>
 			<when test="column == 'pageNo'">
@@ -1956,284 +2045,295 @@
 			</when>
 			<when test="column == 'yjn'">
 				,yjn = #{value}
-			</when>			
+			</when>
 		</choose>
 		WHERE
-			seq = #{tcmdSeq}
-</update>
+		seq = #{tcmdSeq}
+	</update>
 
-<delete id="deleteWeightCertificateByTruckManifast" parameterType="Integer">
-	UPDATE
+	<delete id="deleteWeightCertificateByTruckManifast"
+		parameterType="Integer">
+		UPDATE
 		weight_certificate
-	SET
+		SET
 		truck_seq = null,
 		truck_check = false
-	WHERE
+		WHERE
 		truck_seq = #{seq}
-</delete>
+	</delete>
 
-<delete id="deleteWeightCertificateByBookingList" parameterType="Integer">
-	<!--  SET SQL_SAFE_UPDATES=0;-->
-	UPDATE
+	<delete id="deleteWeightCertificateByBookingList" parameterType="Integer">
+		<!-- SET SQL_SAFE_UPDATES=0; -->
+		UPDATE
 		weight_certificate
-	SET
+		SET
 		booking_seq = null,
 		booking_check = false
-	WHERE
+		WHERE
 		booking_seq = #{seq}
-</delete>
+	</delete>
 
-<update id="passWeightCertificateByBookingList" parameterType="Integer">
-	<!--  SET SQL_SAFE_UPDATES=0;-->
-	UPDATE
+	<update id="passWeightCertificateByBookingList" parameterType="Integer">
+		<!-- SET SQL_SAFE_UPDATES=0; -->
+		UPDATE
 		weight_certificate
-	SET
+		SET
 		booking_seq = -1,
 		booking_check = true
-	WHERE
+		WHERE
 		gbl_seq = #{seq}
-</update>
+	</update>
 
-<delete id="deleteDd619" parameterType="Dd619">
-	DELETE FROM
+	<delete id="deleteDd619" parameterType="Dd619">
+		DELETE FROM
 		dd619
-	WHERE
+		WHERE
 		gbl_seq = #{gblSeq}
-	AND
+		AND
 		memorandum_list_seq = #{memorandumListSeq}
-</delete>
+	</delete>
 
-<delete id="deleteTruckManifast" parameterType="Integer">
-	DELETE FROM
+	<delete id="deleteTruckManifast" parameterType="Integer">
+		DELETE FROM
 		truck_manifast
-	WHERE
+		WHERE
 		seq = #{seq}
-</delete>
+	</delete>
 
-<delete id="mergeGblWeightCertificate" parameterType="GBL">
-	DELETE FROM
+	<delete id="mergeGblWeightCertificate" parameterType="GBL">
+		DELETE FROM
 		weight_certificate
-	WHERE
+		WHERE
 		gbl_seq in (select seq from gbl where no like CONCAT(#{no}, '-sub%'))
-</delete>
+	</delete>
 
-<delete id="mergeGblStatus" parameterType="GBL">
-	DELETE FROM
+	<delete id="mergeGblStatus" parameterType="GBL">
+		DELETE FROM
 		gbl_status
-	WHERE
-		gbl_no like CONCAT(#{no}, '-sub%')		
-</delete>
+		WHERE
+		gbl_no like CONCAT(#{no}, '-sub%')
+	</delete>
 
-<delete id="mergeGbl" parameterType="GBL">
-	DELETE FROM
+	<delete id="mergeGbl" parameterType="GBL">
+		DELETE FROM
 		gbl
-	WHERE
+		WHERE
 		no like CONCAT(#{no}, '-sub%')
-</delete>
+	</delete>
 
-<!-- House -->
+	<!-- House -->
 
-<select id="getHouseGblList" parameterType="OutboundFilter" resultMap="GblMap">
-	SELECT 
+	<select id="getHouseGblList" parameterType="OutboundFilter"
+		resultMap="GblMap">
+		SELECT
 		gt.*, a.cuft, pcs, house_check
-	FROM 
+		FROM
 		(SELECT
-			g.no, w.house_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs 
+		g.no, w.house_check, SUM(w.cuft) AS cuft, COUNT(w.piece) AS pcs
 		FROM gbl g, weight_certificate w
 		WHERE g.seq = w.gbl_seq
-		AND w.house_check &lt;&gt; 1
+		AND w.house_check
+		&lt;&gt; 1
 		<if test="truckManifastFlag == false">
 			AND g.no NOT LIKE '%-sub%'
 		</if>
 		<if test="houseBlFlag == false">
 			AND
-				g.no NOT LIKE '%-house%'
+			g.no NOT LIKE '%-house%'
 		</if>
 		<if test="houseBlFlag == true">
 			AND g.house_seperate_flag &lt;&gt; true
 		</if>
 		AND g.seq IN (
-			SELECT
-				seq
-			FROM
-				gbl g1, gbl_status g2
-			WHERE
-				g1.no = g2.gbl_no
-			AND
-				g2.gbl_preperation = TRUE
-			
-		)		
+		SELECT
+		seq
+		FROM
+		gbl g1, gbl_status g2
+		WHERE
+		g1.no = g2.gbl_no
+		AND
+		g2.gbl_preperation = TRUE
+
+		)
 		GROUP BY g.no, w.house_check
 		) a, gbl gt
-	WHERE
+		WHERE
 		gt.no = a.no
-	ORDER BY
+		ORDER BY
 		gt.seq
-</select>
+	</select>
 
-<update id="setHouseSeperatedFlag" parameterType="GBL">
-	UPDATE
+	<update id="setHouseSeperatedFlag" parameterType="GBL">
+		UPDATE
 		gbl
-	SET
+		SET
 		house_seperate_flag = false
-	WHERE
+		WHERE
 		no = #{no}
-</update>
+	</update>
 
-<delete id="houseMergeGblWeightCertificate" parameterType="GBL">
-	DELETE FROM
+	<delete id="houseMergeGblWeightCertificate" parameterType="GBL">
+		DELETE FROM
 		weight_certificate
-	WHERE
-		gbl_seq in (select seq from gbl where no like CONCAT(#{no}, '-house%'))
-</delete>
+		WHERE
+		gbl_seq in (select seq from gbl where no like CONCAT(#{no},
+		'-house%'))
+	</delete>
 
-<delete id="houseMergeGblStatus" parameterType="GBL">
-	DELETE FROM
+	<delete id="houseMergeGblStatus" parameterType="GBL">
+		DELETE FROM
 		gbl_status
-	WHERE
-		gbl_no like CONCAT(#{no}, '-house%')		
-</delete>
+		WHERE
+		gbl_no like CONCAT(#{no}, '-house%')
+	</delete>
 
-<delete id="houseMergeGbl" parameterType="GBL">
-	DELETE FROM
+	<delete id="houseMergeGbl" parameterType="GBL">
+		DELETE FROM
 		gbl
-	WHERE
+		WHERE
 		no like CONCAT(#{no}, '-house%')
-</delete>
+	</delete>
 
-<insert id="insertHouse" parameterType="House">
-	INSERT INTO
+	<insert id="insertHouse" parameterType="House">
+		INSERT INTO
 		house
 		(
-			contNo, sealNo, carrierBookingNo
+		contNo, sealNo, carrierBookingNo
 		)
-	VALUES
+		VALUES
 		(
-			#{contNo}, #{sealNo}, #{carrierBookingNo}
+		#{contNo}, #{sealNo}, #{carrierBookingNo}
 		)
-	<selectKey resultType="Integer" keyProperty="seq">
-		SELECT LAST_INSERT_ID() 
-	</selectKey>
-</insert>
+		<selectKey resultType="Integer" keyProperty="seq">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
 
-<select id="getHouseList" parameterType="OutboundFilter" resultType="House">
-	SELECT
-	*
-	from
-	(
+	<select id="getHouseList" parameterType="OutboundFilter"
+		resultType="House">
 		SELECT
-		(@rownum := @rownum + 1) AS rownum, seq, contNo, sealNo, consignee, vessel, voyageNo
+		*
+		from
+		(
+		SELECT
+		(@rownum := @rownum + 1) AS rownum, seq, contNo, sealNo,
+		consignee, vessel, voyageNo
 		FROM
-			house,(SELECT @rownum := 0) r
+		house,(SELECT @rownum := 0) r
 		order by
-			house.seq desc
-	)u
-	WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
-</select>
+		house.seq desc
+		)u
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND
+		#{pagination.itemSeqEnd}
+	</select>
 
-<update id="deleteUpdateHouseWeight" parameterType="Integer">
-	UPDATE
+	<update id="deleteUpdateHouseWeight" parameterType="Integer">
+		UPDATE
 		weight_certificate
-	SET
+		SET
 		house_check = 0
-	WHERE
+		WHERE
 		house_seq = #{value}
-</update>
+	</update>
 
-<delete id="deleteHouse" parameterType="Integer">
-	DELETE FROM
+	<delete id="deleteHouse" parameterType="Integer">
+		DELETE FROM
 		house
-	WHERE
+		WHERE
 		seq = #{value}
-</delete>
+	</delete>
 
-<select id="getGblListHouse" parameterType="Integer" resultMap="GblMap">	
-	SELECT
-		g.no, 
+	<select id="getGblListHouse" parameterType="Integer" resultMap="GblMap">
+		SELECT
+		g.no,
 		g.seq,
-		g.customer_name, 
-		g.rank, 
-		g.code, 
-		g.scac, 
-		g.origin_gblock, 
-		g.dest_gblock, 
-		g.pud, 
-		g.ssn, 
-		g.rdd, 
-		g.pod, 
-		g.poe, 
-		g.area, 
-		g.origin_address, 
-		g.us_no, 
-		g.dest_port, 
-		g.origin_port, 
-		g.vessel, 
+		g.customer_name,
+		g.rank,
+		g.code,
+		g.scac,
+		g.origin_gblock,
+		g.dest_gblock,
+		g.pud,
+		g.ssn,
+		g.rdd,
+		g.pod,
+		g.poe,
+		g.area,
+		g.origin_address,
+		g.us_no,
+		g.dest_port,
+		g.origin_port,
+		g.vessel,
 		g.consol_company,
-		g.hb_booking_no,  
+		g.hb_booking_no,
 		g.container_no,
-		g.clp_no, 
-		g.seal_no, 
+		g.clp_no,
+		g.seal_no,
 		g.dest_state,
-		g.export,  
+		g.export,
 		g.mil_svc,
 		g.etd,
 		g.eta,
 		g.bl_no,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE ''
+		END AS pcs,
 		g.lbs,
-		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft,
+		CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END
+		AS cuft,
 		CASE WHEN(gwc.seq = g.seq) THEN gwc.net ELSE '' END AS net,
 		g.house_vessel,
 		g.house_voyage,
 		g.house_company,
 		g.house_consignee
-	FROM
+		FROM
 		gbl g
 		LEFT OUTER JOIN
 		(
 		SELECT
-			gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft, SUM(wc.net) AS net
+		gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft,
+		SUM(wc.net) AS net
 		FROM
-			gbl gt
+		gbl gt
 		JOIN
-			weight_certificate wc ON (wc.gbl_seq = gt.seq)
+		weight_certificate wc ON (wc.gbl_seq = gt.seq)
 		GROUP BY
-			gt.seq
+		gt.seq
 		) gwc
 		ON (gwc.seq = g.seq)
-	WHERE
+		WHERE
 		g.house_seq = #{value}
-</select>
+	</select>
 
-<select id="getHouse" parameterType="Integer" resultType="House">
-	SELECT
+	<select id="getHouse" parameterType="Integer" resultType="House">
+		SELECT
 		seq, contNo, sealNo, consignee, vessel, voyageNo, carrierBookingNo
-	FROM
+		FROM
 		house
-	WHERE
+		WHERE
 		seq = #{value}
-</select>
+	</select>
 
-<delete id="deleteGblStatus" parameterType="Integer">
-	DELETE FROM
+	<delete id="deleteGblStatus" parameterType="Integer">
+		DELETE FROM
 		gbl_status
-	WHERE
+		WHERE
 		gbl_no in (select no from gbl where seq = #{value})
-</delete>
+	</delete>
 
-<select id="getTcmdContentGblListByGblSeq" parameterType="Integer" resultType="Integer">
-	SELECT
+	<select id="getTcmdContentGblListByGblSeq" parameterType="Integer"
+		resultType="Integer">
+		SELECT
 		DISTINCT tcmd_seq
-	FROM
+		FROM
 		tcmd_gbl_list
-	WHERE
+		WHERE
 		gbl_seq = #{value}
-</select>
+	</select>
 
-<delete id="deleteTcmd" parameterType="Integer">
-	DELETE FROM
+	<delete id="deleteTcmd" parameterType="Integer">
+		DELETE FROM
 		tcmd
-	WHERE
+		WHERE
 		seq = #{value}
-</delete>
+	</delete>
 </mapper>

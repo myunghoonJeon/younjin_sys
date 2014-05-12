@@ -6,6 +6,15 @@ public class OnHandList {
 	private String firstArrivalableDeliverDate;
 	private String writeDate;
 	private OnHandListContent onHandListContent;
+	private String ShipperList;
+	
+	public String getShipperList() {
+		return ShipperList;
+	}
+
+	public void setShipperList(String shipperList) {
+		ShipperList = shipperList;
+	}
 
 	public Integer getSeq() {
 		return seq;

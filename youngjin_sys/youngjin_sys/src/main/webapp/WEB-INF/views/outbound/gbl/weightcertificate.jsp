@@ -98,7 +98,7 @@
 						<li class="weightcertificate_column4"><input type="text" value="${gbl.rdd }" /></li>
 					</ul>
 				</div>
-				<div class="weightcertificate_table_wrap" data-count="${fn:length(weightcertificateList) eq 0 ? 0 : fn:length(weightcertificateList) }">
+				<div class="weightcertificate_table_wrap" code="${gbl.code }"data-count="${fn:length(weightcertificateList) eq 0 ? 0 : fn:length(weightcertificateList) }">
 					<form id="weightcertificate_form" name="weightcertificate_form">
 						<table>
 							<colgroup>
@@ -146,10 +146,9 @@
 									<c:set var="totalCuft" value="${totalCuft + weightcertificate.cuft }" />
 									<tr data-weightSeq="${weightcertificate.seq }">	
 										<td class="piece_td"><input name="piece" type="text" value="${weightcertificate.piece }" /></td>
-										<td class="type_td"><input name="type" type="text" value="${weightcertificate.type }"/></td>
+										<td class="type_td"><input name="type" type="text" style="font-size:9pt;"value="${weightcertificate.type }"/></td>
 										<td class="status_td">
-											<select name="status">
-												<option value=""></option>
+											<select class="select_status" name="status">
 												<c:forEach var="container" items="${containerList }">
 													<option data-count="${container.count }" value="${container.status }" ${weightcertificate.status eq container.status ? 'selected=selected' : ''}>${container.status }</option>																											
 												</c:forEach>
@@ -159,7 +158,7 @@
 										<td class="gross_td"><input name="grossKg" type="text" value="${weightcertificate.grossKg }" readonly="readonly" /></td>
 										<td class="tare_td"><input name="tare" type="text" value="${weightcertificate.tare }" /></td>
 										<td class="net_td"><input name="net" type="text" value="${weightcertificate.net }"/></td>
-										<td class="cuft_td"><input name="cuft" type="text" value="${weightcertificate.cuft }" /></td>
+										<td class="cuft_td" ><input code-seq="${gbl.code }" name="cuft" type="text" value="${weightcertificate.cuft }" /></td>
 										<td class="remark_td"><input name="remark" type="text" value="${weightcertificate.remark }"/></td>
 										<td class="gbl_delete_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_delete_Box"></div></td>
 										<c:if test="${fn:length(weightcertificateList) ==  i.count}">

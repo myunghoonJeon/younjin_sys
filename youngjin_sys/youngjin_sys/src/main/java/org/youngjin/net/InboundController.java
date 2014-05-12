@@ -432,11 +432,28 @@ public class InboundController {
 		user.setSubProcess("onHandList");
 		inboundFilter.getPagination().setNumItems(
 				inboundService.getOnHandListCount(inboundFilter));
-
-		model.addAttribute("onHandList",
-				inboundService.getOnHandList(inboundFilter));
+		List<OnHandList> onhandlist = inboundService.getOnHandList(inboundFilter);
+		
+		
+		for(int i=0;i<onhandlist.size();i++){
+			String shipperList="[";
+			List<String> list = inboundService.getOnhandListCustomerList(onhandlist.get(i).getSeq());
+			for(int k=0;k<list.size();k++){
+				shipperList += list.get(k);
+				if(k!=(list.size()-1)){
+					shipperList+="][";
+				}
+				else{
+					shipperList+="]";
+				}
+			}
+			onhandlist.get(i).setShipperList(shipperList);
+		}
+		for(int i=0;i<onhandlist.size();i++){
+			System.out.println(onhandlist.get(i).getShipperList());
+		}
+		model.addAttribute("onHandList",onhandlist);
 		model.addAttribute("user", user);
-
 		return process + "/onHand/onHandList";
 	}
 
@@ -541,6 +558,7 @@ public class InboundController {
 		OnhandSum os = new OnhandSum();
 		System.out.println("input Seq : "+seq);
 		ohlList = inboundService.getOnHandListContentListForm(seq);
+		int flag=0;
 		for(OnHandList ohl : ohlList){
 			int tempSeq = ohl.getOnHandListContent().getSeq();
 			System.out.println("ONHAND LIST SEQ : " +tempSeq);
@@ -550,8 +568,8 @@ public class InboundController {
 			System.out.println("net   : "+os.getSumNet());
 			System.out.println("cuft  : "+os.getSumCuft());
 			ohl.getOnHandListContent().setOs(os);
+			
 		}
-		
 		model.addAttribute("onHandListSeq", seq);
 		model.addAttribute("onHandListContentList",ohlList);
 		return process + "/onHand/onHandListForm";

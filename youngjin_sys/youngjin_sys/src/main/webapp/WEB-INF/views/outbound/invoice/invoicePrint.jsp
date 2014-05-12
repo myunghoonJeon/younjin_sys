@@ -8,6 +8,13 @@
 <!DOCTYPE html>
 <HTML>
 <style>
+	#in_td{
+		border : thin;
+		border-style: solid;
+		text-align: center;
+		font-family: arial;
+		font-size: 10pt;
+	}
 	#title{
 		text-align: center;
 		font-size: 19pt;
@@ -36,23 +43,20 @@
 		font-size: 14pt;
 	}
 	#to{
-		width:9cm;
-		height:2.5cm;
+		 height: 2.5cm; vertical-align: text-top; font-weight: bold;
+		font-size: 10pt;
+		font-family:arial;
 	}
 	#totd{
 		width:1cm; height: 2.5cm; vertical-align: text-top; font-weight: bold;
-		font-size: 10pt;
+		font-size: 9pt;
+		font-family:arial;
 	}
-	#date,#invoiceno{
+	#date,#invoiceno,#code{
 		font-size: 9pt;
 		font-weight: bold;
 		vertical-align: text-top;
-	}
-	#code{
-		font-size: 9pt;
-		font-weight: bold;
-		vertical-align: text-top;
-		padding-top: 0.5cm;
+		font-family:arial;
 	}
 	
 	#test tr td{
@@ -113,7 +117,7 @@
 	<link rel="stylesheet" href="${cp }/resources/css/common.css">
 </HEAD>
 <BODY onload="window.print();">
-	<div style="height: 1000px;">
+	<div>
 		<table border="0" align="center" style="width: 17cm" cellspacing="0">
 			<tr>
 				<td id='title'colspan="4">YOUNJIN TRADE & TRANSPORTATION, Co., LTD</td>
@@ -164,9 +168,9 @@
 					<td>${invoiceGbl.gblNo }</td>
 					<td>${invoiceGbl.rank }</td>
 					<td>${invoiceGbl.name }</td>
+					<td><fmt:formatNumber value="${i.count }"/></td>
 					<td>${i.count }</td>
-					<td>${i.count }</td>
-					<td>${invoiceGbl.amount }</td>
+					<td><fmt:formatNumber value="${invoiceGbl.amount }"/></td>
 				</tr>
 			</c:forEach>
 			<tr>	
@@ -179,10 +183,14 @@
 			</tr>
 		</table>
 	</div>
+
+	<div style="page-break-after: always"></div>
+	
 	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
+	<center>
 		<div style="padding-top: 1cm;">			
 			<div>
-				<table class="invoice_gbl_title_print_table" border="0" style="border:thin; border-style: solid;"><!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
+				<table style="border: thin; border-style: solid; width: 600px; font-family: arial; font-size: 10pt;"><!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 					<tr>
 						<td >TSP : ${invoice.tsp }</td>
 						<td >IN/OUT : FROM KOREA</td>
@@ -194,28 +202,31 @@
 						<td >NAME : ${invoiceGbl.name }</td>
 					</tr>
 				</table>
-				<table class="invoice_gbl_content_print_table" cellspacing="0">
-					<tr>
-						<td class="in_td" style="font-weight: bolder;">
+				<div style="padding-bottom: 20px;">
+				</div>
+				<table cellspacing="0" style="width:600px; border: thin; margin:5px; padding-bottom: 30px;">
+					<tr >
+						<td id="in_td" style="font-weight: bold;">
 							<strong>CHARGING ITEMS</strong>
 						</td>
-						<td class="in_td" style="font-weight: bolder;">
+						<td id="in_td" style="font-weight: bold;">
 							<strong>QUANTITY</strong>
 						</td>
-						<td class="in_td" style="font-weight: bolder;">
+						<td id="in_td" style="font-weight: bold;">
 							<strong>AMOUNTS</strong>
 						</td>
 					</tr> 
 					<c:forEach var="invoiceGblContent" items="${invoiceGblContentMap[invoiceGbl.seq] }">
-						<tr>
-							<td class="in_td">${invoiceGblContent.chargingItem }</td>
-							<td class="in_td">${invoiceGblContent.quantity }</td>
-							<td class="in_td">${invoiceGblContent.amount }</td>
+						<tr style="border-bottom: solid; border: solid;">
+							<td id="in_td">${invoiceGblContent.chargingItem }</td>
+							<td id="in_td">${invoiceGblContent.quantity }</td>
+							<td id="in_td"><fmt:formatNumber value="${invoiceGblContent.amount }"/></td>
 						</tr>
 					</c:forEach>
 				</table>
 			</div>
 		</div>	
+		</center>
 	</c:forEach>
 	<!-- 
 	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">

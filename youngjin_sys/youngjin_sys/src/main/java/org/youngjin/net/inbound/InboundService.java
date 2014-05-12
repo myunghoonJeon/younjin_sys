@@ -122,7 +122,7 @@ public class InboundService {
 		
 		return checkMap;
 	}
-
+	
 	public void insertWeightAdd(WeightIb weightIb) {
 		String [] pcs = weightIb.getPiece().split(",");
 
@@ -484,7 +484,7 @@ public class InboundService {
 		
 		return onHandInvoiceList;
 	}
-
+	
 	public int getOnHandListCount(InboundFilter inboundFilter) {
 		return inboundDao.getOnHandListCount(inboundFilter);
 	}
@@ -495,7 +495,9 @@ public class InboundService {
 	public List<OnHandList> getOnHandList(InboundFilter inboundFilter) {
 		return inboundDao.getOnHandList(inboundFilter);
 	}
-
+	public List<String> getOnhandListCustomerList(int seq){
+		return inboundDao.getOnhandListCustomerList(seq);
+	}
 	public List<GBL> getOnHandGBLList(InboundFilter inboundFilter) {
 		return inboundDao.getOnHandGBLList(inboundFilter);
 	}

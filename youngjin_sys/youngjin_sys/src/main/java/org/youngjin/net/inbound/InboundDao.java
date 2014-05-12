@@ -233,7 +233,9 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public List<InboundInvoice> getInboundInvoiceOnHandList() {
 		return getSqlSession().selectList("inboundMapper.getInboundInvoiceOnHandList");
 	}
-	
+	public List<String> getOnhandListCustomerList(Integer seq){
+		return getSqlSession().selectList("inboundMapper.getOnhandListCustomerList", seq);
+	}
 	public List<InboundInvoice> getOnHandInvoiceListAlreadyInsert(Integer seq) {
 		return getSqlSession().selectList("inboundMapper.getOnHandInvoiceListAlreadyInsert", seq);
 	}

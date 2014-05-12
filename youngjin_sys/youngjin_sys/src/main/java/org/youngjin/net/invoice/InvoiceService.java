@@ -515,7 +515,7 @@ public class InvoiceService {
 
 		List<InvoiceGblContent> invoiceGblContentList = new ArrayList<InvoiceGblContent>();
 
-		if (process.equals("outbound")) {//====outbound==================================================================================================BEGIN OUTBOUND
+		if (process.equals("outbound")){//====outbound==================================================================================================BEGIN OUTBOUND
 			Double totalAmount = 0.0;
 
 			Integer checkInvoiceGblContentCount = invoiceDao
@@ -542,91 +542,165 @@ public class InvoiceService {
 					|| gbl.getCode().equals("7")) {
 				codeStr = "UB";
 			}
-			System.out.println("[ gbl SEQ : "+gbl.getSeq()+" ]");
+			System.out.println("[[[[[[ BEGIN GBL SEQ : "+gbl.getSeq()+" INVOICE ]]]]]]");
 			List<Weightcertificate> weightcertificateList = outboundDao
 					.getWeightcertificateList(gbl.getSeq().toString());
-
-			for (Weightcertificate weightcertificate : weightcertificateList) {
+			int type2Count=0;
+			int overFlowCount=0;
+			int countFlag=0;
+			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			for(Weightcertificate weightcertificate : weightcertificateList){
+				
 				if ("HHG".equals(codeStr)) {
-					gblWeight = Double.parseDouble(weightcertificate.getNet());
-					
-					rate.setObType(weightcertificate.getType());
+					gblWeight = Double.parseDouble(weightcertificate.getNet());//NET을 저장하고 
+					rate.setObType(weightcertificate.getType());/////////////그때그때 레이트에 맞는 타입을 설정한다.
 					System.out.println(" =================[ HHG : "+gblWeight+" ] [ TYPE : "+weightcertificate.getType()+" ] =================");
-//					if (gblWeight < 500) {
-//						gblWeight = 500.0;
-//					}
 				} else if ("UB".equals(codeStr)) {
-					gblWeight = Double
-							.parseDouble(weightcertificate.getGross());
+					gblWeight = Double.parseDouble(weightcertificate.getGross());
 					System.out.println(" =================[ UB : "+gblWeight+" ] [ TYPE : "+weightcertificate.getType()+" ] =================");
-//					if (gblWeight < 300) {
-//						gblWeight = 300.0;
-//					}
 				}
+				
 				rate.setCode(gbl.getCode());
 				rate.setTsp(gbl.getScac());
 				rate.setProcess(process.toUpperCase());
 				rate.setWriteYear(gbl.getPud());
-				Rate gblRate = invoiceDao.getBasicRate(rate);
-			
-				if("HHG".equals(codeStr)){
+				Rate gblRate = invoiceDao.getBasicRate(rate); // rate 기간에 맞게 가져왔나 모르겠지만 어쨌던 그때그때 해당되는 비율을 계속 가져온다.
+				if(codeStr.equals("HHG")){//USING NET
+					
 					if(rate.getObType().equals("typeII")){
+						System.out.println("[[[[[[[[[ TYPE II CALCURATE ]]]]]]]");
+						type2Count++;
 						typeIIWeight += gblWeight;
-						typeIICharge += gblWeight * gblRate.getRate();
-					} else if (rate.getObType().equals("O/F")){
+						typeIICharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
+						typeIICharge = getRoundResult(typeIICharge);//2자리 반올림
+					} else if (rate.getObType().equals("O/F") || rate.getObType().equals("woden") || rate.getObType().equals("ctn")|| rate.getObType().equals("WODEN")|| rate.getObType().equals("CTN")){
+						System.out.println("[[[[[[[[[ O/F CALCURATE ]]]]]]]");
+						overFlowCount++;
 						overFlowWeight += gblWeight;
-						overFlowCharge += gblWeight * gblRate.getRate();						
+						overFlowCharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
+						overFlowCharge = getRoundResult(overFlowCharge);//2자리 반올림 
 					}
+					else{
+						System.out.println("[[[[[[[[[[ NONE TYPE CALCURATE ]]]]]]]]");
+						System.out.println("[[[[[[[[[[ CUFT : "+weightcertificate.getCuft()+"]]]]]]");
+						System.out.println("[[[[[[[[[[ NO SELECT STATUS]]]]]]]]]]]]");
+						if(Integer.parseInt(weightcertificate.getCuft()) >= 180){
+							System.out.println("[[[[[[[[[ O/F CALCURATE ]]]]]]]");
+							overFlowCount++;
+							overFlowWeight += gblWeight;
+							overFlowCharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
+							overFlowCharge = getRoundResult(overFlowCharge);//2자리 반올림
+						}
+					}
+					
+					//PACKING CHARGE CALRURATE after weight roof
 					packingCharge = overFlowCharge + typeIICharge;
+					packingCharge = getRoundResult(packingCharge);
 					System.out.println("==================[ CALCURATE HHG PACKING CHARGE : "+packingCharge+" ]============");
-				} else {
-					packingCharge += gblWeight * gblRate.getRate();
+				}//HHG 
+				else if(codeStr.equals("UB")){ 
+					packingCharge += (gblWeight/100) * gblRate.getRate();
+					packingCharge = getRoundResult(packingCharge);
 					System.out.println("==================[ CALCURATE UB PACKING CHARGE : "+packingCharge+" ]============");
-				}
+				}//UB
 				totalGblWeight += gblWeight;
-			}
+				countFlag ++;
+				
+				if(countFlag == weightcertificateList.size()){//ROOF 의 마지막이면 무조건 검사
+					System.out.println("[[[[[[[[[[[[[[[[[최종 무게 확인 TYPE II : "+typeIIWeight+" LBS ]]]]]]]]]]]]]]]]]");
+					System.out.println("[[[[[[[[[[[[[[[[[최종 무게 확인 OVER FL : "+overFlowWeight+" LBS ]]]]]]]]]]]]]]]]]");
+					System.out.println("[[[[[[[[[[[[[[[[[최종 무게 확인 TOTAL W : "+totalGblWeight+" LBS ]]]]]]]]]]]]]]]]]");
+					if(totalGblWeight<500.0){
+						if(codeStr.equals("HHG")){
+							if(totalGblWeight < 500.0){
+							System.out.println("[[[[[[[[[[[[[ MINIMUM WEIGHT SITUATION (HHG) UNDER 500: "+totalGblWeight+ "]]]]]]]]]]]]]]]]]]]");
+								if(typeIIWeight > overFlowWeight){
+									typeIIWeight = 500 - overFlowWeight;
+								}
+								else if(typeIIWeight == overFlowWeight){
+									overFlowWeight = 500 - typeIIWeight;
+								}
+								else if(typeIIWeight < overFlowWeight){//over weight big than typeII
+									overFlowWeight = 500 - typeIIWeight;
+								}
+								if(overFlowWeight == 0.0){
+									typeIIWeight = 500.0;
+								}
+								if(typeIIWeight == 0.0){
+									overFlowWeight = 500.0;
+								}
+								if(type2Count >0){
+									rate.setCode(gbl.getCode());
+									rate.setTsp(gbl.getScac());
+									rate.setProcess(process.toUpperCase());
+									rate.setWriteYear(gbl.getPud());
+									rate.setObType("typeII");
+									Rate minimumRate = invoiceDao.getBasicRate(rate);
+									packingCharge = (typeIIWeight/100) * rate.getRate();
+								}
+								if(overFlowCount>0){
+									rate.setCode(gbl.getCode());
+									rate.setTsp(gbl.getScac());
+									rate.setProcess(process.toUpperCase());
+									rate.setWriteYear(gbl.getPud());
+									rate.setObType("O/F");
+									Rate minimumRate = invoiceDao.getBasicRate(rate);
+									packingCharge = (overFlowWeight/100) * rate.getRate();
+								}
+							}
+						}
+						else if(codeStr.equals("UB")){
+							if(totalGblWeight <300.0){
+								System.out.println("[[[[[[[[[[[[[ MINIMUM WEIGHT SITUATION (UB) UNDER 300: "+totalGblWeight+ "]]]]]]]]]]]]]]]]]]]");
+								packingCharge = (300/100)* gblRate.getRate();
+							}
+						}
+					}//if(total weight <500.0)
+					
+				}
+			}//////////weight ROOF
 			totalAmount += packingCharge;
 			totalAmount = getRoundResult(totalAmount);
 			System.out.println("==================[ TOTAL PACKING CHARGE : "+totalAmount+" ]============");
-			Integer checkInvoiceContentGetSeq;
 			
+			Integer checkInvoiceContentGetSeq;
 			if("HHG".equals(codeStr)){
-				packingChargeContent.setChargingItem("PACKING CHARGE TYPEII");
-				packingChargeContent.setQuantity(typeIIWeight  + "LBS");
-				packingChargeContent.setAmount(typeIICharge.toString());
-				packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
-				System.out.println("==================[ Type II weight : "+typeIIWeight+" ]============");
-				invoiceGblContentList.add(packingChargeContent);
-	
-				checkInvoiceContentGetSeq = invoiceDao
-						.checkInvoiceContent(packingChargeContent);
-	
-				if (checkInvoiceContentGetSeq != null) {
-					packingChargeContent.setSeq(checkInvoiceContentGetSeq);
-					invoiceDao.updateInvoiceGblContent(packingChargeContent);
-				} else {
-					invoiceDao.insertInvoiceGblContent(packingChargeContent);
+				if(typeIIWeight >0){
+					packingChargeContent.setChargingItem("PACKING CHARGE TYPEII");
+					packingChargeContent.setQuantity(typeIIWeight  + "LBS");
+					packingChargeContent.setAmount(typeIICharge.toString());
+					packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
+					System.out.println("==================[ Type II weight : "+typeIIWeight+" ]============");
+					invoiceGblContentList.add(packingChargeContent);
+					checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(packingChargeContent);
+					
+					if (checkInvoiceContentGetSeq != null) {
+						packingChargeContent.setSeq(checkInvoiceContentGetSeq);
+						invoiceDao.updateInvoiceGblContent(packingChargeContent);
+					} else {
+						invoiceDao.insertInvoiceGblContent(packingChargeContent);
+					}
 				}
-				
-				packingChargeContent = new InvoiceGblContent();
-	
-				packingChargeContent.setChargingItem("PACKING CHARGE O/F");
-				packingChargeContent.setQuantity(overFlowWeight + "LBS");
-				packingChargeContent.setAmount(overFlowCharge.toString());
-				packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
-				System.out.println("==================[ O/F weight : "+overFlowWeight+" ]============");
-				invoiceGblContentList.add(packingChargeContent);
-	
-				Integer checkInvoiceContentGetSeq1 = invoiceDao
-						.checkInvoiceContent(packingChargeContent);
-	
-				if (checkInvoiceContentGetSeq1 != null) {
-					packingChargeContent.setSeq(checkInvoiceContentGetSeq1);
-					invoiceDao.updateInvoiceGblContent(packingChargeContent);
-				} else {
-					invoiceDao.insertInvoiceGblContent(packingChargeContent);
+				if(overFlowWeight>0){
+					packingChargeContent = new InvoiceGblContent();
+					packingChargeContent.setChargingItem("PACKING CHARGE O/F");
+					packingChargeContent.setQuantity(overFlowWeight + "LBS");
+					packingChargeContent.setAmount(overFlowCharge.toString());
+					packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
+					System.out.println("==================[ O/F weight : "+overFlowWeight+" ]============");
+					invoiceGblContentList.add(packingChargeContent);
+		
+					Integer checkInvoiceContentGetSeq1 = invoiceDao
+							.checkInvoiceContent(packingChargeContent);
+		
+					if (checkInvoiceContentGetSeq1 != null) {
+						packingChargeContent.setSeq(checkInvoiceContentGetSeq1);
+						invoiceDao.updateInvoiceGblContent(packingChargeContent);
+					} else {
+						invoiceDao.insertInvoiceGblContent(packingChargeContent);
+					}
 				}
-			} else {
+			} else {//code UB
 				packingChargeContent.setChargingItem("PACKING CHARGE");
 				packingChargeContent.setQuantity(totalGblWeight + "LBS");
 				packingChargeContent.setAmount(packingCharge.toString());
@@ -654,11 +728,11 @@ public class InvoiceService {
 			int usedUnitOverflow = 0;
 			int newUnitOverflow = 0;
 			int repairedUnitOverflow = 0;
-			Integer containerCharge = 0;
+			double containerCharge = 0;
 
 			for (Weightcertificate weightCertificate : weightcertificateList) {
 					if(weightCertificate.getType().equals("typeII")){
-						if ("NEW".equals(weightCertificate.getStatus())) {
+						if ("NEW".equals(weightCertificate.getStatus())) {/////////////////////////////// 여기다가 컨테이너 상태 선택 하는거 추가 woden , 이런거 ㅋㅋ
 							newUnitTypeII += 1;
 						} else if ("USED".equals(weightCertificate.getStatus())) {
 							usedUnitTypeII += 1;
@@ -677,7 +751,9 @@ public class InvoiceService {
 			}
 
 			Rate containerRateParam = new Rate();
+			System.out.println("[[[[[[[[[[[[[[ CONTAINER RATE SETTING ]]]]]]]]]]]]]]]]]]");
 			containerRateParam.setWriteYear(gbl.getPud());
+			System.out.println("[[[[[[[[[[[[[[ CONTAINER TSP SETTING ]]]]]]]]]]]]]]]]]]");
 			containerRateParam.setTsp(gbl.getScac());
 
 			containerRateParam.setContainerStatus("new");
@@ -689,20 +765,20 @@ public class InvoiceService {
 			containerRateParam.setContainerStatus("repair");
 			Rate repairedRate = invoiceDao.getContainerRate(containerRateParam);
 
-			int newCharge = (int) (newUnitTypeII * Double.parseDouble(newRate
-					.getContainerRate()));
-			int usedCharge = (int) (usedUnitTypeII * Double.parseDouble(usedRate
-					.getContainerRate()));
-			int repairedCharge = (int) (repairedUnitTypeII * Double
-					.parseDouble(repairedRate.getContainerRate()));
-
+			double newCharge = newUnitTypeII * Double.parseDouble(newRate.getContainerRate());
+			double usedCharge = usedUnitTypeII * Double.parseDouble(usedRate.getContainerRate());
+			double repairedCharge = repairedUnitTypeII * Double.parseDouble(repairedRate.getContainerRate());
+			System.out.println("[[[[[[[[[[[[[[[[[ CONTAINER STATUS CHARGE ]]]]]]]]]]]]]]]]]]]]]]");
+			System.out.println("[[[[[[[[[[[[[[[[[ NEW CHARGE  : "+newCharge+" - COUNT :  "+newUnitTypeII +"pcs - RATE : "+newRate.getContainerRate()+" ]]]]]]]]]]]]]]]]]]]");
+			System.out.println("[[[[[[[[[[[[[[[[[ USED CHARGE : "+usedCharge+"- COUNT :  "+usedUnitTypeII +"pcs - RATE : "+usedRate.getContainerRate()+" ]]]]]]]]]]]]]]]]]]]");
+			System.out.println("[[[[[[[[[[[[[[[[[ REPAIRED CHARGE : "+repairedCharge+"- COUNT :  "+repairedUnitTypeII +"pcs - RATE : "+repairedRate.getContainerRate()+" ]]]]]]]]]]]]]]]]]]]");
 			containerCharge += newCharge + usedCharge + repairedCharge;
-
+			containerCharge = getRoundResult(containerCharge);
 			totalAmount += containerCharge;
 
 			containerInvoiceGblContent.setChargingItem("CONTAINER TYPE II");
 			containerInvoiceGblContent.setQuantity((newUnitTypeII + usedUnitTypeII + repairedUnitTypeII) + "pcs");
-			containerInvoiceGblContent.setAmount(containerCharge.toString());
+			containerInvoiceGblContent.setAmount(containerCharge+" ");
 			containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
 
 			if(containerCharge > 0)
@@ -735,7 +811,7 @@ public class InvoiceService {
 
 			containerInvoiceGblContent.setChargingItem("CONTAINER O/F");
 			containerInvoiceGblContent.setQuantity(newUnitOverflow + usedUnitOverflow + repairedUnitOverflow + "pcs");
-			containerInvoiceGblContent.setAmount(containerCharge.toString());
+			containerInvoiceGblContent.setAmount(containerCharge + "");
 			containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
 
 			if(containerCharge > 0)

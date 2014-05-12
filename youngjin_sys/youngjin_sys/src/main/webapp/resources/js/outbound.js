@@ -321,7 +321,7 @@ youngjin.outbound.weightCertificateSync = function(){
 		var totalGrossKg = 0;
 		var totalNet = 0;
 		
-		var grossKg = 0.45359237 * Number($(this).val());
+		var grossKg = 0.45 * Number($(this).val());
 
 		$(this).parents().parents('tr').children().children('input[name=grossKg]').val(roundXL(grossKg, 2));
 		$(this).parents().parents('tr').children().children('input[name=grossKg]').attr('readonly', 'readonly');
@@ -363,19 +363,32 @@ youngjin.outbound.weightCertificateSync = function(){
 	$('.weightcertificate_table_wrap input[name=cuft]').focusout(function(){
 		var totalCuft = 0;
 		var type = '';
-
+		var status = $(this).parents().parents('tr').children().children('select[name=status]').val();
+		var code = $('.weightcertificate_table_wrap').attr('code');
 		var count = Number($('.weightcertificate_table_wrap').attr('data-count')) + 1;
 		var cuft = $(this).val();
-		if(Number(cuft) >= 0 && Number(cuft) <= 124){
-			type = 'O/F';
-		} else if(Number(cuft) >= 125 && Number(cuft) <= 179 ) {
-			type = 'O/F';
-		} else if(Number(cuft) >= 180 && Number(cuft) <= 207){
-			type = 'typeII';
+		if(code == 'J' || code == '8'){
+			if(Number(cuft) >= 180 && Number(cuft) <= 207){
+				type = 'typeII';
+			}
 		}
-		
+		else{
+			if(status == ' '){
+				if(Number(cuft) >= 180){
+					type='';
+				}
+			}
+			else{
+				if(Number(cuft) >= 0 && Number(cuft) <= 124){
+					type = 'O/F';
+				} else if(Number(cuft) >= 125 && Number(cuft) <= 179 ) {
+					type = 'O/F';
+				} else if(Number(cuft) >= 180 && Number(cuft) <= 207){
+					type = 'typeII';
+				}
+			}
+		}
 		$(this).parents().parents('tr').children().children('input[name=type]').val(type);
-		$(this).parents().parents('tr').children().children('input[name=type]').attr('readonly', 'readonly');
 		
 		for( var i = 0 ; i < count ; i ++ ){
 			totalCuft += Number(($('input[name="cuft"]').eq(i).val() == undefined) ? '0' : $('input[name="cuft"]').eq(i).val() );
@@ -388,6 +401,8 @@ youngjin.outbound.weightCertificateSync = function(){
 	$('.weightcertificate_write').bind('click', function(){
 		youngjin.outbound.weightCertificateSubmit($(this));
 	});
+	
+	
 	
 	$('.weightcertificate_print').unbind('click');
 	$('.weightcertificate_print').bind('click', function(){

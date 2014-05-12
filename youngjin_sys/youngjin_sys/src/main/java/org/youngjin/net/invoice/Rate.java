@@ -117,8 +117,9 @@ public class Rate {
 		return writeYear;
 	}
 
-	public void setWriteYear(String writeYear) {
-		this.writeYear = writeYear;
+	public void setWriteYear(String wy) {
+		System.out.println("[[[[[[[[[[[[setWriteYear : "+wy+"]]]]]]]]]]]]]");
+		this.writeYear = wy;
 	}
 
 	@Override

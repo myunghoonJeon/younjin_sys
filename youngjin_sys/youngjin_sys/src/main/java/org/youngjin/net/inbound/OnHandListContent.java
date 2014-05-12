@@ -13,7 +13,8 @@ public class OnHandListContent {
 	private String by;
 	private OnhandSum os;
 	private OnHandListContentWeight onHandListContentWeight;
-
+	private GBL gbl;
+	
 	public OnhandSum getOs() {
 		return os;
 	}
@@ -24,7 +25,7 @@ public class OnHandListContent {
 
 	private WeightIb weight;
 
-	private GBL gbl;
+	
 
 	public Integer getSeq() {
 		return seq;

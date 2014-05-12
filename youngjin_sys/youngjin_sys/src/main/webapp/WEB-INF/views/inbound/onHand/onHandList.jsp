@@ -44,7 +44,7 @@
 		<table class="yj_table on_hand_list_table">
 			<tfoot>
 				<tr>
-					<td colspan="13">
+					<td colspan="5">
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
@@ -62,16 +62,17 @@
 			</tfoot>
 			<thead>
 				<tr>
-					<th>NO</th>
-					<th>ON HAND DATE</th>
-					<th>FIRST ARRIVALABLE DELIVER DATE</th>
-					<th></th>
+					<th style="width:5%">NO</th>
+					<th style="width:20%">ON HAND DATE</th>
+					<th style="width:20%">FIRST ARRIVALABLE DELIVER DATE</th>
+					<th style="width:50%">CUSTOMER LIST</th>
+					<th style="width:5"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:if test="${onHandList eq '[]' or onHandList eq null or onHandList eq '' }">
 					<tr>
-						<td colspan="14">onHandList 가 없습니다.</td>
+						<td colspan="5">onHandList 가 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="onHand" items="${onHandList }" varStatus="i">
@@ -79,6 +80,7 @@
 						<td>${i.count }</td>
 						<td>${onHand.onHandDate }</td>
 						<td>${onHand.firstArrivalableDeliverDate }</td>
+						<td>${onHand.ShipperList }</td>
 						<td><img class="on_hand_list_delete" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>
