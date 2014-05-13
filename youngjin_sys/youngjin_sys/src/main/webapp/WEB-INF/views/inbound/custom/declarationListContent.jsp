@@ -40,12 +40,29 @@ p {
 	word-break: break-all;	
 }
 .title{
-	font: bold 13pt 굴림;
+	font-size: 15pt;
+	font-family:arial;
+	font-weight:bold;
 	text-align: center;
 }
 .tdHead{
+	text-align:center;
+	font-size:12pt;
+	font-family:arial;
+	font-weight:bold;
 	border-top: 1px solid #000000;
 	border-bottom: 1px solid #000000;
+}
+.aa{
+	font-size:12pt;
+	font-family:arial;
+	font-weight:bold;
+}
+.b{
+	text-align:center;
+	font-size:9pt;
+	font-family:arial;
+	font-weight:bold;
 }
 .tdTail{
 	border-bottom: 1px solid #000000;
@@ -88,8 +105,8 @@ td{
 			<td colspan="7"><p class="title">DECLEARATION LIST FOR IMPORT</p></td>
 		</tr>
 		<tr>
-			<td colspan="4">YOUNGJIN T & T CO., LTD.</td>
-			<td colspan="3">${ fn:substring(date, 0, 4)}년 ${fn:substring(date, 4, 6)}월 ${fn:substring(date, 6, 8)}일</td>
+			<td class="aa" colspan="4">YOUNGJIN T & T CO., LTD.</td>
+			<td class="aa" colspan="3">${ fn:substring(date, 0, 4)}년 ${fn:substring(date, 4, 6)}월 ${fn:substring(date, 6, 8)}일</td>
 		</tr>
 		<tr>
 		<td class="tdHead">NO</td>
@@ -102,13 +119,13 @@ td{
 		</tr>
 		<c:forEach var="inboundInvoice" items="${inboundInvoiceList}" varStatus="i">
 			<tr>
-				<td >${i.count }</td>
-				<td >${inboundInvoice.rank }</td>
-				<td >${inboundInvoice.name }</td>
-				<td >${inboundInvoice.gblNo }</td>
-				<td >XXX-XX-${fn:substring(inboundInvoice.ssn, 5, 9) }</td>
-				<td >${inboundInvoice.oblNo }</td>
-				<td >${inboundInvoice.vessle }</td>
+				<td class="b">${i.count }</td>
+				<td class="b">${inboundInvoice.rank }</td>
+				<td class="b">${inboundInvoice.name }</td>
+				<td class="b">${inboundInvoice.gblNo }</td>
+				<td class="b">XXX-XX-${fn:substring(inboundInvoice.ssn, 5, 9) }</td>
+				<td class="b">${inboundInvoice.oblNo }</td>
+				<td class="b">${inboundInvoice.vessle }</td>
 			</tr>
 		</c:forEach>
 	</table>

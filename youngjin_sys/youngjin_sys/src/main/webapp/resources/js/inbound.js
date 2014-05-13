@@ -1818,6 +1818,7 @@ youngjin.inbound.onHandContentSelect = function(target){
 	var url = contextPath +'/inbound/onHand/checkOnHandListContentWeight.json';
 	
 	if(target.find('.on_hand_list_content_select_check').attr('checked') != 'checked'){
+		
 		$.postJSON(url, {'seq' : onHandListContentSeq }, function(data){
 			return jQuery.ajax({
 				success : function(){

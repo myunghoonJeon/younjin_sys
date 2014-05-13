@@ -942,16 +942,18 @@
 	<select id="getBookingListOne" parameterType="Integer"
 		resultMap="BookingListMap">
 		SELECT
-		seq,
-		memo,
-		remark,
-		write_date,
-		yjCount,
-		yjnInput
+			seq,
+			memo,
+			remark,
+			write_date,
+			yjCount,
+			yjnInput,
+			yjnInput2,
+			cfs
 		FROM
-		booking_list
+			booking_list
 		WHERE
-		seq = #{seq}
+			seq = #{seq}
 	</select>
 
 	<select id="getBookingListPrint" parameterType="Integer"
@@ -1652,6 +1654,12 @@
 		SET
 		<if test="column == 'yjn'">
 			yjnInput = #{value}
+		</if>
+		<if test="column == 'yjn2'">
+			yjnInput2 = #{value}
+		</if>
+		<if test="column == 'cfs'">
+			cfs = #{value}
 		</if>
 		<if test="column == 'remark'">
 			remark = #{value}

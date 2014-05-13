@@ -216,7 +216,7 @@
                 		'value' : value
                 	};
                 	var url = contextPath + '/outbound/bookinglistUpdate.json';
-              	
+                	
                 	$.postJSON(url, json, function(){
                 		return jQuery.ajax({
                 			success : function(){
@@ -228,12 +228,54 @@
                 	});
             }
         );
-        
+        $("#yjnInput2").focusout(function (event) {
+        	var bookSeq = $("#bookSeq").attr('data-seq');
+        	var column = $("#yjnInput2").attr('name');
+        	var value = $("#yjnInput2").val();
+        	var json = {
+            		'bookSeq' : bookSeq,
+            		'column' : column,
+            		'value' : value
+            	};
+            	var url = contextPath + '/outbound/bookinglistUpdate.json';
+            	
+            	$.postJSON(url, json, function(){
+            		return jQuery.ajax({
+            			success : function(){
+            			},
+            			error : function(){
+            			
+            			}
+            		});
+            	});
+        }
+    	);
+        $("#cfs").focusout(function (event) {
+        	var bookSeq = $("#bookSeq").attr('data-seq');
+        	var column = $("#cfs").attr('name');
+        	var value = $("#cfs").val();
+        	var json = {
+            		'bookSeq' : bookSeq,
+            		'column' : column,
+            		'value' : value
+            	};
+            	var url = contextPath + '/outbound/bookinglistUpdate.json';
+            	
+            	$.postJSON(url, json, function(){
+            		return jQuery.ajax({
+            			success : function(){
+            			},
+            			error : function(){
+            			
+            			}
+            		});
+            	});
+        }
+    	);
         $("#remark").focusout(function (event) {
         	var bookSeq = $("#bookSeq").attr('data-seq');
-        	var column = 'remark';
+        	var column = $("#remark").attr('name');
         	var value = $("#remark").val();
-
         	var json = {
             		'bookSeq' : bookSeq,
             		'column' : column,
@@ -245,12 +287,13 @@
             			success : function(){
             			},
             			error : function(){
-            				alert('에러 발생');
+            				
             			}
             		});
             	});
         }
-    );
+   		);
+        
     });
 </script>
 
@@ -266,13 +309,15 @@
 		<br>
 	</div>
 	<div>
-		<table id="booking_table_id" border = "0" cellspacing="0" width="90%" align="center">
-		<tr id="bookSeq" class="bookinglistInfo_wrap" data-seq="${bookingList.seq }">
-			<td colspan="10"><input type="text" class="po" name="yjn" id="yjnInput" style="top:40px;border:none; left:56px; width:450px; height:20px; font-size: 13pt;font-weight:bold; font-family: arial;" value="${bookingList.yjnInput }"/></td>
-		</tr>
-		<tr style=" align="center">
-			<td id='topletter' colspan="3">OF</td>
-			<td id='topletter'colspan="1">CFS</td>
+		
+		<table border="0" id="bookSeq" class="bookinglistInfo_wrap" data-seq="${bookingList.seq }" border = "0" cellspacing="0" width="90%" align="center">
+		<tr  style="" align="center" >
+			<td style="width:40px;"></td>
+			<td style="width:25px;"><input type="text" class="po" name="yjn" id="yjnInput" style="border:none; text-align:right;font-size: 10pt;font-weight:bold; font-family: arial; width:30px;" value="${bookingList.yjnInput }"/></td>
+			<td id='topletter' style="width:25px;">OF</td>
+			<td style="width:25px;"><input type="text" class="po" name="yjn2" id="yjnInput2" style="border:none; text-align:left;font-size: 10pt;font-weight:bold; font-family: arial; width:30px;" value="${bookingList.yjnInput2 }"/></td>
+			<td style="width:160px;"><input type="text" class="po" name="cfs" id="cfs" style="border:none; text-align:right;font-size: 10pt; font-family: arial;font-weight:bold; width:150px;" value="${bookingList.cfs }"/></td>
+			<td id='topletter'  style="text-align:left;width:50px;">CFS</td>
 			<td colspan="1"> </td>
 			<td colspan="1"> </td>
 			<td id='topletter' colspan="4">YJ　-　#4,#7　- ${bookingList.yjCount } </td>
@@ -284,6 +329,8 @@
 			<c:set var="pud" value="${parsePud }" />
 			<td id='topletter'>${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }</td> <!-- 아마 오늘 날짜 JSP로 들어가야할듯 -->
 		</tr>
+		</table>
+		<table id="booking_table_id" border = "0" cellspacing="0" width="90%" align="center">
 		<tr style="font-weight: bold; text-align: center; ">
 			<td id='pudtd' rowspan="2">P/U<BR>DATE</td>
 			<td id='carriertd' rowspan="2">CARRIER<BR>(SCAC)</td>

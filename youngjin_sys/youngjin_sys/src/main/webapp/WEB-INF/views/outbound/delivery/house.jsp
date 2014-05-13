@@ -42,10 +42,10 @@
 		<table class="yj_table">
 			<thead>
 				<tr>
-					<th>NO</th>
+					<th style="width:5%">NO</th>
 					<th>CONT NO</th>
 					<th>SEAL NO</th>
-					<th></th>
+					<th style="width:5%;"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -59,7 +59,7 @@
 						<td>${i.count }</td>
 						<td>${house.contNo }</td>
 						<td>${house.sealNo }</td>
-						<td><img class="house_delete" data-seq="${house.seq }" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
+						<td class="house_delete" ><img style="width : 15px;height:15px;"src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>
 			</tbody>

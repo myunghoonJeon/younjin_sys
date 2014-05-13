@@ -80,7 +80,7 @@
 						<td>${i.count }</td>
 						<td>${onHand.onHandDate }</td>
 						<td>${onHand.firstArrivalableDeliverDate }</td>
-						<td>${onHand.ShipperList }</td>
+						<td>${onHand.shipperList }</td>
 						<td><img class="on_hand_list_delete" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>

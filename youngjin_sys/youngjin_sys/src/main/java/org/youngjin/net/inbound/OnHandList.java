@@ -6,14 +6,16 @@ public class OnHandList {
 	private String firstArrivalableDeliverDate;
 	private String writeDate;
 	private OnHandListContent onHandListContent;
-	private String ShipperList;
+	private String shipperList;
 	
+
+
 	public String getShipperList() {
-		return ShipperList;
+		return shipperList;
 	}
 
 	public void setShipperList(String shipperList) {
-		ShipperList = shipperList;
+		this.shipperList = shipperList;
 	}
 
 	public Integer getSeq() {

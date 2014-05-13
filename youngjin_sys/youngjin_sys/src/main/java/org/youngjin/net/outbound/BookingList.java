@@ -13,7 +13,25 @@ public class BookingList {
 	private Integer yjCount;
 	private String gblList;
 	private String yjnInput;
+	private String yjnInput2;
+	private String cfs;
 	
+	public String getYjnInput2() {
+		return yjnInput2;
+	}
+
+	public void setYjnInput2(String yjnInput2) {
+		this.yjnInput2 = yjnInput2;
+	}
+
+	public String getCfs() {
+		return cfs;
+	}
+
+	public void setCfs(String cfs) {
+		this.cfs = cfs;
+	}
+
 	public String getYjnInput() {
 		return yjnInput;
 	}

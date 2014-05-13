@@ -96,7 +96,7 @@ youngjin.outbound.delivery.sync = function(){
 	$('.truck_manifast_form').unbind('click');
 	$('.truck_manifast_form').bind('click', function(){
 		if($(this).attr('data-delete') != 'delete'){
-			youngjin.outbound.delivery.truckManifastPrint($(this));
+				youngjin.outbound.delivery.truckManifastPrint($(this));
 		} else {
 			$(this).removeAttr('data-delete');
 		}
@@ -387,12 +387,19 @@ youngjin.outbound.delivery.houseSync = function(){
 	
 	$('.house_delete').unbind('click');
 	$('.house_delete').bind('click', function(){
-		youngjin.outbound.delivery.houseDelete($(this));
+	$(this).parents('tr').attr('data-delete', 'delete');
+		if(confirm("삭제하시겠습니까?")){
+			youngjin.outbound.delivery.houseDelete($(this));
+		}
 	});
 	
 	$('.house_list_tr').unbind('click');
 	$('.house_list_tr').bind('click', function(){
-		youngjin.outbound.delivery.housePop($(this));
+		if($(this).attr('data-delete') != 'delete'){
+			youngjin.outbound.delivery.housePop($(this));
+		}else {
+			$(this).removeAttr('data-delete');
+		}
 	});
 };
 

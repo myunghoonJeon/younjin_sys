@@ -432,12 +432,13 @@ public class InboundController {
 		user.setSubProcess("onHandList");
 		inboundFilter.getPagination().setNumItems(
 				inboundService.getOnHandListCount(inboundFilter));
+		
 		List<OnHandList> onhandlist = inboundService.getOnHandList(inboundFilter);
-		
-		
-		for(int i=0;i<onhandlist.size();i++){
+		List<String> spList = new ArrayList<String>();
+		int flag=0;
+		for(OnHandList onhand: onhandlist){
 			String shipperList="[";
-			List<String> list = inboundService.getOnhandListCustomerList(onhandlist.get(i).getSeq());
+			List<String> list = inboundService.getOnhandListCustomerList(onhand.getSeq());
 			for(int k=0;k<list.size();k++){
 				shipperList += list.get(k);
 				if(k!=(list.size()-1)){
@@ -447,11 +448,12 @@ public class InboundController {
 					shipperList+="]";
 				}
 			}
-			onhandlist.get(i).setShipperList(shipperList);
+			onhand.setShipperList(shipperList);
 		}
 		for(int i=0;i<onhandlist.size();i++){
 			System.out.println(onhandlist.get(i).getShipperList());
 		}
+		
 		model.addAttribute("onHandList",onhandlist);
 		model.addAttribute("user", user);
 		return process + "/onHand/onHandList";

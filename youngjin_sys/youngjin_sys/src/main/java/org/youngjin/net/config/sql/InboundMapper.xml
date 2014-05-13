@@ -1259,7 +1259,7 @@
 					o.seq, o.onHandDate, o.firstArrivalableDeliverDate, o.writeDate
 				FROM
 					on_hand_list o, (SELECT @rownum := 0) r
-		
+				
 				ORDER BY
 					o.seq desc
 			)u	
