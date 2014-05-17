@@ -86,6 +86,7 @@ youngjin.outbound.sync = function(){
 		form.method = 'post';
 		form.submit();		
 	});
+	
 	$('.gbl_list').unbind('click');
 	$('.gbl_list').bind('click', function(){
 		youngjin.outbound.getGblProcess($(this));
@@ -371,14 +372,12 @@ youngjin.outbound.weightCertificateSync = function(){
 			if(Number(cuft) >= 180 && Number(cuft) <= 207){
 				type = 'typeII';
 			}
+			else{
+				type= '입력';
+			}
 		}
 		else{
-			if(status == ' '){
-				if(Number(cuft) >= 180){
-					type='';
-				}
-			}
-			else{
+			if(status=='NEW' || status=='USED' || status=='REPAIRED'){
 				if(Number(cuft) >= 0 && Number(cuft) <= 124){
 					type = 'O/F';
 				} else if(Number(cuft) >= 125 && Number(cuft) <= 179 ) {
@@ -387,7 +386,11 @@ youngjin.outbound.weightCertificateSync = function(){
 					type = 'typeII';
 				}
 			}
+			else{
+				
+			}
 		}
+		
 		$(this).parents().parents('tr').children().children('input[name=type]').val(type);
 		
 		for( var i = 0 ; i < count ; i ++ ){
@@ -1728,7 +1731,6 @@ youngjin.outbound.weightCertificateColumnAdd = function(target){
 					'<td class="type_td"><input name="type" type="text" /></td>'+
 					'<td class="status_td">' + 
 						'<select name="status">';
-							html += '<option value=""></option>';
 							for(var i = 0 ; i < containerList.length ; i ++ ){
 								var container = containerList[i];
 								if(container.count != 0){	

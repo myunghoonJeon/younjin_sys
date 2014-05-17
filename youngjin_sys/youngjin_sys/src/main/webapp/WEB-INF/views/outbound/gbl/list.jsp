@@ -68,9 +68,9 @@
 				</li>
 				<li>
 					<form:select path="searchTitle">
+						<form:option value="gblNo">GBL NO</form:option>
 						<form:option value="name">NAME</form:option>
 						<form:option value="ssn">SSN</form:option>
-						<form:option value="gblNo">GBL NO</form:option>
 					</form:select>
 					<form:input path="searchContent"/>
 					<span class="outbound_search yj_button" >search</span>
@@ -126,7 +126,7 @@
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
 							<c:if test="${i == pagination.currentPage}">
-								<a class="page_now">${i}</a>
+								<a style="font-weight: bold; font-size: 13pt; color: red;" class="page_now">${i}</a>
 							</c:if>
 							<c:if test="${i != pagination.currentPage}">
 								<a href="javascript:void(goToPage(${i}))">${i}</a>

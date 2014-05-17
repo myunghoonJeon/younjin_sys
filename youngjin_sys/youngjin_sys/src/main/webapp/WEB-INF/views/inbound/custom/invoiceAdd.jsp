@@ -94,6 +94,14 @@
 					<li>
 						<form:hidden path="page" value="${pagination.currentPage}"/>
 					</li>
+					<form:select path="searchTitle">
+						<form:option value="name">NAME</form:option>
+						<form:option value="ssn">SSN</form:option>
+						<form:option value="gblNo">GBL NO</form:option>
+					</form:select>
+					<form:input path="searchContent"/>
+						<span class="inbound_search yj_button" >search</span>
+					</li>
 					<li>	
 						<span class="inbound_invoice_add yj_button" >add</span>
 					</li>

@@ -72,7 +72,7 @@
 						<td>${invoice.invoiceNo }</td>
 						<td>${invoice.startDate }</td>
 						<td>${invoice.endDate }</td>
-						<td><fmt:formatNumber value="${invoice.amount }" type="number"/></td>
+						<td><fmt:formatNumber value="${invoice.amount }" pattern="##,###.00"/></td>
 						<td class="invoice_all_delete"><img class="memorandum_icon" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>

@@ -34,6 +34,7 @@
 		
 		<div class="gbl_filter">	
 			<ul class="freight_filter_wrap">
+				
 				<li>	
 					<span data-onHandListseq="${onHandListSeq }" class="on_hand_list_content_add yj_button" >add</span>
 				</li>

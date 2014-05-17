@@ -66,6 +66,8 @@
 		padding-bottom: 0.2cm;
 		text-align:center;
 		font-weight: bold;
+		font-family: arial;
+		font-size: 11pt;
 	}
 	
 	#no{
@@ -116,15 +118,16 @@
 <HEAD>
 	<link rel="stylesheet" href="${cp }/resources/css/common.css">
 </HEAD>
+<c:set var="totalAmount" value="0"></c:set>
 <BODY onload="window.print();">
 	<div>
 		<table border="0" align="center" style="width: 17cm" cellspacing="0">
 			<tr>
-				<td id='title'colspan="4">YOUNJIN TRADE & TRANSPORTATION, Co., LTD</td>
+				<td id='title'colspan="4" style="font-family: arial;">YOUNJIN TRADE & TRANSPORTATION, Co., LTD</td>
 			</tr>
 			<tr>
 				<td id='title-side'>　</td>
-				<td colspan="2" id='address'><input style="width: 9cm; border: none; text-align: center; font-size: 11pt;font-weight: bold;" type="text" value="475 Sangdo-1-dong, Dongjak-gu, Seoul, Korea."></input></td>
+				<td colspan="2" id='address'><input style="width: 15cm; border: none; text-align: center; font-size: 10pt;font-weight: bold;" type="text" value="${company.address }"></input></td>
 				<td id='title-side'>　</td>
 			</tr>
 			<tr>
@@ -134,7 +137,7 @@
 				<td id='title-side'>　</td>
 			</tr>
 			<tr>
-				<td colspan="4" id='invoice'><font id='invoice_input'>I N V O I C E</font></td>
+				<td colspan="4" id='invoice' style="font-family: arial; text-decoration: underline;">I N V O I C E</td>
 			</tr>
 		</table>
 		<table border="0" align="center" style="width : 17cm;" cellspacing="0">
@@ -150,36 +153,30 @@
 				<td id='code'style="width:2.5cm;">CODE: </td> <td id='code'>${fn:toUpperCase(invoice.process) } #${invoiceGblList[0].code }</td>
 			</tr>		
 		</table>
-		<table id='test'border="0" align="center" style="width : 17cm;" cellspacing="0">
+		<table id='test' border="0" align="center" style="width : 17cm;" cellspacing="0">
 			<tr style="font-size: 9pt; ">
 				<td id='no'>NO</td>
-				<td id='route'>ROUTE</td>
 				<td id='gblno'>GBL-NO</td>
 				<td id='rank'>RANK</td>
 				<td id='shipper'>SHIPPER</td>
-				<td id='weight'>WEIGHT</td>
-				<td id='ratecwt'>RATE/CWT</td>
 				<td id='amount'>AMOUNT</td>
 			</tr>
 			<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
 				<tr>	
 					<td>${i.count }</td>
-					<td></td>
 					<td>${invoiceGbl.gblNo }</td>
 					<td>${invoiceGbl.rank }</td>
 					<td>${invoiceGbl.name }</td>
-					<td><fmt:formatNumber value="${i.count }"/></td>
-					<td>${i.count }</td>
-					<td><fmt:formatNumber value="${invoiceGbl.amount }"/></td>
+					<td><fmt:formatNumber value="${invoiceGbl.amount }" pattern="##,###.00"/></td>
+					<c:set var="totalAmount" value="${totalAmount + invoiceGbl.amount }"></c:set>
 				</tr>
 			</c:forEach>
 			<tr>	
-				<td style="font-size: 7pt;border-bottom: none;">TOTAL</td>
+				<td style="font-size: 9pt;border-bottom: none; font-family: arial;font-weight: bold;">TOTAL</td>
 				<td style="font-size: 7pt;border-bottom: none;">　</td>
 				<td style="font-size: 7pt;border-bottom: none;">　</td>
 				<td style="font-size: 7pt;border-bottom: none;">　</td>
-				<td style="font-size: 7pt;border-bottom: none;">　</td>
-				<td style="font-size: 7pt;border-bottom: none;">${totalAmount }</td>
+				<td style="font-size: 11pt;border-bottom: none; font-family: arial;font-weight: bold;">${totalAmount }</td>
 			</tr>
 		</table>
 	</div>
@@ -220,7 +217,7 @@
 						<tr style="border-bottom: solid; border: solid;">
 							<td id="in_td">${invoiceGblContent.chargingItem }</td>
 							<td id="in_td">${invoiceGblContent.quantity }</td>
-							<td id="in_td"><fmt:formatNumber value="${invoiceGblContent.amount }"/></td>
+							<td id="in_td"><fmt:formatNumber value="${invoiceGblContent.amount }" pattern="##,###.00"/></td>
 						</tr>
 					</c:forEach>
 				</table>

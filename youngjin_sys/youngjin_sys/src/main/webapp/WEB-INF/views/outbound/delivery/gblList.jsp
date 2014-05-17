@@ -47,6 +47,12 @@
 
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
+<c:if test="${end eq true }">
+		<script type="text/javascript">
+			parent.location.href=contextPath + '/outbound/delivery/truckManifastGblList/';
+			parent.$.smartPop.close();
+		</script>
+	</c:if>
 <body>
 	<div class="truck_gbl_list_wrap">
 		<div class="pop_title_line">
@@ -92,7 +98,13 @@
 						<li>
 							<span class="truck_gbl_addButton yj_button" >add</span>
 						</li>
-						
+						<li>
+							<form:select path="searchTitle">
+								<form:option value="gblNo">GBL NO</form:option>
+							</form:select>
+							<form:input path="searchContent"/>
+							<span class="outbound_search yj_button" >search</span>
+						</li>
 				</form:form>
 			</ul>
 		</div>

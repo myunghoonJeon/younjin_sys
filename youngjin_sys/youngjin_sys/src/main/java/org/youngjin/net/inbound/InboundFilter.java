@@ -3,6 +3,14 @@ package org.youngjin.net.inbound;
 import org.youngjin.net.util.AbstractListFilter;
 
 public class InboundFilter extends AbstractListFilter {
+	private int tempseq;
+	public int getTempseq() {
+		return tempseq;
+	}
+
+	public void setTempseq(int tempseq) {
+		this.tempseq = tempseq;
+	}
 
 	private String branch;
 	private String carrier;

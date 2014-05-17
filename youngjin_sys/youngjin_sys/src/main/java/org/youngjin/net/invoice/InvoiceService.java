@@ -1,5 +1,6 @@
 package org.youngjin.net.invoice;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -516,7 +517,7 @@ public class InvoiceService {
 		List<InvoiceGblContent> invoiceGblContentList = new ArrayList<InvoiceGblContent>();
 
 		if (process.equals("outbound")){//====outbound==================================================================================================BEGIN OUTBOUND
-			Double totalAmount = 0.0;
+			double totalAmount = 0.0;
 
 			Integer checkInvoiceGblContentCount = invoiceDao
 					.getInvoiceGblContentCount(invoiceGblSeq);
@@ -526,13 +527,13 @@ public class InvoiceService {
 			// 1. PACKING CHARGE
 			InvoiceGblContent packingChargeContent = new InvoiceGblContent();
 			Rate rate = new Rate();
-			Double totalGblWeight = 0.0;
-			Double gblWeight = 0.0;
-			Double typeIIWeight = 0.0;
-			Double overFlowWeight = 0.0;
-			Double packingCharge = 0.0;
-			Double typeIICharge = 0.0;
-			Double overFlowCharge = 0.0;
+			double totalGblWeight = 0.0;
+			double gblWeight = 0.0;
+			double typeIIWeight = 0.0;
+			double overFlowWeight = 0.0;
+			double packingCharge = 0.0;
+			double typeIICharge = 0.0;
+			double overFlowCharge = 0.0;
 
 			String codeStr = null;
 			if (gbl.getCode().equals("3") || gbl.getCode().equals("4")
@@ -553,9 +554,33 @@ public class InvoiceService {
 				
 				if ("HHG".equals(codeStr)) {
 					gblWeight = Double.parseDouble(weightcertificate.getNet());//NET을 저장하고 
-					rate.setObType(weightcertificate.getType());/////////////그때그때 레이트에 맞는 타입을 설정한다.
+					String type= weightcertificate.getType();
+					if(type.equals("O/F")||type.equals("W/D")||type.equals("CTN")||type.equals("WODEN")||type.equals("S/P")||
+							type.equals("o/f")||type.equals("w/d")||type.equals("ctn")||type.equals("woden")||type.equals("s/p")||
+							type.equals("W/B")||type.equals("w/b")||type.equals("C/B")||type.equals("c/b")||type.equals("cotton")||type.equals("COTTON")){
+						System.out.println("INPUT TYPE : ["+type+"]");
+						type = "O/F";
+						System.out.println("SET TYPE : ["+type+"]");
+						rate.setObType(type);/////////////그때그때 레이트에 맞는 타입을 설정한다.
+					}
+					else if(type.equals("typeII")||type.equals("TYPEII")||type.equals("typeii")){
+						System.out.println("INPUT TYPE : ["+type+"]");
+						type = "typeII";
+						System.out.println("INPUT TYPE : ["+type+"]");
+						rate.setObType(type);/////////////그때그때 레이트에 맞는 타입을 설정한다.
+					}
+					else{
+						if(Integer.parseInt(weightcertificate.getCuft())>179){
+							System.out.println("INPUT TYPE : ["+type+"]");
+							type = "O/F";
+							System.out.println("INPUT TYPE : ["+type+"]");
+							rate.setObType(type);/////////////그때그때 레이트에 맞는 타입을 설정한다.
+						}
+					}
+
 					System.out.println(" =================[ HHG : "+gblWeight+" ] [ TYPE : "+weightcertificate.getType()+" ] =================");
 				} else if ("UB".equals(codeStr)) {
+					
 					gblWeight = Double.parseDouble(weightcertificate.getGross());
 					System.out.println(" =================[ UB : "+gblWeight+" ] [ TYPE : "+weightcertificate.getType()+" ] =================");
 				}
@@ -573,10 +598,16 @@ public class InvoiceService {
 						typeIIWeight += gblWeight;
 						typeIICharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
 						typeIICharge = getRoundResult(typeIICharge);//2자리 반올림
-					} else if (rate.getObType().equals("O/F") || rate.getObType().equals("woden") || rate.getObType().equals("ctn")|| rate.getObType().equals("WODEN")|| rate.getObType().equals("CTN")){
+					} else if (rate.getObType().equals("O/F") || rate.getObType().equals("W/D") ||rate.getObType().equals("W/B") ||
+							rate.getObType().equals("ctn")|| rate.getObType().equals("WODEN")|| rate.getObType().equals("CTN")||
+							rate.getObType().equals("S/P")|| rate.getObType().equals("woden")|| rate.getObType().equals("s/p")||
+							rate.getObType().equals("w/d")||rate.getObType().equals("w/b")||rate.getObType().equals("C/B") ||rate.getObType().equals("c/b")||
+							rate.getObType().equals("COTTON") ||rate.getObType().equals("cotton")
+							){
 						System.out.println("[[[[[[[[[ O/F CALCURATE ]]]]]]]");
 						overFlowCount++;
 						overFlowWeight += gblWeight;
+						System.out.println("[[[[[[[[[ Weight : "+gblWeight+" O/F GBL RATE : "+gblRate.getRate()+" % ]]]]]]]");
 						overFlowCharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
 						overFlowCharge = getRoundResult(overFlowCharge);//2자리 반올림 
 					}
@@ -586,6 +617,7 @@ public class InvoiceService {
 						System.out.println("[[[[[[[[[[ NO SELECT STATUS]]]]]]]]]]]]");
 						if(Integer.parseInt(weightcertificate.getCuft()) >= 180){
 							System.out.println("[[[[[[[[[ O/F CALCURATE ]]]]]]]");
+							System.out.println("[[[[[[[[[ Weight : "+gblWeight+" O/F GBL RATE : "+gblRate.getRate()+" % ]]]]]]]");
 							overFlowCount++;
 							overFlowWeight += gblWeight;
 							overFlowCharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
@@ -596,12 +628,12 @@ public class InvoiceService {
 					//PACKING CHARGE CALRURATE after weight roof
 					packingCharge = overFlowCharge + typeIICharge;
 					packingCharge = getRoundResult(packingCharge);
-					System.out.println("==================[ CALCURATE HHG PACKING CHARGE : "+packingCharge+" ]============");
+					System.out.println("==================[ TOTAL HHG PACKING CHARGE : "+packingCharge+" ]============");
 				}//HHG 
 				else if(codeStr.equals("UB")){ 
 					packingCharge += (gblWeight/100) * gblRate.getRate();
 					packingCharge = getRoundResult(packingCharge);
-					System.out.println("==================[ CALCURATE UB PACKING CHARGE : "+packingCharge+" ]============");
+					System.out.println("==================[ TOTAL UB PACKING CHARGE : "+packingCharge+" ]============");
 				}//UB
 				totalGblWeight += gblWeight;
 				countFlag ++;
@@ -659,6 +691,7 @@ public class InvoiceService {
 					
 				}
 			}//////////weight ROOF
+			getRoundResult(packingCharge);
 			totalAmount += packingCharge;
 			totalAmount = getRoundResult(totalAmount);
 			System.out.println("==================[ TOTAL PACKING CHARGE : "+totalAmount+" ]============");
@@ -667,10 +700,11 @@ public class InvoiceService {
 			if("HHG".equals(codeStr)){
 				if(typeIIWeight >0){
 					packingChargeContent.setChargingItem("PACKING CHARGE TYPEII");
-					packingChargeContent.setQuantity(typeIIWeight  + "LBS");
-					packingChargeContent.setAmount(typeIICharge.toString());
+					packingChargeContent.setQuantity(getIntValue(typeIIWeight)  + "LBS");
+					System.out.println("==================[ O/F weight : "+typeIIWeight+" ]============");
+					System.out.println("SET PACKIGN TYPE II 직전 : "+new DecimalFormat("######.00").format(typeIICharge));
+					packingChargeContent.setAmount(new DecimalFormat("######.00").format(typeIICharge));
 					packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
-					System.out.println("==================[ Type II weight : "+typeIIWeight+" ]============");
 					invoiceGblContentList.add(packingChargeContent);
 					checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(packingChargeContent);
 					
@@ -684,10 +718,11 @@ public class InvoiceService {
 				if(overFlowWeight>0){
 					packingChargeContent = new InvoiceGblContent();
 					packingChargeContent.setChargingItem("PACKING CHARGE O/F");
-					packingChargeContent.setQuantity(overFlowWeight + "LBS");
-					packingChargeContent.setAmount(overFlowCharge.toString());
-					packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
+					packingChargeContent.setQuantity(getIntValue(overFlowWeight) + "LBS");
 					System.out.println("==================[ O/F weight : "+overFlowWeight+" ]============");
+					System.out.println("SET OVERFLOW 직전 : "+new DecimalFormat("######.00").format(overFlowCharge));
+					packingChargeContent.setAmount(new DecimalFormat("######.00").format(overFlowCharge));
+					packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
 					invoiceGblContentList.add(packingChargeContent);
 		
 					Integer checkInvoiceContentGetSeq1 = invoiceDao
@@ -699,11 +734,12 @@ public class InvoiceService {
 					} else {
 						invoiceDao.insertInvoiceGblContent(packingChargeContent);
 					}
-				}
+				}//HHG IF END
 			} else {//code UB
 				packingChargeContent.setChargingItem("PACKING CHARGE");
 				packingChargeContent.setQuantity(totalGblWeight + "LBS");
-				packingChargeContent.setAmount(packingCharge.toString());
+				System.out.println("UB PACKING CHARGE 직전 : "+new DecimalFormat("######.00").format(packingCharge));
+				packingChargeContent.setAmount(new DecimalFormat("######.00").format(packingCharge));
 				packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
 	
 				invoiceGblContentList.add(packingChargeContent);
@@ -717,7 +753,7 @@ public class InvoiceService {
 				} else {
 					invoiceDao.insertInvoiceGblContent(packingChargeContent);
 				}				
-			}
+			}//UB IF END
 
 			// 2. CONTAINER
 			InvoiceGblContent containerInvoiceGblContent = new InvoiceGblContent();
@@ -768,6 +804,7 @@ public class InvoiceService {
 			double newCharge = newUnitTypeII * Double.parseDouble(newRate.getContainerRate());
 			double usedCharge = usedUnitTypeII * Double.parseDouble(usedRate.getContainerRate());
 			double repairedCharge = repairedUnitTypeII * Double.parseDouble(repairedRate.getContainerRate());
+			
 			System.out.println("[[[[[[[[[[[[[[[[[ CONTAINER STATUS CHARGE ]]]]]]]]]]]]]]]]]]]]]]");
 			System.out.println("[[[[[[[[[[[[[[[[[ NEW CHARGE  : "+newCharge+" - COUNT :  "+newUnitTypeII +"pcs - RATE : "+newRate.getContainerRate()+" ]]]]]]]]]]]]]]]]]]]");
 			System.out.println("[[[[[[[[[[[[[[[[[ USED CHARGE : "+usedCharge+"- COUNT :  "+usedUnitTypeII +"pcs - RATE : "+usedRate.getContainerRate()+" ]]]]]]]]]]]]]]]]]]]");
@@ -775,25 +812,64 @@ public class InvoiceService {
 			containerCharge += newCharge + usedCharge + repairedCharge;
 			containerCharge = getRoundResult(containerCharge);
 			totalAmount += containerCharge;
-
-			containerInvoiceGblContent.setChargingItem("CONTAINER TYPE II");
-			containerInvoiceGblContent.setQuantity((newUnitTypeII + usedUnitTypeII + repairedUnitTypeII) + "pcs");
-			containerInvoiceGblContent.setAmount(containerCharge+" ");
-			containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
-
-			if(containerCharge > 0)
-				invoiceGblContentList.add(containerInvoiceGblContent);
-
-			checkInvoiceContentGetSeq = invoiceDao
-					.checkInvoiceContent(containerInvoiceGblContent);
-
-			if (checkInvoiceContentGetSeq != null) {
-				containerInvoiceGblContent.setSeq(checkInvoiceContentGetSeq);
-				invoiceDao.updateInvoiceGblContent(containerInvoiceGblContent);
-			} else {
-				invoiceDao.insertInvoiceGblContent(containerInvoiceGblContent);
+			if(newUnitTypeII>0){
+				containerInvoiceGblContent.setChargingItem("CONTAINER TYPE II - NEW");
+				containerInvoiceGblContent.setQuantity((newUnitTypeII) + "pcs");
+				System.out.println("CONTAINER TYPE II 직전 : "+new DecimalFormat("######.00").format(getRoundResult(newCharge)));
+				containerInvoiceGblContent.setAmount(new DecimalFormat("######.00").format(getRoundResult(newCharge)));
+				containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
+				if(newCharge > 0)
+					invoiceGblContentList.add(containerInvoiceGblContent);
+	
+				checkInvoiceContentGetSeq = invoiceDao
+						.checkInvoiceContent(containerInvoiceGblContent);
+	
+				if (checkInvoiceContentGetSeq != null) {
+					containerInvoiceGblContent.setSeq(checkInvoiceContentGetSeq);
+					invoiceDao.updateInvoiceGblContent(containerInvoiceGblContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(containerInvoiceGblContent);
+				}
 			}
-
+			if(usedUnitTypeII>0){
+				containerInvoiceGblContent = new InvoiceGblContent();
+				containerInvoiceGblContent.setChargingItem("CONTAINER TYPE II - USED");
+				containerInvoiceGblContent.setQuantity(usedUnitTypeII + "pcs");
+				containerInvoiceGblContent.setAmount(new DecimalFormat("######.00").format(getRoundResult(usedCharge)));
+				containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
+				if(newCharge > 0)
+					invoiceGblContentList.add(containerInvoiceGblContent);
+	
+				checkInvoiceContentGetSeq = invoiceDao
+						.checkInvoiceContent(containerInvoiceGblContent);
+	
+				if (checkInvoiceContentGetSeq != null) {
+					containerInvoiceGblContent.setSeq(checkInvoiceContentGetSeq);
+					invoiceDao.updateInvoiceGblContent(containerInvoiceGblContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(containerInvoiceGblContent);
+				}
+			}
+			if(repairedUnitTypeII>0){
+				containerInvoiceGblContent = new InvoiceGblContent();
+				containerInvoiceGblContent.setChargingItem("CONTAINER TYPE II - REPAIRED");
+				containerInvoiceGblContent.setQuantity(repairedUnitTypeII + "pcs");
+				containerInvoiceGblContent.setAmount(new DecimalFormat("######.00").format(getRoundResult(repairedCharge)));
+				containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
+				if(newCharge > 0)
+					invoiceGblContentList.add(containerInvoiceGblContent);
+	
+				checkInvoiceContentGetSeq = invoiceDao
+						.checkInvoiceContent(containerInvoiceGblContent);
+	
+				if (checkInvoiceContentGetSeq != null) {
+					containerInvoiceGblContent.setSeq(checkInvoiceContentGetSeq);
+					invoiceDao.updateInvoiceGblContent(containerInvoiceGblContent);
+				} else {
+					invoiceDao.insertInvoiceGblContent(containerInvoiceGblContent);
+				}
+			}
+			/*
 			containerInvoiceGblContent = new InvoiceGblContent();
 			
 			containerCharge = 0;
@@ -826,10 +902,10 @@ public class InvoiceService {
 			} else {
 				invoiceDao.insertInvoiceGblContent(containerInvoiceGblContent);
 			}
-
+			 */
 			// 3. EXTRA PICKUP CHARGE
 			InvoiceGblContent extraPickUpGblContent = new InvoiceGblContent();
-			Double extraPickUpCharge = 0.0;
+			double extraPickUpCharge = 0.0;
 
 			Rate otherRateParam = new Rate();
 			otherRateParam.setProcess(process);
@@ -865,7 +941,7 @@ public class InvoiceService {
 
 				extraPickUpGblContent.setChargingItem("EXTRA PICKUP CHARGE");
 				extraPickUpGblContent.setQuantity("");
-				extraPickUpGblContent.setAmount(extraPickUpCharge.toString());
+				extraPickUpGblContent.setAmount(extraPickUpCharge+"");
 				extraPickUpGblContent.setInvoiceGblSeq(invoiceGblSeq);
 
 				invoiceGblContentList.add(extraPickUpGblContent);
@@ -884,7 +960,7 @@ public class InvoiceService {
 
 			// 4. TERMINATION CHARGE
 			InvoiceGblContent terminationContent = new InvoiceGblContent();
-			Double terminationCharge = 0.0;
+			double terminationCharge = 0.0;
 
 			paramMemorandum = new Memorandum();
 			paramMemorandum.setGblSeq(gbl.getSeq());
@@ -913,7 +989,7 @@ public class InvoiceService {
 
 				terminationContent.setChargingItem("TERMINATION CHARGE");
 				terminationContent.setQuantity("");
-				terminationContent.setAmount(terminationCharge.toString());
+				terminationContent.setAmount(terminationCharge+"");
 				terminationContent.setInvoiceGblSeq(invoiceGblSeq);
 
 				invoiceGblContentList.add(terminationContent);
@@ -933,7 +1009,7 @@ public class InvoiceService {
 
 			// 6. SIT_FIRST DAY(ORIGIN SIT)
 			InvoiceGblContent sitFirstDayContent = new InvoiceGblContent();
-			Double sitFirstDayCharge = 0.0;
+			double sitFirstDayCharge = 0.0;
 
 			Rate sitRateParam = new Rate();
 			sitRateParam.setWriteYear(gbl.getPud());
@@ -965,7 +1041,7 @@ public class InvoiceService {
 
 				sitFirstDayContent.setChargingItem("SIT-FIRST DAY");
 				sitFirstDayContent.setQuantity("day");
-				sitFirstDayContent.setAmount(sitFirstDayCharge.toString());
+				sitFirstDayContent.setAmount(sitFirstDayCharge+"");
 				sitFirstDayContent.setInvoiceGblSeq(invoiceGblSeq);
 
 				invoiceGblContentList.add(sitFirstDayContent);
@@ -983,7 +1059,7 @@ public class InvoiceService {
 
 			// 7. SIT EACH ADDITIONAL DAY(ORIGIN SIT)
 			InvoiceGblContent sitEachContent = new InvoiceGblContent();
-			Double sitEachDayCharge = 0.0;
+			double sitEachDayCharge = 0.0;
 
 			Memorandum sitEachDayMemoParam = new Memorandum();
 			sitEachDayMemoParam.setType("07");
@@ -1024,7 +1100,7 @@ public class InvoiceService {
 
 				sitEachContent.setChargingItem("SIT-EACH ADDITIONAL DAY");
 				sitEachContent.setQuantity("days");
-				sitEachContent.setAmount(sitEachDayCharge.toString());
+				sitEachContent.setAmount(sitEachDayCharge+"");
 				sitEachContent.setInvoiceGblSeq(invoiceGblSeq);
 
 				invoiceGblContentList.add(sitEachContent);
@@ -1042,7 +1118,7 @@ public class InvoiceService {
 			// 8. LONG CARRY
 			if ("HHG".equals(codeStr)) {
 				InvoiceGblContent longCarryContent = new InvoiceGblContent();
-				Double lognCarryCharge = 0.0;
+				double lognCarryCharge = 0.0;
 
 				Memorandum longCarryMemoParam = new Memorandum();
 				longCarryMemoParam.setType("08");
@@ -1075,27 +1151,32 @@ public class InvoiceService {
 					}
 	
 					totalAmount += addition.getCost();
+					getRoundResult(totalAmount);
 				}
 			}
-
+//			System.out.println("before total : "+totalAmount);
+//			totalAmount *= 0.85123412;
+			System.out.println("TOTAL FINAL : "+totalAmount);
+			System.out.println("NEW DECIMAL ADAPTION : "+new DecimalFormat("######.00").format(totalAmount));
 			// Total Amount
 			InvoiceGblContent totalContent = new InvoiceGblContent();
 			totalContent.setChargingItem("Total Amount");
 			totalContent.setQuantity("");
-			totalContent.setAmount(totalAmount.toString());
+			totalContent.setAmount(new DecimalFormat("######.00").format(totalAmount));
 
 			invoiceGblContentList.add(totalContent);
 
 			InvoiceGbl invoiceGbl = new InvoiceGbl();
 			invoiceGbl.setSeq(invoiceGblSeq);
-			invoiceGbl.setAmount(totalAmount.toString());
+			String finalInvoiceAmount = new DecimalFormat("######.00").format(totalAmount);
+			invoiceGbl.setAmount(finalInvoiceAmount);
 			invoiceGbl.setComplete(true);
-
+			
 			invoiceDao.updateInvoiceGbl(invoiceGbl);
 
 			invoiceDao.checkAndUpdateInvoice(invoiceSeq);
 		} else {//===============================================================================================================BEGIN INBOUND		
-			Double totalAmount = 0.0;
+			double totalAmount = 0.0;
 			
 			GBL gbl = inboundDao.getGbl(gblSeq);
 
@@ -1269,7 +1350,7 @@ public class InvoiceService {
 			
 			//6. Termination charge
 			InvoiceGblContent terminationContent = new InvoiceGblContent();
-			Double terminationCharge = 0.0;
+			double terminationCharge = 0.0;
 
 			Memorandum terminationMemorandumParam = new Memorandum();
 			terminationMemorandumParam.setGblSeq(gbl.getSeq());
@@ -1300,7 +1381,7 @@ public class InvoiceService {
 
 				terminationContent.setChargingItem("TERMINATION CHARGE");
 				terminationContent.setQuantity(terminationMemorandum.getTermination());
-				terminationContent.setAmount(terminationCharge.toString());
+				terminationContent.setAmount(terminationCharge+"");
 				terminationContent.setInvoiceGblSeq(invoiceGblSeq);
 
 				invoiceGblContentList.add(terminationContent);
@@ -1320,7 +1401,7 @@ public class InvoiceService {
 			List<Addition> additionList = inboundDao.getAddtionList(gbl.getSeq().toString());
 			for (Addition addition : additionList) {
 				String itemTitle = addition.getTitle();
-				Double itemCost = addition.getCost();
+				double itemCost = addition.getCost();
 				if(itemCost>0){
 					System.out.println("[[[ CHECK ADDITIONAL SERVICE CHARGE ]]]");
 					System.out.println("[ TITLE : "+itemTitle+" ]");
@@ -1346,18 +1427,21 @@ public class InvoiceService {
 					totalAmount += addition.getCost();
 				}
 			}
-			
+			System.out.println("before total : "+totalAmount);
+//			totalAmount *= 0.85;
+			System.out.println("TOTAL FINAL : "+totalAmount);
+			System.out.println("NEW DECIMAL ADAPTION : "+new DecimalFormat("######.00").format(totalAmount));
 			// Total Amount
 			InvoiceGblContent totalContent = new InvoiceGblContent();
 			totalContent.setChargingItem("Total Amount");
 			totalContent.setQuantity("");
-			totalContent.setAmount(totalAmount.toString());
-
+			totalContent.setAmount(totalAmount+"");
+			
 			invoiceGblContentList.add(totalContent);
 
 			InvoiceGbl invoiceGbl = new InvoiceGbl();
 			invoiceGbl.setSeq(invoiceGblSeq);
-			invoiceGbl.setAmount(totalAmount.toString());
+			invoiceGbl.setAmount(totalAmount+"");
 			invoiceGbl.setComplete(true);
 
 			invoiceDao.updateInvoiceGbl(invoiceGbl);
@@ -1367,7 +1451,11 @@ public class InvoiceService {
 
 		return invoiceGblContentList;
 	}
-
+	private int getIntValue(double d){
+		String testWeight = d+"";
+		int intWeight = (int)d;
+		return intWeight;
+	}
 	private int getUBHHGType(String value_UB_HHG) {
 
 		// UB인지 HHG인지 종류를 구분하는 정적 메소드.
@@ -1578,9 +1666,9 @@ public class InvoiceService {
 			rate.setCode(value_UB_HHG);
 			addition_day = invoiceDao.getSit(rate).getRate();
 		}
-		Double origin = (gbl_weight[0] * addition_day * sit_day * comprate1);
+		double origin = (gbl_weight[0] * addition_day * sit_day * comprate1);
 		System.out.println("[[ origin acc amount : "+origin+" ]] ");
-		Double after = getRoundResult(origin);
+		double after = getRoundResult(origin);
 		System.out.println("[[ ROWN ACC AMOUNT : "+after+" ]]");
 		returnMap.put("amount", after);
 		// 최종 결과 값 반환
@@ -1588,8 +1676,8 @@ public class InvoiceService {
 		return returnMap;
 	}
 	
-	public Double getRoundResult(Double input){
-		Double returnValue = Math.round(input*100d)/100d;
+	public double getRoundResult(double input){
+		double returnValue = Math.round(input*100d)/100d;
 		return returnValue;
 	}
 	
@@ -1962,24 +2050,24 @@ public class InvoiceService {
 		
 		if (collectionParam != null
 				&& !invoiceCollectionMap.get("flowState").equals("CLAIM")) {
-			Double net = Double.parseDouble(collectionParam.getNet())
+			double net = Double.parseDouble(collectionParam.getNet())
 					+ Double.parseDouble(invoiceCollection.getNet());
-			Double difference = net - Double
+			double difference = net - Double
 					.parseDouble(invoiceCollectionMap.get("amount"));
 			invoiceCollection.setSeq(collectionParam.getSeq());
 			if (difference == 0
 					&& invoiceCollectionMap.get("flowState").equals("DEPOSIT")) {
 				invoiceCollection.setState("COMPLETE");
-				invoiceCollection.setNet(net.toString());
-				invoiceCollection.setDifference(difference.toString());
+				invoiceCollection.setNet(net+"");
+				invoiceCollection.setDifference(difference+"");
 			} else if (invoiceCollectionMap.get("flowState").equals("ACCEPT")) {
 				invoiceCollection.setState("COMPLETE");
 				invoiceCollection.setNet(collectionParam.getNet());
-				invoiceCollection.setDifference(difference.toString());
+				invoiceCollection.setDifference(difference+"");
 			} else {
 				invoiceCollection.setState("RESENT");
-				invoiceCollection.setNet(net.toString());
-				invoiceCollection.setDifference(difference.toString());
+				invoiceCollection.setNet(net+"");
+				invoiceCollection.setDifference(difference+"");
 			}
 
 			invoiceDao.updateGblCollectionNet(invoiceCollection);
@@ -2018,8 +2106,8 @@ public class InvoiceService {
 				.getInvoiceCollectionGblListAndFlow(Integer
 						.parseInt(invoiceSeq));
 
-		Double invoiceCollectionNetSum = 0.0;
-		Double invoiceCollectionDifferencSum = 0.0;
+		double invoiceCollectionNetSum = 0.0;
+		double invoiceCollectionDifferencSum = 0.0;
 		boolean checkResent = false;
 		int completeCount = 0;
 
@@ -2043,23 +2131,23 @@ public class InvoiceService {
 		invoiceParam.setSeq(Integer.parseInt(invoiceSeq));
 		List<InvoiceGbl> invoiceAllCollectionList = invoiceDao.getInvoiceGblListByInvoice(invoiceParam);
 		
-		parentInvoiceCollection.setNet(invoiceCollectionNetSum.toString());		
+		parentInvoiceCollection.setNet(invoiceCollectionNetSum+"");		
 		
 		if((invoiceCollectionMap.get("flowState").equals("DEPOSIT") || invoiceCollectionMap.get("flowState").equals("ACCEPT")) && (completeCount != invoiceCollectionGblList.size())){	
-			Double totalAmount = 0.0;
+			double totalAmount = 0.0;
 			for(InvoiceGbl invoiceGbl : invoiceAllCollectionList){
 				totalAmount += Double.parseDouble(invoiceGbl.getAmount());
 			}
 			
 			if(totalAmount > Double.parseDouble(invoiceCollection.getNet())){				
-				Double reDifference = invoiceCollectionNetSum - totalAmount;
-				parentInvoiceCollection.setDifference(reDifference.toString());
+				double reDifference = invoiceCollectionNetSum - totalAmount;
+				parentInvoiceCollection.setDifference(reDifference+"");
 			}
 			
 			checkResent = true;
 		} else {
 			parentInvoiceCollection.setDifference(invoiceCollectionDifferencSum
-					.toString());
+					+"");
 		}
 
 		if (checkResent) {
@@ -2098,11 +2186,11 @@ public class InvoiceService {
 				InvoiceCollection collection = invoiceDao
 						.checkAndGetGblCollectionSeq(invoiceSeq);
 				InvoiceCollection collectionParam = new InvoiceCollection();
-				Double net = Double.parseDouble(collection.getNet())
+				double net = Double.parseDouble(collection.getNet())
 						- Double.parseDouble(amount);
 				collectionParam.setNet(net.toString());
 
-				Double difference = Double.parseDouble(collection
+				double difference = Double.parseDouble(collection
 						.getDifference()) - Double.parseDouble(amount);
 				collectionParam.setDifference(difference.toString());
 				collectionParam.setState("RESENT");
@@ -2116,13 +2204,13 @@ public class InvoiceService {
 			InvoiceCollection collection = invoiceDao
 					.checkAndGetGblCollectionSeq(invoiceSeq);
 			InvoiceCollection collectionParam = new InvoiceCollection();
-			Double net = Double.parseDouble(collection.getNet())
+			double net = Double.parseDouble(collection.getNet())
 					- Double.parseDouble(amount);
-			collectionParam.setNet(net.toString());
+			collectionParam.setNet(net+"");
 
-			Double difference = Double.parseDouble(collection
+			double difference = Double.parseDouble(collection
 					.getDifference()) - Double.parseDouble(amount);
-			collectionParam.setDifference(difference.toString());
+			collectionParam.setDifference(difference+"");
 			collectionParam.setState("RESENT");
 
 			collectionParam.setSeq(Integer.parseInt(collectionSeq));
@@ -2137,7 +2225,7 @@ public class InvoiceService {
 						.checkAndGetGblCollectionSeq(invoiceSeq);
 				InvoiceCollection collectionParam = new InvoiceCollection();
 	
-				Double difference = Double.parseDouble(collection.getDifference())
+				double difference = Double.parseDouble(collection.getDifference())
 						- Double.parseDouble(amount);
 				collectionParam.setDifference(difference.toString());
 				collectionParam.setState("RESENT");
@@ -2153,9 +2241,9 @@ public class InvoiceService {
 					.checkAndGetGblCollectionSeq(invoiceSeq);
 			InvoiceCollection collectionParam = new InvoiceCollection();
 
-			Double difference = Double.parseDouble(collection.getDifference())
+			double difference = Double.parseDouble(collection.getDifference())
 					- Double.parseDouble(amount);
-			collectionParam.setDifference(difference.toString());
+			collectionParam.setDifference(difference+"");
 			collectionParam.setState("RESENT");
 
 			collectionParam.setNet(collection.getNet());
@@ -2178,8 +2266,8 @@ public class InvoiceService {
 				.getInvoiceCollectionGblListAndFlow(Integer
 						.parseInt(invoiceNormalSeq));
 
-		Double invoiceCollectionNetSum = 0.0;
-		Double invoiceCollectionDifferencSum = 0.0;
+		double invoiceCollectionNetSum = 0.0;
+		double invoiceCollectionDifferencSum = 0.0;
 		int checkResent = 0; // 0 : complete , 1 : resent , 2 : ''
 
 		for (InvoiceCollection invoiceCollectionGbl : invoiceCollectionGblList) {
@@ -2198,9 +2286,9 @@ public class InvoiceService {
 			}
 		}
 
-		parentInvoiceCollection.setNet(invoiceCollectionNetSum.toString());
+		parentInvoiceCollection.setNet(invoiceCollectionNetSum+"");
 		parentInvoiceCollection.setDifference(invoiceCollectionDifferencSum
-				.toString());
+				+"");
 
 		if (checkResent == 1) {
 			parentInvoiceCollection.setState("RESENT");

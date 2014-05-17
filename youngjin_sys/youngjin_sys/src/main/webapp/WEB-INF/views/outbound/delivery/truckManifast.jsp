@@ -70,7 +70,7 @@
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
 							<c:if test="${i == pagination.currentPage}">
-								<a class="page_now">${i}</a>
+								<a style="font-size: 13pt;color: red;" class="page_now">${i}</a>
 							</c:if>
 							<c:if test="${i != pagination.currentPage}">
 								<a href="javascript:void(goToPage(${i}))">${i}</a>

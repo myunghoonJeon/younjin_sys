@@ -92,10 +92,8 @@ public class InboundService {
 		Map<String, List<Code>> filterMap = new HashMap<String, List<Code>>();
 		List<Code> branchList = codeDao.getAllAreaList();		
 		filterMap.put("branchList", branchList);
-		
 		List<Code> carrierList = inboundDao.getCarrierList();
 		filterMap.put("carrierList", carrierList);
-		
 		List<Code> codeList = inboundDao.getCodeList();
 		filterMap.put("codeList", codeList);
 		
@@ -365,7 +363,11 @@ public class InboundService {
 	public int getDeclarationListCount(InboundFilter inboundFilter) {
 		return inboundDao.getDeclarationListCount(inboundFilter);
 	}
-
+	
+	public int getDeclarationGblListCount(InboundFilter inboundFilter) {
+		return inboundDao.getDeclarationGblListCount(inboundFilter);
+	}
+	
 	public List<DeclarationList> getDeclarationList(InboundFilter inboundFilter) {
 		
 		return inboundDao.getDeclarationList(inboundFilter);
@@ -378,8 +380,8 @@ public class InboundService {
 		return null;//inboundDao.getDeclarationList(inboundFilter).get(0);
 	}
 
-	public List<InboundInvoice> getInboundInvoiceDeclarationList() {
-		return inboundDao.getInboundInvoiceDeclarationList();
+	public List<InboundInvoice> getInboundInvoiceDeclarationList(InboundFilter inboundfilter) {
+		return inboundDao.getInboundInvoiceDeclarationList(inboundfilter);
 	}
 
 	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {

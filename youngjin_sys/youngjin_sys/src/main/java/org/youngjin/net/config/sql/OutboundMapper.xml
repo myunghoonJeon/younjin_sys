@@ -833,6 +833,14 @@
 			AND
 			g.pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
 		</if>
+			<if test="searchContent != null and searchContent != ''">
+			<choose>
+				<when test="searchTitle == 'gblNo'">
+					AND
+					no like CONCAT(CONCAT('%', #{searchContent} ), '%')
+				</when>
+			</choose>
+		</if>
 		AND g.seq IN (
 		SELECT
 		seq
@@ -2053,6 +2061,9 @@
 			</when>
 			<when test="column == 'yjn'">
 				,yjn = #{value}
+			</when>
+			<when test="column == 'turnindate'">
+				,turnindate=#{value}
 			</when>
 		</choose>
 		WHERE

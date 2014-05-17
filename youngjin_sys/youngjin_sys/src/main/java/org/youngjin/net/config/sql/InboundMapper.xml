@@ -574,6 +574,22 @@
 						AND
 							pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 					</if>
+					<if test="searchContent != null and searchContent != ''">
+						<choose>
+							<when test="searchTitle == 'name'">
+								AND
+									g.shipperName like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+							</when>
+							<when test="searchTitle == 'ssn'">
+								AND
+									g.ssn like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+							</when>
+							<when test="searchTitle == 'gblNo'">
+								AND
+									g.gblNo like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+							</when>
+						</choose>				
+					</if>
 				ORDER BY
 					g.seq desc
 			)u	
@@ -650,7 +666,18 @@
 		FROM
 			declaration_list d
 	</select>
-	
+	<select id="getDeclarationGblListCount" resultType="Integer">
+		SELECT 
+			count(*)
+		FROM
+			inbound_invoice_list il, gbl_ib g
+		WHERE
+			il.gblSeq = g.seq
+		AND
+			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
+		AND
+			il.declarationCheck &lt;&gt; 1
+	</select>
 	<select id="getDeclarationList" parameterType="InboundFilter" resultType="DeclarationList">
 		SELECT 
 			*
@@ -712,17 +739,50 @@
 			seq = #{value}
 	</delete>
 	
-	<select id="getInboundInvoiceDeclarationList" resultType="InboundInvoice">
+	<select id="getInboundInvoiceDeclarationList" parameterType="InboundFilter" resultType="InboundInvoice">
+		select
+		*
+		from
+		(
 		SELECT 
-			il.seq, g.gblNo, g.shipperName AS name, g.ssn, g.rank, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck
+			il.seq, g.gblNo, g.shipperName AS name, g.ssn, g.rank, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck,(@rownum := @rownum + 1) AS rownum
 		FROM
-			inbound_invoice_list il, gbl_ib g
+			inbound_invoice_list il, gbl_ib g , (SELECT @rownum := 0) r
 		WHERE
 			il.gblSeq = g.seq
 		AND
 			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
 		AND
-			il.declarationCheck &lt;&gt; 1			
+			il.declarationCheck &lt;&gt; 1
+		<if test="branch != null and branch != ''">
+				AND
+				g.area = #{branch}
+				</if>
+				<if test="code != null and code != ''">
+				AND
+					g.code = #{code}
+				</if>
+				<if test="searchContent != null and searchContent != ''">
+						<choose>
+							<when test="searchTitle == 'name'">
+								AND
+									g.shipperName like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+							</when>
+							<when test="searchTitle == 'ssn'">
+								AND
+									g.ssn like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+							</when>
+							<when test="searchTitle == 'gblNo'">
+								AND
+									g.gblNo like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+							</when>
+						</choose>				
+				</if>
+			order by
+			g.seq desc
+			)u
+			WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+				
 	</select>
 	
 	<select id="getGblProcess" parameterType="Integer" resultMap="StatusMap">
@@ -1243,6 +1303,32 @@
 		FROM
 			on_hand_list
 	</select>
+	
+	<select id="getOnhandGblListCount" resultType="Integer">
+		select
+			count(*)
+		FROM
+			inbound_invoice_list il, gbl_ib g
+		WHERE
+			il.gblSeq = g.seq
+		AND
+			g.seq IN (SELECT gblSeq FROM weight_ib w WHERE w.seq NOT IN (SELECT weightSeq FROM on_hand_list_content_weight))
+		AND
+			il.seq NOT IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight iiw WHERE iiw.weightSeq IN (SELECT DISTINCT weightSeq FROM on_hand_list_content_weight))
+		AND
+			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
+		AND
+			il.declarationCheck = 1	
+		<if test="branch != null and branch != ''">
+			AND
+			g.area = #{branch}
+		</if>
+		<if test="code != null and code != ''">
+			AND
+			g.code = #{code}
+		</if>
+		
+	</select>
 	<select id="getTruckGblListCount" resultType="Integer">
 		SELECT
 			count(*)
@@ -1317,11 +1403,14 @@
 		</selectKey>
 	</insert>
 	
-	<select id="getInboundInvoiceOnHandList" resultType="InboundInvoice">
+	<select id="getInboundInvoiceOnHandList" parameterType="InboundFilter" resultType="InboundInvoice">
+		select
+			*
+		from(
 		SELECT 
-			il.seq, g.gblNo, g.shipperName AS NAME, g.ssn, g.rank, g.code, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck, il.gblSeq
+			il.seq, g.gblNo, g.shipperName AS NAME, g.ssn, g.rank, g.code, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck, il.gblSeq,(@rownum := @rownum +1) as rownum
 		FROM
-			inbound_invoice_list il, gbl_ib g
+			inbound_invoice_list il, gbl_ib g, (SELECT @rownum :=0)r
 		WHERE
 			il.gblSeq = g.seq
 		AND
@@ -1332,19 +1421,34 @@
 			il.seq IN (SELECT DISTINCT inboundInvoiceSeq FROM inbound_invoice_weight)
 		AND
 			il.declarationCheck = 1	
+		<if test="branch != null and branch != ''">
+			AND
+			g.area = #{branch}
+		</if>
+		<if test="code != null and code != ''">
+			AND
+			g.code = #{code}
+		</if>
+		
+		)u
+	
 	</select>
 	
 	<select id="getOnHandInvoiceListAlreadyInsert" parameterType="Integer" resultType="InboundInvoice">
+		select
+			*
+		from(
 		SELECT 
-			o.seq AS onHandListContentSeq, g.gblNo, g.shipperName AS NAME, g.ssn, g.rank, g.code, g.eta, g.seq AS gblSeq
+			o.seq AS onHandListContentSeq, g.gblNo, g.shipperName AS NAME, g.ssn, g.rank, g.code, g.eta, g.seq AS gblSeq,(@rownum := @rownum +1) as rownum
 		FROM
-			gbl_ib g, on_hand_list_content o
+			gbl_ib g, on_hand_list_content o, (SELECT @rownum :=0)r
 		WHERE
 			o.gblSeq = g.seq
 		AND
-			g.seq IN (SELECT gblSeq FROM on_hand_list_content WHERE onHandListSeq = #{value})		
+			g.seq IN (SELECT gblSeq FROM on_hand_list_content WHERE onHandListSeq = #{seq})		
 		AND
 			g.seq IN (SELECT DISTINCT gblSeq FROM inbound_invoice_list WHERE check_up = 0 AND declarationCheck = 1)
+		)u
 	</select>
 	<select id="getOnhandSum" parameterType="Integer" resultType="OnhandSum">
 		SELECT count(seq) as piece, sum(gross) as sumGross, sum(net) as sumNet, sum(cuft) as sumCuft
@@ -1560,7 +1664,7 @@
 	</insert>
 	
 	<select id="getOnHandGblList" parameterType="InboundFilter" resultType="GBL">
-		SELECT 	
+		<!-- SELECT 	
 			g.seq, g.gblNo, g.shipperName, g.rank, g.code, g.tsp, g.destAddress, g.pud, g.rdd, g.arriveDate, g.awbNo,
 			g.ssn, g.pmjDate, g.area AS areaLocal, g.fright, g.eMailAddress, g.oblNo, g.vessle, g.blCompany,
 			g.remark, g.eta, g.sitIn, g.sitOut, g.sitNo, g.rate, g.yjNo, g.totalPcs, g.phone, g.address, g.onHandDate, g.gbloc,
@@ -1580,10 +1684,71 @@
 			) ohlcw
 		WHERE
 			ohlc.seq NOT IN (SELECT onHandListContentSeq FROM truck_manifast_ib_onHand)
+		<if test="branch != null and branch != ''">
+			AND
+			g.area = #{branch}
+		</if>
+		<if test="code != null and code != ''">
+			AND
+			g.code = #{code}
+		</if>
 		AND
 			g.seq = ohlc.gblSeq
 		AND
-			ohlcw.onHandListContentSeq = ohlc.seq	
+			ohlcw.onHandListContentSeq = ohlc.seq	 -->
+	select
+	*
+	from(
+		SELECT 	
+					g.seq, g.gblNo, g.shipperName, g.rank, g.code, g.tsp, g.destAddress, g.pud, g.rdd, g.arriveDate, g.awbNo,
+					g.ssn, g.pmjDate, g.area AS areaLocal, g.fright, g.eMailAddress, g.oblNo, g.vessle, g.blCompany,
+					g.remark, g.eta, g.sitIn, g.sitOut, g.sitNo, g.rate, g.yjNo, g.totalPcs, g.phone, g.address, g.onHandDate, g.gbloc,
+					g.destinationGbloc, g.itemsPieces, g.grossWeight, g.netWeight, g.storedAt, ohlcw.pcs, ohlcw.lbs, ohlcw.cuft,
+					ohlc.seq AS onHandContentSeq,(@rownum := @rownum +1) as rownum
+				FROM
+					gbl_ib g, on_hand_list_content ohlc,
+					(
+						SELECT
+							COUNT(piece) AS pcs, SUM(gross) AS lbs, SUM(cuft) AS cuft, ohlcw.onHandListContentSeq
+						FROM
+							on_hand_list_content_weight ohlcw, weight_ib wi, (SELECT @rownum :=0)r
+						WHERE
+							ohlcw.weightSeq = wi.seq
+						GROUP BY 
+							onHandListcontentSeq
+					) ohlcw
+				WHERE
+					ohlc.seq NOT IN (SELECT onHandListContentSeq FROM truck_manifast_ib_onHand)
+				<if test="branch != null and branch != ''">
+				AND
+				g.area = #{branch}
+				</if>
+				<if test="code != null and code != ''">
+				AND
+					g.code = #{code}
+				</if>
+				<if test="searchContent != null and searchContent != ''">
+						<choose>
+							<when test="searchTitle == 'name'">
+								AND
+									g.shipperName like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+							</when>
+							<when test="searchTitle == 'ssn'">
+								AND
+									g.ssn like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+							</when>
+							<when test="searchTitle == 'gblNo'">
+								AND
+									g.gblNo like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+							</when>
+						</choose>				
+				</if>
+				AND
+					g.seq = ohlc.gblSeq
+				AND
+					ohlcw.onHandListContentSeq = ohlc.seq	
+					)u
+				WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
 	</select>
 	
 	<select id="getTruckManifastList" parameterType="InboundFilter" resultType="TruckManifastIb">

@@ -79,7 +79,7 @@
 					<tr>
 						<td colspan="5">${invoiceGblContent.chargingItem }</td>
 						<td>${invoiceGblContent.quantity }</td>
-						<td><fmt:formatNumber value="${invoiceGblContent.amount }" type="number"/></td>
+						<td><fmt:formatNumber value="${invoiceGblContent.amount }" pattern="##,###.00"></fmt:formatNumber></td>
 					</tr>
 				</c:forEach>
 			</table>

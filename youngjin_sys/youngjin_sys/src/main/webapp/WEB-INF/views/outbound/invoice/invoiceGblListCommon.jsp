@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <c:set var="cp" value="<%=request.getContextPath() %>"/>
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
@@ -59,7 +60,7 @@
 							<td>${invoiceGbl.gblNo }</td>
 							<td>${invoiceGbl.rank }</td>
 							<td>${invoiceGbl.name }</td>
-							<td>${invoiceGbl.amount }</td>
+							<td><fmt:formatNumber value="${invoiceGbl.amount }" pattern="##,###.00"/></td>
 							<td>${invoiceGbl.complete }</td>
 						</tr>
 					</c:forEach>

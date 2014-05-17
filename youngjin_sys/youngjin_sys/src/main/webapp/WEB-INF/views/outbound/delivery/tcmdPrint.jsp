@@ -87,7 +87,7 @@
 	<input name="army" style="top:0px; left:230px; width:100px; height:10px; font-size:6pt;" value="ARMY"/>
 	    <input name="dodsponsred" style="top:0px; left:385px; width:100px; height:10px;font-size:6pt;" value="DOD-SPONSORED"/>
 	    <input name="turnInDate" style="top:0px; left:545px; width:100px; height:10px;font-size:6pt;" value="TURN IN DATE : "/>
-	    <input name="date" style="top:0px; left:630px; width:100px; height:10px;font-size:6pt;" value="26-AUG-13"/>
+	    <input name="date" style="top:0px; left:630px; width:100px; height:10px;font-size:7pt;font-weight: bold;font-family: arial;" value="${tcmd.turnindate }"/>
 		
 	    <IMG width="1010" height="714" src="<c:url value='/resources/images/TCMD14.jpg'/>" alt="background image"/>
 	    

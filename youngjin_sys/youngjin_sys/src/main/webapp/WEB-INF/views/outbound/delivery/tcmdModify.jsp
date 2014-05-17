@@ -90,8 +90,8 @@
 		<div class="tcmdInfo_wrap">
 		<input name="army" style="top:0px; left:230px; width:100px; height:10px; font-size:6pt;" value="ARMY"/>
 	    <input name="dodsponsred" style="top:0px; left:385px; width:100px; height:10px;font-size:6pt;" value="DOD-SPONSORED"/>
-	    <input name="turnInDate" style="top:0px; left:545px; width:100px; height:10px;font-size:6pt;" value="TURN IN DATE : "/>
-	    <input name="date" style="top:0px; left:630px; width:100px; height:10px;font-size:6pt;" value="26-AUG-13"/>
+	    <input name="turnInDatetitle" style="top:0px; left:545px; width:100px; height:10px;font-size:6pt;" value="TURN IN DATE : "/>
+	    <input name="turnindate" style="top:0px; left:630px; width:100px; height:10px;font-size:7pt;font-family: arial;font-weight: bold;" value="${tcmd.turnindate }"/>
 		
 	    <IMG width="1010" height="714" src="<c:url value='/resources/images/TCMD14.jpg'/>" alt="background image"/>
 	    
@@ -171,9 +171,10 @@
     <input name="dataReceivedOffered"    type="text" class="q-row-7" style="left:197px; width:223px;" value="${tcmd.dataReceivedOffered}"/>
     <input name="condition"    type="text" class="q-row-7" style="left:432px; width:68px;" value="${tcmd.condition}" />
     <input name="remarks"    type="text" class="q-row-7" style="left:512px; width:440px;" value="${tcmd.remarks}"/>
-
+	
 	<div class="tcmdGbl_wrap">
 		<c:forEach var="gbl" items="${gblList }" varStatus="i">
+		
 		<c:choose>
 		<c:when test="${i.count > start and i.count <= end }">
 			<c:choose>
@@ -215,7 +216,8 @@
 			    <input name="remark_rdd" type="text" class="q-row-A${up  }" style="left:673px; width:30px;" value="${gbl.tcmdRddJulianDate }"/>
 			    <input name="remark_proj" type="text" class="q-row-A${up  }" style="left:704px; width:51px;"  />
 			    <input name="remark_shpd" type="text" class="q-row-A${up  }" style="left:762px; width:25px;"  />
-			    <input name="remark_tac" type="text" class="q-row-A${up  }" style="left:795px; width:35px; font-size:7pt;" value="${gbl.remarkTac }"  />
+			
+			    <input name="remark_tac" type="text" class="q-row-A${up  }" style="left:795px; width:35px; font-size:7pt; font-weight:bold; font-family:arial;" value="${gbl.remarkTac }"  />
 			    <input name="q-44a-1" type="text" class="q-row-A${up  }" style="left:851px; width:15px;" value="${gbl.pcs }" readonly="readonly" />
 			    <input name="q-44b-1" type="text" class="q-row-A${up  }" style="left:878px; width:37px;" value="${gbl.lbs }" readonly="readonly"  />
 			    <input name="q-44c-1" type="text" class="q-row-A${up  }" style="left:926px; width:29px;" value="${gbl.cuft }" readonly="readonly"/>	
@@ -226,16 +228,66 @@
 			    <input name="q-41-1"  type="text" class="q-row-A${down}" style="left:595px; width:46px; background-color: transparent;" value="${gbl.areaLocal }" readonly="readonly" />
 			    <input name="q-43a-1" type="text" class="q-row-A${down}" style="left:673px; width:132px; background-color: transparent;text-align:left;" value="${gbl.customerName }   ${gbl.rank}" readonly="readonly"/>
 			    <input name="q-44a-1" type="text" class="q-row-A${down}" style="left:864px; width:97px; background-color: transparent;text-align:left;" value="${fn:substring(gbl.ssn, 0, 3)}-${fn:substring(gbl.ssn, 3, 5)}-${fn:substring(gbl.ssn, 5, 9)}" readonly="readonly" />
-			    
 			</div>
 			</c:when>
 			</c:choose>
+			<c:choose>
+				<c:when test="${page eq pageNum }">
+					<c:choose>
+						<c:when test="${i.last }">
+							<c:choose>
+		<c:when test="${gblList[0].code eq 'T' }">
+			<c:choose>
+			<c:when test="${down eq 14 }">
+				
+			</c:when>
+			<c:otherwise>
+				<c:choose>
+					<c:when test="${down eq 2 }">
+						<c:set var="up" value="3"/>
+						<c:set var="down" value="4"/>
+					</c:when>
+					<c:when test="${down eq 4 }">
+					<c:set var="up" value="5"/>
+						<c:set var="down" value="6"/>
+						</c:when>
+					<c:when test="${down eq 6 }"><c:set var="up" value="7"/>
+						<c:set var="down" value="8"/></c:when>
+					<c:when test="${down eq 8 }"><c:set var="up" value="9"/>
+						<c:set var="down" value="10"/></c:when>
+					<c:when test="${down eq 10 }"><c:set var="up" value="11"/>
+						<c:set var="down" value="12"/></c:when>
+					<c:when test="${down eq 12 }"><c:set var="up" value="13"/>
+						<c:set var="down" value="14"/></c:when>
+				</c:choose>
+				<input type="text" class="q-row-A${up}" style="left:81px;  width:40px; font-size:8pt;" value="THIS IS"/>
+				<input type="text" class="q-row-A${up}" style="left:126px;  width:56px; font-size:8pt;" value="A CODE T"/>
+				<input type="text" class="q-row-A${up}" style="left:185px;  width:64px; font-size:8pt;" value="SHIPMENTS"/>
+				<input type="text" class="q-row-A${up}" style="left:254px;  width:37px; font-size:8pt;" value="MOVIN"/>
+				<input type="text" class="q-row-A${up}" style="left:293px;  width:30px; font-size:8pt; text-align: left;" value="G"/>
+					<c:choose>
+						<c:when test="${gblList[0].milSVC eq 'F' }">
+							<input type="text" class="q-row-A${down}" style="left:428px; width:100px; background-color: transparent;" value="P&C CHARGE:$" readonly="readonly" />
+						</c:when>
+					</c:choose>
+				<input type="text" class="q-row-A${down}" style="left:126px;  width:56px;font-size:8pt;" value="AS TP-2"/>
+				<input type="text" class="q-row-A${down}" style="left:185px;  width:64px;font-size:8pt; text-align: left" value="CARGO"/>
+			</c:otherwise>
+			</c:choose>
+			
+		</c:when>
+	</c:choose>
+						</c:when>
+					</c:choose>
+				</c:when>
+			</c:choose>
 		</c:forEach>
+			
 	</div>
 
 </DIV>
 </c:forEach>
-
+	
 </body>
 
 </html>

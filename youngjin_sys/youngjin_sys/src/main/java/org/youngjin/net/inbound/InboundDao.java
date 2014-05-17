@@ -151,7 +151,9 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public int getDeclarationListCount(InboundFilter inboundFilter) {
 		return getSqlSession().selectOne("inboundMapper.getDeclarationListCount", inboundFilter);
 	}
-
+	public int getDeclarationGblListCount(InboundFilter inboundFilter) {
+		return getSqlSession().selectOne("inboundMapper.getDeclarationGblListCount", inboundFilter);
+	}
 	public List<DeclarationList> getDeclarationList(InboundFilter inboundFilter) {
 		List<DeclarationList> dl = getSqlSession().selectList("inboundMapper.getDeclarationList", inboundFilter);
 		return  dl;
@@ -185,8 +187,8 @@ public class InboundDao extends SqlSessionDaoSupport {
 		getSqlSession().insert("inboundMapper.addtionComplete", paramAddition);
 	}
 
-	public List<InboundInvoice> getInboundInvoiceDeclarationList() {
-		return getSqlSession().selectList("inboundMapper.getInboundInvoiceDeclarationList");
+	public List<InboundInvoice> getInboundInvoiceDeclarationList(InboundFilter inboundfilter) {
+		return getSqlSession().selectList("inboundMapper.getInboundInvoiceDeclarationList",inboundfilter);
 	}
 
 	public void updateGblStatus(Map<String, Integer> statusParam) {

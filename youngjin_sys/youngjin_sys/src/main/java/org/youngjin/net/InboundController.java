@@ -241,7 +241,7 @@ public class InboundController {
 			@ModelAttribute InboundFilter inboundFilter) {
 		inboundFilter.getPagination().setNumItems(
 				inboundService.getCustomInvoiceGblListCount(inboundFilter));
-
+		model.addAttribute("filterMap", inboundService.getFilterMap());
 		model.addAttribute("gblList", inboundService.getCustomInvoiceGblList(inboundFilter));
 
 		return process + "/custom/invoiceAdd";
@@ -377,10 +377,10 @@ public class InboundController {
 	public String declarationListSelect(Model model, User user,
 			@PathVariable String process,
 			@ModelAttribute InboundFilter inboundFilter) {
-
+		
 		user.setSubProcess("declare");
-
-		List<InboundInvoice> inboundInvoiceList = inboundService.getInboundInvoiceDeclarationList();
+		inboundFilter.getPagination().setNumItems(inboundService.getDeclarationGblListCount(inboundFilter));
+		List<InboundInvoice> inboundInvoiceList = inboundService.getInboundInvoiceDeclarationList(inboundFilter);
 		model.addAttribute("inboundInvoiceList", inboundInvoiceList);
 		model.addAttribute("user", user);
 
@@ -483,8 +483,15 @@ public class InboundController {
 
 	@RequestMapping(value = "/{process}/onHand/{seq}/onHandListSelect", method = RequestMethod.GET)
 	public String onHandListContentList(Model model, User user,
-			@PathVariable String process, @PathVariable Integer seq) {
-
+			@PathVariable String process, @PathVariable Integer seq
+			) {
+//		inboundFilter.getPagination().setNumItems(
+//				inboundService.getOnhandGblListCount(inboundFilter));
+//		System.out.println(inboundService.getOnhandGblListCount(inboundFilter));
+//		System.out.println(inboundFilter.getPagination().getItemSeqBegin());
+//		System.out.println(inboundFilter.getPagination().getItemSeqEnd());
+//		System.out.println("filter : "+inboundFilter.getArea()+"]");
+//		model.addAttribute("filterMap", inboundService.getFilterMap());
 		user.setSubProcess("onHandList");
 		model.addAttribute("onHandListSeq", seq);
 		model.addAttribute("inboundInvoiceList",
@@ -632,11 +639,11 @@ public class InboundController {
 	public String truckManifastOnhandList(Model model, User user,
 			@PathVariable String process,
 			@ModelAttribute InboundFilter inboundFilter) {
-
+		inboundFilter.getPagination().setNumItems(
+				inboundService.getTruckManifastListCount(inboundFilter));
+		model.addAttribute("filterMap", inboundService.getFilterMap());
 		List<GBL> onHandListes = inboundService.getOnHandGBLList(inboundFilter);
-
 		model.addAttribute("onHandGblList", onHandListes);
-
 		return process + "/onHand/truckManifastOnhandList";
 	}
 	

@@ -5,8 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -38,7 +40,6 @@ import org.youngjin.net.memorandum.MemorandumService;
 import org.youngjin.net.outbound.Addition;
 import org.youngjin.net.outbound.BookingList;
 import org.youngjin.net.outbound.DeliveryGbl;
-import org.youngjin.net.outbound.OutboundDao;
 import org.youngjin.net.outbound.OutboundFilter;
 import org.youngjin.net.outbound.OutboundService;
 import org.youngjin.net.outbound.PowerOfAttornyList;
@@ -1153,9 +1154,29 @@ public class OutboundController {
 			else if(g.getCode().equals("J")){
 				g.setJk("JXX");
 			}
+			if(g.getRemarkTac() == null){
+				String temp = g.getNo().substring(0,4);
+				System.out.println(" [[[[[[[[[[[[ STRING GBL NO CUT TEST : "+temp+" ]]]]]]]]]]]]");
+				if(temp.equals("QXAK")){
+					g.setRemarkTac("CGA4");
+				}
+				else if(temp.equals("QNFL") || temp.equals("QMFL")){
+					g.setRemarkTac("F48D");
+				}
+			}
 			g.setTcmdConsignee3(processService.getGBlockByGbloc(g.getDestGBlock()).getDodaac());
 		}
 		Tcmd tcmd = outboundService.getTcmdContent(seq);
+		System.out.println("TURN IN DATE : "+tcmd.getTurnindate());
+		if(tcmd.getTurnindate() == null){
+			Date today = new Date();
+	        Date seldate = new Date();
+	        SimpleDateFormat simple = new SimpleDateFormat("dd-MMM-yy",Locale.ENGLISH);
+	        seldate.setTime( today.getTime() + (1000 * 60 * 60 * 24)* 1);
+	        String date = simple.format(seldate);
+	        tcmd.setTurnindate(date);
+	        System.out.println("DATE : "+date);
+		}
 		int size = gblList.size();
 		int pageNum = size/7;
 		
@@ -1189,6 +1210,16 @@ public class OutboundController {
 			}
 			else if(g.getCode().equals("J")){
 				g.setJk("JXX");
+			}
+			if(g.getRemarkTac() == null){
+				String temp = g.getNo().substring(0,4);
+				System.out.println(" [[[[[[[[[[[[ STRING GBL NO CUT TEST : "+temp+" ]]]]]]]]]]]]");
+				if(temp.equals("QXAK")){
+					g.setRemarkTac("CGA4");
+				}
+				else if(temp.equals("QNFL") || temp.equals("QMFL")){
+					g.setRemarkTac("F48D");
+				}
 			}
 			g.setTcmdConsignee3(processService.getGBlockByGbloc(g.getDestGBlock()).getDodaac());
 		}

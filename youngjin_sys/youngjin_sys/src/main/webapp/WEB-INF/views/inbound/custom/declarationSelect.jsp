@@ -50,9 +50,43 @@
 		<div class="pop_title_line">
 			<span>DECLARATION LIST ADD</span>
 		</div>		
-		
+		<c:set var="branchList" value="${filterMap['branchList'] }" />
+		<c:set var="carrierList" value="${filterMap['carrierList'] }" />
+		<c:set var="codeList" value="${filterMap['codeList'] }" />
 		<div class="gbl_filter">	
 			<ul class="freight_filter_wrap">
+				<form:form commandName="inboundFilter" method="get">
+					<sec:authorize access="hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2')">
+						<li>	
+							<form:select path="branch">
+								<form:option value="">All</form:option>
+								<c:forEach var="branch" items="${branchList }">
+									<c:if test="${branch.codeName ne 'None' }" >
+										<form:option value="${branch.codeEtc }">${branch.codeName }</form:option>
+									</c:if>
+								</c:forEach>
+							</form:select>
+						</li>
+					</sec:authorize>
+						<li>
+							<form:select path="code">
+								<form:option value="">All</form:option>
+								<c:forEach var="code" items="${codeList }">
+									<form:option value="${code.subCode }">${code.subCode }</form:option>
+								</c:forEach>
+							</form:select>
+						</li>
+					<li>
+					<form:select path="searchTitle">
+						<form:option value="name">NAME</form:option>
+						<form:option value="ssn">SSN</form:option>
+						<form:option value="gblNo">GBL NO</form:option>
+					</form:select>
+					<form:input path="searchContent"/>
+						<span class="inbound_search yj_button" >search</span>
+					</li>	
+					<form:hidden path="page" value="${pagination.currentPage}"/>
+					</form:form>
 				<li>	
 					<span class="inbound_invoice_declaration_add yj_button" >add</span>
 				</li>
@@ -107,6 +141,24 @@
 						</tr>
 					</c:forEach>
 				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="11">
+						<a href="javascript:void(goToPage(1))">FIRST</a>
+						<a href="javascript:void(goToPreviousPages())">PREV</a>
+						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
+							<c:if test="${i == pagination.currentPage}">
+								<a class="page_now" style="font-size: 13pt;color: red;">${i}</a>
+							</c:if>
+							<c:if test="${i != pagination.currentPage}">
+								<a href="javascript:void(goToPage(${i}))">${i}</a>
+							</c:if>
+						</c:forEach>
+						<a href="javascript:void(goToNextPages())">NEXT</a>
+						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
+					</td>
+				</tr>
+			</tfoot>	
 			</table>
 		</div>
 	</div>	

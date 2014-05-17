@@ -47,7 +47,15 @@ public class Tcmd {
 	private String addtionalRemark;
 	private String tac;
 	private String yjn;
+	private String turnindate;
 
+	public String getTurnindate() {
+		return turnindate;
+	}
+
+	public void setTurnindate(String turnindate) {
+		this.turnindate = turnindate;
+	}
 
 	public String getYjn() {
 		return yjn;
