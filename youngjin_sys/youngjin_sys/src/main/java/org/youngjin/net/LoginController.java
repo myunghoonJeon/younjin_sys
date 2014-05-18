@@ -60,7 +60,13 @@ public class LoginController {
 			
 			return "admin/changePasswordPop";
 		}
-		
+		@RequestMapping( value = "/admin/{seq}/changeIdPop", method = RequestMethod.GET)
+		public String changeIdPop(Model model, @PathVariable Integer seq ){
+			
+			model.addAttribute("seq", seq);
+			
+			return "admin/changeIdPop";
+		}
 		@RequestMapping( value = "/admin/clearPassword.json", method = RequestMethod.POST)
 		@ResponseBody
 		public User clearPasword(@RequestBody User user){
@@ -71,6 +77,7 @@ public class LoginController {
 		@RequestMapping( value = "/admin/clearId.json", method = RequestMethod.POST)
 		@ResponseBody
 		public User clearId(@RequestBody User user){
+			System.out.println("user new Id : "+user.getNewId());
 			customJdbcUserDetailManager.changeId(user);
 			return customJdbcUserDetailManager.selectUser(user);
 		}

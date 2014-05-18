@@ -18,6 +18,7 @@
 	if (typeof youngjin == 'undefined') {
 		youngjin = {};
 	}
+	
 </script>
 
 <%@ include file="../../layout/include_script.jspf" %>

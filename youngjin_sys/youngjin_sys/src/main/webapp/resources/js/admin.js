@@ -62,13 +62,11 @@ youngjin.admin.sync = function(){
 	
 	$('.admin_user_list_password').unbind('click');
 	$('.admin_user_list_password').bind('click', function(){
-		alert("user pw change");
 		youngjin.admin.userPasswordChangePop($(this));
 	});
 	
 	$('.admin_user_list_username').unbind('click');
 	$('.admin_user_list_username').bind('click', function(){
-		alert("user id change");
 		youngjin.admin.userIdChangePop($(this));
 	});
 	
@@ -267,11 +265,12 @@ youngjin.admin.user_family_name_input_submit = function(target){
 };
 youngjin.admin.userIdChangePop = function(target){
 	var url = contextPath + '/admin/' + target.parents().attr('data-seq') + '/changeIdPop';
+	
 	$.smartPop.open({
 		width: 300,
 		height: 100,
 		url : url
-	});	
+	});
 };
 youngjin.admin.userPasswordChangePop = function(target){
 	var url = contextPath + '/admin/' + target.parents().attr('data-seq') + '/changePasswordPop';
@@ -288,6 +287,8 @@ youngjin.admin.user_id_clear = function(target){
 	var id = $('#changeId').val();
 	
 	var url = contextPath + '/admin/clearId.json';
+	alert("id : "+id+" seq : "+seq+" url : "+url);
+	
 	var json = {
 			"seq" : seq,
 			"newId":  id
@@ -296,7 +297,7 @@ youngjin.admin.user_id_clear = function(target){
 	$.postJSON(url, json, function(user){
 		return jQuery.ajax({
 			success : function(){
-				parent.$('#admin_user_list_username').html((user.username).substring(0, 10) + '...');
+				parent.$('#admin_user_list_username').html(user.username);
 				parent.$('.admin_user_list_lastUpdate').html(user.lastUpdate);
 				parent.$('.admin_user_list_lastUpdateBy').html(user.lastUpdateBy);
 				
