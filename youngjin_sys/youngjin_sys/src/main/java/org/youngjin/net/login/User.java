@@ -7,9 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 @SuppressWarnings("serial")
 public class User extends AbstractUser {
 	private Integer seq;
-
+	private String newId="";
 	private String newPassword = "dudwls!";
-
+	
 	private String firstName;
 
 	private String familyName;
@@ -19,6 +19,14 @@ public class User extends AbstractUser {
 	private String lastUpdate;
 
 	private Integer authId;
+
+	public String getNewId() {
+		return newId;
+	}
+
+	public void setNewId(String newId) {
+		this.newId = newId;
+	}
 
 	private String process = "home";
 

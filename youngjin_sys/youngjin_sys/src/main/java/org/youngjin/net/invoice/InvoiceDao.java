@@ -206,12 +206,26 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public void updateInvoiceGblContent(InvoiceGblContent invoiceGblContent) {
 		getSqlSession().update("invoiceMapper.updateInvoiceGblContent", invoiceGblContent);
 	}
-
+	
 	public void insertInvoiceGblContent(InvoiceGblContent invoiceGblContent) {
 		getSqlSession().insert("invoiceMapper.insertInvoiceGblContent", invoiceGblContent);
 		
 	}
-
+	public String getLongcarryAmount(int gblSeq){
+		return getSqlSession().selectOne("invoiceMapper.getLongcarryAmount", gblSeq);
+	}
+	public String getTerminationReason(int gblSeq){
+		return getSqlSession().selectOne("invoiceMapper.getTerminationReason", gblSeq);
+	}
+	public String getSitNumber(int gblSeq){
+		return getSqlSession().selectOne("invoiceMapper.getSitNumber", gblSeq);
+	}
+	public String getSitStartDay(int gblSeq){
+		return getSqlSession().selectOne("invoiceMapper.getSitStartDay", gblSeq);
+	}
+	public String getSitEndDay(int gblSeq){
+		return getSqlSession().selectOne("invoiceMapper.getSitEndDay", gblSeq);
+	}
 	public void updateInvoiceGbl(InvoiceGbl invoiceGbl) {
 		getSqlSession().update("invoiceMapper.updateInvoiceGbl", invoiceGbl);
 	}

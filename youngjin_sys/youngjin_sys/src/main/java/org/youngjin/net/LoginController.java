@@ -68,7 +68,12 @@ public class LoginController {
 			
 			return customJdbcUserDetailManager.selectUser(user);
 		}
-		
+		@RequestMapping( value = "/admin/clearId.json", method = RequestMethod.POST)
+		@ResponseBody
+		public User clearId(@RequestBody User user){
+			customJdbcUserDetailManager.changeId(user);
+			return customJdbcUserDetailManager.selectUser(user);
+		}
 		@RequestMapping( value = "/admin/authChange.json", method = RequestMethod.POST)
 		@ResponseBody
 		public void authChange(@RequestBody User user){

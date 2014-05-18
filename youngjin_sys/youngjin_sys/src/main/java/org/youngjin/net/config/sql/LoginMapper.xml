@@ -106,7 +106,17 @@
 		WHERE
 			seq = #{seq}
 	</update>
-	
+	<update id="updateId" parameterType="User">
+		UPDATE
+			users
+		SET
+			username = #{username},
+			salt = #{salt},
+			lastupdate = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s'),
+			lastupdateby = #{lastUpdateBy}
+		WHERE
+			seq = #{seq}
+	</update>
 	<update id="updateUserByAdmin" parameterType="User">
 		UPDATE
 			users

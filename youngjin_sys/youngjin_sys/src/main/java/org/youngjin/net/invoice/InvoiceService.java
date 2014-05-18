@@ -509,14 +509,49 @@ public class InvoiceService {
 		
 		invoiceDao.deleteInvoice(invoice);
 	}
-
+	public String getYear(String pud){
+		String result="";
+		int year = Integer.parseInt(pud.substring(0,4));
+		int month = Integer.parseInt(pud.substring(4,6));
+		int day = Integer.parseInt(pud.substring(6,8));
+		String tempMonth="";
+		String tempDay="";
+		if(month>5){
+			
+		}
+		else if(month==5){
+			if(day>14){
+				
+			}
+			else{
+				year--;
+			}
+		}
+		else if(month < 5){
+			year--;
+		}
+		if(month<10){
+			tempMonth="0"+month;
+		}
+		else{
+			tempMonth=month+"";
+		}
+		if(day<10){
+			tempDay="0"+day;
+		}
+		else{
+			tempDay=day+"";
+		}
+		result = year+""+tempMonth+""+day+"";
+		return result;
+	}
 	//계산하는부분
 	public List<InvoiceGblContent> getInvoiceGblContentList(Integer invoiceSeq,
 			Integer invoiceGblSeq, Integer gblSeq, String process) {
 
 		List<InvoiceGblContent> invoiceGblContentList = new ArrayList<InvoiceGblContent>();
 
-		if (process.equals("outbound")){//====outbound==================================================================================================BEGIN OUTBOUND
+		if (process.equals("outbound")){//====&&outbound&&==================================================================================================BEGIN OUTBOUND
 			double totalAmount = 0.0;
 
 			Integer checkInvoiceGblContentCount = invoiceDao
@@ -588,7 +623,8 @@ public class InvoiceService {
 				rate.setCode(gbl.getCode());
 				rate.setTsp(gbl.getScac());
 				rate.setProcess(process.toUpperCase());
-				rate.setWriteYear(gbl.getPud());
+				rate.setWriteYear(getYear(gbl.getPud()));
+				System.out.println("CHECK CHECK CHECK ======================= : "+getYear(gbl.getPud()));
 				Rate gblRate = invoiceDao.getBasicRate(rate); // rate 기간에 맞게 가져왔나 모르겠지만 어쨌던 그때그때 해당되는 비율을 계속 가져온다.
 				if(codeStr.equals("HHG")){//USING NET
 					
@@ -665,7 +701,7 @@ public class InvoiceService {
 									rate.setCode(gbl.getCode());
 									rate.setTsp(gbl.getScac());
 									rate.setProcess(process.toUpperCase());
-									rate.setWriteYear(gbl.getPud());
+									rate.setWriteYear(getYear(getYear(gbl.getPud())));
 									rate.setObType("typeII");
 									Rate minimumRate = invoiceDao.getBasicRate(rate);
 									packingCharge = (typeIIWeight/100) * rate.getRate();
@@ -674,7 +710,7 @@ public class InvoiceService {
 									rate.setCode(gbl.getCode());
 									rate.setTsp(gbl.getScac());
 									rate.setProcess(process.toUpperCase());
-									rate.setWriteYear(gbl.getPud());
+									rate.setWriteYear(getYear(gbl.getPud()));
 									rate.setObType("O/F");
 									Rate minimumRate = invoiceDao.getBasicRate(rate);
 									packingCharge = (overFlowWeight/100) * rate.getRate();
@@ -788,7 +824,7 @@ public class InvoiceService {
 
 			Rate containerRateParam = new Rate();
 			System.out.println("[[[[[[[[[[[[[[ CONTAINER RATE SETTING ]]]]]]]]]]]]]]]]]]");
-			containerRateParam.setWriteYear(gbl.getPud());
+			containerRateParam.setWriteYear(getYear(gbl.getPud()));
 			System.out.println("[[[[[[[[[[[[[[ CONTAINER TSP SETTING ]]]]]]]]]]]]]]]]]]");
 			containerRateParam.setTsp(gbl.getScac());
 
@@ -909,9 +945,9 @@ public class InvoiceService {
 
 			Rate otherRateParam = new Rate();
 			otherRateParam.setProcess(process);
-			otherRateParam.setWriteYear(gbl.getPud());
-			System.out.println("[[[[[[gbl get pud : "+gbl.getPud()+" ]]]]]]");
-			Rate comprate = invoiceDao.getEtc("comprate1", gbl.getPud());
+			otherRateParam.setWriteYear(getYear(gbl.getPud()));
+			System.out.println("[[[[[[gbl get pud : "+getYear(gbl.getPud())+" ]]]]]]");
+			Rate comprate = invoiceDao.getEtc("comprate1", getYear(gbl.getPud()));
 
 			Memorandum paramMemorandum = new Memorandum();
 			paramMemorandum.setGblSeq(gbl.getSeq());
@@ -962,18 +998,19 @@ public class InvoiceService {
 			InvoiceGblContent terminationContent = new InvoiceGblContent();
 			double terminationCharge = 0.0;
 
-			paramMemorandum = new Memorandum();
-			paramMemorandum.setGblSeq(gbl.getSeq());
-			paramMemorandum.setType("05");
-
-			memorandum = memorandumDao.getMemorandum(paramMemorandum);
-			if (memorandum != null) {
+			String checkTermination=null;
+			checkTermination = invoiceDao.getTerminationReason(gbl.getSeq());
+			System.out.println("[[[[[[[[[CHECK TERMINATION CHECK : "+checkTermination+"]]]]]]]]]");
+			if (checkTermination == null) {
 			} else {
+				System.out.println("[[[[[[ CALCURATE TERMINATION ]]]]]]]");
 				if ("HHG".equals(codeStr)) {
 					otherRateParam
 							.setTitle("TERMINATION CHARGE - IT13 item 523A");
 					otherRateParam.setCode("HHG");
 					Rate terminationRate = invoiceDao.getOther(otherRateParam);
+					System.out.println("COMPRATE RAGE : "+comprate.getRate());
+					System.out.println("TERMINATIONRATE RAGE : "+terminationRate.getRate());
 					terminationCharge = comprate.getRate()
 							* terminationRate.getRate();
 				} else if ("UB".equals(codeStr)) {
@@ -981,15 +1018,17 @@ public class InvoiceService {
 							.setTitle("TERMINATION CHARGE - IT13 item 522A");
 					otherRateParam.setCode("UB");
 					Rate terminationRate = invoiceDao.getOther(otherRateParam);
+					System.out.println("COMPRATE RAGE : "+comprate.getRate());
+					System.out.println("TERMINATIONRATE RAGE : "+terminationRate.getRate());
 					terminationCharge = comprate.getRate()
 							* terminationRate.getRate();
 				}
-
+				terminationCharge = getRoundResult(terminationCharge);
 				totalAmount += terminationCharge;
 
 				terminationContent.setChargingItem("TERMINATION CHARGE");
 				terminationContent.setQuantity("");
-				terminationContent.setAmount(terminationCharge+"");
+				terminationContent.setAmount(new DecimalFormat("######.00").format(terminationCharge));
 				terminationContent.setInvoiceGblSeq(invoiceGblSeq);
 
 				invoiceGblContentList.add(terminationContent);
@@ -1012,36 +1051,42 @@ public class InvoiceService {
 			double sitFirstDayCharge = 0.0;
 
 			Rate sitRateParam = new Rate();
-			sitRateParam.setWriteYear(gbl.getPud());
+			sitRateParam.setWriteYear(getYear(gbl.getPud()));
 			sitRateParam.setProcess(process);
 
-			Memorandum sitFirstDayMemoParam = new Memorandum();
-			sitFirstDayMemoParam.setType("06");
-			sitFirstDayMemoParam.setGblSeq(gbl.getSeq());
-
-			Memorandum checkInvoiceSitFirstDay = memorandumDao
-					.getMemorandum(sitFirstDayMemoParam);
-
-			if (checkInvoiceSitFirstDay.getSitStartDate() != null) {
+			
+			String sitNo = invoiceDao.getSitNumber(gbl.getSeq());
+			String sitStartDate = invoiceDao.getSitStartDay(gbl.getSeq());
+			String sitEndDate = invoiceDao.getSitEndDay(gbl.getSeq());
+						
+			if (sitStartDate != null) {
 				if ("HHG".equals(codeStr)) {
 					sitRateParam.setTitle("SIT-FIRST DAY -IT13 item 518C");
 					sitRateParam.setCode("HHG");
 					Rate sitFirstDayRate = invoiceDao.getSit(sitRateParam);
 					sitFirstDayCharge = totalGblWeight * comprate.getRate()
 							* sitFirstDayRate.getRate();
+					System.out.println("[[[[[[[ TOTAL WEIGHT : "+totalGblWeight+" ]]]]]]");
+					System.out.println("[[[[[[[ HHG SIT RATE : "+sitFirstDayRate.getRate()+" ]]]]]]]]");
+					System.out.println("[[[[[[[ COMPRATE : "+comprate.getRate()+" ]]]]]]]]");
 				} else if ("UB".equals(codeStr)) {
 					sitRateParam.setTitle("SIT-FIRST DAY - IT13 item 519A");
 					sitRateParam.setCode("UB");
 					Rate sitFirstDayRate = invoiceDao.getSit(sitRateParam);
 					sitFirstDayCharge = totalGblWeight * comprate.getRate()
 							* sitFirstDayRate.getRate();
+					System.out.println("[[[[[[[ TOTAL WEIGHT : "+totalGblWeight+" ]]]]]]");
+					System.out.println("[[[[[[[ UB SIT RATE : "+sitFirstDayRate.getRate()+"]]]]]]]]");
+					System.out.println("[[[[[[[ COMPRATE : "+comprate.getRate()+"]]]]]]]]");
 				}
-
+				sitFirstDayCharge = getRoundResult(sitFirstDayCharge);
+				System.out.println("[[[[[[ SIT FIRST DAY CHARGE : "+sitFirstDayCharge+" ]]]]]]");
+				
 				totalAmount += sitFirstDayCharge;
 
-				sitFirstDayContent.setChargingItem("SIT-FIRST DAY");
-				sitFirstDayContent.setQuantity("day");
-				sitFirstDayContent.setAmount(sitFirstDayCharge+"");
+				sitFirstDayContent.setChargingItem("SIT-FIRST DAY CHARGE");
+				sitFirstDayContent.setQuantity("");
+				sitFirstDayContent.setAmount(new DecimalFormat("######.00").format(sitFirstDayCharge));
 				sitFirstDayContent.setInvoiceGblSeq(invoiceGblSeq);
 
 				invoiceGblContentList.add(sitFirstDayContent);
@@ -1061,46 +1106,45 @@ public class InvoiceService {
 			InvoiceGblContent sitEachContent = new InvoiceGblContent();
 			double sitEachDayCharge = 0.0;
 
-			Memorandum sitEachDayMemoParam = new Memorandum();
-			sitEachDayMemoParam.setType("07");
-			sitEachDayMemoParam.setGblSeq(gbl.getSeq());
-
-			Memorandum checkInvoiceEachDay = memorandumDao
-					.getMemorandum(sitEachDayMemoParam);
-
-			if (checkInvoiceEachDay.getSitEndDate() != null) {
+			
+			if (sitStartDate != null) {
 				if ("HHG".equals(codeStr)) {
 					sitRateParam
 							.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 518D");
 					sitRateParam.setCode("HHG");
 					Rate sitEachDayRate = invoiceDao.getSit(sitRateParam);
 
-					Integer eachDayCount = DateUtil.getDaysBetween(
-							checkInvoiceSitFirstDay.getSitStartDate(),
-							checkInvoiceEachDay.getSitEndDate()) - 1;
-
-					sitEachDayCharge = totalGblWeight * eachDayCount
-							* comprate.getRate() * sitEachDayRate.getRate();
+					Integer eachDayCount = DateUtil.getDaysBetween(sitStartDate, sitEndDate) - 1;
+					System.out.println("[[[[ START DATE : "+sitStartDate+" ]]]]]");
+					System.out.println("[[[[ END DATE : "+sitEndDate+" ]]]]]");
+					System.out.println("[[[[ BETWEEN  : "+eachDayCount+" ]]]]]");
+					System.out.println("[[[[ COMPRATE : "+comprate.getRate()+" ]]]]]");
+					System.out.println("[[[[ SIT EACH DATE : "+sitEachDayRate.getRate()+" ]]]]]");
+					
+					sitEachDayCharge = totalGblWeight * eachDayCount* comprate.getRate() * sitEachDayRate.getRate();
 				} else if ("UB".equals(codeStr)) {
 					sitRateParam
 							.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 519C");
 					sitRateParam.setCode("UB");
 
-					Integer eachDayCount = DateUtil.getDaysBetween(
-							checkInvoiceSitFirstDay.getSitStartDate(),
-							checkInvoiceEachDay.getSitEndDate()) - 1;
-
+					Integer eachDayCount = DateUtil.getDaysBetween(sitStartDate, sitEndDate) - 1;
+					System.out.println("[[[[ START DATE : "+sitStartDate+" ]]]]]");
+					System.out.println("[[[[ END DATE : "+sitEndDate+" ]]]]]");
+					System.out.println("[[[[ BETWEEN  : "+eachDayCount+" ]]]]]");
+					System.out.println("[[[[ COMPRATE : "+comprate.getRate()+" ]]]]]");
 					Rate sitEachDayRate = invoiceDao.getSit(sitRateParam);
+					System.out.println("[[[[ SIT EACH DATE : "+sitEachDayRate.getRate()+" ]]]]]");
 					sitEachDayCharge = totalGblWeight * eachDayCount
 							* comprate.getRate() * sitEachDayRate.getRate();
 
 				}
-
+				sitEachDayCharge = getRoundResult(sitEachDayCharge);
+				System.out.println("[[[[[[[ SIT EACH DAY CHARGE : "+sitEachDayCharge+" ]]]]]]]]]");
 				totalAmount += sitEachDayCharge;
-
+				
 				sitEachContent.setChargingItem("SIT-EACH ADDITIONAL DAY");
-				sitEachContent.setQuantity("days");
-				sitEachContent.setAmount(sitEachDayCharge+"");
+				sitEachContent.setQuantity((DateUtil.getDaysBetween(sitStartDate, sitEndDate) - 1)+"days");
+				sitEachContent.setAmount(new DecimalFormat("######.00").format(sitEachDayCharge));
 				sitEachContent.setInvoiceGblSeq(invoiceGblSeq);
 
 				invoiceGblContentList.add(sitEachContent);
@@ -1118,12 +1162,36 @@ public class InvoiceService {
 			// 8. LONG CARRY
 			if ("HHG".equals(codeStr)) {
 				InvoiceGblContent longCarryContent = new InvoiceGblContent();
-				double lognCarryCharge = 0.0;
-
-				Memorandum longCarryMemoParam = new Memorandum();
-				longCarryMemoParam.setType("08");
-				longCarryMemoParam.setGblSeq(gbl.getSeq());
-
+				double longCarryCharge = 0.0;
+				int inputGblSeq = gbl.getSeq();
+				String lc ="";
+				lc = invoiceDao.getLongcarryAmount(inputGblSeq);
+				if(lc == null){
+					System.out.println("[[[[[[[ LONG CARRAY NULL ]]]]]]]]");
+				}
+				else{
+					System.out.println("[[[[[[[ LONG CARRAY AMOUNT : "+lc+"]]]]]]]]]]]]");
+					longCarryCharge = Double.parseDouble(lc);
+					longCarryCharge = getRoundResult(longCarryCharge);
+					longCarryContent.setAmount(new DecimalFormat("######.00").format(longCarryCharge));
+					longCarryContent.setChargingItem("LONG CARRAY");
+					longCarryContent.setInvoiceGblSeq(invoiceGblSeq);
+					
+					invoiceGblContentList.add(longCarryContent);
+					
+					checkInvoiceContentGetSeq = invoiceDao
+							.checkInvoiceContent(longCarryContent);
+	
+					if (checkInvoiceContentGetSeq != null) {
+						longCarryContent.setSeq(checkInvoiceContentGetSeq);
+						invoiceDao.updateInvoiceGblContent(longCarryContent);
+					} else {
+						invoiceDao.insertInvoiceGblContent(longCarryContent);
+					}
+					
+					totalAmount += longCarryCharge;
+					totalAmount = getRoundResult(totalAmount);
+				}
 			}
 
 			// 9. ACCESSORIAL SERVICE CHARGE
@@ -1137,7 +1205,7 @@ public class InvoiceService {
 					additionContent.setQuantity("");
 					additionContent.setAmount(addition.getCost().toString());
 					additionContent.setInvoiceGblSeq(invoiceGblSeq);
-	
+					
 					invoiceGblContentList.add(additionContent);
 	
 					checkInvoiceContentGetSeq = invoiceDao
@@ -1191,7 +1259,7 @@ public class InvoiceService {
 			
 			List<WeightIb> weightList = inboundDao.getWeightList(gbl.getSeq());
 			
-			Rate comprate1 = invoiceDao.getEtc("comprate1", gbl.getPud());
+			Rate comprate1 = invoiceDao.getEtc("comprate1", getYear(gbl.getPud()));
 
 			// 1. Destination Service Charge
 			InvoiceGblContent destinationServiceChargeContent = new InvoiceGblContent();
@@ -1200,7 +1268,7 @@ public class InvoiceService {
 			rate.setCode(gbl.getCode());
 			rate.setTsp(gbl.getTsp());
 			rate.setProcess(process.toUpperCase());
-			rate.setWriteYear(gbl.getPud());
+			rate.setWriteYear(getYear(gbl.getPud()));
 			
 			Rate gblRate = invoiceDao.getBasicRate(rate);
 
@@ -1355,8 +1423,8 @@ public class InvoiceService {
 			Memorandum terminationMemorandumParam = new Memorandum();
 			terminationMemorandumParam.setGblSeq(gbl.getSeq());
 			terminationMemorandumParam.setType("05");
-
 			Memorandum terminationMemorandum = memorandumDao.getMemorandumIb(terminationMemorandumParam);
+			
 			if (terminationMemorandum == null || terminationMemorandum.getTermination().equals("0")) {//터미네이션이 없으면
 			} 
 			else {//터미네이션이 있으면
@@ -1376,12 +1444,12 @@ public class InvoiceService {
 					terminationCharge = comprate1.getRate()
 							* terminationRate.getRate();
 				}
-
+				
 				totalAmount += terminationCharge;
 
 				terminationContent.setChargingItem("TERMINATION CHARGE");
 				terminationContent.setQuantity(terminationMemorandum.getTermination());
-				terminationContent.setAmount(terminationCharge+"");
+				terminationContent.setAmount(new DecimalFormat("######.00").format(terminationCharge));
 				terminationContent.setInvoiceGblSeq(invoiceGblSeq);
 
 				invoiceGblContentList.add(terminationContent);

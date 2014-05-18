@@ -26,7 +26,9 @@ public class LoginDao extends SqlSessionDaoSupport {
 	public void updatePassword(User user) {
 		getSqlSession().update("loginMapper.updatePassword", user);
 	}
-
+	public void updateId(User user) {
+		getSqlSession().update("loginMapper.updateId", user);
+	}
 	public void insertGroupAuthorities(User user) {		
 		getSqlSession().insert("loginMapper.insertGroupAuthorities", user);		
 	}

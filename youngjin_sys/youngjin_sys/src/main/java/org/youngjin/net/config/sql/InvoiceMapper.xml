@@ -715,6 +715,59 @@
 			seq = #{seq}
 	</select>
 	
+	<select id="getSitNumber" parameterType="Integer" resultType="String">
+		select
+			sit_no
+				from
+					memorandum
+				where
+					gbl_seq = #{gblSeq}
+				and
+					type = 05
+	</select>
+	
+	<select id="getSitStartDay" parameterType="Integer" resultType="String">
+		select
+			sit_start_date
+				from
+					memorandum
+				where
+					gbl_seq = #{gblSeq}
+				and
+					type = 06
+	</select>
+	
+	<select id="getSitEndDay" parameterType="Integer" resultType="String">
+		select
+			sit_end_date
+				from
+					memorandum
+				where
+					gbl_seq = #{gblSeq}
+				and
+					type = 07
+	</select>
+	
+	<select id="getTerminationReason" parameterType="Integer" resultType="String">
+		select
+			termination
+				from
+					memorandum
+				where
+					gbl_seq = #{gblSeq}
+				and
+					type = 09
+	</select>
+	<select id="getLongcarryAmount" parameterType="Integer" resultType="String">
+		select
+			long_carry
+				from
+					memorandum
+				where
+					gbl_seq = #{gblSeq}
+				and
+					type = 08
+	</select>
 	<select id="getInvoiceGblList" parameterType="Integer" resultMap="InvoiceGblMap">
 		SELECT
 			ig.seq, ig.invoice_list_seq, ig.gbl_seq, ig.gbl_no, ig.rank, ig.name, ig.amount, ig.complete, g.code

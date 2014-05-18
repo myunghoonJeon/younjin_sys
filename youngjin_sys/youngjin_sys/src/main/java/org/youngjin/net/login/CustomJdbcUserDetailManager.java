@@ -190,7 +190,14 @@ public class CustomJdbcUserDetailManager extends JdbcUserDetailsManager {
 		
 		loginDao.updatePassword(changeUser);		
 	}
-	
+	public void changeId(User user) {		
+		User changeUser = new User();
+		changeUser.setSeq(user.getSeq());
+		changeUser.setUsername(user.getNewId());
+		user.setLastUpdateBy("admin");
+		
+		loginDao.updateId(changeUser);		
+	}
 	public boolean confirmPassword(User user) {
 		String username = user.getUsername();
 		String password = user.getPassword();
