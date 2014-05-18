@@ -53,7 +53,7 @@ import org.youngjin.net.upload.DownloadView;
 import org.youngjin.net.util.DateUtil;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') ")
+@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') ")
 public class OutboundController {
 
 	@Resource
@@ -709,7 +709,7 @@ public class OutboundController {
 	/**
 	 * DeliveryControl
 	 */
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/main", method = RequestMethod.GET)
 	public String deliveryMain(Model model, User user,
 			@PathVariable String process) {
@@ -723,7 +723,7 @@ public class OutboundController {
 		return process + "/delivery/main";
 	}
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/add", method = RequestMethod.GET)
 	public String deliveryAdd(Model model, User user,
 			@PathVariable String process) {
@@ -953,7 +953,7 @@ public class OutboundController {
 		return process + "/delivery/bookingList";
 	}
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/bookingGblList", method = RequestMethod.GET)
 	public String bookingListGblList(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -971,7 +971,7 @@ public class OutboundController {
 		return process + "/delivery/bookGblList";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/bookingGblList", method = RequestMethod.POST)
 	public String bookingListGblListPost(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -989,7 +989,7 @@ public class OutboundController {
 		return process + "/delivery/bookGblList";
 	}
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/{seq}/bookingListPrint", method = RequestMethod.GET)
 	public String bookingListPrint(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -1017,7 +1017,7 @@ public class OutboundController {
 		return process + "/delivery/bookingListPrint";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/{seq}/powerOfAttornyPrint", method = RequestMethod.GET)
 	public String powerOfAttornyPrint(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,
@@ -1037,7 +1037,7 @@ public class OutboundController {
 	}
 	
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")	
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")	
 	@RequestMapping(value = "/{process}/delivery/{seq}/declarationList", method = RequestMethod.GET)
 	public String declarationList(Model model, User user, @PathVariable String process, @PathVariable Integer seq) {
 
@@ -1048,28 +1048,28 @@ public class OutboundController {
 		return process + "/delivery/declarationList";
 	}	
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/bookingAdd.json")
 	@ResponseBody
 	public void bookingAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertBookingList(gblSeq);
 	}
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/bookingListDelete.json")
 	@ResponseBody
 	public void bookingDelete(@RequestBody Map<String, String> bookingSeq) {
 		outboundService.deleteBookingList(bookingSeq);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/mil/tcmdListDelete.json")
 	@ResponseBody
 	public void tcmdListDelete(@RequestBody Map<String, String> tcmdSeq) {
 		outboundService.deleteTcmdList(tcmdSeq);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/mil/tcmd")
 	public String tcmdMain(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
 		
@@ -1102,7 +1102,7 @@ public class OutboundController {
 		return process + "/delivery/tcmd";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/mil/tcmdGblSetting", method=RequestMethod.GET)
 	public String tcmdGblSetting(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
 
@@ -1118,7 +1118,7 @@ public class OutboundController {
 		return process + "/delivery/tcmdGblList";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/mil/tcmdGblSetting", method=RequestMethod.POST)
 	public String tcmdGblSettingPost(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){
 
@@ -1134,7 +1134,7 @@ public class OutboundController {
 		return process + "/delivery/tcmdGblList";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/mil/{seq}/tcmdModify")
 	public String tcmdModify(Model model, User user, @PathVariable String process, @PathVariable Integer seq, @ModelAttribute OutboundFilter outboundFilter){			
 		model.addAttribute("user", user);
@@ -1191,7 +1191,7 @@ public class OutboundController {
 		return process + "/delivery/tcmdModify";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/mil/{seq}/tcmdPrint")
 	public String tcmdPrint(Model model, User user, @PathVariable String process, @PathVariable Integer seq, @ModelAttribute OutboundFilter outboundFilter){			
 		model.addAttribute("user", user);
@@ -1238,28 +1238,28 @@ public class OutboundController {
 		return process + "/delivery/tcmdPrint";
 	}
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/tcmd/tcmdListAdd.json")
 	@ResponseBody
 	public void tcmdAdd(@RequestBody Map<String, String> gblSeq) {
 		outboundService.insertTcmdList(gblSeq);
 	}	
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/tcmdGblUpdate.json")
 	@ResponseBody
 	public void tcmdGblUpdate(@RequestBody Map<String, String> map) {
 		outboundService.updateTcmdGbl(map);
 	}	
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/tcmdUpdate.json")
 	@ResponseBody
 	public void tcmdUpdate(@RequestBody Map<String, String> map) {
 		outboundService.updateTcmd(map);
 	}	
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/house")
 	public String houseBl(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){			
 		
@@ -1274,7 +1274,7 @@ public class OutboundController {
 		return process + "/delivery/house";
 	}
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/house/gblSelect", method = RequestMethod.GET)
 	public String houseBlGblSelectGet(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){	
 		outboundFilter.setHouseBlFlag(true);
@@ -1290,7 +1290,7 @@ public class OutboundController {
 		return process + "/delivery/houseSelect";
 	}
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL1')")
 	@RequestMapping(value = "/{process}/delivery/house/gblSelect", method = RequestMethod.POST)
 	public String houseBlGblSelectPost(Model model, User user, @PathVariable String process, @ModelAttribute OutboundFilter outboundFilter){	
 		outboundFilter.setHouseBlFlag(true);

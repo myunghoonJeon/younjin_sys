@@ -76,7 +76,7 @@ youngjin.admin.sync = function(){
 	});
 	$('#changeIdBtn').unbind('click');
 	$('#changeIdBtn').bind('click', function(){
-		youngjin.admin.user_Id_clear($(this));		
+		youngjin.admin.user_password_clear2($(this));		
 	});
 	$('.admin_user_auth_list_select').unbind('change');
 	$('.admin_user_auth_list_select').bind('change', function(){
@@ -272,6 +272,7 @@ youngjin.admin.userIdChangePop = function(target){
 		url : url
 	});
 };
+
 youngjin.admin.userPasswordChangePop = function(target){
 	var url = contextPath + '/admin/' + target.parents().attr('data-seq') + '/changePasswordPop';
 	
@@ -282,12 +283,11 @@ youngjin.admin.userPasswordChangePop = function(target){
 	});	
 };
 
-youngjin.admin.user_id_clear = function(target){	
+youngjin.admin.user_password_clear2 = function(target){		
 	var seq = target.attr('data-seq');
 	var id = $('#changeId').val();
 	
 	var url = contextPath + '/admin/clearId.json';
-	alert("id : "+id+" seq : "+seq+" url : "+url);
 	
 	var json = {
 			"seq" : seq,
@@ -300,7 +300,7 @@ youngjin.admin.user_id_clear = function(target){
 				parent.$('#admin_user_list_username').html(user.username);
 				parent.$('.admin_user_list_lastUpdate').html(user.lastUpdate);
 				parent.$('.admin_user_list_lastUpdateBy').html(user.lastUpdateBy);
-				
+				alert("변경완료 새로고침 하세요");
 				parent.$.smartPop.close();
 			},
 			error : function(){
@@ -358,6 +358,7 @@ youngjin.admin.user_auth_select_insert = function(target){
 	
 	youngjin.admin.sync();
 };*/
+
 youngjin.admin.user_auth_change = function(target){
 	var url = contextPath + "/admin/authChange.json";
 	
