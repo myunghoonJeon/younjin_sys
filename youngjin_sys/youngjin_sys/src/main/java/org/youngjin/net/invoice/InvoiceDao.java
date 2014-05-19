@@ -217,6 +217,9 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public String getTerminationReason(int gblSeq){
 		return getSqlSession().selectOne("invoiceMapper.getTerminationReason", gblSeq);
 	}
+	public String getExtraPickupCheck(int gblSeq){
+		return getSqlSession().selectOne("invoiceMapper.getExtraPickupCheck", gblSeq);
+	}
 	public String getSitNumber(int gblSeq){
 		return getSqlSession().selectOne("invoiceMapper.getSitNumber", gblSeq);
 	}

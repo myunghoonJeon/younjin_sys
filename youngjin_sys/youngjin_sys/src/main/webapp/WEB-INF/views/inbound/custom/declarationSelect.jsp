@@ -49,10 +49,12 @@
 	<div class="inbound_invoice_gbl_list_wrap">
 		<div class="pop_title_line">
 			<span>DECLARATION LIST ADD</span>
-		</div>		
+		</div>
+		
 		<c:set var="branchList" value="${filterMap['branchList'] }" />
 		<c:set var="carrierList" value="${filterMap['carrierList'] }" />
 		<c:set var="codeList" value="${filterMap['codeList'] }" />
+		
 		<div class="gbl_filter">	
 			<ul class="freight_filter_wrap">
 				<form:form commandName="inboundFilter" method="get">

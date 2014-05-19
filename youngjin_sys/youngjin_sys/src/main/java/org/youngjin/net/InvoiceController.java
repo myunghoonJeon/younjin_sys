@@ -40,7 +40,7 @@ public class InvoiceController {
 	@Resource
 	private BasicService basicService;
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL3')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3')")
 	@RequestMapping(value = "/{process}/invoice", method = RequestMethod.GET)
 	public String invoiceMain(Model model, User user,
 			@ModelAttribute InvoiceFilter invoiceFilter,
@@ -64,7 +64,7 @@ public class InvoiceController {
 		return process + "/invoice/main";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL3')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3')")
 	@RequestMapping(value = "/{process}/invoice", method = RequestMethod.POST)
 	public String invoiceMainPost(Model model, User user,
 			@ModelAttribute InvoiceFilter invoiceFilter,
@@ -88,7 +88,7 @@ public class InvoiceController {
 		return process + "/invoice/main";
 	}	
 
-	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL3')")
+	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3')")
 	@RequestMapping(value = "/{process}/invoice/invoiceAddSetting", method = RequestMethod.GET)
 	public String invoiceAddSetting(Model model, User user, @ModelAttribute InvoiceGblFilter invoiceGblFilter,
 			@PathVariable String process) {

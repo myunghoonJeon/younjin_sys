@@ -167,7 +167,7 @@
 					<td>${invoiceGbl.gblNo }</td>
 					<td>${invoiceGbl.rank }</td>
 					<td>${invoiceGbl.name }</td>
-					<td><fmt:formatNumber value="${invoiceGbl.amount }" pattern="##,###.00"/></td>
+					<td><fmt:formatNumber value="${invoiceGbl.amount }" pattern="##,###.00"/>　$</td>
 					<c:set var="totalAmount" value="${totalAmount + invoiceGbl.amount }"></c:set>
 				</tr>
 			</c:forEach>
@@ -176,7 +176,7 @@
 				<td style="font-size: 7pt;border-bottom: none;">　</td>
 				<td style="font-size: 7pt;border-bottom: none;">　</td>
 				<td style="font-size: 7pt;border-bottom: none;">　</td>
-				<td style="font-size: 11pt;border-bottom: none; font-family: arial;font-weight: bold;">${totalAmount }</td>
+				<td style="font-size: 11pt;border-bottom: none; font-family: arial;font-weight: bold;"><fmt:formatNumber value="${totalAmount }" pattern="##,###.00"/>$</td>
 			</tr>
 		</table>
 	</div>
@@ -217,7 +217,7 @@
 						<tr style="border-bottom: solid; border: solid;">
 							<td id="in_td">${invoiceGblContent.chargingItem }</td>
 							<td id="in_td">${invoiceGblContent.quantity }</td>
-							<td id="in_td"><fmt:formatNumber value="${invoiceGblContent.amount }" pattern="##,###.00"/></td>
+							<td id="in_td"><fmt:formatNumber value="${invoiceGblContent.amount }" pattern="##,###.00"/>$</td>
 						</tr>
 					</c:forEach>
 				</table>

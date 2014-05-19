@@ -946,38 +946,35 @@ public class InvoiceService {
 			Rate otherRateParam = new Rate();
 			otherRateParam.setProcess(process);
 			otherRateParam.setWriteYear(getYear(gbl.getPud()));
-			System.out.println("[[[[[[gbl get pud : "+getYear(gbl.getPud())+" ]]]]]]");
+			System.out.println("[[[[[[ EXTRA CHARGE ADDAPTION YEAR : "+getYear(gbl.getPud())+" ]]]]]]");
 			Rate comprate = invoiceDao.getEtc("comprate1", getYear(gbl.getPud()));
-
-			Memorandum paramMemorandum = new Memorandum();
-			paramMemorandum.setGblSeq(gbl.getSeq());
-			paramMemorandum.setType("04");
-
-			Memorandum memorandum = memorandumDao
-					.getMemorandum(paramMemorandum);
-			if (memorandum != null) {
+			
+			String extraPickupCheck=null;
+			extraPickupCheck = invoiceDao.getExtraPickupCheck(gbl.getSeq());
+			
+			if (extraPickupCheck == null) {
 			} else {
+				
 				if ("HHG".equals(codeStr)) {
-					otherRateParam
-							.setTitle("EXTRA PICKUP CHARGE -IT13 item 1111");
+					otherRateParam.setTitle("EXTRA PICKUP CHARGE -IT13 item 1111");
 					otherRateParam.setCode("HHG");
 					Rate extraRate = invoiceDao.getOther(otherRateParam);
-					extraPickUpCharge = comprate.getRate()
-							* extraRate.getRate();
+					System.out.println("[[[[[[[[[[[ EXTRA PICKUP RATE : "+extraRate.getRate()+" ]]]]]]");
+					extraPickUpCharge = comprate.getRate()* extraRate.getRate();
 				} else if ("UB".equals(codeStr)) {
-					otherRateParam
-							.setTitle("EXTRA PICKUP CHARGE - IT13 item 2222");
+					otherRateParam.setTitle("EXTRA PICKUP CHARGE - IT13 item 2222");
 					otherRateParam.setCode("UB");
 					Rate extraRate = invoiceDao.getOther(otherRateParam);
-					extraPickUpCharge = comprate.getRate()
-							* extraRate.getRate();
+					System.out.println("[[[[[[[[[[[ EXTRA PICKUP RATE : "+extraRate.getRate()+" ]]]]]]");
+					extraPickUpCharge = comprate.getRate() * extraRate.getRate();
 				}
-
+				extraPickUpCharge = getRoundResult(extraPickUpCharge);
 				totalAmount += extraPickUpCharge;
-
+				System.out.println("[[[[[[[[[[[ COMPRATE 1 RATE : "+comprate.getRate()+" ]]]]]]");
+				System.out.println("[[[[[[[[[[[ EXTRA PICKUP CHARGE : "+extraPickUpCharge+" ]]]]]]");
 				extraPickUpGblContent.setChargingItem("EXTRA PICKUP CHARGE");
 				extraPickUpGblContent.setQuantity("");
-				extraPickUpGblContent.setAmount(extraPickUpCharge+"");
+				extraPickUpGblContent.setAmount(new DecimalFormat("######.00").format(extraPickUpCharge));
 				extraPickUpGblContent.setInvoiceGblSeq(invoiceGblSeq);
 
 				invoiceGblContentList.add(extraPickUpGblContent);
@@ -1064,7 +1061,9 @@ public class InvoiceService {
 					sitRateParam.setTitle("SIT-FIRST DAY -IT13 item 518C");
 					sitRateParam.setCode("HHG");
 					Rate sitFirstDayRate = invoiceDao.getSit(sitRateParam);
-					sitFirstDayCharge = totalGblWeight * comprate.getRate()
+					double tempWeight = (totalGblWeight/100);
+					tempWeight = getRoundResult(tempWeight);
+					sitFirstDayCharge =  tempWeight * comprate.getRate()
 							* sitFirstDayRate.getRate();
 					System.out.println("[[[[[[[ TOTAL WEIGHT : "+totalGblWeight+" ]]]]]]");
 					System.out.println("[[[[[[[ HHG SIT RATE : "+sitFirstDayRate.getRate()+" ]]]]]]]]");
@@ -1073,7 +1072,9 @@ public class InvoiceService {
 					sitRateParam.setTitle("SIT-FIRST DAY - IT13 item 519A");
 					sitRateParam.setCode("UB");
 					Rate sitFirstDayRate = invoiceDao.getSit(sitRateParam);
-					sitFirstDayCharge = totalGblWeight * comprate.getRate()
+					double tempWeight = (totalGblWeight/100);
+					tempWeight = getRoundResult(tempWeight);
+					sitFirstDayCharge = tempWeight * comprate.getRate()
 							* sitFirstDayRate.getRate();
 					System.out.println("[[[[[[[ TOTAL WEIGHT : "+totalGblWeight+" ]]]]]]");
 					System.out.println("[[[[[[[ UB SIT RATE : "+sitFirstDayRate.getRate()+"]]]]]]]]");
@@ -1113,28 +1114,30 @@ public class InvoiceService {
 							.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 518D");
 					sitRateParam.setCode("HHG");
 					Rate sitEachDayRate = invoiceDao.getSit(sitRateParam);
-
-					Integer eachDayCount = DateUtil.getDaysBetween(sitStartDate, sitEndDate) - 1;
+					Integer eachDayCount = DateUtil.getDaysBetween(sitStartDate, sitEndDate);
 					System.out.println("[[[[ START DATE : "+sitStartDate+" ]]]]]");
 					System.out.println("[[[[ END DATE : "+sitEndDate+" ]]]]]");
 					System.out.println("[[[[ BETWEEN  : "+eachDayCount+" ]]]]]");
 					System.out.println("[[[[ COMPRATE : "+comprate.getRate()+" ]]]]]");
 					System.out.println("[[[[ SIT EACH DATE : "+sitEachDayRate.getRate()+" ]]]]]");
-					
-					sitEachDayCharge = totalGblWeight * eachDayCount* comprate.getRate() * sitEachDayRate.getRate();
+					double tempWeight = (totalGblWeight/100);
+					tempWeight = getRoundResult(tempWeight);
+					sitEachDayCharge = tempWeight * eachDayCount* comprate.getRate() * sitEachDayRate.getRate();
 				} else if ("UB".equals(codeStr)) {
 					sitRateParam
 							.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 519C");
 					sitRateParam.setCode("UB");
 
-					Integer eachDayCount = DateUtil.getDaysBetween(sitStartDate, sitEndDate) - 1;
+					Integer eachDayCount = DateUtil.getDaysBetween(sitStartDate, sitEndDate);
 					System.out.println("[[[[ START DATE : "+sitStartDate+" ]]]]]");
 					System.out.println("[[[[ END DATE : "+sitEndDate+" ]]]]]");
 					System.out.println("[[[[ BETWEEN  : "+eachDayCount+" ]]]]]");
 					System.out.println("[[[[ COMPRATE : "+comprate.getRate()+" ]]]]]");
 					Rate sitEachDayRate = invoiceDao.getSit(sitRateParam);
 					System.out.println("[[[[ SIT EACH DATE : "+sitEachDayRate.getRate()+" ]]]]]");
-					sitEachDayCharge = totalGblWeight * eachDayCount
+					double tempWeight = (totalGblWeight/100);
+					tempWeight = getRoundResult(tempWeight);
+					sitEachDayCharge = tempWeight * eachDayCount
 							* comprate.getRate() * sitEachDayRate.getRate();
 
 				}
@@ -1143,7 +1146,7 @@ public class InvoiceService {
 				totalAmount += sitEachDayCharge;
 				
 				sitEachContent.setChargingItem("SIT-EACH ADDITIONAL DAY");
-				sitEachContent.setQuantity((DateUtil.getDaysBetween(sitStartDate, sitEndDate) - 1)+"days");
+				sitEachContent.setQuantity((DateUtil.getDaysBetween(sitStartDate, sitEndDate))+"days");
 				sitEachContent.setAmount(new DecimalFormat("######.00").format(sitEachDayCharge));
 				sitEachContent.setInvoiceGblSeq(invoiceGblSeq);
 

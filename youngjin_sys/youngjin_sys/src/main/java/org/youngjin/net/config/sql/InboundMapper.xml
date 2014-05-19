@@ -740,14 +740,10 @@
 	</delete>
 	
 	<select id="getInboundInvoiceDeclarationList" parameterType="InboundFilter" resultType="InboundInvoice">
-		select
-		*
-		from
-		(
 		SELECT 
-			il.seq, g.gblNo, g.shipperName AS name, g.ssn, g.rank, il.inboundInvoiceNo, il.invoiceDate, g.eta, il.declarationCheck,(@rownum := @rownum + 1) AS rownum
+			il.seq, g.gblNo, g.shipperName AS name, g.ssn, g.rank, il.inboundInvoiceNo, il.invoiceDate, g.eta
 		FROM
-			inbound_invoice_list il, gbl_ib g , (SELECT @rownum := 0) r
+			inbound_invoice_list il, gbl_ib g
 		WHERE
 			il.gblSeq = g.seq
 		AND
@@ -780,8 +776,7 @@
 				</if>
 			order by
 			g.seq desc
-			)u
-			WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+			
 				
 	</select>
 	
@@ -1696,22 +1691,21 @@
 			g.seq = ohlc.gblSeq
 		AND
 			ohlcw.onHandListContentSeq = ohlc.seq	 -->
-	select
-	*
-	from(
+	
+	
 		SELECT 	
 					g.seq, g.gblNo, g.shipperName, g.rank, g.code, g.tsp, g.destAddress, g.pud, g.rdd, g.arriveDate, g.awbNo,
 					g.ssn, g.pmjDate, g.area AS areaLocal, g.fright, g.eMailAddress, g.oblNo, g.vessle, g.blCompany,
 					g.remark, g.eta, g.sitIn, g.sitOut, g.sitNo, g.rate, g.yjNo, g.totalPcs, g.phone, g.address, g.onHandDate, g.gbloc,
 					g.destinationGbloc, g.itemsPieces, g.grossWeight, g.netWeight, g.storedAt, ohlcw.pcs, ohlcw.lbs, ohlcw.cuft,
-					ohlc.seq AS onHandContentSeq,(@rownum := @rownum +1) as rownum
+					ohlc.seq AS onHandContentSeq
 				FROM
 					gbl_ib g, on_hand_list_content ohlc,
 					(
 						SELECT
 							COUNT(piece) AS pcs, SUM(gross) AS lbs, SUM(cuft) AS cuft, ohlcw.onHandListContentSeq
 						FROM
-							on_hand_list_content_weight ohlcw, weight_ib wi, (SELECT @rownum :=0)r
+							on_hand_list_content_weight ohlcw, weight_ib wi
 						WHERE
 							ohlcw.weightSeq = wi.seq
 						GROUP BY 
@@ -1747,8 +1741,7 @@
 					g.seq = ohlc.gblSeq
 				AND
 					ohlcw.onHandListContentSeq = ohlc.seq	
-					)u
-				WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
+				
 	</select>
 	
 	<select id="getTruckManifastList" parameterType="InboundFilter" resultType="TruckManifastIb">

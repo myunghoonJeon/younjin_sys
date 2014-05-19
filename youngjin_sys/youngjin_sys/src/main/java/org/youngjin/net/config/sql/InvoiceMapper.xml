@@ -758,6 +758,16 @@
 				and
 					type = 09
 	</select>
+	<select id="getExtraPickupCheck" parameterType="Integer" resultType="String">
+		select
+			extra_pick_up_charge
+				from
+					memorandum
+				where
+					gbl_seq = #{gblSeq}
+				and
+					type = 04
+	</select>
 	<select id="getLongcarryAmount" parameterType="Integer" resultType="String">
 		select
 			long_carry

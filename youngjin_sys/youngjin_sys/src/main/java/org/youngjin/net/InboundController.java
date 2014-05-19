@@ -381,10 +381,12 @@ public class InboundController {
 		user.setSubProcess("declare");
 		inboundFilter.getPagination().setNumItems(inboundService.getDeclarationGblListCount(inboundFilter));
 		List<InboundInvoice> inboundInvoiceList = inboundService.getInboundInvoiceDeclarationList(inboundFilter);
+		model.addAttribute("filterMap", inboundService.getFilterMap());
 		model.addAttribute("inboundInvoiceList", inboundInvoiceList);
 		model.addAttribute("user", user);
 
 		return process + "/custom/declarationSelect";
+		//TODO
 	}
 
 	@RequestMapping(value = "/{process}/custom/invoice/declarationListSelectAdd.json", method = RequestMethod.POST)

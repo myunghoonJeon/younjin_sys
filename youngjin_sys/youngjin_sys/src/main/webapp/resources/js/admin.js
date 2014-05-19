@@ -111,6 +111,7 @@ youngjin.admin.sync = function(){
 
 youngjin.admin.user_add = function(){
 	var url = contextPath + '/admin/add.json';
+	alert("authStr : "+authStr);
 	
 	$.postJSON(url, {}, function(user){
 		var html = '<tr class="admin_user_list_tr" data-seq="' + user.seq + '">'
