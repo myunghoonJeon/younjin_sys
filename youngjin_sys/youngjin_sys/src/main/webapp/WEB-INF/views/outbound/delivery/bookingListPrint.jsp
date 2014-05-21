@@ -228,6 +228,28 @@
                 	});
             }
         );
+        $("#yjCount").focusout(function (event) {
+        	var bookSeq = $("#bookSeq").attr('data-seq');
+        	var column = $("#yjCount").attr('name');
+        	var value = $("#yjCount").val();
+        	var json = {
+            		'bookSeq' : bookSeq,
+            		'column' : column,
+            		'value' : value
+            	};
+            	var url = contextPath + '/outbound/bookinglistUpdate.json';
+            	
+            	$.postJSON(url, json, function(){
+            		return jQuery.ajax({
+            			success : function(){
+            			},
+            			error : function(){
+            				alert('에러 발생');
+            			}
+            		});
+            	});
+        }
+    );
         $("#yjnInput2").focusout(function (event) {
         	var bookSeq = $("#bookSeq").attr('data-seq');
         	var column = $("#yjnInput2").attr('name');
@@ -320,7 +342,7 @@
 			<td id='topletter'  style="text-align:left;width:50px;">CFS</td>
 			<td colspan="1"> </td>
 			<td colspan="1"> </td>
-			<td id='topletter' colspan="4">YJ　-　#4,#7　- ${bookingList.yjCount } </td>
+			<td id='topletter' colspan="4">YJ　-　#4,#7　- <input type="text" class="po" name="yjCount" id="yjCount" style="border:none; text-align:center;font-size: 10pt;font-weight:bold; font-family: arial; width:40px;" value="${bookingList.yjCount }"/></td>
 			<td colspan="1"> </td>
 			<td colspan="7"> </td>
 			<td > </td>

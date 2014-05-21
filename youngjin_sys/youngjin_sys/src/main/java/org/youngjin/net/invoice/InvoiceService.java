@@ -514,6 +514,8 @@ public class InvoiceService {
 		int year = Integer.parseInt(pud.substring(0,4));
 		int month = Integer.parseInt(pud.substring(4,6));
 		int day = Integer.parseInt(pud.substring(6,8));
+		System.out.println("[[[[[ CHECK YEAR ]]]]]]]]]");
+		System.out.println("[[[[[ YEAR : "+year+" MONTH : "+month+" DAY : "+day+" ]]]]]]");
 		String tempMonth="";
 		String tempDay="";
 		if(month>5){
@@ -542,7 +544,7 @@ public class InvoiceService {
 		else{
 			tempDay=day+"";
 		}
-		result = year+""+tempMonth+""+day+"";
+		result = year+""+tempMonth+""+tempDay+"";
 		return result;
 	}
 	//계산하는부분
@@ -664,9 +666,13 @@ public class InvoiceService {
 					//PACKING CHARGE CALRURATE after weight roof
 					packingCharge = overFlowCharge + typeIICharge;
 					packingCharge = getRoundResult(packingCharge);
+					
 					System.out.println("==================[ TOTAL HHG PACKING CHARGE : "+packingCharge+" ]============");
 				}//HHG 
-				else if(codeStr.equals("UB")){ 
+				else if(codeStr.equals("UB")){
+					System.out.println("[[[[[[[[[[[[[[[[[[UB CALCURATE]]]]]]]]]]]]]]]]]");
+					System.out.println("[[[[[[[[[[[ WEIGHT : "+gblWeight+" ]]]]]]]]]]]]");
+					System.out.println("[[[[[[[[[[[ RATE : "+gblRate.getRate()+" ]]]]]]]]]");
 					packingCharge += (gblWeight/100) * gblRate.getRate();
 					packingCharge = getRoundResult(packingCharge);
 					System.out.println("==================[ TOTAL UB PACKING CHARGE : "+packingCharge+" ]============");
@@ -1246,44 +1252,50 @@ public class InvoiceService {
 			invoiceDao.updateInvoiceGbl(invoiceGbl);
 
 			invoiceDao.checkAndUpdateInvoice(invoiceSeq);
-		} else {//===============================================================================================================BEGIN INBOUND		
+		} else {//====&&inbound&&========================================================================================		
 			double totalAmount = 0.0;
 			
 			GBL gbl = inboundDao.getGbl(gblSeq);
-
+			System.out.println("[[[[[[[[[[[[ GBL SEQ INVOICE START : "+gbl.getGblNo()+" ]]]]]]]]]]]");
 			String codeStr = null;
 			if (gbl.getCode().equals("3") || gbl.getCode().equals("4")
 					|| gbl.getCode().equals("5") || gbl.getCode().equals("T")||gbl.getCode().equals("6")) {
 				codeStr = "HHG";
-			} else if (gbl.getCode().equals("J") || gbl.getCode().equals("8")
-					|| gbl.getCode().equals("7")) {
+				System.out.println("[[[[[[[[[[[ SELECTE TYPE : HHG ]]]]]]]]]]]]]]]");
+			} else if (gbl.getCode().equals("J") || gbl.getCode().equals("8")|| gbl.getCode().equals("7")) {
 				codeStr = "UB";
+				System.out.println("[[[[[[[[[[[ SELECTE TYPE : UB ]]]]]]]]]]]]]]]");
 			}
 			
 			List<WeightIb> weightList = inboundDao.getWeightList(gbl.getSeq());
-			
+			System.out.println("[[[[[[[[[[[ WEIGHT LIST SIZE :"+weightList.size()+"  ]]]]]]]]]]]]]]]");
 			Rate comprate1 = invoiceDao.getEtc("comprate1", getYear(gbl.getPud()));
-
+			System.out.println("[[[[[[[[[[[ CHECK YEAR : "+getYear(gbl.getPud())+" ]]]]]]]]");
+			System.out.println("[[[[[[[[[[[ COMPRATE1 RATE : "+comprate1+" ]]]]]]]]]]]]]");
+			
 			// 1. Destination Service Charge
 			InvoiceGblContent destinationServiceChargeContent = new InvoiceGblContent();
-			
+			System.out.println("[[[[[[[[[ SET RATE ]]]]]]]]]]]");
 			Rate rate = new Rate();
 			rate.setCode(gbl.getCode());
+			System.out.println("[[[[[[[[[ SET CODE : "+gbl.getCode()+" ]]]]]]]]]]");
 			rate.setTsp(gbl.getTsp());
+			System.out.println("[[[[[[[[[ SET TSP : "+gbl.getTsp()+" ]]]]]]]]]]]");
 			rate.setProcess(process.toUpperCase());
+			System.out.println("[[[[[[[[[ SET PROCESS : "+process.toUpperCase()+" ]]]]]]]]]");
 			rate.setWriteYear(getYear(gbl.getPud()));
-			
+			System.out.println("[[[[[[[[[[[ CHECK YEAR : "+getYear(gbl.getPud())+" ]]]]]]]]");
 			Rate gblRate = invoiceDao.getBasicRate(rate);
-
-			Map<String, Double> invoiceReturnMap = getDestinationServiceCharge(gblRate.getRate(), weightList, codeStr);
 			
+			Map<String, Double> invoiceReturnMap = getDestinationServiceCharge(gblRate.getRate(), weightList, codeStr);
+			totalAmount = getRoundResult(totalAmount);
 			totalAmount += invoiceReturnMap.get("amount");
 			
 			destinationServiceChargeContent.setChargingItem("DESTINATION SERVICE CHARGE");
 			double lbsDoubleTemp = Double.parseDouble(invoiceReturnMap.get("quantity").toString());
 			int lbsTemp = (int)lbsDoubleTemp;
 			destinationServiceChargeContent.setQuantity(lbsTemp+" LBS");
-			destinationServiceChargeContent.setAmount(invoiceReturnMap.get("amount").toString());
+			destinationServiceChargeContent.setAmount(new DecimalFormat("######.00").format(invoiceReturnMap.get("amount")));
 			destinationServiceChargeContent.setInvoiceGblSeq(invoiceGblSeq);
 			
 			invoiceGblContentList.add(destinationServiceChargeContent);
@@ -1307,19 +1319,17 @@ public class InvoiceService {
 			Memorandum sitFirstMemo = memorandumDao.getMemorandumIb(sitFirstMemoParam);
 			
 			if(sitFirstMemo != null){
-	
+				
 				invoiceReturnMap = getSitFirstDayAndWarehouseHandlingCharge(sitFirstMemo.getSitStartDate(), weightList, codeStr, comprate1.getRate());
-				
 				totalAmount += invoiceReturnMap.get("amount");
-				
+				totalAmount = getRoundResult(totalAmount);
 				sitFirstContent.setChargingItem("SIT-FIRST DAY AND WAREHOUSE HANDLING CHARGE");
-				sitFirstContent.setAmount(invoiceReturnMap.get("amount").toString());
+				sitFirstContent.setAmount(new DecimalFormat("######.00").format(invoiceReturnMap.get("amount")));
 				sitFirstContent.setInvoiceGblSeq(invoiceGblSeq);
 				
 				invoiceGblContentList.add(sitFirstContent);
 				
-				checkInvoiceContentGetSeq = invoiceDao
-						.checkInvoiceContent(sitFirstContent);
+				checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(sitFirstContent);
 	
 				if (checkInvoiceContentGetSeq != null) {
 					sitFirstContent.setSeq(checkInvoiceContentGetSeq);
@@ -1343,11 +1353,12 @@ public class InvoiceService {
 						sitEachMemo.getSitEndDate()) - 1;
 		
 				invoiceReturnMap = getSitEachAdditionalDay(sitEachMemo.getSitEndDate(), eachDayCount, weightList, codeStr, comprate1.getRate());
-				
-				totalAmount += invoiceReturnMap.get("amount");
+				double tempAmount =invoiceReturnMap.get("amount");
+				tempAmount = getRoundResult(tempAmount);
+				totalAmount += tempAmount;
 				
 				sitEachContent.setChargingItem("SIT-EACH ADDITIONAL DAY");
-				sitEachContent.setAmount(invoiceReturnMap.get("amount").toString());
+				sitEachContent.setAmount(new DecimalFormat("######.00").format(tempAmount));
 				sitEachContent.setInvoiceGblSeq(invoiceGblSeq);
 				
 				invoiceGblContentList.add(sitEachContent);
@@ -1541,7 +1552,7 @@ public class InvoiceService {
 
 	}
 
-	private double getGBLWeight(WeightIb weight, int type) {
+	private double getGblGrossNetWeight(WeightIb weight, int type) {
 
 		// GBL weight를 사용할 때 필요한 1-5, 1-6번 과정을 수행하는 메소드
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
@@ -1557,7 +1568,7 @@ public class InvoiceService {
 		else if (type == 1){ // HHG
 			gbl_weight = Double.parseDouble(weight.getNet());
 		}
-
+		
 		return gbl_weight;
 	}	
 	
@@ -1579,12 +1590,10 @@ public class InvoiceService {
 			gbl_weight[0] = minimum_weight[type];
 			gbl_weight[1] = minimum_weight[type];
 			if(type==0){//UB 100으로 나누고 3을 곱한다. UB경우 여기다가 추가적으로 Rate를 곱한다.
-				gbl_weight[0]/=100;
-				gbl_weight[0]*=3;
+				gbl_weight[0]=3;
 			}
 			else if(type==1){//HHG 100으로 나누고 5를 곱한다 HHG 경우 여기다가 추가적으로 Rate를 곱한다.
-				gbl_weight[0]/=100;
-				gbl_weight[0]*=5;
+				gbl_weight[0]=5;
 			}
 		}
 		else{//정상이라면 그냥 나누기 100을 한다.
@@ -1595,7 +1604,7 @@ public class InvoiceService {
 
 	private Map<String, Double> getDestinationServiceCharge(double rate, List<WeightIb> weightList,
 			String value_UB_HHG) {
-
+		System.out.println("[[[[[[[[[[[ START DESTINATION SERVICE CHARGE ]]]]]]]]]]]]]]");
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
 		// 1.1 -- (2014-02-23) 박광열 : Map으로 return type change, 단일 weight 계산을 weight List로 변경
 		// 1.2 -- (2014-04-09) 전명훈 : gbl_weight[2] 로 변경 getGBLweight 메소드 ( 최소값 계산과 100분율 및 곱하기 과정 추가 후 계산값 [0] 디스플레이 값[1] 로 리턴 )
@@ -1618,7 +1627,8 @@ public class InvoiceService {
 
 		// 5 & 6번. 사용할 Weight 종류 확인
 		for( WeightIb weight : weightList ){
-			weight_temp += getGBLWeight(weight, ub_hhg_type);
+			weight_temp += getGblGrossNetWeight(weight, ub_hhg_type);
+			System.out.println("[[[[[[[[ WEIGHT : "+weight+" ]]]]]]]");
 		}
 		gbl_weight[0] = weight_temp;
 		gbl_weight[1] = weight_temp;
@@ -1628,19 +1638,25 @@ public class InvoiceService {
 			if(ub_hhg_type == 0){//UB
 				if(Double.parseDouble(reweightList[0]) < weight_temp){//gross 비교
 					gbl_weight[1] = Double.parseDouble(reweightList[0]);
+					System.out.println("[[[[[[[[[[[[[ REWEIGHT CHECK: "+gbl_weight[1]+" ]]]]]]]]]]]");
 				}
 			}
 			else if(ub_hhg_type==1){//HHG
 				if(tare < weight_temp){//tare 비교
 					gbl_weight[1] = tare;
+					System.out.println("[[[[[[[[[[[[[ REWEIGHT CHECK: "+gbl_weight[1]+" ]]]]]]]]]]]");
 				}
 			}
 		}
-		
+
 		gbl_weight = getGBLWeight(gbl_weight[1], ub_hhg_type, true); //최저값 계산헀고 100을 나누기 까지했다. 최저일경우 타입에 맞는 곱하기를 해줬다.
+		System.out.println("[[[[[[[[[[ DESTINATION CHARGE TOTAL ]]]]]]]]]]]]]]]");
+		System.out.println("[[[[[[[[[[ WEIGHT : "+gbl_weight[1]+" ]]]]]]]]]]]]]");
+		System.out.println("[[[[[[[[[[ ADDAPTIVE WEIGHT : "+gbl_weight[0]+" ]]]]]]]]]]]");
+		System.out.println("[[[[[[[[[[ RATE : "+gbl_rate+" ]]]]]]]]]]]]");
+		System.out.println("[[[[[[[[[[ AMOUNT : "+getRoundResult(gbl_weight[0] * gbl_rate)+" ]]]]]]]]]]");
 		returnMap.put("quantity", gbl_weight[1]);
 		returnMap.put("amount", getRoundResult(gbl_weight[0] * gbl_rate));
-		
 		// 최종 결과 값 반환
 		return returnMap;
 	}
@@ -1648,7 +1664,8 @@ public class InvoiceService {
 	private Map<String, Double> getSitFirstDayAndWarehouseHandlingCharge(
 			String sit_no, List<WeightIb> weightList, String value_UB_HHG,
 			double comprate1) {
-
+		///////////////start////////////////
+		System.out.println("[[[ SIT FIRST DAY CHARGE START ]]]");
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
 		// 1.1 -- (2014-02-23) 박광열 : Map으로 return type change, 단일 weight 계산을 weight List로 변경
 		// 1.2 -- (2014-04-09) 전명훈 : gbl_weight[2] 로 변경 getGBLweight 메소드 ( 최소값 계산과 100분율 및 곱하기 과정 추가 후 계산값 [0] 디스플레이 값[1] 로 리턴 )
@@ -1667,28 +1684,39 @@ public class InvoiceService {
 		// ///////////////////////////////////////////////////////////////////
 
 		// 1 & 2번 (sit_no 유무 확인)
-		if (sit_no.isEmpty() == true)
+		if (sit_no.isEmpty() == true){
 			return returnMap;
+		}
 
 		// 5 & 6번. 사용할 Weight 종류 확인
 		for( WeightIb weight : weightList ){
-			weight_temp += getGBLWeight(weight, ub_hhg_type);
+			System.out.println();
+			double tempWeight =getGblGrossNetWeight(weight, ub_hhg_type);//GROSS 인지 NET인지 확인
+			System.out.println("[[ WEIGHT : "+tempWeight+" ]]");
+			weight_temp += tempWeight;
 		}
 		
-		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
+		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);//무게 최저인지 확인하고  100으로 나누고 이런것
 		
 		if (ub_hhg_type == 0) {			// 4번 (UB)
 			Rate rate = new Rate();
 			rate.setTitle("SIT-FIRST DAY - IT13 item 519A");
 			rate.setCode(value_UB_HHG);
 			sit_first_day = invoiceDao.getSit(rate).getRate();
+			System.out.println("[[[[[[[[[[[SIT EACH ADDITIONALDAY RATE : "+sit_first_day+"% ]]]]]]]");
 		} else if (ub_hhg_type == 1) {	// 3번 (HHG)
 			Rate rate = new Rate();
 			rate.setTitle("SIT-FIRST DAY - IT13 item 518C");
 			rate.setCode(value_UB_HHG);
 			sit_first_day = invoiceDao.getSit(rate).getRate();
+			System.out.println("[[[[[[[[[[[SIT EACH ADDITIONALDAY RATE : "+sit_first_day+"% ]]]]]]]");
 		}
-		returnMap.put("amount", getRoundResult(gbl_weight[0] * sit_first_day * comprate1));
+		double sitFristDayResult =getRoundResult(gbl_weight[0] * sit_first_day * comprate1);
+		System.out.println("[[[[[[[[[[[ COMPRATE : "+comprate1+"% ]]]]]]]");
+		System.out.println("[[[[[[[[[[[ WEIGHT : "+gbl_weight[0]+" ]]]]]]");
+		System.out.println("[[[[[[[[[[[ RESULT : "+sitFristDayResult+" ]]]]]]");
+		sitFristDayResult = getRoundResult(sitFristDayResult);
+		returnMap.put("amount", sitFristDayResult);
 		// 최종 결과 값 반환
 		return returnMap;
 	}
@@ -1721,25 +1749,28 @@ public class InvoiceService {
 
 		// 5 & 6번. 사용할 Weight 종류 확인
 		for( WeightIb weight : weightList ){
-			weight_temp += getGBLWeight(weight, ub_hhg_type);
+			weight_temp += getGblGrossNetWeight(weight, ub_hhg_type);
 		}
 		
 		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
-
+		System.out.println("[[[[[[[[[[[ WEIGHT : "+gbl_weight+" ]]]]]]]]]]]]");
 		if (ub_hhg_type == 0) {			// 4번 (UB)
 			Rate rate = new Rate();
 			rate.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 518D");
 			rate.setCode(value_UB_HHG);
 			addition_day = invoiceDao.getSit(rate).getRate();
+			
+			System.out.println("[[[[[[[[[[[ SIT EACH ADDITIONALDAY RATE : "+addition_day+"% ]]]]]]]");
 		} else if (ub_hhg_type == 1) {	// 3번 (HHG)
 			Rate rate = new Rate();
 			rate.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 519C");
 			rate.setCode(value_UB_HHG);
 			addition_day = invoiceDao.getSit(rate).getRate();
+			System.out.println("[[[[[[[[[[[SIT EACH ADDITIONALDAY RATE : "+addition_day+"% ]]]]]]]");
 		}
 		double origin = (gbl_weight[0] * addition_day * sit_day * comprate1);
-		System.out.println("[[ origin acc amount : "+origin+" ]] ");
 		double after = getRoundResult(origin);
+		System.out.println("[[ SIT EACH ADDTIONALDAY AMOUNT : "+origin+" ]] ");
 		System.out.println("[[ ROWN ACC AMOUNT : "+after+" ]]");
 		returnMap.put("amount", after);
 		// 최종 결과 값 반환
@@ -1764,7 +1795,7 @@ public class InvoiceService {
 		
 		// 5 & 6번. 사용할 Weight 종류 확인
 		for( WeightIb weight : weightList ){
-			weight_temp += getGBLWeight(weight, ub_hhg_type);
+			weight_temp += getGblGrossNetWeight(weight, ub_hhg_type);
 		}
 		
 		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
@@ -1829,7 +1860,7 @@ public class InvoiceService {
 		int ub_hhg_type = getUBHHGType(value_UB_HHG);
 		
 		for( WeightIb weight : weightList ){
-			weight_temp += getGBLWeight(weight, ub_hhg_type);
+			weight_temp += getGblGrossNetWeight(weight, ub_hhg_type);
 		}
 		
 //		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);

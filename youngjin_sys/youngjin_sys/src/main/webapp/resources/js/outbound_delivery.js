@@ -194,6 +194,7 @@ youngjin.outbound.delivery.seperateGbl = function(target){
 	});
 };
 
+
 youngjin.outbound.mergeGbl = function(target){
 	var seq = target.parents('tr').attr('data-seq');
 	var no = target.parents('tr').children('.truck_gbl_no').html();

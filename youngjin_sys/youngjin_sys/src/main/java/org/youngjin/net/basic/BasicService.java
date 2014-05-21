@@ -190,6 +190,7 @@ public class BasicService {
 		Mileage mileage = basicDao.getMileage(gbl);
 		
 		if(mileage != null){
+			
 			return true;
 		} else {
 			return false;

@@ -417,6 +417,7 @@ public class OutboundService {
 		String[] gblSeqList = gblSeq.get("gblSeq").split(",");
 		
 		GBL gbl = getGbl(Integer.parseInt(gblSeqList[0]));
+		String pud = gbl.getPud();
 		
 		BookingList bookingList = new BookingList();
 		int yjCount = outboundDao.getBookingListYjCount()+1;

@@ -969,8 +969,7 @@
 		SELECT
 		g.seq, g.pud, g.scac, g.code, g.customer_name, g.rank, g.ssn,
 		g.no, g.mil_svc, g.origin_gblock, w.booking_check,
-		SUM(w.cuft) AS cuft, SUM(w.gross) AS gross, SUM(w.net) AS net, COUNT(w.piece) AS
-		pcs,
+		g.grossWeight as gross, g.cuft as cuft, g.netWeight as net, g.totalPcs as pcs,
 		g.dest_port, g.dest_state, g.us_no, g.pod
 		FROM
 		gbl g, weight_certificate w
@@ -979,7 +978,7 @@
 		AND
 		g.booking_seq = #{seq}
 		GROUP BY
-		g.no, w.truck_check
+		g.no
 		ORDER BY
 		g.no
 	</select>
@@ -1012,7 +1011,7 @@
 		AND
 		g.truck_seq = #{seq}
 		GROUP BY
-		g.no, w.truck_check
+		g.no
 		ORDER BY
 		g.no
 	</select>
@@ -1662,6 +1661,9 @@
 		SET
 		<if test="column == 'yjn'">
 			yjnInput = #{value}
+		</if>
+		<if test="column == 'yjCount'">
+			yjCount = #{value}
 		</if>
 		<if test="column == 'yjn2'">
 			yjnInput2 = #{value}

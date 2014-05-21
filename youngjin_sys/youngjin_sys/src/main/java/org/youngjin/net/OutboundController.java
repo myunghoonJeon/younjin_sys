@@ -6,10 +6,12 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Scanner;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -121,7 +123,7 @@ public class OutboundController {
 		
 		return outboundService.getGblInfoByNo(gbl);
 	}
-
+	
 	@RequestMapping(value = "/{process}/add", method = RequestMethod.GET)
 	public String gblAdd(Model model, User user,
 			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process) {
@@ -201,6 +203,21 @@ public class OutboundController {
 		System.out.println("***************COLUMN : "+map.get("column"));
 		System.out.println("***************VALUE : "+map.get("value"));
 		outboundService.updateBookingListUpdate(map);
+	}
+	@RequestMapping(value="/{process}/test.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void test(Model model,@PathVariable String process, @RequestBody Map map){
+		String input = map.get("value")+"";
+		System.out.println("input : "+input);
+		String result = test2(input)+"kk";
+		System.out.println("rrr : "+result+"??");
+		model.addAttribute("data", result);
+	}
+	
+	@RequestMapping(value= "/{process}/bookinglistUpdate1.json")
+	@ResponseBody
+	public void bookinglistUpdate1(@RequestBody Map map){
+		System.out.println(map.get("value"));
 	}
 	
 	@RequestMapping(value = "/{process}/{seq}", method = RequestMethod.GET)
@@ -1001,10 +1018,22 @@ public class OutboundController {
 			 c = list.get(i).getContainerList();
 			 for(int k=0;k<c.size();k++){
 				 int cuft = Integer.parseInt(c.get(k).getCuft());
-				 if(cuft>=0 && cuft<180){
+				 if(cuft>=40 && cuft<71){
+					 list.get(i).setTypeOf2();
+				 }
+				 else if(cuft>=71 && cuft<101){
 					 list.get(i).setTypeOf1();
 				 }
-				 else if(cuft>=180 && cuft<208){
+				 else if(cuft>=101 && cuft<131){
+					 list.get(i).setType49();
+				 }
+				 else if(cuft>=131 && cuft<161){
+					 list.get(i).setType91();
+				 }
+				 else if(cuft>=161 && cuft<180){
+					 list.get(i).setType125();
+				 }
+				 else if(cuft>179){
 					 list.get(i).setType11();
 				 }
 			 }
@@ -1389,7 +1418,150 @@ public class OutboundController {
 		// that we have already handled the response.  
 		return null;   
 	}	
-	
+	public String test2(String input){
+		String aa="";
+
+//	    String test ="QXAK01234";
+//		double typeIICharge = 321.9;
+//		int a=1;
+//		int intk = (int)typeIICharge;
+//		test = new DecimalFormat("######.00").format(typeIICharge);
+//		System.out.println("?? : "+test);
+//		
+//		Double returnValue = Math.round(Double.parseDouble(test)*100d)/100d;
+//		System.out.println(returnValue);
+//		test = new DecimalFormat("######.00").format(returnValue);
+//		System.out.println("fianl : "+test);
+//		
+//	   String pud = "20131215";
+//	   String year = pud.substring(0,4);
+//		String month = pud.substring(4,6);
+//		String day = pud.substring(6,8);
+//		System.out.println(year + " "+month+" "+day);
+//	   String re = getYear(pud);
+//	   System.out.println(re);
+	   String str="ㅈㅎㅈㅈㅎㅎㅎㅎㅈㅎㅈㅎㅈㅎㅈㅈㅎㅎㅎㅎㅈㅎㅎㅈㅈㅈㅎㅎㅈㅎㅈㅎㅎㅎㅎㅎㅎㅎㅈㅎㅈㅈㅈㅈㅎㅈㅈㅈㅎㅈㅈㅈㅈㅈㅎㅈㅎㅈㅎㅈㅎㅈㅎㅈㅈㅈㅎㅎㅈㅎㅎㅈㅎㅎㅈㅈㅈㅎㅈㅈㅎㅎㅈㅎㅎㅎㅈㅎㅎㅈㅎㅎㅈㅎㅎㅈㅎㅈㅎㅎㅈㅎㅎㅈㅎㅎㅎㅈㅈㅎㅈㅎㅎㅈㅈㅈㅈㅎㅎㅈㅈㅎㅎㅎㅎㅈㅈㅎㅎㅈㅎㅈㅈㅎㅎㅎㅎㅎㅈㅈㅈㅎㅈㅈㅈㅈㅈㅈㅎㅎㅈㅎㅎㅎㅎㅈㅎㅎㅎㅎㅈㅎㅎㅈㅈㅎㅈㅈㅈㅈㅈㅈㅈㅈㅎㅎㅎㅈㅈㅎㅎㅈㅈㅈㅎㅈㅎㅎㅈㅈㅈㅈㅈㅎㅈㅎㅎㅎㅈㅈㅈㅈㅈㅎㅈㅈㅈㅎㅎㅈㅎㅎㅈㅎㅎㅎㅈㅈㅎㅈㅎㅈㅈㅈㅎㅎㅎㅎㅈㅈㅎㅎㅈㅎㅎㅈㅈㅈㅈㅈㅎㅈㅈㅈㅈㅈㅈㅈㅈㅎㅈㅎㅎㅈㅈㅈㅎㅈㅎㅈㅎㅎㅈㅎㅎㅎㅎㅎㅈㅎㅎㅎㅈㅎㅈㅎㅎㅎㅈㅎㅎㅎㅎㅎㅎㅈㅈㅈㅈㅎㅎㅈㅈㅈㅎㅈㅈㅈㅎㅎㅈㅎㅈㅈㅎㅈㅎㅎㅈㅎㅎㅈㅎㅈㅈㅎㅈㅈㅎㅈㅎㅎㅈㅈㅈㅎㅎㅎㅎㅈㅈㅎㅈㅎㅎㅈㅈㅎㅎㅈㅈㅈㅈㅈㅈㅎㅎㅎㅎㅎㅎㅈㅈㅎㅈㅈㅈㅎㅈㅎㅎㅎㅈㅎㅎㅈㅎㅈㅈㅈㅈㅎㅎㅎㅎㅈㅎㅎㅎㅈㅎㅎㅈㅈㅎㅎㅎㅎㅈㅈㅎㅎㅈㅈㅈㅎㅈㅈㅎㅈㅎㅎㅈㅈㅈㅈㅎㅎㅎㅎㅈㅎㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅎㅎㅈㅈㅈㅈㅎㅈㅎㅇㅇㅇㅇㅈㅎㅎㅎㅎㅎㅎㅈㅈㅈㅈㅈㅈㅎㅎㅈㅎㅈㅎㅈㅎㅈㅈㅈㅈㅈㅎㅈㅈㅈㅈㅈㅈㅈㅎㅈㅈㅎㅈㅈㅎㅈㅎㅎㅈㅈㅎㅎㅈㅎㅎㅈㅈㅎㅎㅈㅎㅈㅎㅎㅎㅎㅎㅎㅎㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅎㅈㅎㅎㅈㅎㅈㅈㅈㅈㅈㅎㅈㅈㅈㅎㅎㅈㅈㅎㅎㅈㅎㅈㅈㅈㅎㅎㅈㅈㅈㅈㅈㅈㅎㅈㅎㅈㅈㅈㅎㅈㅎㅈㅈㅎㅈㅈㅈㅈㅎㅈㅈㅈㅎㅈㅈㅈㅈㅎㅈㅎㅎㅎㅈㅈㅈㅎㅈㅈㅈㅈㅎㅎㅎㅈㅈㅈㅎㅈㅎㅈㅈㅎㅎㅈㅈㅈㅈㅈㅈㅈㅈㅈㅈㅎㅎㅈㅎㅈㅎㅈㅎㅈㅎㅈㅎㅎㅎㅈㅎㅈㅈㅎㅈㅈㅇㅇㅇㅇㅇㅇㅎㅈㅎㅈㅎㅎㅈㅈㅎㅈㅎㅈㅈㅈㅈㅎㅈㅈㅈㅎㅎㅈㅎㅎㅎㅎㅈㅈㅎㅎㅈㅈㅈㅎㅈㅈㅈㅎㅎㅈㅈㅈㅎㅎㅎㅎㅈㅎㅎㅈㅎㅈㅈㅈㅎㅎㅈㅎㅈㅎㅈㅎㅈㅎㅈㅈㅈㅈㅎㅎㅈㅎㅈㅈㅎㅎㅎㅎㅎㅈㅈㅎㅎㅎㅎㅎㅎㅎㅎㅈㅈㅈㅈㅈㅎㅎㅎㅎㅈㅈㅈㅎㅈㅈㅎㅈㅈㅈㅎㅈㅈㅎㅈㅈㅎㅎㅈㅎㅎㅎㅎㅎㅎㅈㅈㅎㅎㅈㅎㅈㅎㅎㅈㅎㅈㅎㅈㅎㅈㅈㅎㅈㅎㅈㅈㅎㅈㅎㅎㅈㅎㅎㅈㅈㅎㅎㅈㅎㅎㅎㅎㅈㅎㅎㅎㅈㅎㅈㅎㅎㅈㅈㅈㅎㅎㅈㅈㅎㅎㅎㅈㅎㅈㅎㅎㅈㅎㅎㅎㅎㅈㅎㅎㅎㅈㅈㅈㅈㅈㅈㅎㅈㅈㅈㅎㅎㅈㅎㅈㅈㅈㅎㅎㅎㅈㅈㅈㅈㅎㅈㅎㅈㅎㅈㅎㅎㅎㅈㅎㅈㅎㅎㅎㅎㅎㅈㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅈㅎㅎㅎㅈㅈㅎㅈㅈㅎㅎㅈㅈㅈㅈㅈㅎㅎㅎㅎㅎㅎㅈㅈㅈㅎㅈㅎㅎㅈㅈㅎㅈㅎㅎㅎㅈㅈㅈㅎㅎㅈㅎㅎㅈㅎㅎㅈㅈㅎㅎㅈㅈㅎㅈㅈㅈㅈㅈㅈㅎㅎㅈㅎㅈㅈㅎㅎㅎㅈㅈㅈㅈㅈㅎㅎㅈㅎㅈㅎㅈㅈㅎㅈㅈㅎㅈㅈㅈㅎㅎㅈㅈㅈㅈㅎㅈㅈㅈㅎㅈㅈㅎㅈㅎㅈㅎㅎㅈㅈㅎㅈㅎㅎㅎㅎㅈㅈㅎㅈㅎㅈㅎㅈㅈㅎㅈㅈㅈㅎㅈㅈㅈㅈㅎㅈㅈㅎㅎㅎㅎㅈㅈㅈㅈㅎㅈㅈㅈㅎㅈㅎㅈㅎㅈㅎㅎㅎㅎㅈㅎㅎㅈㅎㅈㅎㅈㅎㅈㅎㅎㅈㅈㅈㅈㅎㅈㅈㅈㅎㅈㅈㅈㅈㅎㅎㅈㅎㅎㅎㅎㅈㅎㅎㅎㅈㅎㅎㅈㅈㅎㅎㅎㅈㅎㅎㅈㅎㅈㅎㅈㅎㅎㅎㅈㅈㅎㅎㅎㅈㅈㅈㅎㅎㅎㅈㅈㅎㅎㅈㅈㅈㅈㅎㅈㅈㅈㅎㅈㅎㅎㅎㅈㅎㅎㅎㅎㅎㅎㅈㅎㅎㅎㅎㅎㅎㅈㅈㅈㅈㅈㅈㅈㅎㅈㅈㅎㅎㅈㅈㅎㅎㅎㅈㅈㅈㅎㅈㅎㅎㅈㅈㅈㅈㅈㅎㅎㅈㅈㅎㅈㅎㅎㅈㅎㅎㅈㅎㅈㅎㅈㅈㅈㅈㅎㅎㅎㅈㅈㅈㅎㅎㅈㅈㅎㅈㅈㅎㅈㅈㅈㅎㅈㅎㅎㅎㅎㅎㅈㅎㅈㅈㅈㅈㅈㅎㅎㅈㅈㅈㅎㅈㅎㅈㅎㅈㅈㅎㅈㅎㅈㅎㅈㅎㅈㅈㅎㅎㅎㅎㅈㅈㅎㅈㅈㅎㅎㅈㅎㅎㅎㅈㅎㅈㅎㅎㅈㅎㅎㅎㅈㅈㅎㅎㅎㅈㅈㅎㅈㅈㅈㅎㅈㅈㅎㅎㅎㅎㅎㅎㅎㅈㅈㅎㅈㅎㅈㅈㅎㅎㅎㅎㅈㅎㅈㅎㅈㅎㅎㅈㅈㅎㅈㅈㅈㅈㅈㅈㅎㅈㅈㅈㅈㅈㅎㅎㅎㅎㅎㅈㅈㅎㅎㅈㅈㅎㅎㅈㅎㅈㅈㅎㅎㅈㅎㅈㅎㅎㅈㅎㅈㅈㅎㅈㅈㅈㅈㅎㅈㅎㅈㅈㅈㅎㅎㅎㅎㅈㅎㅎㅎㅈㅈㅈㅎㅈㅎㅈㅈㅎㅈㅎㅈㅎㅈㅎㅈㅎㅈㅈㅈㅈㅈㅈㅎㅎㅈㅎㅈㅎㅈㅈㅎㅈㅈㅈㅎㅎㅎㅈㅎㅎㅈㅎㅈㅈㅎㅈㅎㅎㅎㅈㅎㅇㅈㅎㅎㅈㅎㅎㅎㅎㅈㅎㅎㅎㅎㅈㅎㅈㅎㅎㅎㅈㅎㅎㅈㅎㅎㅎㅈㅎㅎㅎㅈㅎㅈㅈㅈㅎㅎㅈㅎㅎㅎㅈㅈㅈㅎㅈㅎㅈㅎㅈㅈㅈㅎㅈㅈㅎㅈㅎㅎㅎㅈㅎㅈㅈㅎㅈㅎㅎㅈㅈㅈㅎㅎㅈㅎㅎㅈㅎㅎㅈㅎㅎㅎㅈㅎㅈㅎㅎㅎㅈㅈㅎㅈㅎㅈㅎㅎㅎㅎㅈㅈㅈㅎㅈㅎㅎㅈㅈㅈㅎㅈㅈㅈㅈㅈㅎㅈㅈㅎㅎㅎㅈㅈㅈㅎㅈㅎㅈㅈㅎㅎㅈㅎㅎㅈㅈㅈㅈㅈㅈㅈㅈㅈㅎㅎㅈㅎㅎㅈㅈㅎㅎㅈㅈㅈㅈㅎㅎㅈㅎㅎㅈㅈㅈㅈㅎㅎㅎㅈㅎㅎㅎㅈㅎㅎㅎㅈㅈㅈㅈㅎㅈㅈㅎㅈㅈㅎㅎㅈㅎㅎㅎㅈㅎㅎㅈㅎㅎㅈㅈㅎㅎㅎㅎㅈㅎㅈㅎㅈㅈㅎㅈㅎㅈㅎㅎㅎㅈㅈㅈㅎㅎㅈㅈㅈㅎㅎㅈㅈㅎㅈㅎㅈㅈㅈㅎㅈㅎㅎㅈㅎㅎㅎㅈㅈㅎㅎㅎㅈㅎㅈㅎㅎㅎㅎㅎㅈㅈㅎㅈㅈㅎㅎㅎㅈㅎㅈㅎㅎㅈㅎㅎㅈㅈㅎㅎㅎㅈㅈㅎㅎㅈㅈㅎㅎㅈㅎㅎㅎㅈㅎㅎㅈㅎㅎㅎㅈㅎㅈㅈㅎㅈㅎㅎㅈㅈㅎㅎㅈㅈㅎㅎㅎㅈㅈㅎㅎㅈㅈㅈㅈㅈㅈㅈㅎㅎㅎㅈㅎㅈㅈㅎㅈㅎㅈㅈㅎㅎㅈㅈㅈㅈㅈㅈㅈㅎㅎㅈㅈㅈㅈㅎㅎㅈㅎㅎㅎㅈㅈㅈㅎㅎㅈㅈㅈㅎㅈㅎㅈㅈㅎㅎㅎㅎㅎㅈㅈㅎㅈㅈㅎㅈㅈㅈㅈㅈㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅈㅎㅎㅎㅈㅎㅈㅎㅎㅎㅎㅎㅈㅎㅎㅈㅈㅎㅎㅈㅈㅎㅈㅎㅈㅈㅎㅈㅎㅎㅎㅎㅎㅈㅈㅈㅎㅈㅎㅎㅈㅈㅈㅎㅈㅈㅎㅎㅈㅈㅈㅈㅈㅈㅎㅎㅎㅎㅎㅈㅈㅈㅎㅎㅎㅈㅈㅈㅈㅈㅎㅎㅎㅈㅈㅎㅈㅎㅎㅈㅈㅎㅎㅈㅎㅈㅎㅎㅈㅎㅎㅈㅈㅎㅈㅈㅈㅈㅎㅎㅎㅎㅈㅎㅎㅎㅎㅎㅎㅎㅎㅈㅈㅎㅈㅈㅎㅈㅈㅈㅎㅎㅈㅎㅈㅈㅈㅈㅎㅎㅎㅈㅎㅎㅈㅎㅈㅈㅈㅎㅈㅎㅎㅎㅎㅎㅈㅈㅈㅎㅈㅎㅎㅎㅎㅎㅎㅈㅈㅎㅈㅈㅈㅎㅎㅎㅎㅈㅎㅎㅈㅈㅎㅎㅎㅈㅎㅈㅎㅈㅈㅈㅈㅈㅈㅎㅎㅎㅈㅎㅈㅈㅎㅎㅎㅈㅎㅎㅈㅈㅎㅈㅎㅈㅎㅈㅎㅈㅎㅎㅈㅈㅎㅈㅈㅈㅈㅎㅈㅈㅎㅈㅈㅈㅎㅎㅈㅈㅎㅎㅎㅎㅎㅎㅈㅎㅈㅎㅈㅈㅎㅎㅈㅎㅈㅎㅎㅎㅈㅈㅈㅎㅈㅎㅎㅎㅎㅈㅎㅈㅎㅎㅎㅎㅈㅎㅈㅎㅎㅈㅎㅎㅈㅎㅈㅎㅎㅈㅎㅈㅎㅎㅎㅈㅈㅎㅎㅎㅈㅎㅈㅈㅈㅈㅈㅎㅈㅈㅎㅎㅎㅎㅈㅈㅈㅎㅈㅎㅎㅎㅎㅎㅎㅎㅈㅈㅈㅈㅈㅈㅎㅈㅈㅎㅈㅎㅎㅎㅈㅈㅎㅈㅈㅎㅈㅈㅈㅈㅎㅈㅈㅎㅈㅎㅈㅎㅈㅎㅈㅎㅎㅎㅎㅈㅈㅈㅈㅈㅎㅈㅎㅎㅎㅎㅈㅎㅈㅎㅈㅈㅈㅈㅈㅎㅈㅈㅈㅎㅎㅎㅎㅈㅈㅈㅈㅎㅎㅎㅎㅎㅈㅎㅈㅈㅈㅎㅈㅎㅈㅎㅎㅎㅎㅎㅈㅎㅎㅈㅈㅈㅎㅈㅎㅈ";
+
+//	   String str="ㅈㅎㅎㅈㅈㅈㅎㅎㅈㅎㅎㅈㅈㅎㅈㅈㅈㅈㅈㅎㅈㅎㅎㅈㅈㅎㅎㅎㅎㅈㅈㅎㅈㅈㅈㅎㅎㅎㅎㅎㅈㅎㅈㅎㅎㅎㅈㅎㅈㅈㅈㅈㅎㅈㅎㅎㅈㅎㅎㅈㅎㅎㅈㅈㅈㅎㅈㅈㅈㅎㅎㅎㅈㅈㅎㅈㅈㅈㅎㅈㅈㅎㅈㅎㅎㅎㅈㅎㅈㅈㅈㅈㅎㅎㅈㅈㅎㅎㅎㅎㅈㅎㅈㅎㅎㅈㅈㅎㅎㅎㅎㅈㅎㅈㅎㅈㅈㅎㅈㅎㅎㅎㅈㅎㅎㅈㅈㅈㅎㅈㅈㅎㅈㅈㅈㅎㅎㅎㅈㅈㅈㅎㅎㅈㅎㅎㅈ"
+//	   		+ "ㅈㅈㅈㅈㅎㅎㅈㅎㅈㅈㅎㅈㅈㅎㅎㅎㅈㅎㅎㅎㅎㅎㅈㅈㅈㅎㅈㅎㅈㅎㅎㅎㅈㅎㅎㅎㅎㅈㅎㅎㅎㅎㅈㅎㅈㅈㅎㅎㅈㅎㅈㅈㅎㅈㅎㅈㅎㅎㅈㅎㅎㅎㅈㅈㅎㅎㅈㅈㅎㅈㅎㅎㅎㅎㅈㅎㅎㅎㅎㅈㅈㅎㅈㅈㅈㅈㅈㅎㅎㅎㅎㅎㅈㅈㅈㅈㅎㅈㅈㅎㅎㅈㅎㅈㅎㅈㅎㅈㅎㅎㅈㅈㅎㅎㅎㅈㅎㅎㅎㅎㅎㅈㅈㅎㅎㅈㅈㅈㅈㅎㅎㅎㅎㅈㅎㅎㅎㅈㅈㅎㅈ"	   //5월18일 288
+//	   		String str = "ㅎㅎㅈㅎㅎㅎㅎㅈㅈㅈㅎㅈㅈㅈㅈㅈㅎㅎㅈㅎㅈㅈㅈㅈㅈㅈㅎㅈㅎㅎㅈㅎㅈㅈㅎㅈㅈㅎㅈㅈㅈㅎㅎㅈㅈㅈㅈㅎㅈㅈㅎㅈㅈㅈㅈㅎㅎㅎㅈㅈㅎㅈㅎㅈㅈㅈㅎㅎㅈㅈㅈㅈㅎㅎㅈㅈㅈㅈㅈㅎㅎㅈㅎㅈㅎㅎㅎㅎㅈㅈㅎㅈㅎㅈㅎㅎㅈㅈㅎㅈㅈㅎㅎㅈㅈㅈㅈㅈㅎㅈㅎㅈㅎㅎㅈㅎㅈㅎㅎㅎㅎㅈㅎㅈㅎㅈㅎㅎㅈㅎㅎㅈㅈㅈㅈㅈㅎㅎㅈㅈㅈㅎㅎㅈㅈㅎㅈㅎㅎㅎㅈㅎㅎㅎ";//5월18일 1회
+	   	
+	   String str2="";
+	   StringBuffer sb = new StringBuffer(str);
+
+	   sb.append(str);
+//	   str2 = sb.reverse().toString();
+//	   System.out.println("reverse: "+str2);
+	   System.out.println(str.length());
+////	  str = sb.reverse().toString();
+////    System.out.println(str);
+//      Scanner sc = new Scanner(System.in);
+//      
+//      String token = "";
+//   
+//      System.out.print("input : ");
+//      token = sc.nextLine();
+	  String token = input;
+      int size = token.length(); //비교 문자열 크기
+      int index = 0; //찾은 문자열 인덱스
+      for(int k=0;k<2;k++){
+      if(k==0){
+      String result = ""; //찾은 문자열 합한 스트링
+      
+      ArrayList<String> slist = new ArrayList<String> (); //리스트 문자열
+      ArrayList<Integer> ilist = new ArrayList<Integer> (); //리스트 문자열의 카운트 (slist와 같은 인덱스 )
+//      System.out.println(str.length());
+      
+      while(true) {
+         index = str.indexOf(token, index); //문자열에서 토큰 찾은 인덱스
+////         System.out.println("index : "+index);
+         if(index == -1 || index == (str.length() -1)){ //못찾았을때나 맨 마지막 토큰뒤에는 문자가 없으므로 종료
+            break;
+         }
+         
+         else {
+	        	if(str.length() > index+size){
+		        	Character crt = new Character(str.charAt(index + size)); //찾은 토큰 뒤에 문자 하나(char)를 케릭터클래스변경
+		        
+		            String s = crt.toString(); //케릭터 클래스를 스트링으로 변경
+		//            System.out.print(s); //토큰 뒤에 문자 하나 출력 부분
+		            
+		            result = result.concat(s); //찾은 문자열을 하나의 스트링으로 붙여서 합침
+		            
+		            if(slist.indexOf(s) == -1) { //새로 문자를 찾았을때
+		               slist.add(s);
+		               ilist.add(1);
+		            }
+		            else {  //기존의 문자를 1증가 시킬때
+		               int index2 = slist.indexOf(s);
+		               ilist.set(index2, ilist.get(index2) + 1);
+		            }
+		            index ++;
+	        	}
+	        	else{
+	        		break;
+	        	}
+         }
+      }
+      System.out.println();
+      	//확인 부분
+      	for(int i = 0; i < slist.size(); i++) {
+            System.out.print("value : " + slist.get(i));
+            System.out.println("count : " + ilist.get(i));
+        }
+        System.out.println("result1 : " + result);
+      }//if 1
+      else{
+
+          String result = ""; //찾은 문자열 합한 스트링
+          
+          ArrayList<String> slist = new ArrayList<String> (); //리스트 문자열
+          ArrayList<Integer> ilist = new ArrayList<Integer> (); //리스트 문자열의 카운트 (slist와 같은 인덱스 )
+//          System.out.println(str.length());
+          
+          while(true) {
+             index = str2.indexOf(token, index); //문자열에서 토큰 찾은 인덱스
+////             System.out.println("index : "+index);
+             if(index == -1 || index == (str.length() -1)){ //못찾았을때나 맨 마지막 토큰뒤에는 문자가 없으므로 종료
+                break;
+             }
+             
+             else {
+    	        	if(str2.length() > index+size){
+    		        	Character crt = new Character(str2.charAt(index + size)); //찾은 토큰 뒤에 문자 하나(char)를 케릭터클래스변경
+    		        
+    		            String s = crt.toString(); //케릭터 클래스를 스트링으로 변경
+    		//            System.out.print(s); //토큰 뒤에 문자 하나 출력 부분
+    		            
+    		            result = result.concat(s); //찾은 문자열을 하나의 스트링으로 붙여서 합침
+    		            
+    		            if(slist.indexOf(s) == -1) { //새로 문자를 찾았을때
+    		               slist.add(s);
+    		               ilist.add(1);
+    		            }
+    		            else {  //기존의 문자를 1증가 시킬때
+    		               int index2 = slist.indexOf(s);
+    		               ilist.set(index2, ilist.get(index2) + 1);
+    		            }
+    		            index ++;
+    	        	}
+    	        	else{
+    	        		break;
+    	        	}
+             }
+          }
+          System.out.println();
+          	//확인 부분
+          	for(int i = 0; i < slist.size(); i++) {
+                System.out.print("one index " + i + "  value : " + slist.get(i));
+                System.out.println("   count : " + ilist.get(i));
+            }
+            System.out.println("result2 : " + result);
+            aa = result;
+      }
+   }
+		return aa; 
+	}
 	
 	
 	/**

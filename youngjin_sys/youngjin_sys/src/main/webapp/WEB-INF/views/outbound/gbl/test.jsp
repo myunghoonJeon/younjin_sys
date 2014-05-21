@@ -1,4 +1,3 @@
-<%@ include file="../layout/head.jspf"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -16,12 +15,34 @@
 <script>
 var contextPath = '<c:out value="${cp}"/>';
 var realPath = '<c:out value="${rp}"/>';
-
+function test(){
+	var value = $("#input").val();
+	
+	var json = {
+    		'value' : value
+    	};
+    	var url = contextPath + '/outbound/test.json';
+    	alert(url + " "+value);
+    	$.postJSON(url, json, function(){
+    		return jQuery.ajax({
+    			success : function(){
+    				alert("sdfwef");
+    			},
+    			error : function(){
+    				alert("??");
+    			}
+    		});
+    	});
+}
 </script>
 
 </head>
 <body>
-	TEST
+	<div>
+		결과 여기나온다 : ${test }????
+	</div>
+	<div>
+		<input id="input" type="text" name="input" col="50" value="test1"><input type="button" id="btn" name="btn" value="click23" onclick="test()"/>
+	</div>
 </body>
 </html>
-<%@ include file="../layout/foot.jspf"%>

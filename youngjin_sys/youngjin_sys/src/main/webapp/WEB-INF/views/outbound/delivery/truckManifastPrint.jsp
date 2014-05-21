@@ -17,6 +17,7 @@
 		text-align: left;
 		font-size: 20px;
 		font-weight: bold;
+		font-family: arial;
 	}
 	#topdatetd{
 		padding-right : 10px;
@@ -28,7 +29,7 @@
 	#gblnotd{
 		padding-top : 5px;
 		padding-bottom : 5px;
-		width : 100px;
+		width : 80px;
 		text-align: center;
 		font-size: 13px;
 		font-weight: bold;
@@ -63,7 +64,7 @@
 		font-weight: bold;
 		border-top : solid;
 		border-bottom: solid;
-		width : 100px;
+		width : 50px;
 	}
 	#piecetd{
 		padding-top : 5px;
@@ -73,7 +74,7 @@
 		font-weight: bold;
 		border-top : solid;
 		border-bottom: solid;
-		width : 200px;
+		width : 280px;
 	}
 	#cntrnotd{
 		padding-top : 5px;
@@ -123,7 +124,7 @@
 <body onload="window.print()">
 	
 	<div>
-		<table align="center" width="90%" cellspacing="0">
+		<table align="center" width="100%" cellspacing="0">
 		<tr>
 		<td id='topcodetd' colspan="6">CODE #${truckManisfast.code }</td>
 		</tr>
@@ -136,14 +137,13 @@
 		<td id='origintd'>ORIGIN</td>
 		<td id='podtd'>POD</td>
 		<td id='piecetd'>PIECE</td>
-		<td id='cntrnotd'>CNTR NO</td>
 		</tr>
 		<c:forEach var="gbl" items="${gblList }">
 			<tr style="text-align: center;">
 				<td id="inputstart">${gbl.no }</td>
 				<td id="inputstart">${gbl.shipper }</td>
 				<td id="inputstart">${gbl.area }/${gbl.usNo }/${gbl.scac }</td>
-				<td id="inputstart" style="width:17%;">${gbl.pod } / ${podMap[gbl.pod].podAgentName}</td>
+				<td id="inputstart" style="width:17%;">${gbl.pod }</td>
 				<c:forEach var="weightCertificate" items="${gbl.containerList }" varStatus="i">
 					<c:choose>
 						<c:when test="${i.index eq 0 }">
@@ -163,9 +163,6 @@
 								<td id="inputstart">
 									${weightCertificate.gross }-${weightCertificate.tare }-${weightCertificate.net }-${weightCertificate.cuft } ${weightCertificate.piece }
 								</td>
-								<td id="inputstart">
-									${weightCertificate.remark }
-								</td>								
 							</tr>
 						</c:otherwise>
 					</c:choose>
