@@ -55,7 +55,7 @@ public class InvoiceService {
 			etcInsert2(rate);
 			Integer SITcheck = invoiceDao.getSitListCount(rate);
 			System.out.println("@@@@@@@@@@@@@ sitsit : "+SITcheck);
-			if (SITcheck == 1234) {
+			if (SITcheck == 0) {
 				List<Rate> sitRateList = new ArrayList<Rate>();
 				sitRateList.add(new Rate("SIT-FIRST DAY - IT13 item 519A", "UB",
 						"OUTBOUND",rate.getWriteYear()));
@@ -73,7 +73,7 @@ public class InvoiceService {
 						"OUTBOUND",rate.getWriteYear()));
 				sitRateList.add(new Rate("ADM FEE - IT13 item 521L", "UB",
 						"OUTBOUND",rate.getWriteYear()));
-				sitRateList.add(new Rate("SIT-FIRST DAY -IT13 item 518C", "HHG",
+				sitRateList.add(new Rate("SIT-FIRST DAY - IT13 item 518C", "HHG",
 						"OUTBOUND",rate.getWriteYear()));
 				sitRateList.add(new Rate("SIT-EACH ADDITIONALDAY - IT13 item 518D",
 						"HHG", "OUTBOUND",rate.getWriteYear()));
@@ -103,7 +103,7 @@ public class InvoiceService {
 	
 			// Other charge Schedule check
 			Integer otherCheck = invoiceDao.getOtherListCount(rate);
-			if (otherCheck == 1234) {
+			if (otherCheck == 0) {
 				List<Rate> otherRateList = new ArrayList<Rate>();
 				
 				otherRateList.add(new Rate("EXTRA PICKUP CHARGE - IT13 item 2222",
@@ -1093,7 +1093,7 @@ public class InvoiceService {
 						
 			if (sitStartDate != null) {
 				if ("HHG".equals(codeStr)) {
-					sitRateParam.setTitle("SIT-FIRST DAY -IT13 item 518C");
+					sitRateParam.setTitle("SIT-FIRST DAY - IT13 item 518C");
 					sitRateParam.setCode("HHG");
 					Rate sitFirstDayRate = invoiceDao.getSit(sitRateParam);
 					double tempWeight = (totalGblWeight/100);
@@ -1396,47 +1396,47 @@ public class InvoiceService {
 					invoiceDao.insertInvoiceGblContent(destinationServiceChargeContent);
 				}
 				
-					Rate otherRateParam = new Rate();
-					otherRateParam.setProcess("inbound");
-					otherRateParam.setWriteYear(getYear(gbl.getPud()));
-					if ("HHG".equals(codeStr)) {
-						otherRateParam.setTitle("TERMINATION CHARGE - IT13 item 522A");
-						otherRateParam.setCode("HHG");
-						Rate terminationRate = invoiceDao.getOther(otherRateParam);
-						terminationCharge = comprate1.getRate()	* terminationRate.getRate();
-						System.out.println("COMPRATE1 : "+comprate1.getRate());
-						System.out.println("TERMINATION RATE : "+terminationRate.getRate());
-						System.out.println("TERMINATION CHARGE : "+terminationCharge);
-						System.out.println("YEAR : "+otherRateParam.getWriteYear());
-					} else if ("UB".equals(codeStr)) {
-						otherRateParam
-								.setTitle("TERMINATION CHARGE - IT13 item 523A");
-						otherRateParam.setCode("UB");
-						Rate terminationRate = invoiceDao.getOther(otherRateParam);
-						terminationCharge = comprate1.getRate()	* terminationRate.getRate();
-						System.out.println("COMPRATE1 : "+comprate1.getRate());
-						System.out.println("TERMINATION RATE : "+terminationRate.getRate());
-						System.out.println("TERMINATION CHARGE : "+terminationCharge);
-					}
-					terminationCharge = getRoundResult(terminationCharge);
-					totalAmount += terminationCharge;
-	
-					terminationContent.setChargingItem("TERMINATION CHARGE");
-					terminationContent.setQuantity("");
-					terminationContent.setAmount(terminationCharge+"");
-					terminationContent.setInvoiceGblSeq(invoiceGblSeq);
-	
-					invoiceGblContentList.add(terminationContent);
-	
-					checkInvoiceContentGetSeq = invoiceDao
-							.checkInvoiceContent(terminationContent);
-	
-					if (checkInvoiceContentGetSeq != null) {
-						terminationContent.setSeq(checkInvoiceContentGetSeq);
-						invoiceDao.updateInvoiceGblContent(terminationContent);
-					} else {
-						invoiceDao.insertInvoiceGblContent(terminationContent);
-					}
+//					Rate otherRateParam = new Rate();
+//					otherRateParam.setProcess("inbound");
+//					otherRateParam.setWriteYear(getYear(gbl.getPud()));
+//					if ("HHG".equals(codeStr)) {
+//						otherRateParam.setTitle("TERMINATION CHARGE - IT13 item 522A");
+//						otherRateParam.setCode("HHG");
+//						Rate terminationRate = invoiceDao.getOther(otherRateParam);
+//						terminationCharge = comprate1.getRate()	* terminationRate.getRate();
+//						System.out.println("COMPRATE1 : "+comprate1.getRate());
+//						System.out.println("TERMINATION RATE : "+terminationRate.getRate());
+//						System.out.println("TERMINATION CHARGE : "+terminationCharge);
+//						System.out.println("YEAR : "+otherRateParam.getWriteYear());
+//					} else if ("UB".equals(codeStr)) {
+//						otherRateParam
+//								.setTitle("TERMINATION CHARGE - IT13 item 523A");
+//						otherRateParam.setCode("UB");
+//						Rate terminationRate = invoiceDao.getOther(otherRateParam);
+//						terminationCharge = comprate1.getRate()	* terminationRate.getRate();
+//						System.out.println("COMPRATE1 : "+comprate1.getRate());
+//						System.out.println("TERMINATION RATE : "+terminationRate.getRate());
+//						System.out.println("TERMINATION CHARGE : "+terminationCharge);
+//					}
+//					terminationCharge = getRoundResult(terminationCharge);
+//					totalAmount += terminationCharge;
+//	
+//					terminationContent.setChargingItem("TERMINATION CHARGE");
+//					terminationContent.setQuantity("");
+//					terminationContent.setAmount(terminationCharge+"");
+//					terminationContent.setInvoiceGblSeq(invoiceGblSeq);
+//	
+//					invoiceGblContentList.add(terminationContent);
+//	
+//					checkInvoiceContentGetSeq = invoiceDao
+//							.checkInvoiceContent(terminationContent);
+//	
+//					if (checkInvoiceContentGetSeq != null) {
+//						terminationContent.setSeq(checkInvoiceContentGetSeq);
+//						invoiceDao.updateInvoiceGblContent(terminationContent);
+//					} else {
+//						invoiceDao.insertInvoiceGblContent(terminationContent);
+//					}
 //				}
 			}		
 			
@@ -1453,7 +1453,8 @@ public class InvoiceService {
 				for(int i=0;i<sitFirstMemo.size();i++){
 					InvoiceGblContent sitFirstContent = new InvoiceGblContent();
 					invoiceReturnMap = getSitFirstDayAndWarehouseHandlingCharge(
-							sitFirstMemo.get(i).getSitNo(), sitFirstMemo.get(i).getSitWeight(), codeStr, comprate1.getRate()
+							sitFirstMemo.get(i).getSitNo(), sitFirstMemo.get(i).getSitWeight(), codeStr, comprate1.getRate(),
+							 getYear(gbl.getPud()),"inbound"
 							);
 					totalAmount += invoiceReturnMap.get("amount");
 					totalAmount = getRoundResult(totalAmount);
@@ -1496,7 +1497,7 @@ public class InvoiceService {
 					Integer eachDayCount = DateUtil.getDaysBetween(sitStartMemo.get(i).getSitStartDate(),
 							sitEndMemo.getSitEndDate()) - 1;
 					System.out.println("[[[[[[[[[[[[[[ BETWWEN : "+eachDayCount+" DAY ]]]]]]]]]]]]");
-					invoiceReturnMap = getSitEachAdditionalDay("no", eachDayCount, sitEndMemo.getSitWeight(), codeStr, comprate1.getRate());
+					invoiceReturnMap = getSitEachAdditionalDay("no", eachDayCount, sitEndMemo.getSitWeight(), codeStr, comprate1.getRate(),getYear(gbl.getPud()),"inbound");
 					double tempAmount =invoiceReturnMap.get("amount");
 					tempAmount = getRoundResult(tempAmount);
 					totalAmount += tempAmount;
@@ -1814,7 +1815,7 @@ public class InvoiceService {
 	
 	private Map<String, Double> getSitFirstDayAndWarehouseHandlingCharge(
 			String sit_no, String weight, String value_UB_HHG,
-			double comprate1) {
+			double comprate1,String date,String process) {
 		///////////////start////////////////
 		System.out.println("[[[ SIT FIRST DAY CHARGE START ]]]");
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
@@ -1846,22 +1847,28 @@ public class InvoiceService {
 //			System.out.println("[[ WEIGHT : "+tempWeight+" ]]");
 //			weight_temp += tempWeight;
 //		}
-		System.out.println("----------- weight : "+weight+" --------------");
+		System.out.println("[[[[[[[[[[[ SIT weight : "+weight+" ]]]]]]]]]]]");
 		weight_temp = Double.parseDouble(weight);
 		gbl_weight[0] = (weight_temp / 100);//무게 최저인지 확인하고  100으로 나누고 이런것
 		gbl_weight[1] = weight_temp;
 		if (ub_hhg_type == 0) {			// 4번 (UB)
 			Rate rate = new Rate();
+			rate.setWriteYear(date);
+			rate.setProcess(process);
 			rate.setTitle("SIT-FIRST DAY - IT13 item 519A");
 			rate.setCode(value_UB_HHG);
 			sit_first_day = invoiceDao.getSit(rate).getRate();
-			System.out.println("[[[[[[[[[[[SIT EACH ADDITIONALDAY RATE : "+sit_first_day+"% ]]]]]]]");
+			System.out.println("[[[[[[[[[[[ SIT TITLE : "+rate.getTitle()+"("+rate.getWriteYear()+") ]]]]]]]]]]]]]");
+			System.out.println("[[[[[[[[[[[ RATE : "+sit_first_day+"% ]]]]]]]");
 		} else if (ub_hhg_type == 1) {	// 3번 (HHG)
 			Rate rate = new Rate();
+			rate.setWriteYear(date);
+			rate.setProcess(process);
 			rate.setTitle("SIT-FIRST DAY - IT13 item 518C");
 			rate.setCode(value_UB_HHG);
 			sit_first_day = invoiceDao.getSit(rate).getRate();
-			System.out.println("[[[[[[[[[[[SIT EACH ADDITIONALDAY RATE : "+sit_first_day+"% ]]]]]]]");
+			System.out.println("[[[[[[[[[[[ SIT TITLE : "+rate.getTitle()+"("+rate.getWriteYear()+") ]]]]]]]]]]]]]");
+			System.out.println("[[[[[[[[[[[ RATE : "+sit_first_day+"% ]]]]]]]");
 		}
 		double sitFristDayResult =getRoundResult(gbl_weight[0] * sit_first_day * comprate1);
 		System.out.println("[[[[[[[[[[[ COMPRATE : "+comprate1+"% ]]]]]]]");
@@ -1875,7 +1882,7 @@ public class InvoiceService {
 	
 	private Map<String, Double> getSitEachAdditionalDay(String sit_no,
 			int sit_day, String weight, String value_UB_HHG,
-			double comprate1) {
+			double comprate1,String date,String process) {
 
 		// 1.0 -- (2014-02-21) 강정규 : 첫 작성
 		// 1.1 -- (2014-02-23) 박광열 : Map으로 return type change, 단일 weight 계산을 weight List로 변경
@@ -1910,14 +1917,19 @@ public class InvoiceService {
 		System.out.println("[[[[[[[[[[[ WEIGHT : "+gbl_weight+" ]]]]]]]]]]]]");
 		if (ub_hhg_type == 0) {			// 4번 (UB)
 			Rate rate = new Rate();
-			rate.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 518D");
+			rate.setWriteYear(date);
+			rate.setProcess(process);
+			rate.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 519C");
 			rate.setCode(value_UB_HHG);
 			addition_day = invoiceDao.getSit(rate).getRate();
-			
+			System.out.println("[[[[[[[[[[[ SIT TITLE : "+rate.getTitle()+"("+rate.getWriteYear()+") ]]]]]]]]]]]]]");
+			System.out.println("[[[[[[[[[[[ RATE : "+addition_day+"% ]]]]]]]");
 			System.out.println("[[[[[[[[[[[ SIT EACH ADDITIONALDAY RATE(UB) : "+addition_day+"% ]]]]]]]");
 		} else if (ub_hhg_type == 1) {	// 3번 (HHG)
 			Rate rate = new Rate();
-			rate.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 519C");
+			rate.setWriteYear(date);
+			rate.setProcess(process);
+			rate.setTitle("SIT-EACH ADDITIONALDAY - IT13 item 518D");
 			rate.setCode(value_UB_HHG);
 			addition_day = invoiceDao.getSit(rate).getRate();
 			System.out.println("[[[[[[[[[[[SIT EACH ADDITIONALDAY RATE(HHG) : "+addition_day+"% ]]]]]]]");
