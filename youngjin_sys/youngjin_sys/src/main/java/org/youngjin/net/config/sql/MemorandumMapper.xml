@@ -20,6 +20,7 @@
 		<result property="sitStartDate" column="sit_start_date" />
 		<result property="sitEndDate" column="sit_end_date" />
 		<result property="sitNo" column="sit_no" />
+		<result property="sitWeight" column="sit_weight"/>
 		<result property="longCarry" column="long_carry" />
 	</resultMap>
 	
@@ -38,6 +39,28 @@
 		</if>
 	</select>
 	
+	<select id="getSitiMemorandumIb" parameterType="Memorandum" resultMap="MemorandumMap">
+		SELECT
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, write_date, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry,sit_no,sit_weight
+		FROM
+			memorandum_ib
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			type = #{type}
+	</select>
+	<select id="getSitEndMemorandumIb" parameterType="Memorandum" resultMap="MemorandumMap">
+		SELECT
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, write_date, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry,sit_no,sit_weight
+		FROM
+			memorandum_ib
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			type = #{type}
+		AND
+			sit_no = #{sitNo}
+	</select>
 	<select id="getMemorandumIb" parameterType="Memorandum" resultMap="MemorandumMap">
 		SELECT
 			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, write_date, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry,sit_no
@@ -68,7 +91,7 @@
 	
 	<select id="getMemorandumListIb" parameterType="Map" resultMap="MemorandumMap">
 		SELECT
-			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry, sit_no 
+			seq, type, subject, comment, area, articles, article_comment1, article_comment2, article_comment3, article_comment4, article_comment5, gbl_seq, extra_pick_up_charge, termination, sit_start_date, sit_end_date, long_carry, sit_no,sit_weight 
 		FROM
 			memorandum_ib
 		WHERE
@@ -204,7 +227,27 @@
 				#{invoiceValue}
 			)
 	</insert>
-	
+		<insert id="insertMemorandumSitWeight" parameterType="Memorandum">
+		INSERT INTO
+			memorandum_ib
+			(
+				type, memorandum_list_seq, gbl_seq, write_date
+				<choose>
+					<when test="type == '05'">
+						, sit_no, sit_weight
+					</when>
+				</choose>
+			)
+			VALUES
+			(
+				#{type},
+				#{memorandumSeq},
+				#{gblSeq},
+				SYSDATE(),
+				#{sitNo},
+				#{sitWeight}
+			)
+	</insert>
 	<insert id="insertInvoiceMemorandumIb" parameterType="Memorandum">
 		INSERT INTO
 			memorandum_ib
@@ -212,22 +255,19 @@
 				type, memorandum_list_seq, gbl_seq, write_date
 				<choose>
 					<when test="type == '04'">
-						, extra_pick_up_charge
-					</when>
-					<when test="type == '05'">
-						, sit_no
+						, extra_pick_up_charge, sit_no, sit_weight
 					</when>
 					<when test="type == '06'">
-						, sit_start_date
+						, sit_start_date , sit_no, sit_weight
 					</when>
 					<when test="type == '07'">
-						, sit_end_date
+						, sit_end_date  , sit_no, sit_weight
 					</when>
 					<when test="type == '08'">
-						, long_carry
+						, long_carry  , sit_no, sit_weight
 					</when>		
 					<when test="type == '09'">
-						, termination
+						, termination  , sit_no, sit_weight
 					</when>			
 				</choose>
 			)
@@ -237,7 +277,9 @@
 				#{memorandumSeq},
 				#{gblSeq},
 				SYSDATE(),
-				#{invoiceValue}
+				#{invoiceValue},
+				#{sitNo},
+				#{sitWeight}
 			)
 	</insert>
 	
@@ -272,29 +314,54 @@
 		AND
 			type = #{type}
 	</update>
-	
+	<update id="modifyInvoiceSitMemorandumIb" parameterType="Memorandum">
+		UPDATE
+			memorandum_ib
+		SET
+			<choose>
+				<when test="type == '05'">
+					sit_no = #{sitNo}, sit_weight = #{sitWeight}
+				</when>
+			</choose>
+		WHERE
+			gbl_seq = #{gblSeq}
+		AND
+			memorandum_list_seq = #{memorandumSeq}
+		AND
+			type = #{type}
+	</update>
 	<update id="modifyInvoiceMemorandumIb" parameterType="Memorandum">
 		UPDATE
 			memorandum_ib
 		SET
 			<choose>
 				<when test="type == '04'">
-					extra_pick_up_charge = #{invoiceValue}
+					extra_pick_up_charge = #{invoiceValue},
+					sit_no = #{sitNo},
+					sit_weight=#{sitWeight}
 				</when>
 				<when test="type == '05'">
 					sit_no = #{invoiceValue}
 				</when>
 				<when test="type == '06'">
-					sit_start_date = #{invoiceValue} 
+					sit_start_date = #{invoiceValue},
+					sit_no = #{sitNo},
+					sit_weight=#{sitWeight}
 				</when>
 				<when test="type == '07'">
-					sit_end_date = #{invoiceValue}
+					sit_end_date = #{invoiceValue},
+					sit_no = #{sitNo},
+					sit_weight=#{sitWeight}
 				</when>
 				<when test="type == '08'">
-					long_carry = #{invoiceValue}
+					long_carry = #{invoiceValue},
+					sit_no = #{sitNo},
+					sit_weight=#{sitWeight}
 				</when>
 				<when test="type == '09'">
-					termination = #{invoiceValue}
+					termination = #{invoiceValue},
+					sit_no = #{sitNo},
+					sit_weight=#{sitWeight}
 				</when>								
 			</choose>
 		WHERE

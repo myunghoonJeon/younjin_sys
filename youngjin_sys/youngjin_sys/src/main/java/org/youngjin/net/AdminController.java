@@ -55,23 +55,25 @@ public class AdminController {
 	
 	@RequestMapping(value = "/rate", method = RequestMethod.GET)
 	public String rate(Model model, User user, @ModelAttribute Rate rate){
-		
+		if(rate.getWriteYear() == null){
+			rate.setWriteYear("2013");
+		}
 		List<Code> tspList = codeService.getCodeList("04");
 		List<Code> codeList = codeService.getCodeList("05");
-		
-		invoiceService.checkNewYearRate();
+		System.out.println("[[[[[[[[[[[[ rate test : "+rate.getWriteYear()+" ]]]]]]]]]]]]]]]");
+		invoiceService.checkNewYearRate(rate);
 		
 		List<String> yearList = invoiceService.getYearList();
 		
-		Map<String, Map<String, Map<String, Rate>>> basicMap = invoiceService.getBasicMap(null);
+		Map<String, Map<String, Map<String, Rate>>> basicMap = invoiceService.getBasicMap(rate);
 		
-		Map<String, Rate> etcMap = invoiceService.getEtcMap(null);
+		Map<String, Rate> etcMap = invoiceService.getEtcMap(rate);
 		
-		Map<String, Map<String, Rate>> containerMap = invoiceService.getContainerMap(null);
+		Map<String, Map<String, Rate>> containerMap = invoiceService.getContainerMap(rate);
 		
-		Map<String, Map<String, List<Rate>>> sitMap = invoiceService.getSitMap(null);
+		Map<String, Map<String, List<Rate>>> sitMap = invoiceService.getSitMap(rate);
 		
-		Map<String, Map<String, List<Rate>>> otherMap = invoiceService.getOtherMap(null);
+		Map<String, Map<String, List<Rate>>> otherMap = invoiceService.getOtherMap(rate);
 		
 		user.setSubProcess("rate");
 		
@@ -90,11 +92,11 @@ public class AdminController {
 	
 	@RequestMapping(value = "/rate", method = RequestMethod.POST)
 	public String ratePost(Model model, User user, @ModelAttribute Rate rate){
-		
+		System.out.println("[[[[[[[[[[[[ rate test : "+rate.getWriteYear()+" ]]]]]]]]]]]]]]]");
 		List<Code> tspList = codeService.getCodeList("04");
 		List<Code> codeList = codeService.getCodeList("05");
 		
-		invoiceService.checkNewYearRate();
+		invoiceService.checkNewYearRate(rate);
 		
 		List<String> yearList = invoiceService.getYearList();
 		
@@ -127,7 +129,22 @@ public class AdminController {
 	@ResponseBody
 	public void basicRateInsert(@RequestBody Rate rate) {
 		invoiceService.basicInsert(rate);
-	}	
+	}
+	
+	@RequestMapping(value = "/addRateYear.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void addRateYear(@RequestBody Map<String,String> map) {
+		System.out.println("[[[[[[[[[ ADD RATE YEAR JSON CALL ]]]]]]]]]]]]");
+		invoiceService.addRateYear(map.get("year"));
+	}
+	
+	@RequestMapping(value = "/removeRateYear.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void removeRateYear(@RequestBody Map<String,String> map) {
+		System.out.println("[[[[[[[[[[ REMOVE RATE YEAR JSON CALL ]]]]]]]]]]]");
+		System.out.println("[[[[[[[[[[ YEAR TEST : "+map.get("year"));
+		invoiceService.removeRateYear(map);
+	}
 	
 	@RequestMapping(value = "/rate/etc/insert.json", method = RequestMethod.POST)
 	@ResponseBody

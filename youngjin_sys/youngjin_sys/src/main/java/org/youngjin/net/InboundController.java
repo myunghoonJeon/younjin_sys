@@ -806,12 +806,15 @@ public class InboundController {
 		if (checkMemorandumMap.get("02") != null&& checkMemorandumMap.get("02").getArticles() != null){
 				model.addAttribute("articles", checkMemorandumMap.get("02").getArticles());
 		}
+		
 		System.out.println("JMH TEST : "+checkMemorandumMap.size()+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		model.addAttribute("checkMemorandumMap", checkMemorandumMap);
 
 		return process + "/freight/memorandumList";
 	}
-
+	
+	
+	
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}", method = RequestMethod.GET)
 	public String gblMemorandumForm(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,
@@ -892,14 +895,24 @@ public class InboundController {
 			@PathVariable String article) {
 		memorandumService.insertInvoiceMemorandum(memorandum, "inbound");
 	}
-
+	@RequestMapping(value = "/{process}/freight/memorandum/invoice/insertMemorandumSit.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void insertMemorandumSit(@RequestBody Memorandum memorandum) {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@ CALL MEMORANDUM SIT INPUT ");
+		memorandumService.insertMemorandumSitWeight(memorandum, "inbound");
+	}
+	@RequestMapping(value = "/{process}/freight/memorandum/invoice/sitModify.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void modifySitMemorandum(@RequestBody Memorandum memorandum) {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@ CALL MEMORANDUM SIT MODIFY ");
+		memorandumService.modifyInvoiceSitMemorandumIb(memorandum, "inbound");
+	}
 	@RequestMapping(value = "/{process}/freight/memorandum/invoice/{article}/modify.json", method = RequestMethod.POST)
 	@ResponseBody
 	public void modifyInvoiceMemorandum(@RequestBody Memorandum memorandum,
 			@PathVariable String article) {
 		memorandumService.modifyInvoiceMemorandum(memorandum, "inbound");
 	}
-
 	@RequestMapping(value = "/{process}/freight/{seq}/{memorandumSeq}/memorandum/{type}/print", method = RequestMethod.GET)
 	public String gblMemorandumPrint(Model model, User user,
 			@PathVariable String process, @PathVariable String seq,

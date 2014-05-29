@@ -1234,11 +1234,6 @@
 	<select id="getTcmdGblList" parameterType="OutboundFilter"
 		resultMap="GblMap">
 		SELECT
-		*
-		FROM
-		(
-		SELECT
-		(@rownum := @rownum + 1) AS rownum,
 		g.seq,
 		g.no,
 		g.pud,
@@ -1269,8 +1264,8 @@
 		GROUP BY
 		gt.seq
 		) gwc
-		ON (gwc.seq = g.seq),
-		(SELECT @rownum := 0) r
+		ON (gwc.seq = g.seq)
+		
 		WHERE
 		code in ('J', 'T')
 
@@ -1332,10 +1327,8 @@
 			no LIKE '%-house%'
 		</if>
 		ORDER BY
-		g.seq
-		)u
-		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND
-		#{pagination.itemSeqEnd}
+		g.seq 
+		
 	</select>
 
 	<insert id="insertGbl" parameterType="GBL">

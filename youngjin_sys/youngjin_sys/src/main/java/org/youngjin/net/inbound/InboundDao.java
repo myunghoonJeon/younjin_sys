@@ -192,13 +192,23 @@ public class InboundDao extends SqlSessionDaoSupport {
 	}
 
 	public void updateGblStatus(Map<String, Integer> statusParam) {
-		System.out.println("[[[[[[[[[[[change WEIGHT STATE : GBL SEQ ["+statusParam.get("gblSeq")+"]]]]]]]]]]]]]");
+		System.out.println("[[[[[[[[[[[change WEIGHT STATE : GBL SEQ ["+statusParam.get("invoiceGblseq")+"]]]]]]]]]]]]]");
 		getSqlSession().update("inboundMapper.updateGblStatus", statusParam);
+	}
+	
+	public void updateInvoiceGblStatus(String gblNo) {
+		System.out.println("[[[[[[[[[[[change INVOICE STATE : GBL NO ["+gblNo+"]]]]]]]]]]]]]");
+		getSqlSession().update("inboundMapper.updateInvoiceGblStatus", gblNo);
+	}
+	public void updateInvoiceGblRemoveStatus(Map map) {
+		System.out.println("[[[[[[[[[[[ INVOICE STATE REMOVE : GBL SEQ ["+map.get("seq")+"]]]]]]]]]]]]]");
+		getSqlSession().update("inboundMapper.updateGblInvoiceRemoveStatus", map);
 	}
 	public void updateCustomStatus(Map<String, Integer> statusParam){
 		System.out.println("[[[[[[[[[[[change CUSTOM STATE : GBL SEQ ["+statusParam.get("custom")+"]]]]]]]]]]]]]");
 		getSqlSession().update("inboundMapper.updateCustomStatus", statusParam);
 	}
+	
 	public void insertDeclarationList(InboundInvoice declarationInbound) {
 		getSqlSession().insert("inboundMapper.inserDeclarationList", declarationInbound);
 	}

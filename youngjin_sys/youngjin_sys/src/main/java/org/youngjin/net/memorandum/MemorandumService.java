@@ -27,15 +27,18 @@ public class MemorandumService {
 	private InboundDao inboundDao;
 
 	public Memorandum getMemorandum(String seq, String type, Integer memorandumSeq, String process) {
+		List<Memorandum> testM = new ArrayList<Memorandum>();
 		Memorandum paramMemorandum = new Memorandum();
 		paramMemorandum.setGblSeq(Integer.parseInt(seq));
 		paramMemorandum.setType(type);
 		paramMemorandum.setMemorandumSeq(memorandumSeq);
 		
-		if("outbound".equals(process))
+		if("outbound".equals(process)){
 			return memorandumDao.getMemorandum(paramMemorandum);
-		else if("inbound".equals(process))
+		}
+		else if("inbound".equals(process)){
 			return memorandumDao.getMemorandumIb(paramMemorandum);
+		}
 		
 		return new Memorandum();
 	}
@@ -160,14 +163,26 @@ public class MemorandumService {
 			memorandumDao.insertInvoiceMemorandumIb(memorandum);			
 		}
 	}
-
+	public void insertMemorandumSitWeight(Memorandum memorandum, String process) {
+		if("outbound".equals(process)){
+			memorandumDao.insertInvoiceMemorandum(memorandum);
+		} else if("inbound".equals(process)){
+			memorandumDao.insertMemorandumSitWeight(memorandum);			
+		}
+	}
 	public void modifyInvoiceMemorandum(Memorandum memorandum, String process) {
 		if("outbound".equals(process))
 			memorandumDao.modifyInvoiceMemorandum(memorandum);
 		else if("inbound".equals(process))
 			memorandumDao.modifyInvoiceMemorandumIb(memorandum);			
 	}
-
+	public void modifyInvoiceSitMemorandumIb(Memorandum memorandum, String process) {
+		if("outbound".equals(process))
+			memorandumDao.modifyInvoiceMemorandum(memorandum);
+		else if("inbound".equals(process))
+			memorandumDao.modifyInvoiceSitMemorandumIb(memorandum);			
+	}
+	
 	public void deleteMemorandumAllList(MemorandumList memorandumList, String process) {
 		if("outbound".equals(process)){
 			memorandumDao.deleteMemorandumAllList(memorandumList);

@@ -1195,6 +1195,20 @@
 				title = #{title}
 		</if>
 	</update>
+	<update id="invoiceGblStatus" parameterType="Map">
+		UPDATE
+			gbl_status
+		SET
+			
+	</update>
+	<update id="updateGblInvoiceRemoveStatus" parameterType="Map">
+		UPDATE
+			gbl_status
+		SET
+			gbl_invoice=0
+		WHERE
+			gbl_no = (select gblNo from gbl_ib where seq = #{seq})
+	</update>
 	
 	<update id="updateGblStatus" parameterType="Map">
 		UPDATE
@@ -1234,7 +1248,21 @@
 				AND
 					gbl_no = (select gblNo from gbl_ib where seq = #{seq})
 			</if>
+			<if test="invoiceGblseq != null">
+				AND
+					gbl_no = (select gblNo from gbl_ib where seq = #{seq})
+			</if>
 	</update>
+	
+	<update id="updateInvoiceGblStatus" parameterType="String">
+		UPDATE
+			gbl_status
+		SET
+			gbl_invoice = 1
+		WHERE
+			gbl_no = #{gblNo};
+	</update>
+	
 	<update id="updateCustomStatus" parameterType="Map">
 		UPDATE
 			gbl_status

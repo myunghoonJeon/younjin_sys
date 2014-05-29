@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="${cp }/resources/css/default.css">
 <link rel="stylesheet" href="${cp }/resources/css/common.css">
 <link rel="stylesheet" href="${cp }/resources/jquery/jquery-ui-1.10.3.custom.min.css">
-
+<!-- INBOUND  -->
 <script>
 	var contextPath = '<c:out value="${cp}"/>';
 	var realPath = '<c:out value="${rp}"/>';
@@ -36,9 +36,9 @@
 		</div>
 		
 		<div class="yj_button_wrap invoice_gbl_list_button_wrap">
-			<ul class="yj_button_list invoice_gbl_content_list_button_list">
+			<ul class="yj_button_list invoice_gbl_content_list_button_list" process="inbound">
 				<li>
-					<span class="yj_button invoice_gbl_content_list_back" data-seq="${invoiceGblContentInfo.invoiceListSeq }">back</span>
+					<span class="yj_button invoice_gbl_content_list_back" data-seq="${invoiceGblContentInfo.invoiceListSeq }">BACK</span>
 				</li>
 			</ul>
 		</div>

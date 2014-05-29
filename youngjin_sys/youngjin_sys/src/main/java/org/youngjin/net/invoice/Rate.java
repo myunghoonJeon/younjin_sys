@@ -31,11 +31,12 @@ public class Rate {
 	
 	
 
-	public Rate(String title, String code, String process) {
+	public Rate(String title, String code, String process,String writeYear) {
 		super();
 		this.title = title;
 		this.code = code;
 		this.process = process;
+		this.writeYear = writeYear;
 	}
 
 	public Integer getSeq() {
@@ -118,7 +119,6 @@ public class Rate {
 	}
 
 	public void setWriteYear(String wy) {
-		System.out.println("[[[[[[[[[[[[setWriteYear : "+wy+"]]]]]]]]]]]]]");
 		this.writeYear = wy;
 	}
 

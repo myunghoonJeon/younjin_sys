@@ -97,7 +97,13 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 	public Memorandum getMemorandumIb(Memorandum paramMemorandum) {
 		return getSqlSession().selectOne("memorandumMapper.getMemorandumIb", paramMemorandum);
 	}
-
+	
+	public List<Memorandum> getSitMemorandumIb(Memorandum paramMemorandum) {
+		return getSqlSession().selectList("memorandumMapper.getSitiMemorandumIb", paramMemorandum);
+	}
+	public Memorandum getSitEndMemorandumIb(Memorandum paramMemorandum) {
+		return getSqlSession().selectOne("memorandumMapper.getSitEndMemorandumIb", paramMemorandum);
+	}
 	public void insertMemorandumIb(Memorandum memorandum) {
 		getSqlSession().insert("memorandumMapper.insertMemorandumIb", memorandum);
 	}
@@ -109,9 +115,13 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 	public void insertInvoiceMemorandumIb(Memorandum memorandum) {
 		getSqlSession().insert("memorandumMapper.insertInvoiceMemorandumIb", memorandum);
 	}
-
+	public void insertMemorandumSitWeight(Memorandum memorandum) {
+		getSqlSession().insert("memorandumMapper.insertMemorandumSitWeight", memorandum);
+	}
 	public void modifyInvoiceMemorandumIb(Memorandum memorandum) {
 		getSqlSession().update("memorandumMapper.modifyInvoiceMemorandumIb", memorandum);
 	}
-	
+	public void modifyInvoiceSitMemorandumIb(Memorandum memorandum) {
+		getSqlSession().update("memorandumMapper.modifyInvoiceSitMemorandumIb", memorandum);
+	}
 }

@@ -44,7 +44,7 @@
 				<thead>
 					<tr>
 						<th></th>
-						<th>type</th>
+						<th>[ TYPE ]</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -71,7 +71,8 @@
 										 : <input type="text" value="${checkMemorandumMap['04'].extraPickUpCharge }"/>
 									</c:when>
 									<c:when test="${memorandum.subCode eq '05' }">
-										 : <input type="text" value="${checkMemorandumMap['05'].sitNo }"/>
+										 : <input id="sitNo" name="sitNo" type="text" value="${checkMemorandumMap['05'].sitNo }"/>
+										 WEIGHT : <input id="sitWeight" name="sitWeight" type="text" value="${checkMemorandumMap['05'].sitWeight }"/>
 									</c:when>
 									<c:when test="${memorandum.subCode eq '06' }">
 										 : <input type="text" value="${checkMemorandumMap['06'].sitStartDate }"/>

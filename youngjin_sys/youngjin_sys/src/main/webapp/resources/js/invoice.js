@@ -368,12 +368,12 @@ youngjin.invoice.backSync = function(){
 	
 	$('.invoice_gbl_content_list_back').unbind('click');
 	$('.invoice_gbl_content_list_back').bind('click', function(){
-		youngjin.invoice.invoiceGblContentBack($(this), 'outbound');
+		youngjin.invoice.invoiceGblContentBack($(this));
 	});
 	
 	$('.inbound_invoice_gbl_content_list_back').unbind('click');
 	$('.inbound_invoice_gbl_content_list_back').bind('click', function(){
-		youngjin.invoice.invoiceGblContentBack($(this), 'inbound');
+		youngjin.invoice.invoiceGblContentBack($(this));
 	});
 };
 
@@ -648,9 +648,9 @@ youngjin.invoice.invoiceGblPrint = function(target, process){
 	window.open(url, 'invoiceGblPrint', 'width=1263, height=892, status=no');
 };
 
-youngjin.invoice.invoiceGblContentBack = function(target, process){
+youngjin.invoice.invoiceGblContentBack = function(target){
 	var seq = target.attr('data-seq');
-	
+	var process = target.parents('ul').attr('process');
 	var url = contextPath + '/' + process + '/invoice/' + seq + '/invoiceGblListCommon'; 
 	
 	parent.$.smartPop.close();

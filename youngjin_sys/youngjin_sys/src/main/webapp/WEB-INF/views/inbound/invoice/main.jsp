@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../../../layout/head.jspf"%>	
 <%-- Page 처리 Script --%>
 <c:set var="pagination" value="${outboundFilter.pagination }"/>
@@ -71,7 +72,7 @@
 						<td>${invoice.invoiceNo }</td>
 						<td>${invoice.startDate }</td>
 						<td>${invoice.endDate }</td>
-						<td>${invoice.amount }</td>
+						<td><fmt:formatNumber value="${invoice.amount }" pattern="##,###.00"/></td>
 						<td class="inbound_invoice_all_delete"><img class="memorandum_icon" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
 				</c:forEach>

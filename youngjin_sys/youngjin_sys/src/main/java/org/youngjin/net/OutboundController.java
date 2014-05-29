@@ -95,7 +95,11 @@ public class OutboundController {
 
 		return process + "/gbl/list";
 	}
-
+	@RequestMapping(value = "/{process}/addRateYear.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void addRateYear(@RequestBody Map<String,String> map) {
+		System.out.println("gg : "+map.get("year"));
+	}
 	@RequestMapping(value = "/{process}/gblList", method = RequestMethod.POST)
 	public String gblListPost(Model model, User user,
 			@ModelAttribute OutboundFilter outboundFilter,

@@ -336,7 +336,7 @@
 		AND
 			gs.gbl_custom = true
 		AND
-			gs.gbl_weight = true			
+			gs.gbl_weight = true		
 	</select>
 	
 	<select id="checkTodayInvoiceNo" resultType="String">
@@ -350,27 +350,20 @@
 	
 	<select id="getYearList" parameterType="Rate" resultType="String">
 		SELECT
-			DISTINCT write_year
+			year
 		FROM
-			invoice_rate	
+			yearListTable	
 		ORDER BY
-			write_year desc		
+			year desc		
 	</select>
 	
-	<select id="getSitListCount" resultType="Integer">
+	<select id="getSitListCount" parameterType="Rate" resultType="Integer">
 		SELECT
 			COUNT(*)
 		FROM
 			invoice_sit_rate
 		WHERE
-			<choose>
-				<when test="writeYear != null">
-					write_year = #{writeYear}
-				</when>
-				<otherwise>
-					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
-				</otherwise>
-			</choose>
+			write_year = #{writeYear}
 	</select>
 	
 	<select id="getSitList" parameterType="Rate" resultType="Rate">
@@ -383,9 +376,6 @@
 				<when test="writeYear != null">
 					write_year = #{writeYear}
 				</when>
-				<otherwise>
-					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
-				</otherwise>
 			</choose>			
 		ORDER BY
 			seq, process DESC
@@ -404,20 +394,13 @@
 			process = #{process}
 	</select>
 	
-	<select id="getOtherListCount" resultType="Integer">
+	<select id="getOtherListCount" parameterType="Rate" resultType="Integer">
 		SELECT
 			COUNT(*)
 		FROM
 			invoice_other_rate
 		WHERE
-			<choose>
-				<when test="writeYear != null">
-					write_year = #{writeYear}
-				</when>
-				<otherwise>
-					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
-				</otherwise>
-			</choose>			
+			write_year = #{writeYear}
 	</select>
 	
 	<select id="getOtherList" parameterType="Rate" resultType="Rate">
@@ -430,9 +413,7 @@
 				<when test="writeYear != null">
 					write_year = #{writeYear}
 				</when>
-				<otherwise>
-					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
-				</otherwise>
+
 			</choose>			
 		ORDER BY
 			seq, process DESC		
@@ -469,10 +450,6 @@
 				AND
 					write_year = #{writeYear}		
 			</when>
-			<otherwise>
-				AND
-					write_year = DATE_FORMAT(SYSDATE(), '%Y')
-			</otherwise>
 		</choose>		
 		<if test="obType != null">
 			AND
@@ -490,9 +467,6 @@
 				<when test="writeYear != null">
 					write_year = #{writeYear}			
 				</when>
-				<otherwise>
-					write_year = DATE_FORMAT(SYSDATE(), '%Y')
-				</otherwise>
 			</choose>
 		AND
 			container_rate is null
@@ -516,7 +490,8 @@
 		<if test="obType != null">
 			AND
 				ob_type = #{obType}
-		</if>					
+		</if>
+		group by writeYear			
 	</select>
 	
 	<select id="getContainerCheck" parameterType="Rate" resultType="Integer">
@@ -533,10 +508,6 @@
 				AND
 					write_year = #{writeYear}		
 			</when>
-			<otherwise>
-				AND
-					write_year = DATE_FORMAT(SYSDATE(), '%Y')
-			</otherwise>
 		</choose>
 	</select>
 	
@@ -546,17 +517,7 @@
 		FROM
 			invoice_etc_rate
 		WHERE
-			title = #{title}
-		<choose>
-			<when test="writeYear != null">
-				AND
-					write_year = #{writeYear}
-			</when>
-			<otherwise>
-				AND
-					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
-			</otherwise>
-		</choose>
+			write_year = DATE_FORMAT(#{writeYear}, '%Y')
 	</select>
 	
 	<select id="etcList" parameterType="Rate" resultType="Rate">
@@ -569,9 +530,7 @@
 				<when test="writeYear != null">
 					write_year = #{writeYear}
 				</when>
-				<otherwise>
-					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
-				</otherwise>
+
 			</choose>
 	</select>
 	
@@ -597,9 +556,6 @@
 				<when test="writeYear != null">
 					write_year = #{writeYear}
 				</when>
-				<otherwise>
-					write_year = DATE_FORMAT(SYSDATE(), '%Y')				
-				</otherwise>
 			</choose>
 		AND
 			container_rate is not null
@@ -1056,7 +1012,15 @@
 		WHERE
 			invoice_seq = #{value}
 	</select>
-	 
+	<insert id="addRateYear" parameterType="Map">
+		INSERT INTO
+			yearListTable
+			(
+				year
+			)
+		VALUES
+			(#{year})
+	</insert>
 	<insert id="insertNewYearSIT" parameterType="Map">
 		INSERT INTO
 			invoice_sit_rate
@@ -1065,7 +1029,7 @@
 			)
 		VALUES
 			<foreach collection="rateList" item="rate" separator=",">
-				(#{rate.title}, #{rate.code}, #{rate.process}, DATE_FORMAT(SYSDATE(), '%Y'))
+				(#{rate.title}, #{rate.code}, #{rate.process},#{rate.writeYear} )
 			</foreach>
 	</insert>
 	
@@ -1077,7 +1041,7 @@
 			)
 		VALUES
 			<foreach collection="rateList" item="rate" separator=",">
-				(#{rate.title}, #{rate.code}, #{rate.process}, DATE_FORMAT(SYSDATE(), '%Y'))
+				(#{rate.title}, #{rate.code}, #{rate.process}, #{rate.writeYear})
 			</foreach>
 	</insert>
 	
@@ -1106,7 +1070,17 @@
 				</if>
 			)
 	</insert>
-	
+	<insert id="etcInsert2" parameterType="Map">
+		INSERT INTO
+			invoice_etc_rate
+			(
+				title, rate, write_year
+			)
+		VALUES
+			(
+				#{title}, #{rate} ,#{writeYear}		
+			)
+	</insert>
 	<insert id="etcInsert" parameterType="Rate">
 		INSERT INTO
 			invoice_etc_rate
@@ -1120,9 +1094,6 @@
 					<when test="writeYear != null and writeYear != ''">
 							,#{writeYear}		
 					</when>
-					<otherwise>
-						,DATE_FORMAT(SYSDATE(), '%Y')
-					</otherwise>
 				</choose>	
 			)
 	</insert>
@@ -1400,6 +1371,36 @@
 			process = #{process}
 	</delete>
 	
+	<delete id="removeYearListTable" parameterType="Map">
+		DELETE FROM
+			yearListTable
+		WHERE
+			year=#{year}
+	</delete>
+	<delete id="removeOtherRate" parameterType="Map">
+		DELETE FROM
+			invoice_other_rate
+		WHERE
+			write_year=#{year}
+	</delete>
+	<delete id="removeSitRate" parameterType="Map">
+		DELETE FROM
+			invoice_sit_rate
+		WHERE
+			write_year=#{year}
+	</delete>
+	<delete id="removeEtcRate" parameterType="Map">
+		DELETE FROM
+			invoice_etc_rate
+		WHERE
+			write_year=#{year}
+	</delete>
+	<delete id="removeRate" parameterType="Map">
+		DELETE FROM
+			invoice_rate
+		WHERE
+			write_year=#{year}
+	</delete>
 	<delete id="deleteInvoiceCollection" parameterType="String">
 		DELETE FROM
 			invoice_collection

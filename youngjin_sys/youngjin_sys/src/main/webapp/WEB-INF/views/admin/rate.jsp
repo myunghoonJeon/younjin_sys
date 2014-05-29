@@ -1,14 +1,63 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../../layout/head.jspf"%>
+<c:set var="cp" value="<%=request.getContextPath() %>"/>
+<c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
+<script>
+var contextPath = '<c:out value="${cp}"/>';
+var realPath = '<c:out value="${rp}"/>';
+
+function addBtn(){
+	var year = $("#yearInput").val();
+	
+	var json={
+			'year' : year
+	};
+	var url = contextPath + '/admin/addRateYear.json';
+	if(confirm(year + "년도 RATE를 추가 하시겠습니까?")){
+		$.postJSON(url, json, function(){
+			return jQuery.ajax({
+				success : function(){
+					alert("추가 완료 새로고침(F5) 또는 좌측 RATE를 한번 클릭하세요.");
+				},
+					error : function(){
+				}
+			});
+		});
+	}
+}
+
+function removeBtn(){
+	var year = $("#yearInput").val();
+	
+	var json={
+			'year' : year
+	};
+	
+	var url = contextPath + '/admin/removeRateYear.json';
+	if(confirm(year + "년도 RATE를 삭제 하시겠습니까? 삭제후에는 복원이 불가능합니다.")){
+		$.postJSON(url, json, function(){
+			return jQuery.ajax({
+				success : function(){
+					alert("삭제 완료 새로고침(F5) 또는 좌측 RATE를 한번 클릭하세요.");
+				},
+					error : function(){
+				}
+			});
+		});
+	}
+}
+</script>
 <div class="rate_wrapper">
 	<div>
 		<form:form commandName="rate">
+			SELECT YEAR : 
 			<form:select path="writeYear" class="rate_year_change">
 				<c:forEach var="year" items="${yearList }">
-					<form:option value="${year }">${year }년</form:option>
+					<form:option value="${year }">${year }</form:option>
 				</c:forEach>
 			</form:select>
 		</form:form>
+		(ADD OR REMOVE) YEAR INPUT : <input type="text" name="yearInput" id="yearInput"/><input type="button" name="yearAddButton" id="yearAddButton" value="ADD YEAR" onclick="addBtn()"/><input type="button" name="yearRemoveButton" id="yearRemoveButton" value="REMOVE YEAR" onclick="removeBtn()"/>
 	</div>
 	<div>
 		<p>1. Destination service Charge(inbound) & Packing charge(outbound) GBL RATE schedule</p>

@@ -113,14 +113,9 @@ public class InvoiceController {
 			@PathVariable String process) {
 		
 		invoiceGblFilter.setProcess(process);
-		
-		invoiceGblFilter.getPagination().setNumItems(
-				invoiceService.getInvoiceSettingGblListCount(invoiceGblFilter));
-		
+		invoiceGblFilter.getPagination().setNumItems(invoiceService.getInvoiceSettingGblListCount(invoiceGblFilter));
 		List<GBL> invoiceGblList = invoiceService.getInvoiceSettingGblList(invoiceGblFilter);
-
 		model.addAttribute("filterMap", invoiceService.getFilterMap(invoiceGblFilter));
-		
 		model.addAttribute("gblList", invoiceGblList);
 
 		return process + "/invoice/invoiceAddSettingPop";
@@ -184,11 +179,9 @@ public class InvoiceController {
 	@RequestMapping(value = "/{process}/invoice/{seq}/invoiceGblListCommon", method = RequestMethod.GET)
 	public String invoiceGblListCommon(Model model, User user,
 			@PathVariable String process, @PathVariable Integer seq) {
-
+		System.out.println("PROCESS : "+process+" SEQ : "+seq);
 		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq, process);
-
 		model.addAttribute("invoicSeq", seq);
-
 		model.addAttribute("invoiceListSeq", seq);
 		model.addAttribute("invoiceGblList", invoiceGblList);
 
@@ -225,7 +218,7 @@ public class InvoiceController {
 
 		model.addAttribute("user", user);
 		model.addAttribute("invoiceList", invoiceList);
-
+		
 		return process + "/invoice/main";
 	}	
 

@@ -19,6 +19,16 @@ public class Memorandum {
 	private String extraPickUpCharge;
 	private String termination;
 	private String sitNo;
+	private String sitWeight;
+	
+	public String getSitWeight() {
+		return sitWeight;
+	}
+
+	public void setSitWeight(String sitWeight) {
+		this.sitWeight = sitWeight;
+	}
+
 	public String getSitNo() {
 		return sitNo;
 	}

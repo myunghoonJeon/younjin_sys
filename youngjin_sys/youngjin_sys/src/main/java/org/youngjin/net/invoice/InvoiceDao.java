@@ -14,14 +14,13 @@ import org.youngjin.net.outbound.Weightcertificate;
 @Repository
 public class InvoiceDao extends SqlSessionDaoSupport {
 
-	public Integer getSitListCount() {
-		return getSqlSession().selectOne("invoiceMapper.getSitListCount");
+	public Integer getSitListCount(Rate rate) {
+		return getSqlSession().selectOne("invoiceMapper.getSitListCount",rate);
 	}
 
 	public void insertNewYearSIT(List<Rate> rateList) {
 		Map<String, List<Rate>> param = new HashMap<String, List<Rate>>();
 		param.put("rateList", rateList);
-		
 		getSqlSession().insert("invoiceMapper.insertNewYearSIT", param);
 	}
 
@@ -29,8 +28,8 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 		return getSqlSession().selectList("invoiceMapper.getSitList", rate);
 	}
 
-	public Integer getOtherListCount() {
-		return getSqlSession().selectOne("invoiceMapper.getOtherListCount");
+	public Integer getOtherListCount(Rate rate) {
+		return getSqlSession().selectOne("invoiceMapper.getOtherListCount",rate);
 	}
 
 	public List<Rate> getOtherList(Rate rate) {
@@ -153,6 +152,7 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	}
 
 	public Rate getOther(Rate rate) {
+		System.out.println("~!!!!!!!!!!!!!!!!!!!!!!!!!!! "+rate.getWriteYear());
 		Rate returnRate = getSqlSession().selectOne("invoiceMapper.getOther", rate);
 		
 		if(returnRate == null)
@@ -168,7 +168,11 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public void etcInsert(Rate rate) {
 		getSqlSession().insert("invoiceMapper.etcInsert", rate);		
 	}
-
+	
+	public void etcInsert2(Map map) {
+		getSqlSession().insert("invoiceMapper.etcInsert2", map);	
+	}
+	
 	public List<Rate> getEtcList(Rate rate) {
 		return getSqlSession().selectList("invoiceMapper.etcList", rate);
 	}
@@ -304,7 +308,13 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public void deleteInvoiceCollection(String collectionSeq) {
 		getSqlSession().delete("invoiceMapper.deleteInvoiceCollection", collectionSeq);
 	}
-
+	public void removeRateYear(Map<String,String> map) {
+		getSqlSession().delete("invoiceMapper.removeYearListTable", map);
+		getSqlSession().delete("invoiceMapper.removeOtherRate", map);
+		getSqlSession().delete("invoiceMapper.removeSitRate", map);
+		getSqlSession().delete("invoiceMapper.removeEtcRate", map);
+		getSqlSession().delete("invoiceMapper.removeRate", map);
+	}
 	public void deleteInvoiceCollection(Invoice invoice) {
 		getSqlSession().delete("invoiceMapper.deleteInvoiceCollectionByInvoiceSeq", invoice);
 	}
@@ -358,7 +368,13 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public List<String> getYearList() {
 		return getSqlSession().selectList("invoiceMapper.getYearList");
 	}
-
+	
+	public void addRateYear(String year){
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("year", year);
+		getSqlSession().insert("invoiceMapper.addRateYear", map);
+	}
+	
 	public InvoiceGbl getInvoiceGblcontentInfoIb(Integer invoiceGblSeq) {
 		return getSqlSession().selectOne("invoiceMapper.getInvoiceGblContentInfoIb", invoiceGblSeq);
 	}

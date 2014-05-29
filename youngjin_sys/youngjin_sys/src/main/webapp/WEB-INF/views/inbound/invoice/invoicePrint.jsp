@@ -144,7 +144,8 @@
 			<tr>
 				<td id='totd' rowspan="3">TO: </td><td id='to' rowspan="3">${scac.scacFullName }<br/>${scac.address }</td>
 				<fmt:parseDate value="${invoice.invoiceDate}" pattern="yyyyMMdd" var="invoiceDate"  />
-				<td id='date' style="width:2.5cm;">DATE: </td > <td id='date'><fmt:formatDate value="${invoiceDate }" pattern="dd-MM-yy" /></td>
+				<c:set var="pud" value="${invoiceDate }" />
+				<td id='date' style="width:2.5cm;">DATE: </td > <td id='date'>${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }</td>
 			</tr>
 			<tr>
 				<td id='invoiceno' style="width:2.5cm; font-weight: bold;">INVOICE NO: </td> <td id='invoiceno'>${invoice.invoiceNo }</td>
@@ -167,7 +168,7 @@
 					<td>${invoiceGbl.gblNo }</td>
 					<td>${invoiceGbl.rank }</td>
 					<td>${invoiceGbl.name }</td>
-					<td><fmt:formatNumber value="${invoiceGbl.amount }" pattern="##,###.00"/>　$</td>
+					<td>$ <fmt:formatNumber value="${invoiceGbl.amount }" pattern="##,###.00"/></td>
 					<c:set var="totalAmount" value="${totalAmount + invoiceGbl.amount }"></c:set>
 				</tr>
 			</c:forEach>
@@ -176,7 +177,7 @@
 				<td style="font-size: 7pt;border-bottom: none;">　</td>
 				<td style="font-size: 7pt;border-bottom: none;">　</td>
 				<td style="font-size: 7pt;border-bottom: none;">　</td>
-				<td style="font-size: 11pt;border-bottom: none; font-family: arial;font-weight: bold;"><fmt:formatNumber value="${totalAmount }" pattern="##,###.00"/>$</td>
+				<td style="font-size: 11pt;border-bottom: none; font-family: arial;font-weight: bold;">$ <fmt:formatNumber value="${totalAmount }" pattern="##,###.00"/></td>
 			</tr>
 		</table>
 	</div>
@@ -217,7 +218,7 @@
 						<tr style="border-bottom: solid; border: solid;">
 							<td id="in_td">${invoiceGblContent.chargingItem }</td>
 							<td id="in_td">${invoiceGblContent.quantity }</td>
-							<td id="in_td"><fmt:formatNumber value="${invoiceGblContent.amount }" pattern="##,###.00"/>$</td>
+							<td id="in_td">$ <fmt:formatNumber value="${invoiceGblContent.amount }" pattern="##,###.00"/></td>
 						</tr>
 					</c:forEach>
 				</table>

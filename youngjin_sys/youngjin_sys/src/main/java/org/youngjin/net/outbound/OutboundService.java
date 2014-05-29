@@ -420,6 +420,7 @@ public class OutboundService {
 		String pud = gbl.getPud();
 		
 		BookingList bookingList = new BookingList();
+		
 		int yjCount = outboundDao.getBookingListYjCount()+1;
 		bookingList.setYjCount(yjCount);
 		

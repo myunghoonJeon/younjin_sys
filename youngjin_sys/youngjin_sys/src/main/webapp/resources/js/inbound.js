@@ -231,8 +231,9 @@ youngjin.inbound.weightSync = function(){
 		parent.$.smartPop.close();
 		parent.$.smartPop.open({
 			width : 700,
-			height : 500,
+			height : 850,
 			url : url
+			
 		});	
 	});
 	
@@ -1048,7 +1049,8 @@ youngjin.inbound.memorandumBack = function(target){
 youngjin.inbound.memorandumPop = function(target){	
 	var seq = $('.memorandum_table').attr('data-seq');
 	var memorandumSeq = $('.memorandum_table').attr('data-memorandumSeq');
-	
+	var sitNo = $('#sitNo').val();
+	var sitWeight = $('#sitWeight').val();
 	var checkbox = target.parents().parents().parents().parents().children('.memorandum_type').children('input');
 	var type = checkbox.val();
 	
@@ -1078,7 +1080,7 @@ youngjin.inbound.memorandumPop = function(target){
 				height: 900,
 				url : url
 			});	
-		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08' || type=='09' ){
+		} else if( type == '04' ||  type == '06' || type == '07'|| type == '08' || type=='09' ){
 			var inputValue = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
 			
 			if(inputValue.val() == '' || inputValue.val() == null){
@@ -1086,8 +1088,17 @@ youngjin.inbound.memorandumPop = function(target){
 				inputValue.focus();
 				return;
 			}
-			
+			if(sitNo == ''){
+				alert("SIT NO를 입력하세요")
+				return;
+			}
+			if(sitWeight == ''){
+				alert("SIT WEIGHT을 입력하세요")
+				return;
+			}
 			var json = {
+					'sitNo': sitNo,
+					'sitWeight' : sitWeight,
 					'memorandumSeq' : memorandumSeq,
 					'gblSeq' : seq,
 					'type' : type,
@@ -1113,6 +1124,45 @@ youngjin.inbound.memorandumPop = function(target){
 				});
 			});		
 		}
+		else if(type == '05' ){
+			
+			if(sitNo == ''){
+				youngjin.inbound.sync();
+				alert("INPUT SIT NO")
+				return;
+			}
+			if(sitWeight == ''){
+				youngjin.inbound.sync();
+				alert("INPUT SIT WEIGHT")
+				return;
+			}
+			var json = {
+				'memorandumSeq' : memorandumSeq,
+				'gblSeq' : seq,
+				'type' : type,
+				'sitNo': sitNo,
+				'sitWeight' : sitWeight
+			};
+			
+			url = contextPath + '/inbound/freight/memorandum/invoice/insertMemorandumSit.json';
+			
+			$.postJSON(url, json, function(){
+				return jQuery.ajax({
+					success : function(){
+						var url = contextPath + '/inbound/freight/' + seq + '/' + memorandumSeq + '/memorandum';
+						parent.$.smartPop.close();
+						parent.$.smartPop.open({
+							width: 700,
+							height: 400,
+							url : url
+						});
+					},
+					error: function(){alert("에러 발생!");}
+				});
+			});	
+			
+		}
+		
 	} /*else if( type == '01' || type == '02' || type == '03') {
 		if(confirm('선택을 해제 하시겠습니까?(yes : 해체 및 삭제)')){
 			if( type == '02'){
@@ -1170,10 +1220,10 @@ youngjin.inbound.memorandumPop = function(target){
 youngjin.inbound.memorandumModify = function(target){	
 	var seq = $('.memorandum_table').attr('data-seq');
 	var memorandumSeq = $('.memorandum_table').attr('data-memorandumSeq');
-	
+	var sitNo = $('#sitNo').val();
+	var sitWeight = $('#sitWeight').val();
 	var checkbox = target.parents().parents().parents().parents().children('.memorandum_type').children('input');
 	var type = checkbox.val();
-	
 	var url = contextPath + '/inbound/freight/' + seq + '/' + memorandumSeq + '/memorandum/' + type;	
 	
 	if( type == '02' ){
@@ -1197,16 +1247,24 @@ youngjin.inbound.memorandumModify = function(target){
 				height: 900,
 				url : url
 			});	
-		} else if( type == '04' || type == '05' || type == '06' || type == '07'|| type == '08'|| type=='09' ){
+		} else if( type == '04' || type == '06' || type == '07'|| type == '08'|| type=='09' ){
 			var inputValue = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
-			
+			if(sitNo == ''){
+				alert("SIT NO를 입력하세요")
+				return;
+			}
+			if(sitWeight == ''){
+				alert("SIT WEIGHT을 입력하세요")
+				return;
+			}
 			var json = {
 					'memorandumSeq' : memorandumSeq,
 					'gblSeq' : seq,
 					'type' : type,
-					'invoiceValue' : inputValue.val()
+					'invoiceValue' : inputValue.val(),
+					'sitNo': sitNo,
+					'sitWeight':sitWeight
 			};
-			alert('your input : '+inputValue.val());//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			url = contextPath + '/inbound/freight/memorandum/invoice/' + inputValue.val() + '/modify.json';
 			
 			if(inputValue != target.attr('data-value')){
@@ -1228,9 +1286,41 @@ youngjin.inbound.memorandumModify = function(target){
 				});					
 			}
 		}
+			else if( type == '05' ){
+				
+				var json = {
+					'memorandumSeq' : memorandumSeq,
+					'gblSeq' : seq,
+					'type' : type,
+					'sitNo': sitNo,
+					'sitWeight':sitWeight
+				};
+				
+				url = contextPath + '/inbound/freight/memorandum/invoice/sitModify.json';
+				
+					$.postJSON(url, json, function(){
+						return jQuery.ajax({
+							success : function(){
+								alert("변경완료 : SIT START , SIT END의 수정버튼을 한번씩 눌러주세요 (공란이라면 생략)");
+								var url = contextPath + '/inbound/freight/' + seq + '/' + memorandumSeq + '/memorandum';
+								
+								parent.$.smartPop.close();
+								
+								parent.$.smartPop.open({
+									width: 700,
+									height: 400,
+									url : url
+								});
+							},
+							error: function(){alert("에러 발생!");}
+						});
+					});					
+				
+		}
 	} else {
 		alert("취소 하였습니다.");
 	}
+	
 };
 
 youngjin.inbound.memorandumDelete = function(target){
@@ -2353,3 +2443,4 @@ youngjin.inbound.reweightReport = function(target){
 	
 	window.open(url, 'reweightReportPop', 'width=930.7, height=1122.5 scrollbar=no');
 };
+
