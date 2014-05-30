@@ -269,6 +269,6 @@
 		WHERE
 			storedAt = #{storedAt}
 		AND
-			destination = #{destinationGbloc}	
+			destination = #{fright}	
 	</select>
 </mapper>

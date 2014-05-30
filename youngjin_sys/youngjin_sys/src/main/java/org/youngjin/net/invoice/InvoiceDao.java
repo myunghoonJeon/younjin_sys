@@ -134,6 +134,7 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	}
 
 	public Rate getBasicRate(Rate rate) {
+		System.out.println("[[[[[[[ getBasicRate ]]]]]]]]]]]]");
 		Rate returnRate = getSqlSession().selectOne("invoiceMapper.getBasicRate", rate);
 		
 		if(returnRate == null)
@@ -152,7 +153,6 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	}
 
 	public Rate getOther(Rate rate) {
-		System.out.println("~!!!!!!!!!!!!!!!!!!!!!!!!!!! "+rate.getWriteYear());
 		Rate returnRate = getSqlSession().selectOne("invoiceMapper.getOther", rate);
 		
 		if(returnRate == null)

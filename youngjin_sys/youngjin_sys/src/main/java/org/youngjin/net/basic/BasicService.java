@@ -172,7 +172,9 @@ public class BasicService {
 		
 		return companyMap;
 	}
-
+	public Mileage getMileage(GBL gbl){
+		return basicDao.getMileage(gbl);
+	}
 	public void mileageAdd(Mileage mileage) {
 		basicDao.insertMileage(mileage);
 	}
@@ -190,7 +192,6 @@ public class BasicService {
 		Mileage mileage = basicDao.getMileage(gbl);
 		
 		if(mileage != null){
-			
 			return true;
 		} else {
 			return false;

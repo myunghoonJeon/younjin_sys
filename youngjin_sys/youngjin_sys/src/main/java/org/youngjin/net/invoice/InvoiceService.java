@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.youngjin.net.GBL;
 import org.youngjin.net.basic.BasicService;
+import org.youngjin.net.basic.Mileage;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeDao;
 import org.youngjin.net.inbound.InboundDao;
@@ -583,6 +584,7 @@ public class InvoiceService {
 		List<InvoiceGblContent> invoiceGblContentList = new ArrayList<InvoiceGblContent>();
 
 		if (process.equals("outbound")){//====&&outbound&&==================================================================================================BEGIN OUTBOUND
+			int terminationFlag = 0;
 			double totalAmount = 0.0;
 
 			Integer checkInvoiceGblContentCount = invoiceDao
@@ -600,7 +602,7 @@ public class InvoiceService {
 			double packingCharge = 0.0;
 			double typeIICharge = 0.0;
 			double overFlowCharge = 0.0;
-
+			
 			String codeStr = null;
 			if (gbl.getCode().equals("3") || gbl.getCode().equals("4")
 					|| gbl.getCode().equals("T")||gbl.getCode().equals("5")) {
@@ -616,6 +618,65 @@ public class InvoiceService {
 			int overFlowCount=0;
 			int countFlag=0;
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// 4. TERMINATION CHARGE
+						InvoiceGblContent terminationContent = new InvoiceGblContent();
+						double terminationCharge = 0.0;
+
+						String checkTermination=null;
+						checkTermination = invoiceDao.getTerminationReason(gbl.getSeq());
+						double terminationValue=0;
+						System.out.println("[[[[[[[[[CHECK TERMINATION CHECK : "+checkTermination+"]]]]]]]]]");
+						Rate otherRateParam = new Rate();
+						if (checkTermination == null) {
+							terminationFlag = 0;//0은 없는거
+							terminationValue = 0;
+						} else {
+							terminationFlag = 1;
+							terminationValue = Double.parseDouble(checkTermination);
+							System.out.println("[[[[[[ TERMINATION EXIST ]]]]]]]]");
+							System.out.println("[[[[[[ TERMINATION VALUE : "+terminationValue+" ]]]]]]");
+							System.out.println("[[[[[[ TERMINATION GBL SEQ : "+gbl.getNo()+" ]]]]]]");
+							System.out.println("[[[[[[ CALCURATE TERMINATION ]]]]]]]");
+						}
+//							if ("HHG".equals(codeStr)) {
+//								otherRateParam
+//										.setTitle("TERMINATION CHARGE - IT13 item 523A");
+//								otherRateParam.setCode("HHG");
+//								Rate terminationRate = invoiceDao.getOther(otherRateParam);
+//								System.out.println("COMPRATE RAGE : "+comprate.getRate());
+//								System.out.println("TERMINATIONRATE RAGE : "+terminationRate.getRate());
+//								terminationCharge = comprate.getRate()
+//										* terminationRate.getRate();
+//							} else if ("UB".equals(codeStr)) {
+//								otherRateParam
+//										.setTitle("TERMINATION CHARGE - IT13 item 522A");
+//								otherRateParam.setCode("UB");
+//								Rate terminationRate = invoiceDao.getOther(otherRateParam);
+//								System.out.println("COMPRATE RAGE : "+comprate.getRate());
+//								System.out.println("TERMINATIONRATE RAGE : "+terminationRate.getRate());
+//								terminationCharge = comprate.getRate()
+//										* terminationRate.getRate();
+//							}
+//							terminationCharge = getRoundResult(terminationCharge);
+//							totalAmount += terminationCharge;
+			//
+//							terminationContent.setChargingItem("TERMINATION CHARGE");
+//							terminationContent.setQuantity("");
+//							terminationContent.setAmount(new DecimalFormat("######.00").format(terminationCharge));
+//							terminationContent.setInvoiceGblSeq(invoiceGblSeq);
+			//
+//							invoiceGblContentList.add(terminationContent);
+			//
+//							checkInvoiceContentGetSeq = invoiceDao
+//									.checkInvoiceContent(terminationContent);
+			//
+//							if (checkInvoiceContentGetSeq != null) {
+//								terminationContent.setSeq(checkInvoiceContentGetSeq);
+//								invoiceDao.updateInvoiceGblContent(terminationContent);
+//							} else {
+//								invoiceDao.insertInvoiceGblContent(terminationContent);
+//							}
+
 			for(Weightcertificate weightcertificate : weightcertificateList){
 				
 				if ("HHG".equals(codeStr)) {
@@ -655,10 +716,17 @@ public class InvoiceService {
 				rate.setTsp(gbl.getScac());
 				rate.setProcess(process.toUpperCase());
 				rate.setWriteYear(getYear(gbl.getPud()));
-				System.out.println("CHECK CHECK CHECK ======================= : "+getYear(gbl.getPud()));
+				System.out.println("YEAR CHECK : "+getYear(gbl.getPud()));
+				double tempGblRate=0;
 				Rate gblRate = invoiceDao.getBasicRate(rate); // rate 기간에 맞게 가져왔나 모르겠지만 어쨌던 그때그때 해당되는 비율을 계속 가져온다.
+				if(terminationFlag == 1){//termination했으면
+					tempGblRate = gblRate.getRate()- terminationValue;
+					System.out.println("[[[[[[ TERMINATION VALUE ADDAPTION : "+terminationValue +" MINUS ]]]]]");
+					System.out.println("[[[[[[ ORIGIN VALUE : "+gblRate.getRate()+" ]]]]]]]");
+					gblRate.setRate(tempGblRate);
+					System.out.println("[[[[[[ AFTER VALUE : "+gblRate.getRate()+" ]]]]]]]]]");
+				}
 				if(codeStr.equals("HHG")){//USING NET
-					
 					if(rate.getObType().equals("typeII")){
 						System.out.println("[[[[[[[[[ TYPE II CALCURATE ]]]]]]]");
 						type2Count++;
@@ -978,7 +1046,7 @@ public class InvoiceService {
 			InvoiceGblContent extraPickUpGblContent = new InvoiceGblContent();
 			double extraPickUpCharge = 0.0;
 
-			Rate otherRateParam = new Rate();
+			otherRateParam = new Rate();
 			otherRateParam.setProcess(process);
 			otherRateParam.setWriteYear(getYear(gbl.getPud()));
 			System.out.println("[[[[[[ EXTRA CHARGE ADDAPTION YEAR : "+getYear(gbl.getPud())+" ]]]]]]");
@@ -1026,55 +1094,7 @@ public class InvoiceService {
 
 			}
 
-			// 4. TERMINATION CHARGE
-			InvoiceGblContent terminationContent = new InvoiceGblContent();
-			double terminationCharge = 0.0;
-
-			String checkTermination=null;
-			checkTermination = invoiceDao.getTerminationReason(gbl.getSeq());
-			System.out.println("[[[[[[[[[CHECK TERMINATION CHECK : "+checkTermination+"]]]]]]]]]");
-			if (checkTermination == null) {
-			} else {
-				System.out.println("[[[[[[ CALCURATE TERMINATION ]]]]]]]");
-				if ("HHG".equals(codeStr)) {
-					otherRateParam
-							.setTitle("TERMINATION CHARGE - IT13 item 523A");
-					otherRateParam.setCode("HHG");
-					Rate terminationRate = invoiceDao.getOther(otherRateParam);
-					System.out.println("COMPRATE RAGE : "+comprate.getRate());
-					System.out.println("TERMINATIONRATE RAGE : "+terminationRate.getRate());
-					terminationCharge = comprate.getRate()
-							* terminationRate.getRate();
-				} else if ("UB".equals(codeStr)) {
-					otherRateParam
-							.setTitle("TERMINATION CHARGE - IT13 item 522A");
-					otherRateParam.setCode("UB");
-					Rate terminationRate = invoiceDao.getOther(otherRateParam);
-					System.out.println("COMPRATE RAGE : "+comprate.getRate());
-					System.out.println("TERMINATIONRATE RAGE : "+terminationRate.getRate());
-					terminationCharge = comprate.getRate()
-							* terminationRate.getRate();
-				}
-				terminationCharge = getRoundResult(terminationCharge);
-				totalAmount += terminationCharge;
-
-				terminationContent.setChargingItem("TERMINATION CHARGE");
-				terminationContent.setQuantity("");
-				terminationContent.setAmount(new DecimalFormat("######.00").format(terminationCharge));
-				terminationContent.setInvoiceGblSeq(invoiceGblSeq);
-
-				invoiceGblContentList.add(terminationContent);
-
-				checkInvoiceContentGetSeq = invoiceDao
-						.checkInvoiceContent(terminationContent);
-
-				if (checkInvoiceContentGetSeq != null) {
-					terminationContent.setSeq(checkInvoiceContentGetSeq);
-					invoiceDao.updateInvoiceGblContent(terminationContent);
-				} else {
-					invoiceDao.insertInvoiceGblContent(terminationContent);
-				}
-			}
+			
 
 			// 5. DIVERSION CHARGE
 
@@ -1495,7 +1515,7 @@ public class InvoiceService {
 					System.out.println("[[[[[[[[[[[[[[ SIT END : "+sitEndMemo.getSitEndDate()+" ]]]]]]]]]");
 					System.out.println("[[[[[[[[[[[[[[ WEIGHT : "+sitEndMemo.getSitWeight()+" : "+sitStartMemo.get(i).getSitWeight()+" ]]]]]]]]]]");
 					Integer eachDayCount = DateUtil.getDaysBetween(sitStartMemo.get(i).getSitStartDate(),
-							sitEndMemo.getSitEndDate()) - 1;
+							sitEndMemo.getSitEndDate());
 					System.out.println("[[[[[[[[[[[[[[ BETWWEN : "+eachDayCount+" DAY ]]]]]]]]]]]]");
 					invoiceReturnMap = getSitEachAdditionalDay("no", eachDayCount, sitEndMemo.getSitWeight(), codeStr, comprate1.getRate(),getYear(gbl.getPud()),"inbound");
 					double tempAmount =invoiceReturnMap.get("amount");
@@ -1520,14 +1540,14 @@ public class InvoiceService {
 					}
 				}
 			}
-			System.out.println("-------------------------------------------------------------------------------------");
 			//4. SIT-DELIVERY CHARGE & ADM FEE
 			if ("UB".equals(codeStr) && sitFirstMemo !=null) { //코드가 UB이고 SIT가 있을경우만
 				System.out.println("[[[[[[[[[[[[[[[[[[[[ SIT-DELIVERY CHARGE & ADM FEE START ]]]]]]]]]]]]]]]]]]]]]]]]");
 				InvoiceGblContent sitDeliveryContent = new InvoiceGblContent();		
-				
+				System.out.println("[[[[[[[[[[[ STORED AT : "+gbl.getStoredAt()+" ]]]]]]]]]]]]]]]");
+				System.out.println("[[[[[[[[[[[ DESTINATION GBLOCK : "+gbl.getFright()+" ]]]]]]]]]]");
 				boolean thirtyMile = basicService.getComareMile(gbl);
-				
+				System.out.println("[[[[[[[[[[[ 30MILE OVER? : "+thirtyMile+" ]]]]]]]]]]");
 				invoiceReturnMap = getSitDeliveryChargeAddFee(thirtyMile, weightList, comprate1.getRate(), gbl);
 				
 				totalAmount += invoiceReturnMap.get("amount");
@@ -1552,9 +1572,10 @@ public class InvoiceService {
 			
 			//5. REWEIGHT CHARGE
 			if(weightList.get(0).getReweight() != null && !weightList.get(0).getReweight().equals("")){
+				System.out.println("[[[[[[[[[[[[[[ REWEIGHT VALUE EXIST ]]]]]]]]]]]]]]]");
 				InvoiceGblContent reweightContent = new InvoiceGblContent();		
 				
-				invoiceReturnMap = reweightCharge(weightList, comprate1.getRate(), codeStr);
+				invoiceReturnMap = reweightCharge(weightList, comprate1.getRate(), codeStr,gbl);
 				
 				if(invoiceReturnMap.get("reweight") == 1.0){
 					totalAmount += invoiceReturnMap.get("amount");
@@ -1961,61 +1982,98 @@ public class InvoiceService {
 		
 		// 5 & 6번. 사용할 Weight 종류 확인
 		for( WeightIb weight : weightList ){
+			System.out.println("[[[[[[ GROSS GET : "+getGblGrossNetWeight(weight, ub_hhg_type)+" ]]]]]]]");
 			weight_temp += getGblGrossNetWeight(weight, ub_hhg_type);
 		}
-		
+		System.out.println("[[[[[[THRITY MILE GET TOTAL GROSS WEIGHT : "+weight_temp+" ]]]]]]]]]]");
 		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
 		
 		//thirtyMile = true 이상 . false 이하
-		if(thirtyMile){//이상
+		if(!thirtyMile){//이하
+			System.out.println("[[[[[[[[[[[ LESS THIRTY MILE ]]]]]]]]]]]]");
 			Rate otherParam = new Rate();
-			otherParam
-					.setTitle("30mile 이하 - IT13 item 521I");
+			otherParam.setWriteYear(getYear(gbl.getPud()));
+			otherParam.setTitle("30mile 이하 - IT13 item 521I");
 			otherParam.setCode("UB");
-			Rate otherRate = invoiceDao.getOther(otherParam);
+			otherParam.setProcess("inbound");
+			Rate otherRate = invoiceDao.getSit(otherParam);
+			System.out.println("[[[[[[[ 30MILE RATE : "+otherRate.getRate()+"% ]]]]]]");
+			System.out.println("[[[[[[[ 곱하는 무게 (100나눈거): "+gbl_weight[0]+" ]]]]]]");
 			double origin = otherRate.getRate() * gbl_weight[0];
-			otherParam
-			.setTitle("30mile 이상  - IT13 item 521J (minimum per shipment)");
-			otherRate = invoiceDao.getOther(otherParam);
+			System.out.println("[[[[[[[ ORIGIN : "+origin+" ]]]]]]]]");
+			otherParam.setTitle("30mile 이하  - IT13 item 521K (minimum per shipment)");
+			otherRate = invoiceDao.getSit(otherParam);
+			System.out.println("[[[[[[[ 30mile 이하  - IT13 item 521K (minimum per shipment) 검사 : "+otherRate.getRate()+" ]]]]]]");
 			double minimum = otherRate.getRate();
+			System.out.println("[[[[[[[ MININUM : "+minimum+" ]]]]]");
 			otherParam.setTitle("ADM FEE - IT13 item 521L");
-			Rate admFeeRate = invoiceDao.getOther(otherParam);
-			double admFee = admFeeRate.getRate()*comprate1;
+			Rate admFeeRate = invoiceDao.getSit(otherParam);
+			System.out.println("[[[[[[[ ADM FEE - IT13 item 521L 검사 : "+admFeeRate.getRate()+" ]]]]]]]]]");
+			
 			if(origin>minimum){
-				delivery = origin * comprate1 + admFee;
+				System.out.println("[[ MININUM보다 크다 ]]");
+				System.out.println("[[ ORIGIN : "+origin+" COMPRATE : "+comprate1+" ]]");
+				delivery = origin * comprate1;
 			}
 			else{
-				delivery = minimum * comprate1 + admFee;
+				System.out.println("[[ MININUM보다 작다]]");
+				System.out.println("[[ MINIMUM : "+minimum+" COMPRATE : "+comprate1+" ]]");
+				delivery = minimum * comprate1;
 			}
 		} 
-		else {//이하
+		else {//이상
+			System.out.println("[[[[[[[[[[[ 30OVER CHECK - OVER ]]]]]]]]]]]]");
 			Rate otherParam = new Rate();
-			otherParam
-					.setTitle("30mile 이하 - IT13 item 521I");
+			otherParam.setTitle("30mile 이상  - IT13 item 521J (minimum per shipment)");
 			otherParam.setCode("UB");
-			Rate otherRate = invoiceDao.getOther(otherParam);
-			
-			double origin = otherRate.getRate() * gbl_weight[0];
-			
-
-			otherParam
-					.setTitle("30mile 이하  - IT13 item 521K (minimum per shipment)");
-			otherRate = invoiceDao.getOther(otherParam);
-			double minimum = otherRate.getRate();
-			
-			if(origin > minimum){
-				delivery = origin * comprate1;
-			} else {
-				delivery = minimum * comprate1;
-			}			
+			otherParam.setWriteYear(getYear(gbl.getPud()));
+			otherParam.setProcess("inbound");
+			Rate otherRate = invoiceDao.getSit(otherParam);
+			System.out.println("[[[[[[[ 30mile 이상  - IT13 item 521J (minimum per shipment) 호출 ]]]]]]]]");
+			System.out.println("[[[[[[[ 30MILE RATE : "+otherRate.getRate()+"% ]]]]]]");
+			double minimum30over = otherRate.getRate();
+			Mileage mileage = basicService.getMileage(gbl);
+			double minWeight = Double.parseDouble(mileage.getMinWeight());
+			double maxWeightMin = Double.parseDouble(mileage.getMaxWeight().split("-")[0]);
+			double maxWeightMax = Double.parseDouble(mileage.getMaxWeight().split("-")[1]);
+			double minRate = Double.parseDouble(mileage.getMinRate());
+			double maxRate = Double.parseDouble(mileage.getMaxRate());
+			otherParam.setTitle("ADM FEE - IT13 item 521L");
+			Rate admFeeRate = invoiceDao.getSit(otherParam);
+			System.out.println("[[[[[[[ ADM FEE - IT13 item 521L 검사 : "+admFeeRate.getRate()+" ]]]]]]]]]");
+			double admFee = admFeeRate.getRate()*comprate1;
+			admFee = getRoundResult(admFee);
+			if(gbl_weight[1] <= minWeight){
+				System.out.println("[[ WEIGHT : "+gbl_weight[1]+" MILEAGE Min WEIGHT : "+minWeight+" ]]");
+				System.out.println("[[ RATE : "+mileage.getMinRate()+" ]]");
+				System.out.println("[[ 일단 곱해보면 : "+gbl_weight[0]*minRate+" ]]");
+				if((gbl_weight[0]*minRate) <= minimum30over){
+					System.out.println(" [[ 미니멈 값보다 작다 ]]");
+					System.out.println("[[ RATE : "+minimum30over+" COMPRATE1 : "+comprate1+" admFee : "+admFee+" ]]");
+					delivery = minimum30over*comprate1 + admFee;
+				}
+			}
+			else if(gbl_weight[1]>minWeight){
+				if(gbl_weight[1]>= maxWeightMin && gbl_weight[1] <=maxWeightMax){
+					System.out.println("[[ WEIGHT : "+gbl_weight[1]+" Between : "+maxWeightMin+" - "+maxWeightMax+" ]]");
+					System.out.println("[[ 적용 레이트가격 : "+maxRate+" COMPRATE1 : "+comprate1+" ADMFEE : "+admFee+" ]]");
+					delivery = maxRate*comprate1 +admFee;
+				}
+				else if(gbl_weight[1]>1000){
+					System.out.println("[[ "+gbl_weight[1]+" OVER 1000 ]]");
+					System.out.println("[[ RATE : 5.59"+" COMPRATE1 : "+comprate1+" admFee : "+admFee+" ]]");
+					delivery = (gbl_weight[0] * 5.59 * comprate1)+admFee; 
+				}
+			}
 		}
-		
+		System.out.println("[[[[[[[[[ FIANL THIRTY MILE VALUE : "+delivery+" ]]]]]]");
+		delivery = getRoundResult(delivery);
 		returnMap.put("amount", delivery);
 		
 		return returnMap;
 	}
 	
-	private Map<String, Double> reweightCharge(List<WeightIb> weightList, double comprate1, String value_UB_HHG) {
+	private Map<String, Double> reweightCharge(List<WeightIb> weightList, double comprate1, String value_UB_HHG,GBL gbl) {
 
 		Map<String, Double> returnMap = new HashMap<String, Double>();
 
@@ -2038,22 +2096,28 @@ public class InvoiceService {
 		if(subtraction<0){
 			subtraction*=-1;//일단 양수로 변환
 		}
+		Rate otherParam = new Rate();
+		otherParam.setWriteYear(getYear(gbl.getPud()));
+		otherParam.setProcess("inbound");
 		if(ub_hhg_type == 1){//HHG
-			Rate otherParam = new Rate();
-			otherParam
-					.setTitle("REWEIGHT CHARGE - IT13 item 505A");
+			otherParam.setTitle("REWEIGHT CHARGE - IT13 item 505A");
 			otherParam.setCode("HHG");
 			Rate otherRate = invoiceDao.getOther(otherParam);
+			System.out.println("[[[[ TITLE : REWEIGHT CHARGE - IT13 item 505A ]]]");
+			
 			if(weight_temp <= 5000.0){
-				
 				if(subtraction < 100 && subtraction >= 0){//해당된다면 적용한다.
+					System.out.println("[[ 무게가 5000 보다 작을경우 ]]");
+					System.out.println("[[ 100이내 무게 측정 "+subtraction+" ]]");
+					System.out.println("[[ REWEIGHT RATE : "+otherRate.getRate()+" : COMPRATE1 : "+comprate1+" ]]");
 					reweight_charge = otherRate.getRate()*comprate1;
 					returnMap.put("reweight", 1.0);
 				}
-				else {					
+				else {
+					System.out.println("[[ 100이상 무게 측정 "+subtraction+" ]]");
 					returnMap.put("reweight", 0.0);
 				}
-			} else {//5000 보다 클경우
+			}else {//5000 보다 클경우
 				if(subtraction <= (weight_temp * 0.02)){//이내일경우
 					reweight_charge = otherRate.getRate()*comprate1;
 					returnMap.put("reweight", 1.0);
@@ -2062,12 +2126,9 @@ public class InvoiceService {
 				}
 			}
 		} else if (ub_hhg_type == 0){
-			Rate otherParam = new Rate();
-			otherParam
-					.setTitle("REWEIGHT CHARGE - IT13 item 505B");
+			otherParam.setTitle("REWEIGHT CHARGE - IT13 item 505B");
 			otherParam.setCode("UB");
 			Rate otherRate = invoiceDao.getOther(otherParam);
-			
 			if(subtraction <= 25.0 && subtraction >= 0){
 				reweight_charge = otherRate.getRate()*comprate1;
 				returnMap.put("reweight", 1.0);
@@ -2075,7 +2136,7 @@ public class InvoiceService {
 				returnMap.put("reweight", 0.0);
 			}
 		}	
-				
+		System.out.println("[[ REWEIGHT CHARGE : "+reweight_charge+" ]]");
 		returnMap.put("quantity", subtraction);
 		returnMap.put("amount", reweight_charge);
 		return returnMap;	
