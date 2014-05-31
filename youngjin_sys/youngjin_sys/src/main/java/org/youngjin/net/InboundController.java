@@ -1091,6 +1091,17 @@ public class InboundController {
 		return process + "/reweight/main";
 	}
 	
+	@RequestMapping(value = "{process}/report", method = RequestMethod.GET)
+	public String report(Model model, User user,
+			@PathVariable String process,
+			@ModelAttribute InboundFilter inboundFilter) {
+		System.out.println("[[[[ CALL REPORT CONTROLLER1 ]]]]");
+		user.setSubProcess("report");
+		model.addAttribute("user", user);
+		return process + "/inbound/report";
+	}
+
+	
 	@RequestMapping(value = "{process}/reweight/reweightReport/{seq}", method=RequestMethod.GET)
 	public String reweightReportMain(Model model, User user, @PathVariable String process, @PathVariable Integer seq){
 		

@@ -2,6 +2,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <ul class="left_detail_menu_wrap">
 	<sec:authorize access="hasRole('ROLE_LEVEL1') or hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
+		
 		<li onclick="location.href='${cp }/inbound/freightList'" style="${(user.subProcess eq 'freightList') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
 			FREIGHT LIST				
 		</li>
@@ -46,6 +47,11 @@
 			</ul>	
 		</li>
 		
-		<li onclick="location.href='${cp}/inbound/reweight'" class="inbound_reweight" style="${(user.subProcess eq 'reweight') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">REWEIGHT</li>
+		<li onclick="location.href='${cp}/inbound/reweight'" class="inbound_reweight" style="${(user.subProcess eq 'reweight') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+			REWEIGHT
+		</li>
+		<li onclick="location.href='${cp }/inbound/report'" class="inbound_report" style="${(user.subProcess eq 'report') ? 'color: #F79646; border-left: 15px solid #F79646; padding-right: 25px;' : ''}">
+			MONTHLY REPORT				
+		</li>
 	</sec:authorize>
 </ul>
