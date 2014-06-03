@@ -638,7 +638,7 @@
 					process = #{process}
 			</if>
 			ORDER BY
-				i.seq
+				i.seq desc
 		) il
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
 	</select>

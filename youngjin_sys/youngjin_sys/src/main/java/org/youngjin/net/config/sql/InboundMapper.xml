@@ -11,6 +11,12 @@
 		<result column="gbl_invoice" property="invoice" />
 	</resultMap>
 
+	<resultMap type="MonthlyReport" id="MonthlyReportMap">
+		<result column="mode" property="mode"/>
+		<result column="grossWeight" property="grossWeight"/>
+		<result column="netWeight" property="netWeight"/>
+		<result column="sitNo" property="sitNo"/>
+	</resultMap>
 	<resultMap type="GBLAttachment" id="GBLAttachmentMap">
 		<result column="seq" property="seq"/>
 		<result column="gbl_no" property="gblNo"/>
@@ -493,6 +499,115 @@
 				AND
 					pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
 			</if>			
+	</select>
+	<select id="getMonthlySitCount" parameterType="Map" resultType="Integer">
+			select
+				count(*)as count
+			from(
+			select
+				o2.seq as contentsSeq, o2.gblSeq as gblSeq, o2.onHandListSeq as onHandListSeq,
+				o1.seq as onHandSeq, o1.onHandDate as onHandDate, o1.firstArrivalableDeliverDate as firstDate, g.grossWeight as grossWeight, g.netWeight as netWeight
+			from
+				on_hand_list o1 JOIN on_hand_list_content o2 JOIN gbl_status gs join gbl_ib g join memorandum_ib m
+			where
+				o2.onHandListSeq = o1.seq
+			and
+				g.seq = o2.gblSeq
+			and
+				gs.gbl_no = (select gblNo from gbl_ib where seq = o2.gblSeq)
+			and
+				gs.gbl_onHandList = 1
+			and
+				g.destinationGbloc = 'QXAK'
+			and
+				g.code=#{code}
+			and
+				str_to_date(g.onHandDate, '%Y-%m-%d') &gt;= str_to_date('20140501','%Y%m%d') 
+			and 
+				str_to_date(g.onHandDate, '%Y-%m-%d') &lt;= str_to_date('20140531','%Y%m%d')
+			and
+				m.gbl_Seq = g.seq
+			and
+				m.sit_no is NOT NULL
+			group by
+				gblSeq
+			)u
+	</select>
+	<select id="getMonthlyListOther" parameterType="Map" resultType="MonthlyReport">
+			select
+				g.code as mode,	g.grossWeight as grossWeight, g.netWeight as netWeight, m.sit_No as sitNo
+			from
+				on_hand_list o1 JOIN on_hand_list_content o2 JOIN gbl_status gs join gbl_ib g join memorandum_ib m
+			where
+				o2.onHandListSeq = o1.seq
+			and
+				g.seq = o2.gblSeq
+			and
+				gs.gbl_no = (select gblNo from gbl_ib where seq = o2.gblSeq)
+			and
+				gs.gbl_onHandList = 1
+			and
+				g.destinationGbloc = 'QXAK'
+			and
+				g.code=#{code}
+			and
+				(g.area = 'TDC' or g.area='UJB' or g.area='PS' or g.area='TG' or g.area='PYT' or g.area='MS' or g.area='WJ')
+			and
+				str_to_date(g.sitOut, '%Y%m%d') &gt;= str_to_date('20140501','%Y%m%d')
+			and 
+				str_to_date(g.sitOut, '%Y%m%d') &lt;= str_to_date('20140531','%Y%m%d')
+			group by
+				gblSeq
+	</select>
+	<select id="getMonthlyListYongsan" parameterType="Map" resultType="MonthlyReport">
+			select
+				g.code as mode,	g.grossWeight as grossWeight, g.netWeight as netWeight, m.sit_No as sitNo
+			from
+				on_hand_list o1 JOIN on_hand_list_content o2 JOIN gbl_status gs join gbl_ib g join memorandum_ib m
+			where
+				o2.onHandListSeq = o1.seq
+			and
+				g.seq = o2.gblSeq
+			and
+				gs.gbl_no = (select gblNo from gbl_ib where seq = o2.gblSeq)
+			and
+				gs.gbl_onHandList = 1
+			and
+				g.destinationGbloc = 'QXAK'
+			and
+				g.code=#{code}
+			and
+				g.area = 'YS'
+			and
+				str_to_date(g.sitOut, '%Y%m%d') &gt;= str_to_date('20140501','%Y%m%d')
+			and 
+				str_to_date(g.sitOut, '%Y%m%d') &lt;= str_to_date('20140531','%Y%m%d')
+			group by
+				gblSeq
+	</select>
+	<select id="getMonthlyList" parameterType="Map" resultType="MonthlyReport">
+		select
+			g.code as mode,	g.grossWeight as grossWeight, g.netWeight as netWeight, m.sit_No as sitNo
+		from
+			on_hand_list o1 JOIN on_hand_list_content o2 JOIN gbl_status gs join gbl_ib g join memorandum_ib m
+		where
+			o2.onHandListSeq = o1.seq
+		and
+			g.seq = o2.gblSeq
+		and
+			gs.gbl_no = (select gblNo from gbl_ib where seq = o2.gblSeq)
+		and
+			gs.gbl_onHandList = 1
+		and
+			g.destinationGbloc = 'QXAK'
+		and
+			g.code=#{code}
+		and
+			str_to_date(g.onHandDate, '%Y-%m-%d') &gt;= str_to_date('20140501','%Y%m%d') 
+		and 
+			str_to_date(g.onHandDate, '%Y-%m-%d') &lt;= str_to_date('20140530','%Y%m%d')
+		group by
+			gblSeq
 	</select>
 	
 	<select id="getCustomInvoiceGblList" parameterType="InboundFilter" resultType="GBL">

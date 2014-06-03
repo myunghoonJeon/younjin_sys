@@ -783,7 +783,8 @@ public class OutboundController {
 			}
 			tl.setGblList(str);
 		}
-		
+		System.out.println("======= PAGINATION SIZE : "+outboundFilter.getPagination().getNumItems()+" =====");
+		System.out.println("======== LIST SIZE : "+truckList.size()+"============");
 		model.addAttribute("truckList", truckList);
 		model.addAttribute("user", user);
 

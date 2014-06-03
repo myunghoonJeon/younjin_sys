@@ -427,7 +427,7 @@ public class InvoiceService {
 
 	public int getInvoiceListCount(InvoiceFilter invoiceFilter, String process) {
 		invoiceFilter.setProcess(process);
-
+		System.out.println("============ INVOICE GET COUNT PROCESS : "+process+" =========");
 		return invoiceDao.getInvoiceListCount(invoiceFilter);
 	}
 
@@ -1870,8 +1870,9 @@ public class InvoiceService {
 //		}
 		System.out.println("[[[[[[[[[[[ SIT weight : "+weight+" ]]]]]]]]]]]");
 		weight_temp = Double.parseDouble(weight);
-		gbl_weight[0] = (weight_temp / 100);//무게 최저인지 확인하고  100으로 나누고 이런것
-		gbl_weight[1] = weight_temp;
+//		gbl_weight[0] = (weight_temp / 100);//무게 최저인지 확인하고  100으로 나누고 이런것
+//		gbl_weight[1] = weight_temp;
+		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
 		if (ub_hhg_type == 0) {			// 4번 (UB)
 			Rate rate = new Rate();
 			rate.setWriteYear(date);
@@ -1932,9 +1933,9 @@ public class InvoiceService {
 //			weight_temp += getGblGrossNetWeight(weight, ub_hhg_type);
 //		}
 		weight_temp = Double.parseDouble(weight);
-//		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
-		gbl_weight[0] = weight_temp/100;
-		gbl_weight[1] = weight_temp;
+		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
+//		gbl_weight[0] = weight_temp/100;
+//		gbl_weight[1] = weight_temp;
 		System.out.println("[[[[[[[[[[[ WEIGHT : "+gbl_weight+" ]]]]]]]]]]]]");
 		if (ub_hhg_type == 0) {			// 4번 (UB)
 			Rate rate = new Rate();
@@ -2061,8 +2062,8 @@ public class InvoiceService {
 				}
 				else if(gbl_weight[1]>1000){
 					System.out.println("[[ "+gbl_weight[1]+" OVER 1000 ]]");
-					System.out.println("[[ RATE : 5.59"+" COMPRATE1 : "+comprate1+" admFee : "+admFee+" ]]");
-					delivery = (gbl_weight[0] * 5.59 * comprate1)+admFee; 
+					System.out.println("[[ RATE : 5.96"+" COMPRATE1 : "+comprate1+" admFee : "+admFee+" ]]");
+					delivery = (gbl_weight[0] * 5.96 * comprate1)+admFee; 
 				}
 			}
 		}

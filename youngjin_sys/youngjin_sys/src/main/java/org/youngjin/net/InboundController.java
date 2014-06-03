@@ -1,6 +1,7 @@
 package org.youngjin.net;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +26,11 @@ import org.youngjin.net.basic.Company;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.inbound.DeclarationList;
+import org.youngjin.net.inbound.InboundDao;
 import org.youngjin.net.inbound.InboundFilter;
 import org.youngjin.net.inbound.InboundInvoice;
 import org.youngjin.net.inbound.InboundService;
+import org.youngjin.net.inbound.MonthlyReport;
 import org.youngjin.net.inbound.OnHandList;
 import org.youngjin.net.inbound.OnHandListContent;
 import org.youngjin.net.inbound.OnhandSum;
@@ -158,7 +161,269 @@ public class InboundController {
 			return process + "/freight/list";
 		}
 	}
-
+	
+	@RequestMapping(value = "/{process}/report/{start}/{end}/monthlyReport", method = RequestMethod.GET)
+	public String montlyReport(Model model, User user, @PathVariable String process, @PathVariable String start, @PathVariable String end) {
+		System.out.println("start : "+start);
+		System.out.println("end : "+end);
+		String count="";
+		
+		Map m3 = getMonthlyList("3", start, end);
+		Map my3 = getMonthlyListYongsan("3", start, end);
+		Map mo3 = getMonthlyListOther("3", start, end);
+		model.addAttribute("my3",my3);
+		model.addAttribute("mo3",mo3);
+		count = getMonthlySitCount("3", start, end)+"";
+		model.addAttribute("m3count",count);
+		model.addAttribute("m3",m3);
+		
+		count="";
+		
+		Map m4 = getMonthlyList("4", start, end);
+		Map my4 = getMonthlyListYongsan("4", start, end);
+		Map mo4 = getMonthlyListOther("4", start, end);
+		model.addAttribute("my4",my4);
+		model.addAttribute("mo4",mo4);
+		count = getMonthlySitCount("4", start, end)+"";
+		model.addAttribute("m4count",count);
+		count="";
+		model.addAttribute("m4",m4);
+		
+		Map m5 = getMonthlyList("5", start, end);
+		Map my5= getMonthlyListYongsan("5", start, end);
+		Map mo5 = getMonthlyListOther("5", start, end);
+		model.addAttribute("my5",my5);
+		model.addAttribute("mo5",mo5);
+		count = getMonthlySitCount("5", start, end)+"";
+		model.addAttribute("m5count",count);
+		count="";
+		model.addAttribute("m5",m5);
+		
+		Map m6 = getMonthlyList("6",start,end);
+		count = getMonthlySitCount("6", start, end)+"";
+		Map my6 = getMonthlyListYongsan("6", start, end);
+		Map mo6 = getMonthlyListOther("6", start, end);
+		model.addAttribute("my6",my6);
+		model.addAttribute("mo6",mo6);
+		model.addAttribute("m6count",count);
+		count="";
+		model.addAttribute("m6",m6);
+		
+		Map mT = getMonthlyList("T",start,end);
+		Map myT = getMonthlyListYongsan("T", start, end);
+		Map moT = getMonthlyListOther("T", start, end);
+		model.addAttribute("myT",myT);
+		model.addAttribute("moT",moT);
+		count = getMonthlySitCount("T", start, end)+"";
+		model.addAttribute("mTcount",count);
+		count="";
+		model.addAttribute("mT",mT);
+		
+		Map mJ = getMonthlyList("J",start,end);
+		count = getMonthlySitCount("J", start, end)+"";
+		Map myJ = getMonthlyListYongsan("J", start, end);
+		Map moJ = getMonthlyListOther("J", start, end);
+		model.addAttribute("myJ",myJ);
+		model.addAttribute("moJ",moJ);
+		model.addAttribute("mJcount",count);
+		count="";
+		model.addAttribute("mJ",mJ);
+		
+		Map m7 = getMonthlyList("7",start,end);
+		Map my7 = getMonthlyListYongsan("7", start, end);
+		Map mo7 = getMonthlyListOther("7", start, end);
+		model.addAttribute("my7",my7);
+		model.addAttribute("mo7",mo7);
+		count = getMonthlySitCount("7", start, end)+"";
+		model.addAttribute("m7count",count);
+		count="";
+		model.addAttribute("m7",m7);
+		
+		Map m8 = getMonthlyList("8",start,end);
+		Map my8 = getMonthlyListYongsan("8", start, end);
+		Map mo8 = getMonthlyListOther("8", start, end);
+		model.addAttribute("my8",my8);
+		model.addAttribute("mo8",mo8);
+		count = getMonthlySitCount("8", start, end)+"";
+		model.addAttribute("m8count",count);
+		count="";
+		model.addAttribute("m8",m8);
+		
+		model.addAttribute("user", user);
+		return process + "/monthlyReport";
+		
+	}
+	public String getMonthlySitCount(String code,String start,String end){
+		int count=0;
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("code", code);
+		map.put("start",start);
+		map.put("end", end);
+		count= inboundService.getMonthlySitCount(map);
+		System.out.println("CODE : "+code);
+		System.out.println("COUNT : "+count);
+		String tempString="";
+		if(count != 0){
+			tempString = count+"";
+		}
+		return tempString;
+	}
+	public Map<String,String> getMonthlyListOther(String code,String start,String end){
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("code", code);
+		map.put("start",start);
+		map.put("end", end);
+		List<MonthlyReport> m4 = inboundService.getMontlyListOther(map);
+		System.out.println("OTHER CODE : "+code);
+		String tempCode="";
+		int weight=0;
+		for(int i=0;i<m4.size();i++){
+			MonthlyReport mr = m4.get(i);
+			tempCode = mr.getMode();
+			if(getCodeType(mr.getMode())){
+				if(Integer.parseInt(mr.getNetWeight())<500){
+					System.out.println("[[DETECTED MINIMUM ADD 500]]");
+					weight+=500;
+				}
+				else{
+					System.out.println("[[DETECTED : "+Integer.parseInt(mr.getNetWeight())+" ]]");
+					weight+=Integer.parseInt(mr.getNetWeight());
+				}
+			}
+			else{
+				if(Integer.parseInt(mr.getNetWeight())<300){
+					System.out.println("[[DETECTED MINIMUM ADD 300]]");
+					weight+=300;
+				}
+				else{
+					System.out.println("[[DETECTED : "+Integer.parseInt(mr.getNetWeight())+" ]]");
+					weight+=Integer.parseInt(mr.getNetWeight());
+				}
+			}
+		}
+		Map<String,String> map2 = new HashMap<String, String>();
+		System.out.println("code : "+tempCode);
+		System.out.println("size : "+m4.size());
+		System.out.println("weight : "+weight);
+		String tempSize ="";
+		String tempWeight="";
+		if(m4.size() != 0){
+			tempSize = m4.size()+"";
+		}
+		if(weight!=0){
+			tempWeight=weight+"";
+		}
+		map2.put("size", tempSize);
+		map2.put("weight", tempWeight);
+		return map2;
+	}
+	public Map<String,String> getMonthlyListYongsan(String code,String start,String end){
+		
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("code", code);
+		map.put("start",start);
+		map.put("end", end);
+		List<MonthlyReport> m4 = inboundService.getMontlyListYongsan(map);
+		System.out.println("YONGSAN CODE : "+code);
+		String tempCode="";
+		int weight=0;
+		for(int i=0;i<m4.size();i++){
+			MonthlyReport mr = m4.get(i);
+			tempCode = mr.getMode();
+			if(getCodeType(mr.getMode())){
+				if(Integer.parseInt(mr.getNetWeight())<500){
+					System.out.println("[[DETECTED MINIMUM ADD 500]]");
+					weight+=500;
+				}
+				else{
+					System.out.println("[[DETECTED : "+Integer.parseInt(mr.getNetWeight())+" ]]");
+					weight+=Integer.parseInt(mr.getNetWeight());
+				}
+			}
+			else{
+				if(Integer.parseInt(mr.getNetWeight())<300){
+					System.out.println("[[DETECTED MINIMUM ADD 300]]");
+					weight+=300;
+				}
+				else{
+					System.out.println("[[DETECTED : "+Integer.parseInt(mr.getNetWeight())+" ]]");
+					weight+=Integer.parseInt(mr.getNetWeight());
+				}
+			}
+		}
+		Map<String,String> map2 = new HashMap<String, String>();
+		System.out.println("code : "+tempCode);
+		System.out.println("size : "+m4.size());
+		System.out.println("weight : "+weight);
+		String tempSize ="";
+		String tempWeight="";
+		if(m4.size() != 0){
+			tempSize = m4.size()+"";
+		}
+		if(weight!=0){
+			tempWeight=weight+"";
+		}
+		map2.put("size", tempSize);
+		map2.put("weight", tempWeight);
+		return map2;
+	}
+	public Map<String,String> getMonthlyList(String code,String start,String end){
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("code", code);
+		map.put("start",start);
+		map.put("end", end);
+		List<MonthlyReport> m4 = inboundService.getMontlyList(map);
+		String tempCode="";
+		int weight=0;
+		for(int i=0;i<m4.size();i++){
+			MonthlyReport mr = m4.get(i);
+			tempCode = mr.getMode();
+			if(getCodeType(mr.getMode())){
+				if(Integer.parseInt(mr.getNetWeight())<500){
+					System.out.println("[[DETECTED MINIMUM ADD 500]]");
+					weight+=500;
+				}
+				else{
+					System.out.println("[[DETECTED : "+Integer.parseInt(mr.getNetWeight())+" ]]");
+					weight+=Integer.parseInt(mr.getNetWeight());
+				}
+			}
+			else{
+				if(Integer.parseInt(mr.getNetWeight())<300){
+					System.out.println("[[DETECTED MINIMUM ADD 300]]");
+					weight+=300;
+				}
+				else{
+					System.out.println("[[DETECTED : "+Integer.parseInt(mr.getNetWeight())+" ]]");
+					weight+=Integer.parseInt(mr.getNetWeight());
+				}
+			}
+		}
+		Map<String,String> map2 = new HashMap<String, String>();
+		System.out.println("code : "+tempCode);
+		System.out.println("size : "+m4.size());
+		System.out.println("weight : "+weight);
+		String tempSize ="";
+		String tempWeight="";
+		if(m4.size() != 0){
+			tempSize = m4.size()+"";
+		}
+		if(weight!=0){
+			tempWeight=weight+"";
+		}
+		map2.put("size", tempSize);
+		map2.put("weight", tempWeight);
+		return map2;
+		
+	}
+	public boolean getCodeType(String code){
+		if(code.equals("4")||code.equals("3")||code.equals("5")||code.equals("T")){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	@RequestMapping(value = "/{process}/freight/{seq}/update", method = RequestMethod.GET)
 	public String freightUpdate(Model model, User user,
 			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process, @PathVariable Integer seq) {
@@ -1098,7 +1363,7 @@ public class InboundController {
 		System.out.println("[[[[ CALL REPORT CONTROLLER1 ]]]]");
 		user.setSubProcess("report");
 		model.addAttribute("user", user);
-		return process + "/inbound/report";
+		return process + "/report";
 	}
 
 	

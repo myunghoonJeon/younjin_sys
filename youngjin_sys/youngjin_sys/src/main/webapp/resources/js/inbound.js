@@ -194,6 +194,24 @@ youngjin.inbound.sync = function(){
 		youngjin.inbound.memorandumAdd($(this));
 	});
 	
+	$('.analysis').unbind('click');
+	$('.analysis').bind('click', function(){
+		var start = $('.start').val();
+		var end = $('.end').val();
+		if(start == ''||start == null || end == ''|| end == null){
+			alert("[[ INPUT DATE ]]");
+		}
+		else{
+			var url = contextPath + '/inbound/report/'+ start+'/'+ end+ '/monthlyReport';
+			window.open(url, 'reportPrint', 'width=1000, height: 750, status=no');
+		}
+	});
+	
+	$('.print').unbind('click');
+	$('.print').bind('click', function(){
+		alert("print");
+	});
+	
 	$('#inbound_memorandum_update').unbind('click');
 	$('#inbound_memorandum_update').bind('click', function(){
 		youngjin.inbound.memorandumUpdate($(this));

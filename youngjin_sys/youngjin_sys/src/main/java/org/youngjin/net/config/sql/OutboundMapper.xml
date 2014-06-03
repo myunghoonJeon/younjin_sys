@@ -89,7 +89,7 @@
 		<result column="remark" property="remark" />
 		<result column="gbl_seq" property="gblSeq" />
 	</resultMap>
-
+	
 	<resultMap type="Dd619" id="Dd619Map">
 		<result column="seq" property="seq" />
 		<result column="gbl_no" property="gblNo" />
@@ -739,7 +739,8 @@
 			date &lt;= str_to_date(#{endPud}, '%Y%m%d')
 		</if>
 	</select>
-
+	
+	
 	<select id="getTruckList" parameterType="OutboundFilter"
 		resultType="TruckManifast">
 		<!-- SELECT seq, date, branch, code, sysdate FROM truck_manifast -->

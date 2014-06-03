@@ -87,7 +87,18 @@ public class InboundService {
 		
 		return gblStatusMap;
 	}
-
+	public int getMonthlySitCount(Map map){
+		return inboundDao.getMonthlySitCount(map);
+	}
+	public List<MonthlyReport> getMontlyList(Map map){
+		return inboundDao.getMontlyList(map);
+	}
+	public List<MonthlyReport> getMontlyListOther(Map map){
+		return inboundDao.getMontlyListOther(map);
+	}
+	public List<MonthlyReport> getMontlyListYongsan(Map map){
+		return inboundDao.getMontlyListYongsan(map);
+	}
 	public Map<String, List<Code>> getFilterMap() {
 		Map<String, List<Code>> filterMap = new HashMap<String, List<Code>>();
 		List<Code> branchList = codeDao.getAllAreaList();		
@@ -96,8 +107,6 @@ public class InboundService {
 		filterMap.put("carrierList", carrierList);
 		List<Code> codeList = inboundDao.getCodeList();
 		filterMap.put("codeList", codeList);
-		
-		
 		return filterMap;
 	}
 	
