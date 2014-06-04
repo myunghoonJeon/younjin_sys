@@ -553,9 +553,9 @@
 			and
 				(g.area = 'TDC' or g.area='UJB' or g.area='PS' or g.area='TG' or g.area='PYT' or g.area='MS' or g.area='WJ')
 			and
-				str_to_date(g.sitOut, '%Y%m%d') &gt;= str_to_date('20140501','%Y%m%d')
+				str_to_date(g.sitOut, '%Y%m%d') &gt;= str_to_date(#{start},'%Y%m%d')
 			and 
-				str_to_date(g.sitOut, '%Y%m%d') &lt;= str_to_date('20140531','%Y%m%d')
+				str_to_date(g.sitOut, '%Y%m%d') &lt;= str_to_date(#{end},'%Y%m%d')
 			group by
 				gblSeq
 	</select>
@@ -579,9 +579,9 @@
 			and
 				g.area = 'YS'
 			and
-				str_to_date(g.sitOut, '%Y%m%d') &gt;= str_to_date('20140501','%Y%m%d')
+				str_to_date(g.sitOut, '%Y%m%d') &gt;= str_to_date(#{start},'%Y%m%d')
 			and 
-				str_to_date(g.sitOut, '%Y%m%d') &lt;= str_to_date('20140531','%Y%m%d')
+				str_to_date(g.sitOut, '%Y%m%d') &lt;= str_to_date(#{end},'%Y%m%d')
 			group by
 				gblSeq
 	</select>
@@ -603,9 +603,9 @@
 		and
 			g.code=#{code}
 		and
-			str_to_date(g.onHandDate, '%Y-%m-%d') &gt;= str_to_date('20140501','%Y%m%d') 
+			str_to_date(g.onHandDate, '%Y-%m-%d') &gt;= str_to_date(#{start},'%Y%m%d') 
 		and 
-			str_to_date(g.onHandDate, '%Y-%m-%d') &lt;= str_to_date('20140530','%Y%m%d')
+			str_to_date(g.onHandDate, '%Y-%m-%d') &lt;= str_to_date(#{end},'%Y%m%d')
 		group by
 			gblSeq
 	</select>

@@ -180,6 +180,29 @@
 				<td style="font-size: 11pt;border-bottom: none; font-family: arial;font-weight: bold;">$ <fmt:formatNumber value="${totalAmount }" pattern="##,###.00"/></td>
 			</tr>
 		</table>
+		<table border="0" align="center" style="width : 17cm;" cellspacing="0">
+			<tr>
+				<td colspan="2" style="text-align: right;font-family: arial;font-size: 10pt;font-weight:bold; border-top:solid;">
+					<br>
+					${company.companyFullName }
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 400px; padding-top: 60px;">
+				
+				</td>
+				<td style="padding-top: 60px; text-align: right;font-family: arial;font-size: 10pt;font-weight:bold; border-bottom:solid;">
+					
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 400px;">
+				</td>
+				<td style="text-align: right;font-family: arial;font-size: 10pt;font-weight:bold;">
+					${company.president }
+				</td>
+			</tr>
+		</table>
 	</div>
 
 	<div style="page-break-after: always"></div>

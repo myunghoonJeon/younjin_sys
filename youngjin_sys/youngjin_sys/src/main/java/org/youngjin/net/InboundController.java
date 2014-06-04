@@ -84,7 +84,7 @@ public class InboundController {
 				inboundService.getGblStatus(inboundFilter));
 		
 		model.addAttribute("user", user);
-
+		System.out.println("[[[ FREIGHT START LIST ]]]]]]]]");
 		return process + "/freight/list";
 	}
 	
@@ -108,6 +108,19 @@ public class InboundController {
 		model.addAttribute("user", user);
 
 		return process + "/freight/list";
+	}
+	
+	@RequestMapping(value="/inbound/checkDate.json", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean checkDate(@RequestBody Map<String,String> map){
+		String date = map.get("date");
+		System.out.println("````````````````````````date : "+date);
+		if(date.length()==8){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	@RequestMapping(value="/inbound/checkGblNo.json", method = RequestMethod.POST)

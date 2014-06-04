@@ -64,7 +64,7 @@
 			</tr>
 			<tr>
 				<th>PUD</th>
-				<td><form:input path="pud" /> </td>
+				<td><form:input path="pud"/></td>
 				<th>RDD</th>
 				<td><form:input path="rdd" /> </td>
 				

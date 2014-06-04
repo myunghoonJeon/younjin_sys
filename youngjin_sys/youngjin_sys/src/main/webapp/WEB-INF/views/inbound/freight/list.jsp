@@ -170,15 +170,15 @@
 					</tr>
 				</c:if>
 				<c:forEach var="gbl" items="${gblList }">
-					<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
-					<c:set var="pud" value="${parsePud }" />
+					<%-- <fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
+					<c:set var="pud" value="${parsePud }" /> --%>
 					<tr class="freight_list" data-seq="${gbl.seq }">
 						<c:if test="${inboundFilter.code eq '' or inboundFilter.code eq null }">
 							<td>${gbl.code }</td>
 						</c:if>
 						<td>${gblStatus[gbl.gblNo] }</td>
 						<td>
-							${fn:substring(pud, 8, 10) }-${ fn:substring(pud, 4, 7)}-${ fn:substring(pud, 26, 28) }
+							${gbl.pud }
 						</td>
 						<c:if test="${inboundFilter.carrier eq '' or inboundFilter.carrier eq null }">
 							<td>${gbl.tsp }</td>

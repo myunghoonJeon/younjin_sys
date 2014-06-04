@@ -21,6 +21,14 @@ youngjin.inbound.sync = function(){
 		youngjin.inbound.addCheckAlreadySaveGblInfo($(this));
 	});
 	
+	$('.inbound_gbl_add_table #pud').focusout(function(){
+		youngjin.inbound.addCheckDate($(this));
+	});
+	
+	$('.inbound_gbl_add_table #rdd').focusout(function(){
+		youngjin.inbound.addCheckDate($(this));
+	});
+	
 	$('.freight_add_submit_button').unbind('click');
 	$('.freight_add_submit_button').bind('click', function(){
 		youngjin.inbound.freightAddSubmit();
@@ -671,6 +679,23 @@ youngjin.inbound.confirmSync = function(){
 	});
 };
 
+youngjin.inbound.addCheckDate = function(target){
+	var date = target.val();
+	var url= contextPath +'/inbound/checkDate.json';
+	var json={
+		'date' : date	
+	};
+	$.postJSON(url, json, function(date){
+		if(date==true){
+			
+		}
+		else{
+			alert("[ 올바른 날짜를 입력하세요 (8자리)]");
+		}
+		
+	});
+};
+
 youngjin.inbound.addCheckAlreadySaveGblInfo = function(target){
 	var gblNo = target.val();
 	var url = contextPath + '/inbound/checkGblNo.json';
@@ -877,7 +902,7 @@ youngjin.inbound.freightProcess = function(target){
 					
 					$.smartPop.open({
 						width : 700,
-						height : 500,
+						height : 850,
 						url : url
 					});		
 					

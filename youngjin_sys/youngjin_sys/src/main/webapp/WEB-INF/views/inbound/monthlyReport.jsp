@@ -5,6 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="sec"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -62,6 +63,9 @@
 		<tr>
 			<td style="border:none; text-align: left;">
 				<input style="font-family: arial;font-size: 13pt; font-weight: bold; border: none;"type="text" value="年 月 日"/>
+			</td>
+			<td style="border:none; text-align: right;">
+				<input style="font-family: arial;font-size: 13pt; font-weight: bold; border: none;text-align: right;"type="text" value="YOUNGJIN"/>
 			</td>
 		</tr>
 	</table>
@@ -130,12 +134,15 @@
 					<td></td><td></td><td></td><td></td>
 				</tr>
 				<tr>
+					<c:set var="totalCount" value="${m4['size']+m3['size']+m5['size']+m6['size']+mT['size'] }"/>
+					<c:set var="sitCount" value="${m4count+m3count+m5count+m6count+mTcount }"/>
+					<c:set var="percentage" value="${(sitCount/totalCount)}"/>
 					<td class="total_td">HHG TOTAL</td>
-					<td class="total_td">${m4['size']+m3['size']+m5['size']+m6['size']+mT['size'] }</td>
+					<td class="total_td">${totalCount}</td>
 					<td class="total_td">${m4['weight']+m3['weight']+m5['weight']+m6['weight']+mT['weight'] }</td>
 					
 					<td class="total_td"></td><td class="total_td"></td>
-					<td class="total_td">${m4count+m3count+m5count+m6count+mTcount }</td>
+					<td class="total_td">${sitCount } ( <fmt:formatNumber type="percent" value="${percentage}"/> )</td>
 					<td class="total_td">${my4['size']+my3['size']+my5['size']+my6['size']+myT['size'] }</td >
 					<td class="total_td">${my4['weight']+my3['weight']+my5['weight']+my6['weight']+myT['weight'] }</td>
 					<td class="total_td">${mo4['size']+mo3['size']+mo5['size']+mo6['size']+moT['size'] }</td>
@@ -191,10 +198,13 @@
 					<td></td><td></td><td></td><td></td>
 				</tr>
 				<tr>
+					<c:set var="ubTotalCount" value="${mJ['size']+m7['size']+m8['size']}"/>
+					<c:set var="ubTotalSitCount" value="${mJcount+m7count+m8count}"/>
+					<c:set var="ubTotalPercentage" value="${ubTotalSitCount/ubTotalCount }"/>
 					<td class="total_td">UB TOTAL</td>
 					<td class="total_td">${mJ['size']+m7['size']+m8['size']}</td><td class="total_td">${mJ['weight']+m7['weight']+m8['weight']}</td>
 					<td class="total_td"></td><td class="total_td"></td>
-					<td class="total_td">${mJcount+m7count+m8count}</td>
+					<td class="total_td">${mJcount+m7count+m8count} ( <fmt:formatNumber type="percent" value="${ubTotalPercentage}"/> )</td>
 					<td class="total_td">${myJ['size']+my7['size']+my8['size']}</td>
 					<td class="total_td">${myJ['weight']+my7['weight']+my8['weight']}</td>
 					<td class="total_td">${moJ['size']+mo7['size']+mo8['size']}</td>
@@ -208,6 +218,9 @@
 					<td class="blank_td">　</td><td class="blank_td">　</td><td class="blank_td">　</td><td class="blank_td">　</td>
 				</tr>
 				<tr>
+					<c:set var="grandTotalCount" value="${m4['size']+m3['size']+m5['size']+m6['size']+mT['size']+ mJ['size']+m7['size']+m8['size']}"/>
+					<c:set var="grandTotalSitCount" value="${m4count+m3count+m5count+m6count+mTcount+mJcount+m7count+m8count}"/>
+					<c:set var="grandTotalPercentage" value="${ubTotalSitCount/ubTotalCount }"/>
 					<td class="grand_td">GRAND TOTAL</td>
 					<td class="grand_td">${m4['size']+m3['size']+m5['size']+m6['size']+mT['size']+ mJ['size']+m7['size']+m8['size']}</td>
 					<td class="grand_td">${m4['weight']+m3['weight']+m5['weight']+m6['weight']+mT['weight']+mJ['weight']+m7['weight']+m8['weight'] }</td>
@@ -215,7 +228,7 @@
 					<td class="grand_td"></td>
 					<td class="grand_td"></td>
 					
-					<td class="grand_td">${m4count+m3count+m5count+m6count+mTcount+mJcount+m7count+m8count}</td>
+					<td class="grand_td">${m4count+m3count+m5count+m6count+mTcount+mJcount+m7count+m8count} ( <fmt:formatNumber type="percent" value="${grandTotalPercentage}"/> )</td>
 					<td class="grand_td">${my4['size']+my3['size']+my5['size']+my6['size']+myT['size'] +myJ['size']+my7['size']+my8['size']}</td >
 					<td class="grand_td">${my4['weight']+my3['weight']+my5['weight']+my6['weight']+myT['weight'] +myJ['weight']+my7['weight']+my8['weight']}</td>
 					<td class="grand_td">${mo4['size']+mo3['size']+mo5['size']+mo6['size']+moT['size'] +moJ['size']+mo7['size']+mo8['size']}</td>
