@@ -53,20 +53,20 @@
 <p style="position:absolute;top:821px;left:270px;white-space:nowrap" class="ft10">
 	<c:choose>
 		<c:when test="${inboundInvoiceBasicInfo.code eq '8' }">
-			FRIGHT
+			VESSEL
 		</c:when>
 		<c:otherwise>
-			VESSEL
+			FRIGHT
 		</c:otherwise>
 	</c:choose>
 </p>
 <p style="position:absolute;top:821px;left:480px;white-space:nowrap" class="ft10">
 	<c:choose>
 		<c:when test="${inboundInvoiceBasicInfo.code eq '8' }">
-			${inboundInvoiceBasicInfo.fright }
+			${inboundInvoiceBasicInfo.vessle }
 		</c:when>
 		<c:otherwise>
-			${inboundInvoiceBasicInfo.vessle }
+			${inboundInvoiceBasicInfo.fright }
 		</c:otherwise>
 	</c:choose>
 </p>
@@ -74,20 +74,20 @@
 <p style="position:absolute;top:871px;left:280px;white-space:nowrap" class="ft10">
 	<c:choose>
 		<c:when test="${inboundInvoiceBasicInfo.code eq '8' }">
-			AWB
+			OBL
 		</c:when>
 		<c:otherwise>
-			OBL
+			AWB
 		</c:otherwise>
 	</c:choose>	
 </p>
 <p style="position:absolute;top:871px;left:480px;white-space:nowrap" class="ft10">
 	<c:choose>
 		<c:when test="${inboundInvoiceBasicInfo.code eq '8' }">
-			${inboundInvoiceBasicInfo.awbNo }
+			${inboundInvoiceBasicInfo.oblNo }
 		</c:when>
 		<c:otherwise>
-			${inboundInvoiceBasicInfo.oblNo }
+			${inboundInvoiceBasicInfo.awbNo }
 		</c:otherwise>
 	</c:choose>
 </p>
