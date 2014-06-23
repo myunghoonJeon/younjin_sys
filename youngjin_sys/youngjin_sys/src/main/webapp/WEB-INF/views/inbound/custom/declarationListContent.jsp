@@ -47,7 +47,7 @@ p {
 }
 .tdHead{
 	text-align:center;
-	font-size:12pt;
+	font-size:7pt;
 	font-family:arial;
 	font-weight:bold;
 	border-top: 1px solid #000000;

@@ -118,7 +118,7 @@
 			<td colspan="2" id='subject_title_td'>SUBJECT : 
 				<c:choose> 
 					<c:when test="${memorandum.subCode eq '01' }">
-						Request For Authorization of additional Service for hosting of article
+						Request For Authorization of additional Service for hoisting of article
 					</c:when>
 					<c:when test="${memorandum.subCode eq '03' }">
 						Request For Authorization of special crate

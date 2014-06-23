@@ -227,6 +227,41 @@
 				#{invoiceValue}
 			)
 	</insert>
+		<update id="updateOutboundGblSit" parameterType="Memorandum">
+			UPDATE
+				gbl
+			SET
+				sitNo=#{sitNo}
+			WHERE
+				seq=#{gblSeq}
+		</update>
+		<update id="updateGblSit" parameterType="Memorandum">
+			UPDATE
+				gbl_ib
+			SET
+				sitNo=#{sitNo}
+			WHERE
+				seq=#{gblSeq}
+		</update>
+		
+		<update id="updateGblSitIn" parameterType="Memorandum">
+			UPDATE
+				gbl_ib
+			SET
+				sitIn=#{invoiceValue}
+			WHERE
+				seq=#{gblSeq}
+		</update>
+		
+		<update id="updateGblSitOut" parameterType="Memorandum">
+			UPDATE
+				gbl_ib
+			SET
+				sitOut=#{invoiceValue}
+			WHERE
+				seq=#{gblSeq}
+		</update>
+		
 		<insert id="insertMemorandumSitWeight" parameterType="Memorandum">
 		INSERT INTO
 			memorandum_ib

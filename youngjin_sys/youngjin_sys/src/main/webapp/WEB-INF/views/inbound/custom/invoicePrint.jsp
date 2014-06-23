@@ -56,7 +56,7 @@
 			VESSEL
 		</c:when>
 		<c:otherwise>
-			FRIGHT
+			VESSEL
 		</c:otherwise>
 	</c:choose>
 </p>
@@ -66,7 +66,7 @@
 			${inboundInvoiceBasicInfo.vessle }
 		</c:when>
 		<c:otherwise>
-			${inboundInvoiceBasicInfo.fright }
+			${inboundInvoiceBasicInfo.vessle }
 		</c:otherwise>
 	</c:choose>
 </p>
@@ -74,10 +74,10 @@
 <p style="position:absolute;top:871px;left:280px;white-space:nowrap" class="ft10">
 	<c:choose>
 		<c:when test="${inboundInvoiceBasicInfo.code eq '8' }">
-			OBL
+			BL
 		</c:when>
 		<c:otherwise>
-			AWB
+			BL
 		</c:otherwise>
 	</c:choose>	
 </p>
@@ -87,7 +87,7 @@
 			${inboundInvoiceBasicInfo.oblNo }
 		</c:when>
 		<c:otherwise>
-			${inboundInvoiceBasicInfo.awbNo }
+			${inboundInvoiceBasicInfo.oblNo }
 		</c:otherwise>
 	</c:choose>
 </p>

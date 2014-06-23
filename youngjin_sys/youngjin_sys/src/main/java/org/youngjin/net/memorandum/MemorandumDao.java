@@ -62,6 +62,21 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 
 	public void insertInvoiceMemorandum(Memorandum memorandum) {
 		getSqlSession().insert("memorandumMapper.insertInvoiceMemorandum", memorandum);
+		System.out.println("[[[[[[[[[ MEMORANDUM INPUT ]]]]]]]]]");
+		if(memorandum.getType().equals("05")){
+			System.out.println("[[[[[[[[[ GBL SIT NO INPUT ]]]]]]]]]");
+			
+		}
+		if(memorandum.getType().equals("06")){
+			System.out.println("[[[[[[[[[ GBL SIT START INPUT ]]]]]]]]]");
+			
+		}
+		if(memorandum.getType().equals("07")){
+			System.out.println("[[[[[[[[[ GBL SIT END INPUT ]]]]]]]]]");
+			
+		}
+//		getSqlSession().update("memorandumMapper.updateGblSitNo", memorandum);
+//		System.out.println("[[[[[[[[[ GBL INPUT ]]]]]]]]]]");
 	}
 
 	public void modifyInvoiceMemorandum(Memorandum memorandum) {
@@ -114,14 +129,37 @@ public class MemorandumDao extends SqlSessionDaoSupport {
 
 	public void insertInvoiceMemorandumIb(Memorandum memorandum) {
 		getSqlSession().insert("memorandumMapper.insertInvoiceMemorandumIb", memorandum);
+		System.out.println("INSERT SIT NO MEMORANDUM "+memorandum.getType());
+		if(memorandum.getType().equals("06")){
+			System.out.println("ISERT SIT IN GBL");
+			getSqlSession().update("memorandumMapper.updateGblSitIn", memorandum);
+		}
+		if(memorandum.getType().equals("07")){
+			System.out.println("INSERT SIT OUT GBL");
+			getSqlSession().update("memorandumMapper.updateGblSitOut", memorandum);
+		}
 	}
 	public void insertMemorandumSitWeight(Memorandum memorandum) {
 		getSqlSession().insert("memorandumMapper.insertMemorandumSitWeight", memorandum);
+		System.out.println("[[ INSERT MEMORANDUM SIT NO ]]");
+		getSqlSession().update("memorandumMapper.updateGblSit", memorandum);
+		System.out.println("[[ INSERT GBL SIT NO ]]");
 	}
 	public void modifyInvoiceMemorandumIb(Memorandum memorandum) {
 		getSqlSession().update("memorandumMapper.modifyInvoiceMemorandumIb", memorandum);
+		if(memorandum.getType().equals("06")){
+			System.out.println("SIT IN MODIFY");
+			getSqlSession().update("memorandumMapper.updateGblSitIn", memorandum);
+		}
+		if(memorandum.getType().equals("07")){
+			System.out.println("SIT OUT MODIFY");
+			getSqlSession().update("memorandumMapper.updateGblSitOut", memorandum);
+		}
 	}
 	public void modifyInvoiceSitMemorandumIb(Memorandum memorandum) {
 		getSqlSession().update("memorandumMapper.modifyInvoiceSitMemorandumIb", memorandum);
+		System.out.println("MEMORANDUM SIT NO MODIFY");
+		getSqlSession().update("memorandumMapper.updateGblSit", memorandum);
+		System.out.println("GBL SIT NO MODIFY");
 	}
 }

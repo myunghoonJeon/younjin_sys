@@ -1332,7 +1332,10 @@ public class InvoiceService {
 			terminationMemorandumParam.setType("09");
 //			List<Memorandum> terminationMemorandum = memorandumDao.getMemorandumIb(terminationMemorandumParam);
 			Memorandum terminationMemorandum = memorandumDao.getMemorandumIb(terminationMemorandumParam);
+			System.out.println("[][][] TERMINATION IS : "+terminationMemorandum+" [][][][]");
+			boolean terminationFlag;
 			if (terminationMemorandum == null || terminationMemorandum.getTermination().equals("0")) {//터미네이션이 없으면
+				terminationFlag = false;
 				// 1. Destination Service Charge
 				System.out.println("[[[[[[[[[ TERMINATION CHARGE NULL ]]]]]]]]]]]]]]");
 				InvoiceGblContent destinationServiceChargeContent = new InvoiceGblContent();
@@ -1372,6 +1375,7 @@ public class InvoiceService {
 				}
 			} 
 			else {//터미네이션이 있으면
+				terminationFlag=true;
 //				for(int i=0;i<terminationMemorandum.size();i++){
 				System.out.println("[[[[[[[[[ TERMINATION CHARGE EXIST ]]]]]]]]]]]]]]");
 				InvoiceGblContent destinationServiceChargeContent = new InvoiceGblContent();
@@ -1469,6 +1473,7 @@ public class InvoiceService {
 			sitFirstMemoParam.setGblSeq(gbl.getSeq());			
 //			List<Memorandum> sitFirstMemo = memorandumDao.getMemorandumIb(sitFirstMemoParam);
 			List<Memorandum> sitFirstMemo = memorandumDao.getSitMemorandumIb(sitFirstMemoParam);
+			
 			if(sitFirstMemo != null){
 				for(int i=0;i<sitFirstMemo.size();i++){
 					InvoiceGblContent sitFirstContent = new InvoiceGblContent();
@@ -1540,37 +1545,41 @@ public class InvoiceService {
 					}
 				}
 			}
+			 
+			if (!terminationFlag && sitFirstMemo.size()>0 ){
 			//4. SIT-DELIVERY CHARGE & ADM FEE
-			if ("UB".equals(codeStr) && sitFirstMemo !=null) { //코드가 UB이고 SIT가 있을경우만
-				System.out.println("[[[[[[[[[[[[[[[[[[[[ SIT-DELIVERY CHARGE & ADM FEE START ]]]]]]]]]]]]]]]]]]]]]]]]");
-				InvoiceGblContent sitDeliveryContent = new InvoiceGblContent();		
-				System.out.println("[[[[[[[[[[[ STORED AT : "+gbl.getStoredAt()+" ]]]]]]]]]]]]]]]");
-				System.out.println("[[[[[[[[[[[ DESTINATION GBLOCK : "+gbl.getFright()+" ]]]]]]]]]]");
-				boolean thirtyMile = basicService.getComareMile(gbl);
-				System.out.println("[[[[[[[[[[[ 30MILE OVER? : "+thirtyMile+" ]]]]]]]]]]");
-				invoiceReturnMap = getSitDeliveryChargeAddFee(thirtyMile, weightList, comprate1.getRate(), gbl);
-				
-				totalAmount += invoiceReturnMap.get("amount");
-				
-				sitDeliveryContent.setChargingItem("SIT-DELIVERY CHARGE & ADM FEE");
-				sitDeliveryContent.setAmount(invoiceReturnMap.get("amount").toString());
-				sitDeliveryContent.setInvoiceGblSeq(invoiceGblSeq);
-				
-				invoiceGblContentList.add(sitDeliveryContent);
-				
-				checkInvoiceContentGetSeq = invoiceDao
-						.checkInvoiceContent(sitDeliveryContent);
-	
-				if (checkInvoiceContentGetSeq != null) {
-					sitDeliveryContent.setSeq(checkInvoiceContentGetSeq);
-					invoiceDao.updateInvoiceGblContent(sitDeliveryContent);
-				} else {
-					invoiceDao.insertInvoiceGblContent(sitDeliveryContent);
-				}	
-				
+				if ("UB".equals(codeStr) && sitFirstMemo !=null) { //코드가 UB이고 SIT가 있을경우만
+					System.out.println("[[[[[[[[[[[[[[[[[[[[ SIT-DELIVERY CHARGE & ADM FEE START ]]]]]]]]]]]]]]]]]]]]]]]]");
+					InvoiceGblContent sitDeliveryContent = new InvoiceGblContent();		
+					System.out.println("[[[[[[[[[[[ STORED AT : "+gbl.getStoredAt()+" ]]]]]]]]]]]]]]]");
+					System.out.println("[[[[[[[[[[[ DESTINATION GBLOCK : "+gbl.getFright()+" ]]]]]]]]]]");
+					boolean thirtyMile = basicService.getComareMile(gbl);
+					System.out.println("[[[[[[[[[[[ 30MILE OVER? : "+thirtyMile+" ]]]]]]]]]]");
+					invoiceReturnMap = getSitDeliveryChargeAddFee(thirtyMile, weightList, comprate1.getRate(), gbl);
+					
+					totalAmount += invoiceReturnMap.get("amount");
+					
+					sitDeliveryContent.setChargingItem("SIT-DELIVERY CHARGE & ADM FEE");
+					sitDeliveryContent.setAmount(invoiceReturnMap.get("amount").toString());
+					sitDeliveryContent.setInvoiceGblSeq(invoiceGblSeq);
+					
+					invoiceGblContentList.add(sitDeliveryContent);
+					
+					checkInvoiceContentGetSeq = invoiceDao
+							.checkInvoiceContent(sitDeliveryContent);
+		
+					if (checkInvoiceContentGetSeq != null) {
+						sitDeliveryContent.setSeq(checkInvoiceContentGetSeq);
+						invoiceDao.updateInvoiceGblContent(sitDeliveryContent);
+					} else {
+						invoiceDao.insertInvoiceGblContent(sitDeliveryContent);
+					}	
+					
+				}
 			}
 			
 			//5. REWEIGHT CHARGE
+			System.out.println("REWEIGHT CHECK");
 			if(weightList.get(0).getReweight() != null && !weightList.get(0).getReweight().equals("")){
 				System.out.println("[[[[[[[[[[[[[[ REWEIGHT VALUE EXIST ]]]]]]]]]]]]]]]");
 				InvoiceGblContent reweightContent = new InvoiceGblContent();		
@@ -1579,9 +1588,9 @@ public class InvoiceService {
 				
 				if(invoiceReturnMap.get("reweight") == 1.0){
 					totalAmount += invoiceReturnMap.get("amount");
-					
 					reweightContent.setChargingItem("REWEIGHT CHARGE");
-					reweightContent.setQuantity(invoiceReturnMap.get("quantity").toString());
+					int reweightWeight = Integer.parseInt(String.valueOf(Math.round(invoiceReturnMap.get("quantity"))));
+					reweightContent.setQuantity("DIFFERENCE "+reweightWeight+" LBS");
 					reweightContent.setAmount(invoiceReturnMap.get("amount").toString());
 					reweightContent.setInvoiceGblSeq(invoiceGblSeq);
 					
@@ -2091,9 +2100,19 @@ public class InvoiceService {
 //		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
 		
 		String [] reweightList = weightList.get(0).getReweight().split("/");
-		gbl_reweight = Double.parseDouble(reweightList[0]);
-
+		if(ub_hhg_type == 1){//HHG NET
+			double tempG = Double.parseDouble(reweightList[0]);
+			double tempT = Double.parseDouble(reweightList[1]);
+			gbl_reweight = tempG - tempT;
+		}
+		else{//UB GROSS
+			gbl_reweight = Double.parseDouble(reweightList[0]);
+		}
+		System.out.println("ORIGIN WEIGHT : "+weight_temp);
+		System.out.println("GBL_REWEIGHT WEIGHT : "+gbl_reweight);
 		double subtraction = weight_temp - gbl_reweight;
+		System.out.println("SUBSTRACTION : "+subtraction);
+		
 		if(subtraction<0){
 			subtraction*=-1;//일단 양수로 변환
 		}

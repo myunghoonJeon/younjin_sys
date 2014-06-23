@@ -143,7 +143,7 @@
 						</tr>
 					</c:forEach>
 				</tbody>
-				<tfoot>
+				<%-- <tfoot>
 				<tr>
 					<td colspan="11">
 						<a href="javascript:void(goToPage(1))">FIRST</a>
@@ -160,7 +160,7 @@
 						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
 					</td>
 				</tr>
-			</tfoot>	
+			</tfoot>	 --%>
 			</table>
 		</div>
 	</div>	

@@ -35,16 +35,20 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public List<MonthlyReport> getMontlyList(Map map){
 		return getSqlSession().selectList("inboundMapper.getMonthlyList", map);
 	}
+	
 	public List<MonthlyReport> getMontlyListOther(Map map){
 		return getSqlSession().selectList("inboundMapper.getMonthlyListOther", map);
 	}
+	
 	public List<MonthlyReport> getMontlyListYongsan(Map map){
 		return getSqlSession().selectList("inboundMapper.getMonthlyListYongsan", map);
 	}
+	
 	public int getMonthlySitCount(Map map){
 		System.out.println("SIT COUNT CALL");
 		return getSqlSession().selectOne("inboundMapper.getMonthlySitCount", map);
 	}
+	
 	public Boolean checkWeight(Map<String, Integer> param) {
 		int checkWeight = getSqlSession().selectOne("inboundMapper.checkWeight", param);
 		if(checkWeight > 0){

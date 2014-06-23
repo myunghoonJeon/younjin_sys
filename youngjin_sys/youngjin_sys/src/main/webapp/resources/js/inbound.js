@@ -1127,18 +1127,12 @@ youngjin.inbound.memorandumPop = function(target){
 			var inputValue = target.parents().parents().parents().parents().children('.memorandum_name').children('input');
 			
 			if(inputValue.val() == '' || inputValue.val() == null){
+				alert("INSERT DATE");
 				youngjin.inbound.sync();
 				inputValue.focus();
 				return;
 			}
-			if(sitNo == ''){
-				alert("SIT NO를 입력하세요")
-				return;
-			}
-			if(sitWeight == ''){
-				alert("SIT WEIGHT을 입력하세요")
-				return;
-			}
+			
 			var json = {
 					'sitNo': sitNo,
 					'sitWeight' : sitWeight,

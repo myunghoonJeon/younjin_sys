@@ -686,26 +686,31 @@ public class InboundService {
 		List<ReweightContent> reweightGblList = new ArrayList<ReweightContent>();
 		
 		for( GBL gbl : tempReweightGblList){
+			System.out.println("GBL USER : "+gbl.getShipperName());
 			String [] reweightArray = gbl.getWeightIb().getReweight().split("/", 4);
-			
-			ReweightContent reweightContent = new ReweightContent();
-			reweightContent.setDeliDate(reweightArray[3]);
-			reweightContent.setOriginGblock(gbl.getGbloc());
-			reweightContent.setCode(gbl.getCode());
-			reweightContent.setScacCode(gbl.getTsp());
-			reweightContent.setGblNo(gbl.getGblNo());
-			reweightContent.setFullName(gbl.getShipperName());
-			reweightContent.setoWt(gbl.getWeightIb().getGross());
-			reweightContent.setrWt(reweightArray[0]);
-			reweightContent.setDentn(gbl.getAreaLocal()); // 일단 빈칸
-			reweightContent.setGblSeq(gbl.getSeq());
-			if(reweightArray.length > 3){
-				reweightContent.setRateGbl31("$" + ((reweightArray[2].equals("")) ? "0" : reweightArray[2]));
-			} else {
-				reweightContent.setRateGbl31("");
+			for(int i=0;i<reweightArray.length;i++){
+				System.out.println(i+1+" : "+reweightArray[i]);
 			}
-			
-			reweightGblList.add(reweightContent);
+			if(reweightArray.length == 4 ){
+				ReweightContent reweightContent = new ReweightContent();
+				reweightContent.setDeliDate(reweightArray[3]);
+				reweightContent.setOriginGblock(gbl.getGbloc());
+				reweightContent.setCode(gbl.getCode());
+				reweightContent.setScacCode(gbl.getTsp());
+				reweightContent.setGblNo(gbl.getGblNo());
+				reweightContent.setFullName(gbl.getShipperName());
+				reweightContent.setoWt(gbl.getWeightIb().getGross());
+				reweightContent.setrWt(reweightArray[0]);
+				reweightContent.setDentn(gbl.getAreaLocal()); // 일단 빈칸
+				reweightContent.setGblSeq(gbl.getSeq());
+				if(reweightArray.length > 3){
+					reweightContent.setRateGbl31("$" + ((reweightArray[2].equals("")) ? "0" : reweightArray[2]));
+				} else {
+					reweightContent.setRateGbl31("");
+				}
+				
+				reweightGblList.add(reweightContent);
+			}
 		}
 		
 		return reweightGblList;

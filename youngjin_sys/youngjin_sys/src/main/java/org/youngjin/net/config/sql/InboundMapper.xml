@@ -522,9 +522,9 @@
 			and
 				g.code=#{code}
 			and
-				str_to_date(g.onHandDate, '%Y-%m-%d') &gt;= str_to_date('20140501','%Y%m%d') 
+				str_to_date(g.onHandDate, '%Y-%m-%d') &gt;= str_to_date(#{start},'%Y%m%d') 
 			and 
-				str_to_date(g.onHandDate, '%Y-%m-%d') &lt;= str_to_date('20140531','%Y%m%d')
+				str_to_date(g.onHandDate, '%Y-%m-%d') &lt;= str_to_date(#{end},'%Y%m%d')
 			and
 				m.gbl_Seq = g.seq
 			and
@@ -706,7 +706,7 @@
 						</choose>				
 					</if>
 				ORDER BY
-					g.seq desc
+					g.gblNo asc
 			)u	
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}	
 	</select>
@@ -890,7 +890,7 @@
 						</choose>				
 				</if>
 			order by
-			g.seq desc
+				g.seq desc
 			
 				
 	</select>
