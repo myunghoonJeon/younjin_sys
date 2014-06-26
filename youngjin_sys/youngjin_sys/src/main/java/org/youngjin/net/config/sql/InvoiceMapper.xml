@@ -589,11 +589,11 @@
 		</if>			
 		<if test="startDate != null and startDate != ''">
 			AND
-				start_date &gt;= str_to_date(#{startDate}, '%Y%m%d')
+				invoice_date &gt;= str_to_date(#{startDate}, '%Y%m%d')
 		</if>
 		<if test="endDate != null and endDate != ''">
 			AND
-				end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+				invoice_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
 		</if>
 		<if test="gblNo != null and gblNo != ''">
 			AND
@@ -612,7 +612,7 @@
 		(
 			SELECT
 				(@rownum := @rownum + 1) AS rownum,
-				i.seq, i.invoice_no, i.tsp, i.start_date, i.end_date, i.write_date, i.complete, i.amount
+				i.seq, i.invoice_no, i.tsp, i.start_date, i.end_date, i.write_date, i.complete, i.amount,i.invoice_date
 			FROM
 				invoice_list i, (SELECT @rownum := 0) r
 			WHERE
@@ -623,11 +623,11 @@
 			</if>			
 			<if test="startDate != null and startDate != ''">
 				AND
-					start_date &gt;= str_to_date(#{startDate}, '%Y%m%d')
+					invoice_date &gt;= str_to_date(#{startDate}, '%Y%m%d')
 			</if>
 			<if test="endDate != null and endDate != ''">
 				AND
-					end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+					invoice_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
 			</if>
 			<if test="gblNo != null and gblNo != ''">
 				AND

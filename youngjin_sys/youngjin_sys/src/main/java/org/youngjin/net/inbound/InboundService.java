@@ -18,6 +18,7 @@ import org.youngjin.net.code.CodeDao;
 import org.youngjin.net.invoice.InvoiceService;
 import org.youngjin.net.login.User;
 import org.youngjin.net.outbound.Addition;
+import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.upload.UploadService;
 
 @Service
@@ -75,7 +76,9 @@ public class InboundService {
 		
 		return filterMap;
 	}*/
-
+	public void deleteWeightCertificate(WeightIb weightcertificate) {
+		inboundDao.deleteWeightCertificate(weightcertificate);
+	}
 	public Map<String, String> getGblStatus(InboundFilter inboundFilter) {
 		Map<String, String> gblStatusMap = new HashMap<String, String>();
 		

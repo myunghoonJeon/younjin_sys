@@ -437,6 +437,8 @@ public class InvoiceService {
 
 	public Invoice invoiceListAdd(Invoice invoice, String process) {
 		String[] invoiceGblSeqList = invoice.getSeqList().split(",");
+		String invoiceDate = invoice.getInvoiceDate();
+		System.out.println("[[[[[ INVOICE DATE : "+invoiceDate+" ]]]]");
 		System.out.println("[[[[[ INVOICE GBL SEQ SPERATE SIZE: "+invoiceGblSeqList.length+" ]]]]]");
 		List<InvoiceGbl> settingGblList = new ArrayList<InvoiceGbl>();
 		

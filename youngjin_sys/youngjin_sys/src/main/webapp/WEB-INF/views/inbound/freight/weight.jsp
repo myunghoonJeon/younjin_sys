@@ -100,7 +100,6 @@
 							<td class="weight_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
 						</tr>
 					</c:if>
-					
 					<c:set var="totalPcs" value="0" />
 					<c:set var="totalGross" value="0" />
 					<c:set var="totalGrossKg" value="0" />
@@ -115,7 +114,7 @@
 						<c:set var="totalTare" value="${totalTare + weight.tare }" />
 						<c:set var="totalNet" value="${totalNet + weight.net }" />
 						<c:set var="totalCuft" value="${totalCuft + weight.cuft }" />
-						<tr>
+						<tr data-weightSeq ="${weight.seq}">
 							<form:hidden path="gblSeq" value="${seq}"/>	
 							<td class="weight_piece_td"><input type="text" name="piece" id="piece" value="${weight.piece }" readonly="readonly"/></td>
 							<td><input type="text" name="type" id="type" value="${weight.type }" /></td>
@@ -125,6 +124,7 @@
 							<td><input type="text" name="net" id="net" value="${weight.net }" /></td>
 							<td class="weight_cuft_td"><input type="text" name="cuft" id="cuft" value="${weight.cuft }" /></td>
 							<td><input type="text" name="remark" id="remark" value="${weight.remark }" /></td>
+							<td class="weight_delete_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_delete_Box"></div></td>
 							<c:if test="${fn:length(weightList) ==  i.count}">
 								<td class="weight_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>
 							</c:if>

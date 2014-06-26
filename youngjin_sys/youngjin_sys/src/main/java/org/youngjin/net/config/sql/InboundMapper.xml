@@ -927,7 +927,7 @@
 		WHERE
 			gbl_seq = #{seq}
 	</select>
-
+	
 	<select id="getDd619ListSelectOne" parameterType="Integer" resultMap="Dd619Map">
 		SELECT
 			seq, gbl_no, date, name, ssn, rank, origin_of_shipment, destination, ordering_activity_name, carrier_name, agent_name, signature, carrier_shipment_reference, code, other, total, remark, officer_material, officer_signature, officer_date, rank_and_name, transportation_date, gbl_seq, write_date, write_user, memorandum_list_seq
@@ -936,6 +936,13 @@
 		WHERE
 			seq = #{value}
 	</select>
+	
+	<delete id="deleteWeightcertificate" parameterType="Weightcertificate">
+		DELETE FROM
+		weight_ib
+		WHERE
+		seq = #{seq}
+	</delete>
 	
 	<select id="getRemarkValueList" parameterType="Map" resultType="Addition">
 		SELECT

@@ -12,6 +12,7 @@ import org.youngjin.net.GBLAttachment;
 import org.youngjin.net.GBLStatus;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.outbound.Addition;
+import org.youngjin.net.outbound.Weightcertificate;
 
 @Repository
 public class InboundDao extends SqlSessionDaoSupport {
@@ -43,7 +44,9 @@ public class InboundDao extends SqlSessionDaoSupport {
 	public List<MonthlyReport> getMontlyListYongsan(Map map){
 		return getSqlSession().selectList("inboundMapper.getMonthlyListYongsan", map);
 	}
-	
+	public void deleteWeightCertificate(WeightIb weightcertificate) {
+		getSqlSession().delete("inboundMapper.deleteWeightcertificate", weightcertificate);
+	}
 	public int getMonthlySitCount(Map map){
 		System.out.println("SIT COUNT CALL");
 		return getSqlSession().selectOne("inboundMapper.getMonthlySitCount", map);

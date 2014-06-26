@@ -282,6 +282,10 @@ youngjin.inbound.weightSync = function(){
 	$('.weight_plus_Box_td').bind('click', function(){
 		youngjin.inbound.weightColumnAdd($(this));
 	});
+	$('.weight_delete_Box_td').unbind('click');
+	$('.weight_delete_Box_td').bind('click', function(){
+		youngjin.inbound.weightColumnDelete($(this));
+	});
 	
 	$('.weight_addButton').unbind('click');
 	$('.weight_addButton').bind('click', function(){
@@ -1568,6 +1572,43 @@ youngjin.inbound.dd619Pop = function(target){
 	});
 	
 };
+youngjin.inbound.weightColumnDelete = function(target){
+	var count = $('.weight_table').attr('data-count');
+	var weightCertificateTr = target.parents('tr');
+	var weightCertificateTbody = weightCertificateTr.parents('tbody');
+	var weightCertificateTable = weightCertificateTbody.parents('table');
+	var weightCertificateSeq = weightCertificateTr.attr('data-weightSeq');
+
+	count = Number(count) - 1;
+
+	var lastColumnCheck = (weightCertificateTr.find('input[name=piece]').val() == weightCertificateTbody.find('tr:last').find('input[name=piece]').val());
+	
+	var lastOneColumnCheck = (count == 0);
+	
+	if(weightCertificateSeq != undefined){
+		var url = contextPath + '/inbound/weightcertificate1/delete.json';
+		
+		$.postJSON(url, {'seq' : weightCertificateSeq });
+	}
+	
+	weightCertificateTr.remove();
+	
+	$('.weight_table').attr('data-count', count);
+	
+	for( var i = 1 ; i <= count ; i ++ ){
+		weightCertificateTable.find('tbody tr').eq(i - 1).find('input[name=piece]').val(i);
+	}
+	
+	if(lastColumnCheck){
+		weightCertificateTbody.find('tr:last').append('<td class="gbl_plus_Box_td" style="border-left: 0; border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>');
+		youngjin.outbound.weightCertificateSync();
+	}	
+	
+	if(lastOneColumnCheck){
+		weightCertificateTable.find('tfoot tr:first').append('<td class="gbl_plus_Box_td" style="border-left: 0; border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>');
+		youngjin.outbound.weightCertificateSync();
+	}
+};
 
 youngjin.inbound.weightColumnAdd = function(target){	
 	var count = $('.weight_table').attr('data-count');
@@ -1582,6 +1623,7 @@ youngjin.inbound.weightColumnAdd = function(target){
 					'<td><input type="text" id="net" name="net"/></td>' +
 					'<td><input type="text" id="cuft" name="cuft"/></td>' +
 					'<td class="weight_remark"><input type="text" id="remark" name="remark"/></td>' +
+					'<td class="gbl_delete_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_delete_Box"></div></td>' +
 					'<td class="weight_plus_Box_td" style="border-top: 0; border-bottom: 0; border-right: 0;" data-count="0"><div class="gbl_weight_plus_Box"></div></td>';
 				 '</tr>';
 				 

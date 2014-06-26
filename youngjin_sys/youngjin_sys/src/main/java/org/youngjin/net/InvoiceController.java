@@ -77,21 +77,44 @@ public class InvoiceController {
 			@ModelAttribute InvoiceFilter invoiceFilter,
 			@PathVariable String process) {
 
-		user.setSubProcess("invoice");
-
+//		user.setSubProcess("invoice");
+//
+//		invoiceFilter.setProcess(process);
+//
+//		invoiceFilter.getPagination().setNumItems(
+//				invoiceService.getInvoiceListCount(invoiceFilter, process));
+//		
+//		List<Invoice> invoiceList = invoiceService
+//				.getInvoiceList(invoiceFilter);
+//
+//		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
+//
+//		model.addAttribute("user", user);
+//		model.addAttribute("invoiceList", invoiceList);
+//
+//		return process + "/invoice/main";
+	user.setSubProcess("invoice");
+		
 		invoiceFilter.setProcess(process);
 
-		invoiceFilter.getPagination().setNumItems(
-				invoiceService.getInvoiceListCount(invoiceFilter, process));
-		
-		List<Invoice> invoiceList = invoiceService
-				.getInvoiceList(invoiceFilter);
-
+//		invoiceFilter.getPagination().setNumItems(
+//				invoiceService.getInvoiceListCount(invoiceFilter, process));
+//
+//		List<Invoice> invoiceList = invoiceService
+//				.getInvoiceList(invoiceFilter);
+//
+//		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
+//
+//		model.addAttribute("user", user);
+//		model.addAttribute("invoiceList", invoiceList);
+		invoiceFilter.getPagination().setNumItems(invoiceService.getInvoiceListCount(invoiceFilter, process));
+		List<Invoice> invoiceList = invoiceService.getInvoiceList(invoiceFilter);
+		System.out.println("======== PAGINATION SIZE : "+invoiceFilter.getPagination().getNumItems()+" ============");
+		System.out.println("======== CURRENT PAGE : "+invoiceFilter.getPagination().getCurrentPage()+" ======");
+		System.out.println("======== INVOICE LIST SIZE : "+invoiceList.size()+" ============");
 		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
-
 		model.addAttribute("user", user);
 		model.addAttribute("invoiceList", invoiceList);
-
 		return process + "/invoice/main";
 	}	
 

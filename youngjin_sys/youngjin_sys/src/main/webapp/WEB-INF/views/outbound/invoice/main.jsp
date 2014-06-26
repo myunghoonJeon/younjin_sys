@@ -54,8 +54,7 @@
 				<tr>
 					<th>NO</th>
 					<th>INVOICE NO</th>
-					<th>START DATE</th>
-					<th>END DATE</th>
+					<th>INVOICE DATE</th>
 					<th>AMOUNT</th>
 					<th></th>
 				</tr>
@@ -63,15 +62,14 @@
 			<tbody>
 				<c:if test="${invoiceList eq '[]' }">
 					<tr>
-						<td colspan="6">등록된 invoice가 없습니다.</td>
+						<td colspan="5">등록된 invoice가 없습니다.</td>
 					</tr>
 				</c:if>
 				<c:forEach var="invoice" items="${invoiceList }" varStatus="i">
 					<tr data-seq="${invoice.seq }">
 						<td>${i.count }</td>
 						<td>${invoice.invoiceNo }</td>
-						<td>${invoice.startDate }</td>
-						<td>${invoice.endDate }</td>
+						<td>${invoice.invoiceDate }</td>
 						<td><fmt:formatNumber value="${invoice.amount }" pattern="##,###.00"/></td>
 						<td class="invoice_all_delete"><img class="memorandum_icon" src="${cp }/resources/images/gbl/memorandum_delete.png" /></td>
 					</tr>
@@ -79,7 +77,7 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="6">
+					<td colspan="5">
 						<a href="javascript:void(goToPage(1))">FIRST</a>
 						<a href="javascript:void(goToPreviousPages())">PREV</a>
 						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">

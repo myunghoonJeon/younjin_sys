@@ -43,6 +43,7 @@ import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumList;
 import org.youngjin.net.memorandum.MemorandumService;
 import org.youngjin.net.outbound.Addition;
+import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.process.ProcessService;
 
@@ -129,7 +130,13 @@ public class InboundController {
 		
 		return inboundService.getGblInfoByNo(gbl);
 	}
-
+	
+	@RequestMapping(value = "/{process}/weightcertificate1/delete.json", method = RequestMethod.POST)
+	@ResponseBody
+	public void gblWeightcertificateDelete(@RequestBody WeightIb weightcertificate) {
+		inboundService.deleteWeightCertificate(weightcertificate);
+	}
+	
 	@RequestMapping(value = "/{process}/freight/add", method = RequestMethod.GET)
 	public String freightAdd(Model model, User user,
 			@ModelAttribute(value = "gbl") GBL gbl, @PathVariable String process) {
