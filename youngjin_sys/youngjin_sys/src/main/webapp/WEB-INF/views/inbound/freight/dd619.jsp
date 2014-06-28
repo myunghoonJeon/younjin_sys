@@ -107,7 +107,15 @@
 </c:if>
 <fmt:formatDate value="${sitStartDate }" pattern="D" var="julianStartDate" />
 <fmt:formatDate value="${sitEndDate }" pattern="D" var="julianEndDate" />
-<c:set var="number13" value="${julianEndDate - julianStartDate + 1 }" />
+<c:choose>
+	<c:when test="${diffSitYearJulian ne '' }">
+		<c:set var="number13" value="${diffSitYearJulian}" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="number13" value="${julianEndDate - julianStartDate + 1 }" />
+	</c:otherwise>
+</c:choose>
+
 <c:if test="${sitEndDate ne null and sitEndDate ne '' }">
 	<P style="position:absolute;top:402px;left:787px;white-space:nowrap" class="ft115"><input type="text" name="q-13d" class="q-text q-center" style="width:126px;height:44px;" value="${fn:substring(sitEndDate, 8, 10) }-${ fn:substring(sitEndDate, 4, 7)}-${ fn:substring(sitEndDate, 26, 28) }" /> </P>
 </c:if>

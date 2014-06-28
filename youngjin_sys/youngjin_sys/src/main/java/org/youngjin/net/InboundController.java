@@ -1,6 +1,7 @@
 package org.youngjin.net;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,6 @@ import org.youngjin.net.basic.Company;
 import org.youngjin.net.code.Code;
 import org.youngjin.net.code.CodeService;
 import org.youngjin.net.inbound.DeclarationList;
-import org.youngjin.net.inbound.InboundDao;
 import org.youngjin.net.inbound.InboundFilter;
 import org.youngjin.net.inbound.InboundInvoice;
 import org.youngjin.net.inbound.InboundService;
@@ -43,7 +43,6 @@ import org.youngjin.net.memorandum.Memorandum;
 import org.youngjin.net.memorandum.MemorandumList;
 import org.youngjin.net.memorandum.MemorandumService;
 import org.youngjin.net.outbound.Addition;
-import org.youngjin.net.outbound.Weightcertificate;
 import org.youngjin.net.process.GBlock;
 import org.youngjin.net.process.ProcessService;
 
@@ -1309,11 +1308,34 @@ public class InboundController {
 		GBL gbl = inboundService.getGbl(Integer.parseInt(seq));
 		
 		dd619 = inboundService.getDd619ListSelectOne(listSeq);
-		
 		Branch branch = basicService.getBranch(gbl.getAreaLocal());
 		Company company = basicService.getCompanyByCode("YJ");
 		GBlock gblock = processService.getGBlockByGbloc(gbl.getGbloc());
-				
+		Map<String, Memorandum> memorandumMap = memorandumService.getMemorandumMap(seq,dd619.getMemorandumListSeq(), process);
+		String sitStartDate = memorandumMap.get("06").getSitStartDate();
+		String sitEndDate = memorandumMap.get("07").getSitEndDate();
+		String diffSitYearJulian="";
+		System.out.println("========================================");
+		if(sitStartDate!=null && sitEndDate!=null){
+			System.out.println("SIT START DATE : "+sitStartDate);
+			System.out.println("SIT End DATE : "+sitEndDate);
+			if(sitStartDate.length()==8 && sitEndDate.length()==8){
+				int flag = getDifferenceJulian(sitStartDate, sitEndDate);
+				if(flag!=-1){
+					diffSitYearJulian = flag+"";
+					System.out.println("DIFF SIT JULIAN STRING CHANGE : "+flag);
+				}
+				else{
+					
+				}
+			}
+			
+		}
+		else{
+			System.out.println("SIT DATE IS NULL");
+		}
+		System.out.println("========================================");
+		model.addAttribute("diffSitYearJulian", diffSitYearJulian);
 		model.addAttribute("branch", branch);
 		model.addAttribute("company", company);
 		model.addAttribute("gblock", gblock);
@@ -1322,15 +1344,58 @@ public class InboundController {
 		model.addAttribute("gbl", gbl);
 		model.addAttribute("weight", inboundService.getWeightTotal(seq));
 		model.addAttribute("dd619", dd619);
-		model.addAttribute(
-				"memorandumMap",
-				memorandumService.getMemorandumMap(seq,
-						dd619.getMemorandumListSeq(), process));
+		model.addAttribute("memorandumMap",memorandumMap);
 		model.addAttribute("seq", seq);
 
 		return process + "/freight/dd619";
 	}
-
+	public int getDifferenceJulian(String date1,String date2){
+		int result=-1;
+		int startJulian = getJulian(date1);
+		int endJulian = getJulian(date2);
+		int startYear = Integer.parseInt(date1.substring(0,4));
+		int endYear = Integer.parseInt(date2.substring(0,4));
+		if(startYear != endYear){
+			System.out.println("ANOTHER YEAR "+startYear+" and "+endYear);
+			if(getYoonYear(startYear)){
+				System.out.println("YOON NYUN");
+				result = 366-startJulian+endJulian+1;
+			}
+			else{
+				System.out.println("PYUNG NYUN");
+				result = 365-startJulian+endJulian+1;
+			}
+		}
+		else{
+			System.out.println("SAME YEAR"+startYear+" and "+endYear);
+			System.out.println("DONT TOUCH DATE");
+			result = -1;
+		}
+		return result;
+	}
+	public int getJulian(String date){
+		Calendar cal = Calendar.getInstance();
+		int year = Integer.parseInt(date.substring(0,4));
+		int month = Integer.parseInt(date.substring(4,6));
+		int day = Integer.parseInt(date.substring(6,8));
+		System.out.println(year+"-"+month+"-"+day);
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month-1);
+		cal.set(Calendar.DATE, day);
+		int julian = cal.get(Calendar.DAY_OF_YEAR);
+		System.out.println("DATE : "+date+" to JULIAN : "+julian);
+		return julian;
+	}
+	public boolean getYoonYear(int year){
+		boolean result=true;
+		 if((year % 4 ==0 && year % 100 != 0)||(year % 400 == 0)) {
+			result = true;
+		 }
+		 else{
+			 result = false;
+		 }
+		return result;
+	}
 	@RequestMapping(value = "/{process}/freight/{seq}/additional", method = RequestMethod.GET)
 	public String additionalDecideMain(Model model, User user,
 			@PathVariable String process, @PathVariable String seq) {
