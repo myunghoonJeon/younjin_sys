@@ -50,10 +50,10 @@
 			<table class="invoice_gbl_collection_list_table inbound_invoice_gbl_collection_list_table" data-seq="${invoicSeq }" data-process="inbound">
 				<colgroup>
 					<col width="8%">
-					<col width="7%">
-					<col width="7%">
-					<col width="6%">
-					<col width="72%">
+					<col width="11%">
+					<col width="9%">
+					<col width="8%">
+					<col width="64%">
 				</colgroup>
 				<thead>
 					<tr>
@@ -69,17 +69,35 @@
 						<c:set var="collectionGblMap" value="${invoiceCollectionGblMap[invoiceGbl.seq] }" />
 						<tr data-gblSeq="${invoiceGbl.gblSeq }" data-invoiceGblSeq="${invoiceGbl.seq }">
 							<td>${invoiceGbl.gblNo }</td>
-							<td class="invoice_amount"><input class="invoice_amountValue" value="${invoiceGbl.amount }" readonly="readonly"/>$</td>
-							<td><input class="collection_net" name="collection_net" type="text" value="${collectionGblMap.net }" readonly="readonly" />$</td>
+							<td class="invoice_amount"><input style="width:70px;text-align: center;"class="invoice_amountValue" value="${invoiceGbl.amount }" readonly="readonly"/>$</td>
+							<c:choose>
+								<c:when test="${collectionGblMap.net eq null}">
+									<c:set var="tempNet" value="0"></c:set>
+									<c:set var="tempState" value="RESENT"></c:set>
+									<c:set var="tempDifference" value="${invoiceGbl.amount }"/>
+								</c:when>	
+								<c:otherwise>
+									<c:set var="tempNet" value="${collectionGblMap.net}"></c:set>
+									<c:set var="tempState" value="${collectionGblMap.state }"></c:set>
+									<c:set var="tempDifference" value="${collectionGblMap.difference }"/>
+								</c:otherwise>
+								</c:choose>
+							<td><input style="width:70px; text-align: center;"class="collection_net" name="collection_net" type="text" value="${tempNet }" readonly="readonly" />$</td>
 							<td>
 								<c:choose>
 									<c:when test="${collectionGblMap.state eq 'COMPLETE' }">
 										${collectionGblMap.state }	
 									</c:when>
 									<c:when test="${collectionGblMap.state eq 'RESENT' }">
-										<font color="red">${collectionGblMap.state }</font><br />
-										<font color="red"><fmt:formatNumber pattern=".##">${collectionGblMap.difference }</fmt:formatNumber>$</font>
+										<%-- <font color="red">${collectionGblMap.state }</font><br />
+										<font color="red"><fmt:formatNumber pattern="##,###.00" value="${collectionGblMap.difference }"/>$</font> --%>
+										<font color="red">${tempState }</font><br/>
+										<font color="red">${tempDifference }</font>
 									</c:when>
+									<c:otherwise>
+										<font color="red">${tempState }</font><br/>
+										<font color="red">${tempDifference }</font>
+									</c:otherwise>
 								</c:choose>								
 							</td>
 							<td class="collection_gbl_flow_wrap">

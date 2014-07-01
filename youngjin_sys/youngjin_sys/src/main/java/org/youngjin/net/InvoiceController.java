@@ -275,20 +275,19 @@ public class InvoiceController {
 		user.setSubProcess("collection");
 		
 		invoiceFilter.setProcess(process);
+		String invoiceState="";
+		invoiceFilter.getPagination().setNumItems(invoiceService.getInvoiceListCount(invoiceFilter, process));
 
-		invoiceFilter.getPagination().setNumItems(
-				invoiceService.getInvoiceListCount(invoiceFilter, process));
-
-		List<Invoice> invoiceList = invoiceService
-				.getInvoiceList(invoiceFilter);
+		List<Invoice> invoiceList = invoiceService.getInvoiceList(invoiceFilter);
 
 		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
 
 		Map<Integer, InvoiceCollection> invoiceCollectionMap = invoiceService.getInvoiceCollectionMap(invoiceFilter);
+		
 		model.addAttribute("user", user);
 		model.addAttribute("invoiceList", invoiceList);
 		model.addAttribute("invoiceCollectionMap", invoiceCollectionMap);
-
+		model.addAttribute("invoiceState",invoiceState);
 		return process + "/invoice/invoiceCollection";
 	}
 	
@@ -340,9 +339,10 @@ public class InvoiceController {
 		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq, process);
 		
 		Map<Integer, InvoiceCollection> invoiceCollectionGblMap = invoiceService.getInvoiceCollectionGblMap(seq);
-
+		System.out.println("========================================");
+		System.out.println(invoiceCollectionGblMap.size());
+		System.out.println("========================================");
 		model.addAttribute("invoicSeq", seq);
-
 		model.addAttribute("invoiceListSeq", seq);
 		model.addAttribute("invoiceGblList", invoiceGblList);
 		model.addAttribute("invoiceCollectionGblMap", invoiceCollectionGblMap);

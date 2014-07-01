@@ -1312,7 +1312,10 @@ public class InboundController {
 		Company company = basicService.getCompanyByCode("YJ");
 		GBlock gblock = processService.getGBlockByGbloc(gbl.getGbloc());
 		Map<String, Memorandum> memorandumMap = memorandumService.getMemorandumMap(seq,dd619.getMemorandumListSeq(), process);
-		String sitStartDate = memorandumMap.get("06").getSitStartDate();
+		String sitStartDate=null;
+		if(memorandumMap.get("06")!=null){
+			sitStartDate = memorandumMap.get("06").getSitStartDate();
+		}
 		String sitEndDate = memorandumMap.get("07").getSitEndDate();
 		String diffSitYearJulian="";
 		System.out.println("========================================");

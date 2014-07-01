@@ -758,7 +758,7 @@ youngjin.invoice.collectionSave = function(target){
 	
 	var flowState = ul.find('select:last option:selected').val();
 	var flowRemark = ul.find('textarea').val();
-	
+//	alert("net : "+net+" - flowState : "+flowState+" - invoiceAmount : "+invoiceAmount);
 	if( net != '' ){
 		if( net == invoiceAmount || flowState == 'ACCEPT' ){
 			state = 'COMPLETE';
@@ -835,7 +835,7 @@ youngjin.invoice.invoiceCollectionGbl = function(target, process){
 	
 	parent.$.smartPop.open({
 		width : 1000,
-		height : 500,
+		height : 1500,
 		url : url
 	});	
 };

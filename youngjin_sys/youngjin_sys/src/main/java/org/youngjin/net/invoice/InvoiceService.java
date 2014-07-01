@@ -1976,7 +1976,11 @@ public class InvoiceService {
 		
 		return returnMap;
 	}
-	
+	public String getStringToDouble(String input){
+		double temp = getDoubleValue(input);
+		double returnValue = Math.round(temp*100d)/100d;
+		return returnValue+"";
+	}
 	public double getRoundResult(double input){
 		double returnValue = Math.round(input*100d)/100d;
 		return returnValue;
@@ -2255,56 +2259,93 @@ public class InvoiceService {
 	public Map<Integer, InvoiceCollection> getInvoiceCollectionMap(
 			InvoiceFilter invoiceFilter) {
 		Map<Integer, InvoiceCollection> map = new HashMap<Integer, InvoiceCollection>();
-		List<InvoiceCollection> list = invoiceDao
-				.getInvoiceCollectionListAndFlow(invoiceFilter);
-
+		List<InvoiceCollection> list = invoiceDao.getInvoiceCollectionListAndFlow(invoiceFilter);
+		System.out.println("==================================================");
 		for (InvoiceCollection invoiceCollection : list) {
+			int seq = invoiceCollection.getInvoiceSeq();
+			String amount = invoiceCollection.getAmount();
+			String totalAmount = invoiceDao.getInvoiceGblCollectionAmount(seq);
+			String collectedAmount = invoiceDao.getSumInvoiceGblCollectionFlowAmount(seq);
+			System.out.println("INVOICE SEQ : "+seq);
+			System.out.println("INVOICE AMOUNT : "+getStringToDouble(totalAmount));
+			System.out.println("COLLECTED AMOUNT : "+getStringToDouble(collectedAmount));
+			if(getStringToDouble(totalAmount).equals(getStringToDouble(collectedAmount))){
+				System.out.println("[SAME PRICE]");
+				invoiceCollection.setState("COMPLETE");
+				invoiceDao.updateInvoiceCollectionStatusComplete(seq);
+				System.out.println("INVOICE COLLECTION STATUS COMPELTE UPDATE");
+			}
+			else{
+				System.out.println("[GET DIFFERENCE]");
+				System.out.println("INVOICE COLLECTION STATUS PENDING UPDATE");
+				invoiceCollection.setState("PENDING");
+				invoiceDao.updateInvoiceCollectionStatusPending(seq);
+			}
 			map.put(invoiceCollection.getInvoiceSeq(), invoiceCollection);
 		}
-
+		System.out.println("==================================================");
 		return map;
 
 	}
-
+	public String getRoundValue(double d){
+   		String result ="";
+   		result = new DecimalFormat("#.00").format(d);
+   		return result;
+   	}
+	public double getDoubleValue(String a){
+		
+		return Double.parseDouble(a);
+		
+	}
 	public void inputCollection(Map<String, String> invoiceCollectionMap) {
+		double tempDiff = getDoubleValue(invoiceCollectionMap.get("difference"));
+		double tempNet = getDoubleValue(invoiceCollectionMap.get("net"));
+		System.out.println("TEMP DIFF : "+tempDiff);
+		System.out.println("TEMP NET : "+tempNet);
 		InvoiceCollection invoiceCollection = new InvoiceCollection();
-		invoiceCollection.setNet(invoiceCollectionMap.get("net"));
-		invoiceCollection.setDifference(invoiceCollectionMap.get("difference"));
+		invoiceCollection.setNet(getRoundResult(tempNet)+"");
+		invoiceCollection.setDifference(getRoundResult(tempDiff)+"");
 		invoiceCollection.setState(invoiceCollectionMap.get("state"));
 		invoiceCollection.setInvoiceSeq(Integer.parseInt(invoiceCollectionMap
 				.get("invoiceSeq")));
-
 		InvoiceCollection collectionParam = invoiceDao
 				.checkAndGetCollectionSeq(invoiceCollectionMap
 						.get("invoiceSeq"));
 		if (collectionParam != null
 				&& !invoiceCollectionMap.get("flowState").equals("CLAIM")) {
-			Integer net = Integer.parseInt(collectionParam.getNet())
-					+ Integer.parseInt(invoiceCollection.getNet());
-			Integer difference = net
-					- Integer.parseInt(invoiceCollectionMap.get("amount"));
+			double net = getDoubleValue(collectionParam.getNet())
+					+ getDoubleValue(invoiceCollection.getNet());
+			double difference = net
+					- getDoubleValue(invoiceCollectionMap.get("amount"));
 			invoiceCollection.setSeq(collectionParam.getSeq());
 			if (difference == 0
 					&& invoiceCollectionMap.get("flowState").equals("DEPOSIT")) {
 				invoiceCollection.setState("COMPLETE");
-				invoiceCollection.setNet(net.toString());
-				invoiceCollection.setDifference(difference.toString());
+				invoiceCollection.setNet(getRoundResult(net)+"");
+				invoiceCollection.setDifference(getRoundResult(difference)+"");
+				System.out.println("[[[ ROUND RESULT NET : "+getRoundResult(net)+"]]]");
+				System.out.println("[[[ ROUND RESULT DIFF : "+getRoundResult(difference)+"]]]");
 			} else if (invoiceCollectionMap.get("flowState").equals("ACCEPT")) {
 				invoiceCollection.setState("COMPLETE");
-				invoiceCollection.setNet(collectionParam.getNet());
-				invoiceCollection.setDifference(difference.toString());
+				invoiceCollection.setNet(getRoundResult(getDoubleValue(collectionParam.getNet()))+"");
+				invoiceCollection.setDifference(getRoundResult(difference)+"");
+				System.out.println("[[[ ACCEPT ROUND RESULT NET : "+getRoundResult(getDoubleValue(collectionParam.getNet()))+"]]]");
+				System.out.println("[[[ ACCEPT ROUND RESULT DIFF : "+getRoundResult(difference)+"]]]");
 			} else {
 				invoiceCollection.setState("RESENT");
-				invoiceCollection.setNet(net.toString());
-				invoiceCollection.setDifference(difference.toString());
+				invoiceCollection.setNet(getRoundResult(net)+"");
+				invoiceCollection.setDifference(getRoundResult(difference)+"");
+				System.out.println("[[[ RECENT ROUND RESULT NET : "+getRoundResult(net)+"]]]");
+				System.out.println("[[[ RECENT ROUND RESULT DIFF : "+getRoundResult(difference)+"]]]");
 			}
 		} else if (invoiceCollectionMap.get("flowState").equals("DEPOSIT")) {
 
 		} else if (invoiceCollectionMap.get("flowState").equals("CLAIM")) {
 		}
-
+		
 		InvoiceCollectionFlow invoiceCollectionFlow = new InvoiceCollectionFlow();
-		invoiceCollectionFlow.setAmount(invoiceCollectionMap.get("flowAmount"));
+		double flowAmount = getDoubleValue(invoiceCollectionMap.get("flowAmount"));
+		invoiceCollectionFlow.setAmount(getRoundResult(flowAmount)+"");
 		invoiceCollectionFlow.setState(invoiceCollectionMap.get("flowState"));
 		invoiceCollectionFlow.setRemark(invoiceCollectionMap.get("flowRemark"));
 		if (invoiceCollection.getSeq() != null) {
@@ -2324,7 +2365,7 @@ public class InvoiceService {
 		String collectionSeq = invoiceCollection.get("collectionSeq");
 		String state = invoiceCollection.get("state");
 		String amount = invoiceCollection.get("amount");
-
+		
 		Integer count = Integer.parseInt(invoiceCollection.get("count"));
 
 		if (state.equals("DEPOSIT")) {
@@ -2336,13 +2377,13 @@ public class InvoiceService {
 				InvoiceCollection collection = invoiceDao
 						.checkAndGetCollectionSeq(invoiceSeq);
 				InvoiceCollection collectionParam = new InvoiceCollection();
-				Integer net = Integer.parseInt(collection.getNet())
-						- Integer.parseInt(amount);
-				collectionParam.setNet(net.toString());
+				double net = getDoubleValue(collection.getNet())
+						- getDoubleValue(amount);
+				collectionParam.setNet(getRoundResult(net)+"");
 
-				Integer difference = Integer.parseInt(collection
-						.getDifference()) - Integer.parseInt(amount);
-				collectionParam.setDifference(difference.toString());
+				double difference = getDoubleValue(collection
+						.getDifference()) - getDoubleValue(amount);
+				collectionParam.setDifference(getRoundResult(difference)+"");				
 				collectionParam.setState("RESENT");
 
 				collectionParam.setSeq(Integer.parseInt(collectionSeq));
@@ -2355,12 +2396,12 @@ public class InvoiceService {
 					.checkAndGetCollectionSeq(invoiceSeq);
 			InvoiceCollection collectionParam = new InvoiceCollection();
 
-			Integer difference = Integer.parseInt(collection.getDifference())
-					- Integer.parseInt(amount);
-			collectionParam.setDifference(difference.toString());
+			double difference = getDoubleValue(collection.getDifference())
+					- getDoubleValue(amount);
+			collectionParam.setDifference(getRoundResult(difference)+"");
 			collectionParam.setState("RESENT");
 
-			collectionParam.setNet(collection.getNet());
+			collectionParam.setNet(getRoundResult(getDoubleValue(collection.getNet()))+"");
 
 			collectionParam.setSeq(Integer.parseInt(collectionSeq));
 
@@ -2376,19 +2417,30 @@ public class InvoiceService {
 		Map<Integer, InvoiceCollection> map = new HashMap<Integer, InvoiceCollection>();
 		List<InvoiceCollection> list = invoiceDao
 				.getInvoiceCollectionGblListAndFlow(seq);
-
+		System.out.println("%%%%%%%%%%%[INVOICE COLLECTION CONTENTS COUNT]%%%%%%%%%%%%%%%");
+		for(int i=0;i<list.size();i++){
+			if(list.get(i).getNet().equals("")){
+				System.out.println("NET : notthing");
+			}
+			else{
+				System.out.println("NET : ["+"]");
+			}
+		}
+		System.out.println("%%%%%%%%%%%[INVOICE COLLECTION MAP OPERATION]%%%%%%%%%%%%%%%%%");
 		for (InvoiceCollection invoiceCollection : list) {
 			map.put(invoiceCollection.getInvoiceSeq(), invoiceCollection);
 		}
-
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		return map;
 
 	}
 
 	public void inputGblCollection(Map<String, String> invoiceCollectionMap) {
+		double tempNet = getDoubleValue(invoiceCollectionMap.get("net"));
+		double tempDiff = getDoubleValue(invoiceCollectionMap.get("difference"));
 		InvoiceCollection invoiceCollection = new InvoiceCollection();
-		invoiceCollection.setNet(invoiceCollectionMap.get("net"));
-		invoiceCollection.setDifference(invoiceCollectionMap.get("difference"));
+		invoiceCollection.setNet(getRoundResult(tempNet)+"");
+		invoiceCollection.setDifference(getRoundResult(tempDiff)+"");
 		invoiceCollection.setState(invoiceCollectionMap.get("state"));
 		invoiceCollection.setInvoiceSeq(Integer.parseInt(invoiceCollectionMap
 				.get("invoiceSeq")));
@@ -2401,10 +2453,13 @@ public class InvoiceService {
 		
 		if (collectionParam != null
 				&& !invoiceCollectionMap.get("flowState").equals("CLAIM")) {
-			double net = Double.parseDouble(collectionParam.getNet())
-					+ Double.parseDouble(invoiceCollection.getNet());
-			double difference = net - Double
-					.parseDouble(invoiceCollectionMap.get("amount"));
+			double net = getDoubleValue(collectionParam.getNet())
+					+ getDoubleValue(invoiceCollection.getNet());
+			net = getRoundResult(net);
+			double tempAmount = getRoundResult(getDoubleValue(invoiceCollectionMap.get("amount")));
+			double difference = net - tempAmount;
+			difference = getRoundResult(difference);
+			System.out.println("==============[GBL COLLECTION SAVE]================");
 			invoiceCollection.setSeq(collectionParam.getSeq());
 			if (difference == 0
 					&& invoiceCollectionMap.get("flowState").equals("DEPOSIT")) {
@@ -2420,7 +2475,7 @@ public class InvoiceService {
 				invoiceCollection.setNet(net+"");
 				invoiceCollection.setDifference(difference+"");
 			}
-
+			
 			invoiceDao.updateGblCollectionNet(invoiceCollection);
 		} else if ((invoiceCollectionMap.get("flowState").equals("DEPOSIT") && count == 0) || (invoiceCollectionMap.get("flowState").equals("ACCEPT") && count == 0 )) {
 			invoiceDao.inputGblCollectionNet(invoiceCollection);
@@ -2433,7 +2488,7 @@ public class InvoiceService {
 		}
 
 		InvoiceCollectionFlow invoiceCollectionFlow = new InvoiceCollectionFlow();
-		invoiceCollectionFlow.setAmount(invoiceCollectionMap.get("flowAmount"));
+		invoiceCollectionFlow.setAmount(getStringToDouble(invoiceCollectionMap.get("flowAmount")));
 		invoiceCollectionFlow.setState(invoiceCollectionMap.get("flowState"));
 		invoiceCollectionFlow.setRemark(invoiceCollectionMap.get("flowRemark"));
 		
@@ -2463,10 +2518,11 @@ public class InvoiceService {
 		int completeCount = 0;
 
 		for (InvoiceCollection invoiceCollectionGbl : invoiceCollectionGblList) {
-			invoiceCollectionNetSum += Double.parseDouble(invoiceCollectionGbl
-					.getNet());
-			invoiceCollectionDifferencSum += Double
-					.parseDouble(invoiceCollectionGbl.getDifference());
+			invoiceCollectionNetSum += getRoundResult(getDoubleValue(invoiceCollectionGbl.getNet()));
+			invoiceCollectionNetSum = getRoundResult(invoiceCollectionNetSum);
+			
+			invoiceCollectionDifferencSum += getDoubleValue(invoiceCollectionGbl.getDifference());
+			invoiceCollectionDifferencSum = getRoundResult(invoiceCollectionDifferencSum);
 			if (invoiceCollectionGbl.getState().equals("RESENT")
 					|| invoiceCollectionGbl.getState() == null
 					|| invoiceCollectionGbl.getState().equals("")) {
@@ -2487,18 +2543,18 @@ public class InvoiceService {
 		if((invoiceCollectionMap.get("flowState").equals("DEPOSIT") || invoiceCollectionMap.get("flowState").equals("ACCEPT")) && (completeCount != invoiceCollectionGblList.size())){	
 			double totalAmount = 0.0;
 			for(InvoiceGbl invoiceGbl : invoiceAllCollectionList){
-				totalAmount += Double.parseDouble(invoiceGbl.getAmount());
+				totalAmount += getRoundResult(getDoubleValue(invoiceGbl.getAmount()));
+				totalAmount = getRoundResult(totalAmount);
 			}
 			
 			if(totalAmount > Double.parseDouble(invoiceCollection.getNet())){				
 				double reDifference = invoiceCollectionNetSum - totalAmount;
-				parentInvoiceCollection.setDifference(reDifference+"");
+				parentInvoiceCollection.setDifference(getRoundResult(reDifference)+"");
 			}
 			
 			checkResent = true;
 		} else {
-			parentInvoiceCollection.setDifference(invoiceCollectionDifferencSum
-					+"");
+			parentInvoiceCollection.setDifference(invoiceCollectionDifferencSum+"");
 		}
 
 		if (checkResent) {
@@ -2517,6 +2573,7 @@ public class InvoiceService {
 		} else {
 			invoiceDao.inputCollectionNet(parentInvoiceCollection);
 		}
+		System.out.println("==================================================");
 	}
 
 	public void invoiceGblCollectionDelete(Map<String, String> invoiceCollection) {

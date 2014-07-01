@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../../../layout/head.jspf"%>	
 <%-- Page 처리 Script --%>
-<c:set var="pagination" value="${outboundFilter.pagination }"/>
+<c:set var="pagination" value="${invoiceFilter.pagination }"/>
 <script type="text/javascript">
 	var numPagesPerScreen = <c:out value='${pagination.numPagesPerScreen}'/>;
 	var page = <c:out value='${pagination.currentPage}'/>;
@@ -14,7 +14,7 @@
 	function goToPage(page) {	
 		//location.href =  contextPath + '/member/leading/archives/page/'+page;
 		$("input#page").val(page);
-		$("form#outboundFilter").submit();
+		$("form#invoiceFilter").submit();
 	}
 	
 	function goToPreviousPages() {
@@ -80,14 +80,13 @@
 							<td><input class="collection_net" name="collection_net" type="text" value="${collectionMap.net }" readonly="readonly" />$</td>
 							<td>
 								<c:choose>
-									<c:when test="${collectionMap.state eq 'COMPLETE' }">
-										${collectionMap.state }	
-									</c:when>
-									<c:when test="${collectionMap.state eq 'RESENT' }">
-										<font color="red">${collectionMap.state }</font><br />
-										<font color="red">${collectionMap.difference }$</font>
-									</c:when>
-								</c:choose>								
+										<c:when test="${collectionMap.state eq 'COMPLETE' }">
+											<font color="blue">${collectionMap.state }</font>	
+										</c:when>
+										<c:when test="${collectionMap.state eq 'PENDING' }">
+											<font color="red">${collectionMap.state }</font><br />
+										</c:when>
+									</c:choose>								
 							</td>
 							<%-- <td class="collection_flow_wrap">
 								<ul>
@@ -129,6 +128,24 @@
 					</c:if>		
 				</c:forEach>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4">
+						<a href="javascript:void(goToPage(1))">FIRST</a>
+						<a href="javascript:void(goToPreviousPages())">PREV</a>
+						<c:forEach var="i" begin="${pagination.pageBegin}" end="${pagination.pageEnd}">
+							<c:if test="${i == pagination.currentPage}">
+								<a style="font-size: 13pt;color: red;" class="page_now">${i}</a>
+							</c:if>
+							<c:if test="${i != pagination.currentPage}">
+								<a href="javascript:void(goToPage(${i}))">${i}</a>
+							</c:if>
+						</c:forEach>
+						<a href="javascript:void(goToNextPages())">NEXT</a>
+						<a href="javascript:void(goToPage(${pagination.numPages}))">LAST</a>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 	</div>
 <%@ include file="../../../layout/foot.jspf"%>

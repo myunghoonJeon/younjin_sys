@@ -112,7 +112,15 @@
 		<c:set var="number13" value="${diffSitYearJulian}" />
 	</c:when>
 	<c:otherwise>
-		<c:set var="number13" value="${julianEndDate - julianStartDate + 1 }" />
+		<c:choose>
+			<c:when test="${sitStartDate ne null and sitStartDate ne '' and sitEndDate ne null and sitEndDate ne ''}">
+				<c:set var="number13" value="${julianEndDate - julianStartDate + 1 }" />
+			</c:when>
+			<c:otherwise>
+				<c:set var="number13" value=" "/>
+			</c:otherwise>
+		</c:choose>
+		
 	</c:otherwise>
 </c:choose>
 

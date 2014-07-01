@@ -284,15 +284,27 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public List<Invoice> getInvoiceCollectionList(InvoiceFilter invoiceFilter) {
 		return getSqlSession().selectList("invoiceMapper.getInvoicecollectionList", invoiceFilter);
 	}
-
+	
+	public String getSumInvoiceGblCollectionFlowAmount(int seq){
+		return getSqlSession().selectOne("invoiceMapper.getSumInvoiceGblCollectionFlowAmount",seq);
+	}
+	public void updateInvoiceCollectionStatusComplete(int seq){
+		getSqlSession().update("invoiceMapper.updateInvoiceCollectionStatusComplete",seq);
+	}
+	public void updateInvoiceCollectionStatusPending(int seq){
+		getSqlSession().update("invoiceMapper.updateInvoiceCollectionStatusPending",seq);
+	}
+	public String getInvoiceGblCollectionAmount(int seq){
+		return getSqlSession().selectOne("invoiceMapper.getInvoiceGblCollectionAmount",seq);
+	}
 	public List<InvoiceCollection> getInvoiceCollectionListAndFlow(InvoiceFilter invoiceFilter) {
 		return getSqlSession().selectList("invoiceMapper.getInvoiceCollectionListAndFlow", invoiceFilter);
 	}
-
+	
 	public void inputCollectionNet(InvoiceCollection invoiceCollection) {
 		getSqlSession().insert("invoiceMapper.inputCollectionNet", invoiceCollection);
 	}
-
+	
 	public void inputCollectionFlow(InvoiceCollectionFlow invoiceCollectionFlow) {
 		getSqlSession().insert("invoiceMapper.inputCollectionFlow", invoiceCollectionFlow);
 	}
