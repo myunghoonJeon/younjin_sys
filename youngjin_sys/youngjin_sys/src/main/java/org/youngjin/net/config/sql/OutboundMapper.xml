@@ -235,7 +235,7 @@
 
 	<select id="getGblList" parameterType="OutboundFilter"
 		resultMap="GblMap">
-		SELECT
+	<!-- 	SELECT
 		*
 		FROM
 		(
@@ -331,7 +331,101 @@
 		</if>
 		)u
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND
-		#{pagination.itemSeqEnd}
+		#{pagination.itemSeqEnd} -->
+		select
+			*
+			from(
+			select
+			*,(@rownum := @rownum + 1) AS rownum
+			from(
+			SELECT
+					*
+					FROM
+					(
+					SELECT
+					g.seq,
+					g.no,
+					g.pud,
+					g.rank,
+					g.code,
+					g.scac,
+					g.customer_name,
+					g.area,
+					g.us_no,
+					g.dest_port,
+					g.etd,
+					g.eta,
+					g.bl_no,
+					g.pod,
+					g.netWeight,
+					CASE WHEN(gwc.seq = g.seq) THEN gwc.pcs ELSE '' END AS pcs,
+					g.lbs,
+					CASE WHEN(gwc.seq = g.seq) THEN gwc.cuft ELSE '' END AS cuft
+					FROM
+					gbl g
+					LEFT OUTER JOIN
+					(
+					SELECT
+					gt.seq, COUNT(wc.piece) AS pcs, SUM(wc.gross) AS gross, SUM(wc.cuft) AS cuft
+					FROM
+					gbl gt
+					JOIN
+					weight_certificate wc ON (wc.gbl_seq = gt.seq)
+					GROUP BY
+					gt.seq
+					order by
+					gt.seq desc
+					) gwc
+					ON (gwc.seq = g.seq)
+					WHERE
+					1 = 1
+					<if test="area != null and area != ''">
+									AND
+										area = (select code_etc from symbol where main_code = '01' and sub_code = #{area})
+								</if>
+								<if test="branch != null and branch != ''">
+									AND		
+										area = #{branch}			
+								</if>
+								<if test="carrier != null and carrier != ''">
+									AND
+										tsp = #{carrier}
+								</if>
+								<if test="code != null and code != ''">
+									AND
+										code = #{code}
+								</if>
+								<if test="startPud != null and startPud != ''">
+									AND
+										pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+								</if>
+								<if test="endPud != null and endPud != ''">
+									AND
+										pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+								</if>
+								<if test="searchContent != null and searchContent != ''">
+									<choose>
+										<when test="searchTitle == 'name'">
+											AND
+												shipperName like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+										</when>
+										<when test="searchTitle == 'ssn'">
+											AND
+												ssn like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+										</when>
+										<when test="searchTitle == 'gblNo'">
+											AND
+												no like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+										</when>
+									</choose>				
+								</if>
+					order by
+					g.seq desc
+				)u
+				
+			)k,(SELECT @rownum := 0) r
+			)t
+		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
 
 	</select>
 	<select id="getGblTruckDate" parameterType="Integer" resultType="String">

@@ -736,7 +736,7 @@
 	</select>
 	<select id="getInvoiceGblList" parameterType="Integer" resultMap="InvoiceGblMap">
 		SELECT
-			ig.seq, ig.invoice_list_seq, ig.gbl_seq, ig.gbl_no, ig.rank, ig.name, ig.amount, ig.complete, g.code
+			ig.seq, ig.invoice_list_seq, ig.gbl_seq, ig.gbl_no, ig.rank, ig.name, ig.amount, ig.complete, g.code,g.pud
 		FROM
 			invoice_gbl ig, gbl g
 		WHERE
@@ -747,7 +747,7 @@
 	
 	<select id="getInvoiceGblListIb" parameterType="Integer" resultMap="InvoiceGblMap">
 		SELECT
-			ig.seq, ig.invoice_list_seq, ig.gbl_seq, ig.gbl_no, ig.rank, ig.name, ig.amount, ig.complete, g.code
+			ig.seq, ig.invoice_list_seq, ig.gbl_seq, ig.gbl_no, ig.rank, ig.name, ig.amount, ig.complete, g.code,g.pud
 		FROM
 			invoice_gbl ig, gbl_ib g
 		WHERE

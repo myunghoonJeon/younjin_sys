@@ -118,7 +118,7 @@
 <HEAD>
 	<link rel="stylesheet" href="${cp }/resources/css/common.css">
 </HEAD>
-<c:set var="totalAmount" value="0"></c:set>
+<c:set var="totalAmount" value="1"></c:set>
 <BODY onload="window.print();">
 	<div>
 		<table border="0" align="center" style="width: 17cm" cellspacing="0">
@@ -207,21 +207,25 @@
 	</div>
 
 	<div style="page-break-after: always"></div>
-	
+	<c:set var='countFlag' value="0"/>
 	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
+	<c:if test="${countFlag%3 eq 0 }">
+		
+	</c:if>
 	<center>
 		<div style="padding-top: 1cm;">			
 			<div>
 				<table style="border: thin; border-style: solid; width: 600px; font-family: arial; font-size: 10pt;"><!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 					<tr>
 						<td >TSP : ${invoice.tsp }</td>
-						<td >IN/OUT : FROM KOREA</td>
+						<td >IN/OUT : TO KOREA</td>
 						<td >CODE : ${invoiceGbl.code }</td>
+						<td >PUD : ${invoiceGbl.pud }</td>
 					</tr>
 					<tr>
 						<td >GBL NO : ${invoiceGbl.gblNo }</td>
 						<td >RANK : ${invoiceGbl.rank }</td>
-						<td >NAME : ${invoiceGbl.name }</td>
+						<td colspan="2">NAME : ${invoiceGbl.name }</td>
 					</tr>
 				</table>
 				<div style="padding-bottom: 20px;">
@@ -242,7 +246,7 @@
 						<tr style="border-bottom: solid; border: solid;">
 							<td id="in_td">${invoiceGblContent.chargingItem }</td>
 							<td id="in_td">${invoiceGblContent.quantity }</td>
-							<td id="in_td">$ <fmt:formatNumber value="${invoiceGblContent.amount }" pattern="##,###.00"/></td>
+							<td id="in_td">$ <fmt:formatNumber value="${invoiceGblContent.amount }" pattern="##,##0.00"/></td>
 						</tr>
 					</c:forEach>
 				</table>

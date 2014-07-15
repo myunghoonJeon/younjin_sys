@@ -102,11 +102,15 @@
 <P style="position:absolute;top:363px;left:1039px;white-space:nowrap" class="ft12"><input type="checkbox" name="q-13b" class="q-radio" value="other"></input></P>
 
 
-<c:if test="${sitEndDate ne null and sitStartDate ne '' }">
+<c:if test="${sitStartDate ne '' }">
 	<P style="position:absolute;top:402px;left:631px;white-space:nowrap" class="ft115"><input type="text" name="q-13c" class="q-text q-center" style="width:136px;height:44px;" value="${fn:substring(sitStartDate, 8, 10) }-${ fn:substring(sitStartDate, 4, 7)}-${ fn:substring(sitStartDate, 26, 28) }"></input></P>
+	<fmt:formatDate value="${sitStartDate }" pattern="D" var="julianStartDate" />
 </c:if>
-<fmt:formatDate value="${sitStartDate }" pattern="D" var="julianStartDate" />
-<fmt:formatDate value="${sitEndDate }" pattern="D" var="julianEndDate" />
+<c:if test="${sitEndDate ne '' }">
+	<P style="position:absolute;top:402px;left:787px;white-space:nowrap" class="ft115"><input type="text" name="q-13d" class="q-text q-center" style="width:126px;height:44px;" value="${fn:substring(sitEndDate, 8, 10) }-${ fn:substring(sitEndDate, 4, 7)}-${ fn:substring(sitEndDate, 26, 28) }" /> </P>
+	<fmt:formatDate value="${sitEndDate }" pattern="D" var="julianEndDate" />
+</c:if>
+
 <c:choose>
 	<c:when test="${diffSitYearJulian ne '' }">
 		<c:set var="number13" value="${diffSitYearJulian}" />
@@ -124,22 +128,20 @@
 	</c:otherwise>
 </c:choose>
 
-<c:if test="${sitEndDate ne null and sitEndDate ne '' }">
-	<P style="position:absolute;top:402px;left:787px;white-space:nowrap" class="ft115"><input type="text" name="q-13d" class="q-text q-center" style="width:126px;height:44px;" value="${fn:substring(sitEndDate, 8, 10) }-${ fn:substring(sitEndDate, 4, 7)}-${ fn:substring(sitEndDate, 26, 28) }" /> </P>
-</c:if>
+
 <P style="position:absolute;top:402px;left:931px;white-space:nowrap" class="ft115"><input type="text" name="q-13e" class="q-text q-center" style="width:90px;height:44px;" value="${number13 }"></P>
-<P style="position:absolute;top:402px;left:1036px;white-space:nowrap" class="ft12"><input type="text" name="q-13f" class="q-text q-center" style="width:105px;height:44px;" value="${weight.net}"></P>
+<P style="position:absolute;top:402px;left:1036px;white-space:nowrap" class="ft12"><input type="text" name="q-13f" class="q-text q-center" style="width:105px;height:44px;" value="<fmt:formatNumber value="${weight.net}" pattern="#,##0"/>"></P>
 <P style="position:absolute;top:496px;left:658px;white-space:nowrap" class="ft12"><input type="text" name="q-13g1" class="q-text q-center" style="width:338px;height:24px;" value="${memorandumMap['05'].sitNo }"></P>
 <P style="position:absolute;top:531px;left:1014px;white-space:nowrap" class="ft12"><input type="radio" name="q-13g2" class="q-radio" value="yes"></input></P>
 <P style="position:absolute;top:531px;left:1087px;white-space:nowrap" class="ft12"><input type="radio" name="q-13g2" class="q-radio" value="no"></input></P>
 <P style="position:absolute;top:570px;left:631px;white-space:nowrap" class="ft12"><input type="text" name="q-13h" class="q-text" style="width:364px;height:44px;" value="${branch.itoChief }"></P>
 <P style="position:absolute;top:590px;left:1015px;white-space:nowrap" class="ft115"><input type="text" name="q-13i" class="q-text q-center" style="width:125px;height:24px;"></P>
-<P style="position:absolute;top:648px;left:800px;white-space:nowrap" class="ft12">${ weight.gross}</P>
-<P style="position:absolute;top:648px;left:1064px;white-space:nowrap" class="ft12">${ weight.reGross }</P>
-<P style="position:absolute;top:672px;left:800px;white-space:nowrap" class="ft12">${ weight.tare}</P>
-<P style="position:absolute;top:672px;left:1064px;white-space:nowrap" class="ft12">${ weight.reTare }</P>
-<P style="position:absolute;top:696px;left:800px;white-space:nowrap" class="ft12">${ weight.net}</P>
-<P style="position:absolute;top:696px;left:1064px;white-space:nowrap" class="ft12">${ weight.reNet }</P>
+<P style="position:absolute;top:648px;left:800px;white-space:nowrap" class="ft12"><fmt:formatNumber value="${ weight.gross}" pattern="#,##0"/></P>
+<P style="position:absolute;top:648px;left:1064px;white-space:nowrap" class="ft12"><fmt:formatNumber value="${ weight.reGross }" pattern="#,##0"/></P>
+<P style="position:absolute;top:672px;left:800px;white-space:nowrap" class="ft12"><fmt:formatNumber value="${ weight.tare}" pattern="#,##0"/></P>
+<P style="position:absolute;top:672px;left:1064px;white-space:nowrap" class="ft12"><fmt:formatNumber value="${ weight.reTare}" pattern="#,##0"/></P>
+<P style="position:absolute;top:696px;left:800px;white-space:nowrap" class="ft12"><fmt:formatNumber value="${ weight.net}" pattern="#,##0"/></P>
+<P style="position:absolute;top:696px;left:1064px;white-space:nowrap" class="ft12"><fmt:formatNumber value="${ weight.reNet}" pattern="#,##0"/></P>
 <P style="position:absolute;top:790px;left:631px;white-space:nowrap" class="ft12"><input type="text" name="q-14g1" class="q-text" style="width:364px;height:40px;"></P>
 <P style="position:absolute;top:805px;left:1015px;white-space:nowrap" class="ft115"><input type="text" name="q-14g2" class="q-text q-center" style="width:125px;height:24px;"></P>
 <P style="position:absolute;top:872px;left:859px;white-space:nowrap" class="ft16"><input type="text" name="q-15a1" class="q-text q-right" style="width:67px;height:28px;"></P>

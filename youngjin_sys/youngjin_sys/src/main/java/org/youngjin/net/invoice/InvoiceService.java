@@ -487,9 +487,9 @@ public class InvoiceService {
 				}
 			}
 		}
-
+		
 		Invoice returnInvoice = invoiceDao.getInvoice(invoice);
-
+		
 		return returnInvoice;
 	}
 
@@ -686,7 +686,7 @@ public class InvoiceService {
 					String type= weightcertificate.getType();
 					if(type.equals("O/F")||type.equals("W/D")||type.equals("CTN")||type.equals("WODEN")||type.equals("S/P")||
 							type.equals("o/f")||type.equals("w/d")||type.equals("ctn")||type.equals("woden")||type.equals("s/p")||
-							type.equals("W/B")||type.equals("w/b")||type.equals("C/B")||type.equals("c/b")||type.equals("cotton")||type.equals("COTTON")){
+							type.equals("W/B")||type.equals("w/b")||type.equals("C/B")||type.equals("c/b")||type.equals("cotton")||type.equals("COTTON")||type.equals(" O/F")){
 						System.out.println("INPUT TYPE : ["+type+"]");
 						type = "O/F";
 						System.out.println("SET TYPE : ["+type+"]");
@@ -718,6 +718,8 @@ public class InvoiceService {
 				rate.setTsp(gbl.getScac());
 				rate.setProcess(process.toUpperCase());
 				rate.setWriteYear(getYear(gbl.getPud()));
+				System.out.println("==================================");
+				System.out.println("RATE OB TYPE CHECK : "+rate.getObType());
 				System.out.println("YEAR CHECK : "+getYear(gbl.getPud()));
 				double tempGblRate=0;
 				Rate gblRate = invoiceDao.getBasicRate(rate); // rate 기간에 맞게 가져왔나 모르겠지만 어쨌던 그때그때 해당되는 비율을 계속 가져온다.
@@ -729,36 +731,41 @@ public class InvoiceService {
 					System.out.println("[[[[[[ AFTER VALUE : "+gblRate.getRate()+" ]]]]]]]]]");
 				}
 				if(codeStr.equals("HHG")){//USING NET
-					if(rate.getObType().equals("typeII")){
-						System.out.println("[[[[[[[[[ TYPE II CALCURATE ]]]]]]]");
-						type2Count++;
-						typeIIWeight += gblWeight;
-						typeIICharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
-						typeIICharge = getRoundResult(typeIICharge);//2자리 반올림
-					} else if (rate.getObType().equals("O/F") || rate.getObType().equals("W/D") ||rate.getObType().equals("W/B") ||
-							rate.getObType().equals("ctn")|| rate.getObType().equals("WODEN")|| rate.getObType().equals("CTN")||
-							rate.getObType().equals("S/P")|| rate.getObType().equals("woden")|| rate.getObType().equals("s/p")||
-							rate.getObType().equals("w/d")||rate.getObType().equals("w/b")||rate.getObType().equals("C/B") ||rate.getObType().equals("c/b")||
-							rate.getObType().equals("COTTON") ||rate.getObType().equals("cotton")
-							){
-						System.out.println("[[[[[[[[[ O/F CALCURATE ]]]]]]]");
-						overFlowCount++;
-						overFlowWeight += gblWeight;
-						System.out.println("[[[[[[[[[ Weight : "+gblWeight+" O/F GBL RATE : "+gblRate.getRate()+" % ]]]]]]]");
-						overFlowCharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
-						overFlowCharge = getRoundResult(overFlowCharge);//2자리 반올림 
+					if(rate.getObType()==null){
+						System.out.println("[ DETECTED NULL ?????????/ ]");
 					}
 					else{
-						System.out.println("[[[[[[[[[[ NONE TYPE CALCURATE ]]]]]]]]");
-						System.out.println("[[[[[[[[[[ CUFT : "+weightcertificate.getCuft()+"]]]]]]");
-						System.out.println("[[[[[[[[[[ NO SELECT STATUS]]]]]]]]]]]]");
-						if(Integer.parseInt(weightcertificate.getCuft()) >= 180){
+						if(rate.getObType().equals("typeII")){
+							System.out.println("[[[[[[[[[ TYPE II CALCURATE ]]]]]]]");
+							type2Count++;
+							typeIIWeight += gblWeight;
+							typeIICharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
+							typeIICharge = getRoundResult(typeIICharge);//2자리 반올림
+						} else if (rate.getObType().equals("O/F") || rate.getObType().equals("W/D") ||rate.getObType().equals("W/B") ||
+								rate.getObType().equals("ctn")|| rate.getObType().equals("WODEN")|| rate.getObType().equals("CTN")||
+								rate.getObType().equals("S/P")|| rate.getObType().equals("woden")|| rate.getObType().equals("s/p")||
+								rate.getObType().equals("w/d")||rate.getObType().equals("w/b")||rate.getObType().equals("C/B") ||rate.getObType().equals("c/b")||
+								rate.getObType().equals("COTTON") ||rate.getObType().equals("cotton")
+								){
 							System.out.println("[[[[[[[[[ O/F CALCURATE ]]]]]]]");
-							System.out.println("[[[[[[[[[ Weight : "+gblWeight+" O/F GBL RATE : "+gblRate.getRate()+" % ]]]]]]]");
 							overFlowCount++;
 							overFlowWeight += gblWeight;
+							System.out.println("[[[[[[[[[ Weight : "+gblWeight+" O/F GBL RATE : "+gblRate.getRate()+" % ]]]]]]]");
 							overFlowCharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
-							overFlowCharge = getRoundResult(overFlowCharge);//2자리 반올림
+							overFlowCharge = getRoundResult(overFlowCharge);//2자리 반올림 
+						}
+						else{
+							System.out.println("[[[[[[[[[[ NONE TYPE CALCURATE ]]]]]]]]");
+							System.out.println("[[[[[[[[[[ CUFT : "+weightcertificate.getCuft()+"]]]]]]");
+							System.out.println("[[[[[[[[[[ NO SELECT STATUS]]]]]]]]]]]]");
+							if(Integer.parseInt(weightcertificate.getCuft()) >= 180){
+								System.out.println("[[[[[[[[[ O/F CALCURATE ]]]]]]]");
+								System.out.println("[[[[[[[[[ Weight : "+gblWeight+" O/F GBL RATE : "+gblRate.getRate()+" % ]]]]]]]");
+								overFlowCount++;
+								overFlowWeight += gblWeight;
+								overFlowCharge += (gblWeight/100) * gblRate.getRate();//100으로 나누고 해당 비율 곱하기
+								overFlowCharge = getRoundResult(overFlowCharge);//2자리 반올림
+							}
 						}
 					}
 					
@@ -809,7 +816,8 @@ public class InvoiceService {
 									rate.setWriteYear(getYear(getYear(gbl.getPud())));
 									rate.setObType("typeII");
 									Rate minimumRate = invoiceDao.getBasicRate(rate);
-									packingCharge = (typeIIWeight/100) * rate.getRate();
+									overFlowCharge = (typeIIWeight/100) * minimumRate.getRate();
+									packingCharge = (typeIIWeight/100) * minimumRate.getRate();
 								}
 								if(overFlowCount>0){
 									rate.setCode(gbl.getCode());
@@ -818,7 +826,10 @@ public class InvoiceService {
 									rate.setWriteYear(getYear(gbl.getPud()));
 									rate.setObType("O/F");
 									Rate minimumRate = invoiceDao.getBasicRate(rate);
-									packingCharge = (overFlowWeight/100) * rate.getRate();
+									System.out.println("O/F weight : "+overFlowWeight);
+									overFlowCharge = (overFlowWeight/100) * minimumRate.getRate();
+									packingCharge = (overFlowWeight/100) * minimumRate.getRate();
+									System.out.println("RATE : "+minimumRate.getRate());
 								}
 							}
 						}
@@ -832,6 +843,7 @@ public class InvoiceService {
 					
 				}
 			}//////////weight ROOF
+			
 			getRoundResult(packingCharge);
 			totalAmount += packingCharge;
 			totalAmount = getRoundResult(totalAmount);
@@ -978,7 +990,7 @@ public class InvoiceService {
 				containerInvoiceGblContent.setQuantity(usedUnitTypeII + "pcs");
 				containerInvoiceGblContent.setAmount(new DecimalFormat("######.00").format(getRoundResult(usedCharge)));
 				containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
-				if(newCharge > 0)
+				if(usedCharge > 0)
 					invoiceGblContentList.add(containerInvoiceGblContent);
 	
 				checkInvoiceContentGetSeq = invoiceDao
@@ -997,7 +1009,7 @@ public class InvoiceService {
 				containerInvoiceGblContent.setQuantity(repairedUnitTypeII + "pcs");
 				containerInvoiceGblContent.setAmount(new DecimalFormat("######.00").format(getRoundResult(repairedCharge)));
 				containerInvoiceGblContent.setInvoiceGblSeq(invoiceGblSeq);
-				if(newCharge > 0)
+				if(repairedCharge > 0)
 					invoiceGblContentList.add(containerInvoiceGblContent);
 	
 				checkInvoiceContentGetSeq = invoiceDao
@@ -2063,10 +2075,20 @@ public class InvoiceService {
 				System.out.println("[[ WEIGHT : "+gbl_weight[1]+" MILEAGE Min WEIGHT : "+minWeight+" ]]");
 				System.out.println("[[ RATE : "+mileage.getMinRate()+" ]]");
 				System.out.println("[[ 일단 곱해보면 : "+gbl_weight[0]*minRate+" ]]");
+				System.out.println("============================================");
+				System.out.println("[[ MININUM 30 Over : "+ minimum30over+" ]]");
+				System.out.println("[[ MIN RATE : "+minRate+"]]");
+				System.out.println("[[ gbl_weight[0] : "+gbl_weight[0]);
+				System.out.println("============================================");
 				if((gbl_weight[0]*minRate) <= minimum30over){
 					System.out.println(" [[ 미니멈 값보다 작다 ]]");
 					System.out.println("[[ RATE : "+minimum30over+" COMPRATE1 : "+comprate1+" admFee : "+admFee+" ]]");
 					delivery = minimum30over*comprate1 + admFee;
+				}
+				else{
+					System.out.println(" [[ 미니멈 값보다 크다 ]]");
+					System.out.println("[[ RATE : "+gbl_weight[0]*minRate+" COMPRATE1 : "+comprate1+" admFee : "+admFee+" ]]");
+					delivery = gbl_weight[0]*minRate*comprate1 + admFee;
 				}
 			}
 			else if(gbl_weight[1]>minWeight){
@@ -2082,8 +2104,8 @@ public class InvoiceService {
 				}
 			}
 		}
-		System.out.println("[[[[[[[[[ FIANL THIRTY MILE VALUE : "+delivery+" ]]]]]]");
 		delivery = getRoundResult(delivery);
+		System.out.println("[[[[[[[[[ FIANL THIRTY MILE VALUE : "+delivery+" ]]]]]]");
 		returnMap.put("amount", delivery);
 		
 		return returnMap;

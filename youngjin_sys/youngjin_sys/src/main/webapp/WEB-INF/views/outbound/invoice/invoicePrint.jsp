@@ -216,11 +216,12 @@
 						<td >TSP : ${invoice.tsp }</td>
 						<td >IN/OUT : FROM KOREA</td>
 						<td >CODE : ${invoiceGbl.code }</td>
+						<td >PUD : ${invoiceGbl.pud }</td>
 					</tr>
 					<tr>
 						<td >GBL NO : ${invoiceGbl.gblNo }</td>
 						<td >RANK : ${invoiceGbl.rank }</td>
-						<td >NAME : ${invoiceGbl.name }</td>
+						<td colspan="2">NAME : ${invoiceGbl.name }</td>
 					</tr>
 				</table>
 				<div style="padding-bottom: 20px;">

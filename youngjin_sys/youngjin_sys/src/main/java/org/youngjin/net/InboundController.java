@@ -1313,10 +1313,16 @@ public class InboundController {
 		GBlock gblock = processService.getGBlockByGbloc(gbl.getGbloc());
 		Map<String, Memorandum> memorandumMap = memorandumService.getMemorandumMap(seq,dd619.getMemorandumListSeq(), process);
 		String sitStartDate=null;
+		String sitEndDate=null;
 		if(memorandumMap.get("06")!=null){
+			System.out.println("SIT START NOT NULL");
 			sitStartDate = memorandumMap.get("06").getSitStartDate();
+			System.out.println("SIT START DATE : "+sitStartDate);
 		}
-		String sitEndDate = memorandumMap.get("07").getSitEndDate();
+		if(memorandumMap.get("07")!=null){
+			System.out.println("SIT START NOT NULL");
+			sitEndDate = memorandumMap.get("07").getSitEndDate();
+		}
 		String diffSitYearJulian="";
 		System.out.println("========================================");
 		if(sitStartDate!=null && sitEndDate!=null){
@@ -1332,10 +1338,8 @@ public class InboundController {
 					
 				}
 			}
-			
 		}
 		else{
-			System.out.println("SIT DATE IS NULL");
 		}
 		System.out.println("========================================");
 		model.addAttribute("diffSitYearJulian", diffSitYearJulian);

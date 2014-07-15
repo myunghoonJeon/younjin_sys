@@ -127,6 +127,7 @@
 	</select>
 	
 	<select id="getFreightList" parameterType="InboundFilter" resultType="GBL">
+		
 		SELECT 
 			*
 		FROM	
