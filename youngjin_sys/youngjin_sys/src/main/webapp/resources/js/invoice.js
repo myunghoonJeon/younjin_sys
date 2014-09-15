@@ -293,6 +293,7 @@ youngjin.invoice.invoiceCollectionSync = function(){
 	
 	$('.collection_gbl_plus').unbind('click');
 	$('.collection_gbl_plus').bind('click', function(){
+		
 		$(this).parents().parents().parents().parents('tr').attr('data-click', 'yes');
 		youngjin.invoice.inputGblCollectionFlowTable($(this));
 	});
@@ -840,11 +841,10 @@ youngjin.invoice.invoiceCollectionGbl = function(target, process){
 	});	
 };
 
-youngjin.invoice.inputGblCollectionFlowTable = function(target){	
+youngjin.invoice.inputGblCollectionFlowTable = function(target){
 	var ul = target.parents().parents('ul');
 	var table = ul.find('.collection_flow_table:last');
 	var count = table.attr('data-count');
-	
 	if(count == undefined)
 		count = 0;
 	
@@ -858,7 +858,8 @@ youngjin.invoice.inputGblCollectionFlowTable = function(target){
 									'<option value="CLAIM">CLAIM</option>' +
 								'</select>' +
 							'</td>' + 
-							'<td>' + todayDate + '</td>' + 
+							'<td>DATE</td>' + 
+							'<td class="flow_date"><input name="amount" type="text" /></td>' +
 							'<td>AMOUNT</td>' + 
 							'<td class="flow_amount"><input name="amount" type="text" /></td>' +
 							'<td>REMARK</td>' + 
@@ -885,14 +886,17 @@ youngjin.invoice.inputGblCollectionFlowTable = function(target){
 youngjin.invoice.collectionGblSave = function(target){
 	var tr = target.parents().parents().parents().parents('tr');
 	var invoiceAmount = tr.children('.invoice_amount').children('input').val();
-	
+	var process =$('.invoice_gbl_collection_list_table').attr('data-process');
 	var ul = target.parents().parents('ul');
 	var table = ul.find('.collection_flow_table:last');
 	
 	var net = table.find('.flow_amount input').val();
 	var difference = 0;
 	var state = '';
-	var url = contextPath + '/outbound/inputGblCollectionNet.json';
+	
+	var date = table.find('.flow_date input').val();
+	
+	var url = contextPath + '/'+process+'/inputGblCollectionNet.json';
 	
 	var ul = target.parents().parents('ul');
 	
@@ -902,7 +906,7 @@ youngjin.invoice.collectionGblSave = function(target){
 	var invoiceGblSeq = target.parents().parents().parents().parents('tr').attr('data-invoiceGblSeq');
 	var invoiceSeq = $('.invoice_gbl_collection_list_table').attr('data-seq');
 	var gblSeq = target.parents().parents().parents().parents('tr').attr('data-gblSeq');
-	var process =$('.invoice_gbl_collection_list_table').attr('data-process');
+	
 	
 	var count = table.attr('data-count');
 	
@@ -929,7 +933,8 @@ youngjin.invoice.collectionGblSave = function(target){
 			'flowState' : flowState,
 			'flowRemark' : flowRemark,
 			'invoiceNormalSeq' : invoiceSeq,
-			'gblSeq' : gblSeq
+			'gblSeq' : gblSeq,
+			'date' : date
 		};
 		
 		$.postJSON(url, json, function(){
@@ -959,7 +964,7 @@ youngjin.invoice.collectionGblDelete = function(target){
 	var invoiceSeq = $('.invoice_gbl_collection_list_table').attr('data-seq');
 	var process =$('.invoice_gbl_collection_list_table').attr('data-process');
 	
-	var url = contextPath + '/outbound/invoiceGblCollectionFlowDelete.json';	
+	var url = contextPath + '/'+process+'/'+'invoiceGblCollectionFlowDelete.json';	
 	
 	var json = {
 			'flowSeq' : flowSeq,

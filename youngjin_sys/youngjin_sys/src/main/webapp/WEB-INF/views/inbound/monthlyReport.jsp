@@ -220,7 +220,7 @@
 				<tr>
 					<c:set var="grandTotalCount" value="${m4['size']+m3['size']+m5['size']+m6['size']+mT['size']+ mJ['size']+m7['size']+m8['size']}"/>
 					<c:set var="grandTotalSitCount" value="${m4count+m3count+m5count+m6count+mTcount+mJcount+m7count+m8count}"/>
-					<c:set var="grandTotalPercentage" value="${ubTotalSitCount/ubTotalCount }"/>
+					<c:set var="grandTotalPercentage" value="${grandTotalSitCount/grandTotalCount }"/>
 					<td class="grand_td">GRAND TOTAL</td>
 					<td class="grand_td">${m4['size']+m3['size']+m5['size']+m6['size']+mT['size']+ mJ['size']+m7['size']+m8['size']}</td>
 					<td class="grand_td">${m4['weight']+m3['weight']+m5['weight']+m6['weight']+mT['weight']+mJ['weight']+m7['weight']+m8['weight'] }</td>

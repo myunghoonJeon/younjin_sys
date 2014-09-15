@@ -340,7 +340,7 @@ public class InvoiceController {
 		
 		Map<Integer, InvoiceCollection> invoiceCollectionGblMap = invoiceService.getInvoiceCollectionGblMap(seq);
 		System.out.println("========================================");
-		System.out.println(invoiceCollectionGblMap.size());
+		System.out.println("size : "+invoiceCollectionGblMap.size());
 		System.out.println("========================================");
 		model.addAttribute("invoicSeq", seq);
 		model.addAttribute("invoiceListSeq", seq);

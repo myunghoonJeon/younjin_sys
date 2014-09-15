@@ -6,6 +6,7 @@
 <c:set var="cp" value="<%=request.getContextPath() %>"/>
 <c:set var="rp" value='<%=request.getAttribute("javax.servlet.forward.request_uri")%>'/>
 <!DOCTYPE html>
+<!-- inbound -->
 <HTML>
 <style>
 	#in_td{
@@ -118,7 +119,7 @@
 <HEAD>
 	<link rel="stylesheet" href="${cp }/resources/css/common.css">
 </HEAD>
-<c:set var="totalAmount" value="1"></c:set>
+<c:set var="totalAmount" value="0"></c:set>
 <BODY onload="window.print();">
 	<div>
 		<table border="0" align="center" style="width: 17cm" cellspacing="0">
@@ -207,11 +208,9 @@
 	</div>
 
 	<div style="page-break-after: always"></div>
-	<c:set var='countFlag' value="0"/>
+	<c:set var="roofCount" value="0"></c:set>
 	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
-	<c:if test="${countFlag%3 eq 0 }">
-		
-	</c:if>
+	<c:set var="roofCount" value="${roofCount+1 }"/>
 	<center>
 		<div style="padding-top: 1cm;">			
 			<div>
@@ -253,6 +252,11 @@
 			</div>
 		</div>	
 		</center>
+		<c:choose>
+			<c:when test="${roofCount %3 eq 0 }">
+				<div style="page-break-after: always"></div>
+			</c:when>
+		</c:choose>
 	</c:forEach>
 </BODY>
 </HTML>

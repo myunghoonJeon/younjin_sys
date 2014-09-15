@@ -11,8 +11,18 @@ public class InvoiceCollection {
 	private String remark;
 	private String difference;
 	private Integer invoiceSeq;
-	
+	private String date;
 	private List<InvoiceCollectionFlow> invoiceColltionFlowList;
+	
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	
 
 	public Integer getSeq() {
 		return seq;

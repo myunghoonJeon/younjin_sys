@@ -21,7 +21,7 @@ var realPath = '<c:out value="${rp}"/>';
 
 </head>
 <body>
-	TEST
+	[ YOUNGJIN SYSTEM ]
 </body>
 </html>
 <%@ include file="../layout/foot.jspf"%>

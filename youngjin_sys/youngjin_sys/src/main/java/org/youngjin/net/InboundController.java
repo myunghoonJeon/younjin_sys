@@ -310,13 +310,13 @@ public class InboundController {
 				}
 			}
 			else{
-				if(Integer.parseInt(mr.getNetWeight())<300){
+				if(Integer.parseInt(mr.getGrossWeight())<300){
 					System.out.println("[[DETECTED MINIMUM ADD 300]]");
 					weight+=300;
 				}
 				else{
 					System.out.println("[[DETECTED : "+Integer.parseInt(mr.getNetWeight())+" ]]");
-					weight+=Integer.parseInt(mr.getNetWeight());
+					weight+=Integer.parseInt(mr.getGrossWeight());
 				}
 			}
 		}
@@ -360,13 +360,13 @@ public class InboundController {
 				}
 			}
 			else{
-				if(Integer.parseInt(mr.getNetWeight())<300){
+				if(Integer.parseInt(mr.getGrossWeight())<300){
 					System.out.println("[[DETECTED MINIMUM ADD 300]]");
 					weight+=300;
 				}
 				else{
 					System.out.println("[[DETECTED : "+Integer.parseInt(mr.getNetWeight())+" ]]");
-					weight+=Integer.parseInt(mr.getNetWeight());
+					weight+=Integer.parseInt(mr.getGrossWeight());
 				}
 			}
 		}
@@ -408,13 +408,13 @@ public class InboundController {
 				}
 			}
 			else{
-				if(Integer.parseInt(mr.getNetWeight())<300){
+				if(Integer.parseInt(mr.getGrossWeight())<300){
 					System.out.println("[[DETECTED MINIMUM ADD 300]]");
 					weight+=300;
 				}
 				else{
 					System.out.println("[[DETECTED : "+Integer.parseInt(mr.getNetWeight())+" ]]");
-					weight+=Integer.parseInt(mr.getNetWeight());
+					weight+=Integer.parseInt(mr.getGrossWeight());
 				}
 			}
 		}

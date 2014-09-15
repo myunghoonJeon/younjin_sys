@@ -199,6 +199,11 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public void modifyGbl(GBL gbl) {
 		getSqlSession().update("outboundMapper.modifyGbl", gbl);
 	}
+	
+	public void modifyInvoice(GBL gbl) {
+		getSqlSession().update("InvoiceMapper.modifyInvoiceGbl", gbl);
+	}
+	
 
 	public Dd619 getDd619ListSelectOne(Integer dd619Seq) {
 		return getSqlSession().selectOne("outboundMapper.getDd619ListSelectOne", dd619Seq);

@@ -206,8 +206,10 @@
 	</div>
 
 	<div style="page-break-after: always"></div>
-	
+	<c:set var="roofCount" value="0"></c:set>
 	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">
+		<c:set var="roofCount" value="${roofCount+1 }"/>
+		
 	<center>
 		<div style="padding-top: 1cm;">			
 			<div>
@@ -249,6 +251,11 @@
 			</div>
 		</div>	
 		</center>
+		<c:choose>
+			<c:when test="${roofCount %3 eq 0 }">
+				<div style="page-break-after: always"></div>
+			</c:when>
+		</c:choose>
 	</c:forEach>
 	<!-- 
 	<c:forEach var="invoiceGbl" items="${invoiceGblList }" varStatus="i">

@@ -136,9 +136,6 @@
 					<li onclick="location.href='${cp }/admin/rate'">RATE</li>			
 				</sec:authorize>
 			
-				<sec:authorize access="hasRole('ROLE_LEVEL2') or hasRole('ROLE_LEVEL3') or hasRole('ROLE_LEVEL4')">
-					<li onclick="location.href='${cp }/admin/container'">CONTAINER</li>			
-				</sec:authorize>
 			</ul>
 		</c:if>
 	</div>

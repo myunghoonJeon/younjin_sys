@@ -114,7 +114,7 @@
 														</select>
 													</td>
 													<td>DATE</td>
-													<td>${flow.writeDate }</td>
+													<td class="collection_date">${flow.date }</td>
 													<td>AMOUNT</td>
 													<td class="collection_amount">${flow.amount }</td>
 													<td>REMARK</td>
@@ -123,7 +123,7 @@
 											</table>
 										</li>
 									</c:forEach>
-									<li class="collection_button">																
+									<li class="collection_button">
 										<c:if test="${collectionGblMap.state ne 'COMPLETE' }">
 											<div class="collection_gbl_plus"><img src="${cp }/resources/images/collection_plus.png" /></div>
 											<c:if test="${collectionGblMap.invoiceColltionFlowList ne '[]' and collectionGblMap.invoiceColltionFlowList ne null }">

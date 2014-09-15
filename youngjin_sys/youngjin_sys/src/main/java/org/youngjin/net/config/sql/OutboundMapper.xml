@@ -407,7 +407,7 @@
 									<choose>
 										<when test="searchTitle == 'name'">
 											AND
-												shipperName like CONCAT(CONCAT('%' , #{searchContent} ), '%')
+												customer_name like CONCAT(CONCAT('%' , #{searchContent} ), '%')
 										</when>
 										<when test="searchTitle == 'ssn'">
 											AND
@@ -1432,14 +1432,14 @@
 		(
 		no, customer_name, rank, code, scac, origin_gblock, dest_gblock, pud,
 		ssn, rdd, pod, poe, lbs, area, origin_address, us_no, dest_port,
-		origin_port, origin_city, mil_svc, house_consignee
+		origin_port, origin_city, mil_svc, house_consignee,dest_state
 		)
 		VALUES
 		(
 		#{no}, #{customerName}, #{rank}, #{code}, #{scac}, #{originGBlock},
 		#{destGBlock}, #{pud}, #{ssn}, #{rdd}, #{pod}, #{poe}, #{lbs},
 		#{areaLocal}, #{originAddress}, #{usNo}, #{destPort}, #{originPort},
-		#{originCity}, #{milSVC}, #{houseConsignee}
+		#{originCity}, #{milSVC}, #{houseConsignee},#{destState}
 		)
 		<selectKey keyProperty="seq" resultType="Integer">
 			SELECT LAST_INSERT_ID()

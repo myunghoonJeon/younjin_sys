@@ -500,6 +500,7 @@ public class OutboundService {
 
 	public void modifyGbl(GBL gbl) {
 		outboundDao.modifyGbl(gbl);
+//		outboundDao.modifyInvoice(gbl);
 	}
 	public void updateBookingListUpdate(Map map){
 		outboundDao.updateBookingListUpdate(map);

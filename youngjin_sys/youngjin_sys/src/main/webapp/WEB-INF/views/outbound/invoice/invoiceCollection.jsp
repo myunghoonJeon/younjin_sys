@@ -81,11 +81,12 @@
 							<td>
 								<c:choose>
 										<c:when test="${collectionMap.state eq 'COMPLETE' }">
-											<font color="blue">${collectionMap.state }</font>	
+											<font color="blue">COMPLETE</font>	
 										</c:when>
-										<c:when test="${collectionMap.state eq 'PENDING' }">
-											<font color="red">${collectionMap.state }</font><br />
+										<c:when test="${collectionMap.state eq 'RESENT' and collectionMap.net ne '0.0' }">
+											<font color="red">PENDING</font>
 										</c:when>
+										<c:otherwise> </c:otherwise>
 									</c:choose>								
 							</td>
 							<%-- <td class="collection_flow_wrap">

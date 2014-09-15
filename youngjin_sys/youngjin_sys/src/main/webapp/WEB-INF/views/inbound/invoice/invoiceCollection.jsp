@@ -77,16 +77,26 @@
 							<c:set var="collectionMap" value="${invoiceCollectionMap[invoice.seq] }" />
 							<tr data-seq="${invoice.seq }">
 								<td>${invoice.invoiceNo }</td>
-								<td class="invoice_amount"><input style="width:70px;text-align: center;"class="invoice_amountValue" value="<fmt:formatNumber pattern="##,###.00" value="${invoice.amount }"/>"  readonly="readonly"/>$</td>
-								<td><input style="width:70px;text-align: center;" class="collection_net" name="collection_net" type="text" value="<fmt:formatNumber pattern="##,###.00" value="${collectionMap.net }"/>" readonly="readonly" />$</td>
+								<td class="invoice_amount">$<input style="width:70px;text-align: center;"class="invoice_amountValue" value="<fmt:formatNumber pattern="##,###.00" value="${invoice.amount }"/>"  readonly="readonly"/></td>
+								<c:choose>
+									<c:when test="${collectionMap.net eq '0.0'}">
+										<td>$<input style="width:70px;text-align: center;" class="collection_net" name="collection_net" type="text" value="0" readonly="readonly" /></td>
+									</c:when>
+									<c:otherwise>
+									<td>$<input style="width:70px;text-align: center;" class="collection_net" name="collection_net" type="text" value="<fmt:formatNumber pattern="##,###.00" value="${collectionMap.net }"/>" readonly="readonly" /></td>
+									</c:otherwise>
+								</c:choose>
+								
 								<td>
 									 <c:choose>
-										<c:when test="${collectionMap.state eq 'COMPLETE' }">
-											<font color="blue">${collectionMap.state }</font>	
+									 	<c:when test="${collectionMap.state eq 'COMPLETE'}">
+									 		<font color="blue">COMPLETE</font>
+									 	</c:when>
+										<c:when test="${collectionMap.state eq 'RESENT' and collectionMap.net ne '0.0'}">
+											<font color="red">PENDING</font>
 										</c:when>
-										<c:when test="${collectionMap.state eq 'PENDING' }">
-											<font color="red">${collectionMap.state }</font><br />
-										</c:when>
+										<c:otherwise> 
+										</c:otherwise>
 									</c:choose>			
 								</td>
 							</tr>
