@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../../../layout/head.jspf"%>	
-<%-- Page 처리 Script --%>
+<%-- Page 처리 Script INBOUND--%>
 <c:set var="pagination" value="${invoiceFilter.pagination }"/>
 <script type="text/javascript">
 	var numPagesPerScreen = <c:out value='${pagination.numPagesPerScreen}'/>;
@@ -34,11 +34,14 @@
 						</c:forEach>
 					</form:select>
 				</li>
-				<li>
-					<form:input path="startDate"/> ~ <form:input path="endDate"/>
+				<li >
+					<form:input path="startDate"/> ~ <form:input path="endDate"/><br/>
 				</li>
 				<li>
 					GBL NO : <form:input path="gblNo" />
+				</li>
+				<li>
+					INVOICE NO : <form:input path="invoiceNo"/>
 				</li>
 				<li>
 					<form:hidden path="page" value="${pagination.currentPage}"/>
@@ -86,14 +89,20 @@
 									<td>$<input style="width:70px;text-align: center;" class="collection_net" name="collection_net" type="text" value="<fmt:formatNumber pattern="##,###.00" value="${collectionMap.net }"/>" readonly="readonly" /></td>
 									</c:otherwise>
 								</c:choose>
-								
 								<td>
 									 <c:choose>
-									 	<c:when test="${collectionMap.state eq 'COMPLETE'}">
+									 	<c:when test="${(invoice.amount - collectionMap.tempNet) eq '0.0'}">
 									 		<font color="blue">COMPLETE</font>
 									 	</c:when>
-										<c:when test="${collectionMap.state eq 'RESENT' and collectionMap.net ne '0.0'}">
-											<font color="red">PENDING</font>
+										<c:when test="${invoice.amount ne collectionMap.tempNet}">
+											<c:choose>
+												<c:when test="${(invoice.amount-collectionMap.tempNet) lt '0.009'}">
+													<font color="blue">COMPLETE </font>
+												</c:when>
+												<c:otherwise>
+													<font color="red">PENDING </font>
+												</c:otherwise>
+											</c:choose>
 										</c:when>
 										<c:otherwise> 
 										</c:otherwise>

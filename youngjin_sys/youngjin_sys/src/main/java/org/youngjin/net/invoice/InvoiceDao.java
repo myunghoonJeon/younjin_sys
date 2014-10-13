@@ -302,15 +302,12 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public List<InvoiceCollection> getInvoiceCollectionListAndFlow(InvoiceFilter invoiceFilter) {
 		return getSqlSession().selectList("invoiceMapper.getInvoiceCollectionListAndFlow", invoiceFilter);
 	}
-	
 	public void inputCollectionNet(InvoiceCollection invoiceCollection) {
 		getSqlSession().insert("invoiceMapper.inputCollectionNet", invoiceCollection);
 	}
-	
 	public void inputCollectionFlow(InvoiceCollectionFlow invoiceCollectionFlow) {
 		getSqlSession().insert("invoiceMapper.inputCollectionFlow", invoiceCollectionFlow);
 	}
-
 	public InvoiceCollection checkAndGetCollectionSeq(String invoiceSeq) {
 		return getSqlSession().selectOne("invoiceMapper.checkAndGetCollectionSeq", invoiceSeq);
 	}

@@ -69,7 +69,7 @@
 						<c:set var="collectionGblMap" value="${invoiceCollectionGblMap[invoiceGbl.seq] }" />
 						<tr data-gblSeq="${invoiceGbl.gblSeq }" data-invoiceGblSeq="${invoiceGbl.seq }">
 							<td>${invoiceGbl.gblNo }</td>
-							<td class="invoice_amount"><input style="width:70px;text-align: center;"class="invoice_amountValue" value="${invoiceGbl.amount }" readonly="readonly"/>$</td>
+							<td style="font-size: 8pt;"class="invoice_amount"><input style="width:70px;text-align: center;"class="invoice_amountValue" value="${invoiceGbl.amount }" readonly="readonly"/>$</td>
 							<c:choose>
 								<c:when test="${collectionGblMap.net eq null}">
 									<c:set var="tempNet" value="0"></c:set>
@@ -89,7 +89,7 @@
 										${collectionGblMap.state }	
 									</c:when>
 									<c:when test="${collectionGblMap.state eq 'RESENT' }">
-										<%-- <font color="red">${collectionGblMap.state }</font><br />
+										<%-- <font color="red">${collectionGblMap.state }</font><br   />
 										<font color="red"><fmt:formatNumber pattern="##,###.00" value="${collectionGblMap.difference }"/>$</font> --%>
 										<font color="red">${tempState }</font><br/>
 										<font color="red">${tempDifference }</font>
@@ -114,7 +114,7 @@
 														</select>
 													</td>
 													<td>DATE</td>
-													<td class="collection_date">${flow.date }</td>
+													<td class="collection_date" path="flow_date">${flow.date }</td>
 													<td>AMOUNT</td>
 													<td class="collection_amount">${flow.amount }</td>
 													<td>REMARK</td>

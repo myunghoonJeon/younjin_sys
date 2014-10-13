@@ -26,7 +26,7 @@ youngjin.invoice.invoiceListSync = function(){
 	$('.inboundInvoice_add_button').bind('click', function(){
 		youngjin.invoice.invoiceListAddPop($(this), 'inbound');
 	});
-	
+	$('.collection_flow_table input#flow_date').datepicker({dateFormat: 'yymmdd'});
 /*	$('input#invoice_add_start_date').datepicker({dateFormat: 'yymmdd'});
 	$('input#invoice_add_end_date').datepicker({dateFormat: 'yymmdd'});*/
 	
@@ -193,7 +193,12 @@ youngjin.invoice.rateSync = function(){
 		form.method = 'post';
 		form.submit();
 	});
-	
+	$('input#invoiceNo').unbind('change');
+	$('input#invoiceNo').bind('change', function(){
+		var form = document.forms['invoiceFilter'];
+		form.method = 'post';
+		form.submit();
+	});
 	$('input#gblNo').unbind('change');
 	$('input#gblNo').bind('change', function(){
 		var form = document.forms['invoiceFilter'];
@@ -836,7 +841,7 @@ youngjin.invoice.invoiceCollectionGbl = function(target, process){
 	
 	parent.$.smartPop.open({
 		width : 1000,
-		height : 1500,
+		height : 3000,
 		url : url
 	});	
 };
@@ -859,9 +864,9 @@ youngjin.invoice.inputGblCollectionFlowTable = function(target){
 								'</select>' +
 							'</td>' + 
 							'<td>DATE</td>' + 
-							'<td class="flow_date"><input name="amount" type="text" /></td>' +
+							'<td class="flow_date"><input style="font-size: 8pt"  name="amount" type="text" /></td>' +
 							'<td>AMOUNT</td>' + 
-							'<td class="flow_amount"><input name="amount" type="text" /></td>' +
+							'<td class="flow_amount"><input style="font-size: 8pt" name="amount" type="text" /></td>' +
 							'<td>REMARK</td>' + 
 							'<td><textarea name="remark"></textarea></td>' +
 						'</tr>' + 
@@ -906,7 +911,6 @@ youngjin.invoice.collectionGblSave = function(target){
 	var invoiceGblSeq = target.parents().parents().parents().parents('tr').attr('data-invoiceGblSeq');
 	var invoiceSeq = $('.invoice_gbl_collection_list_table').attr('data-seq');
 	var gblSeq = target.parents().parents().parents().parents('tr').attr('data-gblSeq');
-	
 	
 	var count = table.attr('data-count');
 	

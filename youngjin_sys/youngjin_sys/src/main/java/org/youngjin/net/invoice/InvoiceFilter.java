@@ -16,7 +16,15 @@ public class InvoiceFilter extends AbstractListFilter {
 	public String endDate;
 
 	public String gblNo;
-	
+	public String getInvoiceNo() {
+		return invoiceNo;
+	}
+
+	public void setInvoiceNo(String invoiceNo) {
+		this.invoiceNo = invoiceNo;
+	}
+
+	public String invoiceNo;
 	public String getGblNo() {
 		return gblNo;
 	}

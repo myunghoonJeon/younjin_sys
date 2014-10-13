@@ -1,5 +1,6 @@
 package org.youngjin.net;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -279,7 +280,11 @@ public class InvoiceController {
 		invoiceFilter.getPagination().setNumItems(invoiceService.getInvoiceListCount(invoiceFilter, process));
 
 		List<Invoice> invoiceList = invoiceService.getInvoiceList(invoiceFilter);
-
+		for(Invoice iv:invoiceList){
+			double temp = Double.parseDouble(iv.getAmount());
+			DecimalFormat df = new DecimalFormat("####0.00");
+			iv.setAmount(df.format(temp));
+		}
 		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
 
 		Map<Integer, InvoiceCollection> invoiceCollectionMap = invoiceService.getInvoiceCollectionMap(invoiceFilter);
@@ -296,24 +301,30 @@ public class InvoiceController {
 	public String invoiceCollectionMainPost(Model model, User user,
 			@ModelAttribute InvoiceFilter invoiceFilter,
 			@PathVariable String process) {
-
 		user.setSubProcess("collection");
-
+		
 		invoiceFilter.setProcess(process);
-
+		
 		invoiceFilter.getPagination().setNumItems(
 				invoiceService.getInvoiceCollectionListCount(invoiceFilter, process));
-
-		List<Invoice> invoiceList = invoiceService
-				.getInvoiceCollectionList(invoiceFilter);
-
+		System.out.println("check1");
+		List<Invoice> invoiceList = invoiceService.getInvoiceCollectionList(invoiceFilter);
+		for(Invoice temp:invoiceList){
+			if(!temp.getAmount().contains(".")){
+				System.out.print(temp.getAmount()+" -> ");
+				temp.setAmount(temp.getAmount()+".00");
+				System.out.println(temp.getAmount());
+			}
+		}
+		System.out.println("check2");
 		Map<Integer, InvoiceCollection> invoiceCollectionMap = invoiceService.getInvoiceCollectionMap(invoiceFilter);
+		System.out.println("check3");
 		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
-
+		
 		model.addAttribute("user", user);
 		model.addAttribute("invoiceList", invoiceList);
 		model.addAttribute("invoiceCollectionMap", invoiceCollectionMap);
-
+		
 		return process + "/invoice/invoiceCollection";
 	}
 	
@@ -337,8 +348,13 @@ public class InvoiceController {
 			@PathVariable String process, @PathVariable Integer seq) {
 
 		List<InvoiceGbl> invoiceGblList = invoiceService.getInvoiceGblList(seq, process);
-		
+		for(InvoiceGbl ivg:invoiceGblList){
+			DecimalFormat df = new DecimalFormat("######0.00");
+			Double temp = Double.parseDouble(ivg.getAmount());
+			ivg.setAmount(df.format(temp));
+		}
 		Map<Integer, InvoiceCollection> invoiceCollectionGblMap = invoiceService.getInvoiceCollectionGblMap(seq);
+		
 		System.out.println("========================================");
 		System.out.println("size : "+invoiceCollectionGblMap.size());
 		System.out.println("========================================");

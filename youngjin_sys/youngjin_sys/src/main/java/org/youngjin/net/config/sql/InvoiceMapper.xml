@@ -876,6 +876,10 @@
 			AND
 				process = #{process}
 		</if>
+		<if test="invoiceNo != null and invoiceNo != ''">
+			AND
+				invoice_no=#{invoiceNo}
+		</if>
 	</select>
 	
 	<select id="getInvoicecollectionList" parameterType="InvoiceFilter" resultMap="InvoiceMap">
@@ -909,6 +913,10 @@
 			<if test="process != null and process != ''">
 				AND
 					process = #{process}
+			</if>
+			<if test="invoiceNo !=null and invoiceNo !=''">
+				AND
+					invoice_no = #{invoiceNo}
 			</if>
 			ORDER BY
 				i.seq
@@ -962,6 +970,10 @@
 			AND
 				process = #{process}
 		</if>
+		<if test="invoiceNo!=null and invoiceNo!=''">
+			AND
+				il.invoice_no = #{invoiceNo}
+		</if>
 	</select>
 	<select id="updateInvoiceCollectionStatusComplete" parameterType="Integer">
 		UPDATE
@@ -978,6 +990,26 @@
 			state='PENDING'
 		WHERE
 			invoice_seq = #{seq}
+	</select>
+	<select id="getSumAcceptedCollectionFlowAmount" parameterType="Integer" resultType="String">
+		select
+				sum(igcfAmount)
+			from
+			(
+			select 
+				il.seq as invoiceSeq,il.invoice_no as invoiceNo, il.amount as amount, ic.net as net,ic.difference as difference,
+				il.process as process, ig.gbl_no as gblNo, ig.amount as gblAmount,
+				igc.net as igcNet,igcf.state as igcfState,igcf.amount as igcfAmount
+			from 
+				invoice_list as il left join invoice_collection as ic on il.seq = ic.invoice_seq 
+				left join invoice_gbl as ig on il.seq = ig.invoice_list_seq
+				left join invoice_gbl_collection as igc on ig.seq = igc.invoice_gbl_seq
+				left join invoice_gbl_collection_flow as igcf on igc.seq = igcf.invoice_gbl_collection_seq
+			where
+				il.seq = #{seq}
+			and
+				igcf.state !='CLAIM'
+			)u
 	</select>
 	<select id="getSumInvoiceGblCollectionFlowAmount" parameterType="Integer" resultType="String">
 		select

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../../../layout/head.jspf"%>	
 <%-- Page 처리 Script --%>
 <c:set var="pagination" value="${invoiceFilter.pagination }"/>
@@ -35,10 +36,14 @@
 					</form:select>
 				</li>
 				<li>
-					<form:input path="startDate"/> ~ <form:input path="endDate"/>
+					<form:input path="startDate"/> ~ <form:input path="endDate"/><br/>
 				</li>
+				
 				<li>
 					GBL NO : <form:input path="gblNo" />
+				</li>
+				<li>
+					INVOICE NO : <form:input path="invoiceNo" />
 				</li>
 				<li>
 					<form:hidden path="page" value="${pagination.currentPage}"/>
@@ -76,17 +81,25 @@
 						<c:set var="collectionMap" value="${invoiceCollectionMap[invoice.seq] }" />
 						<tr data-seq="${invoice.seq }">
 							<td>${invoice.invoiceNo }</td>
-							<td class="invoice_amount"><input class="invoice_amountValue" value="${invoice.amount }" readonly="readonly"/>$</td>
-							<td><input class="collection_net" name="collection_net" type="text" value="${collectionMap.net }" readonly="readonly" />$</td>
+							<td class="invoice_amount">$<input style="width:70px;text-align: center;" class="invoice_amountValue" value="<fmt:formatNumber pattern="##,###.00" value="${invoice.amount }"/>" readonly="readonly"/></td>
+							<td>$<input style="width:70px;text-align: center;" class="collection_net" name="collection_net" type="text" value="<fmt:formatNumber pattern="##,###.00" value="${collectionMap.net }"/>" readonly="readonly" /></td>
 							<td>
-								<c:choose>
-										<c:when test="${collectionMap.state eq 'COMPLETE' }">
-											<font color="blue">COMPLETE</font>	
+									 <c:choose>
+									 	<c:when test="${(invoice.amount - collectionMap.tempNet) eq '0.0'}">
+									 		<font color="blue">COMPLETE</font>
+									 	</c:when>
+										<c:when test="${invoice.amount ne collectionMap.tempNet}">
+											<c:choose>
+												<c:when test="${(invoice.amount-collectionMap.tempNet) lt '0.009'}">
+													<font color="blue">COMPLETE </font>
+												</c:when>
+												<c:otherwise>
+													<font color="red">PENDING </font>
+												</c:otherwise>
+											</c:choose>
 										</c:when>
-										<c:when test="${collectionMap.state eq 'RESENT' and collectionMap.net ne '0.0' }">
-											<font color="red">PENDING</font>
-										</c:when>
-										<c:otherwise> </c:otherwise>
+										<c:otherwise> 
+										</c:otherwise>
 									</c:choose>								
 							</td>
 							<%-- <td class="collection_flow_wrap">

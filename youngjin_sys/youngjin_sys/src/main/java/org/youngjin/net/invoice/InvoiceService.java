@@ -437,6 +437,7 @@ public class InvoiceService {
 
 	public Invoice invoiceListAdd(Invoice invoice, String process) {
 		String[] invoiceGblSeqList = invoice.getSeqList().split(",");
+		
 		String invoiceDate = invoice.getInvoiceDate();
 		System.out.println("[[[[[ INVOICE DATE : "+invoiceDate+" ]]]]");
 		System.out.println("[[[[[ INVOICE GBL SEQ SPERATE SIZE: "+invoiceGblSeqList.length+" ]]]]]");
@@ -449,8 +450,7 @@ public class InvoiceService {
 						.getInvoiceSettingGblListContent(gblSeq));
 			} else if (process.equals("inbound")) {
 				System.out.println("[[[[[[[[[ INBOUND DAO START ]]]]]]]]]");
-				settingGblList.add(invoiceDao
-						.getInvoiceSettingGblListContentIb(gblSeq));
+				settingGblList.add(invoiceDao.getInvoiceSettingGblListContentIb(gblSeq));
 			}
 		}
 
@@ -2293,26 +2293,36 @@ public class InvoiceService {
 			System.out.println(count++);
 			int seq = invoiceCollection.getInvoiceSeq();
 			String amount = invoiceCollection.getAmount();
+			System.out.println("AMOUNT : "+amount);
 			String totalAmount = invoiceDao.getInvoiceGblCollectionAmount(seq);
 			String collectedAmount = invoiceDao.getSumInvoiceGblCollectionFlowAmount(seq);
-			System.out.println("INVOICE SEQ : "+seq);
-			System.out.println("INVOICE AMOUNT : "+getStringToDouble(totalAmount));
-			System.out.println("COLLECTED AMOUNT : "+getStringToDouble(collectedAmount));
+			invoiceCollection.setTempNet(getStringToDouble(collectedAmount));
+//			System.out.println("INVOICE SEQ : "+seq);
+//			System.out.println("INVOICE AMOUNT : "+getStringToDouble(totalAmount));
+//			System.out.println("COLLECTED AMOUNT : "+getStringToDouble(collectedAmount));
 //			if(getStringToDouble(totalAmount).equals(getStringToDouble(collectedAmount))){
 //				System.out.println("[SAME PRICE]");
-//				invoiceCollection.setState("COMPLETE");
-//				invoiceDao.updateInvoiceCollectionStatusComplete(seq);
-//				System.out.println("INVOICE COLLECTION STATUS COMPELTE UPDATE");
+//				if(getStringToDouble(totalAmount)!=null && getStringToDouble(collectedAmount)!=null){
+//					invoiceCollection.setState("COMPLETE");
+//					invoiceDao.updateInvoiceCollectionStatusComplete(seq);
+//					System.out.println("INVOICE COLLECTION STATUS COMPELTE UPDATE");
+//				}
+//				else{
+//					invoiceCollection.setState("PENDING");
+//					invoiceDao.updateInvoiceCollectionStatusComplete(seq);
+//					System.out.println("INVOICE COLLECTION STATUS COMPELTE UPDATE");
+//				}
 //			}
 //			else{
-//				System.out.println("[GET DIFFERENCE]");
-//				System.out.println("INVOICE COLLECTION STATUS PENDING UPDATE");
-//				invoiceCollection.setState("PENDING");
-//				invoiceDao.updateInvoiceCollectionStatusPending(seq);
+//					System.out.println("[GET DIFFERENCE]");
+//					System.out.println("INVOICE COLLECTION STATUS PENDING UPDATE");
+//					invoiceCollection.setState("PENDING");
+//					invoiceDao.updateInvoiceCollectionStatusPending(seq);
 //			}
+			
 			map.put(invoiceCollection.getInvoiceSeq(), invoiceCollection);
 		}
-		System.out.println("==================================================");
+		System.out.println("=====================[??]=============================");
 		return map;
 
 	}
@@ -2531,6 +2541,13 @@ public class InvoiceService {
 				double tempAmount = getRoundResult(getDoubleValue(invoiceCollectionMap.get("amount")));
 				double net = 0.0;
 				double difference = net - tempAmount;
+				difference = getRoundResult(difference);
+				invoiceCollection.setNet(net+"");
+				invoiceCollection.setState("RESENT");
+				invoiceCollection.setDifference(difference+"");
+				System.out.println("difference : "+difference);
+				System.out.println("net : "+net);
+				System.out.println("AMOUNT : "+tempAmount);
 				invoiceDao.inputGblCollectionNet(invoiceCollection);
 			} else {
 				
@@ -2632,9 +2649,9 @@ public class InvoiceService {
 		String collectionSeq = invoiceCollection.get("collectionSeq");
 		String state = invoiceCollection.get("state");
 		String amount = invoiceCollection.get("amount");
-		
+		int claimCountFlag=0;
 		Integer count = Integer.parseInt(invoiceCollection.get("count"));
-
+		int checkResent = 0; // 0 : complete , 1 : resent , 2 : ''
 		if (state.equals("DEPOSIT")) {
 			/*if (count == 1) {
 				//invoiceDao.deleteGblInvoiceCollection(collectionSeq);
@@ -2713,8 +2730,12 @@ public class InvoiceService {
 
 		} else if (state.equals("CLAIM")) {
 			if (count == 1) {
+				System.out.println("COUNT 1");
 				invoiceDao.deleteGblInvoiceCollection(collectionSeq);
+				System.out.println("delete invoice_gbl_collection");
+				checkResent = 1;
 			} else {
+				System.out.println("COUNT 0");
 				invoiceDao.deleteGblInvoiceCollectionFlow(flowSeq);
 			}
 		}
@@ -2726,7 +2747,7 @@ public class InvoiceService {
 
 		double invoiceCollectionNetSum = 0.0;
 		double invoiceCollectionDifferencSum = 0.0;
-		int checkResent = 0; // 0 : complete , 1 : resent , 2 : ''
+		
 
 		for (InvoiceCollection invoiceCollectionGbl : invoiceCollectionGblList) {
 			
@@ -2735,18 +2756,20 @@ public class InvoiceService {
 			invoiceCollectionDifferencSum += Double
 					.parseDouble(invoiceCollectionGbl.getDifference());
 			if (invoiceCollectionGbl.getState().equals("RESENT")) {
+				System.out.println("DETECTED RESENT check 1");
 				checkResent = 1;
 			} else if ((invoiceCollectionGbl.getState() == null
 					|| invoiceCollectionGbl.getState().equals("")) && checkResent == 0) {
 				checkResent = 2;
+				System.out.println("DETECTED NONE check 2");
 			} else if(invoiceCollectionGbl.equals("COMPLETE") && checkResent == 0) {
+				System.out.println("DETECTED COMPLETE check 0");
 				checkResent = 0;
 			}
 		}
-
+		
 		parentInvoiceCollection.setNet(invoiceCollectionNetSum+"");
-		parentInvoiceCollection.setDifference(invoiceCollectionDifferencSum
-				+"");
+		parentInvoiceCollection.setDifference(invoiceCollectionDifferencSum+"");
 		System.out.println("CHECK RESENT : "+checkResent);
 		if (checkResent == 1) {
 			System.out.println("set RESENT");

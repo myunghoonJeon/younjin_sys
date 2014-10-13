@@ -12,8 +12,17 @@ public class InvoiceCollection {
 	private String difference;
 	private Integer invoiceSeq;
 	private String date;
+	private String tempNet;
 	private List<InvoiceCollectionFlow> invoiceColltionFlowList;
 	
+	public String getTempNet() {
+		return tempNet;
+	}
+
+	public void setTempNet(String tempNet) {
+		this.tempNet = tempNet;
+	}
+
 	public String getDate() {
 		return date;
 	}
