@@ -8,8 +8,7 @@
 	<div class="admin_user_addButton_wrap">
 		<span class="admin_user_addButton yj_button">add</span>
 	</div>
-	REBF
-	APFW
+	
 	<div id="admin_user_managementDiv">
 		<table class="yj_table">
 			<thead>

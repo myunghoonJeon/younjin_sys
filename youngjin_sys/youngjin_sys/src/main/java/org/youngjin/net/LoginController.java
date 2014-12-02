@@ -31,11 +31,10 @@ public class LoginController {
 		
 		@RequestMapping( value= "/admin/add.json", method = RequestMethod.POST)
 		@ResponseBody
-		public User addUser(@RequestBody User user){			
+		public User addUser(@RequestBody User user){
+			System.out.println("USER CREATE=====================================================================================");
 			user = customJdbcUserDetailManager.createUser();
-			
-			System.out.println("text");
-			
+									
 			return user;
 		}
 		
