@@ -1322,7 +1322,7 @@ public class InvoiceService {
 			invoiceDao.checkAndUpdateInvoice(invoiceSeq);
 		} else {//====&&inbound&&========================================================================================		
 			double totalAmount = 0.0;
-			
+			int lbsTemp=0;
 			GBL gbl = inboundDao.getGbl(gblSeq);
 			System.out.println("[[[[[[[[[[[[ GBL SEQ INVOICE START : "+gbl.getGblNo()+" ]]]]]]]]]]]");
 			String codeStr = null;
@@ -1376,7 +1376,7 @@ public class InvoiceService {
 				System.out.println("[[[[[[[ INPUT DESTINATION SERVICE CHARGE INFORMATION ]]]]]]]]]]]]");
 				destinationServiceChargeContent.setChargingItem("DESTINATION SERVICE CHARGE");
 				double lbsDoubleTemp = Double.parseDouble(invoiceReturnMap.get("quantity").toString());
-				int lbsTemp = (int)lbsDoubleTemp;
+				lbsTemp = (int)lbsDoubleTemp;
 				destinationServiceChargeContent.setQuantity(lbsTemp+" LBS");
 				destinationServiceChargeContent.setAmount(new DecimalFormat("######.00").format(invoiceReturnMap.get("amount")));
 				destinationServiceChargeContent.setInvoiceGblSeq(invoiceGblSeq);
@@ -1422,7 +1422,7 @@ public class InvoiceService {
 				System.out.println("[[[[[[[ INPUT DESTINATION SERVICE CHARGE INFORMATION ]]]]]]]]]]]]");
 				destinationServiceChargeContent.setChargingItem("DESTINATION SERVICE CHARGE");
 				double lbsDoubleTemp = Double.parseDouble(invoiceReturnMap.get("quantity").toString());
-				int lbsTemp = (int)lbsDoubleTemp;
+				lbsTemp = (int)lbsDoubleTemp;
 				destinationServiceChargeContent.setQuantity(lbsTemp+" LBS");
 				destinationServiceChargeContent.setAmount(new DecimalFormat("######.00").format(invoiceReturnMap.get("amount")));
 				destinationServiceChargeContent.setInvoiceGblSeq(invoiceGblSeq);
@@ -1565,37 +1565,7 @@ public class InvoiceService {
 				}
 			}
 			 
-			if (!terminationFlag && sitFirstMemo.size()>0 ){
-			//4. SIT-DELIVERY CHARGE & ADM FEE
-				if ("UB".equals(codeStr) && sitFirstMemo !=null) { //코드가 UB이고 SIT가 있을경우만
-					System.out.println("[[[[[[[[[[[[[[[[[[[[ SIT-DELIVERY CHARGE & ADM FEE START ]]]]]]]]]]]]]]]]]]]]]]]]");
-					InvoiceGblContent sitDeliveryContent = new InvoiceGblContent();		
-					System.out.println("[[[[[[[[[[[ STORED AT : "+gbl.getStoredAt()+" ]]]]]]]]]]]]]]]");
-					System.out.println("[[[[[[[[[[[ DESTINATION GBLOCK : "+gbl.getFright()+" ]]]]]]]]]]");
-					boolean thirtyMile = basicService.getComareMile(gbl);
-					System.out.println("[[[[[[[[[[[ 30MILE OVER? : "+thirtyMile+" ]]]]]]]]]]");
-					invoiceReturnMap = getSitDeliveryChargeAddFee(thirtyMile, weightList, comprate1.getRate(), gbl);
-					
-					totalAmount += invoiceReturnMap.get("amount");
-					
-					sitDeliveryContent.setChargingItem("SIT-DELIVERY CHARGE & ADM FEE");
-					sitDeliveryContent.setAmount(invoiceReturnMap.get("amount").toString());
-					sitDeliveryContent.setInvoiceGblSeq(invoiceGblSeq);
-					
-					invoiceGblContentList.add(sitDeliveryContent);
-					
-					checkInvoiceContentGetSeq = invoiceDao
-							.checkInvoiceContent(sitDeliveryContent);
-		
-					if (checkInvoiceContentGetSeq != null) {
-						sitDeliveryContent.setSeq(checkInvoiceContentGetSeq);
-						invoiceDao.updateInvoiceGblContent(sitDeliveryContent);
-					} else {
-						invoiceDao.insertInvoiceGblContent(sitDeliveryContent);
-					}	
-					
-				}
-			}
+			Double reweigt_Temp=-1.0;
 			
 			//5. REWEIGHT CHARGE
 			System.out.println("REWEIGHT CHECK");
@@ -1605,6 +1575,8 @@ public class InvoiceService {
 				
 				invoiceReturnMap = reweightCharge(weightList, comprate1.getRate(), codeStr,gbl);
 				
+				reweigt_Temp = invoiceReturnMap.get("mooge");
+				System.out.println("MOOGE : "+reweigt_Temp);
 				if(invoiceReturnMap.get("reweight") == 1.0){
 					totalAmount += invoiceReturnMap.get("amount");
 					reweightContent.setChargingItem("REWEIGHT CHARGE");
@@ -1626,7 +1598,37 @@ public class InvoiceService {
 					}
 				}
 			}
+			if (!terminationFlag && sitFirstMemo.size()>0 ){
+				//4. SIT-DELIVERY CHARGE & ADM FEE
+					if ("UB".equals(codeStr) && sitFirstMemo !=null) { //코드가 UB이고 SIT가 있을경우만
+						System.out.println("[[[[[[[[[[[[[[[[[[[[ SIT-DELIVERY CHARGE & ADM FEE START ]]]]]]]]]]]]]]]]]]]]]]]]");
+						InvoiceGblContent sitDeliveryContent = new InvoiceGblContent();		
+						System.out.println("[[[[[[[[[[[ STORED AT : "+gbl.getStoredAt()+" ]]]]]]]]]]]]]]]");
+						System.out.println("[[[[[[[[[[[ DESTINATION GBLOCK : "+gbl.getFright()+" ]]]]]]]]]]");
+						boolean thirtyMile = basicService.getComareMile(gbl);
+						System.out.println("[[[[[[[[[[[ 30MILE OVER? : "+thirtyMile+" ]]]]]]]]]]");
+						invoiceReturnMap = getSitDeliveryChargeAddFee(thirtyMile, weightList, comprate1.getRate(), gbl,lbsTemp);
+						
+						totalAmount += invoiceReturnMap.get("amount");
+						
+						sitDeliveryContent.setChargingItem("SIT-DELIVERY CHARGE & ADM FEE");
+						sitDeliveryContent.setAmount(invoiceReturnMap.get("amount").toString());
+						sitDeliveryContent.setInvoiceGblSeq(invoiceGblSeq);
+						
+						invoiceGblContentList.add(sitDeliveryContent);
+						
+						checkInvoiceContentGetSeq = invoiceDao
+								.checkInvoiceContent(sitDeliveryContent);
 			
+						if (checkInvoiceContentGetSeq != null) {
+							sitDeliveryContent.setSeq(checkInvoiceContentGetSeq);
+							invoiceDao.updateInvoiceGblContent(sitDeliveryContent);
+						} else {
+							invoiceDao.insertInvoiceGblContent(sitDeliveryContent);
+						}	
+						
+					}
+				}
 //			//6. Termination charge
 //			InvoiceGblContent terminationContent = new InvoiceGblContent();
 //			double terminationCharge = 0.0;
@@ -2003,7 +2005,7 @@ public class InvoiceService {
 		return returnValue;
 	}
 	
-	private Map<String, Double> getSitDeliveryChargeAddFee(boolean thirtyMile, List<WeightIb> weightList, double comprate1, GBL gbl) {
+	private Map<String, Double> getSitDeliveryChargeAddFee(boolean thirtyMile, List<WeightIb> weightList, double comprate1, GBL gbl,int mooge) {
 		
 		Map<String, Double> returnMap = new HashMap<String, Double>();
 		
@@ -2018,8 +2020,10 @@ public class InvoiceService {
 			System.out.println("[[[[[[ GROSS GET : "+getGblGrossNetWeight(weight, ub_hhg_type)+" ]]]]]]]");
 			weight_temp += getGblGrossNetWeight(weight, ub_hhg_type);
 		}
+		System.out.println("원래 : "+weight_temp);
+		System.out.println("바뀐거 : "+mooge);
 		System.out.println("[[[[[[THRITY MILE GET TOTAL GROSS WEIGHT : "+weight_temp+" ]]]]]]]]]]");
-		gbl_weight = getGBLWeight(weight_temp, ub_hhg_type, true);
+		gbl_weight = getGBLWeight(mooge, ub_hhg_type, true);
 		
 		//thirtyMile = true 이상 . false 이하
 		if(!thirtyMile){//이하
@@ -2134,8 +2138,8 @@ public class InvoiceService {
 		
 		String [] reweightList = weightList.get(0).getReweight().split("/");
 		if(ub_hhg_type == 1){//HHG NET
-			double tempG = Double.parseDouble(reweightList[0]);
-			double tempT = Double.parseDouble(reweightList[1]);
+			double tempG = Double.parseDouble(reweightList[0]);//GROSS
+			double tempT = Double.parseDouble(reweightList[1]);//TARE
 			gbl_reweight = tempG - tempT;
 		}
 		else{//UB GROSS
@@ -2145,7 +2149,7 @@ public class InvoiceService {
 		System.out.println("GBL_REWEIGHT WEIGHT : "+gbl_reweight);
 		double subtraction = weight_temp - gbl_reweight;
 		System.out.println("SUBSTRACTION : "+subtraction);
-		
+		returnMap.put("mooge", gbl_reweight);
 		if(subtraction<0){
 			subtraction*=-1;//일단 양수로 변환
 		}

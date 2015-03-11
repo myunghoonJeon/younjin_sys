@@ -5,7 +5,6 @@
 <script>
 var contextPath = '<c:out value="${cp}"/>';
 var realPath = '<c:out value="${rp}"/>';
-
 function addBtn(){
 	var year = $("#yearInput").val();
 	
@@ -25,7 +24,6 @@ function addBtn(){
 		});
 	}
 }
-
 function removeBtn(){
 	var year = $("#yearInput").val();
 	

@@ -41,6 +41,9 @@
 				<li>
 					<form:hidden path="page" value="${pagination.currentPage}"/>
 				</li>
+				<li>
+					INVOICE NO : <form:input path="invoiceNo"/>
+				</li>
 				<li>	
 					<span class="invoice_add_button yj_button" >add</span>
 				</li>

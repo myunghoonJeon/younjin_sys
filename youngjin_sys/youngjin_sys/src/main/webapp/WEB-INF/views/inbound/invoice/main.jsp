@@ -39,6 +39,9 @@
 					<form:input path="startDate"/> ~ <form:input path="endDate"/>
 				</li>
 				<li>
+					INVOICE NO : <form:input path="invoiceNo"/>
+				</li>
+				<li>
 					<form:hidden path="page" value="${pagination.currentPage}"/>
 				</li>
 				<li>	

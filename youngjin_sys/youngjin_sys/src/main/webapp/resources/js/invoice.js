@@ -841,7 +841,7 @@ youngjin.invoice.invoiceCollectionGbl = function(target, process){
 	
 	parent.$.smartPop.open({
 		width : 1000,
-		height : 3000,
+		height : 6000,
 		url : url
 	});	
 };
@@ -919,10 +919,10 @@ youngjin.invoice.collectionGblSave = function(target){
 	}
 	
 	if( net != '' ){
-		if( net == Number(invoiceAmount) || flowState == 'ACCEPT' ){
+		if( net == Number(invoiceAmount) || flowState == 'ACCEPT' || net > Number(invoiceAmount) ){
 			state = 'COMPLETE';
 		} else if ( Number(net) < Number(invoiceAmount) ){
-			state = 'RESENT';			
+			state = 'RESENT';
 			difference = net - invoiceAmount;
 		}
 		

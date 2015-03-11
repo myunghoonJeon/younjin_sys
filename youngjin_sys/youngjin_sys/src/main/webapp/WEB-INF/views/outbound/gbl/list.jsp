@@ -165,8 +165,15 @@
 					</tr>
 				</c:if>
 				<c:forEach var="gbl" items="${gblList }">
-					<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
-					<c:set var="pud" value="${parsePud }" />
+					<c:choose>
+						<c:when test="${fn:length(gbl.pud) eq 8 }">
+							<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
+							<c:set var="pud" value="${parsePud }" />
+						</c:when>
+						<c:otherwise>
+							<c:set var="pud" value="${gbl.pud }"/>
+						</c:otherwise>
+					</c:choose>
 					<tr class="gbl_list" data-seq="${gbl.seq }">
 						<c:if test="${outboundFilter.code eq '' or outboundFilter.code eq null }">
 							<td>${gbl.code }</td>

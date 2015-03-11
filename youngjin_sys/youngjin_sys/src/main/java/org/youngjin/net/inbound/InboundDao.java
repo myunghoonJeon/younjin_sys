@@ -62,6 +62,7 @@ public class InboundDao extends SqlSessionDaoSupport {
 	}
 
 	public List<WeightIb> getWeightList(Integer seq) {
+		System.out.println("====mooge====SEQ : "+seq);
 		return getSqlSession().selectList("inboundMapper.getWeightList", seq);
 	}
 

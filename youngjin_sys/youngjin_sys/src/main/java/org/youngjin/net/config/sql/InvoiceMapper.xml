@@ -601,6 +601,10 @@
 			AND
 				seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
 		</if>
+		<if test="invoiceNo !=null and invoiceNo !=''">
+			AND
+				invoice_no = #{invoiceNo}
+		</if>
 		<if test="process != null and process != ''">
 			AND
 				process = #{process}
@@ -638,6 +642,10 @@
 			<if test="process != null and process != ''">
 				AND
 					process = #{process}
+			</if>
+			<if test="invoiceNo !=null and invoiceNo !=''">
+			AND
+				invoice_no = #{invoiceNo}
 			</if>
 			ORDER BY
 				i.seq desc

@@ -395,6 +395,9 @@ public class InboundController {
 		String tempCode="";
 		int weight=0;
 		for(int i=0;i<m4.size();i++){
+			
+		}
+		for(int i=0;i<m4.size();i++){
 			MonthlyReport mr = m4.get(i);
 			tempCode = mr.getMode();
 			if(getCodeType(mr.getMode())){

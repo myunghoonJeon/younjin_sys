@@ -39,8 +39,8 @@
 <STYLE type="text/css">
 <!--
 	p {margin: 0; padding:0; font-family: Helvetica;}
-	.q-text {font-family:arial; font-size:19px; border:0px dashed gray; font-weight:bolder;}
-	.q-multiline {font-family:arial; font-weight:bold; font-size:16px; border:0px dashed gray;}
+	.q-text {font-family:arial; font-size:13px; border:0px dashed gray; font-weight:bolder;}
+	.q-multiline {font-family:arial; font-weight:bold; font-size:14px; border:0px dashed gray;}
 	.q-center {text-align:center;}
 	textarea{resize:none; border: none; overflow-y: hidden;}
 	.q-right  {text-align:right;}
@@ -88,7 +88,7 @@
 <P style="position:absolute;top:425px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-3c" class="q-text q-center" style="width:268px;height:20px;" value="${gbl.rank }"></input></P>
 <P style="position:absolute;top:473px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-4" class="q-text q-center" style="width:243px;height:20px;" value="${gblock.remark }"></input></P>
 <P style="position:absolute;top:473px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-5" class="q-text q-center" style="width:268px;height:20px;" value="${gbl.fright }"></input></P>
-<P style="position:absolute;top:537px;left:79px;white-space:nowrap" class="ft114"><textarea name="q-6a" style="width:243px; font-size:11pt;height:32px;font-weight:bolder;font-family: arial">${dd619.orderingActivityName }</textarea></P>
+<P style="position:absolute;top:537px;left:79px;white-space:nowrap" class="ft114"><textarea name="q-6a" style="width:243px; font-size:10pt;height:32px;font-weight:bolder;font-family: arial">${dd619.orderingActivityName }</textarea></P>
 <P style="position:absolute;top:521px;left:343px;white-space:nowrap" class="ft12"><input name="q-6b" class="q-text" style="width:276px;height:50px;" value="" /></P>
 <P style="position:absolute;top:593px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-7a" class="q-text" style="width:243px;height:18px;" value="${ dd619.carrierName}"></input></P>
 <P style="position:absolute;top:593px;left:343px;white-space:nowrap" class="ft12"><input type="text" name="q-7b" class="q-text" style="width:268px;height:18px;" value="${dd619.agentName }"></input></P>
@@ -161,7 +161,7 @@
 <P style="position:absolute;top:1315px;left:475px;white-space:nowrap" class="ft12"></P>
 <P style="position:absolute;top:1315px;left:727px;white-space:nowrap" class="ft12"><input type="text" name="q-17b" class="q-text" style="width:410px;height:40px;"></input></P>
 <P style="position:absolute;top:1410px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-18a" class="q-text" style="width:375px;height:18px;" value="${company.companyNameAcronym }"></input></P>
-<P style="position:absolute;top:1410px;left:475px;white-space:nowrap" class="ft12"><input type="text" name="q-18b" class="q-text" style="width:365px;height:18px; font-size:12pt;" value="${gbl.address }"></input></P>
+<P style="position:absolute;top:1410px;left:475px;white-space:nowrap" class="ft12"><input type="text" name="q-18b" class="q-text" style="width:365px;height:18px; font-size:10pt;" value="${gbl.address }"></input></P>
 <P style="position:absolute;top:1458px;left:79px;white-space:nowrap" class="ft12"><input type="text" name="q-18c" class="q-text" style="width:760px;height:36px;"></input></P>
 <P style="position:absolute;top:1458px;left:859px;white-space:nowrap" class="ft12"><input type="text" name="q-18d" class="q-text q-center" style="width:280px;height:36px;"></input></P>
 </DIV>

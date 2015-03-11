@@ -96,7 +96,7 @@
 									</c:when>
 									<c:otherwise>
 										<font color="red">${tempState }</font><br/>
-										<font color="red"><fmt:formatNumber pattern="##,###.00" value="${tempDifference }"/></font>
+										<font color="yellow"><fmt:formatNumber pattern="##,###.00" value="${tempDifference }"/></font>
 									</c:otherwise>
 								</c:choose>								
 							</td>
