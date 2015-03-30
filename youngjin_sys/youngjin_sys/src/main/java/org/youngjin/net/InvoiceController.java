@@ -335,6 +335,12 @@ public class InvoiceController {
 		invoiceService.inputCollection(invoiceCollection);
 	}	
 	
+	
+	public int testJunit(String Str,String splitStr){
+		String array[] = Str.split(splitStr);
+		return array.length;
+	}
+	
 	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3')")
 	@RequestMapping(value = "/{process}/invoiceCollectionFlowDelete.json", method = RequestMethod.POST)
 	@ResponseBody

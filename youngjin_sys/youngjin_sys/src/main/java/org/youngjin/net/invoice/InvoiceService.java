@@ -2813,7 +2813,7 @@ public class InvoiceService {
 	public void addRateYear(String year){
 		invoiceDao.addRateYear(year);
 	}
-
+	
 	public Map<Integer, List<InvoiceGblContent>> getInvoicePrintMap(
 			List<InvoiceGbl> invoiceGblList, String process) {
 		

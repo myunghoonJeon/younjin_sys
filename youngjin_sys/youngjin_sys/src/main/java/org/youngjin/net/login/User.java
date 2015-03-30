@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class User extends AbstractUser {
 	private Integer seq;
 	private String newId="";
-	private String newPassword = "dudwls!";
+	private String newPassword = "2222";
 	
 	private String firstName;
 

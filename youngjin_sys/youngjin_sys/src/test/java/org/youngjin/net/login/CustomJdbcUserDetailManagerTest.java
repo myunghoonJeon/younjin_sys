@@ -1,33 +1,21 @@
 package org.youngjin.net.login;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.dao.SaltSource;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-import org.youngjin.net.util.UserFilter;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/org/youngjin/net/config/bean/root-context.xml")
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 public class CustomJdbcUserDetailManagerTest {
-/*
+	
+	
 	private static Logger logger = LoggerFactory
 			.getLogger(CustomJdbcUserDetailManagerTest.class);
 
@@ -46,40 +34,40 @@ public class CustomJdbcUserDetailManagerTest {
 
 	@Before
 	public void BEFORE() {
-		user.setUsername("rhkdduf63");
-		user.setPassword("qkr4062988!");
-		user.setFirstName("Park");
-		user.setFamilyName("Kten");
+		user.setUsername("jni_test");
+		user.setPassword("1111");
+		user.setFirstName("Jeon");
+		user.setFamilyName("Myunghoon");
 		user.setArea(1);
 		user.setAuth(1);
+		System.out.println("----------------");
 		logger.info("SET User Information ---- ");
 		logger.info(user.toString());
 	}
-
+		
 	@Test
 	public void JOIN_USER() {
 		loginDao.deleteUserByUsername(null);
 		// ~ Join User ( Insert data )
 		customJdbcUserDetailManager.createUser();
 		Integer seq = user.getSeq();
-		assertThat(null, is(not(seq)));
-
+//		assertThat(null,is(seq));
 		User getUser = loginDao.selectUser(seq);
 
-		logger.info("Get User Information ---- Seq : " + seq);
-		logger.info(getUser.toString());
+//		logger.info("Get User Information ---- Seq : " + seq);
+//		logger.info(getUser.toString());
 
-		assertUserInfo(user, getUser);
+//		assertUserInfo(user, getUser);
 	}
-
+/*
 	@Test
 	public void CHANGE_PASSWORD() {
 		loginDao.deleteUserByUsername(null);
-		customJdbcUserDetailManager.joinUser(user);
+//		customJdbcUserDetailManager.joinUser(user);
 
 		User newUser = new User();
 		newUser.setUsername(user.getUsername());
-		newUser.setNewPassword("cndjr5766");
+		newUser.setNewPassword("1234");
 
 		logger.info(user.toString());
 		// ~ Change Password ( Update data )
@@ -277,7 +265,7 @@ public class CustomJdbcUserDetailManagerTest {
 
 		result = customJdbcUserDetailManager.checkUser(user);
 	}
-	*/
+	
 	private void assertUserInfo(User user, User getUser) {
 		assertThat(getUser.getUsername(), is(user.getUsername()));
 		assertThat(getUser.getPassword(), is(user.getPassword()));
@@ -287,5 +275,5 @@ public class CustomJdbcUserDetailManagerTest {
 		assertThat(getUser.getFirstName(), is(user.getFirstName()));
 		assertThat(getUser.getFamilyName(), is(user.getFamilyName()));
 	}
-
+	*/
 }

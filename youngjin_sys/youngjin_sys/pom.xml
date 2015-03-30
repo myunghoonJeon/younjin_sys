@@ -219,10 +219,6 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>Junit</groupId>
-			<artifactId>Junit</artifactId>
-		</dependency>
 	</dependencies>
     <build>
         <plugins>

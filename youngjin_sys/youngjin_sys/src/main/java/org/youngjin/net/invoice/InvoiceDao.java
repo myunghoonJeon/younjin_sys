@@ -252,6 +252,7 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	}
 
 	public int getInvoiceSettingGblListIbCount(InvoiceGblFilter invoiceGblFilter) {
+		System.out.println("test"+invoiceGblFilter.getArea());
 		return getSqlSession().selectOne("invoiceMapper.getInvoiceSettingGblListIbCount", invoiceGblFilter);
 	}
 
