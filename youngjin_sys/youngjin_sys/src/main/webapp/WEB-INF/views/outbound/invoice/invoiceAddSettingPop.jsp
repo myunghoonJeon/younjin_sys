@@ -43,7 +43,7 @@
 		goToPage(Math.max(1, page - numPagesPerScreen));
 	}
 </script>
-
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ outbound invoice 에서 GBL 고르는 창@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 <%@ include file="../../../layout/include_script.jspf" %>
 </head>
 <body>
@@ -167,7 +167,7 @@
 					<c:forEach var="gbl" items="${gblList }">
 						<fmt:parseDate var="parsePud" value="${gbl.pud}" pattern="yyyyMMdd"/>
 						<c:set var="pud" value="${parsePud }" />
-						<tr class="invoice_gbl_list_tr" data-seq="${gbl.seq }" data-ws="1">
+						<tr class="invoice_gbl_list_tr" data-seq="${gbl.seq }" data-ws="1"}>
 							<c:if test="${invoiceGblFilter.code eq '' or invoiceGblFilter.code eq null }">
 								<td>${gbl.code }</td>
 							</c:if>

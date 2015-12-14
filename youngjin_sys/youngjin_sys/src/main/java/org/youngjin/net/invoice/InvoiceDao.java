@@ -155,6 +155,8 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	}
 
 	public Rate getOther(Rate rate) {
+		System.out.println("==========================================================");
+		System.out.println("==========================================================");
 		Rate returnRate = getSqlSession().selectOne("invoiceMapper.getOther", rate);
 		
 		if(returnRate == null)

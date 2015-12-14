@@ -24,7 +24,12 @@ youngjin.outbound.sync = function(){
 	$('.outbound_gbl_add_table #no').focusout(function(){
 		youngjin.outbound.addCheckAlreadySaveGblInfo($(this));
 	});
-	
+	$('.outbound_gbl_add_table #pud').focusout(function(){
+		youngjin.outbound.checkDate($(this));
+	});
+	$('.outbound_gbl_add_table #rdd').focusout(function(){
+		youngjin.outbound.checkDate($(this));
+	});
 	$('.gbl_deleteButton').unbind('click');
 	$('.gbl_deleteButton').bind('click', function(){
 			youngjin.outbound.gblDelete();
@@ -522,6 +527,64 @@ youngjin.outbound.backButtonSync = function(){
 		youngjin.outbound.dd619Back($(this));
 	});
 };
+youngjin.outbound.checkDate = function(target){
+	var date = target.val();
+	if(date.length!=8){
+		alert('Date error');
+	}
+	else{
+		var y = date.substring(0,4);
+		var m = date.substring(4,6);
+		var d = date.substring(6,8);
+			var er = 0; // 에러 변수
+//		    var daa = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+			if (y%1000 != 0 && y%4 == 0) daa[1] = 29; // 윤년
+			if (m < 1 || m > 12) er = 1; // 월 체크
+			if (d > 31 || d < 1) er = 1; // 날짜 체크
+			if (m%1 != 0 || y%1 != 0 || d%1 != 0) er = 1; // 정수 체크
+			if (er == 1){
+				alert("Date error");
+			}
+			else{
+				
+			}
+		}
+	
+	/*
+	//month 테이블
+	  var mt=new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+	  //오늘 데이트 객체
+	  var now=new Date();
+	  var Y=now.getYear(); //년
+	  var M=now.getMonth()+1; //월
+	  var D=now.getDate(); //일
+	  var lim=new Array(2999,12,31); //일,월,년도 한계범위설정
+	  	var lim_=new Array('일자','월일','년도'); //일원년의 표기 스트링
+	  var lim__=new Array(4,2,2); //일,월,년의 유효길이
+	  var a=new Array(); //정수화 포맷을 담을 배열
+	  var tmp=date.; // /로 나누어 배열로 담는다.
+	  if(date.length!=8){ //날짜 길이확인 8이 아니면 에러
+	   alert('Date error');
+	   return;
+	  } else {
+	   a[0]=parseInt(tmp[0]); //일자를 정수화하여 담는다.
+	   a[1]=parseInt(tmp[1]); //월
+	   a[2]=parseInt(tmp[2]); //년
+	   for(var i in a){ //배열의 길이만큼 루프를 돈다.
+	    if(a[i]<0||a[i]>lim[i]||tmp[i].length!=lim__[i]){ //일,월,년도별 유효성 체크
+	     alert(lim_[i]+'를 제대로 입력해 주세요');
+	     v.focus();
+	     return;
+	    }
+	   }
+	   if(mt[a[1]-1]<a[0]){ //월별 요일의 범위체크
+	    alert('일자의 범위가 틀립니다.');   
+	     v.focus();
+	     return;
+	   }
+	   alert(a); //걸러진것만 출력
+	  }*/
+}
 
 youngjin.outbound.addCheckAlreadySaveGblInfo = function(target){
 	var gblNo = target.val();
@@ -568,6 +631,7 @@ youngjin.outbound.addCheckAlreadySaveGblInfo = function(target){
 			$('.gbl_add_submit_button').remove();
 		}
 	});
+	
 };
 
 youngjin.outbound.gblDelete = function(){
@@ -1921,7 +1985,7 @@ youngjin.outbound.additionComplete = function(target){
 	
 	var type = $('input[name=type]').eq(0).val();
 	var cost = $('input[name=cost]').eq(0).val();
-	
+	alert("cost : "+cost);
 	for( var i = 1 ; i < $('input[name=type]').length ; i ++ ){
 		type += ',' + $('input[name=type]').eq(i).val();
 		cost += ',' + $('input[name=cost]').eq(i).val();

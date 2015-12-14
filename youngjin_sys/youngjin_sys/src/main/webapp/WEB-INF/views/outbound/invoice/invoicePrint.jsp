@@ -123,7 +123,7 @@
 	<div>
 		<table border="0" align="center" style="width: 17cm" cellspacing="0">
 			<tr>
-				<td id='title'colspan="4" style="font-family: arial;">YOUNJIN TRADE & TRANSPORTATION, Co., LTD</td>
+				<td id='title'colspan="4" style="font-family: arial;">YOUNGJIN TRADE & TRANSPORTATION, Co., LTD</td>
 			</tr>
 			<tr>
 				<td id='title-side'>¡¡</td>
@@ -133,7 +133,7 @@
 			<tr>
 				<td id='title-side'>¡¡</td>
 				<td id='tel'>TEL : <input style="width: 3cm; border: none; font-weight: bold;" type="text" value="<%out.println(tel);%>" ></input></td>
-				<td id='fax'>FAX : <input style="width: 3cm; border: none; font-weight: bold;" type="text" value="<%out.println(fax);%>"></input></td>
+				<td id='fax'>FAX : <input style="width: 3cm; border: none; font-weight: bold;" type="text" value="82-2-795-2657"></input></td>
 				<td id='title-side'>¡¡</td>
 			</tr>
 			<tr>

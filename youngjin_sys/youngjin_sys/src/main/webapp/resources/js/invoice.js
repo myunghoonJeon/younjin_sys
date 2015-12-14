@@ -541,7 +541,7 @@ youngjin.invoice.invoiceListAddPop = function(target, process){
 
 youngjin.invoice.invoiceListAddSubmit = function(target, process){
 	var gblSeq = '';;
-	
+	var gblNo ='';
 	$(':checkbox:checked').each(function(){
 		gblSeq = gblSeq + $(this).val() + ",";
 	});
