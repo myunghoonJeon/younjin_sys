@@ -389,7 +389,7 @@
 								</if>
 								<if test="carrier != null and carrier != ''">
 									AND
-										tsp = #{carrier}
+										scac = #{carrier}
 								</if>
 								<if test="code != null and code != ''">
 									AND

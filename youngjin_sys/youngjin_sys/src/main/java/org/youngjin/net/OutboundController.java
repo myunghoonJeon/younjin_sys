@@ -124,7 +124,6 @@ public class OutboundController {
 	@RequestMapping(value="/outbound/checkGblNo.json", method = RequestMethod.POST)
 	@ResponseBody
 	public GBL checkGblNo(@RequestBody GBL gbl){
-		
 		return outboundService.getGblInfoByNo(gbl);
 	}
 	

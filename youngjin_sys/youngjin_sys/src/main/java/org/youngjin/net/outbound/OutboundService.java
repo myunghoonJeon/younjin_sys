@@ -428,8 +428,9 @@ public class OutboundService {
 		gbl.setBookingSeq(bookingList.getSeq());
 
 		for (int i = 0; i < gblSeqList.length; i++) {
-			GBL gblTemp = getGbl(Integer.parseInt(gblSeqList[i]));
-			gblTemp.setSeq(Integer.parseInt(gblSeqList[i]));
+			String tempGblSeq = gblSeqList[i];
+			GBL gblTemp = getGbl(Integer.parseInt(tempGblSeq));
+			gblTemp.setSeq(Integer.parseInt(tempGblSeq));
 			gblTemp.setBookingSeq(bookingList.getSeq());
 			gblTemp.setLbs(null);
 			outboundDao.updateGbl(gblTemp);

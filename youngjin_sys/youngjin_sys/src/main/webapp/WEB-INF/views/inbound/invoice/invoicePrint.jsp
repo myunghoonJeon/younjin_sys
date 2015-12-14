@@ -110,7 +110,7 @@
 </style>
 <%
 	String tel = "82-2-825-6345";
-	String fax = "82-2-825-6345,";
+	String fax = "82-2-795-2657";
 	String to = "";
 	String date = "05-16-13";
 	String invoiceno="CRWV-#4-OH-0516";
@@ -125,7 +125,7 @@
 		<table border="0" align="center" style="width: 17cm" cellspacing="0">
 			
 			<tr>
-				<td id='title'colspan="4" style="font-family: arial;">YOUNJIN TRADE & TRANSPORTATION, Co., LTD</td>
+				<td id='title'colspan="4" style="font-family: arial;">YOUNGJIN TRADE & TRANSPORTATION, Co., LTD</td>
 			</tr>
 			<tr>
 				<td id='title-side'>¡¡</td>

@@ -95,7 +95,7 @@ public class InvoiceService {
 						"INBOUND",rate.getWriteYear()));
 				sitRateList.add(new Rate("ADM FEE - IT13 item 521L", "UB",
 						"INBOUND",rate.getWriteYear()));
-				sitRateList.add(new Rate("SIT-FIRST DAY -IT13 item 518C", "HHG",
+				sitRateList.add(new Rate("SIT-FIRST DAY - IT13 item 518C", "HHG",
 						"INBOUND",rate.getWriteYear()));
 				sitRateList.add(new Rate("SIT-EACH ADDITIONALDAY - IT13 item 518D",
 						"HHG", "INBOUND",rate.getWriteYear()));
@@ -860,8 +860,8 @@ public class InvoiceService {
 					packingChargeContent.setChargingItem("PACKING CHARGE TYPEII");
 					packingChargeContent.setQuantity(getIntValue(typeIIWeight)  + "LBS");
 					System.out.println("==================[ O/F weight : "+typeIIWeight+" ]============");
-					System.out.println("SET PACKIGN TYPE II 직전 : "+new DecimalFormat("######.00").format(typeIICharge));
-					packingChargeContent.setAmount(new DecimalFormat("######.00").format(typeIICharge));
+					System.out.println("SET PACKIGN TYPE II 직전 : "+new DecimalFormat("######.00").format(packingCharge));
+					packingChargeContent.setAmount(new DecimalFormat("######.00").format(packingCharge));
 					packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
 					invoiceGblContentList.add(packingChargeContent);
 					checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(packingChargeContent);
@@ -1336,7 +1336,7 @@ public class InvoiceService {
 			}
 			
 			List<WeightIb> weightList = inboundDao.getWeightList(gbl.getSeq());
-			System.out.println("[[[[[[[[[[[ WEIGHT LIST SIZE :"+weightList.size()+"  ]]]]]]]]]]]]]]]");
+			System.out.println("[[[[[[[[[[[ WEIGHT LIST SIZE :"+weightList.size()+" ]]]]]]]]]]]]]]]");
 			Rate comprate1 = invoiceDao.getEtc("comprate1", getYear(gbl.getPud()));
 			System.out.println("[[[[[[[[[[[ CHECK YEAR : "+getYear(gbl.getPud())+" ]]]]]]]]");
 			System.out.println("[[[[[[[[[[[ COMPRATE1 RATE : "+comprate1+" ]]]]]]]]]]]]]");
@@ -2155,12 +2155,13 @@ public class InvoiceService {
 		}
 		Rate otherParam = new Rate();
 		otherParam.setWriteYear(getYear(gbl.getPud()));
+		System.out.println("[[ PUD : "+gbl.getPud()+" ]]");
 		otherParam.setProcess("inbound");
 		if(ub_hhg_type == 1){//HHG
 			otherParam.setTitle("REWEIGHT CHARGE - IT13 item 505A");
 			otherParam.setCode("HHG");
 			Rate otherRate = invoiceDao.getOther(otherParam);
-			System.out.println("[[[[ TITLE : REWEIGHT CHARGE - IT13 item 505A ]]]");
+			System.out.println("[[[[ HHG TITLE : REWEIGHT CHARGE - IT13 item 505A ]]]");
 			
 			if(weight_temp <= 5000.0){
 				if(subtraction < 100 && subtraction >= 0){//해당된다면 적용한다.
@@ -2183,16 +2184,20 @@ public class InvoiceService {
 				}
 			}
 		} else if (ub_hhg_type == 0){
+			System.out.println("[[ UB TITLE : REWEIGHT CHARGE - IT13 item 505B ]]");
 			otherParam.setTitle("REWEIGHT CHARGE - IT13 item 505B");
 			otherParam.setCode("UB");
 			Rate otherRate = invoiceDao.getOther(otherParam);
 			if(subtraction <= 25.0 && subtraction >= 0){
 				reweight_charge = otherRate.getRate()*comprate1;
+				System.out.println("[[ reweight rate : "+otherRate.getRate()+" ]]");
+				System.out.println("[[ rewieght comprte  : "+comprate1+" ]]");
 				returnMap.put("reweight", 1.0);
 			} else {				
 				returnMap.put("reweight", 0.0);
 			}
-		}	
+		}
+		
 		System.out.println("[[ REWEIGHT CHARGE : "+reweight_charge+" ]]");
 		returnMap.put("quantity", subtraction);
 		returnMap.put("amount", reweight_charge);

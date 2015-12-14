@@ -61,7 +61,7 @@
 				<th>DEST GBLOCK</th>
 				<td><form:input path="destGBlock" placeholder="약자넣으세요"/> </td>
 				<th>PUD</th>
-				<td><form:input path="pud" /> </td>
+				<td><form:input path="pud" /></td>
 			</tr>
 			<tr>
 				<th>SSN</th>

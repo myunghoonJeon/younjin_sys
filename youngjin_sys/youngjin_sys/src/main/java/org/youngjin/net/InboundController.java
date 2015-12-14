@@ -114,9 +114,22 @@ public class InboundController {
 	@ResponseBody
 	public boolean checkDate(@RequestBody Map<String,String> map){
 		String date = map.get("date");
-		System.out.println("````````````````````````date : "+date);
 		if(date.length()==8){
-			return true;
+			String y = date.substring(0, 4);
+			int m = Integer.parseInt(date.substring(4,6));
+			int d = Integer.parseInt(date.substring(6, 8));
+			System.out.println(" y : "+y+" m : "+m+" d : "+d);
+			if(m>0 && m<13){
+				if(d>0 && d<32){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+			else{
+				return false;
+			}
 		}
 		else{
 			return false;
