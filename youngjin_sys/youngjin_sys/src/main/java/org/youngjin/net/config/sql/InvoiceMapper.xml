@@ -927,7 +927,7 @@
 					invoice_no = #{invoiceNo}
 			</if>
 			ORDER BY
-				i.seq
+				i.seq desc
 		) il
 		WHERE rownum BETWEEN #{pagination.itemSeqBegin} AND #{pagination.itemSeqEnd}
 		
@@ -958,6 +958,43 @@
 			invoice_collection ic, invoice_list il
 		WHERE
 			ic.invoice_seq = il.seq
+		
+		<if test="tsp != null and tsp != ''">
+			AND
+				tsp = #{tsp}
+		</if>			
+		<if test="startDate != null and startDate != ''">
+			AND
+				start_date &gt;= str_to_date(#{startDate}, '%Y%m%d')
+		</if>
+		<if test="endDate != null and endDate != ''">
+			AND
+				end_date &lt;= str_to_date(#{endDate}, '%Y%m%d')
+		</if>
+		<if test="gblNo != null and gblNo != ''">
+			AND
+				ic.invoice_seq = (SELECT DISTINCT invoice_list_seq FROM invoice_gbl WHERE gbl_no = #{gblNo})
+		</if>
+		<if test="process != null and process != ''">
+			AND
+				process = #{process}
+		</if>
+		<if test="invoiceNo!=null and invoiceNo!=''">
+			AND
+				il.invoice_no = #{invoiceNo}
+		</if>
+	</select>
+	<select id="getInvoiceCollectionListAndFlow2" parameterType="Integer" resultMap="InvoiceCollectionMap">
+		SELECT
+			ic.seq, ic.state, ic.net, ic.difference, ic.remark, ic.invoice_seq
+		FROM
+			invoice_collection ic, invoice_list il
+		WHERE
+			ic.invoice_seq = il.seq
+		<if test="invoiceNoForCollection != null and invoiceNoForCollection !=''">
+			AND
+				il.invoice_no = #{invoiceNoForCollection}
+		</if>
 		<if test="tsp != null and tsp != ''">
 			AND
 				tsp = #{tsp}

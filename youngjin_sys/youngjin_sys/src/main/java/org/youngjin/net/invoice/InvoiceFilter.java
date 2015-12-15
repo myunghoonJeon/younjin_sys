@@ -9,6 +9,16 @@ public class InvoiceFilter extends AbstractListFilter {
 	public String getProcess() {
 		return process;
 	}
+	
+	public String invoiceNoForCollection;
+	
+	public String getInvoiceNoForCollection() {
+		return invoiceNoForCollection;
+	}
+
+	public void setInvoiceNoForCollection(String invoiceNoForCollection) {
+		this.invoiceNoForCollection = invoiceNoForCollection;
+	}
 
 	public String tsp;
 

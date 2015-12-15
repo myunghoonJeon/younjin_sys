@@ -45,25 +45,63 @@ public class Pagination {
 	 * 
 	 * @return 요청페이지 글 시작번호
 	 */
+	public int getItemSeqBegin2() {
+		int page = getRequestedPage();
+		int ipp = getNumItemsPerPage();
+		int nItems = getNumItems();
+		System.out.println("begin");
+		System.out.println("page : "+page);
+		System.out.println("ipp : "+ipp);
+		System.out.println("nItems : "+nItems);
+//		return (page - 1) * ipp + 1;
+		return nItems - (page-1)*ipp - (ipp-1);
+	}
+	
 	public int getItemSeqBegin() {
 		int page = getRequestedPage();
 		int ipp = getNumItemsPerPage();
+		int nItems = getNumItems();
+		System.out.println("begin");
+		System.out.println("page : "+page);
+		System.out.println("ipp : "+ipp);
+		System.out.println("nItems : "+nItems);
 		return (page - 1) * ipp + 1;
+//		return nItems - (page-1)*ipp - (ipp-1);
 	}
-
 	/**
 	 * 요청페이지 끝 번호 GET
 	 * 
 	 * @return 요청페이지 글 끝 번호
 	 */
+	public int getItemSeqEnd2() {
+		int page = getRequestedPage();
+		int ipp = getNumItemsPerPage();
+		int nItems = getNumItems();
+		System.out.println("end");
+		System.out.println("page : "+page);
+		System.out.println("ipp : "+ipp);
+		System.out.println("nItems : "+nItems);
+		if (nItems == 0) {
+			return page * ipp;
+		} else {
+//			return Math.min(nItems, page * ipp);
+			return nItems-((page-1)*ipp);
+		}
+	}
+
 	public int getItemSeqEnd() {
 		int page = getRequestedPage();
 		int ipp = getNumItemsPerPage();
 		int nItems = getNumItems();
+		System.out.println("end");
+		System.out.println("page : "+page);
+		System.out.println("ipp : "+ipp);
+		System.out.println("nItems : "+nItems);
 		if (nItems == 0) {
 			return page * ipp;
 		} else {
 			return Math.min(nItems, page * ipp);
+//			return nItems-((page-1)*ipp);
 		}
 	}
 

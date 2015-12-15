@@ -12,7 +12,7 @@
 		goToPage(Math.min(numPages, page + numPagesPerScreen));
 	}
 	
-	function goToPage(page) {	
+	function goToPage(page) {
 		//location.href =  contextPath + '/member/leading/archives/page/'+page;
 		$("input#page").val(page);
 		$("form#invoiceFilter").submit();

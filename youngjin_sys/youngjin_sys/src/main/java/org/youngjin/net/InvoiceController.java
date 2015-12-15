@@ -280,6 +280,7 @@ public class InvoiceController {
 		invoiceFilter.getPagination().setNumItems(invoiceService.getInvoiceListCount(invoiceFilter, process));
 
 		List<Invoice> invoiceList = invoiceService.getInvoiceList(invoiceFilter);
+		System.out.println("invoiceList Size : "+invoiceList.size());
 		for(Invoice iv:invoiceList){
 			double temp = Double.parseDouble(iv.getAmount());
 			DecimalFormat df = new DecimalFormat("####0.00");
@@ -305,25 +306,25 @@ public class InvoiceController {
 		
 		invoiceFilter.setProcess(process);
 		
-		invoiceFilter.getPagination().setNumItems(
-				invoiceService.getInvoiceCollectionListCount(invoiceFilter, process));
-		System.out.println("check1");
-		List<Invoice> invoiceList = invoiceService.getInvoiceCollectionList(invoiceFilter);
-		for(Invoice temp:invoiceList){
-			if(!temp.getAmount().contains(".")){
-				System.out.print(temp.getAmount()+" -> ");
-				temp.setAmount(temp.getAmount()+".00");
-				System.out.println(temp.getAmount());
-			}
-		}
-		System.out.println("check2");
-		Map<Integer, InvoiceCollection> invoiceCollectionMap = invoiceService.getInvoiceCollectionMap(invoiceFilter);
-		System.out.println("check3");
-		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
+		invoiceFilter.getPagination().setNumItems(invoiceService.getInvoiceCollectionListCount(invoiceFilter, process));
 		
-		model.addAttribute("user", user);
-		model.addAttribute("invoiceList", invoiceList);
-		model.addAttribute("invoiceCollectionMap", invoiceCollectionMap);
+//		List<Invoice> invoiceList = invoiceService.getInvoiceCollectionList(invoiceFilter);
+//		System.out.println("invoice List Size : "+invoiceList.size());
+//		for(Invoice temp:invoiceList){
+//			if(!temp.getAmount().contains(".")){
+//				System.out.print(temp.getAmount()+" -> ");
+//				temp.setAmount(temp.getAmount()+".00");
+//				System.out.println(temp.getAmount());
+//			}
+//		}
+		System.out.println("check2");
+//		Map<Integer, InvoiceCollection> invoiceCollectionMap = invoiceService.getInvoiceCollectionMap(invoiceFilter);
+//		System.out.println("check3");
+//		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
+//		
+//		model.addAttribute("user", user);
+//		model.addAttribute("invoiceList", invoiceList);
+//		model.addAttribute("invoiceCollectionMap", invoiceCollectionMap);
 		
 		return process + "/invoice/invoiceCollection";
 	}

@@ -2292,49 +2292,64 @@ public class InvoiceService {
 		return invoiceDao.getInvoiceCollectionList(invoiceFilter);
 	}
 
+//	public Map<Integer, InvoiceCollection> getInvoiceCollectionMap(
+//			InvoiceFilter invoiceFilter) {
+//		Map<Integer, InvoiceCollection> map = new HashMap<Integer, InvoiceCollection>();
+//		List<InvoiceCollection> list = invoiceDao.getInvoiceCollectionListAndFlow(invoiceFilter);
+//		System.out.println("==================================================");
+//		int count=1;
+//		for (InvoiceCollection invoiceCollection : list) {
+//			int seq = invoiceCollection.getInvoiceSeq();
+//			String amount = invoiceCollection.getAmount();
+//			System.out.println("AMOUNT : "+amount);
+//			String totalAmount = invoiceDao.getInvoiceGblCollectionAmount(seq);
+//			String collectedAmount = invoiceDao.getSumInvoiceGblCollectionFlowAmount(seq);
+//			invoiceCollection.setTempNet(getStringToDouble(collectedAmount));
+//			map.put(invoiceCollection.getInvoiceSeq(), invoiceCollection);
+//		}
+//		System.out.println("=====================[??]=============================");
+//		return map;
+//
+//	}
 	public Map<Integer, InvoiceCollection> getInvoiceCollectionMap(
 			InvoiceFilter invoiceFilter) {
 		Map<Integer, InvoiceCollection> map = new HashMap<Integer, InvoiceCollection>();
-		List<InvoiceCollection> list = invoiceDao.getInvoiceCollectionListAndFlow(invoiceFilter);
-		System.out.println("==================================================");
-		int count=1;
-		for (InvoiceCollection invoiceCollection : list) {
-			System.out.println(count++);
-			int seq = invoiceCollection.getInvoiceSeq();
-			String amount = invoiceCollection.getAmount();
-			System.out.println("AMOUNT : "+amount);
-			String totalAmount = invoiceDao.getInvoiceGblCollectionAmount(seq);
-			String collectedAmount = invoiceDao.getSumInvoiceGblCollectionFlowAmount(seq);
-			invoiceCollection.setTempNet(getStringToDouble(collectedAmount));
-//			System.out.println("INVOICE SEQ : "+seq);
-//			System.out.println("INVOICE AMOUNT : "+getStringToDouble(totalAmount));
-//			System.out.println("COLLECTED AMOUNT : "+getStringToDouble(collectedAmount));
-//			if(getStringToDouble(totalAmount).equals(getStringToDouble(collectedAmount))){
-//				System.out.println("[SAME PRICE]");
-//				if(getStringToDouble(totalAmount)!=null && getStringToDouble(collectedAmount)!=null){
-//					invoiceCollection.setState("COMPLETE");
-//					invoiceDao.updateInvoiceCollectionStatusComplete(seq);
-//					System.out.println("INVOICE COLLECTION STATUS COMPELTE UPDATE");
-//				}
-//				else{
-//					invoiceCollection.setState("PENDING");
-//					invoiceDao.updateInvoiceCollectionStatusComplete(seq);
-//					System.out.println("INVOICE COLLECTION STATUS COMPELTE UPDATE");
-//				}
-//			}
-//			else{
-//					System.out.println("[GET DIFFERENCE]");
-//					System.out.println("INVOICE COLLECTION STATUS PENDING UPDATE");
-//					invoiceCollection.setState("PENDING");
-//					invoiceDao.updateInvoiceCollectionStatusPending(seq);
-//			}
-			
-			map.put(invoiceCollection.getInvoiceSeq(), invoiceCollection);
+		List<Invoice> invoiceList = invoiceDao.getInvoiceList(invoiceFilter);
+		System.out.println("--43---invoice Size : "+invoiceList.size());
+		List<InvoiceCollection> list = new ArrayList<InvoiceCollection>();
+		for(Invoice invoice :invoiceList){
+			String invoiceNo = invoice.getInvoiceNo();
+			System.out.println(invoiceNo);
+			invoiceFilter.setInvoiceNoForCollection(invoiceNo);
+			InvoiceCollection ic = invoiceDao.getInvoiceCollectionListAndFlow2(invoiceFilter);
+			try{
+				if(ic.getSeq()!=null){
+					System.out.println("NOTNULL : "+ic.getInvoiceNo());
+					list.add(ic);
+				}
+			}
+			catch(NullPointerException e){
+				
+			}
 		}
-		System.out.println("=====================[??]=============================");
+//		List<InvoiceCollection> list = invoiceDao.getInvoiceCollectionListAndFlow(invoiceFilter);
+		System.out.println("==================================================");
+		int count=0;
+		for (InvoiceCollection invoiceCollection : list) {
+			if(invoiceCollection.getInvoiceSeq() != null){
+				int seq = invoiceCollection.getInvoiceSeq();
+				String amount = invoiceCollection.getAmount();
+				System.out.println("AMOUNT : "+amount);
+				String totalAmount = invoiceDao.getInvoiceGblCollectionAmount(seq);
+				String collectedAmount = invoiceDao.getSumInvoiceGblCollectionFlowAmount(seq);
+				invoiceCollection.setTempNet(getStringToDouble(collectedAmount));
+				map.put(invoiceCollection.getInvoiceSeq(), invoiceCollection);
+			}
+		}
+		System.out.println("=====================[count]=============================");
 		return map;
-
 	}
+
 	public String getRoundValue(double d){
    		String result ="";
    		result = new DecimalFormat("#.00").format(d);
