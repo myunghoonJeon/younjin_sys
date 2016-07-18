@@ -21,7 +21,8 @@ import org.youngjin.net.invoice.Rate;
 import org.youngjin.net.login.User;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3')")
+//@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3')")
+@PreAuthorize("hasRole('ROLE_LEVEL4')")
 @RequestMapping(value = "/admin")
 public class AdminController {
 

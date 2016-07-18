@@ -136,7 +136,7 @@ public class InvoiceDao extends SqlSessionDaoSupport {
 	public Rate getBasicRate(Rate rate) {
 		System.out.println("[[[[[[[ getBasicRate ]]]]]]]]]]]]");
 		Rate returnRate = getSqlSession().selectOne("invoiceMapper.getBasicRate", rate);
-		
+		System.out.println("***** RETURN RATE : "+returnRate.getRate()+" *****");
 		if(returnRate == null){
 			System.out.println("NULL RATE RETURN");
 			return new Rate();

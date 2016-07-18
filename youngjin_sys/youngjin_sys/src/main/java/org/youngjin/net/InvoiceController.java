@@ -280,7 +280,7 @@ public class InvoiceController {
 		invoiceFilter.getPagination().setNumItems(invoiceService.getInvoiceListCount(invoiceFilter, process));
 
 		List<Invoice> invoiceList = invoiceService.getInvoiceList(invoiceFilter);
-		System.out.println("invoiceList Size : "+invoiceList.size());
+		System.out.println("invoiceList request result Size : "+invoiceList.size());
 		for(Invoice iv:invoiceList){
 			double temp = Double.parseDouble(iv.getAmount());
 			DecimalFormat df = new DecimalFormat("####0.00");
@@ -302,6 +302,30 @@ public class InvoiceController {
 	public String invoiceCollectionMainPost(Model model, User user,
 			@ModelAttribute InvoiceFilter invoiceFilter,
 			@PathVariable String process) {
+		System.out.println("-------------- 수정 ----------------");
+		user.setSubProcess("collection");
+		
+		invoiceFilter.setProcess(process);
+		String invoiceState="";
+		invoiceFilter.getPagination().setNumItems(invoiceService.getInvoiceListCount(invoiceFilter, process));
+
+		List<Invoice> invoiceList = invoiceService.getInvoiceList(invoiceFilter);
+		System.out.println("invoiceList request result Size : "+invoiceList.size());
+		for(Invoice iv:invoiceList){
+			double temp = Double.parseDouble(iv.getAmount());
+			DecimalFormat df = new DecimalFormat("####0.00");
+			iv.setAmount(df.format(temp));
+		}
+		model.addAttribute("filterMap", invoiceService.getInvoiceFilterMap(invoiceFilter));
+
+		Map<Integer, InvoiceCollection> invoiceCollectionMap = invoiceService.getInvoiceCollectionMap(invoiceFilter);
+		
+		model.addAttribute("user", user);
+		model.addAttribute("invoiceList", invoiceList);
+		model.addAttribute("invoiceCollectionMap", invoiceCollectionMap);
+		model.addAttribute("invoiceState",invoiceState);
+		return process + "/invoice/invoiceCollection";
+		/*******************************
 		user.setSubProcess("collection");
 		
 		invoiceFilter.setProcess(process);
@@ -327,6 +351,7 @@ public class InvoiceController {
 //		model.addAttribute("invoiceCollectionMap", invoiceCollectionMap);
 		
 		return process + "/invoice/invoiceCollection";
+		*******************************/
 	}
 	
 	@PreAuthorize("hasRole('ROLE_LEVEL4') or hasRole('ROLE_LEVEL3')")

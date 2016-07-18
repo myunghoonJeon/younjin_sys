@@ -607,11 +607,13 @@ public class InvoiceService {
 			
 			String codeStr = null;
 			if (gbl.getCode().equals("3") || gbl.getCode().equals("4")
-					|| gbl.getCode().equals("T")||gbl.getCode().equals("5")) {
+					|| gbl.getCode().equals("T")||gbl.getCode().equals("5")||gbl.getCode().equals("6")) {
 				codeStr = "HHG";
+				System.out.println("@@@@@@@@@@@@@@@@@ selected HHG @@@@@@@@@@@@@@@@@@@");
 			} else if (gbl.getCode().equals("J") || gbl.getCode().equals("8")
 					|| gbl.getCode().equals("7")) {
 				codeStr = "UB";
+				System.out.println("@@@@@@@@@@@@@@@@@ selected UB @@@@@@@@@@@@@@@@@@@");
 			}
 			System.out.println("[[[[[[ BEGIN GBL SEQ : "+gbl.getSeq()+" INVOICE ]]]]]]");
 			List<Weightcertificate> weightcertificateList = outboundDao
@@ -680,7 +682,6 @@ public class InvoiceService {
 //							}
 
 			for(Weightcertificate weightcertificate : weightcertificateList){
-				
 				if ("HHG".equals(codeStr)) {
 					gblWeight = Double.parseDouble(weightcertificate.getNet());//NET을 저장하고 
 					String type= weightcertificate.getType();
@@ -718,11 +719,22 @@ public class InvoiceService {
 				rate.setTsp(gbl.getScac());
 				rate.setProcess(process.toUpperCase());
 				rate.setWriteYear(getYear(gbl.getPud()));
+				/****************아웃바운드 코드 6때문에 긴급하게 여기서 수정**********************/
+				if(gbl.getCode().equals("6")){
+					System.out.println("@@@@@@ outbound code six detected @@@@@");
+					rate.setObType(null);
+					System.out.println("@@@@@@ rate set ob type to null @@@@@");
+				}
 				System.out.println("RATE OB TYPE CHECK : "+rate.getObType());
 				System.out.println("YEAR CHECK : "+getYear(gbl.getPud()));
 				double tempGblRate=0;
 				Rate gblRate = null;
 				gblRate = invoiceDao.getBasicRate(rate); // rate 기간에 맞게 가져왔나 모르겠지만 어쨌던 그때그때 해당되는 비율을 계속 가져온다.
+				if(gbl.getCode().equals("6")){
+					System.out.println("@@@@ 임시방편으로 다시 obtype을 O/F로 교체 @@@@");
+					rate.setObType("O/F");
+					
+				}
 				Double originRate = gblRate.getRate();
 				if(terminationFlag == 1){//termination했으면
 					tempGblRate = gblRate.getRate()- terminationValue;
@@ -852,7 +864,7 @@ public class InvoiceService {
 			getRoundResult(packingCharge);
 			totalAmount += packingCharge;
 			totalAmount = getRoundResult(totalAmount);
-			System.out.println("==================[ TOTAL PACKING CHARGE : "+totalAmount+" ]============");
+			System.out.println("==================[ TOTAL PACKING CHARGE(amount) : "+totalAmount+" ]============");
 			
 			Integer checkInvoiceContentGetSeq;
 			if("HHG".equals(codeStr)){
@@ -860,8 +872,8 @@ public class InvoiceService {
 					packingChargeContent.setChargingItem("PACKING CHARGE TYPEII");
 					packingChargeContent.setQuantity(getIntValue(typeIIWeight)  + "LBS");
 					System.out.println("==================[ O/F weight : "+typeIIWeight+" ]============");
-					System.out.println("SET PACKIGN TYPE II 직전 : "+new DecimalFormat("######.00").format(packingCharge));
-					packingChargeContent.setAmount(new DecimalFormat("######.00").format(packingCharge));
+					System.out.println("SET PACKIGN TYPE II 직전 : "+new DecimalFormat("######.00").format(typeIICharge));
+					packingChargeContent.setAmount(new DecimalFormat("######.00").format(typeIICharge));
 					packingChargeContent.setInvoiceGblSeq(invoiceGblSeq);
 					invoiceGblContentList.add(packingChargeContent);
 					checkInvoiceContentGetSeq = invoiceDao.checkInvoiceContent(packingChargeContent);

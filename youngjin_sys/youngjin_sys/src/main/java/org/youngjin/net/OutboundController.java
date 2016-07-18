@@ -1,5 +1,7 @@
 package org.youngjin.net;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -11,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Scanner;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -87,12 +88,26 @@ public class OutboundController {
 		model.addAttribute("filterMap", outboundService.getFilterMap());
 		
 		List<GBL> gblList = outboundService.getGblList(outboundFilter, user);
+//		try {
+//			FileWriter fw = new FileWriter("D:\\test.txt");
+//			BufferedWriter bw = new BufferedWriter(fw);
+//			for(GBL g:gblList){
+//				if(g.getGblNo()!=null){
+//					bw.write(g.getGblNo());
+//				}
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+////			e.printStackTrace();
+//		} catch (NullPointerException e2){
+//			
+//		}
 		model.addAttribute("gblList",gblList);
 		
 		model.addAttribute("gblStatus",
-				outboundService.getGblStatus(outboundFilter));
+				outboundService.getGblStatus2(outboundFilter,gblList));
 		model.addAttribute("user", user);
-
+		System.out.println("[[[[ list2222 : "+gblList.size()+" ]]]");
 		return process + "/gbl/list";
 	}
 	@RequestMapping(value = "/{process}/addRateYear.json", method = RequestMethod.POST)

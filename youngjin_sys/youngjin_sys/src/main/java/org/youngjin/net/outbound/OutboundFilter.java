@@ -3,6 +3,14 @@ package org.youngjin.net.outbound;
 import org.youngjin.net.util.AbstractListFilter;
 
 public class OutboundFilter extends AbstractListFilter {
+	private String gblNoForGetOutboundList;
+	public String getGblNoForGetOutboundList() {
+		return gblNoForGetOutboundList;
+	}
+
+	public void setGblNoForGetOutboundList(String gblNoForGetOutboundList) {
+		this.gblNoForGetOutboundList = gblNoForGetOutboundList;
+	}
 
 	private String branch;
 	private String carrier;

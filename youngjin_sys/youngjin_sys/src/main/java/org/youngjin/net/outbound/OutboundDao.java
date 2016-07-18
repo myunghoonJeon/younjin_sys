@@ -85,7 +85,9 @@ public class OutboundDao extends SqlSessionDaoSupport {
 	public List<GBLStatus> getGblStatus(OutboundFilter outboundFilter) {
 		return getSqlSession().selectList("outboundMapper.getGblStatus", outboundFilter);
 	}
-
+	public GBLStatus getGblStatus2(OutboundFilter outboundFilter) {
+		return getSqlSession().selectOne("outboundMapper.getGblStatus2", outboundFilter);
+	}
 	public void insertPreMoveSurvey(PreMoveSurvey preMoveSurvey) {
 		getSqlSession().insert("outboundMapper.insertPreMoveSurvey", preMoveSurvey);
 	}

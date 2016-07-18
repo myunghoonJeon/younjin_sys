@@ -1,7 +1,10 @@
 package org.youngjin.net.outbound;
 
 import java.awt.Container;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +76,15 @@ public class OutboundService {
 		Map<String, List<Code>> filterMap = new HashMap<String, List<Code>>();
 		List<Code> branchList = codeDao.getAllAreaList();
 		filterMap.put("branchList", branchList);
-
+//		try {
+//			FileWriter fw = new FileWriter("test.txt");
+//			BufferedWriter bw = new BufferedWriter(fw);
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		List<Code> carrierList = outboundDao.getCarrierList();
 		filterMap.put("carrierList", carrierList);
 
@@ -176,7 +187,16 @@ public class OutboundService {
 
 		return gblStatusMap;
 	}
-
+	public Map<String, String> getGblStatus2(OutboundFilter outboundFilter,List<GBL> gblList) {
+		Map<String, String> gblStatusMap = new HashMap<String, String>();
+		for(GBL gbl : gblList){
+			outboundFilter.setGblNoForGetOutboundList(gbl.getNo());
+			GBLStatus gblStatus = outboundDao.getGblStatus2(outboundFilter);
+			gblStatusMap.put(gblStatus.getNo(), gblStatus.getCurrentState());
+		}
+		return gblStatusMap;
+	}
+	
 	public void insertPreMoveSurvey(PreMoveSurvey preMoveSurvey) {
 		outboundDao.insertPreMoveSurvey(preMoveSurvey);
 	}

@@ -671,7 +671,7 @@
 		AND
 		gbl_file_no = #{flag}
 	</select>
-
+	
 	<select id="getGblStatus" parameterType="OutboundFilter"
 		resultMap="StatusMap">
 		SELECT
@@ -694,6 +694,10 @@
 		gbl
 		WHERE
 		1 = 1
+		<if test="gblNoForGetOutboundList != null and gblNoForGetOutboundList !=''">
+			AND
+			
+		</if>
 		<if test="branch != null and branch != ''">
 			AND
 			area = #{branch}
@@ -717,7 +721,55 @@
 		)
 
 	</select>
+	<select id="getGblStatus2" parameterType="OutboundFilter"
+		resultMap="StatusMap">
+		SELECT
+		gbl_no,
+		gbl_input,
+		gbl_preperation,
+		gbl_delivery,
+		gbl_truckmanifast,
+		gbl_arrival,
+		gbl_process,
+		gbl_bookinglist,
+		gbl_invoice
+		FROM
+		gbl_status
+		WHERE
+		gbl_no IN (
+		SELECT
+		no
+		FROM
+		gbl
+		WHERE
+		1 = 1
+		<if test="gblNoForGetOutboundList != null and gblNoForGetOutboundList !=''">
+			AND
+			gbl.no = #{gblNoForGetOutboundList}
+		</if>
+		<if test="branch != null and branch != ''">
+			AND
+			area = #{branch}
+		</if>
+		<if test="carrier != null and carrier != ''">
+			AND
+			scac = #{carrier}
+		</if>
+		<if test="code != null and code != ''">
+			AND
+			code = #{code}
+		</if>
+		<if test="startPud != null and startPud != ''">
+			AND
+			pud &gt;= str_to_date(#{startPud}, '%Y%m%d')
+		</if>
+		<if test="endPud != null and endPud != ''">
+			AND
+			pud &lt;= str_to_date(#{endPud}, '%Y%m%d')
+		</if>
+		)
 
+	</select>
 	<select id="getPreMoveSurvey" parameterType="Integer" resultMap="PreMoveSurveyMap">
 		SELECT
 		seq, estimate_weight, special_item, es_container, third_party,
